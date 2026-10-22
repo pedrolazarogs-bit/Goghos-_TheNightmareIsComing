@@ -66,8 +66,8 @@ test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da
         assert(s.daly[side].hp>=0&&s.daly[side].hp<=3);
       }
       const characters=[...G.RARITIES.flatMap(r=>s.piles[r]),...s.units];
-      assert.equal(characters.length,12);
-      assert.equal(new Set(characters.map(c=>c.iid)).size,12);
+      assert.equal(characters.length,G.CHARACTERS.reduce((sum,c)=>sum+(c.copies||1),0));
+      assert.equal(new Set(characters.map(c=>c.iid)).size,characters.length);
       const cards=[...s.deck.pile,...s.deck.hands.player,...s.deck.hands.enemy,...s.deck.discard,...(s.deck.pendingChoice?[s.deck.pendingChoice.incoming]:[])];
       assert.equal(cards.length,s.deck.total);
       assert.equal(new Set(cards.map(c=>c.iid)).size,s.deck.total);

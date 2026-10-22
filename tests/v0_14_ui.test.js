@@ -26,4 +26,10 @@ test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',
     click('[data-hand]',{hand:m[1]});assert(html.includes('data-act="usehand"'));action('usehand');assert(html.includes('BÔNUS')||html.includes('próximo ataque causa +20'));
   } finally {G.createDeckState=create;G.CONFIG.resetDraw.onBattleStart=false;}
 });
+test('a coleção mostra as três cartas ilustradas',()=>{
+  action('menu');action('characters');
+  assert(html.includes('Sam')&&html.includes('Eletric')&&html.includes('Sarck'));
+  assert(html.includes('assets/characters/eletric.png')&&html.includes('assets/characters/sarck.png'));
+  action('menu');assert(html.includes('data-act="play"'));
+});
 console.log(`${passed} testes da interface v0.14.0 passaram`);

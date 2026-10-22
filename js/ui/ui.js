@@ -8,7 +8,10 @@ const card=G.cardHTML;
 // Zera TUDO o que é temporário da partida (seleção, equipes, estado de batalha, alvos, timers) para nada vazar para a próxima.
 function wipe(){clearTimeout(ui.timer);Object.assign(ui,{sel:null,teams:null,state:null,target:null,swapMode:false,swapPick:null,sup:null,supTarget:null,handIid:null,lastEventShown:0,mana:0,msg:''});}
 function menu(){wipe();ui.mode='menu';
-  show(`<section class="center"><div class="logo" aria-hidden="true"><span class="logo-gem"></span></div><h1>GOGHOS</h1><p class="menu-subtitle">The Nightmare Is Coming</p><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',0,'big')}${btn('shop','Loja',0,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);}
+  show(`<section class="center"><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="logo-fallback" hidden>GOGHOS</span></div><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',0,'big')}${btn('characters','Personagens',0,'big')}${btn('shop','Loja',0,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);}
+function characters(){ui.mode='characters';
+  const featured=G.CHARACTERS.filter(c=>c.fullCardArt);
+  show(`<section class="collection"><h1>Personagens</h1><p>Cartas ilustradas disponíveis no jogo. Suas habilidades especiais ainda estão em desenvolvimento.</p><div class="collection-grid">${featured.map(c=>`<article>${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${c.class}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
 // Jogar: sorteia 5 Comuns; escolhas jogador → bot → jogador → bot; só então a batalha pode começar.
 function startMatch(){wipe();ui.mode='select';const r=G.createSelection();
   if(!r.ok){show(`<section class="center"><h2>Não foi possível iniciar a batalha</h2><p class="msg">${r.error}</p>${btn('menu','Menu')}</section>`);return;}
@@ -82,6 +85,7 @@ app.addEventListener('click',e=>{
   if(b){if(b.disabled)return;const a=b.dataset.act;
     if(a==='menu'){if(ui.mode==='battle'&&ui.state&&!ui.state.result&&!confirm('Sair da batalha atual? O progresso dela será perdido.'))return;menu();} // menu() limpa o estado temporário
     else if(a==='play')startMatch();
+    else if(a==='characters')characters();
     else if(a==='shop')show(G.shopHTML());
     else if(a==='fight'){const t=ui.teams;ui.state=G.createBattleState(t.player,t.enemy,[]);resetSel();step();}
     else if(a==='swap'){ui.swapMode=!ui.swapMode;ui.swapPick=null;ui.sup=null;ui.supTarget=null;ui.handIid=null;ui.msg='';ui.target=null;render(G.getNextActor(ui.state));}
