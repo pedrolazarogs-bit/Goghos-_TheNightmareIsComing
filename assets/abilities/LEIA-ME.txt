@@ -1,0 +1,1 @@
+Ícone da habilidade principal (dentro da estrela): <id do personagem>.png, ex.: sam.png.

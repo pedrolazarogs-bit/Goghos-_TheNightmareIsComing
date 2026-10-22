@@ -1,0 +1,1 @@
+Ícones de classe (aparecem no losango inferior da carta): fighter.png, assassin.png, support.png, tank.png, destroyer.png. Sem arquivo, aparece o nome da classe.

@@ -1,0 +1,1 @@
+Artes das cartas do Reset que não são de Apoio (Item, Habilidade Especial, Daly, Fragmento Primordial): <id da carta>.png. Hoje são provisórias e usam espaço reservado. As de Apoio usam assets/support/.

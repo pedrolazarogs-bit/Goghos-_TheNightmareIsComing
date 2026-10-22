@@ -1,0 +1,2 @@
+card_base.png = moldura oficial das cartas (arquivo original, sem alterações). Para trocar, substitua o arquivo mantendo o mesmo nome e tamanho; se mudar o layout, ajuste js/ui/card.js.
+card_holes_mask.png = máscara gerada a partir da moldura (marca os vazados decorativos). Serve para pintar a cor da raridade atrás da moldura. Pode ser regenerada se a moldura mudar.

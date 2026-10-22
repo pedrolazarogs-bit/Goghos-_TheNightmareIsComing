@@ -1,0 +1,77 @@
+@font-face{font-family:'German Beauty';src:url('../assets/fonts/german_beauty.ttf') format('truetype');font-display:swap}
+:root{--bg:#14101f;--panel:#241c38;--line:#4b3d78;--gold:#e0b84f;--txt:#eee8ff;--red:#d1495b;--grn:#4fbf8a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:'German Beauty',Georgia,serif}
+section{max-width:1000px;margin:auto;padding:16px;text-align:center}.center{padding-top:8vh}
+h1{color:var(--gold);letter-spacing:.3em}h2,h3{color:var(--gold)}
+button{background:var(--panel);color:var(--txt);border:1px solid var(--gold);padding:10px 22px;margin:6px;font:inherit;cursor:pointer;border-radius:6px}
+button:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.dead{opacity:.35;filter:grayscale(1)}.order .done{opacity:.4;text-decoration:line-through}.order .dead{opacity:.3}
+.logo{height:140px;display:flex;align-items:center;justify-content:center;color:#6c5f99}.logo img{max-height:100%;max-width:60%;object-fit:contain}
+.ver{color:#8a7fb3;font-size:12px}.log{color:#b9aee0;font-size:13px;min-height:3em}
+
+.slot{display:flex;flex-direction:column;align-items:center;gap:4px}.slot small{font-size:12px;color:#b9aee0}
+.card{width:clamp(100px,14vw,150px);aspect-ratio:1218/2034;position:relative;container-type:inline-size;font-family:'German Beauty',Georgia,serif;transition:filter .15s}
+.card>*{position:absolute}.card .frame{max-width:none;pointer-events:none;z-index:2}
+.card .art{inset:0;z-index:1;background:#0d0a17}.card .art img{object-fit:contain}
+.card .art span{left:50%;top:35%;transform:translate(-50%,-50%);color:#6c5f99;font-size:7cqw}
+.card .t{z-index:3;color:#2a2236;display:flex;align-items:center;overflow:hidden;white-space:nowrap}.card .wrap{white-space:normal;align-items:flex-start}
+.card em{left:0;right:0;top:45%;z-index:4;background:#000b;color:var(--red);text-align:center;font-style:normal;font-size:8cqw}
+.card.sel{filter:drop-shadow(0 0 8px var(--gold))}.card.active{filter:drop-shadow(0 0 10px var(--grn))}
+.card.target{filter:drop-shadow(0 0 10px var(--red))}.card.pick{cursor:pointer}.card.dead{filter:grayscale(1)}
+h1,h2,h3{font-weight:normal}.card .rar{z-index:0;aspect-ratio:1536/2048;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.card .ci{z-index:3;display:flex;align-items:center;justify-content:center;color:#2c2338}.card .ci img{max-width:100%;max-height:100%;object-fit:contain}
+.card .t .u{align-self:flex-end;position:relative;margin-left:.5em}
+button.big{display:block;margin:14px auto;min-width:260px;padding:14px 30px;font-size:28px;letter-spacing:.1em}.soon{font-size:32px;color:var(--gold)}
+button.on{background:var(--gold);color:#1a1420}.msg{min-height:1.4em;color:var(--red)}.lbl{margin:6px 0 0;color:var(--gold);font-size:14px}
+.pv .card{width:clamp(80px,12vw,110px)}
+.card.swp{cursor:pointer;filter:drop-shadow(0 0 8px #6aa8ff)}.card.swp.target{filter:drop-shadow(0 0 10px var(--red))}
+h3{margin:6px 0}.info,.order,.log,.msg{margin:4px 0}.log{min-height:2.6em}
+.row .slot:hover{position:relative;z-index:30}.row .slot:hover .card{transform:scale(1.6)}.row .card,.side .card{pointer-events:none}.row .slot{cursor:pointer}.slot:has(.card.pick),.slot:has(.card.heal),.slot:has(.card.swp){cursor:pointer} /* a lupa nunca captura o mouse */ /* lupa nas telas de escolha/confirmação */
+.teams{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}button.quit{margin-top:14px;font-size:14px;opacity:.8}
+/* Cartas de Apoio (painel à esquerda) */
+.apoio{--aw:clamp(56px,min(9vw,(100vh - 130px)/5.9),104px);position:fixed;left:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;width:var(--aw);z-index:5}
+.apoio h4{margin:0;color:var(--gold);text-align:center;font-size:14px;font-weight:normal}.ap-turn{margin:0;font-size:11px;text-align:center;color:#b9aee0;line-height:1.1}.ap-turn.used{color:var(--red)}
+.ap-slot{position:relative;cursor:pointer;border:2px solid transparent;border-radius:10px;text-align:center;font-size:11px;line-height:1.2}.ap-slot small{display:block;color:#b9aee0}
+.scard{position:relative;width:100%;aspect-ratio:1002/1578;overflow:hidden;border-radius:8px;background:#2b2450;display:flex;align-items:center;justify-content:center;color:#8a7fb3;transition:transform .15s;pointer-events:none}.scard img{position:absolute;max-width:none}
+.ap-slot:hover{z-index:40}.ap-slot:hover .scard{transform:scale(2.3);transform-origin:left center} /* lupa: a arte tem texto pequeno */
+.ap-slot.sel{border-color:var(--gold);box-shadow:0 0 12px var(--gold)}.ap-slot.on{border-color:var(--grn);box-shadow:0 0 10px var(--grn)}.ap-slot.out{opacity:.4;cursor:not-allowed}
+.ap-badge{position:absolute;top:-8px;left:-8px;background:var(--gold);color:#1a1420;border-radius:12px;padding:0 7px;font-size:15px;font-weight:normal;z-index:2}
+.ap-tag{position:absolute;left:0;right:0;top:38%;background:#000c;color:#fff;font-style:normal;font-size:10px;padding:2px 0;z-index:1}.ap-slot.sel .ap-tag{color:var(--gold)}.ap-slot.on .ap-tag{color:var(--grn)}
+.ap-slot.empty{border:2px dashed var(--line);opacity:.4;aspect-ratio:1002/1578;display:flex;align-items:center;justify-content:center;cursor:default}
+.card.heal{cursor:pointer;filter:drop-shadow(0 0 8px var(--grn))}.card.heal.target{filter:drop-shadow(0 0 10px var(--gold))}
+@media (max-width:900px){.apoio{position:static;transform:none;flex-direction:row;flex-wrap:wrap;width:auto;justify-content:center;margin:6px auto;--aw:64px}.ap-slot{width:var(--aw)}.apoio h4,.ap-turn{width:100%}}
+.card.baked .ci.cls{display:none} /* a moldura dessa classe já traz o ícone desenhado */
+button.sm{min-width:0;padding:6px 14px}.manav{margin:0 6px;color:var(--gold)}
+/* Mão Reset (painel à direita) */
+.mao{--hw:clamp(40px,4.6vw,56px);position:fixed;right:10px;top:50%;transform:translateY(-50%);width:calc(var(--hw)*2 + 8px);display:flex;flex-direction:column;gap:6px;z-index:5}
+.mao h4{margin:0;color:var(--gold);text-align:center;font-size:14px;font-weight:normal}.mo-info{margin:0;font-size:11px;text-align:center;color:#b9aee0;line-height:1.2}
+.mo-grid{display:grid;grid-template-columns:repeat(2,var(--hw));gap:6px 8px}
+.hcard{position:relative;border:2px solid var(--tc);border-radius:8px;font-size:9px;line-height:1.1;text-align:center;background:var(--panel)}
+.hcard em{display:block;font-style:normal;color:var(--tc);padding:1px 0}
+.hcard .scard{aspect-ratio:1002/1578;transform-origin:right center}.hcard .scard img.fill{inset:0;width:100%;height:100%;object-fit:cover}
+.hcard .scard span{font-size:8px;padding:2px;text-align:center}
+.hcard:hover{z-index:40}.hcard:hover .scard{transform:scale(3.4)}
+.hcard.new{box-shadow:0 0 10px var(--tc)}
+.reset-note{margin:4px 0;color:var(--gold);font-size:14px}.reset-note small{color:#b9aee0}
+@media (max-width:900px){.mao{position:static;transform:none;width:auto;--hw:48px;margin:6px auto}.mo-grid{display:flex;flex-wrap:wrap;justify-content:center}.hcard{width:var(--hw)}}
+
+/* Formação dinâmica: cada lado tem uma linha de frente e uma retaguarda que crescem durante a partida */
+.side{--cw:clamp(46px,min(8vw,(100vh - 540px)/4),104px);margin:2px 0}
+.frow{display:flex;gap:calc(var(--cw)*.2);justify-content:center;flex-wrap:wrap;margin:2px 0}
+.side .card,.side .empty{width:var(--cw)}.empty{aspect-ratio:1218/2034;border:2px dashed var(--line);border-radius:8px;opacity:.4}
+.cell{display:flex;justify-content:center}.side .lbl{margin:2px 0;font-size:12px}.side .lbl.empty-l{opacity:.6}
+.side .cell:hover{z-index:30}.side .cell:hover .card{transform:scale(1.7)} /* lupa ao passar o mouse, já que as cartas ficam pequenas */
+.frow.rear .card{filter:brightness(.82)}.frow.rear .card.target{filter:drop-shadow(0 0 10px var(--red))}
+/* Daly Mãe (esmeralda): protegida / exposta */
+.daly{display:inline-flex;align-items:center;gap:5px;margin:4px auto;padding:4px 14px;border:2px solid var(--line);border-radius:999px;background:var(--panel);font-size:14px}
+.daly .gem{display:inline-block;width:16px;height:20px;clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);background:linear-gradient(135deg,#8dffc8,#12b866 55%,#06613a)}
+.daly .gem.off{filter:grayscale(1) brightness(.3)}.daly span{margin-left:6px}.daly b{font-weight:normal}
+.daly.protected b{color:var(--grn)}.daly.exposed{border-color:var(--red);box-shadow:0 0 10px var(--red)}.daly.exposed b{color:var(--red)}
+.daly.pick{cursor:pointer}.daly.pick:hover{border-color:var(--gold)}.daly.target{border-color:var(--gold);box-shadow:0 0 14px var(--gold)}
+/* Personagens eliminados e recuperação */
+.elim{margin-top:6px;padding:4px 10px;border-top:1px solid var(--line);font-size:13px;color:#b9aee0}.elim h4{margin:2px 0;color:var(--gold);font-weight:normal;font-size:14px}.elim p{margin:2px 0}
+.chip{display:inline-block;margin:1px 2px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--txt);opacity:.75}.chip small{color:#8a7fb3}
+.recov{margin:8px auto;padding:8px 12px;border:2px solid var(--gold);border-radius:10px;background:#1c1530;max-width:720px}.recov h3{margin:2px 0}.recov p{margin:2px 0 6px}
+.recov button:disabled{opacity:.45}.recov button small{color:var(--red)}
+.mo-info.piles{font-size:10px}

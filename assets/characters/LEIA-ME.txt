@@ -1,0 +1,1 @@
+Coloque aqui as artes oficiais. Nome do arquivo = campo 'art' em js/data/characters.js (ex.: char_01.png).
