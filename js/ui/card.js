@@ -35,9 +35,10 @@ G.cardHTML=function(u,cls='',caption=''){
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
   const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base);
   const nameSize=Math.min(L.name.s,Math.floor(415/(u.name.length*0.63)));
+  const safeName=String(u.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   return `<div class="slot"><div class="card ${cls}${dead?' dead':''}${cf?' baked':''}" data-id="${u.uid||u.id}">`
    +`<div class="rar" style="${fr};background:${bg};-webkit-mask-image:${m};mask-image:${m}"></div>`
-   +`<div class="art" style="clip-path:polygon(${clip})"><span>arte</span><img decoding="sync" src="${u.art}" alt="" style="${box(L.art)}" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
+   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span><img decoding="sync" src="${u.art}" alt="" style="${box(L.art)}" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
    +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">`
    +t('speed',u.speed)+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
    +t('damage',u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(u.class==='MAGO'?t('mana',mana):'')+(base.mainAbility?t('ability',base.mainAbility):'')

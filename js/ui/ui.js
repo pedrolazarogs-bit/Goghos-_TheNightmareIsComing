@@ -8,7 +8,7 @@ const card=G.cardHTML;
 // Zera TUDO o que é temporário da partida (seleção, equipes, estado de batalha, alvos, timers) para nada vazar para a próxima.
 function wipe(){clearTimeout(ui.timer);Object.assign(ui,{sel:null,teams:null,state:null,target:null,swapMode:false,swapPick:null,sup:null,supTarget:null,handIid:null,lastEventShown:0,mana:0,msg:''});}
 function menu(){wipe();ui.mode='menu';
-  show(`<section class="center"><div class="logo"><span>[ logotipo oficial ]</span><img src="assets/logo/logo.png" alt="GOGHOS" onload="this.previousElementSibling.remove();this.parentElement.nextElementSibling.remove()" onerror="this.remove()"></div><h1>GOGHOS</h1>${btn('play','Jogar',0,'big')}${btn('shop','Loja',0,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);}
+  show(`<section class="center"><div class="logo" aria-hidden="true"><span class="logo-gem"></span></div><h1>GOGHOS</h1><p class="menu-subtitle">The Nightmare Is Coming</p><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',0,'big')}${btn('shop','Loja',0,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);}
 // Jogar: sorteia 5 Comuns; escolhas jogador → bot → jogador → bot; só então a batalha pode começar.
 function startMatch(){wipe();ui.mode='select';const r=G.createSelection();
   if(!r.ok){show(`<section class="center"><h2>Não foi possível iniciar a batalha</h2><p class="msg">${r.error}</p>${btn('menu','Menu')}</section>`);return;}
