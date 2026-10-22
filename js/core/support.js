@@ -37,6 +37,26 @@ function performSupport(s,idx,targetUid){
   else if(d.effect==='onAllyDefeatedHeal'){sp.brisa=d.value;s.log.push('Apoio · '+d.name+': ativa até o fim da batalha');}
   slot.uses--;sp.usedTurn=s.turn;return{ok:true};
 }
+// Usa uma carta de Apoio que foi comprada do monte principal e está na mão.
+G.performHandSupport=(s,iid,targetUid)=>{
+  if(s.result)return fail('Batalha encerrada.');
+  if(s.recovery)return fail('Escolha a recuperação antes de continuar.');
+  if(s.deck.pendingChoice)return fail('Resolva a substituição da mão antes de continuar.');
+  if(s.support.pending)return fail('Resolva a Brisa antes de continuar.');
+  const actor=G.getNextActor(s);if(!actor||actor.team!=='player')return fail('Cartas de Apoio só podem ser usadas na sua vez.');
+  if(s.support.usedTurn===s.turn)return fail('Você já usou uma carta de apoio neste turno.');
+  const hand=s.deck.hands.player,i=hand.findIndex(c=>c.iid===iid),inst=hand[i];if(i<0)return fail('A carta não está na sua mão.');
+  const rd=G.getResetCard(inst.id),d=G.getSupportCard(inst.id);if(!rd||rd.type!=='SUPPORT'||!d)return fail('Esta carta não é uma carta de Apoio utilizável.');
+  if(d.effect==='heal'){
+    const t=G.getUnit(s,targetUid);if(!t||t.team!=='player')return fail('Escolha um aliado.');
+    if(t.hp<=0)return fail('Aliado derrotado não pode ser curado.');if(t.hp>=t.maxHp)return fail('Esse aliado já está com a Vida cheia.');
+    const b=t.hp;t.hp=Math.min(t.maxHp,t.hp+d.value);s.log.push('CURA · '+d.name+': '+t.name+' recuperou +'+(t.hp-b)+' de Vida');
+  }else if(d.effect==='nextAttackBonus'){s.support.nextAttackBonus+=d.value;s.log.push('BÔNUS · '+d.name+': próximo ataque causa +'+d.value+' de dano');}
+  else if(d.effect==='onAllyDefeatedHeal'){if(s.support.brisa)return fail('Brisa já está ativa.');s.support.brisa=d.value;s.log.push('BRISA · efeito ativo: quando um aliado for eliminado, outro pode curar +'+d.value+' de Vida');}
+  else return fail('Efeito de Apoio ainda não implementado.');
+  const used=hand.splice(i,1)[0];s.deck.discard.push({...used,side:'player',reason:'played-support'});s.support.usedTurn=s.turn;return{ok:true};
+};
+
 // Brisa ativa: ao eliminar um aliado, abre uma escolha (cura em outro aliado ferido, ou dispensar).
 function onAllyDefeated(s,t){
   const sp=s.support;if(t.team!=='player'||!sp.brisa)return;

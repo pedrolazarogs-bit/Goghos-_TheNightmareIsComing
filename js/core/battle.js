@@ -12,6 +12,9 @@ const fail=error=>({ok:false,error});
 function validateTeam(team){
   const ids=[...team.front,...team.rear];
   if(!team.front.length)return fail('A linha de frente não pode ficar vazia.');
+  if(team.front.length>3)return fail('A linha de frente permite no máximo 3 personagens.');
+  if(team.rear.length>2)return fail('A retaguarda permite no máximo 2 personagens.');
+  if(team.rear.some(id=>G.getCharacterById(id)?.class!=='SUPPORT'))return fail('Somente personagens da classe SUPPORT podem ficar na retaguarda.');
   if(new Set(ids).size!==ids.length)return fail('Personagem repetido na equipe.');
   if(ids.some(id=>!G.getCharacterById(id)))return fail('Personagem inexistente.');
   return{ok:true};
@@ -28,7 +31,7 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   const rng=opts.rng||Math.random,teams={player:playerTeam,enemy:enemyTeam};
   ['player','enemy'].forEach(side=>{const v=validateTeam(teams[side]);if(!v.ok)throw new Error(side+': '+v.error);});
   const s={config:{playerTeam:cp(playerTeam),enemyTeam:cp(enemyTeam),supportIds:[...supportIds]},units:[],uidSeq:{player:0,enemy:0},round:0,turn:1,phase:'battle',
-    support:G.createSupportState(supportIds),order:[],acted:{},result:null,final:null,log:[],rng,
+    support:G.createSupportState(supportIds),order:[],acted:{},result:null,final:null,log:[],rng,eventSeq:0,lastEvent:null,
     deck:G.createDeckState(rng),piles:G.createCharacterPiles(rng),eliminated:[],daly:G.createDalyMae(),recovery:null,
     roll:opts.roll||(n=>1+Math.floor(rng()*n))}; // roll(n): dado de n lados (injetável nos testes). Tudo aqui é novo a cada partida: nada vaza da anterior.
   ['player','enemy'].forEach(side=>{const t=teams[side];
@@ -43,7 +46,7 @@ function buildTurnOrder(s){
   s.order=list.map(u=>u.uid);s.acted={};s.round++;return s.order;
 }
 function getNextActor(s){
-  if(s.result||s.recovery)return null; // partida encerrada ou recuperação pendente: ninguém age (e nada reseta)
+  if(s.result||s.recovery||(s.deck&&s.deck.pendingChoice))return null; // partida encerrada, recuperação ou substituição pendente: ninguém age
   const find=()=>s.order.map(id=>getUnit(s,id)).find(u=>u&&canAct(u)&&!s.acted[u.uid]);
   let a=find();if(!a){buildTurnOrder(s);G.onSpeedReset(s);a=find();} // a hierarquia de velocidade resetou: ambas as equipes compram do monte principal (1 vez por reset)
   return a||null;
@@ -78,9 +81,15 @@ function dodgeInfo(a,t){if(!t||t.class!=='ASSASSIN'||a.class==='MAGO')return nul
 function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{diff:i.diff,sides:i.sides,roll,dodged:roll<=i.diff};}
 // Ataque à Daly Mãe exposta: retira EXATAMENTE 1 vida, qualquer que seja o Dano do atacante (sem excedente, sem esquiva).
 // Bônus de apoio e mana não são gastos (não teriam efeito). Cada ataque é processado uma vez (o atacante só age uma vez por rodada).
+function regenerateMageMana(s){
+  const recovered=[];s.units.forEach(u=>{if(u.class==='MAGO'&&!isCharacterDefeated(u)&&u.mana<(u.maxMana||G.MAGE_MAX_MANA)){u.mana=Math.min(u.maxMana||G.MAGE_MAX_MANA,u.mana+1);recovered.push(u.name+' +1 ('+u.mana+'/'+u.maxMana+')');}});
+  if(recovered.length)s.log.push('Mana · '+recovered.join(', '));
+}
+function event(s,data){s.eventSeq=(s.eventSeq||0)+1;s.lastEvent={id:s.eventSeq,...data};}
 function attackDaly(s,a,side){
-  const d=s.daly[side];d.hp=Math.max(0,d.hp-1);s.acted[a.uid]=true;s.turn++;
+  const d=s.daly[side],before=d.hp;d.hp=Math.max(0,d.hp-1);s.acted[a.uid]=true;s.turn++;event(s,{type:'daly-hit',actorUid:a.uid,targetUid:'daly_'+side,damage:before-d.hp});
   s.log.push(a.name+' atacou '+(side==='player'?'a sua Daly Mãe':'a Daly Mãe adversária')+' · −1 vida ('+d.hp+'/'+d.max+')');
+  regenerateMageMana(s);
   checkBattleResult(s);
   if(!s.result)G.openRecovery(s,side); // ainda tem vida: o dono escolhe a recuperação
   return{ok:true,damage:0,defeated:false,daly:side,dalyHp:d.hp,dalyDefeated:d.hp<=0};
@@ -112,13 +121,14 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0){
   if(mana>0&&a.class!=='MAGO')return fail('Somente Magos usam mana.');
   if(mana>a.mana)return fail('Mana insuficiente.');
   const per=G.CONFIG.manaDamagePerPoint,bonus=a.team==='player'?G.takeAttackBonus(s):0,dmg=a.damage+bonus+mana*per; // apoio (Na Moloeira) + mana do Mago
-  a.mana-=mana; // a mana não se regenera (por enquanto)
+  a.mana-=mana; // Mana gasta é parcialmente recuperada ao fim de cada ação/turno que passa
   const dd=rollDodge(s,a,t); // o bônus de apoio e a mana já foram gastos, mesmo se o ataque for esquivado
-  if(dd&&dd.dodged){s.acted[a.uid]=true;s.turn++;s.log.push(a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dd.roll+' ≤ '+dd.diff+')');return{ok:true,damage:0,defeated:false,dodged:true,roll:dd.roll,needed:dd.diff};}
-  t.hp=Math.min(t.maxHp,Math.max(0,t.hp-dmg));s.acted[a.uid]=true;s.turn++;
+  if(dd&&dd.dodged){s.acted[a.uid]=true;s.turn++;event(s,{type:'dodge',actorUid:a.uid,targetUid:t.uid,damage:0,roll:dd.roll});s.log.push(a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dd.roll+' ≤ '+dd.diff+')');regenerateMageMana(s);return{ok:true,damage:0,defeated:false,dodged:true,roll:dd.roll,needed:dd.diff};}
+  const hpBefore=t.hp;t.hp=Math.min(t.maxHp,Math.max(0,t.hp-dmg));s.acted[a.uid]=true;s.turn++;event(s,{type:t.hp<=0?'defeat':'hit',actorUid:a.uid,targetUid:t.uid,damage:Math.min(hpBefore,dmg),manaSpent:mana,bonus});
   s.log.push(a.name+' causou '+dmg+(bonus?' (+'+bonus+' de apoio)':'')+(mana?' (+'+mana*per+' com '+mana+' de mana)':'')+' em '+t.name+(t.hp<=0?' (derrotado)':'')+(dd?' [esquiva falhou: dado '+dd.roll+' > '+dd.diff+']':''));
   if(t.hp<=0)G.eliminateUnit(s,t); // eliminação permanente: sai da equipe e da fila, promove a retaguarda, expõe a Daly Mãe se a equipe acabou
   if(!s.result&&t.hp<=0)G.onAllyDefeated(s,t);
+  regenerateMageMana(s);
   return{ok:true,damage:dmg,defeated:t.hp<=0};
 }
 // Troca voluntária (somente na vez da própria equipe): um Suporte da retaguarda e um da linha de frente trocam de lugar.

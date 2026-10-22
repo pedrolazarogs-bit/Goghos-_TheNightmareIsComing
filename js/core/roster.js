@@ -27,8 +27,11 @@ G.claimCharacter=(s,id)=>{
 // Novo personagem: frente já tem vivo → retaguarda; frente vazia com vivo na retaguarda → promove um e o novo vai para a retaguarda;
 // equipe sem nenhum vivo → o novo entra na frente. Não dá ataque extra nem muda a ordem da rodada (age a partir da rodada seguinte).
 G.addCharacterToTeam=(s,side,inst)=>{
-  const live=liveOf(s,side);let row='rear';
-  if(!live.some(u=>u.row==='front')){if(live.length)G.enforceFrontLine(s,side);else row='front';}
+  const live=liveOf(s,side),c=G.getCharacterById(inst.id);
+  let row='front';
+  if(live.filter(u=>u.row==='front').length<3)row='front';
+  else if(c&&c.class==='SUPPORT'&&live.filter(u=>u.row==='rear').length<2)row='rear';
+  else return null;
   const u=G.makeUnit(s,side,inst,row);
   s.log.push(who(side,'Você obteve ','O adversário obteve ')+u.name+' ('+(G.RARITY_LABEL[u.rarity]||'sem raridade')+') · '+(row==='front'?'linha de frente':'retaguarda'));
   G.refreshDaly(s,side);return u;
@@ -74,8 +77,12 @@ G.resolveDalle=(s,side,handCard)=>{
   const elig=r=>s.piles[r].filter(i=>{const c=G.getCharacterById(i.id);return c&&(def.color==null||c.color===def.color);});
   const rars=G.RARITIES.filter(r=>elig(r).length);
   const rar=G.pickDalleRarity(G.CONFIG.dalleRarityWeights,rars,s.rng);
-  if(!rar){s.log.push('Daly '+def.name+': nenhum personagem elegível disponível');return{ok:true,obtained:null,reason:'none'};} // a Daly e o estado ficam como estão
+  if(!rar){if(hand.length>(s.deck.handLimit||5)){hand.splice(hi,1);s.deck.discard.push({...handCard,side,reason:'daly-no-character'});}s.log.push('Daly '+def.name+': nenhum personagem elegível disponível');return{ok:true,obtained:null,reason:'none'};}
   const cands=elig(rar),inst=cands[Math.floor(s.rng()*cands.length)];
+  const teamLive=liveOf(s,side),char=G.getCharacterById(inst.id);
+  const canFront=teamLive.filter(u=>u.row==='front').length<3;
+  const canRear=char.class==='SUPPORT'&&teamLive.filter(u=>u.row==='rear').length<2;
+  if(!canFront&&!canRear){if(hand.length>(s.deck.handLimit||5)){hand.splice(hi,1);s.deck.discard.push({...handCard,side,reason:'daly-team-full'});}s.log.push('Daly '+def.name+': equipe cheia; nenhum personagem foi adicionado');return{ok:true,obtained:null,reason:'team-full'};}
   s.piles[rar].splice(s.piles[rar].indexOf(inst),1);       // sai do monte de origem
   hand.splice(hi,1);s.deck.discard.push({...handCard,side}); // a Daly resolvida vai para o descarte de cartas (nunca para os eliminados)
   const u=G.addCharacterToTeam(s,side,inst);
@@ -84,10 +91,21 @@ G.resolveDalle=(s,side,handCard)=>{
 
 // ---------- Recuperação: a Daly Mãe perdeu uma vida e ainda tem vida ----------
 // Escolher UMA opção: A) 3 Comuns · B) 2 Raros · C) 1 Épico. Não mistura, não é parcial, só vem dos montes de personagens e nunca ressuscita eliminados.
-G.recoveryOptions=s=>G.CONFIG.recoveryOptions.map(o=>{const have=s.piles[o.rarity].length;return{...o,have,available:have>=o.count};});
+function recoveryEligiblePile(s,side,rarity){
+  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
+  const pile=s.piles[rarity]||[];if(frontSlots>0)return pile;
+  return pile.filter(inst=>rearSlots>0&&G.getCharacterById(inst.id)?.class==='SUPPORT');
+}
+G.recoveryOptions=(s,side=s.recovery?.side||'player')=>G.CONFIG.recoveryOptions.map(o=>{
+  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length),needRear=Math.max(0,o.count-frontSlots);
+  const supportCount=(s.piles[o.rarity]||[]).filter(inst=>G.getCharacterById(inst.id)?.class==='SUPPORT').length;
+  const have=recoveryEligiblePile(s,side,o.rarity).length;
+  const fits=frontSlots+Math.min(rearSlots,supportCount)>=o.count&&needRear<=rearSlots&&supportCount>=needRear;
+  return{...o,have,available:fits&&have>=o.count};
+});
 G.openRecovery=(s,side)=>{
   if(s.result||s.recovery)return null;
-  const options=G.recoveryOptions(s);
+  const options=G.recoveryOptions(s,side);
   if(!options.some(o=>o.available)){s.log.push(who(side,'Sua Daly Mãe perdeu uma vida, mas nenhuma recuperação está disponível','A Daly Mãe adversária perdeu uma vida, mas nenhuma recuperação estava disponível'));return null;}
   s.recovery={side,options,status:'open'};s.phase='recovery';
   s.log.push(who(side,'Sua Daly Mãe perdeu uma vida · escolha uma recuperação','A Daly Mãe adversária perdeu uma vida · o adversário escolhe uma recuperação'));
@@ -96,16 +114,19 @@ G.openRecovery=(s,side)=>{
 G.performRecovery=(s,optionId)=>{
   if(s.result)return fail('Batalha encerrada.');
   const r=s.recovery;if(!r||r.status!=='open')return fail('Nenhuma recuperação disponível.'); // já processada ou em processamento: não repete
-  const o=G.recoveryOptions(s).find(x=>x.id===optionId);
+  const o=G.recoveryOptions(s,r.side).find(x=>x.id===optionId);
   if(!o)return fail('Opção de recuperação inválida.');
   if(!o.available)return fail('Opção indisponível: restam '+o.have+' no monte '+G.RARITY_LABEL[o.rarity]+' (precisa de '+o.count+').');
   r.status='processing';
-  const pile=s.piles[o.rarity],idx=shuffle(pile.map((_,i)=>i),s.rng).slice(0,o.count).sort((a,b)=>b-a);
-  if(idx.length!==o.count){r.status='open';return fail('Não foi possível completar a recuperação.');} // valida o conjunto inteiro antes de retirar qualquer carta
-  const taken=idx.map(i=>pile.splice(i,1)[0]).reverse();
-  const units=taken.map(inst=>G.addCharacterToTeam(s,r.side,inst)); // 1º na frente se ela estiver vazia; os demais na retaguarda
+  const pile=s.piles[o.rarity],live=liveOf(s,r.side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
+  const needRear=Math.max(0,o.count-frontSlots),supportIdx=shuffle(pile.map((inst,i)=>G.getCharacterById(inst.id)?.class==='SUPPORT'?i:-1).filter(i=>i>=0),s.rng).slice(0,needRear);
+  const chosen=new Set(supportIdx),rest=shuffle(pile.map((_,i)=>i).filter(i=>!chosen.has(i)),s.rng).slice(0,o.count-supportIdx.length);
+  const orderedIdx=[...rest,...supportIdx],idx=[...orderedIdx].sort((a,b)=>b-a);
+  if(orderedIdx.length!==o.count||needRear>rearSlots){r.status='open';return fail('Não há espaço suficiente na formação para essa recuperação.');}
+  const byIndex=new Map(orderedIdx.map(i=>[i,pile[i]]));idx.forEach(i=>pile.splice(i,1));const taken=orderedIdx.map(i=>byIndex.get(i));
+  const units=taken.map(inst=>G.addCharacterToTeam(s,r.side,inst)).filter(Boolean);
   s.recovery=null;s.phase='battle';
-  s.log.push(who(r.side,'Recuperação','Recuperação do adversário')+' '+o.id+': '+o.count+' × '+G.RARITY_LABEL[o.rarity]);
+  s.log.push(who(r.side,'Recuperação','Recuperação do adversário')+' '+o.id+': '+units.length+' personagem(ns) adicionado(s) · '+G.RARITY_LABEL[o.rarity]);
   return{ok:true,option:o.id,side:r.side,units:units.map(u=>u.uid)};
 };
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});
