@@ -11,8 +11,12 @@ test('Sam, Eletric e Sarck usam as artes recebidas e continuam dentro das faixas
   for(const [id,[rarity,cls]] of Object.entries(expected)){
     const c=G.getCharacterById(id);
     assert(c);assert.equal(c.rarity,rarity);assert.equal(c.class,cls);
-    assert(c.fullCardArt);assert(fs.existsSync(path.join(__dirname,'..',c.art)));
+    assert(c.illustrated);assert(c.artLayout);assert(!c.fullCardArt);assert(fs.existsSync(path.join(__dirname,'..',c.art)));
     assert(G.cardHTML(c).includes(c.art));
+    const reference=fs.readFileSync(path.join(__dirname,'..','assets/references/characters',id+'.png'));
+    assert(!fs.readFileSync(path.join(__dirname,'..',c.art)).equals(reference),'a carta pronta não pode servir de retrato');
+    assert(!G.cardHTML(c).includes('assets/references/'));
+    if(c.abilityArt)assert(fs.existsSync(path.join(__dirname,'..',c.abilityArt)));
     assert(c.maxHp>=G.RARITY_HP[rarity].min&&c.maxHp<=G.RARITY_HP[rarity].max);
     assert(c.damage>=G.RARITY_DAMAGE[rarity].min&&c.damage<=G.RARITY_DAMAGE[rarity].max);
   }

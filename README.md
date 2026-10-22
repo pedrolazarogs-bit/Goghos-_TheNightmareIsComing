@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de um jogo de cartas e batalha por turnos. A versão **0.15.0** reúne as regras das versões 0.12 e 0.14 e incorpora as artes de `kikiy.zip`, com Sam, Eletric e Sarck no catálogo.
+Protótipo jogável de um jogo de cartas e batalha por turnos. A versão **0.15.1** reúne as regras das versões 0.12 e 0.14 e incorpora as artes de `kikiy.zip`, com Sam, Eletric e Sarck no catálogo. As cartas agora são montadas com as ilustrações separadas; a recuperação da Daly Mãe permite receber as cartas restantes de uma raridade, mesmo abaixo do lote máximo.
 
 ## Jogar e desenvolver
 

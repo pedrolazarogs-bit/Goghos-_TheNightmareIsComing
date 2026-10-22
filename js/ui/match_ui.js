@@ -17,9 +17,9 @@ G.eliminatedHTML=(s,freshEvent=false)=>{
 // Escolha da recuperação (só aparece para o jogador; o bot escolhe sozinho). Opções exclusivas; indisponível fica desabilitada.
 G.recoveryHTML=s=>{
   const r=s.recovery;if(!r||r.side!=='player')return '';
-  const nm={A:'3 Comuns',B:'2 Raros',C:'1 Épico'};
-  const b=G.recoveryOptions(s).map(o=>`<button data-act="recover-${o.id}"${o.available?'':' disabled'} title="${o.available?'':`Indisponível: restam ${o.have} no monte ${lbl(o.rarity)}`}">${o.id} · ${nm[o.id]||o.count+' '+lbl(o.rarity)}${o.available?'':` <small>(indisponível · restam ${o.have})</small>`}</button>`).join('');
-  return `<div class="recov"><h3>Sua Daly Mãe perdeu uma vida</h3><p>Escolha UMA recuperação (não dá para combinar):</p>${b}</div>`;
+  const plural={COMMON:'Comuns',RARE:'Raros',EPIC:'Épicos'};
+  const b=G.recoveryOptions(s).map(o=>`<button data-act="recover-${o.id}"${o.available?'':' disabled'}>${o.id} · ${o.drawCount} ${o.drawCount===1?lbl(o.rarity):plural[o.rarity]}<small>${o.have===0?'Monte vazio':!o.available?'Sem espaço na formação':`${o.have} no monte · até ${o.count} por recuperação`}</small></button>`).join('');
+  return `<div class="recov" role="region" aria-labelledby="recovery-title"><h3 id="recovery-title">Sua Daly Mãe perdeu uma vida</h3><p>Escolha uma raridade. Você recebe cartas sorteadas desse monte; se restarem menos, recebe as restantes.</p><div class="recovery-options">${b}</div></div>`;
 };
 // Linha com os 5 montes de personagens (disponíveis).
 G.pilesLineHTML=s=>s.piles?`Personagens: ${G.RARITIES.map(r=>lbl(r)+' '+s.piles[r].length).join(' · ')}`:'';

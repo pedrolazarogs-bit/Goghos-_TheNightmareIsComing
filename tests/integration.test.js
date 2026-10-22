@@ -31,7 +31,7 @@ test('Daly Mãe perde uma vida por ataque e permite recuperação antes do golpe
   if(s.recovery){
     const available=s.recovery.options.find(o=>o.available);
     assert(available);const recovered=G.performRecovery(s,available.id);
-    assert(recovered.ok);assert.equal(recovered.units.length,available.count);
+    assert(recovered.ok);assert.equal(recovered.units.length,available.drawCount);
     assert(recovered.units.every(id=>G.getUnit(s,id).row==='front'));
   }
 });

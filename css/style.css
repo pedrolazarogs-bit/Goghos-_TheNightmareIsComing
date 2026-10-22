@@ -16,7 +16,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .slot{display:flex;flex-direction:column;align-items:center;gap:4px}.slot small{font-size:12px;color:#b9aee0}
 .card{width:clamp(100px,14vw,150px);aspect-ratio:1218/2034;position:relative;container-type:inline-size;font-family:'German Beauty',Georgia,serif;transition:filter .15s}
 .card>*{position:absolute}.card .frame{max-width:none;pointer-events:none;z-index:2}
-.card .art{inset:0;z-index:1;background:radial-gradient(circle at 50% 30%,#66578b 0%,#292342 24%,#0d0a17 54%)}.card .art img{object-fit:contain}
+.card .art{inset:0;z-index:1;background:radial-gradient(circle at 50% 30%,#66578b 0%,#292342 24%,#0d0a17 54%)}.card .art img{position:absolute;max-width:none;object-fit:contain}
 .card .art-support{background:radial-gradient(circle at 50% 30%,#528b78,#193d3d 30%,#0d0a17 60%)}
 .card .art-mago{background:radial-gradient(circle at 50% 30%,#8576c5,#30264c 30%,#0d0a17 60%)}
 .card .art-assassin{background:radial-gradient(circle at 50% 30%,#787b96,#27283e 30%,#0d0a17 60%)}
@@ -30,6 +30,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .card.target{filter:drop-shadow(0 0 10px var(--red))}.card.pick{cursor:pointer}.card.dead{filter:grayscale(1)}
 h1,h2,h3{font-weight:normal}.card .rar{z-index:0;aspect-ratio:1536/2048;-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .card .ci{z-index:3;display:flex;align-items:center;justify-content:center;color:#2c2338}.card .ci img{max-width:100%;max-height:100%;object-fit:contain}
+.card .ability-symbol{overflow:hidden;clip-path:ellipse(48% 44% at 50% 50%)}.card .ability-symbol img{position:absolute;max-width:none;max-height:none;width:293.55%;height:282.96%;left:-116.13%;top:-118.52%} /* símbolo central da arte 455×382, sem repetir a moldura da estrela */
 .card .t .u{align-self:flex-end;position:relative;margin-left:.5em}
 button.big{display:block;margin:14px auto;min-width:260px;padding:14px 30px;font-size:28px;letter-spacing:.1em}.soon{font-size:32px;color:var(--gold)}
 button.on{background:var(--gold);color:#1a1420}.msg{min-height:1.4em;color:var(--red)}.lbl{margin:6px 0 0;color:var(--gold);font-size:14px}
@@ -82,7 +83,7 @@ button.sm{min-width:0;padding:6px 14px}.manav{margin:0 6px;color:var(--gold)}
 .elim{margin-top:6px;padding:4px 10px;border-top:1px solid var(--line);font-size:13px;color:#b9aee0}.elim h4{margin:2px 0;color:var(--gold);font-weight:normal;font-size:14px}.elim p{margin:2px 0}
 .chip{display:inline-block;margin:1px 2px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--txt);opacity:.75}.chip small{color:#8a7fb3}
 .recov{margin:8px auto;padding:8px 12px;border:2px solid var(--gold);border-radius:10px;background:#1c1530;max-width:720px}.recov h3{margin:2px 0}.recov p{margin:2px 0 6px}
-.recov button:disabled{opacity:.45}.recov button small{color:var(--red)}
+.recov button:disabled{opacity:.45}.recov button small{display:block;margin-top:6px;font:11px/1.4 system-ui,sans-serif;color:#b9aee0}.recov p{font:14px/1.5 system-ui,sans-serif}.recovery-options{display:flex;flex-wrap:wrap;justify-content:center}.recovery-options button{flex:1 1 150px;margin:4px;padding:12px}
 .mo-info.piles{font-size:10px}
 
 /* Mão de até 5 cartas: seleção, troca de carta e ativação de Apoio comprado */
@@ -97,5 +98,14 @@ button.sm{min-width:0;padding:6px 14px}.manav{margin:0 6px;color:var(--gold)}
 @keyframes targetFlash{0%{filter:brightness(1)}20%{filter:brightness(2) drop-shadow(0 0 13px #ff6565)}100%{filter:brightness(1)}}
 @keyframes dodgeFlash{0%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-3px)}100%{transform:translateX(0)}}
 @media(max-width:900px){.mao.choose-replacement{max-width:96vw;left:2vw;bottom:4px}.event-feed{max-width:100%;padding:6px}.battle-event{font-size:11px}}
+
+/* A mão ocupa sua própria coluna/linha, sem cobrir escolhas ou botões da batalha. */
+.battle-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;align-items:start;gap:20px;max-width:1280px;margin:auto;padding:16px}
+.battle-board{width:100%;min-width:0;padding:0}
+.battle-layout .mao{--hw:54px;position:sticky;top:16px;left:auto;bottom:auto;width:100%;max-width:none;margin:0;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.battle-layout .mo-grid{justify-content:center;padding:18px 8px 20px}
+.battle-layout .mao.choose-replacement{border-color:var(--gold)}
+.battle-layout .hcard:hover .scard{transform:none}
+@media(max-width:900px){.battle-layout{display:flex;flex-direction:column;padding:12px;gap:16px}.battle-layout .mao{position:static;max-width:100%;--hw:clamp(44px,12vw,64px)}.battle-layout.choosing-hand .mao{order:-1}}
 
 .daly-feedback{position:relative;display:table;margin:4px auto}.daly-feedback.event-daly-hit .daly{animation:dalyImpact .72s ease-out both}.daly-float{position:absolute;right:8px;top:-14px;color:#ff777b;font:900 16px system-ui,sans-serif;text-shadow:0 1px 4px #250914;animation:combatFloat 1s ease-out both;pointer-events:none;white-space:nowrap}.chip-hit{border-color:#ff596f!important;color:#fff;box-shadow:0 0 12px #ff596f88;animation:targetFlash .72s ease-out both}.chip-hit b{color:#ff777b;font-weight:900;margin-left:5px}@keyframes dalyImpact{0%{filter:brightness(1)}25%{filter:brightness(1.9) drop-shadow(0 0 12px #ff4a60)}100%{filter:brightness(1)}}

@@ -1,11 +1,11 @@
 {
   "name": "goghos-tcg",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "private": true,
   "description": "Protótipo local do jogo de cartas GOGHOS TCG",
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "test": "node tests/v0_14.test.js && node tests/v0_14_ui.test.js && node tests/catalog.test.js && node tests/integration.test.js"
+    "test": "node tests/v0_14.test.js && node tests/v0_14_ui.test.js && node tests/catalog.test.js && node tests/integration.test.js && node tests/recovery.test.js"
   },
   "engines": {"node": ">=20"}
 }

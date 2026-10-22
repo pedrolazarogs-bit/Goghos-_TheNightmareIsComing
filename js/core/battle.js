@@ -46,9 +46,10 @@ function buildTurnOrder(s){
   s.order=list.map(u=>u.uid);s.acted={};s.round++;return s.order;
 }
 function getNextActor(s){
-  if(s.result||s.recovery||(s.deck&&s.deck.pendingChoice))return null; // partida encerrada, recuperação ou substituição pendente: ninguém age
+  const paused=()=>s.result||s.recovery||s.support.pending||(s.deck&&s.deck.pendingChoice);
+  if(paused())return null; // decisões pendentes pausam a ordem, sem avançar a rodada
   const find=()=>s.order.map(id=>getUnit(s,id)).find(u=>u&&canAct(u)&&!s.acted[u.uid]);
-  let a=find();if(!a){buildTurnOrder(s);G.onSpeedReset(s);a=find();} // a hierarquia de velocidade resetou: ambas as equipes compram do monte principal (1 vez por reset)
+  let a=find();if(!a){buildTurnOrder(s);G.onSpeedReset(s);if(paused())return null;a=find();} // a compra pode abrir uma escolha de mão cheia
   return a||null;
 }
 // A linha de frente nunca fica vazia enquanto houver vivo na retaguarda: um deles (o primeiro) é promovido na hora. Não dá turno nem ataque extra.

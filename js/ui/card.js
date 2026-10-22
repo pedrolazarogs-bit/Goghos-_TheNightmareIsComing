@@ -29,6 +29,15 @@ L.mana={b:[352,828,492,968],s:76,a:'c',c:'#2c2338'};            // orbe do Tribu
 // Ainda não desenhados (aguardam explicação): escudo do Tributo (Fighter) e o "x6" ao lado do Dano.
 const t=(k,txt,size,ex='',u='')=>{const o=L[k];return `<div class="t" style="${box(o.b)};${fs(size||o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c};${ex}">${txt}${u}</div>`;};
 const unit=(label,px,size,drop)=>`<small class="u" style="font-size:${(px/size).toFixed(3)}em;top:${drop}em">${label}</small>`; // rótulo colado ao número
+// Enquadra a ilustração original sem modificar o PNG. focus ignora margens transparentes;
+// target reserva espaço para os símbolos e o nome na moldura. Nunca usa cartas prontas como retrato.
+const portraitStyle=base=>{
+  const layout=base.artLayout;if(!layout)return box(L.art);
+  const {size,focus:f,target:d}=layout,scale=Math.min((d[2]-d[0])/(f[2]-f[0]),(d[3]-d[1])/(f[3]-f[1]));
+  const x=d[0]+((d[2]-d[0])-(f[2]-f[0])*scale)/2-f[0]*scale;
+  const y=d[1]+((d[3]-d[1])-(f[3]-f[1])*scale)/2-f[1]*scale;
+  return box([x,y,x+size[0]*scale,y+size[1]*scale]);
+};
 G.cardHTML=function(u,cls='',caption=''){
   const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&u.hp<=0,hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
@@ -38,11 +47,11 @@ G.cardHTML=function(u,cls='',caption=''){
   const safeName=String(u.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   return `<div class="slot"><div class="card ${cls}${dead?' dead':''}${cf?' baked':''}" data-id="${u.uid||u.id}">`
    +`<div class="rar" style="${fr};background:${bg};-webkit-mask-image:${m};mask-image:${m}"></div>`
-   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span><img decoding="sync" src="${u.art}" alt="" style="${base.fullCardArt?fr:box(L.art)}" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
+   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span><img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
    +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">`
    +t('speed',u.speed)+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
-   +t('damage',u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(u.class==='MAGO'?t('mana',mana):'')+(base.mainAbility?t('ability',base.mainAbility):'')
-   +(base.mainAbility?`<div class="ci" style="${box(L.abilityIcon)}"><img src="assets/abilities/${base.id}.png" alt="" onerror="this.remove()"></div>`:'')
+   +t('damage',u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(u.class==='MAGO'?t('mana',mana):'')+(base.mainAbility?t('ability',base.mainAbility,Math.min(L.ability.s,152/(base.mainAbility.length*.63))):'')
+   +(base.abilityArt?`<div class="ci ability-symbol" style="${box(L.abilityIcon)}"><img src="${base.abilityArt}" alt="" onerror="this.remove()"></div>`:'')
    +`<div class="ci cls" style="${box(L.classIcon)};${fs(24)}"><span>${u.class}</span><img src="assets/classes/${u.class.toLowerCase()}.png" alt="" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
    +(dead?'<em>DERROTADO</em>':'')+`</div>${caption?`<small>${caption}</small>`:''}</div>`;
 };

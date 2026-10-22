@@ -32,4 +32,28 @@ test('a coleção mostra as três cartas ilustradas',()=>{
   assert(html.includes('assets/characters/eletric.png')&&html.includes('assets/characters/sarck.png'));
   action('menu');assert(html.includes('data-act="play"'));
 });
+test('o clique de recuperação entrega as cartas restantes e retoma a batalha',()=>{
+  const create=G.createBattleState;let state;
+  G.createBattleState=(...args)=>{
+    const s=state=create(...args);
+    s.units.filter(u=>u.team==='player').forEach(u=>G.eliminateUnit(s,u));
+    s.piles.COMMON=s.piles.COMMON.slice(0,2);s.piles.RARE=s.piles.RARE.slice(0,1);s.piles.EPIC=[];
+    s.deck.pile=[];
+    const a=G.getNextActor(s);assert(G.performBasicAttack(s,a.uid,'daly_player').ok);
+    return s;
+  };
+  try{
+    for(const [option,count] of [['A',2],['B',1]]){
+      selectAndFight();
+      assert(html.includes('A · 2 Comuns'));assert(html.includes('B · 1 Raro'));
+      action('recover-C');assert(state.recovery,'monte vazio não pode encerrar a escolha');
+      action('recover-'+option);assert(!state.recovery);
+      assert.equal(G.getBoard(state).player.front.length,count);
+      assert(!html.includes('data-act="recover-'));
+      let wait=0;while(!html.includes('data-act="attack"')&&wait++<5)runTimers();
+      assert(html.includes('data-act="attack"'),'partida deve voltar à vez do jogador');
+      assert.equal(state.daly.player.hp,2);action('menu');
+    }
+  }finally{G.createBattleState=create;}
+});
 console.log(`${passed} testes da interface v0.14.0 passaram`);

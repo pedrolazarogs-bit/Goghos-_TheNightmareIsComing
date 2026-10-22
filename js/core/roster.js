@@ -24,8 +24,8 @@ G.claimCharacter=(s,id)=>{
 };
 
 // ---------- Equipe: linha de frente e retaguarda ----------
-// Novo personagem: frente já tem vivo → retaguarda; frente vazia com vivo na retaguarda → promove um e o novo vai para a retaguarda;
-// equipe sem nenhum vivo → o novo entra na frente. Não dá ataque extra nem muda a ordem da rodada (age a partir da rodada seguinte).
+// Novo personagem ocupa uma das 3 vagas da frente; com a frente cheia, só Suportes podem ocupar as 2 vagas da retaguarda.
+// Não dá ataque extra nem muda a ordem da rodada (age a partir da rodada seguinte).
 G.addCharacterToTeam=(s,side,inst)=>{
   const live=liveOf(s,side),c=G.getCharacterById(inst.id);
   let row='front';
@@ -90,18 +90,19 @@ G.resolveDalle=(s,side,handCard)=>{
 };
 
 // ---------- Recuperação: a Daly Mãe perdeu uma vida e ainda tem vida ----------
-// Escolher UMA opção: A) 3 Comuns · B) 2 Raros · C) 1 Épico. Não mistura, não é parcial, só vem dos montes de personagens e nunca ressuscita eliminados.
+// Escolher UMA raridade: até 3 Comuns, 2 Raros ou 1 Épico. Se restarem menos cartas, recebe as restantes.
+// Não mistura raridades; só vem dos montes de personagens e nunca ressuscita eliminados.
 function recoveryEligiblePile(s,side,rarity){
   const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
   const pile=s.piles[rarity]||[];if(frontSlots>0)return pile;
   return pile.filter(inst=>rearSlots>0&&G.getCharacterById(inst.id)?.class==='SUPPORT');
 }
 G.recoveryOptions=(s,side=s.recovery?.side||'player')=>G.CONFIG.recoveryOptions.map(o=>{
-  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length),needRear=Math.max(0,o.count-frontSlots);
+  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
   const supportCount=(s.piles[o.rarity]||[]).filter(inst=>G.getCharacterById(inst.id)?.class==='SUPPORT').length;
-  const have=recoveryEligiblePile(s,side,o.rarity).length;
-  const fits=frontSlots+Math.min(rearSlots,supportCount)>=o.count&&needRear<=rearSlots&&supportCount>=needRear;
-  return{...o,have,available:fits&&have>=o.count};
+  const have=recoveryEligiblePile(s,side,o.rarity).length,drawCount=Math.min(o.count,have),needRear=Math.max(0,drawCount-frontSlots);
+  const fits=frontSlots+Math.min(rearSlots,supportCount)>=drawCount&&needRear<=rearSlots&&supportCount>=needRear;
+  return{...o,have,drawCount,available:drawCount>0&&fits};
 });
 G.openRecovery=(s,side)=>{
   if(s.result||s.recovery)return null;
@@ -116,13 +117,13 @@ G.performRecovery=(s,optionId)=>{
   const r=s.recovery;if(!r||r.status!=='open')return fail('Nenhuma recuperação disponível.'); // já processada ou em processamento: não repete
   const o=G.recoveryOptions(s,r.side).find(x=>x.id===optionId);
   if(!o)return fail('Opção de recuperação inválida.');
-  if(!o.available)return fail('Opção indisponível: restam '+o.have+' no monte '+G.RARITY_LABEL[o.rarity]+' (precisa de '+o.count+').');
+  if(!o.available)return fail(o.have===0?'O monte '+G.RARITY_LABEL[o.rarity]+' está vazio.':'Não há espaço na formação para essa recuperação.');
   r.status='processing';
   const pile=s.piles[o.rarity],live=liveOf(s,r.side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
-  const needRear=Math.max(0,o.count-frontSlots),supportIdx=shuffle(pile.map((inst,i)=>G.getCharacterById(inst.id)?.class==='SUPPORT'?i:-1).filter(i=>i>=0),s.rng).slice(0,needRear);
-  const chosen=new Set(supportIdx),rest=shuffle(pile.map((_,i)=>i).filter(i=>!chosen.has(i)),s.rng).slice(0,o.count-supportIdx.length);
+  const needRear=Math.max(0,o.drawCount-frontSlots),supportIdx=shuffle(pile.map((inst,i)=>G.getCharacterById(inst.id)?.class==='SUPPORT'?i:-1).filter(i=>i>=0),s.rng).slice(0,needRear);
+  const chosen=new Set(supportIdx),rest=shuffle(pile.map((_,i)=>i).filter(i=>!chosen.has(i)),s.rng).slice(0,o.drawCount-supportIdx.length);
   const orderedIdx=[...rest,...supportIdx],idx=[...orderedIdx].sort((a,b)=>b-a);
-  if(orderedIdx.length!==o.count||needRear>rearSlots){r.status='open';return fail('Não há espaço suficiente na formação para essa recuperação.');}
+  if(orderedIdx.length!==o.drawCount||needRear>rearSlots){r.status='open';return fail('Não há espaço suficiente na formação para essa recuperação.');}
   const byIndex=new Map(orderedIdx.map(i=>[i,pile[i]]));idx.forEach(i=>pile.splice(i,1));const taken=orderedIdx.map(i=>byIndex.get(i));
   const units=taken.map(inst=>G.addCharacterToTeam(s,r.side,inst)).filter(Boolean);
   s.recovery=null;s.phase='battle';

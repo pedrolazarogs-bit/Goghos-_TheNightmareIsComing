@@ -25,7 +25,7 @@ G.getCharacterStats=c=>{
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
-G.CONFIG={version:'0.15.0 (protótipo)',
+G.CONFIG={version:'0.15.1 (protótipo)',
   handLimit:5,
   swapStaminaCost:3,manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: custo da troca (fôlego), dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{offered:5,min:4},   // seleção inicial: sorteia 5 Comuns distintos (4 escolhas: jogador, bot, jogador, bot → 2 para cada, na frente; retaguarda vazia); basta ter 4 para começar
@@ -37,7 +37,7 @@ G.CONFIG={version:'0.15.0 (protótipo)',
 const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,speed,art:'assets/characters/'+id+'.png',
   description:'Provisório.',rarity:null,stamina:10,mainAbility:null,tribute:null,...x});
 G.CHARACTERS=[
- C('sam','Sam','FIGHTER',1070,70,3,{rarity:'LEGENDARY',stamina:10,mainAbility:'Pounch',tribute:'Parry',fullCardArt:true,description:'Carta de referência; os atributos de combate seguem as faixas atuais.'}),
+ C('sam','Sam','FIGHTER',1070,70,3,{rarity:'LEGENDARY',stamina:10,mainAbility:'Pounch',tribute:'Parry',illustrated:true,artLayout:{size:[2048,2048],focus:[1000,480,1840,1400],target:[420,330,1230,1100]},description:'Retrato composto com o banner ilustrado recebido; os atributos seguem as faixas atuais.'}),
  C('char_02','Personagem 02','ASSASSIN',800,90,5,{rarity:'COMMON',tribute:'Esquivar'}),C('char_03','Personagem 03','TANK',1500,40,1,{rarity:'COMMON'}),
  C('char_04','Personagem 04','DESTROYER',900,110,2,{rarity:'COMMON'}),C('char_05','Personagem 05','SUPPORT',850,50,5,{rarity:'COMMON'}),
  C('char_06','Personagem 06','FIGHTER',1000,65,3,{rarity:'COMMON'}),C('char_07','Personagem 07','SUPPORT',900,45,4,{rarity:'COMMON'}),
@@ -45,9 +45,9 @@ G.CHARACTERS=[
  C('char_10','Personagem 10','MAGO',700,85,6,{rarity:'RARE',tribute:'Mana'}),C('char_11','Personagem 11','MAGO',650,80,3,{rarity:'LEGENDARY',tribute:'Mana'}),
  C('char_12','Personagem 12','ASSASSIN',750,95,4,{rarity:'LEGENDARY',tribute:'Esquivar'}),
  // A arte de Eletric informa 220 de Vida e 130 de Dano; ambos cabem na faixa Rara.
- C('eletric','Eletric','MAGO',220,130,3,{rarity:'RARE',stamina:4,mainAbility:'3000W',knownHp:220,knownDamage:130,fullCardArt:true,description:'Manipula eletricidade. O efeito especial de 3000W ainda não está implementado.'}),
+ C('eletric','Eletric','MAGO',220,130,3,{rarity:'RARE',stamina:4,mainAbility:'3000W',knownHp:220,knownDamage:130,illustrated:true,abilityArt:'assets/abilities/eletric.png',artLayout:{size:[2048,2048],focus:[500,715,1550,1778],target:[440,360,1220,1080]},description:'Manipula eletricidade. O efeito especial de 3000W ainda não está implementado.'}),
  // A arte de Sarck informa 530 de Vida, mas deixa o Dano indefinido. Dano e Velocidade são provisórios.
- C('sarck','Sarck','TANK',530,0,2,{rarity:'EPIC',stamina:5,mainAbility:'Steel Jaw',knownHp:530,fullCardArt:true,description:'Resiste na linha de frente. O efeito especial de Steel Jaw ainda não está implementado.'})].map(Object.freeze);
+ C('sarck','Sarck','TANK',530,0,2,{rarity:'EPIC',stamina:5,mainAbility:'Steel Jaw',knownHp:530,illustrated:true,abilityArt:'assets/abilities/sarck.png',artLayout:{size:[2048,2048],focus:[500,454,1549,1525],target:[440,350,1230,1080]},description:'Resiste na linha de frente. O efeito especial de Steel Jaw ainda não está implementado.'})].map(Object.freeze);
 G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id)||null;
 G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
   ...(Number.isFinite(c.knownHp)?{maxHp:c.knownHp}:{}),
