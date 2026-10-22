@@ -2,7 +2,7 @@
 // O combate respeita as faixas atuais de atributos e preserva valores conhecidos quando cabem nelas.
 // Campos null = ainda sem dado: não são desenhados. Edite somente este arquivo.
 // RARIDADES PROVISÓRIAS: char_02…char_08 (Comum) e char_09 (Épico) NÃO são oficiais — foram atribuídas só para o jogo ser jogável (a seleção inicial exige Comuns).
-// Troque pelas raridades reais. Opcional por personagem: copies (nº de cópias no monte, padrão 1) e color (usado só se uma Daly tiver color).
+// Troque pelas raridades reais. Opcional por personagem: copies (nº de cópias no monte, padrão 1).
 (function(G){
 G.CLASSES=['ASSASSIN','SUPPORT','FIGHTER','TANK','DESTROYER','MAGO'];
 G.RARITIES=['COMMON','RARE','EPIC','LEGENDARY','SECRET']; // ordem da frequência: Comum > Raro > Épico > Lendário > Secreto
@@ -25,16 +25,15 @@ G.getCharacterStats=c=>{
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
-G.CONFIG={version:'0.15.1 (protótipo)',
+G.CONFIG={version:'0.16.0 (protótipo)',
   handLimit:5,
-  swapStaminaCost:3,manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: custo da troca (fôlego), dano por ponto de mana, lados do dado da esquiva (d6)
-  selection:{offered:5,min:4},   // seleção inicial: sorteia 5 Comuns distintos (4 escolhas: jogador, bot, jogador, bot → 2 para cada, na frente; retaguarda vazia); basta ter 4 para começar
+  manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
+  selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
+  pacing:{botThink:1800,feedback:2200}, // tempo para ler a ação e conferir o dano antes da próxima jogada
   dalyMaeLives:3,                // vidas de cada Daly Mãe
-  // Pesos de raridade ao resolver uma Daly (configuração inicial, único lugar para editar). Raridade sem personagem elegível sai do sorteio e os pesos são recalculados.
-  dalleRarityWeights:{COMMON:60,RARE:25,EPIC:10,LEGENDARY:4,SECRET:1},
   // Recuperação quando a Daly Mãe perde uma vida e ainda tem vida: o participante escolhe UMA opção (sem misturar).
   recoveryOptions:[{id:'A',rarity:'COMMON',count:3},{id:'B',rarity:'RARE',count:2},{id:'C',rarity:'EPIC',count:1}]};
-const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,speed,art:'assets/characters/'+id+'.png',
+const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,speed,art:x.illustrated?'assets/characters/'+id+'.png':null,
   description:'Provisório.',rarity:null,stamina:10,mainAbility:null,tribute:null,...x});
 G.CHARACTERS=[
  C('sam','Sam','FIGHTER',1070,70,3,{rarity:'LEGENDARY',stamina:10,mainAbility:'Pounch',tribute:'Parry',illustrated:true,artLayout:{size:[2048,2048],focus:[1000,480,1840,1400],target:[420,330,1230,1100]},description:'Retrato composto com o banner ilustrado recebido; os atributos seguem as faixas atuais.'}),

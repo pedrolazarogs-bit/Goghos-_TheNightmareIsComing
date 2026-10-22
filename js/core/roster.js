@@ -61,46 +61,39 @@ G.refreshDaly=(s,side)=>{const d=s.daly[side],was=d.exposed;d.exposed=G.isDalyEx
   if(!d.exposed&&was)s.log.push(who(side,'Sua Daly Mãe está protegida de novo','A Daly Mãe adversária está protegida de novo'));};
 G.dalyTargetId=side=>'daly_'+side; // alvo de ataque: a Daly Mãe daquele lado
 
-// ---------- Daly: obter um personagem durante a partida ----------
-// A cor/tipo da Daly define QUEM é elegível; a raridade sai do sorteio ponderado (G.CONFIG.dalleRarityWeights), sem depender de quantos personagens há em cada monte.
-// Raridade sem elegível sai do sorteio e os pesos são recalculados. Se a carta Daly tem color, só personagens com o mesmo color; sem color, todos os disponíveis.
-G.pickDalleRarity=(weights,available,rng=Math.random)=>{
-  const list=available.map(r=>[r,weights[r]||0]).filter(([,w])=>w>0),total=list.reduce((a,[,w])=>a+w,0);
-  if(!list.length)return null;let x=rng()*total;
-  for(const [r,w] of list){if(x<w)return r;x-=w;}return list[list.length-1][0];
+// ---------- Medalha Daly: a cor determina um dos cinco montes ----------
+// O topo é o último elemento, como no monte principal (pop). Não escolhe outra carta nem sorteia outra raridade.
+G.medalBlockReason=(s,side,handCard)=>{
+  if(s.result)return 'Batalha encerrada.';
+  if(!s.deck.hands[side]?.some(c=>c.iid===handCard?.iid))return 'A medalha não está na mão deste participante.';
+  const def=G.getResetCard(handCard.id);
+  if(!def||def.type!=='DALY'||!G.RARITIES.includes(def.rarity))return 'Esta carta não é uma medalha válida.';
+  if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice)return 'Resolva a escolha pendente antes do resgate.';
+  const pile=s.piles[def.rarity],inst=pile[pile.length-1];
+  if(!inst)return 'O monte '+G.RARITY_LABEL[def.rarity]+' está vazio. Guarde a medalha ou substitua-a em uma compra futura.';
+  const live=liveOf(s,side),char=G.getCharacterById(inst.id);
+  if(live.filter(u=>u.row==='front').length>=3&&(char.class!=='SUPPORT'||live.filter(u=>u.row==='rear').length>=2))return 'Não há vaga válida para o personagem do topo. Libere espaço na formação.';
+  return '';
 };
 G.resolveDalle=(s,side,handCard)=>{
-  if(s.result)return fail('Batalha encerrada.');
-  const hand=s.deck.hands[side],hi=hand.findIndex(c=>c.iid===handCard.iid),def=G.getResetCard(handCard.id);
-  if(hi<0)return fail('A Daly não está na mão deste participante.'); // já resolvida (ou nunca comprada): nunca resolve duas vezes
-  if(!def||def.type!=='DALY')return fail('Não é uma carta Daly.');
-  const elig=r=>s.piles[r].filter(i=>{const c=G.getCharacterById(i.id);return c&&(def.color==null||c.color===def.color);});
-  const rars=G.RARITIES.filter(r=>elig(r).length);
-  const rar=G.pickDalleRarity(G.CONFIG.dalleRarityWeights,rars,s.rng);
-  if(!rar){if(hand.length>(s.deck.handLimit||5)){hand.splice(hi,1);s.deck.discard.push({...handCard,side,reason:'daly-no-character'});}s.log.push('Daly '+def.name+': nenhum personagem elegível disponível');return{ok:true,obtained:null,reason:'none'};}
-  const cands=elig(rar),inst=cands[Math.floor(s.rng()*cands.length)];
-  const teamLive=liveOf(s,side),char=G.getCharacterById(inst.id);
-  const canFront=teamLive.filter(u=>u.row==='front').length<3;
-  const canRear=char.class==='SUPPORT'&&teamLive.filter(u=>u.row==='rear').length<2;
-  if(!canFront&&!canRear){if(hand.length>(s.deck.handLimit||5)){hand.splice(hi,1);s.deck.discard.push({...handCard,side,reason:'daly-team-full'});}s.log.push('Daly '+def.name+': equipe cheia; nenhum personagem foi adicionado');return{ok:true,obtained:null,reason:'team-full'};}
-  s.piles[rar].splice(s.piles[rar].indexOf(inst),1);       // sai do monte de origem
-  hand.splice(hi,1);s.deck.discard.push({...handCard,side}); // a Daly resolvida vai para o descarte de cartas (nunca para os eliminados)
-  const u=G.addCharacterToTeam(s,side,inst);
-  return{ok:true,obtained:u.uid,name:u.name,rarity:rar};
+  const why=G.medalBlockReason(s,side,handCard);if(why)return fail(why);
+  const actor=G.getNextActor(s);if(!actor||actor.team!==side)return fail('Resgate medalhas apenas na vez da sua equipe.');
+  const def=G.getResetCard(handCard.id),pile=s.piles[def.rarity],inst=pile[pile.length-1];
+  const u=G.addCharacterToTeam(s,side,inst);if(!u)return fail('A formação está cheia.');
+  pile.pop();
+  const hand=s.deck.hands[side],hi=hand.findIndex(c=>c.iid===handCard.iid);
+  hand.splice(hi,1);s.deck.discard.push({...handCard,side,reason:'medal-redeemed'});
+  s.log.push(who(side,'Você resgatou ','O adversário resgatou ')+u.name+' com '+def.name+' · topo do monte '+G.RARITY_LABEL[def.rarity]);
+  return{ok:true,obtained:u.uid,name:u.name,rarity:def.rarity};
 };
 
 // ---------- Recuperação: a Daly Mãe perdeu uma vida e ainda tem vida ----------
 // Escolher UMA raridade: até 3 Comuns, 2 Raros ou 1 Épico. Se restarem menos cartas, recebe as restantes.
 // Não mistura raridades; só vem dos montes de personagens e nunca ressuscita eliminados.
-function recoveryEligiblePile(s,side,rarity){
-  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
-  const pile=s.piles[rarity]||[];if(frontSlots>0)return pile;
-  return pile.filter(inst=>rearSlots>0&&G.getCharacterById(inst.id)?.class==='SUPPORT');
-}
 G.recoveryOptions=(s,side=s.recovery?.side||'player')=>G.CONFIG.recoveryOptions.map(o=>{
   const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
-  const supportCount=(s.piles[o.rarity]||[]).filter(inst=>G.getCharacterById(inst.id)?.class==='SUPPORT').length;
-  const have=recoveryEligiblePile(s,side,o.rarity).length,drawCount=Math.min(o.count,have),needRear=Math.max(0,drawCount-frontSlots);
+  const pile=s.piles[o.rarity]||[],have=pile.length,drawCount=Math.min(o.count,have),needRear=Math.max(0,drawCount-frontSlots);
+  const supportCount=(drawCount?pile.slice(-drawCount):[]).filter(inst=>G.getCharacterById(inst.id)?.class==='SUPPORT').length;
   const fits=frontSlots+Math.min(rearSlots,supportCount)>=drawCount&&needRear<=rearSlots&&supportCount>=needRear;
   return{...o,have,drawCount,available:drawCount>0&&fits};
 });
@@ -119,13 +112,11 @@ G.performRecovery=(s,optionId)=>{
   if(!o)return fail('Opção de recuperação inválida.');
   if(!o.available)return fail(o.have===0?'O monte '+G.RARITY_LABEL[o.rarity]+' está vazio.':'Não há espaço na formação para essa recuperação.');
   r.status='processing';
-  const pile=s.piles[o.rarity],live=liveOf(s,r.side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
-  const needRear=Math.max(0,o.drawCount-frontSlots),supportIdx=shuffle(pile.map((inst,i)=>G.getCharacterById(inst.id)?.class==='SUPPORT'?i:-1).filter(i=>i>=0),s.rng).slice(0,needRear);
-  const chosen=new Set(supportIdx),rest=shuffle(pile.map((_,i)=>i).filter(i=>!chosen.has(i)),s.rng).slice(0,o.drawCount-supportIdx.length);
-  const orderedIdx=[...rest,...supportIdx],idx=[...orderedIdx].sort((a,b)=>b-a);
-  if(orderedIdx.length!==o.drawCount||needRear>rearSlots){r.status='open';return fail('Não há espaço suficiente na formação para essa recuperação.');}
-  const byIndex=new Map(orderedIdx.map(i=>[i,pile[i]]));idx.forEach(i=>pile.splice(i,1));const taken=orderedIdx.map(i=>byIndex.get(i));
-  const units=taken.map(inst=>G.addCharacterToTeam(s,r.side,inst)).filter(Boolean);
+  const pile=s.piles[o.rarity],taken=pile.slice(-o.drawCount).reverse();
+  // Retira exatamente o topo. Em formações parciais, reserva as vagas traseiras para os Suportes.
+  const ordered=[...taken.filter(inst=>G.getCharacterById(inst.id).class!=='SUPPORT'),...taken.filter(inst=>G.getCharacterById(inst.id).class==='SUPPORT')];
+  pile.splice(pile.length-o.drawCount,o.drawCount);
+  const units=ordered.map(inst=>G.addCharacterToTeam(s,r.side,inst));
   s.recovery=null;s.phase='battle';
   s.log.push(who(r.side,'Recuperação','Recuperação do adversário')+' '+o.id+': '+units.length+' personagem(ns) adicionado(s) · '+G.RARITY_LABEL[o.rarity]);
   return{ok:true,option:o.id,side:r.side,units:units.map(u=>u.uid)};

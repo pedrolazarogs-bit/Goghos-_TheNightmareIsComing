@@ -82,4 +82,13 @@ test('Brisa pendente também pausa a ordem antes de comprar cartas',()=>{
   assert.equal(G.getNextActor(s),null);assert.equal(s.round,round);assert.equal(s.deck.pile.length,count);
   assert(G.resolveBrisa(s,null).ok);assert(G.getNextActor(s));assert.equal(s.round,round+1);
 });
+test('recuperação retira o topo do monte embaralhado e preserva a ordem das cartas restantes',()=>{
+  const s=G.createBattleState({front:['sam'],rear:[]},{front:['eletric'],rear:[]});
+  G.eliminateUnit(s,G.getBoard(s).player.front[0]);
+  const actor=G.getNextActor(s);assert(G.performBasicAttack(s,actor.uid,'daly_player').ok);
+  const pile=s.piles.COMMON,before=[...pile],top=before.slice(-3).map(c=>c.iid);
+  const r=G.performRecovery(s,'A');assert(r.ok);
+  assert.deepEqual(new Set(r.units.map(uid=>G.getUnit(s,uid).iid)),new Set(top));
+  assert.deepEqual(pile,before.slice(0,-3));
+});
 console.log(`${passed} testes da recuperação passaram`);

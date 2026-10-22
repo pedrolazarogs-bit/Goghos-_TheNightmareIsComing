@@ -1,14 +1,13 @@
-// Seleção inicial de personagens (substitui a antiga montagem de equipe): sorteia 5 Comuns distintos e a escolha segue
+// Seleção inicial: apresenta todos os Comuns distintos e a escolha segue
 // jogador → bot → jogador → bot. No fim cada lado tem 2 personagens, ambos na linha de frente, com a retaguarda vazia.
 // Sem lógica de decisão própria, o bot escolhe aleatoriamente entre os que ainda estão disponíveis.
 (function(G){
 const fail=error=>({ok:false,error});
 const ORDER=['player','enemy','player','enemy'];
-const shuffle=(a,rng)=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 G.createSelection=(opts={})=>{
   const rng=opts.rng||Math.random,cfg=G.CONFIG.selection,pool=G.CHARACTERS.filter(c=>c.rarity==='COMMON'); // só Comuns reais; nada de outras raridades para completar
   if(pool.length<cfg.min)return fail('Não há personagens Comuns suficientes para iniciar a batalha (mínimo '+cfg.min+', cadastrados '+pool.length+').');
-  const offered=shuffle([...pool],rng).slice(0,cfg.offered).map(c=>c.id);
+  const offered=pool.map(c=>c.id);
   return{ok:true,sel:{offered,picks:{player:[],enemy:[]},step:0,rng}};
 };
 G.selectionTurn=sel=>sel.step<ORDER.length?ORDER[sel.step]:null;

@@ -32,3 +32,14 @@ As três cartas prontas foram separadas como referência. Eletric e Sarck usam s
 A recuperação agora recebe até 3 Comuns, 2 Raros ou 1 Épico, entregando as cartas restantes quando o monte tem menos. Montes vazios ficam bloqueados. A mão ocupa uma área própria para não cobrir as escolhas em telas pequenas. Decisões de mão cheia e cura da Brisa pausam a ordem antes de liberar o próximo personagem.
 
 Validação: suíte de regras, catálogo, recuperação e interface, incluindo 100 partidas simuladas; revisão no Chromium em desktop e celular.
+
+## v0.16.0 — estrutura base definida pelo criador
+
+- Seleção com todos os Comuns, marcas de cada equipe e Play na mesma tela, após as quatro escolhas.
+- Medalhas Azul/Verde/Roxa/Holográfica/Preta determinam Comum/Raro/Épico/Lendário/Secreto. Entram na mão e resgatam o topo do monte correspondente na própria vez; substituem o sorteio de raridade e a resolução imediata das Dalys.
+- Avanço automático de um Suporte quando a frente esvazia; com dois, o dono escolhe qualquer um ou ambos. Trânsito e troca de Suportes respeitam vagas e a defesa mínima, sem o antigo custo provisório de fôlego.
+- Arena com três vagas de frente e duas de retaguarda por equipe, monte principal, cinco montes de raridade, leque inferior esquerdo, registro e eliminados. O celular reserva uma área para a mão.
+- Bot com 1,8 segundo para pensar e feedback de dano por 2,2 segundos, com pausa manual. Eliminação aparece antes de a carta deixar a arena.
+- Recuperação parcial e limite de cinco cartas preservados, incluindo compras de medalhas com a mão cheia.
+
+A descrição corrente está em REGRAS.md. Item, Habilidade Especial, Loja e parte dos personagens continuam provisórios.

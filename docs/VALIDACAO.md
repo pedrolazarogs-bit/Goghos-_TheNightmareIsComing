@@ -1,25 +1,34 @@
-# Validação da v0.15.1
+# Validação da estrutura base — v0.16.0
 
-## Testes automatizados
+## Testes de regras e interface
 
-`npm test`: 23 testes aprovados, incluindo uma simulação de 100 partidas completas. Cobrem limites de formação e mão, conservação de cartas, fim de partida, recuperação incompleta, repetição de cliques e pausa para decisões pendentes.
+`npm test`: 35 testes aprovados, incluindo 100 partidas completas de integração. Foram verificados:
+
+- Todos os Comuns na seleção e quatro escolhas alternadas, sem repetição.
+- Dois personagens iniciais por equipe, limites de três na frente e dois Suportes atrás.
+- Velocidade decrescente e uma compra por equipe a cada reset, sem compra duplicada.
+- Cinco cores de medalhas, resgate do topo da raridade correta e preservação das outras pilhas.
+- Medalhas na mão, inclusive com cinco cartas e decisão de substituição ou descarte.
+- Resgate sem vaga ou com monte vazio preservando a medalha e a carta do topo.
+- Avanço automático com um Suporte e escolha de qualquer um ou ambos quando há dois.
+- Trânsito e troca de Suportes, sem esvaziar a defesa ou ganhar ataques extras.
+- Eliminação permanente, golpe de uma vida na Daly Mãe, recuperação parcial e fim de partida.
+- Conservação das instâncias de personagens e cartas em todas as partidas simuladas.
 
 ## Revisão no navegador
 
-Chromium com Playwright em resoluções de 1280×800, 390×844 e 360×640 (celulares simulados pelo tamanho da janela).
+Chromium com Playwright, em janelas de 1440×1000, 1280×800, 390×844 e 360×640. As duas últimas simulam o espaço de tela de celulares.
 
-Em cada resolução foram exercitadas as duas escolhas do caso informado:
+Foram percorridos cinco fluxos em cada resolução: seleção e arena; mão cheia seguida de resgate de medalha; eliminação com avanço de dois Suportes; ataque à Daly Mãe com recuperação de lote incompleto; e ataque com dano, pausa e retomada. Após reservar uma área para o leque no celular, os dez fluxos móveis foram repetidos, verificando também que a arena termina acima da mão e não cria rolagem horizontal.
 
-1. Eliminar os personagens do jogador e atacar sua Daly Mãe, deixando 2 Comuns, 1 Raro e 0 Épicos nos montes.
-2. Conferir os rótulos e o bloqueio apenas da opção Épico. Verificar que outro painel não intercepta o clique.
-3. Escolher Comum e receber 2 personagens; repetir em outra partida escolhendo Raro e recebendo 1.
-4. Verificar que a Daly Mãe continua com 2 vidas, fica protegida e a recuperação fecha.
-5. Forçar o reset seguinte com a mão cheia, substituir uma carta e conferir a retomada sem nova compra duplicada.
+Uma revisão adicional em 1280×800 e 360×640 percorreu a seleção por teclado, recuo de Suporte, cura de aliado, resgate de personagem, avanço e troca entre linhas. Sem exceções JavaScript ou pedidos de arquivos ausentes nesses fluxos. O feedback permanece visível antes de liberar a próxima ação.
 
-Os seis fluxos passaram sem exceções JavaScript ou rolagem horizontal. A galeria foi conferida em desktop e celular: proporções preservadas, rostos visíveis, nomes e atributos em camadas separadas. Eletric e Sarck usam retratos avulsos; Sam usa o banner ilustrado enquanto não há retrato próprio separado. Os símbolos de raio e mandíbula correspondem a Eletric e Sarck, respectivamente.
+## Imagens da revisão
 
-![Cartas montadas a partir das ilustrações](previews/cartas-v0.15.1.png)
+[Seleção no computador](previews/selecao-v0.16.0-1440.png) · [Seleção no celular](previews/selecao-v0.16.0-390.png)
 
-[Ver a escolha de recuperação no celular](previews/recuperacao-v0.15.1.png)
+![Arena no computador](previews/arena-v0.16.0-1440.png)
 
-As habilidades especiais continuam em desenvolvimento. Essa validação cobre os fluxos descritos, sem substituir testes com todas as futuras artes e regras.
+[Arena no celular](previews/arena-v0.16.0-390.png) · [Mão cheia com medalha nova](previews/mao-v0.16.0-390.png) · [Escolha dos Suportes](previews/suportes-v0.16.0-390.png)
+
+As regras estão em [REGRAS.md](REGRAS.md). Os nomes e artes provisórios e os efeitos ainda não definidos de Item/Habilidade Especial permanecem indicados no projeto.

@@ -1,6 +1,6 @@
 const assert = require('assert');
 let html = '', handler = null, timers = [];
-globalThis.document = { getElementById: () => ({ set innerHTML(v){html=v;}, get innerHTML(){return html;}, addEventListener:(t,f)=>{handler=f;}, querySelector:()=>null }) };
+globalThis.document = { getElementById: () => ({ set innerHTML(v){html=v;}, get innerHTML(){return html;}, addEventListener:(t,f)=>{if(t==='click')handler=f;}, querySelector:()=>null }) };
 globalThis.confirm = () => true; globalThis.alert = m => { throw new Error('unexpected alert: '+m); };
 globalThis.setTimeout = f => {timers.push(f);return timers.length;}; globalThis.clearTimeout = () => {timers=[];};
 let seed=1701; Math.random=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
@@ -12,8 +12,19 @@ const action=a=>{assert(html.includes(`data-act="${a}"`),`missing action ${a}`);
 const runTimers=()=>{const xs=timers.splice(0);xs.forEach(f=>f());};
 const pick=id=>click('.card',{id});
 function selectAndFight(){action('play');let ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);pick(ids[0]);runTimers();ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);pick(ids[0]);runTimers();assert(html.includes('data-act="fight"'));action('fight');}
+test('a seleção mostra todos os Comuns, somente menu, cartas e Play após quatro escolhas',()=>{
+  action('play');
+  assert.equal((html.match(/class="card /g)||[]).length,G.CHARACTERS.filter(c=>c.rarity==='COMMON').length);
+  assert(!html.includes('class="mao')&&!html.includes('deck-pile')&&!html.includes('data-act="fight"'));
+  assert.deepEqual([...html.matchAll(/data-act="([^"]+)"/g)].map(m=>m[1]),['menu']);
+  let ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);
+  pick(ids[0]);runTimers();ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);pick(ids[0]);runTimers();
+  assert.equal((html.match(/chosen-player/g)||[]).length,2);assert.equal((html.match(/chosen-enemy/g)||[]).length,2);
+  assert.deepEqual([...html.matchAll(/data-act="([^"]+)"/g)].map(m=>m[1]),['menu','fight']);
+  action('menu');
+});
 test('a tela de batalha tem leque da mão e registro de eventos, sem painel lateral de Apoio',()=>{
-  selectAndFight(); assert(html.includes('class="mao')); assert(html.includes('class="event-feed"')); assert(!html.includes('class="apoio"')); assert(html.includes('Registro da batalha'));
+  selectAndFight(); assert(html.includes('class="mao')); assert(html.includes('class="event-feed"')); assert(!html.includes('class="apoio"')); assert(html.includes('Registro da batalha'));assert.equal((html.match(/class="deck-pile /g)||[]).length,6);assert.equal((html.match(/class="formation-row /g)||[]).length,4);
 });
 test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',()=>{
   // Recomeça uma luta e faz o primeiro reset comprar uma Na Moloeira para o jogador.
@@ -50,7 +61,7 @@ test('o clique de recuperação entrega as cartas restantes e retoma a batalha',
       action('recover-'+option);assert(!state.recovery);
       assert.equal(G.getBoard(state).player.front.length,count);
       assert(!html.includes('data-act="recover-'));
-      let wait=0;while(!html.includes('data-act="attack"')&&wait++<5)runTimers();
+      let wait=0;while(!html.includes('data-act="attack"')&&wait++<20)runTimers();
       assert(html.includes('data-act="attack"'),'partida deve voltar à vez do jogador');
       assert.equal(state.daly.player.hp,2);action('menu');
     }

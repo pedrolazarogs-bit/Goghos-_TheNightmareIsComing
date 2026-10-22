@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de um jogo de cartas e batalha por turnos. A versão **0.15.1** reúne as regras das versões 0.12 e 0.14 e incorpora as artes de `kikiy.zip`, com Sam, Eletric e Sarck no catálogo. As cartas agora são montadas com as ilustrações separadas; a recuperação da Daly Mãe permite receber as cartas restantes de uma raridade, mesmo abaixo do lote máximo.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.16.0** apresenta todos os Comuns na seleção, escolhas alternadas de dois personagens por equipe, arena com seis montes visíveis, medalhas por cor e movimentação de Suportes. O leque fica no canto inferior esquerdo e a batalha pausa para mostrar o resultado de cada ataque.
 
 ## Jogar e desenvolver
 
@@ -23,8 +23,10 @@ npm test
 | `tests/` | Regras atuais e testes da interface com DOM simulado |
 | `docs/` | Regras completas e histórico das versões recebidas |
 
-[Regras e decisões provisórias](docs/REGRAS.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
+[Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
 
 ## Estado do protótipo
 
 A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. A Loja, os efeitos de Item e Habilidade Especial e parte da arte continuam em desenvolvimento. Sam, Eletric e Sarck têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; os atributos seguem as faixas da v0.14, com os valores conhecidos de Eletric e da Vida de Sarck preservados.
+
+![Arena no computador](docs/previews/arena-v0.16.0-1440.png)

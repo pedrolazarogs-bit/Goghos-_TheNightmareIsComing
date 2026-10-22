@@ -23,6 +23,7 @@ if(typeof Image!=='undefined')new Image().src=L.frame; // pré-carrega a moldura
 G.CLASS_FRAME={ // src: moldura da classe · stamina: caixa do número do Fôlego (o brilho fica 19 px mais acima) · mask: máscara de raridade própria
   MAGO:{src:'assets/cards/card_base_mago.png',stamina:[350,656,490,746]},
   ASSASSIN:{src:'assets/cards/card_base_assassin.png',stamina:[350,656,490,746],mask:'--holes-assassin'}};
+G.CLASS_ICONS={}; // Ícones avulsos podem ser cadastrados aqui quando recebidos; usa o nome da classe enquanto isso.
 if(typeof Image!=='undefined')Object.values(G.CLASS_FRAME).forEach(f=>{new Image().src=f.src;});
 Object.keys(G.CLASS_FRAME).forEach(c=>{L['stamina_'+c]=Object.assign({},L.stamina,{b:G.CLASS_FRAME[c].stamina});}); // o brilho do Fôlego fica 19 px mais acima nessa moldura
 L.mana={b:[352,828,492,968],s:76,a:'c',c:'#2c2338'};            // orbe do Tributo "Mana" (Mago)
@@ -47,12 +48,12 @@ G.cardHTML=function(u,cls='',caption=''){
   const safeName=String(u.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   return `<div class="slot"><div class="card ${cls}${dead?' dead':''}${cf?' baked':''}" data-id="${u.uid||u.id}">`
    +`<div class="rar" style="${fr};background:${bg};-webkit-mask-image:${m};mask-image:${m}"></div>`
-   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span><img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
+   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span>${u.art?`<img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
    +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">`
    +t('speed',u.speed)+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
    +t('damage',u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(u.class==='MAGO'?t('mana',mana):'')+(base.mainAbility?t('ability',base.mainAbility,Math.min(L.ability.s,152/(base.mainAbility.length*.63))):'')
    +(base.abilityArt?`<div class="ci ability-symbol" style="${box(L.abilityIcon)}"><img src="${base.abilityArt}" alt="" onerror="this.remove()"></div>`:'')
-   +`<div class="ci cls" style="${box(L.classIcon)};${fs(24)}"><span>${u.class}</span><img src="assets/classes/${u.class.toLowerCase()}.png" alt="" onload="this.previousElementSibling.remove()" onerror="this.remove()"></div>`
+   +`<div class="ci cls" style="${box(L.classIcon)};${fs(24)}"><span>${u.class}</span>${G.CLASS_ICONS[u.class]?`<img src="${G.CLASS_ICONS[u.class]}" alt="" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
    +(dead?'<em>DERROTADO</em>':'')+`</div>${caption?`<small>${caption}</small>`:''}</div>`;
 };
 })(globalThis.GOGHOS);

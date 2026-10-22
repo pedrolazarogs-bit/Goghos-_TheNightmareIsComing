@@ -33,7 +33,7 @@ test('Eletric e Sarck podem entrar na equipe por uma Daly quando houver espaço'
     const s=G.createBattleState({front:['char_02','char_03'],rear:[]},{front:['char_04','char_05'],rear:[]});
     for(const r of G.RARITIES)s.piles[r]=[];
     s.piles[rarity]=[{iid:'character-'+id,id}];
-    const card={iid:'daly-'+id,id:'daly_01'};s.deck.hands.player.push(card);
+    const card={iid:'daly-'+id,id:rarity==='RARE'?'daly_02':'daly_03'};s.deck.hands.player.push(card);
     const result=G.resolveDalle(s,'player',card);
     assert(result.ok,result.error);assert(result.obtained);
     const unit=G.getUnit(s,result.obtained);

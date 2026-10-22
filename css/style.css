@@ -39,73 +39,9 @@ button.on{background:var(--gold);color:#1a1420}.msg{min-height:1.4em;color:var(-
 h3{margin:6px 0}.info,.order,.log,.msg{margin:4px 0}.log{min-height:2.6em}
 .row .slot:hover{position:relative;z-index:30}.row .slot:hover .card{transform:scale(1.6)}.row .card,.side .card{pointer-events:none}.row .slot{cursor:pointer}.slot:has(.card.pick),.slot:has(.card.heal),.slot:has(.card.swp){cursor:pointer} /* a lupa nunca captura o mouse */ /* lupa nas telas de escolha/confirmação */
 .teams{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}button.quit{margin-top:14px;font-size:14px;opacity:.8}
-/* Cartas de Apoio (painel à esquerda) */
-.apoio{--aw:clamp(56px,min(9vw,(100vh - 130px)/5.9),104px);position:fixed;left:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;width:var(--aw);z-index:5}
-.apoio h4{margin:0;color:var(--gold);text-align:center;font-size:14px;font-weight:normal}.ap-turn{margin:0;font-size:11px;text-align:center;color:#b9aee0;line-height:1.1}.ap-turn.used{color:var(--red)}
-.ap-slot{position:relative;cursor:pointer;border:2px solid transparent;border-radius:10px;text-align:center;font-size:11px;line-height:1.2}.ap-slot small{display:block;color:#b9aee0}
-.scard{position:relative;width:100%;aspect-ratio:1002/1578;overflow:hidden;border-radius:8px;background:#2b2450;display:flex;align-items:center;justify-content:center;color:#8a7fb3;transition:transform .15s;pointer-events:none}.scard img{position:absolute;max-width:none}
-.ap-slot:hover{z-index:40}.ap-slot:hover .scard{transform:scale(2.3);transform-origin:left center} /* lupa: a arte tem texto pequeno */
-.ap-slot.sel{border-color:var(--gold);box-shadow:0 0 12px var(--gold)}.ap-slot.on{border-color:var(--grn);box-shadow:0 0 10px var(--grn)}.ap-slot.out{opacity:.4;cursor:not-allowed}
-.ap-badge{position:absolute;top:-8px;left:-8px;background:var(--gold);color:#1a1420;border-radius:12px;padding:0 7px;font-size:15px;font-weight:normal;z-index:2}
-.ap-tag{position:absolute;left:0;right:0;top:38%;background:#000c;color:#fff;font-style:normal;font-size:10px;padding:2px 0;z-index:1}.ap-slot.sel .ap-tag{color:var(--gold)}.ap-slot.on .ap-tag{color:var(--grn)}
-.ap-slot.empty{border:2px dashed var(--line);opacity:.4;aspect-ratio:1002/1578;display:flex;align-items:center;justify-content:center;cursor:default}
-.card.heal{cursor:pointer;filter:drop-shadow(0 0 8px var(--grn))}.card.heal.target{filter:drop-shadow(0 0 10px var(--gold))}
-@media (max-width:900px){.apoio{position:static;transform:none;flex-direction:row;flex-wrap:wrap;width:auto;justify-content:center;margin:6px auto;--aw:64px}.ap-slot{width:var(--aw)}.apoio h4,.ap-turn{width:100%}}
-.card.baked .ci.cls{display:none} /* a moldura dessa classe já traz o ícone desenhado */
-button.sm{min-width:0;padding:6px 14px}.manav{margin:0 6px;color:var(--gold)}
-/* Leque da mão: cartas do monte principal no canto inferior esquerdo */
-.mao{--hw:clamp(54px,7vw,86px);position:fixed;left:12px;bottom:12px;top:auto;transform:none;max-width:min(55vw,560px);display:flex;flex-direction:column;gap:5px;z-index:5}
-.mao h4{margin:0;color:var(--gold);text-align:center;font-size:14px;font-weight:normal}.mo-info{margin:0;font-size:11px;text-align:center;color:#b9aee0;line-height:1.2}
-.mo-grid{display:flex;align-items:flex-end;gap:0;padding:8px 8px 0;min-height:calc(var(--hw)*1.55)}
-.hcard{position:relative;flex:0 0 var(--hw);width:var(--hw);margin-left:-14px;border:2px solid var(--tc);border-radius:8px;font-size:9px;line-height:1.1;text-align:center;background:var(--panel);transform:translateY(8px) rotate(calc((var(--i, 0) - 2) * 3deg));transform-origin:bottom center;transition:transform .15s,margin .15s}
-.hcard em{display:block;font-style:normal;color:var(--tc);padding:1px 0}
-.hcard .scard{aspect-ratio:1002/1578;transform-origin:right center}.hcard .scard img.fill{inset:0;width:100%;height:100%;object-fit:cover}
-.hcard .scard span{font-size:8px;padding:2px;text-align:center}
-.hcard:nth-child(1){transform:translateY(14px) rotate(-10deg)}.hcard:nth-child(2){transform:translateY(6px) rotate(-5deg)}.hcard:nth-child(3){transform:translateY(0) rotate(0)}.hcard:nth-child(4){transform:translateY(6px) rotate(5deg)}.hcard:nth-child(5){transform:translateY(14px) rotate(10deg)}.hcard:hover{z-index:40;transform:translateY(-12px) scale(1.08)}.hcard:hover .scard{transform:scale(2.2);transform-origin:bottom left}
-.hcard.new{box-shadow:0 0 10px var(--tc)}
-.reset-note{margin:4px 0;color:var(--gold);font-size:14px}.reset-note small{color:#b9aee0}
-@media (max-width:900px){.mao{left:6px;bottom:6px;max-width:70vw;--hw:clamp(40px,10vw,58px)}.mao h4{font-size:12px}.mo-grid{flex-wrap:nowrap;overflow:visible}.hcard{width:var(--hw)}.mo-info{font-size:9px}}
 
-/* Formação dinâmica: cada lado tem uma linha de frente e uma retaguarda que crescem durante a partida */
-.side{--cw:clamp(46px,min(8vw,(100vh - 540px)/4),104px);margin:2px 0}
-.frow{display:flex;gap:calc(var(--cw)*.2);justify-content:center;flex-wrap:wrap;margin:2px 0}
-.side .card,.side .empty{width:var(--cw)}.empty{aspect-ratio:1218/2034;border:2px dashed var(--line);border-radius:8px;opacity:.4}
-.cell{display:flex;justify-content:center}.side .lbl{margin:2px 0;font-size:12px}.side .lbl.empty-l{opacity:.6}
-.side .cell:hover{z-index:30}.side .cell:hover .card{transform:scale(1.7)} /* lupa ao passar o mouse, já que as cartas ficam pequenas */
-.frow.rear .card{filter:brightness(.82)}.frow.rear .card.target{filter:drop-shadow(0 0 10px var(--red))}
-/* Daly Mãe (esmeralda): protegida / exposta */
-.daly{display:inline-flex;align-items:center;gap:5px;margin:4px auto;padding:4px 14px;border:2px solid var(--line);border-radius:999px;background:var(--panel);font-size:14px}
-.daly .gem{display:inline-block;width:16px;height:20px;clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);background:linear-gradient(135deg,#8dffc8,#12b866 55%,#06613a)}
-.daly .gem.off{filter:grayscale(1) brightness(.3)}.daly span{margin-left:6px}.daly b{font-weight:normal}
-.daly.protected b{color:var(--grn)}.daly.exposed{border-color:var(--red);box-shadow:0 0 10px var(--red)}.daly.exposed b{color:var(--red)}
-.daly.pick{cursor:pointer}.daly.pick:hover{border-color:var(--gold)}.daly.target{border-color:var(--gold);box-shadow:0 0 14px var(--gold)}
-/* Personagens eliminados e recuperação */
-.elim{margin-top:6px;padding:4px 10px;border-top:1px solid var(--line);font-size:13px;color:#b9aee0}.elim h4{margin:2px 0;color:var(--gold);font-weight:normal;font-size:14px}.elim p{margin:2px 0}
-.chip{display:inline-block;margin:1px 2px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--txt);opacity:.75}.chip small{color:#8a7fb3}
-.recov{margin:8px auto;padding:8px 12px;border:2px solid var(--gold);border-radius:10px;background:#1c1530;max-width:720px}.recov h3{margin:2px 0}.recov p{margin:2px 0 6px}
-.recov button:disabled{opacity:.45}.recov button small{display:block;margin-top:6px;font:11px/1.4 system-ui,sans-serif;color:#b9aee0}.recov p{font:14px/1.5 system-ui,sans-serif}.recovery-options{display:flex;flex-wrap:wrap;justify-content:center}.recovery-options button{flex:1 1 150px;margin:4px;padding:12px}
-.mo-info.piles{font-size:10px}
+.scard{position:relative;width:100%;aspect-ratio:1002/1578;overflow:hidden;border-radius:8px;background:#2b2450;display:flex;align-items:center;justify-content:center;color:#c8bce3;pointer-events:none}.scard img{position:absolute;max-width:none}
 
-/* Mão de até 5 cartas: seleção, troca de carta e ativação de Apoio comprado */
-.hcard.pickable{cursor:pointer}.hcard.pickable:hover,.hcard.selected{z-index:42;transform:translateY(-18px) scale(1.1);box-shadow:0 0 0 2px var(--gold),0 0 18px #e0b84f99}.hcard.selected{border-color:var(--gold)}
-.mao.choose-replacement{max-width:min(66vw,680px);z-index:60;background:linear-gradient(180deg,#1c1530f5,#14101ff7);border:1px solid var(--gold);border-radius:12px;padding:9px;box-shadow:0 0 24px #0009}
-.hand-choice{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 10px;margin-top:6px;padding:8px;border-top:1px solid var(--gold);background:#20172f;border-radius:8px;font-size:12px}.hand-choice strong,.hand-choice>span{grid-column:1/-1}.hand-choice strong{color:var(--gold)}.hand-choice>span{color:var(--txt)}.incoming-card{grid-column:1/-1;display:flex;justify-content:center}.incoming-card .hcard{margin:0;transform:none;box-shadow:0 0 12px var(--tc)}.hand-choice button{font-size:12px;padding:6px 9px;margin:0;grid-column:1/-1}
-/* Registro visual de eventos e efeitos de combate */
-.event-feed{max-width:760px;margin:12px auto 8px;padding:8px 12px;text-align:left;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,#211a34,#171222);box-shadow:0 5px 18px #0005}.event-feed h4{margin:0 0 5px;color:var(--gold);font-weight:normal;font-size:14px;letter-spacing:.08em;text-transform:uppercase}.battle-event{display:flex;align-items:flex-start;gap:8px;padding:4px 3px;border-top:1px solid #4b3d7838;font-family:system-ui,sans-serif;font-size:12px;line-height:1.35}.battle-event span{flex:0 0 20px;text-align:center;font-weight:800}.battle-event p{margin:0}.battle-event.attack span{color:#ff9a87}.battle-event.dodge span{color:#8fd6ff}.battle-event.defeat span{color:#ff596f}.battle-event.heal span{color:#71efb4}.battle-event.mana span{color:#b8a1ff}.battle-event.obtain span{color:var(--gold)}.battle-event.danger{color:#ff9ca4;background:#d1495b12}.event-empty{font:12px system-ui,sans-serif;color:#8a7fb3;margin:4px 0}
-.cell{position:relative}.combat-float{position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:50;white-space:nowrap;font-family:system-ui,sans-serif;font-weight:900;font-size:clamp(18px,2.5vw,30px);color:#ff756d;text-shadow:0 2px 0 #260a15,0 0 12px #ff443d;pointer-events:none;animation:combatFloat 1.05s ease-out both}.combat-float.dodge{font-size:clamp(12px,1.6vw,18px);color:#8fd6ff;text-shadow:0 2px 0 #0b263e,0 0 12px #4bbcff}.event-actor .card{animation:attackerPulse .42s ease-out both}.event-hit .card,.event-defeat .card{animation:targetFlash .72s ease-out both}.event-defeat .card{filter:grayscale(1) drop-shadow(0 0 9px #ff4a60)}.event-dodge .card{animation:dodgeFlash .6s ease-out both}
-@keyframes combatFloat{0%{opacity:0;top:42%;transform:translate(-50%,8px) scale(.65)}22%{opacity:1;transform:translate(-50%,0) scale(1.15)}100%{opacity:0;top:-12%;transform:translate(-50%,-12px) scale(.95)}}
-@keyframes attackerPulse{0%{filter:brightness(1)}35%{filter:brightness(1.8) drop-shadow(0 0 12px #ffb15e)}100%{filter:brightness(1)}}
-@keyframes targetFlash{0%{filter:brightness(1)}20%{filter:brightness(2) drop-shadow(0 0 13px #ff6565)}100%{filter:brightness(1)}}
-@keyframes dodgeFlash{0%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-3px)}100%{transform:translateX(0)}}
-@media(max-width:900px){.mao.choose-replacement{max-width:96vw;left:2vw;bottom:4px}.event-feed{max-width:100%;padding:6px}.battle-event{font-size:11px}}
+.selection{max-width:1220px;padding:20px}.selection>.row{gap:22px;margin:30px 0}.selection-pick{border:2px solid transparent;border-radius:12px;padding:12px;cursor:pointer}.selection-pick:focus-visible{outline:3px solid var(--gold)}.selection-pick.player{border-color:#60dca4;background:#12372955}.selection-pick.enemy{border-color:#f58b9a;background:#451b3255}.selection-pick[aria-disabled="true"]{cursor:default}.selection-pick .slot>small{font:600 12px/1.4 system-ui,sans-serif}.selection-pick.player .slot>small{color:#70ecb1}.selection-pick.enemy .slot>small{color:#ffa6b2}.selection .start-battle{display:block;margin:20px auto;font-size:22px;padding:14px 28px}
 
-/* A mão ocupa sua própria coluna/linha, sem cobrir escolhas ou botões da batalha. */
-.battle-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;align-items:start;gap:20px;max-width:1280px;margin:auto;padding:16px}
-.battle-board{width:100%;min-width:0;padding:0}
-.battle-layout .mao{--hw:54px;position:sticky;top:16px;left:auto;bottom:auto;width:100%;max-width:none;margin:0;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-.battle-layout .mo-grid{justify-content:center;padding:18px 8px 20px}
-.battle-layout .mao.choose-replacement{border-color:var(--gold)}
-.battle-layout .hcard:hover .scard{transform:none}
-@media(max-width:900px){.battle-layout{display:flex;flex-direction:column;padding:12px;gap:16px}.battle-layout .mao{position:static;max-width:100%;--hw:clamp(44px,12vw,64px)}.battle-layout.choosing-hand .mao{order:-1}}
-
-.daly-feedback{position:relative;display:table;margin:4px auto}.daly-feedback.event-daly-hit .daly{animation:dalyImpact .72s ease-out both}.daly-float{position:absolute;right:8px;top:-14px;color:#ff777b;font:900 16px system-ui,sans-serif;text-shadow:0 1px 4px #250914;animation:combatFloat 1s ease-out both;pointer-events:none;white-space:nowrap}.chip-hit{border-color:#ff596f!important;color:#fff;box-shadow:0 0 12px #ff596f88;animation:targetFlash .72s ease-out both}.chip-hit b{color:#ff777b;font-weight:900;margin-left:5px}@keyframes dalyImpact{0%{filter:brightness(1)}25%{filter:brightness(1.9) drop-shadow(0 0 12px #ff4a60)}100%{filter:brightness(1)}}
+.card.baked .ci.cls{display:none}

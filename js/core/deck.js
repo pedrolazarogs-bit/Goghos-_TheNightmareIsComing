@@ -1,6 +1,6 @@
 // Monte principal (Apoio, Habilidade Especial, Item, Daly): um monte único e embaralhado por batalha. Toda vez que a hierarquia de velocidade reseta
 // (nova rodada), as DUAS equipes compram 1 carta dele (jogador primeiro, depois adversário). Quando o monte acaba, ninguém compra mais.
-// Daly comprada é resolvida na hora por G.resolveDalle (js/core/roster.js) e NÃO provoca outra compra. Efeitos de Item/Habilidade ainda não existem: a mão só guarda as cartas.
+// Toda carta comprada entra na mão, inclusive medalhas. O participante decide quando resgatar uma medalha na própria vez.
 // Personagens NÃO ficam neste monte: têm 5 montes próprios, um por raridade (roster.js).
 (function(G){
 const SIDES=['player','enemy'];
@@ -25,9 +25,7 @@ G.onSpeedReset=s=>{
   SIDES.forEach(side=>{for(let i=0;i<n;i++){
     const hand=d.hands[side],wasFull=hand.length>=(d.handLimit||5),c=G.drawCard(s,side);if(!c)continue;
     const def=G.getResetCard(c.id);last[side].push(c);
-    if(def.type==='DALY'){
-      const r=G.resolveDalle(s,side,c);last.dalles.push({side,iid:c.iid,...r});
-    }else if(wasFull){
+    if(wasFull){
       // Retira a nova carta temporariamente da mão para preservar o limite enquanto o jogador decide.
       hand.pop();
       if(side==='player')d.pendingChoice={side,incoming:c,round:s.round};

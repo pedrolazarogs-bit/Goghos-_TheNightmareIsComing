@@ -24,3 +24,16 @@ G.recoveryHTML=s=>{
 // Linha com os 5 montes de personagens (disponíveis).
 G.pilesLineHTML=s=>s.piles?`Personagens: ${G.RARITIES.map(r=>lbl(r)+' '+s.piles[r].length).join(' · ')}`:'';
 })(globalThis.GOGHOS);
+
+// Montes compartilhados visíveis, em zonas separadas; cartas eliminadas nunca entram aqui.
+(function(G){
+G.pilesHTML=s=>{
+  const pile=(cls,name,count,extra='')=>`<div class="deck-pile ${cls}" aria-label="${name}: ${count} cartas"><div class="pile-back"><span>✦</span><b>${count}</b></div><strong>${name}</strong>${extra?`<small>${extra}</small>`:''}</div>`;
+  return `<aside class="arena-piles"><h3>Montes compartilhados</h3><div class="piles-grid">${pile('main-pile','Monte principal',s.deck.pile.length,'Apoio · Medalha · Habilidade · Item')}${G.RARITIES.map(r=>pile(r.toLowerCase(),G.RARITY_LABEL[r],s.piles[r].length,G.MEDAL_COLORS[r].name)).join('')}</div><p>O resgate retira a carta do topo do monte da medalha.</p><p class="enemy-hand-count">Mão adversária: ${s.deck.hands.enemy.length}/5</p><p>Descarte do monte principal: ${s.deck.discard.length}</p></aside>`;
+};
+G.formationHTML=s=>{
+  const p=s.formation;if(!p||p.side!=='player')return '';
+  const singles=p.candidates.map(uid=>`<button data-act="advance-${uid}">Avançar só ${G.getUnit(s,uid).name}</button>`).join('');
+  return `<div class="formation-choice"><h3 id="formation-title">A linha de frente precisa de defesa</h3><p>Um Suporte avançou automaticamente. Escolha qual deles ficará na frente, ou avance os dois. A batalha aguarda sua escolha.</p>${singles}<button data-act="advance-all">Avançar os dois Suportes</button></div>`;
+};
+})(globalThis.GOGHOS);

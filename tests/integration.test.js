@@ -8,7 +8,7 @@ function test(name, fn){fn();passed++;console.log('OK  '+name);}
 
 test('seleção mantém quatro escolhas distintas e retaguardas vazias',()=>{
   const choice=G.createSelection({rng:seeded(12)});
-  assert(choice.ok);assert.equal(choice.sel.offered.length,5);
+  assert(choice.ok);assert.deepEqual(choice.sel.offered,G.CHARACTERS.filter(c=>c.rarity==='COMMON').map(c=>c.id));
   const sel=choice.sel;
   while(!G.selectionDone(sel)){
     if(G.selectionTurn(sel)==='player')assert(G.selectionPick(sel,'player',G.selectionAvailable(sel)[0]).ok);
@@ -49,6 +49,7 @@ test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da
     while(!s.result&&steps++<3000){
       if(s.deck.pendingChoice){assert(G.resolveHandReplacement(s,null).ok);continue;}
       if(s.recovery){assert(G.AI.resolveRecovery(s).ok);continue;}
+      if(s.formation){assert(G.AI.resolveFormation(s).ok);continue;}
       if(s.support.pending){assert(G.resolveBrisa(s,null).ok);continue;}
       const actor=G.getNextActor(s);
       if(s.deck.pendingChoice)continue;
@@ -64,6 +65,10 @@ test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da
         if(live.length)assert(live.some(u=>u.row==='front'));
         assert(s.deck.hands[side].length<=5);
         assert(s.daly[side].hp>=0&&s.daly[side].hp<=3);
+      }
+      for(const e of s.eliminated){
+        const dead=G.getUnit(s,e.uid);assert(dead.eliminated&&dead.hp===0&&dead.row===null);
+        assert(!s.order.includes(e.uid));assert(!G.RARITIES.flatMap(r=>s.piles[r]).some(c=>c.iid===e.iid));
       }
       const characters=[...G.RARITIES.flatMap(r=>s.piles[r]),...s.units];
       assert.equal(characters.length,G.CHARACTERS.reduce((sum,c)=>sum+(c.copies||1),0));

@@ -1,119 +1,151 @@
-// Interface: apenas desenha o estado e encaminha cliques para as funções de js/core.
+// Interface: mostra o estado e encaminha as interações para as regras do núcleo.
 (function(G){
 const app=document.getElementById('app');
-const ui={mode:'menu',msg:'',sel:null,teams:null,state:null,target:null,timer:null,swapMode:false,swapPick:null,sup:null,supTarget:null,mana:0,handIid:null,lastEventShown:0};
-const show=h=>{app.innerHTML=h;};
-const btn=(act,label,dis,cls)=>`<button${cls?` class="${cls}"`:''} data-act="${act}"${dis?' disabled':''}>${label}</button>`;
+const ui={mode:'menu',state:null,sel:null,timer:null,target:null,handIid:null,healTarget:null,mana:0,move:false,swapPick:null,msg:'',notice:'',busy:false,paused:false,actor:null};
+const show=html=>{app.innerHTML=html;};
+const btn=(act,label,disabled=false,cls='')=>`<button class="${cls}" data-act="${act}"${disabled?' disabled':''}>${label}</button>`;
 const card=G.cardHTML;
-// Zera TUDO o que é temporário da partida (seleção, equipes, estado de batalha, alvos, timers) para nada vazar para a próxima.
-function wipe(){clearTimeout(ui.timer);Object.assign(ui,{sel:null,teams:null,state:null,target:null,swapMode:false,swapPick:null,sup:null,supTarget:null,handIid:null,lastEventShown:0,mana:0,msg:''});}
-function menu(){wipe();ui.mode='menu';
-  show(`<section class="center"><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="logo-fallback" hidden>GOGHOS</span></div><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',0,'big')}${btn('characters','Personagens',0,'big')}${btn('shop','Loja',0,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);}
-function characters(){ui.mode='characters';
-  const featured=G.CHARACTERS.filter(c=>c.illustrated);
-  show(`<section class="collection"><h1>Personagens</h1><p>Cartas ilustradas disponíveis no jogo. Suas habilidades especiais ainda estão em desenvolvimento.</p><div class="collection-grid">${featured.map(c=>`<article>${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${c.class}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
-// Jogar: sorteia 5 Comuns; escolhas jogador → bot → jogador → bot; só então a batalha pode começar.
-function startMatch(){wipe();ui.mode='select';const r=G.createSelection();
-  if(!r.ok){show(`<section class="center"><h2>Não foi possível iniciar a batalha</h2><p class="msg">${r.error}</p>${btn('menu','Menu')}</section>`);return;}
-  ui.sel=r.sel;selectScreen();}
-function selectScreen(){
-  ui.mode='select';const sel=ui.sel,turn=G.selectionTurn(sel),who=id=>sel.picks.player.includes(id)?'Você':sel.picks.enemy.includes(id)?'Adversário':'';
-  const status=turn==='player'?`Sua vez: escolha 1 personagem (escolha ${sel.step+1} de 4)`:turn==='enemy'?`O adversário está escolhendo… (escolha ${sel.step+1} de 4)`:'Escolhas concluídas';
-  show(`<section><h2>Seleção de personagens</h2><p class="sel-info">${status}</p><p class="msg">${ui.msg}</p><div class="row">${sel.offered.map(id=>card(G.getCharacterById(id),who(id)?'sel':'',who(id)||(turn==='player'?'Disponível':''))).join('')}</div>${btn('menu','Menu')}</section>`);}
-function selectAdvance(){clearTimeout(ui.timer);const sel=ui.sel;
-  if(G.selectionDone(sel)){confirmTeams();return;}
-  selectScreen();
-  if(G.selectionTurn(sel)==='enemy')ui.timer=setTimeout(()=>{G.selectionBotPick(sel);selectAdvance();},700);}
-function pickCharacter(id){const sel=ui.sel;if(!sel||G.selectionTurn(sel)!=='player')return;
-  const r=G.selectionPick(sel,'player',id);ui.msg=r.ok?'':r.error;if(r.ok)selectAdvance();else selectScreen();}
-function confirmTeams(){
-  ui.mode='confirm';ui.teams=G.selectionTeams(ui.sel);
-  const r=ids=>`<div class="row pv">${ids.map(i=>card(G.getCharacterById(i))).join('')}</div>`;
-  const grp=(t,title)=>`<div class="team"><h2>${title}</h2><p class="lbl">Linha de frente</p>${r(t.front)}<p class="lbl">Retaguarda: vazia</p></div>`;
-  show(`<section><div class="teams">${grp(ui.teams.player,'Sua equipe')}${grp(ui.teams.enemy,'Equipe adversária')}</div>${btn('fight','Lutar')}${btn('play','Voltar')}</section>`);}
+const toTop=()=>globalThis.scrollTo?.({top:0,behavior:'instant'});
+const clearPick=()=>{ui.target=null;ui.handIid=null;ui.healTarget=null;ui.mana=0;ui.move=false;ui.swapPick=null;};
+function wipe(){clearTimeout(ui.timer);clearPick();Object.assign(ui,{state:null,sel:null,msg:'',notice:'',busy:false,paused:false,actor:null});}
+function menu(){wipe();ui.mode='menu';show(`<section class="center"><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming"></div><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',false,'big')}${btn('characters','Personagens',false,'big')}${btn('shop','Loja',false,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);toTop();}
+function characters(){ui.mode='characters';show(`<section class="collection"><h1>Personagens</h1><p>Cartas ilustradas disponíveis no jogo. Suas habilidades especiais ainda estão em desenvolvimento.</p><div class="collection-grid">${G.CHARACTERS.filter(c=>c.illustrated).map(c=>`<article>${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${c.class}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
+function startMatch(){wipe();ui.mode='select';const r=G.createSelection();if(!r.ok){show(`<section><p>${r.error}</p>${btn('menu','Menu')}</section>`);return;}ui.sel=r.sel;selectionScreen();toTop();}
+function selectionScreen(){
+  const sel=ui.sel,turn=G.selectionTurn(sel);
+  const cards=sel.offered.map(id=>{
+    const side=sel.picks.player.includes(id)?'player':sel.picks.enemy.includes(id)?'enemy':null;
+    const label=side?`${side==='player'?'Você':'Bot'} · ${sel.picks[side].indexOf(id)+1}ª escolha`:turn==='player'?'Sua vez · escolher':turn==='enemy'?'Bot escolhendo…':'Disponível';
+    return `<div class="selection-pick ${side||''}" role="button" tabindex="${turn==='player'&&!side?0:-1}" data-character="${id}" aria-label="${G.getCharacterById(id).name}: ${label}" aria-disabled="${!!side||turn!=='player'}">${card(G.getCharacterById(id),side?'sel chosen-'+side:'',label)}</div>`;
+  }).join('');
+  show(`<section class="selection" aria-label="Seleção alternada de personagens Comuns">${btn('menu','Voltar ao menu')}<div class="row">${cards}</div>${G.selectionDone(sel)?btn('fight','Play · começar batalha',false,'start-battle'):''}</section>`);
+}
+function selectAdvance(){clearTimeout(ui.timer);selectionScreen();if(G.selectionTurn(ui.sel)==='enemy')ui.timer=setTimeout(()=>{G.selectionBotPick(ui.sel);selectAdvance();},1000);}
+function pickCharacter(id){if(!ui.sel||G.selectionTurn(ui.sel)!=='player')return;const r=G.selectionPick(ui.sel,'player',id);if(r.ok)selectAdvance();}
+function selectedHand(){return ui.state?.deck.hands.player.find(c=>c.iid===ui.handIid)||null;}
+function handDetail(mine){
+  const inst=selectedHand();if(!inst)return '';
+  const s=ui.state,def=G.getResetCard(inst.id);
+  let detail=`<div class="hand-detail"><strong>${def.name}</strong><p>${def.description}</p>`;
+  if(def.type==='DALY'){
+    const why=G.medalBlockReason(s,'player',inst);
+    detail+=`${why?`<p class="msg">${why}</p>`:''}${btn('redeem','Resgatar personagem '+G.RARITY_LABEL[def.rarity],!mine||!!why)}`;
+  }else if(def.type==='SUPPORT'){
+    const support=G.getSupportCard(def.id),heal=support.effect==='heal';
+    detail+=`${heal?'<p>Escolha uma carta aliada ferida na arena.</p>':''}${btn('usehand','Usar '+def.name,!mine||(heal&&!ui.healTarget)||s.support.usedTurn===s.turn)}`;
+  }else detail+='<p>O efeito desta carta ainda está em desenvolvimento. Ela pode ser substituída quando a mão encher.</p>';
+  if(!mine)detail+='<small>Você pode usar cartas na vez da sua equipe.</small>';
+  return detail+'</div>';
+}
+function combatMessage(s){
+  const e=s.lastEvent;if(!e)return '<div class="combat-message idle">Os personagens mais rápidos agem primeiro.</div>';
+  const outcome=e.type==='dodge'?'ESQUIVOU':`−${e.damage} ${e.type==='daly-hit'?'VIDA DA DALY MÃE':'DE VIDA'}`;
+  return `<div class="combat-message ${ui.busy?'playing':''}" role="status"><span>${e.actorName} <b>→</b> ${e.targetName}</span><strong>${outcome}</strong><small>${e.beforeHp} → ${e.afterHp}${e.type==='defeat'?' · eliminado permanentemente':''}</small></div>`;
+}
 function render(actor){
-  ui.mode='battle';
-  const s=ui.state,pd=s.support.pending,rc=s.recovery,hc=s.deck.pendingChoice,free=!s.result&&!pd&&!rc&&!hc,mine=free&&!!actor&&actor.team==='player',mage=mine&&actor.class==='MAGO',B=G.getBoard(s);
+  const scroll=app.querySelector('.arena')?.scrollTop||0;
+  ui.mode='battle';const s=ui.state,choice=s.deck.pendingChoice,pd=s.support.pending;
+  const free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!ui.busy&&!ui.paused;
+  const mine=free&&actor?.team==='player',mage=mine&&actor.class==='MAGO';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
-  const selDef=ui.sup!=null&&s.support.slots[ui.sup]?G.getSupportCard(s.support.slots[ui.sup].id):null;
-  const handInst=ui.handIid?s.deck.hands.player.find(c=>c.iid===ui.handIid):null,handReset=handInst?G.getResetCard(handInst.id):null,handDef=handReset&&handReset.type==='SUPPORT'?G.getSupportCard(handInst.id):null,activeDef=handDef||selDef,needT=!!activeDef&&activeDef.effect==='heal';
-  const freshEvent=!!(s.lastEvent&&s.lastEvent.id!==ui.lastEventShown);
-  const eventFor=u=>freshEvent&&s.lastEvent.targetUid===u.uid?s.lastEvent:null;
-  const healable=u=>u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((needT&&mine)||(pd&&pd.candidates.includes(u.uid)));
-  const cell=u=>{const ev=eventFor(u),fx=ev?`<span class="combat-float ${ev.type}">${ev.type==='dodge'?'ESQUIVA':ev.type==='defeat'?'−'+ev.damage:'−'+ev.damage}</span>`:'';return `<div class="cell ${ev?'event-'+ev.type:''} ${freshEvent&&s.lastEvent.actorUid===u.uid?'event-actor':''}">${card(u,(actor&&u.uid===actor.uid?'active ':'')+(u.uid===ui.target||u.uid===ui.swapPick||u.uid===ui.supTarget?'target ':'')+(ui.swapMode&&u.team==='player'&&u.hp>0&&G.canTransit(u)?'swp ':'')+(mine&&u.team==='enemy'&&u.row==='front'&&u.hp>0?'pick ':'')+(healable(u)?'heal':''),(u.row==='rear'?'Retag. ':'Vida ')+u.hp+'/'+u.maxHp)}${fx}</div>`;};
-  const frow=(list,name)=>list.length?`<p class="lbl">${name}</p><div class="frow">${list.map(cell).join('')}</div>`:`<p class="lbl empty-l">${name}: vazia</p>`;
-  const daly=side=>{const pick=mine&&side==='enemy'&&G.isDalyExposed(s,'enemy'),hit=freshEvent&&s.lastEvent.targetUid===G.dalyTargetId(side);return `<div class=\"daly-feedback${hit?' event-daly-hit':''}\">${G.dalyHTML(s,side,{pick,target:ui.target===G.dalyTargetId(side)})}${hit?`<span class=\"daly-float\">−1 VIDA</span>`:''}</div>`;};
-  // Adversário: retaguarda acima da frente. Jogador: frente acima da retaguarda.
-  const side=t=>{const b=B[t];return `<div class="side ${t}">${daly(t)}${t==='enemy'?frow(b.rear,'Retaguarda')+frow(b.front,'Linha de frente'):frow(b.front,'Linha de frente')+frow(b.rear,'Retaguarda')}</div>`;};
-  const order=s.order.map(id=>{const u=G.getUnit(s,id);return `<span class="${s.acted[id]?'done':''}">${u.name}</span>`;}).join(' › ');
-  const dg=mine&&ui.target&&actor?G.dodgeInfo(actor,G.getUnit(s,ui.target)):null,onDaly=ui.target===G.dalyTargetId('enemy');
-  const info=s.result?'Fim da batalha':hc?`Sua mão está cheia (${s.deck.hands.player.length}/${s.deck.handLimit}). Substitua uma carta ou mantenha as atuais.`:rc?(rc.side==='player'?'Sua Daly Mãe perdeu uma vida: escolha a recuperação':'O adversário está escolhendo a recuperação…'):pd?`Brisa: um aliado foi eliminado! Escolha outro aliado ferido para curar +${pd.value}`:mine?(ui.swapMode?'Troca: escolha um Suporte da retaguarda e um da linha de frente':selDef?`Apoio selecionado: ${selDef.name}${needT?' — escolha o aliado a curar':' — pronto para usar'}`:`Vez de ${actor.name}: escolha um alvo${B.enemy.front.length?' da linha de frente':' — a Daly Mãe adversária está exposta'}${mage&&!onDaly?` · Dano previsto: ${G.previewDamage(s,actor,ui.mana)}`:''}${onDaly?' · cada ataque à Daly Mãe tira exatamente 1 vida':''}${dg?` · Esquiva do alvo: tirar 1 a ${dg.diff} no dado (d${dg.sides})`:''}`):actor?`Vez de ${actor.name} (adversário)…`:'…';
-  const btns=pd?btn('brisaskip','Pular a cura'):mine?btn('attack','Confirmar ataque',!ui.target||ui.swapMode)+btn('swap',ui.swapMode?'Cancelar troca':`Trocar posição (−${G.CONFIG.swapStaminaCost} fôlego)`,!ui.swapMode&&!G.getSwapPairs(s,'player').length)+(selDef?btn('usesup','Usar '+selDef.name,needT&&!ui.supTarget):'')+(handDef?btn('usehand','Usar '+handDef.name,needT&&!ui.supTarget||s.support.usedTurn===s.turn):'')+(mage&&actor.mana>0&&!onDaly?btn('mana-','−',ui.mana<=0,'sm')+`<span class="manav">Mana ${ui.mana}/${actor.mana}</span>`+btn('mana+','+',ui.mana>=actor.mana,'sm'):''):'';
-  const logs=s.log.slice(-5).map(x=>{const low=x.toLowerCase(),kind=low.includes('esquivou')?'dodge':low.includes('eliminado')||low.includes('derrotada')?'defeat':low.includes('recuperou')||low.includes('cura')?'heal':low.includes('mana')?'mana':low.includes('causou')||low.includes('atacou')?'attack':low.includes('obteve')?'obtain':low.includes('exposta')?'danger':'event';const ico={attack:'⚔',dodge:'↗',defeat:'✦',heal:'✚',mana:'✧',obtain:'★',danger:'!',event:'·'}[kind];return `<div class="battle-event ${kind}"><span>${ico}</span><p>${x}</p></div>`;}).join('');
-  show(`<div class="battle-layout${hc?' choosing-hand':''}"><section class="battle-board">${G.recoveryHTML(s)}<h3>Adversários</h3>${side('enemy')}<h3>Sua equipe</h3>${side('player')}${G.resetNoticeHTML(s)}<p class="info">Rodada ${s.round} · ${info}</p><p class="order">Ordem: ${order}</p><div class="event-feed"><h4>Registro da batalha</h4>${logs||'<p class="event-empty">A batalha ainda não teve ações.</p>'}</div><p class="msg">${ui.msg}</p>${btns}${G.eliminatedHTML(s,freshEvent)}${s.result?'':btn('menu','Sair da batalha',0,'quit')}</section>${G.handPanelHTML(s,ui.handIid)}</div>`);
-  if(s.lastEvent)ui.lastEventShown=s.lastEvent.id;}
-function resetSel(){ui.mana=0;ui.target=null;ui.swapMode=false;ui.swapPick=null;ui.sup=null;ui.supTarget=null;ui.handIid=null;ui.lastEventShown=0;ui.msg='';}
-// Clique numa carta de apoio: seleciona/desmarca (o motivo da recusa vem das regras do núcleo).
-function supClick(i){
-  const s=ui.state;if(!s||s.result)return;const actor=G.getNextActor(s);
-  if(ui.sup===i){ui.sup=null;ui.supTarget=null;ui.msg='';render(actor);return;}
-  const why=G.supportBlockReason(s,i);if(why){ui.msg=why;render(actor);return;}
-  ui.sup=i;ui.supTarget=null;ui.swapMode=false;ui.swapPick=null;ui.msg='';render(actor);
+  const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
+  const e=ui.busy?s.lastEvent:null,B=G.getBoard(s);
+  const cell=u=>{
+    const hit=e?.targetUid===u.uid,acting=e?.actorUid===u.uid,heal=u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((mine&&support?.effect==='heal')||pd?.candidates.includes(u.uid));
+    const cls=(actor?.uid===u.uid&&!ui.busy?'active ':'')+([ui.target,ui.healTarget,ui.swapPick].includes(u.uid)?'target ':'')+(mine&&u.team==='enemy'&&u.row==='front'?'pick ':'')+(heal?'heal ':'')+(mine&&ui.move&&u.team==='player'&&G.canTransit(u)?'swp':'');
+    const fx=hit?`<span class="combat-float ${e.type}">${e.type==='dodge'?'ESQUIVA':'−'+e.damage}</span>`:'';
+    return `<div class="cell ${hit?'event-'+e.type:''} ${acting?'event-actor':''}">${card(u,cls,`Vida ${u.hp}/${u.maxHp} · V${u.speed}`)}${fx}<div class="hp-track" aria-hidden="true"><i style="--before:${(hit?e.beforeHp:u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></div></div>`;
+  };
+  const row=(side,where)=>{
+    const live=B[side][where],list=[...live],max=where==='front'?3:2;
+    if(e?.type==='defeat'&&e.targetTeam===side&&e.targetRow===where)list.push(G.getUnit(s,e.targetUid));
+    const caption=where==='front'?`Linha de frente · ${live.length}/3`:`Retaguarda · ${live.length}/2 · só Suportes`;
+    return `<div class="formation-row ${where}"><p class="lbl">${caption}</p><div class="frow">${list.map(cell).join('')}${Array.from({length:Math.max(0,max-list.length)},()=>`<div class="slot empty" aria-label="Vaga da ${where==='front'?'linha de frente':'retaguarda'}"><span>${where==='front'?'Defesa':'Suporte'}</span></div>`).join('')}</div></div>`;
+  };
+  const side=t=>{
+    const hit=e?.targetUid===G.dalyTargetId(t);
+    return `<div class="side ${t}"><h3>${t==='player'?'Sua equipe':'Equipe adversária'}</h3><div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}</div>${t==='enemy'?row(t,'rear')+row(t,'front'):row(t,'front')+row(t,'rear')}</div>`;
+  };
+  const order=s.order.map(uid=>{const u=G.getUnit(s,uid);return `<span class="${s.acted[uid]?'done':actor?.uid===uid?'current':''}"><b>${u.speed}</b> ${u.name}</span>`;}).join('<i>›</i>');
+  let info=ui.busy?'Confira o resultado do ataque. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
+  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
+  if(mage&&ui.target!=='daly_enemy')actions+=btn('mana-','− Mana',ui.mana<=0)+`<span>Mana no ataque: ${ui.mana}/${actor.mana}</span>`+btn('mana+','+ Mana',ui.mana>=actor.mana);
+  if(mine&&ui.target){const target=G.getUnit(s,ui.target),dodge=target&&G.dodgeInfo(actor,target);info+=ui.target==='daly_enemy'?' A Daly Mãe perderá exatamente 1 vida.':` Dano previsto: ${G.previewDamage(s,actor,ui.mana)}.${dodge?' O alvo pode esquivar.':''}`;}
+  const logs=s.log.slice(-8).map(line=>`<div class="battle-event"><span>·</span><p>${line}</p></div>`).join('');
+  const pendingPanel=!ui.busy&&(s.recovery?.side==='player'?G.recoveryHTML(s):s.formation?.side==='player'?G.formationHTML(s):'');
+  const modal=pendingPanel?`<div class="choice-overlay"><section class="choice-dialog" role="dialog" aria-modal="true" aria-labelledby="${s.recovery?'recovery-title':'formation-title'}">${pendingPanel}${ui.msg?`<p class="msg">${ui.msg}</p>`:''}</section></div>`:'';
+  show(`<main class="arena"><aside class="arena-left"><div class="event-feed"><h4>Registro da batalha</h4>${logs||'<p>Os dois primeiros personagens de cada equipe estão na frente.</p>'}</div>${G.eliminatedHTML(s,!!e)}</aside><section class="battle-board"><header class="arena-header"><span>Rodada ${s.round}</span>${btn('pause',ui.paused?'Continuar batalha':'Pausar')}${btn('menu','Voltar ao menu')}</header><div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div>${side('enemy')}${combatMessage(s)}${side('player')}<div class="speed-order"><h4>Hierarquia de velocidade</h4><div class="order">${order}</div><p>Maior → menor. No reset, cada equipe compra 1 carta.</p></div>${G.resetNoticeHTML(s)}</section>${G.pilesHTML(s)}${G.handPanelHTML(s,ui.handIid,handDetail(mine))}${modal}</main>`);
+  const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
+  if(arena&&dock){arena.style.setProperty('--hand-height',Math.ceil(dock.getBoundingClientRect().height+24)+'px');arena.scrollTop=scroll;}
+}
+function feedback(){
+  clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);
+  ui.timer=setTimeout(()=>{ui.busy=false;step();},G.CONFIG.pacing.feedback);
 }
 function step(){
-  const s=ui.state;clearTimeout(ui.timer);const actor=G.getNextActor(s);render(actor);
-  if(s.result)ui.timer=setTimeout(result,1000);
-  else if(s.deck.pendingChoice){/* pausa até o jogador substituir ou descartar a carta nova */}
-  else if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},800);} // a do jogador espera o clique
-  else if(s.support.pending){/* aguardando o jogador escolher a cura da Brisa */}
-  else if(actor&&actor.team==='enemy')ui.timer=setTimeout(()=>{G.AI.takeTurn(s,actor);ui.target=null;step();},800);
+  clearTimeout(ui.timer);const s=ui.state;if(!s)return;
+  const actor=G.getNextActor(s);ui.actor=actor;render(actor);
+  if(s.result){ui.timer=setTimeout(result,G.CONFIG.pacing.feedback);return;}
+  if(ui.paused)return;
+  if(s.deck.pendingChoice)return;
+  if(s.formation){if(s.formation.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveFormation(s);step();},G.CONFIG.pacing.botThink);return;}
+  if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},G.CONFIG.pacing.botThink);return;}
+  if(s.support.pending)return;
+  if(actor?.team==='enemy')ui.timer=setTimeout(()=>{
+    const redeemed=G.AI.redeemMedals(s,'enemy');
+    const attack=()=>{const r=G.AI.takeTurn(s,actor);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}};
+    if(redeemed.length){ui.notice='O adversário resgatou '+redeemed.map(r=>r.name).join(', ')+'.';render(actor);ui.timer=setTimeout(attack,G.CONFIG.pacing.botThink);}else attack();
+  },G.CONFIG.pacing.botThink);
 }
-// Resultado: quem venceu, quem perdeu e qual Daly Mãe caiu. "Menu" e "Nova partida" limpam todo o estado temporário.
-function result(){ui.mode='result';const f=ui.state.final,w=f.winner==='player',d=f.daly;
-  show(`<section class="center"><h1>${w?'VITÓRIA':'DERROTA'}</h1><p>${w?'Você venceu':'O adversário venceu'} · ${f.loser==='player'?'a sua Daly Mãe':'a Daly Mãe adversária'} foi derrotada.</p><p>Daly Mãe — você ${d.player}/${G.CONFIG.dalyMaeLives} · adversário ${d.enemy}/${G.CONFIG.dalyMaeLives}</p>${btn('play','Nova partida')}${btn('menu','Menu')}</section>`);}
-function cardOf(t){const c=t.closest('.card');if(c)return c;const sl=t.closest('.slot');return sl?sl.querySelector('.card'):null;} // cartas não recebem o mouse (por causa da lupa): o clique chega no .slot
-function swapClick(s,actor,u){
-  if(!ui.swapPick){
-    if(!G.canTransit(u)||u.hp<=0){ui.msg='Somente Suportes podem trocar de posição.';render(actor);return;}
-    ui.swapPick=u.uid;ui.msg='';render(actor);return;}
-  if(ui.swapPick===u.uid){ui.swapPick=null;render(actor);return;}
-  const r=G.performSwap(s,ui.swapPick,u.uid);ui.swapPick=null;ui.msg=r.ok?'':r.error;
-  if(r.ok){ui.swapMode=false;step();}else render(actor);
-}
-app.addEventListener('click',e=>{
-  const b=e.target.closest('[data-act]'),c=cardOf(e.target),sp=e.target.closest('[data-sup]'),dl=e.target.closest('[data-daly]'),handCard=e.target.closest('[data-hand]');
-  if(b){if(b.disabled)return;const a=b.dataset.act;
-    if(a==='menu'){if(ui.mode==='battle'&&ui.state&&!ui.state.result&&!confirm('Sair da batalha atual? O progresso dela será perdido.'))return;menu();} // menu() limpa o estado temporário
-    else if(a==='play')startMatch();
-    else if(a==='characters')characters();
-    else if(a==='shop')show(G.shopHTML());
-    else if(a==='fight'){const t=ui.teams;ui.state=G.createBattleState(t.player,t.enemy,[]);resetSel();step();}
-    else if(a==='swap'){ui.swapMode=!ui.swapMode;ui.swapPick=null;ui.sup=null;ui.supTarget=null;ui.handIid=null;ui.msg='';ui.target=null;render(G.getNextActor(ui.state));}
-    else if(a==='attack'){const s=ui.state,actor=G.getNextActor(s);if(!actor||actor.team!=='player'){step();return;}const r=G.performBasicAttack(s,actor.uid,ui.target,ui.mana);ui.msg=r.ok?'':r.error;ui.mana=0;ui.target=null;ui.sup=null;ui.supTarget=null;ui.handIid=null;step();}
-    else if(a==='usesup'){const s=ui.state,r=G.performSupport(s,ui.sup,ui.supTarget);ui.msg=r.ok?'':r.error;if(r.ok){ui.sup=null;ui.supTarget=null;}render(G.getNextActor(s));}
-    else if(a==='usehand'){const s=ui.state,r=G.performHandSupport(s,ui.handIid,ui.supTarget);ui.msg=r.ok?'':r.error;if(r.ok){ui.handIid=null;ui.supTarget=null;}render(G.getNextActor(s));}
-    else if(a==='keep-new'){const s=ui.state,r=G.resolveHandReplacement(s,null);ui.msg=r.ok?'':'Não foi possível descartar a carta nova.';ui.handIid=null;step();}
-    else if(a==='brisaskip'){G.resolveBrisa(ui.state,null);step();}
-    else if(a.startsWith('recover-')){const s=ui.state;if(s.recovery?.side!=='player')return;const r=G.performRecovery(s,a.slice(8));ui.msg=r.ok?'':r.error;if(r.ok){resetSel();step();}else render(G.getNextActor(s));}
-    else if(a==='mana+'||a==='mana-'){ui.mana+=a==='mana+'?1:-1;render(G.getNextActor(ui.state));}
-    return;}
+function result(){ui.mode='result';const f=ui.state.final;show(`<section class="center"><h1>${f.winner==='player'?'VITÓRIA':'DERROTA'}</h1><p>${f.loser==='player'?'Sua Daly Mãe':'A Daly Mãe adversária'} perdeu todas as vidas.</p><p>Você: ${f.daly.player}/3 · adversário: ${f.daly.enemy}/3</p>${btn('play','Nova partida')}${btn('menu','Voltar ao menu')}</section>`);}
+function cardOf(t){const c=t.closest('.card');if(c)return c;return t.closest('.slot')?.querySelector('.card')||null;}
+function finishChoice(r){ui.msg=r.ok?'':r.error;ui.notice=r.ok?ui.state.log.at(-1):'';if(r.ok)clearPick();step();}
+app.addEventListener('click',event=>{
+  const t=event.target,b=t.closest('[data-act]'),hand=t.closest('[data-hand]'),c=cardOf(t),daly=t.closest('[data-daly]');
+  if(b){
+    if(b.disabled)return;const a=b.dataset.act;
+    if(a==='menu'){if(ui.mode==='battle'&&!ui.state.result&&!confirm('Sair da batalha atual? O progresso será perdido.'))return;menu();return;}
+    if(a==='play'){startMatch();return;}
+    if(a==='characters'){characters();return;}
+    if(a==='shop'){show(G.shopHTML());return;}
+    if(a==='fight'){const teams=G.selectionTeams(ui.sel);if(!teams)return;ui.state=G.createBattleState(teams.player,teams.enemy);clearPick();step();toTop();return;}
+    if(ui.mode!=='battle')return;const s=ui.state;
+    if(a==='pause'){ui.paused=!ui.paused;if(ui.busy)render(null);else step();return;}
+    if(ui.busy)return;
+    if(a==='keep-new'){finishChoice(G.resolveHandReplacement(s,null));return;}
+    if(a.startsWith('recover-')){if(s.recovery?.side==='player')finishChoice(G.performRecovery(s,a.slice(8)));return;}
+    if(a.startsWith('advance-')){if(s.formation?.side==='player')finishChoice(G.resolveFrontLine(s,a==='advance-all'?[...s.formation.candidates]:[a.slice(8)]));return;}
+    if(a==='brisaskip'){finishChoice(G.resolveBrisa(s,null));return;}
+    const actor=G.getNextActor(s);if(ui.paused||actor?.team!=='player')return;
+    if(a==='attack'){const r=G.performBasicAttack(s,actor.uid,ui.target,ui.mana);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}return;}
+    if(a==='move'){ui.move=!ui.move;ui.target=null;ui.handIid=null;ui.healTarget=null;ui.swapPick=null;ui.msg='';render(actor);return;}
+    if(a==='redeem'){const inst=selectedHand();if(inst)finishChoice(G.resolveDalle(s,'player',inst));return;}
+    if(a==='usehand'){finishChoice(G.performHandSupport(s,ui.handIid,ui.healTarget));return;}
+    if(a==='mana+'||a==='mana-'){ui.mana=Math.max(0,Math.min(actor.mana,ui.mana+(a==='mana+'?1:-1)));render(actor);return;}
+    return;
+  }
   if(ui.mode==='select'){if(c)pickCharacter(c.dataset.id);return;}
-  if(ui.mode!=='battle')return;
-  const s=ui.state;
-  if(s.deck.pendingChoice){if(handCard){const r=G.resolveHandReplacement(s,handCard.dataset.hand);ui.msg=r.ok?'':r.error;step();}return;}
-  if(sp){supClick(+sp.dataset.sup);return;}
-  const actor=G.getNextActor(s),canPick=!s.result&&!s.recovery&&!s.support.pending&&!s.deck.pendingChoice&&actor&&actor.team==='player';
-  if(handCard){const inst=s.deck.hands.player.find(x=>x.iid===handCard.dataset.hand),rd=inst&&G.getResetCard(inst.id);if(inst&&rd&&rd.type==='SUPPORT'&&canPick){ui.handIid=ui.handIid===inst.iid?null:inst.iid;ui.sup=null;ui.supTarget=null;ui.swapMode=false;ui.msg='';render(actor);}return;}
-  if(dl){ // Daly Mãe adversária: só é alvo quando está exposta
-    if(canPick&&!ui.swapMode&&dl.dataset.daly==='enemy'&&G.isDalyExposed(s,'enemy')){ui.target=G.dalyTargetId('enemy');ui.mana=0;ui.msg='';render(actor);}
-    return;}
-  if(!c)return;const id=c.dataset.id,u=G.getUnit(s,id),pd=s.support.pending;
-  if(pd){if(u&&pd.candidates.includes(u.uid)){G.resolveBrisa(s,u.uid);step();}return;}
-  const chosenSupport=ui.handIid?(G.getResetCard((s.deck.hands.player.find(x=>x.iid===ui.handIid)||{}).id||'')?.type==='SUPPORT'?G.getSupportCard((s.deck.hands.player.find(x=>x.iid===ui.handIid)||{}).id):null):ui.sup!=null&&s.support.slots[ui.sup]?G.getSupportCard(s.support.slots[ui.sup].id):null;
-  if((ui.sup!=null||ui.handIid!=null)&&!ui.swapMode&&chosenSupport&&chosenSupport.effect==='heal'&&u&&u.team==='player'){
-    if(u.hp>0&&u.hp<u.maxHp){ui.supTarget=u.uid;ui.msg='';}else ui.msg='Escolha um aliado ferido.';render(actor);return;}
-  if(ui.swapMode){if(canPick&&u&&u.team==='player')swapClick(s,actor,u);return;}
-  if(canPick&&u&&u.team==='enemy'&&u.row==='front'&&u.hp>0){ui.target=id;render(actor);}
+  if(ui.mode!=='battle')return;const s=ui.state;
+  if(ui.busy)return;
+  if(s.deck.pendingChoice){if(hand)finishChoice(G.resolveHandReplacement(s,hand.dataset.hand));return;}
+  const actor=G.getNextActor(s),mine=!ui.paused&&!s.recovery&&!s.formation&&!s.support.pending&&actor?.team==='player';
+  if(hand){ui.handIid=ui.handIid===hand.dataset.hand?null:hand.dataset.hand;ui.healTarget=null;ui.move=false;ui.msg='';render(actor);return;}
+  const u=c?G.getUnit(s,c.dataset.id):null;
+  if(s.support.pending){if(u&&s.support.pending.candidates.includes(u.uid))finishChoice(G.resolveBrisa(s,u.uid));return;}
+  if(!mine)return;
+  if(daly&&daly.dataset.daly==='enemy'&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.move=false;render(actor);return;}
+  if(!u)return;
+  const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
+  if(support?.effect==='heal'&&u.team==='player'){
+    ui.healTarget=u.hp>0&&u.hp<u.maxHp?u.uid:null;ui.msg=ui.healTarget?'':'Escolha um aliado ferido.';render(actor);return;
+  }
+  if(ui.move&&u.team==='player'){
+    const r=ui.swapPick&&ui.swapPick!==u.uid?G.performSwap(s,ui.swapPick,u.uid):G.performTransit(s,u.uid);
+    ui.msg=r.ok?'':r.error;
+    if(r.ok){ui.swapPick=null;ui.notice=s.log.at(-1);step();}else{ui.swapPick=G.canTransit(u)?u.uid:null;render(actor);}return;
+  }
+  if(u.team==='enemy'&&u.row==='front'&&u.hp>0){ui.target=u.uid;render(actor);}
 });
+app.addEventListener('keydown',event=>{if(ui.mode==='select'&&(event.key==='Enter'||event.key===' ')){const c=event.target.closest('[data-character]');if(c){event.preventDefault();pickCharacter(c.dataset.character);}}});
 menu();
 })(globalThis.GOGHOS);
