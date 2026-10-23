@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.23.0
+# Estrutura base do GOGHOS — v0.23.1
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -59,7 +59,7 @@ Personagens derrotados ficam na área **Personagens Eliminados**, identificados 
 
 Cada Daly Mãe começa com três vidas. Fica exposta somente quando sua equipe não tem personagens vivos na frente nem atrás. Cada ataque válido à Daly Mãe tira exatamente uma vida, independentemente do dano do atacante. Não usa bônus de dano nem mana.
 
-Enquanto ainda tiver vida, o dono escolhe uma única recuperação: até 3 Comuns, até 2 Raros ou até 1 Épico. Recebe cartas do topo dessa raridade. Se restarem menos, recebe as restantes; monte vazio fica bloqueado. Exemplo: com 2 Comuns, 1 Raro e 0 Épicos, escolhe os 2 Comuns OU o 1 Raro. Não mistura raridades e não ressuscita eliminados.
+Enquanto ainda tiver vida, o dono escolhe uma única recuperação: **até 2 Épicos OU até 3 Raros**. Recebe cartas do topo da raridade escolhida. Se restarem menos, recebe as restantes; monte vazio fica bloqueado. Exemplo: com 1 Épico e 1 Raro disponíveis, pode escolher o 1 Épico OU o 1 Raro. Comuns não fazem parte desta recuperação. Não mistura raridades e não ressuscita eliminados. A mesma regra vale para o bot.
 
 A recuperação mantém a rodada e retoma da velocidade do ataque à Daly Mãe. Os resgatados com velocidade igual ou menor entram na fila restante, intercalados com os oponentes pela velocidade e pelo desempate já existente (jogador, depois posição). Exemplo: após um ataque de velocidade 5, um resgatado de velocidade 4 age junto da faixa 4, antes das velocidades menores. Se ainda houver personagens de velocidade 5, eles agem primeiro. Um resgatado de velocidade 6 nesse caso aguarda o próximo reset, pois sua velocidade já passou. Quem já atacou não ataca de novo, e o resgate não compra cartas. O reset só acontece quando não resta nenhuma ação elegível, incluindo os recuperados.
 

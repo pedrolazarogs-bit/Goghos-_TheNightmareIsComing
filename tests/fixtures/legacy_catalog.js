@@ -27,3 +27,6 @@ GOGHOS.CONFIG.classTributes=false;
 
 GOGHOS.CONFIG.allowSummon=false;
 GOGHOS.CONFIG.mainDeckTypes=['SUPPORT','SPECIAL','ITEM','DALY'];
+
+// Recuperação histórica: as opções atuais são verificadas em recovery_choices.test.js.
+GOGHOS.CONFIG.recoveryOptions=[{id:'A',rarity:'COMMON',count:3},{id:'B',rarity:'RARE',count:2},{id:'C',rarity:'EPIC',count:1}];

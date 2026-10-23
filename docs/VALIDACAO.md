@@ -1,3 +1,15 @@
+# Validação — v0.23.1
+
+`npm test`: **221 testes aprovados**, incluindo **340 partidas completas simuladas** com as regras atuais e regressões históricas.
+
+Seis testes específicos verificam as duas opções atuais (2 Épicos ou 3 Raros), retirada exata do topo e conservação das cartas, recuperação parcial, bloqueio de monte vazio, ausência de Comuns na escolha, fim da partida na última vida, as mesmas opções para o bot e continuidade da velocidade sem ação ou compra extra. As opções antigas ficam apenas na configuração de testes históricos da v0.20.
+
+No Chromium em **1440×1000 e 390×844**, passaram **6 cenários** com cliques reais: escolher 2 Épicos, escolher 3 Raros e receber 1 Raro quando só resta essa carta. Foram comparados rodada, turno, cartas do monte/mão/descarte, ações gastas e faixa de velocidade antes/depois. Não houve alteração indevida, erro de JavaScript, recurso ausente, texto indefinido ou transbordamento horizontal.
+
+[Recuperação no computador](previews/recuperacao-v0.23.1-desktop.png) · [No celular](previews/recuperacao-v0.23.1-celular.png)
+
+---
+
 # Validação — v0.23.0
 
 `npm test`: **215 testes aprovados**, incluindo **340 partidas completas simuladas**: 100 históricas, 200 com o catálogo atual/Apoios/tributos e 40 com invocação garantida, alternando a equipe que reúne os fragmentos.

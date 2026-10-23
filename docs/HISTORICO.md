@@ -115,3 +115,7 @@ KitApoio integra 17 efeitos oficiais, substituindo os três nomes já existentes
 KitZenneriam acrescenta um Deus sem raridade, fora dos seis montes e da seleção, obtido apenas com os três fragmentos únicos da partida. Sua base original recebe os números 1700/700/7 e preserva fôlego 12, MAX e Presence. Presence ignora habilidades de personagens, mantendo Apoios válidos. MAX reúne Mana, Esquiva, Parry 1–2, resistência de Tanque, crítico de Destroyer e transição de Suporte.
 
 Foram corrigidos bloqueios de IA ao surgir uma nova escolha dimensional após resgate, tentativa de quebrar maldição enquanto Burn mantinha hipnose e retomada sem atacante por invocação/ressurreição. Documentação em [APOIOS.md](APOIOS.md) e [DEUSES.md](DEUSES.md).
+
+## v0.23.1 — Recuperação da Daly Mãe
+
+Ao perder uma vida e sobreviver, a equipe escolhe até dois Épicos ou até três Raros. A opção de Comuns foi removida. Montes parciais entregam os disponíveis; vazios ficam bloqueados. Jogador e bot usam a mesma configuração. A recuperação continua a faixa de velocidade restante, sem compra, reset ou repetição de ações.

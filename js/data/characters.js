@@ -60,7 +60,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.23.0',
+G.CONFIG={version:'0.23.1',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
@@ -70,7 +70,7 @@ G.CONFIG={version:'0.23.0',
   pacing:{botThink:1800,feedback:2200}, // tempo para ler a ação e conferir o dano antes da próxima jogada
   dalyMaeLives:3,                // vidas de cada Daly Mãe
   // Recuperação quando a Daly Mãe perde uma vida e ainda tem vida: o participante escolhe UMA opção (sem misturar).
-  recoveryOptions:[{id:'A',rarity:'COMMON',count:3},{id:'B',rarity:'RARE',count:2},{id:'C',rarity:'EPIC',count:1}]};
+  recoveryOptions:[{id:'A',rarity:'EPIC',count:2},{id:'B',rarity:'RARE',count:3}]};
 const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,speed,art:x.illustrated?'assets/characters/'+id+'.png':null,
   description:'Provisório.',rarity:null,stamina:10,mainAbility:null,tribute:null,...x});
 const received=(id,name,cls,rarity,speed,stamina,abilityId)=>C(id,name,cls,0,0,speed,{rarity,stamina,abilityId,mainAbility:G.MAIN_ABILITIES[abilityId].name,illustrated:true,art:'assets/references/characters/'+id+'.png',portraitBanner:{src:'assets/cards/card_base_'+id+'.png',size:[1536,2048],bounds:[620,370,1220,1000]},cardBase:{src:'assets/cards/card_base_'+id+'.png',cleanup:{src:'assets/cards/number_cleanup_'+id+'.png',regions:[[690,95,855,255],[350,835,475,950],...(id==='vaglar'?[]:[[445,1170,685,1315]]),[505,1325,915,1585],...(id==='ddx'?[[630,1265,715,1320],[1060,1275,1155,1390]]:[])]},fields:{speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,835,475,950],s:80,a:'c'},...(id==='vaglar'?{}:{damage:{b:[460,1160,680,1310],s:145,a:'l'}}),hp:{b:[525,1340,890,1535],s:230,a:'l'}}},description:G.MAIN_ABILITIES[abilityId].description});

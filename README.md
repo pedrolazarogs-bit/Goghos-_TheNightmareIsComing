@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.23.0** adiciona os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os novos tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.23.1** atualiza a recuperação da Daly Mãe: após perder uma vida, escolha **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
 
 ## Jogar e desenvolver
 

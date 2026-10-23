@@ -92,7 +92,7 @@ G.resolveDalle=(s,side,handCard)=>{
 };
 
 // ---------- Recuperação: a Daly Mãe perdeu uma vida e ainda tem vida ----------
-// Escolher UMA raridade: até 3 Comuns, 2 Raros ou 1 Épico. Se restarem menos cartas, recebe as restantes.
+// Escolher UMA raridade: até 2 Épicos ou 3 Raros. Se restarem menos cartas, recebe as restantes.
 // Não mistura raridades; só vem dos montes de personagens e nunca ressuscita eliminados.
 G.recoveryOptions=(s,side=s.recovery?.side||'player')=>G.CONFIG.recoveryOptions.map(o=>{
   const live=liveOf(s,side),frontSlots=Math.max(0,(G.frontLimit?.(s,side)||3)-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
