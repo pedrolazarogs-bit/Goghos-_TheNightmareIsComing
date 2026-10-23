@@ -36,27 +36,40 @@ test('Comum, Raro e Épico causam dano mas são eliminados instantaneamente nas 
 });
 
 test('Lendário e Secreto recebem exatamente 390, sem esquiva da reação',()=>{
-  for(const rarity of ['LEGENDARY','SECRET']){
+  for(const rarity of ['LEGENDARY','SECRET'])for(const hp of [200,390,391,579]){
     const {s,sark,attacker}=battle('sam');attacker.rarity=rarity;attacker.class='ASSASSIN';attacker.speed=9;
-    const hp=attacker.hp;
+    attacker.hp=hp;
     const result=G.performBasicAttack(s,attacker.uid,sark.uid);
-    assert(result.ok);assert.equal(attacker.hp,hp-390);assert.equal(result.reaction.amount,390);
-    assert(!result.reaction.instant);assert(!attacker.eliminated);
+    assert(result.ok);assert.equal(attacker.hp,Math.max(0,hp-390));assert.equal(result.reaction.amount,390);
+    assert(!result.reaction.instant);assert.equal(attacker.eliminated,hp<=390);
     assert.equal(sark.hp,530-attacker.damage);assert.equal(s.turn,2);
   }
 });
 
-test('reação de 390 elimina quando a Vida acaba e continua em golpes fatais contra Sark',()=>{
-  for(const id of ['char_06','sam']){
-    const {s,sark,attacker}=battle(id);sark.hp=1;attacker.hp=200;
+test('Sark não revida ao morrer por dano exato ou excedente, contra qualquer raridade e equipe',()=>{
+  for(const side of ['player','enemy'])for(const rarity of G.RARITIES)for(const hp of [50,100]){
+    const {s,sark,attacker}=battle('char_06',side);sark.hp=hp;attacker.damage=100;attacker.rarity=rarity;
+    const before=attacker.hp;
     const result=G.performBasicAttack(s,attacker.uid,sark.uid);
-    assert(result.ok);assert(sark.eliminated);assert(attacker.eliminated);
-    assert.equal(s.eliminated.length,2);assert.equal(new Set(s.eliminated.map(u=>u.uid)).size,2);
-    assert.equal(s.lastEvent.type,'defeat');assert.equal(s.lastEvent.reaction.type,'defeat');
-    assert(G.isDalyExposed(s,'player'));assert(G.isDalyExposed(s,'enemy'));
-    assert.equal(s.daly.player.hp,3);assert.equal(s.daly.enemy.hp,3,'reação nunca transfere excedente à Daly');
+    assert(result.ok);assert(sark.eliminated);assert.equal(sark.hp,0);assert(!attacker.eliminated);assert.equal(attacker.hp,before);
+    assert.equal(result.reaction,null);assert(!s.lastEvent.reaction);assert.equal(s.lastEvent.type,'defeat');
+    assert.equal(s.eliminated.length,1);assert.equal(s.eliminated[0].uid,sark.uid);
+    assert(G.isDalyExposed(s,side));assert(!G.isDalyExposed(s,attacker.team));
+    assert.equal(s.daly.player.hp,3);assert.equal(s.daly.enemy.hp,3);
     assert(!s.result);assert(!s.recovery);
-    assert.equal(G.getNextActor(s),null);assert(G.isIdleBattle(s));
+    assert(s.acted[attacker.uid]);assert.equal(s.turn,2);
+    assert.equal(G.reactionPreview(attacker,sark),null);
+    assert(s.log.some(line=>line.includes('não sobreviveu para revidar')));
+  }
+});
+
+test('Sark recebe o dano antes de revidar e reage mesmo se sobrar apenas um ponto de Vida',()=>{
+  for(const hp of [51,100]){
+    const {s,sark,attacker}=battle();sark.hp=hp;attacker.damage=50;
+    assert(G.reactionPreview(attacker,sark,50));assert.equal(G.reactionPreview(attacker,sark,hp),null);
+    const r=G.performBasicAttack(s,attacker.uid,sark.uid);assert(r.ok);
+    assert.equal(sark.hp,hp-50);assert(!sark.eliminated);assert(r.reaction.instant);assert(attacker.eliminated);
+    assert.equal(s.lastEvent.afterHp,hp-50);
   }
 });
 
@@ -79,15 +92,14 @@ test('bônus e mana alteram o ataque recebido, não o valor da reação; curas u
   assert(G.performHandSupport(allied.s,'heal',allied.sark.uid).ok);assert.equal(allied.sark.hp,160);
 });
 
-test('duas eliminações promovem as duas defesas e preservam ambas as escolhas de Suportes',()=>{
+test('golpe fatal promove somente a defesa de Sark e preserva o atacante e sua retaguarda',()=>{
   const s=G.createBattleState({front:['sam'],rear:['char_05','char_07']},{front:['sarck'],rear:['char_09','char_05']},[],{rng:()=>.5});
   const a=G.getNextActor(s),sark=s.units.find(u=>u.id==='sarck');a.hp=100;sark.hp=1;
   assert(G.performBasicAttack(s,a.uid,sark.uid).ok);
-  assert.equal(s.eliminated.length,2);assert.equal(s.formation.side,'enemy');assert.equal(s.formationQueue.length,1);
+  assert.equal(s.eliminated.length,1);assert(!a.eliminated);assert.equal(a.hp,100);assert.equal(s.formation.side,'enemy');assert.equal(s.formationQueue.length,0);
   assert.equal(G.getNextActor(s),null);
-  assert(G.AI.resolveFormation(s).ok);assert.equal(s.formation.side,'player');
-  assert(G.resolveFrontLine(s,[...s.formation.candidates]).ok);assert.equal(s.formation,null);
-  assert.equal(G.getBoard(s).player.front.length,2);assert.equal(G.getBoard(s).enemy.front.length,2);
+  assert(G.AI.resolveFormation(s).ok);assert.equal(s.formation,null);
+  assert.equal(G.getBoard(s).player.front.length,1);assert.equal(G.getBoard(s).player.rear.length,2);assert.equal(G.getBoard(s).enemy.front.length,2);
   assert(!G.isDalyExposed(s,'player'));assert(!G.isDalyExposed(s,'enemy'));
 });
 

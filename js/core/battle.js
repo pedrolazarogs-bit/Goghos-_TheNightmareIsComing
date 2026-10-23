@@ -147,16 +147,22 @@ function regenerateMageMana(s){
 }
 function event(s,data){s.eventSeq=(s.eventSeq||0)+1;s.lastEvent={id:s.eventSeq,...data};}
 function completeAction(s,a){s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;}
-function reactionPreview(attacker,target){
+function reactionPreview(attacker,target,incomingDamage=null){
+  if(!target||isCharacterDefeated(target)||(incomingDamage!==null&&incomingDamage>=target.hp))return null;
   const ability=target&&G.getMainAbility(target);if(ability?.trigger!=='onAttacked')return null;
   return{ability:ability.name,instant:ability.instantRarities.includes(attacker.rarity),damage:ability.damage};
 }
 // Uma reação pertence ao ataque original: não é outro ataque, não esquiva, não consome ação e não gera outra reação.
 function resolveReaction(s,a,t){
+  if(isCharacterDefeated(t)){
+    const ability=G.getMainAbility(t);
+    if(ability?.trigger==='onAttacked')s.log.push(t.name+' foi derrotado pelo ataque · '+ability.name+' não ativou: não sobreviveu para revidar');
+    return null;
+  }
   const p=reactionPreview(a,t);if(!p)return null;
   const beforeHp=a.hp;a.hp=p.instant?0:Math.max(0,a.hp-p.damage);
   const r={type:a.hp<=0?'defeat':'hit',sourceUid:t.uid,sourceName:t.name,targetUid:a.uid,targetName:a.name,targetTeam:a.team,targetRow:a.row,targetSlot:a.slot,beforeHp,afterHp:a.hp,damage:beforeHp-a.hp,amount:p.instant?null:p.damage,instant:p.instant,ability:p.ability};
-  s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+p.damage+' de dano ('+beforeHp+' → '+a.hp+')')+(t.hp<=0?' · reação simultânea ao ataque fatal':''));
+  s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+p.damage+' de dano ('+beforeHp+' → '+a.hp+')'));
   return r;
 }
 function attackDaly(s,a,side){

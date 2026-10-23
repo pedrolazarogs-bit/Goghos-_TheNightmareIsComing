@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.18.1** corrige a carta do Sark: usa a base completa recebida, preservando a ilustração, o nome, as cores e os símbolos, e acrescenta somente os números de Vida e fôlego. Steel Jaw mantém as regras da v0.18.0: Sark recebe o ataque e reage automaticamente conforme a raridade do atacante. A arena, a seleção alternada de Comuns e a continuidade da hierarquia após recuperação foram preservadas.
+Protótipo jogável de cartas e batalha por turnos. Na versão **0.18.2**, Sark recebe o dano primeiro e **só revida com Steel Jaw se continuar vivo**. Um ataque que zera sua Vida o elimina sem reação. A carta mantém a base completa recebida, com apenas Vida e fôlego sobrepostos. A arena, a seleção alternada de Comuns e a continuidade da hierarquia após recuperação foram preservadas.
 
 ## Jogar e desenvolver
 

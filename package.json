@@ -1,6 +1,6 @@
 {
   "name": "goghos-tcg",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "private": true,
   "description": "Protótipo local do jogo de cartas GOGHOS TCG",
   "scripts": {

@@ -1,6 +1,16 @@
-# Validação — v0.18.1
+# Validação — v0.18.2
 
-## Base integral do Sark
+## Sobrevivência antes de Steel Jaw
+
+`npm test`: **61 testes aprovados**, incluindo 100 partidas simuladas. Os testes de Sark agora verificam dano fatal exato e excedente contra todas as raridades e nas duas equipes, sem dano ao atacante; sobrevivência com 50 e com apenas 1 de Vida; e reação de 390 que preserva ou elimina Lendários/Secretos conforme a Vida deles. Também conferem a previsão, o gasto único de ação, a exposição da Daly Mãe e o avanço da retaguarda apenas da equipe que perdeu o personagem.
+
+No Chromium, em 1440×900 e 390×844, foram conferidos quatro casos por resolução: 50 de Vida recebendo 100, 100 recebendo 100, e 100 recebendo 50 de um Comum ou de um Lendário. Golpes fatais mostram a previsão de eliminação sem reação, deixam o atacante intacto e permitem continuar atacando a Daly Mãe exposta. Golpes não fatais deixam Sark com 50 de Vida e ativam a reação correspondente. Os oito fluxos passaram sem exceções JavaScript ou imagens ausentes.
+
+A base integral, o enquadramento da carta e os valores dos personagens não foram alterados. A validação abaixo registra o comportamento de versões anteriores; a reação após golpe fatal foi substituída nesta versão.
+
+## Validação anterior — v0.18.1
+
+### Base integral do Sark
 
 Sark usa uma única imagem de carta, a base recebida no SarckKit. As únicas sobreposições na carta viva são os campos numéricos de Vida e fôlego. A referência visual atual do criador substitui a orientação anterior de recompor ilustração e moldura.
 

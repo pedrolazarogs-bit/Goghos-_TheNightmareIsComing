@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.18.1
+# Estrutura base do GOGHOS — v0.18.2
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -16,7 +16,7 @@ Personagens obtidos ocupam vagas da frente primeiro. Com a frente cheia, somente
 
 Quando a frente perde seu último personagem, um Suporte avança automaticamente. Se houver dois, a batalha pausa para o dono escolher qualquer um deles ou ambos para a frente. A IA avança ambos. A frente nunca permanece vazia enquanto houver um Suporte vivo atrás.
 
-Na vez da própria equipe, **Mover Suportes** permite avançar ou recuar Suportes, respeitando as vagas e mantendo pelo menos um defensor na frente. Se a linha estiver cheia, é possível trocar dois Suportes de linhas diferentes. Esse trânsito não gasta ataque ou fôlego. Personagens obtidos por medalha ou que estavam na retaguarda entram na ordem da rodada seguinte; mover não apaga ações já realizadas. A recuperação da Daly Mãe segue a regra de continuidade descrita abaixo. Se a reação de Sark eliminar os últimos defensores das duas equipes na mesma troca, as duas formações são resolvidas, uma de cada vez.
+Na vez da própria equipe, **Mover Suportes** permite avançar ou recuar Suportes, respeitando as vagas e mantendo pelo menos um defensor na frente. Se a linha estiver cheia, é possível trocar dois Suportes de linhas diferentes. Esse trânsito não gasta ataque ou fôlego. Personagens obtidos por medalha ou que estavam na retaguarda entram na ordem da rodada seguinte; mover não apaga ações já realizadas. A recuperação da Daly Mãe segue a regra de continuidade descrita abaixo. Se Sark for derrotado, somente a defesa dele precisa ser reposta; se sobreviver e eliminar o atacante, o avanço é da equipe do atacante.
 
 ## Velocidade e compras
 
@@ -68,16 +68,18 @@ Se nenhum monte permitir recuperação, a partida segue com a Daly Mãe exposta.
 
 Sark é **Assassino Lendário**, com **530 de Vida** e **5 de fôlego**. Não tem ataque básico nem velocidade; os traços da carta representam essa ausência. O rank roxo é decorativo e não participa das regras; permanece na imagem original. Sark ocupa uma vaga da frente e protege sua Daly Mãe como os demais personagens, mas nunca recebe uma ação de ataque.
 
-Ao receber um ataque válido, Sark recebe o dano normal, incluindo mana e bônus de ataque existentes. Na mesma ação, **Steel Jaw reage automaticamente contra o atacante**:
+Ao receber um ataque válido, Sark recebe primeiro o dano normal, incluindo mana e bônus de ataque existentes. Se sua Vida chegar a zero, ele é eliminado e Steel Jaw não ativa. **Somente se continuar vivo, Steel Jaw reage automaticamente contra o atacante**, ainda na mesma ação:
 
 | Raridade do atacante | Resposta de Steel Jaw |
 | --- | --- |
 | Comum, Raro ou Épico | Eliminação instantânea, independentemente da Vida restante |
 | Lendário ou Secreto | 390 de dano; é eliminado se a Vida chegar a zero |
 
-A reação acontece inclusive quando o ataque derrota Sark: as duas perdas são resolvidas na mesma troca. Não consome ataque, mana ou fôlego de Sark, não altera a velocidade da ação original, não faz teste de esquiva e não dispara outra reação. Como Sark não tem velocidade, também não recebe a esquiva provisória dos Assassinos. Um ataque a outro personagem não ativa Steel Jaw. O dano não passa para a Daly Mãe; eventual eliminação apenas a expõe, sem retirar vida nem abrir recuperação automaticamente.
+A condição de sobrevivência vale para todas as raridades: com 50 de Vida e recebendo 100 de dano, Sark morre sem revidar; com 100 de Vida e recebendo 50, fica com 50 e então reage. Dano exatamente igual à Vida também impede a reação. Se sobrar somente 1 de Vida, ele ainda pode revidar.
 
-Derrotados pelo ataque ou pela reação seguem a mesma eliminação permanente. Avanço de Suportes e Brisa consideram as perdas das duas equipes. Curas existentes usam a Vida atual de Sark. Não foram inventadas cartas de imunidade ou redução: ainda não há uma carta com esses efeitos no catálogo.
+A reação não consome ataque, mana ou fôlego de Sark, não altera a velocidade da ação original, não faz teste de esquiva e não dispara outra reação. Como Sark não tem velocidade, também não recebe a esquiva provisória dos Assassinos. Um ataque a outro personagem não ativa Steel Jaw. O dano não passa para a Daly Mãe; eventual eliminação apenas a expõe, sem retirar vida nem abrir recuperação automaticamente. A previsão antes do ataque considera o dano total e informa se Sark sobreviverá para reagir ou será eliminado sem revidar.
+
+Derrotados pelo ataque ou pela reação seguem a mesma eliminação permanente. Avanço de Suportes e Brisa consideram a perda que ocorreu. Curas existentes usam a Vida atual de Sark. Não foram inventadas cartas de imunidade ou redução: ainda não há uma carta com esses efeitos no catálogo.
 
 O menu **Testar Sark** oferece formações prontas para atacar ou defender, sem mudar a seleção normal de Comuns. Na partida normal, a medalha Holográfica resgata o topo do monte Lendário, que pode conter Sark. A carta exibe a base completa enviada, sem reconstruir o retrato ou os símbolos, e acrescenta somente Vida atual e fôlego nos espaços vazios. A imagem mantém o nome impresso SARCK; o nome no estado é Sark, e o identificador legado `sarck` foi preservado.
 

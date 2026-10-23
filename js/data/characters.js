@@ -25,9 +25,9 @@ G.getCharacterStats=c=>{
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
-G.MAIN_ABILITIES={steel_jaw:{name:'Steel Jaw',trigger:'onAttacked',damage:390,instantRarities:['COMMON','RARE','EPIC'],description:'Ao ser atacado, recebe o dano e reage automaticamente: elimina o atacante Comum, Raro ou Épico; contra Lendário ou Secreto, causa 390 de dano. A reação acontece mesmo se Sark for derrotado pelo ataque.'}};
+G.MAIN_ABILITIES={steel_jaw:{name:'Steel Jaw',trigger:'onAttacked',damage:390,instantRarities:['COMMON','RARE','EPIC'],description:'Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante Comum, Raro ou Épico; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar.'}};
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.18.1 (protótipo)',
+G.CONFIG={version:'0.18.2 (protótipo)',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
