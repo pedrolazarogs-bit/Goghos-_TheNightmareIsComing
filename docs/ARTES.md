@@ -1,10 +1,10 @@
-# Artes recebidas: kikiy.zip e SarckKit.zip
+# Artes recebidas: kikiy.zip, SarckKit.zip, EletricKit.zip e KitJonh.zip
 
-Os 48 PNGs originais estão preservados sem alterações. A orientação atual do criador é usar a base completa de cada personagem e acrescentar somente os números. Na v0.18.1, Sark usa literalmente `assets/cards/card_base_sark.png`, recebido no SarckKit, sem reconstruir sua ilustração. As cartas completas anteriores de Sam, Eletric e Sarck permanecem em `assets/references/characters/`.
+Os 48 PNGs originais estão preservados sem alterações, assim como as artes adicionadas pelos kits seguintes. A orientação atual do criador é usar a base completa de cada personagem e acrescentar somente os números. Sark, Elétrica e John usam literalmente as bases recebidas, sem reconstruir suas ilustrações. As cartas preenchidas de referência permanecem em `assets/references/characters/`.
 
-Até a v0.18.0, as cartas eram compostas com ilustrações separadas: Eletric e Sarck usavam 39 e 29, e Sam usava o rosto do banner 40. A partir da v0.18.1, uma entrada `cardBase` em `js/data/characters.js` define a imagem integral recebida e os campos numéricos. Esse caminho tem prioridade sobre a composição antiga. Sam e Eletric ainda aguardam bases próprias com os campos a preencher; suas referências atuais têm números impressos. Retratos fora da carta, como o painel de vez, podem continuar usando as ilustrações avulsas e o banner.
+Até a v0.18.0, as cartas eram compostas com ilustrações separadas: Eletric e Sarck usavam 39 e 29, e Sam usava o rosto do banner 40. A partir da v0.18.1, uma entrada `cardBase` em `js/data/characters.js` define a imagem integral recebida e os campos numéricos. Esse caminho tem prioridade sobre a composição antiga. Sam ainda aguarda sua base própria com os campos a preencher, conforme a escolha do criador. Elétrica e John receberam bases na v0.19.0. Retratos fora da carta, como o painel de vez, podem continuar usando as ilustrações avulsas e o banner.
 
-Os símbolos de habilidade de Sark (mandíbula, arte 20) e Eletric (raio, arte 33) usam apenas o centro das imagens, sem duplicar a estrela da moldura. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, de Sark, foi definida e implementada na v0.18.0; as habilidades de Sam e Eletric continuam pendentes.
+Nas bases integrais, os símbolos das habilidades já fazem parte da imagem e não são duplicados. Os símbolos avulsos de Sark, Elétrica e John ficam disponíveis fora das cartas. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, 3000W e Sharp Guitar estão implementadas; a habilidade de Sam continua pendente.
 
 | Nº | Arquivo recebido | Local no projeto | Estado |
 | ---: | --- | --- | --- |
@@ -80,3 +80,25 @@ O pacote tem cinco PNGs. Três já estavam no projeto e são idênticos por SHA-
 A base contém retrato, nome, rank, traços de ataque/velocidade, Steel Jaw e valor 390 impressos, e deixa Vida e fôlego vazios. Conforme a correção do criador, ela é mostrada inteira em uma única imagem. Não recebe outro retrato, moldura, fundo, máscara ou símbolo por cima. Os únicos acréscimos na carta viva são os números da Vida atual e do fôlego. O rank continua decorativo dentro da imagem; não vira um atributo. O PNG original não é alterado.
 
 Os números de Vida ocupam `[470,1310,895,1530]`, e o fôlego ocupa `[350,656,490,746]`, em coordenadas da base 1536×2048. A pose, a estrela, as cores, o nome SARCK e o valor 390 são os da imagem recebida. O banner continua usando a área `[21,159,1918,1458]` de um PNG 2048×2048, fora da carta.
+
+## EletricKit.zip e KitJonh.zip — v0.19.0
+
+Os dois pacotes contêm nove PNGs ao todo. Três arquivos de Elétrica já existiam e são idênticos aos recebidos; seis foram adicionados. Os nove pares foram comparados por SHA-256. Nenhum PNG foi regravado, recortado ou redesenhado.
+
+| Pacote / arquivo recebido | Local no projeto | Uso |
+| --- | --- | --- |
+| EletricKit / `Original-Base62_20261022214207.png` | `assets/cards/card_base_eletric.png` | Base integral com campos numéricos vazios |
+| EletricKit / `202 Sem Título2_20261022214103.png` | `assets/characters/eletric_banner.png` | Banner para a hierarquia e o laboratório |
+| EletricKit / `152 Sem Título_20261020195945.png` | `assets/characters/eletric.png` | Ilustração avulsa já existente |
+| EletricKit / `Original-Base62_20261020163056.png` | `assets/abilities/eletric.png` | Símbolo já existente |
+| EletricKit / `Original-Base62_20261020163633.png` | `assets/references/characters/eletric.png` | Referência preenchida já existente |
+| KitJonh / `Original-Base63_20261022214506.png` | `assets/cards/card_base_john.png` | Base integral com nome e campos numéricos vazios |
+| KitJonh / `202 Sem Título2_20261022214539.png` | `assets/characters/john_banner.png` | Banner para a hierarquia e o laboratório |
+| KitJonh / `Original-Base63_20261022214347.png` | `assets/abilities/john.png` | Símbolo de Sharp Guitar |
+| KitJonh / `Original-Base63_20261022170442.png` | `assets/references/characters/john.png` | Apenas referência preenchida |
+
+As bases 1536×2048 são apresentadas em uma única imagem cada, preservando pose, borda, estrela, cores, rank e símbolos. Elétrica recebe Vida atual, ataque, velocidade, fôlego e mana atual. John recebe Vida atual, ataque, velocidade, fôlego, limiar de Parry e o nome JOHN no campo vazio. O nome segue a explicação do criador, embora a referência preenchida diga JONH. O rank não vira atributo de jogo.
+
+Os campos ficam declarados em `cardBase.fields`; o nome de John usa `cardBase.labels`. O enquadramento transparente é feito por CSS e não modifica o original. As bases têm limites visíveis `[159,14,1377,2048]`. Os banners são usados fora das cartas, com áreas `[21,159,1918,1458]` para Elétrica e `[0,127,1945,1484]` para John. As bordas verdes mantêm os dois no monte Raro.
+
+[Bases preenchidas pela interface](previews/habilidades-v0.19.0-cartas.png) · [Elétrica na arena](previews/eletrica-v0.19.0-desktop.png) · [John na arena](previews/john-v0.19.0-desktop.png)

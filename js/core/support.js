@@ -6,7 +6,7 @@ G.getSupportCard=id=>G.SUPPORT_CARDS.find(c=>c.id===id)||null;
 G.defaultSupportLoadout=()=>G.SUPPORT_CARDS.slice(0,G.CONFIG.supportMax).map(c=>c.id);
 G.createSupportState=ids=>{
   if(ids.length>G.CONFIG.supportMax||new Set(ids).size!==ids.length||ids.some(i=>!G.getSupportCard(i)))throw new Error('Cartas de apoio inválidas.');
-  return{slots:ids.map(id=>({id,uses:G.getSupportCard(id).uses,maxUses:G.getSupportCard(id).uses})),usedTurn:0,nextAttackBonus:0,brisa:0,pending:null};
+  return{slots:ids.map(id=>({id,uses:G.getSupportCard(id).uses,maxUses:G.getSupportCard(id).uses})),usedTurn:0,nextAttackBonus:0,brisa:0,pending:null,pendingQueue:[]};
 };
 G.takeAttackBonus=s=>{const b=s.support.nextAttackBonus;s.support.nextAttackBonus=0;return b;};
 // Motivo pelo qual a carta não pode ser usada agora ('' = pode).
@@ -16,7 +16,7 @@ function supportBlockReason(s,idx){
   if(!sl)return 'Carta inexistente.';
   if(s.recovery)return 'Escolha a recuperação antes de continuar.';
   if(sp.pending)return 'Resolva a Brisa antes de continuar.';
-  const n=G.getNextActor(s);if(!n||n.team!=='player')return 'Cartas de apoio só podem ser usadas na sua vez.';
+  if(!G.canManageTeam(s,'player'))return 'Cartas de apoio só podem ser usadas na sua vez.';
   if(sp.usedTurn===s.turn)return 'Você já usou uma carta de apoio neste turno.';
   if(sl.uses<=0)return 'Carta esgotada.';
   const d=G.getSupportCard(sl.id);
@@ -61,14 +61,15 @@ G.performHandSupport=(s,iid,targetUid)=>{
 function onAllyDefeated(s,t){
   const sp=s.support;if(t.team!=='player'||!sp.brisa)return;
   const c=s.units.filter(u=>u.team==='player'&&u.hp>0&&u.hp<u.maxHp).map(u=>u.uid);
-  if(c.length)sp.pending={type:'brisa',value:sp.brisa,candidates:c};
+  if(c.length){const choice={type:'brisa',value:sp.brisa,candidates:c};if(sp.pending)sp.pendingQueue.push(choice);else sp.pending=choice;}
   else s.log.push('Brisa: nenhum aliado ferido para curar');
 }
 function resolveBrisa(s,targetUid){
   const p=s.support.pending;if(!p)return fail('Nada a resolver.');
-  if(targetUid===null){s.support.pending=null;s.log.push('Brisa: cura dispensada');return{ok:true};}
+  if(targetUid===null){s.support.pending=s.support.pendingQueue.shift()||null;s.log.push('Brisa: cura dispensada');return{ok:true};}
   if(!p.candidates.includes(targetUid))return fail('Escolha um aliado ferido.');
-  const u=G.getUnit(s,targetUid),b=u.hp;u.hp=Math.min(u.maxHp,u.hp+p.value);s.support.pending=null;
+  const u=G.getUnit(s,targetUid);if(!u||u.hp<=0||u.eliminated)return fail('Aliado derrotado não pode ser curado.');
+  const b=u.hp;u.hp=Math.min(u.maxHp,u.hp+p.value);s.support.pending=s.support.pendingQueue.shift()||null;
   s.log.push('Brisa: '+u.name+' recuperou '+(u.hp-b)+' de Vida');return{ok:true};
 }
 Object.assign(G,{supportBlockReason,performSupport,onAllyDefeated,resolveBrisa});

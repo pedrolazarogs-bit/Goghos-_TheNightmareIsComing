@@ -46,9 +46,10 @@ G.cardHTML=function(u,cls='',caption=''){
   const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&u.hp<=0,hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
   if(base.cardBase){
-    const values={hp,stamina:st,speed:u.speed,damage:u.damage,mana:u.mana??G.manaFor(base)};
+    const values={hp,stamina:st,speed:u.speed,damage:u.damage,mana:u.mana??G.manaFor(base),parry:u.parryThreshold??base.parryThreshold};
     const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>`<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${values[key]}</div>`).join('');
-    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${fr}">${numbers}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
+    const labels=Object.entries(base.cardBase.labels||{}).map(([key,label])=>t(key,label)).join('');
+    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${fr}">${numbers}${labels}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
   }
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
   const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base),ability=G.getMainAbility(base);

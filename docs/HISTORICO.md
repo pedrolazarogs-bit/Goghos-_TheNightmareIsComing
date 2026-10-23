@@ -73,3 +73,11 @@ O criador corrigiu a orientação visual: a base recebida deve representar o per
 O criador corrigiu a ordem da habilidade: Sark recebe o dano primeiro e só reage se permanecer vivo. Dano fatal, inclusive exatamente igual à Vida atual, o elimina sem retaliar. Com Vida positiva, continuam a eliminação instantânea de atacantes abaixo de Lendário e o dano de 390 em Lendários e Secretos.
 
 A previsão de ataque considera a Vida atual, bônus e mana para informar se haverá reação. O registro explica quando Steel Jaw não ativa porque Sark morreu. A base integral da carta e as demais regras foram preservadas.
+
+## v0.19.0 — Elétrica e John
+
+Elétrica recebe os atributos confirmados e 3000W: 130 de dano em todos os adversários da frente, sem seleção individual, preservando aliados e retaguardas. Mana e bônus são gastos uma vez; defesa é resolvida por alvo. Reações ocorrem após os danos do golpe, respeitando a sobrevivência de Sark.
+
+John entra com 270 de Vida, 80 de ataque, velocidade 2, fôlego 3 e Parry com defesa nos resultados 1 ou 2 de um d6. Sharp Guitar permite atacar normalmente ou cravar, imobilizando o alvo e causando 20 após cada ação a partir da seguinte. Manter consome a ação de John; retirar permite escolher outro ataque na mesma vez. Enquanto mantém, ele fica vulnerável e não usa Parry. A morte de qualquer um encerra o vínculo imediatamente.
+
+As bases integrais de Elétrica e John passam a ser usadas com números dinâmicos; John também recebe seu nome no campo vazio. Os nove PNGs dos dois kits são preservados byte a byte. O menu ganha dois testes prontos, as cartas mostram os estados do machado, e o registro apresenta os impactos individuais de área, Parry e dano periódico. Múltiplas perdas enfileiram as escolhas de Brisa. Seleção, hierarquia após recuperação e eliminação permanente foram preservadas.

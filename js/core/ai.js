@@ -14,7 +14,12 @@ function redeemMedals(s,side){
   }
   return obtained;
 }
-function takeTurn(s,actor){redeemMedals(s,actor.team);const t=chooseTarget(s,actor);if(t)return G.performBasicAttack(s,actor.uid,t.uid,manaPlan(s,actor,t));
+function takeTurn(s,actor){
+  if(actor.pinnedBy)return G.performPinnedTurn(s,actor.uid);
+  if(actor.pinning){if(actor.hp>=80)return G.keepPin(s,actor.uid);G.withdrawPin(s,actor.uid);}
+  redeemMedals(s,actor.team);
+  if(G.getMainAbility(actor)?.trigger==='areaAttack')return G.performAreaAttack(s,actor.uid,actor.mana>0?1:0);
+  const t=chooseTarget(s,actor);if(t)return G.performBasicAttack(s,actor.uid,t.uid,manaPlan(s,actor,t),G.getMainAbility(actor)?.trigger==='pinAttack'&&t.hp>actor.damage?'pin':'normal');
   const foe=actor.team==='player'?'enemy':'player';
   return G.isDalyExposed(s,foe)?G.performBasicAttack(s,actor.uid,G.dalyTargetId(foe),0):{ok:false,error:'Sem alvo.'};}
 // Recuperação do bot: escolhe ao acaso entre as opções que podem ser completadas (não há lógica de decisão própria no projeto).

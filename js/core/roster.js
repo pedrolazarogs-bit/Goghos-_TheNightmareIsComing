@@ -43,6 +43,7 @@ G.addCharacterToTeam=(s,side,inst)=>{
 G.eliminateUnit=(s,u)=>{
   if(!u||u.eliminated)return false; // idempotente: eliminar duas vezes não registra duas vezes
   const from=u.row;u.hp=0;u.eliminated=true;u.row=null;
+  if(u.pinning||u.pinnedBy)G.releasePinLink(s,u);
   s.order=s.order.filter(id=>id!==u.uid);
   s.eliminated.push({uid:u.uid,iid:u.iid,id:u.id,name:u.name,class:u.class,team:u.team,from,round:s.round});
   s.log.push(u.name+' foi eliminado');

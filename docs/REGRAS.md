@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.18.2
+# Estrutura base do GOGHOS — v0.19.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -42,7 +42,7 @@ O monte principal provisório tem 24 cartas: 6 de Apoio, 4 de Item, 4 de Habilid
 
 Toda compra vai para a mão, inclusive as medalhas. Na vez da equipe, selecione uma medalha e use **Resgatar personagem**. Ela obtém exatamente a carta do topo do monte indicado pela cor, sem sorteio adicional de raridade e sem ataque extra. A medalha vai para o descarte somente quando o personagem entra na equipe. Com o monte vazio ou sem vaga para o topo, permanece na mão. A IA usa as mesmas regras.
 
-O catálogo atual tem 7 Comuns, 2 Raros, 1 Épico, 4 Lendários e nenhum Secreto. Sark passou para o monte Lendário. O monte Secreto aparece vazio até receber personagens; a medalha preta não cria um personagem inexistente.
+O catálogo atual tem 15 personagens: 7 Comuns, 3 Raros, 1 Épico, 4 Lendários e nenhum Secreto. Elétrica e John ficam no monte Raro; John foi classificado pela borda verde recebida. Sark fica no monte Lendário. O monte Secreto aparece vazio até receber personagens; a medalha preta não cria um personagem inexistente.
 
 ## Mão e cartas de Apoio
 
@@ -50,7 +50,7 @@ O leque fica no canto inferior esquerdo, com no máximo cinco cartas. No celular
 
 Ao comprar com cinco cartas, o jogador escolhe uma antiga para substituir ou descarta a nova. Isso vale também para medalhas. A compra pendente não vira uma sexta carta permanente. A IA substitui a mais antiga.
 
-Na própria vez, pode usar uma carta de Apoio por turno, sem gastar o ataque. **Na Moloeira** dá +20 ao próximo ataque; **Bandeide** cura até 80 de Vida de um aliado; **Brisa** permite curar outro aliado ferido em 30 quando um aliado é eliminado. Cartas usadas vão para o descarte. Os efeitos de Item e Habilidade Especial continuam em desenvolvimento e são indicados ao selecionar essas cartas.
+Na própria vez, pode usar uma carta de Apoio por turno, sem gastar o ataque. **Na Moloeira** dá +20 ao próximo ataque; **Bandeide** cura até 80 de Vida de um aliado; **Brisa** permite curar outro aliado ferido em 30 quando um aliado é eliminado. Se uma ação eliminar vários aliados, as escolhas de Brisa são resolvidas uma por vez, com candidatos vivos. Cartas usadas vão para o descarte. Os efeitos de Item e Habilidade Especial continuam em desenvolvimento e são indicados ao selecionar essas cartas.
 
 ## Eliminação, Daly Mãe e recuperação
 
@@ -83,9 +83,37 @@ Derrotados pelo ataque ou pela reação seguem a mesma eliminação permanente. 
 
 O menu **Testar Sark** oferece formações prontas para atacar ou defender, sem mudar a seleção normal de Comuns. Na partida normal, a medalha Holográfica resgata o topo do monte Lendário, que pode conter Sark. A carta exibe a base completa enviada, sem reconstruir o retrato ou os símbolos, e acrescenta somente Vida atual e fôlego nos espaços vazios. A imagem mantém o nome impresso SARCK; o nome no estado é Sark, e o identificador legado `sarck` foi preservado.
 
+## Elétrica — 3000W
+
+Elétrica é **Mago Raro**, com **3 de velocidade, 4 de fôlego, 3 de mana, 130 de ataque e 220 de Vida**. Sua ação causa dano a todos os adversários que estavam na linha de frente no início do golpe. Não há escolha de alvo individual. Aliados e retaguardas não recebem esse ataque; Suportes promovidos depois dele também não são atingidos pelo golpe já resolvido.
+
+Mana e Na Moloeira são gastos uma única vez por ação e somam dano a cada alvo. Parry é testado individualmente; a regra existente de Magos impede Esquiva, mas não Parry. Todos os danos do ataque são aplicados antes das reações de sobreviventes, incluindo Steel Jaw. A regeneração de mana e o dano periódico de Sharp Guitar ocorrem uma vez por ação, independentemente da quantidade de alvos.
+
+Com a Daly Mãe exposta, a confirmação ataca apenas ela e tira exatamente uma vida, sem gastar mana ou bônus. A habilidade não atravessa os defensores para atingi-la.
+
+## John — Parry e Sharp Guitar
+
+John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 270 de Vida**. Sua base está sem nome impresso; a interface preenche JOHN, conforme o nome indicado pelo criador. O rank ilustrado continua decorativo.
+
+**Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 é específico de John; outros Fighters ainda não receberam valores confirmados.
+
+**Sharp Guitar:** John escolhe entre um ataque normal de 80 ou causar 80 e cravar o machado. O vínculo só é criado se o golpe acertar e ambos sobreviverem. Parry, Esquiva, dano fatal e a reação fatal de Sark impedem o vínculo. Não é possível cravar na Daly Mãe nem em um personagem já envolvido em outro vínculo.
+
+Enquanto o machado estiver cravado:
+
+- O alvo fica imobilizado: não ataca, não usa cartas da mão na sua vez, não se move e não usa Parry, Esquiva ou reação. Sua posição na hierarquia permanece; **Passar vez · imobilizado** resolve essa ação.
+- John não ataca enquanto mantém o machado. Ele continua podendo ser atacado pelos aliados do alvo e fica vulnerável, sem Parry.
+- O alvo recebe **20 de dano após cada ação de qualquer personagem, a partir da ação seguinte à cravada**. O golpe inicial causa somente 80. Uma ação em área conta uma vez. Passar a vez imobilizado e manter o machado também contam como ações.
+- Na próxima vez de John, **Manter machado** encerra sua ação e mantém o dano. **Retirar e escolher ataque** libera os dois sem gastar a ação, permitindo atacar novamente nessa mesma vez.
+- Se John ou o alvo morrer, o vínculo termina imediatamente. A morte de John impede dano periódico adicional ao alvo naquela ação. O alvo eliminado segue para a área de eliminados e não retorna.
+
+O dano periódico não testa defesa nem dispara Steel Jaw: é o efeito do machado, não um novo ataque. Consultar a fila, resolver recuperação, comprar no reset, mover Suportes, usar Apoio e retirar o machado não acrescentam ações nem dano periódico. Aliados continuam podendo usar a mão e agir em suas próprias vezes.
+
+O menu **Testar Elétrica e John** oferece duas formações prontas. São testes separados, sem alterar a seleção inicial de Comuns, os atributos do catálogo ou as regras das partidas normais.
+
 ## Ritmo e leitura das ações
 
-O bot espera 1,8 segundo antes de agir. Após cada ataque, há 2,2 segundos para conferir atacante, alvo, dano, Vida antes/depois e a barra de Vida. Com Steel Jaw, esse intervalo é de 4,4 segundos para ler o ataque e a reação, apresentados juntos no registro e nas duas cartas. Uma carta eliminada permanece visível durante esse feedback e depois sai da equipe. O botão **Pausar** permite interromper o andamento; escolhas do jogador não têm limite de tempo.
+O bot espera 1,8 segundo antes de agir. Após cada ação, há 2,2 segundos para conferir atacante, alvo, dano, Vida antes/depois e a barra de Vida. Com vários impactos, incluindo Steel Jaw, área ou dano periódico, esse intervalo é de 4,4 segundos para ler os efeitos, apresentados juntos no registro e nas cartas. Uma carta eliminada permanece visível durante esse feedback e depois sai da equipe. Imobilização e vulnerabilidade aparecem junto das cartas e no painel da vez. O botão **Pausar** permite interromper o andamento; escolhas do jogador não têm limite de tempo.
 
 A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, seis montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
 
@@ -101,9 +129,9 @@ A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; m
 
 O perfil da classe posiciona os atributos nessas faixas. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
-Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark já usa esse formato com a base recebida no SarckKit. Personagens ainda sem base numérica própria mantêm a apresentação provisória. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
+Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam ainda aguarda sua base própria e mantém a apresentação provisória. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 
-Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto Steel Jaw, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
+Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto Steel Jaw, 3000W e Sharp Guitar, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
 
 ## Apresentação da v0.17.0
 

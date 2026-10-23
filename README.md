@@ -1,12 +1,14 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. Na versão **0.18.2**, Sark recebe o dano primeiro e **só revida com Steel Jaw se continuar vivo**. Um ataque que zera sua Vida o elimina sem reação. A carta mantém a base completa recebida, com apenas Vida e fôlego sobrepostos. A arena, a seleção alternada de Comuns e a continuidade da hierarquia após recuperação foram preservadas.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.19.0** adiciona as habilidades de **Elétrica** e **John**: ataque em área contra a frente adversária, Parry com dado e machado que imobiliza e causa dano após cada ação. Os dois usam as bases completas recebidas, com os valores nos espaços próprios. Sark continua recebendo o dano antes de reagir, somente se sobreviver.
 
 ## Jogar e desenvolver
 
 Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
-Para experimentar a habilidade sem depender dos montes, clique em **Testar Sark** no menu. Escolha **Eu ataco o Sark** para controlar os atacantes ou **Sark na minha equipe** para observar a reação contra a IA. **Jogar** mantém a seleção normal. Nas partidas normais, Sark está no monte Lendário e pode entrar por uma medalha Holográfica.
+Para experimentar as novas habilidades sem depender dos montes, clique em **Testar Elétrica e John** no menu e escolha um deles. Elétrica ataca todos os adversários da frente com uma confirmação; John permite escolher entre ataque normal e cravar o machado. Na vez seguinte dele, é possível manter ou retirar o machado. Nas partidas normais, os dois estão no monte Raro e podem entrar por uma medalha Verde.
+
+**Testar Sark** continua disponível para controlar os atacantes ou observar a reação contra a IA. Sark está no monte Lendário. **Jogar** mantém a seleção alternada de dois Comuns por equipe e a continuidade da hierarquia após recuperação.
 
 É necessário **Node.js 20 ou superior** para rodar os testes e **Python 3** para `npm run dev`. Não há pacotes externos nem etapa de instalação:
 
@@ -29,10 +31,10 @@ npm test
 
 ## Estado do protótipo
 
-A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos outros personagens continuam em desenvolvimento. Sam, Eletric e Sark têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; Sark usa os atributos e a habilidade confirmados pelo criador.
+A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos demais personagens continuam em desenvolvimento. Sam, Elétrica, John e Sark têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; Sam aguarda sua base própria.
 
-![Carta do Sark com a base original](docs/previews/sark-v0.18.1-carta.png)
+![Bases originais de Elétrica e John com os valores do jogo](docs/previews/habilidades-v0.19.0-cartas.png)
 
-Formação de exemplo para revisar o visual e o enquadramento das ilustrações:
+Ataque em área no computador:
 
-![Arena no computador](docs/previews/arena-v0.17.0-desktop.png)
+![Arena no computador](docs/previews/eletrica-v0.19.0-desktop.png)

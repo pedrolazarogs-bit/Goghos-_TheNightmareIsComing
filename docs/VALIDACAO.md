@@ -1,4 +1,24 @@
-# Validação — v0.18.2
+# Validação — v0.19.0
+
+## Elétrica, John e bases integrais
+
+`npm test`: **79 testes aprovados**, incluindo **100 partidas simuladas** que chegam à vitória ou ao empate previsto. Os 18 testes novos cobrem dados confirmados, ataque em área apenas na frente adversária, gasto único de mana e bônus, defesa individual, danos antes de Steel Jaw e Suportes promovidos protegidos do golpe anterior. Para John, verificam todos os resultados do d6, ataque normal, cravada, dano por ação, retirada sem gastar ação, imobilização, vulnerabilidade, liberação após morte, bloqueio de movimento e mão, IA e isolamento das formações de teste. Também verificam que dano periódico não dispara defesa ou reação e que múltiplas perdas enfileiram Brisa.
+
+No Chromium, em **1440×900** e **390×844**, cinco fluxos por resolução passaram com os tempos reais do jogo:
+
+1. Área sem selecionar alvo, gasto único de mana, Parry de John e preservação dos aliados e das retaguardas.
+2. Cravar, sofrer 20 após cada ação, manter, retirar sem gastar a ação e atacar novamente.
+3. Personagem do jogador imobilizado, com botão para passar a vez e aplicação de 20.
+4. John vulnerável sem Parry, morto por outro adversário, liberando o alvo sem dano periódico extra.
+5. Três eliminações em área, feedback das três cartas e promoção dos Suportes intactos.
+
+Os dez fluxos passaram sem exceções JavaScript, imagens ausentes ou transbordamento horizontal. Os dez campos numéricos das duas bases foram conferidos no laboratório, sem ultrapassar seus espaços no computador ou no celular. O PNG de cada base é exibido inteiro; os campos atualizam conforme o estado da batalha.
+
+Também passaram os **oito fluxos de sobrevivência de Sark**, em 1440×900 e 390×844, e os **seis fluxos de continuidade após recuperação**, em 1280×800 e 390×844. A comparação SHA-256 dos nove PNGs recebidos nos dois kits confirmou que todos estão idênticos no projeto: seis arquivos novos e três já existentes.
+
+[Bases e laboratório](previews/habilidades-v0.19.0-cartas.png) · [Área no computador](previews/eletrica-v0.19.0-desktop.png) · [Área no celular](previews/eletrica-v0.19.0-celular.png) · [John no computador](previews/john-v0.19.0-desktop.png) · [John no celular](previews/john-v0.19.0-celular.png)
+
+## Validação anterior — v0.18.2
 
 ## Sobrevivência antes de Steel Jaw
 
