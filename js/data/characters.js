@@ -60,7 +60,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.24.0',
+G.CONFIG={version:'0.24.1',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
@@ -103,7 +103,7 @@ G.CHARACTERS=[
  {...received("nully","Nully","ASSASSIN","MYTHIC",7,30,"diceExecution"),official:true,knownDamage:55},
  {...received("rayyb","Rayyb","SUPPORT","LEGENDARY",4,20,"sleepPowder"),official:true},
  {...received("rayvilin","Rayvilin","SUPPORT","LEGENDARY",5,20,"petrify"),official:true},
- {...received("z_zus","Z-Zus","SUPPORT","LEGENDARY",1,10,"guardian"),official:true},
+ {...received("z_zus","Z-Zus","TANK","LEGENDARY",1,10,"guardian"),official:true},
  {...received("alex","Alex","FIGHTER","COMMON",5,20,"swarm"),official:true,knownDamage:120,copies:1},
  {...received("karma","Karma","ASSASSIN","LEGENDARY",6,10,"friendship"),official:true},
  {...received("trucc","Trucc","ASSASSIN","EPIC",8,20,"fadingDodge"),official:true},
@@ -145,7 +145,7 @@ G.CHARACTER_BALANCE={
  "nully":{"maxHp":480,"damage":55,"reason":"Multiplicação, execução e velocidade alta justificam menos Vida; preservar os 55 por dado."},
  "rayyb":{"maxHp":875,"damage":150,"reason":"Sono gratuito e potencialmente longo exige desconto na Vida e no dano básicos."},
  "rayvilin":{"maxHp":700,"damage":150,"reason":"Petrificar e executar na mesma vez é forte; reduzir resistência e dano, sem mudar o d6."},
- "z_zus":{"maxHp":1040,"damage":150,"reason":"Manter Vida alta para absorver dano; ataque no piso Lendário por ser Suporte."},
+ "z_zus":{"maxHp":1040,"damage":150,"reason":"Preservar 1040/150 até o balanceamento manual; Tank confirmado pelo raio da base."},
  "alex":{"maxHp":155,"damage":120,"reason":"220 era muito acima do teto Comum; manter divisão/concentração com total básico de 120."},
  "karma":{"maxHp":650,"damage":230,"reason":"O ataque se repete como reação aos golpes no amigo; reduzir resistência e básico."},
  "trucc":{"maxHp":340,"damage":90,"reason":"Esquiva inicial de cinco faces e velocidade 8 exigem Vida e dano básicos menores."},

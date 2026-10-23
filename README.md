@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.24.0** renova a interface com um visual cartoon mais limpo, turno em destaque, instruções diretas e resultados de batalha por alvo. Fichas, ordem e histórico ficam disponíveis sob demanda. A recuperação da Daly Mãe continua oferecendo **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.24.1** confere as classes pelos símbolos das 30 cartas e corrige Z-Zus para Tank, com resistência natural de 10%. Os oito limiares de Parry pendentes aguardam as novas cartas do criador. Vida e dano foram preservados para o balanceamento manual. A interface mantém o visual cartoon, turno em destaque, instruções diretas e resultados por alvo. Fichas, ordem e histórico ficam disponíveis sob demanda. A recuperação da Daly Mãe continua oferecendo **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
 
 ## Jogar e desenvolver
 
@@ -31,7 +31,7 @@ npm test
 | `tests/` | Regras atuais e testes da interface com DOM simulado |
 | `docs/` | Regras completas e histórico das versões recebidas |
 
-[Invocação e tributos](docs/DEUSES.md) · [Cartas de Apoio](docs/APOIOS.md) · [Balanceamento](docs/BALANCEAMENTO.md) · [Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
+[Conferência de classes e tributos](docs/CLASSES.md) · [Invocação e tributos](docs/DEUSES.md) · [Cartas de Apoio](docs/APOIOS.md) · [Balanceamento](docs/BALANCEAMENTO.md) · [Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
 
 ## Estado do protótipo
 

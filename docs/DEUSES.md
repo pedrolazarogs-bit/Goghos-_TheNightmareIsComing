@@ -34,9 +34,11 @@ As novas regras de Tanque e Destroyer valem para **todos os personagens dessas c
 | --- | --- |
 | Mago | Mana inicial/máxima 3; recupera +1 por ação concluída. Cada ponto gasto soma 10 de dano, parâmetro ainda provisório. |
 | Assassino | Esquiva se for mais rápido: d6 até a diferença de velocidade. Mago ignora esse teste. |
-| Fighter | Parry; John e Zeenneriam defendem com 1 ou 2 no d6. Os demais Fighters mantêm seus limiares individuais ainda não definidos. |
-| Tanque | Resistência natural de 10% a dano de ataques, incluindo revides que sejam ataques. Não reduz queimadura periódica, livro, dano do machado ou execução. Combina com outras reduções antes do arredondamento. |
+| Fighter | Parry; John e Zeenneriam defendem com 1 ou 2 no d6. Os oito demais Fighters aguardam os limiares das novas cartas, conforme confirmação do criador. |
+| Tanque | Resistência natural de 10% a dano de ataques, incluindo revides que sejam ataques. Não reduz queimadura periódica, livro, dano do machado, hipnose ou execução. Combina com outras reduções antes do arredondamento. |
 | Destroyer | Um d6 por ataque: 1 ou 2 concede +25% de dano. Não multiplica execuções, dano fixo periódico nem vidas da Daly Mãe. No míssil, o crítico vale no alvo principal e o dano lateral deriva dos 20% desse impacto, sem nova rolagem. |
 | Suporte | Transita entre retaguarda e frente, respeitando vagas e mantendo pelo menos um defensor na frente. |
 
 Zeenneriam reúne todos os seis. Seus números iniciais vêm da arte e não usam as faixas de raridade. O menu **Invocação de Zeenneriam** prepara os três fragmentos na mão para testar a invocação manualmente; o Deus começa fora da arena.
+
+A [conferência de classes da v0.24.1](CLASSES.md) corrige Z-Zus para Tank e registra os valores de Parry pendentes, sem rebalancear atributos.

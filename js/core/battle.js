@@ -166,7 +166,7 @@ function checkBattleResult(s){
 }
 // Esquivar (Tributo do Assassin): só esquiva quem é MAIS rápido que o atacante; tira-se um dado e esquiva se sair de 1 até a diferença
 // de velocidade (ex.: 5 − 3 = 2 → 1 ou 2). Velocidade igual ou maior do atacante: não esquiva. Magos sempre acertam. Esquivar = nenhum dano.
-function dodgeInfo(a,t){if(G.getMainAbility(t||{})?.trigger==='fadingDodge')return G.hasClass(a,'MAGO')?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(!t||t.pinnedBy||t.pinning||!G.hasClass(t,'ASSASSIN')||G.hasClass(a,'MAGO'))return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
+function dodgeInfo(a,t){if(!t||G.isReactionBlocked?.(t)||G.getMainAbility(t)?.trigger==='duelist')return null;if(G.getMainAbility(t)?.trigger==='fadingDodge')return G.hasClass(a,'MAGO')?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(t.pinnedBy||t.pinning||!G.hasClass(t,'ASSASSIN')||G.hasClass(a,'MAGO'))return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
 function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{diff:i.diff,sides:i.sides,roll,dodged:roll<=i.diff};}
 // Ataque à Daly Mãe exposta: retira EXATAMENTE 1 vida, qualquer que seja o Dano do atacante (sem excedente, sem esquiva).
 // Bônus de apoio e mana não são gastos (não teriam efeito). Cada ataque é processado uma vez (o atacante só age uma vez por rodada).

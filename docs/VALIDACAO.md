@@ -1,3 +1,15 @@
+# Validação — v0.24.1
+
+`npm test`: **245 testes aprovados**, incluindo **340 partidas completas simuladas**. São os 229 anteriores e 16 testes de classes/tributos: identificação visual dos 30, MAX, resistência de Z-Zus em ataques diretos/área/revides e redirecionamento, restrição de retaguarda, efeitos fixos, mana, esquiva com impedimentos/exceções, Parry confirmado e pendente, crítico dos cinco Destroyers e transição dos seis Supports.
+
+Os números de Vida, dano, velocidade, fôlego, raridade, habilidade e Parry dos 31 personagens foram comparados entre os dados da v0.24.0 e os atuais; todos foram preservados. As 30 classes foram comparadas com os símbolos inferiores das bases originais; a única divergência era Z-Zus, agora Tank. Os arquivos de arte não foram alterados. O resultado completo, incluindo os oito limiares de Parry que o criador definirá nas novas cartas, está em [CLASSES.md](CLASSES.md).
+
+No Chromium em **1440×1000 e 390×844**, passaram **16 cenários**, usando os botões reais: catálogo de 31 cartas, dano transferido ao Tank e ficha de resistência, impossibilidade de mover Z-Zus para trás, hipnose por 90, mana no ataque em área, Parry de John, alvo Assassino impedido sem esquiva na previsão/resolução e trânsito de Support sem consumir ação. Sem erros JavaScript, recursos ausentes, texto indefinido ou transbordamento horizontal nesses cenários.
+
+[Ficha de Tank no computador](previews/tank-v0.24.1-desktop.png) · [No celular](previews/tank-v0.24.1-celular.png)
+
+---
+
 # Validação — v0.24.0
 
 `npm test`: **229 testes aprovados**, incluindo **340 partidas completas simuladas**. Os oito testes novos verificam apresentação sem mutar a batalha, combo real com golpes separados e total visual, revide fatal de Sark, defesa por alvo na área, estados temporários, previsão, escape de texto e continuidade da vez ao usar Apoio gratuito.

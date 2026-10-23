@@ -128,3 +128,12 @@ Arena, menu, seleção e galerias recebem contornos, formas arredondadas e uma p
 Os resultados mostram dano, cura, defesa e revide por alvo, com Vida antes/depois e dados do combo. Os impactos de um mesmo efeito são somados apenas na apresentação: socos, testes e reações continuam separados no motor. A instrução da vez e os botões usam textos menores e específicos para a ação selecionada.
 
 Ficha e registro ampliados suspendem o bot e o tempo de exibição, retomando ao fechar. Há seleção por teclado e fechamento por Escape. O celular mantém os comandos próximos do campo e reserva espaço para a mão. As regras, atributos, tempos de combate e imagens originais foram preservados. Detalhes em [UI.md](UI.md) e resultados em [VALIDACAO.md](VALIDACAO.md).
+
+
+## v0.24.1 — conferência de classes e tributos
+
+Conferidos os símbolos inferiores das 30 bases oficiais com a legenda do criador. Z-Zus passa de Support para Tank: recebe resistência natural de 10% a ataques e deixa de transitar ou ocupar a retaguarda. As outras 29 classes correspondem às bases. MAX continua reunindo todos os tributos. Os símbolos textuais de reserva da interface também seguem a legenda.
+
+A previsão de esquiva passa a respeitar impedimentos e a substituição pelo duelo do Xerife, como a resolução já fazia. Hipnose é identificada como efeito fixo, preservando os 90 contra Tanks em vez de aplicar a redução reservada a ataques. Nenhum valor de Vida, dano, velocidade, fôlego, raridade ou limiar já definido foi alterado.
+
+Os 16 testes novos verificam classes e interações por elenco. John e Zeenneriam mantêm Parry 1–2; os oito Fighters restantes aguardam valores nas novas cartas, conforme decisão do criador. Resultado completo em [CLASSES.md](CLASSES.md).

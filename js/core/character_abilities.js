@@ -8,7 +8,7 @@ G.sameDimension=sameDimension;
 G.damageInfo=(target,raw,options={})=>{
   const incoming=G.roundUpToFive(raw),reduction=target?.armorReduction||0;
   // Multiplicar por 20/100 evita resíduos de ponto flutuante em 1 - 0.8.
-  const resistance=G.CONFIG.classTributes&&G.hasClass(target,'TANK')&&!['book','burn-damage','pin-damage','support'].includes(options.kind)?0.1:0;
+  const resistance=G.CONFIG.classTributes&&G.hasClass(target,'TANK')&&!['book','burn-damage','pin-damage','hypnosis','support'].includes(options.kind)?0.1:0;
   const damage=G.roundUpToFive(incoming*(reduction?20:100)/100*(1-resistance));
   return{incoming,damage,blocked:incoming-damage};
 };

@@ -207,7 +207,7 @@ G.performBreakCurse=(s,uid,targetUid)=>{
 G.performHypnosisTurn=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,t=unit(s,a.hypnosisTarget);
  if(ability(a)!=='hypnosis'||G.isActionLocked(a)||a.pinnedBy||!alive(t)||!same(a,t))return fail('Escolha um alvo acessível para a hipnose.');
- G.completeAction(s,a);const hit=G.dealCharacterDamage(s,a,t,90,{ability:'Hipnose'});G.recordBattleEvent(s,{...hit});s.log.push(a.name+' manteve a hipnose · '+hit.targetName+' recebeu '+hit.damage);G.finishResolvedAction(s);return{ok:true};
+ G.completeAction(s,a);const hit=G.dealCharacterDamage(s,a,t,90,{ability:'Hipnose',kind:'hypnosis'});G.recordBattleEvent(s,{...hit});s.log.push(a.name+' manteve a hipnose · '+hit.targetName+' recebeu '+hit.damage);G.finishResolvedAction(s);return{ok:true};
 };
 G.officialStatus=(s,u)=>{
  const states=[];
@@ -278,7 +278,7 @@ G.officialPreviewDamage=(s,a,mana,target,mode)=>{
  if(type==='hunt'&&target?.uid===a.huntUid&&!G.isPresence(target))raw+=a.damage*2;
  if(type==='duelist')raw=target&&rank(target)<=rank(a)?0:200;
  if(type==='hypnosis')raw=90;
- raw=G.roundUpToFive(raw);return target?G.damageInfo(target,raw,{ignoreMainAbilities:G.isPresence(a)}).damage:raw;
+ raw=G.roundUpToFive(raw);return target?G.damageInfo(target,raw,{ignoreMainAbilities:G.isPresence(a),kind:type==='hypnosis'?'hypnosis':undefined}).damage:raw;
 };
 const oldImpacts=G.eventImpacts;
 G.eventImpacts=e=>e?.timeline?[...e.timeline,...(e.ticks||[])]:oldImpacts(e);

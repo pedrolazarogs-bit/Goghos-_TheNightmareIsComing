@@ -91,7 +91,7 @@ test('Z-Zus transfere dano e execução instantânea, inclusive de atacante de r
  s=battle(['z_zus','alex'],['nully'],{roll:()=>6});resolve(s,'z_zus','alex');attack(s,'nully','alex');assert(u(s,'z_zus').eliminated);assert.equal(u(s,'alex').hp,155);assert.equal(u(s,'alex').guardianUid,null);
 });
 test('Z-Zus não transfere área e sua morte encerra a proteção sem repetir dano excedente',()=>{
- let s=battle(['z_zus','mike'],['alex']);resolve(s,'z_zus','mike');attack(s,'alex','mike','area');assert.equal(u(s,'z_zus').hp,980);assert.equal(u(s,'mike').hp,75);
+ let s=battle(['z_zus','mike'],['alex']);resolve(s,'z_zus','mike');attack(s,'alex','mike','area');assert.equal(u(s,'z_zus').hp,985);assert.equal(u(s,'mike').hp,75);
  s=battle(['z_zus','alex'],['cavaleiro']);resolve(s,'z_zus','alex');u(s,'z_zus').hp=35;attack(s,'cavaleiro','alex');assert.equal(u(s,'alex').hp,155);attack(s,'cavaleiro','alex');assert.equal(u(s,'alex').hp,115);
 });
 test('Swarm divide 120 entre inimigos da frente e arredonda, ou concentra 120 em um alvo',()=>{

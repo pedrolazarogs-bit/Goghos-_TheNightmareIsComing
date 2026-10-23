@@ -108,3 +108,7 @@ A vez adversária, a pausa, as escolhas obrigatórias e o feedback da ação con
 ## Regras acrescentadas na v0.23.0
 
 Os valores iniciais da tabela acima foram preservados. Tanque agora reduz 10% de dano de ataques; Destroyer rola 1–2 no d6 para causar +25%. Os ensaios numéricos anteriores são registros da v0.22.0, antes desses tributos e dos 17 Apoios. A suíte atual acrescenta partidas com os novos efeitos e 40 partidas com invocação garantida. Zeenneriam tem 1700 de Vida/700 de Dano conforme a arte, não tem raridade e fica fora das faixas convencionais. Seu acesso exige os três únicos fragmentos do monte compartilhado.
+
+## Correção de classe posterior — v0.24.1
+
+A tabela acima registra o balanceamento da v0.22.0. A conferência do símbolo inferior corrigiu Z-Zus de Support para Tank, preservando 1040 de Vida e 150 de dano. Não houve novo balanceamento numérico. Os próximos valores serão definidos manualmente pelo criador em novas cartas; veja [CLASSES.md](CLASSES.md).

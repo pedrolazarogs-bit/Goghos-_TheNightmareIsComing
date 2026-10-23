@@ -15,7 +15,7 @@ function artHTML(a,cls=''){
 }
 G.arenaArtHTML=(id,cls='')=>artHTML(G.ARENA_ART[id],cls);
 G.CLASS_LABEL={ASSASSIN:'Assassino',SUPPORT:'Suporte',FIGHTER:'Lutador',TANK:'Tanque',DESTROYER:'Destruidor',MAGO:'Mago',DEUS:'Deus'};
-G.CLASS_SIGIL={ASSASSIN:'✧',SUPPORT:'✚',FIGHTER:'✦',TANK:'⬟',DESTROYER:'✹',MAGO:'ϟ'};
+G.CLASS_SIGIL={ASSASSIN:'××',SUPPORT:'+',FIGHTER:'⚔',TANK:'ϟ',DESTROYER:'⌖',MAGO:'☾',DEUS:'MAX'};
 G.actorPortraitHTML=(u,cls='')=>{
   const base=u&&(G.getCharacterById(u.id)||u);
   if(base?.portraitBanner&&(!cls.includes('stats-portrait')||!base.artLayout))return `<span class="actor-portrait illustrated banner ${cls}">${artHTML(base.portraitBanner)}</span>`;

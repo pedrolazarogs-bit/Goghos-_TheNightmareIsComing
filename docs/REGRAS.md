@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.24.0
+# Estrutura base do GOGHOS — v0.24.1
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -193,3 +193,10 @@ No celular, os painéis se reorganizam e a arena rola acima do espaço reservado
 O [guia dos 17 Apoios](APOIOS.md) registra todos os alvos, limites e interações. Eu Denovo concede uma ação extra; Combokill concede outro ataque após uma eliminação por golpe. Essas ações continuam a mesma rodada e retomam a faixa de velocidade anterior, sem compras extras.
 
 O [guia de Zeenneriam e MAX](DEUSES.md) define os três fragmentos únicos, a reserva fora dos montes, Presence e os tributos de todas as classes. Tanque reduz 10% de ataques; Destroyer causa +25% de dano com 1 ou 2 no d6. O MAX reúne esses tributos com mana, esquiva, Parry e transição. Presence ignora habilidades de personagens; Apoios continuam válidos.
+
+
+## Conferência das classes — v0.24.1
+
+A legenda do criador identifica os símbolos inferiores: olho de X = Assassin, espada = Fighter, raio = Tank, + = Support, lua = Mago e mira = Destroyer. A [conferência completa](CLASSES.md) relaciona os 30 personagens e as exceções dos tributos. Z-Zus foi corrigido de Support para Tank; a proteção pessoal continua, mas a transição de Suporte deixa de existir para ele. Nenhum atributo numérico foi rebalanceado nesta revisão.
+
+John e Zeenneriam mantêm Parry 1–2. O criador definirá nas novas cartas os oito limiares restantes; não há um valor padrão presumido para esses Fighters. A previsão de esquiva respeita os mesmos impedimentos e a substituição pelo duelo do Xerife usados na resolução. A hipnose causa seus 90 de efeito fixo, sem a redução de Tank reservada a ataques.
