@@ -32,7 +32,7 @@ function performSupport(s,idx,targetUid){
     if(!t||t.team!=='player')return fail('Escolha um aliado.');
     if(t.hp<=0)return fail('Aliado derrotado não pode ser curado.');
     if(t.hp>=t.maxHp)return fail('Esse aliado já está com a Vida cheia.');
-    const b=t.hp;t.hp=Math.min(t.maxHp,t.hp+d.value);s.log.push('Apoio · '+d.name+': '+t.name+' recuperou '+(t.hp-b)+' de Vida');
+    const b=t.hp;t.hp=Math.min(t.maxHp,G.roundUpToFive(t.hp+d.value));s.log.push('Apoio · '+d.name+': '+t.name+' recuperou '+(t.hp-b)+' de Vida');
   }else if(d.effect==='nextAttackBonus'){sp.nextAttackBonus+=d.value;s.log.push('Apoio · '+d.name+': o próximo ataque causa +'+d.value+' de dano');}
   else if(d.effect==='onAllyDefeatedHeal'){sp.brisa=d.value;s.log.push('Apoio · '+d.name+': ativa até o fim da batalha');}
   slot.uses--;sp.usedTurn=s.turn;return{ok:true};
@@ -50,7 +50,7 @@ G.performHandSupport=(s,iid,targetUid)=>{
   if(d.effect==='heal'){
     const t=G.getUnit(s,targetUid);if(!t||t.team!=='player')return fail('Escolha um aliado.');
     if(t.hp<=0)return fail('Aliado derrotado não pode ser curado.');if(t.hp>=t.maxHp)return fail('Esse aliado já está com a Vida cheia.');
-    const b=t.hp;t.hp=Math.min(t.maxHp,t.hp+d.value);s.log.push('CURA · '+d.name+': '+t.name+' recuperou +'+(t.hp-b)+' de Vida');
+    const b=t.hp;t.hp=Math.min(t.maxHp,G.roundUpToFive(t.hp+d.value));s.log.push('CURA · '+d.name+': '+t.name+' recuperou +'+(t.hp-b)+' de Vida');
   }else if(d.effect==='nextAttackBonus'){s.support.nextAttackBonus+=d.value;s.log.push('BÔNUS · '+d.name+': próximo ataque causa +'+d.value+' de dano');}
   else if(d.effect==='onAllyDefeatedHeal'){if(s.support.brisa)return fail('Brisa já está ativa.');s.support.brisa=d.value;s.log.push('BRISA · efeito ativo: quando um aliado for eliminado, outro pode curar +'+d.value+' de Vida');}
   else return fail('Efeito de Apoio ainda não implementado.');
@@ -69,7 +69,7 @@ function resolveBrisa(s,targetUid){
   if(targetUid===null){s.support.pending=s.support.pendingQueue.shift()||null;s.log.push('Brisa: cura dispensada');return{ok:true};}
   if(!p.candidates.includes(targetUid))return fail('Escolha um aliado ferido.');
   const u=G.getUnit(s,targetUid);if(!u||u.hp<=0||u.eliminated)return fail('Aliado derrotado não pode ser curado.');
-  const b=u.hp;u.hp=Math.min(u.maxHp,u.hp+p.value);s.support.pending=s.support.pendingQueue.shift()||null;
+  const b=u.hp;u.hp=Math.min(u.maxHp,G.roundUpToFive(u.hp+p.value));s.support.pending=s.support.pendingQueue.shift()||null;
   s.log.push('Brisa: '+u.name+' recuperou '+(u.hp-b)+' de Vida');return{ok:true};
 }
 Object.assign(G,{supportBlockReason,performSupport,onAllyDefeated,resolveBrisa});

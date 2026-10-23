@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.19.0
+# Estrutura base do GOGHOS — v0.19.1
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -75,7 +75,7 @@ Ao receber um ataque válido, Sark recebe primeiro o dano normal, incluindo mana
 | Comum, Raro ou Épico | Eliminação instantânea, independentemente da Vida restante |
 | Lendário ou Secreto | 390 de dano; é eliminado se a Vida chegar a zero |
 
-A condição de sobrevivência vale para todas as raridades: com 50 de Vida e recebendo 100 de dano, Sark morre sem revidar; com 100 de Vida e recebendo 50, fica com 50 e então reage. Dano exatamente igual à Vida também impede a reação. Se sobrar somente 1 de Vida, ele ainda pode revidar.
+A condição de sobrevivência vale para todas as raridades: com 50 de Vida e recebendo 100 de dano, Sark morre sem revidar; com 100 de Vida e recebendo 50, fica com 50 e então reage. Dano exatamente igual à Vida também impede a reação. Se sobrarem somente 5 de Vida, ele ainda pode revidar.
 
 A reação não consome ataque, mana ou fôlego de Sark, não altera a velocidade da ação original, não faz teste de esquiva e não dispara outra reação. Como Sark não tem velocidade, também não recebe a esquiva provisória dos Assassinos. Um ataque a outro personagem não ativa Steel Jaw. O dano não passa para a Daly Mãe; eventual eliminação apenas a expõe, sem retirar vida nem abrir recuperação automaticamente. A previsão antes do ataque considera o dano total e informa se Sark sobreviverá para reagir ou será eliminado sem revidar.
 
@@ -118,6 +118,12 @@ O bot espera 1,8 segundo antes de agir. Após cada ação, há 2,2 segundos para
 A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, seis montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
 
 ## Atributos e regras preservadas
+
+**Arredondamento desde a v0.19.1:** Vida máxima, Vida atual e dano dos personagens terminam sempre em 0 ou 5. Valores que não são múltiplos de 5 sobem ao próximo: 211–214 viram 215; 216–219 viram 220. Valores já redondos permanecem iguais. Os atributos calculados por classe/raridade também seguem essa regra.
+
+O total de um ataque, incluindo mana e bônus, é arredondado antes de retirar Vida. A Vida restante após dano e a soma após cura também são arredondadas para cima. A cura respeita a Vida máxima; dano fatal deixa a Vida em zero, sem ressuscitar. Ataques em área, Steel Jaw e o dano periódico de Sharp Guitar seguem a mesma regra. Cartas, previsão, painel e registro usam os valores reais da batalha.
+
+A Daly Mãe mantém suas três vidas e perde uma por ataque; esse contador não é Vida numérica de personagem. Velocidade, fôlego, mana, resultados do dado e quantidades de cartas mantêm suas escalas.
 
 | Raridade | Vida | Dano |
 | --- | ---: | ---: |

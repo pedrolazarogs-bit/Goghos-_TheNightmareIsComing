@@ -24,7 +24,7 @@ const nextSlot=(s,side,row)=>1+Math.max(-1,...s.units.filter(u=>u.team===side&&u
 // Cria a unidade de uma carta de personagem (instância {iid,id}) na linha indicada. uid = lado_n (n cresce a cada personagem que entra).
 function makeUnit(s,side,inst,row){
   const c=G.getCharacterById(inst.id),k=s.uidSeq[side]++;
-  const u={uid:side+'_'+k,iid:inst.iid,id:c.id,team:side,row,slot:nextSlot(s,side,row),name:c.name,class:c.class,rarity:c.rarity,maxHp:c.maxHp,hp:c.maxHp,damage:c.damage,speed:c.speed,stamina:c.stamina,mana:G.manaFor(c),maxMana:G.manaFor(c),art:c.art,abilityId:c.abilityId||null,passiveOnly:!!c.passiveOnly,parryThreshold:c.parryThreshold||0,pinnedBy:null,pinning:null,pinStartedTurn:null,eliminated:false};
+  const u={uid:side+'_'+k,iid:inst.iid,id:c.id,team:side,row,slot:nextSlot(s,side,row),name:c.name,class:c.class,rarity:c.rarity,maxHp:G.roundUpToFive(c.maxHp),hp:G.roundUpToFive(c.maxHp),damage:G.roundUpToFive(c.damage),speed:c.speed,stamina:c.stamina,mana:G.manaFor(c),maxMana:G.manaFor(c),art:c.art,abilityId:c.abilityId||null,passiveOnly:!!c.passiveOnly,parryThreshold:c.parryThreshold||0,pinnedBy:null,pinning:null,pinStartedTurn:null,eliminated:false};
   s.units.push(u);return u;
 }
 function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
@@ -177,7 +177,7 @@ function parryInfo(a,t){
 function applyHit(s,a,t,damage){
   const beforeHp=t.hp,info=parryInfo(a,t),roll=info?s.roll(6):null,parried=!!info&&roll<=info.threshold;
   const dodge=parried?null:rollDodge(s,a,t),dodged=!!dodge?.dodged;
-  if(!parried&&!dodged)t.hp=Math.max(0,t.hp-damage);
+  if(!parried&&!dodged)t.hp=G.roundUpToFive(t.hp-damage);
   const hit={type:parried?'parry':dodged?'dodge':t.hp<=0?'defeat':'hit',actorUid:a.uid,actorName:a.name,targetUid:t.uid,targetName:t.name,targetTeam:t.team,targetRow:t.row,targetSlot:t.slot,beforeHp,afterHp:t.hp,damage:beforeHp-t.hp};
   if(info)hit.parry={roll,threshold:info.threshold,sides:6,blocked:parried};
   if(dodge)hit.roll=dodge.roll;
@@ -189,7 +189,7 @@ function finishResolvedAction(s){
   defeated.forEach(u=>G.eliminateUnit(s,u));
   if(!s.result)for(const source of s.units.filter(u=>u.pinning&&!isCharacterDefeated(u)&&u.pinStartedTurn<s.turn)){
     const target=getUnit(s,source.pinning);if(!target||isCharacterDefeated(target)){releasePinLink(s,source);continue;}
-    const beforeHp=target.hp,amount=G.getMainAbility(source).damage;target.hp=Math.max(0,target.hp-amount);
+    const beforeHp=target.hp,amount=G.roundUpToFive(G.getMainAbility(source).damage);target.hp=G.roundUpToFive(target.hp-amount);
     const tick={type:target.hp<=0?'defeat':'hit',kind:'pin-damage',sourceUid:source.uid,sourceName:source.name,actorName:source.name,ability:'Sharp Guitar',targetUid:target.uid,targetName:target.name,targetTeam:target.team,targetRow:target.row,targetSlot:target.slot,beforeHp,afterHp:target.hp,damage:beforeHp-target.hp,amount};
     (s.lastEvent.ticks||(s.lastEvent.ticks=[])).push(tick);
     s.log.push('Sharp Guitar · '+target.name+' sofreu '+amount+' de dano do machado ('+beforeHp+' → '+target.hp+')');
@@ -217,9 +217,9 @@ function withdrawPin(s,uid){
   releasePinLink(s,v.actor);s.log.push(v.actor.name+' retirou o machado e pode escolher um novo ataque');return{ok:true};
 }
 function reactionPreview(attacker,target,incomingDamage=null){
-  if(!target||target.team===attacker.team||target.pinnedBy||target.pinning||isCharacterDefeated(target)||(incomingDamage!==null&&incomingDamage>=target.hp))return null;
+  if(!target||target.team===attacker.team||target.pinnedBy||target.pinning||isCharacterDefeated(target)||(incomingDamage!==null&&G.roundUpToFive(incomingDamage)>=target.hp))return null;
   const ability=target&&G.getMainAbility(target);if(ability?.trigger!=='onAttacked')return null;
-  return{ability:ability.name,instant:ability.instantRarities.includes(attacker.rarity),damage:ability.damage};
+  return{ability:ability.name,instant:ability.instantRarities.includes(attacker.rarity),damage:G.roundUpToFive(ability.damage)};
 }
 // Uma reação pertence ao ataque original: não é outro ataque, não esquiva, não consome ação e não gera outra reação.
 function resolveReaction(s,a,t){
@@ -230,7 +230,7 @@ function resolveReaction(s,a,t){
     return null;
   }
   const p=reactionPreview(a,t);if(!p)return null;
-  const beforeHp=a.hp;a.hp=p.instant?0:Math.max(0,a.hp-p.damage);
+  const beforeHp=a.hp;a.hp=p.instant?0:G.roundUpToFive(a.hp-p.damage);
   const r={type:a.hp<=0?'defeat':'hit',sourceUid:t.uid,sourceName:t.name,targetUid:a.uid,targetName:a.name,targetTeam:a.team,targetRow:a.row,targetSlot:a.slot,beforeHp,afterHp:a.hp,damage:beforeHp-a.hp,amount:p.instant?null:p.damage,instant:p.instant,ability:p.ability};
   s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+p.damage+' de dano ('+beforeHp+' → '+a.hp+')'));
   return r;
@@ -251,7 +251,7 @@ function performAreaAttack(s,attackerUid,mana=0){
   if(!Number.isInteger(mana)||mana<0||mana>a.mana)return fail('Quantidade de mana inválida.');
   const side=a.team==='player'?'enemy':'player',targets=s.units.filter(u=>u.team===side&&isTargetable(u));
   if(!targets.length)return G.isDalyExposed(s,side)?attackDaly(s,a,side):fail('Não há adversários na linha de frente.');
-  const bonus=a.team==='player'?G.takeAttackBonus(s):0,damage=a.damage+bonus+mana*G.CONFIG.manaDamagePerPoint;
+  const bonus=a.team==='player'?G.takeAttackBonus(s):0,damage=G.roundUpToFive(a.damage+bonus+mana*G.CONFIG.manaDamagePerPoint);
   a.mana-=mana;completeAction(s,a);
   const hits=targets.map(t=>applyHit(s,a,t,damage));
   event(s,{type:'area',actorUid:a.uid,actorName:a.name,targetName:'Linha de frente adversária',hits,damage:hits.reduce((n,h)=>n+h.damage,0),manaSpent:mana,bonus});
@@ -293,7 +293,7 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
   if(!Number.isInteger(mana)||mana<0)return fail('Quantidade de mana inválida.');
   if(mana>0&&a.class!=='MAGO')return fail('Somente Magos usam mana.');
   if(mana>a.mana)return fail('Mana insuficiente.');
-  const per=G.CONFIG.manaDamagePerPoint,bonus=a.team==='player'?G.takeAttackBonus(s):0,dmg=a.damage+bonus+mana*per; // apoio (Na Moloeira) + mana do Mago
+  const per=G.CONFIG.manaDamagePerPoint,bonus=a.team==='player'?G.takeAttackBonus(s):0,dmg=G.roundUpToFive(a.damage+bonus+mana*per); // apoio (Na Moloeira) + mana do Mago
   a.mana-=mana; // Mana gasta é parcialmente recuperada ao fim de cada ação/turno que passa
   completeAction(s,a);const hit=applyHit(s,a,t,dmg);event(s,{...hit,manaSpent:mana,bonus});
   const landed=['hit','defeat'].includes(hit.type),reaction=landed?resolveReaction(s,a,t):null;if(reaction)s.lastEvent.reaction=reaction;
@@ -328,7 +328,7 @@ function getSwapPairs(s,side){
   const rear=s.units.filter(u=>ok(u)&&u.row==='rear'),front=s.units.filter(u=>ok(u)&&u.row==='front');
   return rear.flatMap(r=>front.map(f=>[r.uid,f.uid]));
 }
-function previewDamage(s,a,mana=0){return a.damage+(a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint;}
+function previewDamage(s,a,mana=0){return G.roundUpToFive(a.damage+(a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint);}
 const resetBattle=s=>createBattleState(s.config.playerTeam,s.config.enemyTeam,s.config.supportIds); // recomeça com as mesmas equipes iniciais; montes, mãos, Daly Mães e eliminados voltam do zero
 // Tabuleiro para a UI: por lado, os vivos de cada linha (ordenados pela posição). Eliminados não aparecem: ficam em s.eliminated.
 function getBoard(s){

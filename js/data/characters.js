@@ -4,6 +4,8 @@
 // RARIDADES PROVISÓRIAS: char_02…char_08 (Comum) e char_09 (Épico) NÃO são oficiais — foram atribuídas só para o jogo ser jogável (a seleção inicial exige Comuns).
 // Troque pelas raridades reais. Opcional por personagem: copies (nº de cópias no monte, padrão 1).
 (function(G){
+// Vida, dano e cura sobem até o próximo múltiplo de 5; zero continua zero.
+G.roundUpToFive=value=>Math.max(0,Math.ceil(value/5)*5);
 G.CLASSES=['ASSASSIN','SUPPORT','FIGHTER','TANK','DESTROYER','MAGO'];
 G.RARITIES=['COMMON','RARE','EPIC','LEGENDARY','SECRET']; // ordem da frequência: Comum > Raro > Épico > Lendário > Secreto
 G.RARITY_LABEL={COMMON:'Comum',RARE:'Raro',EPIC:'Épico',LEGENDARY:'Lendário',SECRET:'Secreto'};
@@ -21,7 +23,7 @@ G.getCharacterStats=c=>{
   const range=G.RARITY_HP[c.rarity]||G.RARITY_HP.COMMON,drange=G.RARITY_DAMAGE[c.rarity]||G.RARITY_DAMAGE.COMMON,profile=G.CLASS_PROFILE[c.class]||G.CLASS_PROFILE.FIGHTER;
   const hpPosition={veryLow:.05,low:.2,normal:.5,medium:.55,high:.75,veryHigh:.95}[profile.hp]??.5;
   const damagePosition={veryLow:.05,medium:.4,normal:.5,high:.75,veryHigh:.95}[profile.damage]??.5;
-  return {maxHp:Math.round(range.min+(range.max-range.min)*hpPosition),damage:Math.round(drange.min+(drange.max-drange.min)*damagePosition)};
+  return {maxHp:G.roundUpToFive(range.min+(range.max-range.min)*hpPosition),damage:G.roundUpToFive(drange.min+(drange.max-drange.min)*damagePosition)};
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
@@ -31,7 +33,7 @@ G.MAIN_ABILITIES={
  sharp_guitar:{name:'Sharp Guitar',trigger:'pinAttack',damage:20,description:'Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry.'}
 };
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.19.0 (protótipo)',
+G.CONFIG={version:'0.19.1 (protótipo)',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
@@ -56,6 +58,6 @@ G.CHARACTERS=[
  C('sarck','Sark','ASSASSIN',530,0,null,{rarity:'LEGENDARY',stamina:5,mainAbility:'Steel Jaw',abilityId:'steel_jaw',passiveOnly:true,knownHp:530,knownDamage:0,illustrated:true,cardBase:{src:'assets/cards/card_base_sark.png',fields:{hp:{b:[470,1310,895,1530],s:265,a:'l'},stamina:{b:[350,656,490,746],s:70,a:'c'}}},portraitBanner:{src:'assets/characters/sark_banner.png',size:[2048,2048],bounds:[21,159,1918,1458]},abilityArt:'assets/abilities/sarck.png',artLayout:{size:[2048,2048],focus:[500,454,1549,1525],target:[440,300,1250,1165]},description:G.MAIN_ABILITIES.steel_jaw.description})].map(Object.freeze);
 G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id)||null;
 G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
-  ...(Number.isFinite(c.knownHp)?{maxHp:c.knownHp}:{}),
-  ...(Number.isFinite(c.knownDamage)?{damage:c.knownDamage}:{})}));
+  ...(Number.isFinite(c.knownHp)?{maxHp:G.roundUpToFive(c.knownHp)}:{}),
+  ...(Number.isFinite(c.knownDamage)?{damage:G.roundUpToFive(c.knownDamage)}:{})}));
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

@@ -63,6 +63,10 @@ test('100 partidas de IA terminam em vitória ou empate válido, sem perder cart
       assert(actor,`sem ator na partida ${i}`);
       const result=G.AI.takeTurn(s,actor);
       assert(result.ok,`partida ${i}: ${result.error}`);
+      for(const u of s.units){assert.equal(u.maxHp%5,0);assert.equal(u.hp%5,0);assert.equal(u.damage%5,0);}
+      for(const hit of G.eventImpacts(s.lastEvent).filter(h=>h.type!=='daly-hit')){
+        assert.equal(hit.damage%5,0);assert.equal(hit.beforeHp%5,0);assert.equal(hit.afterHp%5,0);
+      }
       for(const side of ['player','enemy']){
         const live=s.units.filter(u=>u.team===side&&u.hp>0&&!u.eliminated);
         assert(live.filter(u=>u.row==='front').length<=3);

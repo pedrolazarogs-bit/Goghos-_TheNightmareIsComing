@@ -1,4 +1,16 @@
-# Validação — v0.19.0
+# Validação — v0.19.1
+
+## Arredondamento de Vida, dano e cura
+
+`npm test`: **86 testes aprovados**, incluindo **100 partidas simuladas**. Sete testes novos verificam arredondamento para cima em todas as terminações, limites e valores fracionários; atributos oficiais preservados; previsão e dano real iguais; área com mana e bônus; Bandeide nos dois caminhos de uso; Brisa; Steel Jaw; dano periódico; cura máxima e eliminação em zero. Os testes de sobrevivência de Sark usam o mínimo positivo atual de 5 de Vida.
+
+As 100 partidas agora também verificam, após cada ação, que Vida máxima, Vida atual, dano e os impactos registrados dos personagens são múltiplos de 5. O contador da Daly Mãe continua com três vidas e perda de uma por ataque.
+
+No Chromium, em **1440×900** e **390×844**, foram conferidos cura de 95 para 175, previsão de ataque de 75, alvo de 220 para 145, resposta do bot de 100 e Vida do jogador de 175 para 75. Cartas, painel e registro mostraram os valores reais, sem exceções JavaScript, imagens ausentes ou transbordamento horizontal.
+
+[Arredondamento no computador](previews/arredondamento-v0.19.1-desktop.png) · [Arredondamento no celular](previews/arredondamento-v0.19.1-celular.png)
+
+## Validação anterior — v0.19.0
 
 ## Elétrica, John e bases integrais
 

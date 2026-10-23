@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.19.0** adiciona as habilidades de **Elétrica** e **John**: ataque em área contra a frente adversária, Parry com dado e machado que imobiliza e causa dano após cada ação. Os dois usam as bases completas recebidas, com os valores nos espaços próprios. Sark continua recebendo o dano antes de reagir, somente se sobreviver.
+Protótipo jogável de cartas e batalha por turnos. Na versão **0.19.1**, Vida, dano e cura dos personagens usam múltiplos de 5, sempre arredondando para cima: 211 vira 215 e 216 vira 220. As habilidades de **Elétrica** e **John** continuam disponíveis: ataque em área contra a frente adversária, Parry com dado e machado que imobiliza e causa dano após cada ação. Os dois usam as bases completas recebidas. Sark continua recebendo o dano antes de reagir, somente se sobreviver.
 
 ## Jogar e desenvolver
 

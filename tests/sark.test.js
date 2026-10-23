@@ -24,10 +24,10 @@ test('Sark é Lendário Assassino, tem 530 de Vida, 5 de fôlego e só habilidad
 test('Comum, Raro e Épico causam dano mas são eliminados instantaneamente nas duas equipes',()=>{
   for(const side of ['player','enemy'])for(const id of ['char_06','eletric','char_09']){
     const {s,sark,attacker}=battle(id,side),hp=sark.hp,turn=s.turn,round=s.round;
-    attacker.hp=9999;attacker.maxHp=9999;const result=G.performBasicAttack(s,attacker.uid,sark.uid);
+    attacker.hp=10000;attacker.maxHp=10000;const result=G.performBasicAttack(s,attacker.uid,sark.uid);
     assert(result.ok);assert.equal(sark.hp,hp-attacker.damage);assert.equal(attacker.hp,0);
     assert(attacker.eliminated);assert.equal(attacker.row,null);assert.equal(s.eliminated.length,1);
-    assert(result.reaction.instant);assert.equal(result.reaction.damage,9999);
+    assert(result.reaction.instant);assert.equal(result.reaction.damage,10000);
     assert.equal(s.lastEvent.reaction.targetUid,attacker.uid);assert(!s.order.includes(attacker.uid));
     assert.equal(s.turn,turn+1);assert.equal(s.round,round);assert(s.acted[attacker.uid]);
     assert(!G.RARITIES.flatMap(r=>s.piles[r]).some(c=>c.iid===attacker.iid));
@@ -36,7 +36,7 @@ test('Comum, Raro e Épico causam dano mas são eliminados instantaneamente nas 
 });
 
 test('Lendário e Secreto recebem exatamente 390, sem esquiva da reação',()=>{
-  for(const rarity of ['LEGENDARY','SECRET'])for(const hp of [200,390,391,579]){
+  for(const rarity of ['LEGENDARY','SECRET'])for(const hp of [200,390,395,580]){
     const {s,sark,attacker}=battle('sam');attacker.rarity=rarity;attacker.class='ASSASSIN';attacker.speed=9;
     attacker.hp=hp;
     const result=G.performBasicAttack(s,attacker.uid,sark.uid);
@@ -63,8 +63,8 @@ test('Sark não revida ao morrer por dano exato ou excedente, contra qualquer ra
   }
 });
 
-test('Sark recebe o dano antes de revidar e reage mesmo se sobrar apenas um ponto de Vida',()=>{
-  for(const hp of [51,100]){
+test('Sark recebe o dano antes de revidar e reage mesmo se sobrarem apenas 5 de Vida',()=>{
+  for(const hp of [55,100]){
     const {s,sark,attacker}=battle();sark.hp=hp;attacker.damage=50;
     assert(G.reactionPreview(attacker,sark,50));assert.equal(G.reactionPreview(attacker,sark,hp),null);
     const r=G.performBasicAttack(s,attacker.uid,sark.uid);assert(r.ok);

@@ -81,3 +81,7 @@ Elétrica recebe os atributos confirmados e 3000W: 130 de dano em todos os adver
 John entra com 270 de Vida, 80 de ataque, velocidade 2, fôlego 3 e Parry com defesa nos resultados 1 ou 2 de um d6. Sharp Guitar permite atacar normalmente ou cravar, imobilizando o alvo e causando 20 após cada ação a partir da seguinte. Manter consome a ação de John; retirar permite escolher outro ataque na mesma vez. Enquanto mantém, ele fica vulnerável e não usa Parry. A morte de qualquer um encerra o vínculo imediatamente.
 
 As bases integrais de Elétrica e John passam a ser usadas com números dinâmicos; John também recebe seu nome no campo vazio. Os nove PNGs dos dois kits são preservados byte a byte. O menu ganha dois testes prontos, as cartas mostram os estados do machado, e o registro apresenta os impactos individuais de área, Parry e dano periódico. Múltiplas perdas enfileiram as escolhas de Brisa. Seleção, hierarquia após recuperação e eliminação permanente foram preservadas.
+
+## v0.19.1 — Vida, dano e cura em múltiplos de 5
+
+Conforme a orientação do criador, Vida e dano passam a terminar em 0 ou 5, sempre arredondando para cima. Isso vale para os atributos calculados, o total dos ataques com bônus e mana, a Vida restante, as curas, Steel Jaw e o machado de John. A previsão e os registros usam os mesmos valores do combate. Cura continua limitada à Vida máxima, personagens derrotados ficam em zero e a Daly Mãe mantém três vidas, com perda de uma por ataque.
