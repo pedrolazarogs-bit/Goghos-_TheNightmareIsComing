@@ -15,15 +15,20 @@ function redeemMedals(s,side){
   return obtained;
 }
 function takeTurn(s,actor){
-  if(G.isActionLocked?.(actor)){const r=G.performStatusTurn(s,actor.uid);if(!r.ok||r.spent)return r;}
+  redeemMedals(s,actor.team);
+  if(s.abilityChoices.length)return{ok:true,pending:true};
+  if(G.isActionLocked?.(actor)){
+    const r=G.performStatusTurn(s,actor.uid);if(!r.ok||r.spent)return r;
+    // Acordar pode liberar uma escolha de habilidade antes do ataque, como uma nova hipnose.
+    const ready=G.getNextActor(s);if(s.result)return{ok:true};
+    if(s.abilityChoices.length||ready?.uid!==actor.uid)return{ok:true,pending:true};
+  }
   if(actor.pinnedBy)return G.performPinnedTurn(s,actor.uid);
   if(actor.pinning){
     const target=G.getUnit(s,actor.pinning),progressing=actor.pinLastKeptHp==null||target.hp<actor.pinLastKeptHp;
     if(actor.hp>=80&&progressing){actor.pinLastKeptHp=target.hp;return G.keepPin(s,actor.uid);}
     G.withdrawPin(s,actor.uid); // Evita manter para sempre um alvo que está recuperando todo o dano.
   }
-  redeemMedals(s,actor.team);
-  if(s.abilityChoices.length)return{ok:true,pending:true};
   const official=G.officialAITurn?.(s,actor);if(official)return official;
   if(G.getMainAbility(actor)?.trigger==='deathBook')return G.performBookAttack(s,actor.uid);
   if(G.getMainAbility(actor)?.trigger==='healingAttack'){

@@ -1,0 +1,198 @@
+{
+  "characters": [
+    {
+      "id": "eletric",
+      "name": "Elétrica",
+      "hp": 220,
+      "damage": 130
+    },
+    {
+      "id": "john",
+      "name": "John",
+      "hp": 270,
+      "damage": 80
+    },
+    {
+      "id": "sarck",
+      "name": "Sark",
+      "hp": 530,
+      "damage": 0
+    },
+    {
+      "id": "penxy",
+      "name": "Penxy",
+      "hp": 875,
+      "damage": 360
+    },
+    {
+      "id": "cavaleiro",
+      "name": "Cavaleiro",
+      "hp": 180,
+      "damage": 75
+    },
+    {
+      "id": "zikssy",
+      "name": "Zikssy",
+      "hp": 425,
+      "damage": 120
+    },
+    {
+      "id": "elysh",
+      "name": "Elysh",
+      "hp": 480,
+      "damage": 60
+    },
+    {
+      "id": "ddx",
+      "name": "DD-X",
+      "hp": 285,
+      "damage": 90
+    },
+    {
+      "id": "p_ullys",
+      "name": "P. Ullys",
+      "hp": 585,
+      "damage": 645
+    },
+    {
+      "id": "stally",
+      "name": "Stally",
+      "hp": 580,
+      "damage": 260
+    },
+    {
+      "id": "endrik",
+      "name": "Endrik",
+      "hp": 585,
+      "damage": 645
+    },
+    {
+      "id": "striker",
+      "name": "Striker",
+      "hp": 445,
+      "damage": 415
+    },
+    {
+      "id": "sheriff",
+      "name": "Xerife",
+      "hp": 565,
+      "damage": 0
+    },
+    {
+      "id": "barn",
+      "name": "Burn",
+      "hp": 910,
+      "damage": 410
+    },
+    {
+      "id": "fonior",
+      "name": "Fonior",
+      "hp": 480,
+      "damage": 60
+    },
+    {
+      "id": "sam",
+      "name": "Sam",
+      "hp": 910,
+      "damage": 70
+    },
+    {
+      "id": "chama",
+      "name": "Chama",
+      "hp": 445,
+      "damage": 65
+    },
+    {
+      "id": "zuri",
+      "name": "Zuri",
+      "hp": 1145,
+      "damage": 195
+    },
+    {
+      "id": "draktar",
+      "name": "Draktar",
+      "hp": 965,
+      "damage": 395
+    },
+    {
+      "id": "daztirry",
+      "name": "Daztirry",
+      "hp": 1000,
+      "damage": 455
+    },
+    {
+      "id": "mike",
+      "name": "Mike",
+      "hp": 135,
+      "damage": 120
+    },
+    {
+      "id": "unicorn",
+      "name": "Unicorn",
+      "hp": 315,
+      "damage": 40
+    },
+    {
+      "id": "nully",
+      "name": "Nully",
+      "hp": 565,
+      "damage": 55
+    },
+    {
+      "id": "rayyb",
+      "name": "Rayyb",
+      "hp": 1040,
+      "damage": 180
+    },
+    {
+      "id": "rayvilin",
+      "name": "Rayvilin",
+      "hp": 1040,
+      "damage": 180
+    },
+    {
+      "id": "z_zus",
+      "name": "Z-Zus",
+      "hp": 1040,
+      "damage": 180
+    },
+    {
+      "id": "alex",
+      "name": "Alex",
+      "hp": 180,
+      "damage": 220
+    },
+    {
+      "id": "karma",
+      "name": "Karma",
+      "hp": 875,
+      "damage": 360
+    },
+    {
+      "id": "trucc",
+      "name": "Trucc",
+      "hp": 425,
+      "damage": 120
+    },
+    {
+      "id": "vaglar",
+      "name": "Vaglar",
+      "hp": 580,
+      "damage": 0
+    }
+  ],
+  "duels": {
+    "matches": 3480,
+    "firstActionEliminations": 804,
+    "actions": 20838,
+    "draws": 14,
+    "limits": 0
+  },
+  "teams": {
+    "matches": 960,
+    "firstActionEliminations": 257,
+    "actions": 9881,
+    "draws": 12,
+    "limits": 0
+  }
+}

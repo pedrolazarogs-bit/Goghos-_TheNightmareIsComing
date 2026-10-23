@@ -1,11 +1,14 @@
 {
   "name": "goghos-tcg",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "private": true,
   "description": "Protótipo local do jogo de cartas GOGHOS TCG",
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "test": "node tests/v0_14.test.js && node tests/v0_14_ui.test.js && node tests/catalog.test.js && node tests/integration.test.js && node tests/recovery.test.js && node tests/recovery_order.test.js && node tests/structure.test.js && node tests/arena.test.js && node tests/sark.test.js && node tests/abilities.test.js && node tests/rounding.test.js && node tests/new_characters.test.js && node tests/official_abilities.test.js && node tests/official_integration.test.js"
+    "test": "node tests/v0_14.test.js && node tests/v0_14_ui.test.js && node tests/catalog.test.js && node tests/integration.test.js && node tests/recovery.test.js && node tests/recovery_order.test.js && node tests/structure.test.js && node tests/arena.test.js && node tests/sark.test.js && node tests/abilities.test.js && node tests/rounding.test.js && node tests/new_characters.test.js && node tests/official_abilities.test.js && node tests/official_integration.test.js && node tests/hand_status.test.js",
+    "balance": "node scripts/balance-audit.js"
   },
-  "engines": {"node": ">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }

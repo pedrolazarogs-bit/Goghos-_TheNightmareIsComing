@@ -1,10 +1,10 @@
-# Personagens oficiais — habilidades da v0.21.0
+# Personagens oficiais — habilidades e balanceamento da v0.22.0
 
 A implementação foi autorizada pelo criador após o registro das habilidades. **Todos os personagens descritos abaixo estão implementados, exceto Petra, adiada expressamente e ausente do catálogo jogável.** O jogo contém somente os 30 personagens oficiais, sem personagens provisórios.
 
 A seleção inicial oferece os três Comuns oficiais (Cavaleiro, Mike e Alex). Jogador e bot escolhem um Comum cada, sem repetir; cada equipe recebe automaticamente um Raro diferente por sorteio. Os dois entram na linha de frente.
 
-As 21 habilidades desta etapa estão disponíveis em **Testar novos personagens**, junto às nove anteriores. Sam recebeu seu combo e usa a carta completa mais recente, `Original-Base54_20261019002932.png`. Este arquivo mantém o nome anterior para preservar links.
+As 21 habilidades desta etapa estão disponíveis em **Testar novos personagens**, junto às nove anteriores. Sam recebeu seu combo e usa a carta completa mais recente, `Original-Base54_20261019002932.png`. Este arquivo mantém o nome anterior para preservar links. Na v0.22.0, os valores básicos foram ajustados conforme a [revisão de balanceamento](BALANCEAMENTO.md); as mecânicas abaixo permanecem.
 
 | Personagem | Arquivo recebido | Estado |
 | --- | --- | --- |
@@ -93,11 +93,11 @@ A raridade Mítica foi restaurada entre Épica e Lendária. Fundos vermelhos con
 - Em uma única ação, realiza um combo de até **seis socos**, rolando um **d6 por tentativa**.
 - Cada resultado que ainda não apareceu nesse combo permite realizar mais um soco.
 - O primeiro resultado repetido **encerra imediatamente o combo**. Essa repetição não acrescenta um soco; preservam-se os acertos anteriores.
-- O criador definiu explicitamente **70 de dano básico por soco** nesta explicação. Registrar esse valor para a implementação futura, em lugar do dano provisório calculado atualmente pelas faixas.
-- Exemplo confirmado pela descrição: **2 → 6 → 5 → 5** encerra com três socos, equivalentes a **3 × 70 = 210 de dano básico antes das defesas**.
+- A explicação original definiu 70 por soco. Na revisão autorizada da v0.22.0, o básico passou a **100 por soco** para equilibrar Sam entre os Lendários.
+- Exemplo confirmado pela descrição: **2 → 6 → 5 → 5** encerra com três socos, equivalentes a **3 × 100 = 300 de dano básico antes das defesas**.
 - Se conseguir os seis resultados diferentes, completa os seis socos, equivalentes a **420 de dano básico antes das defesas**.
 - Confirmado pelo criador: **todos os socos atingem sempre o mesmo adversário**; não pode trocar de alvo dentro do combo.
-- Confirmado pelo criador: são **golpes separados de 70**, com defesa e reação resolvidas para cada golpe. Não aplicar o total como um único golpe no final.
+- Confirmado pelo criador: são **golpes separados de 100**, com defesa e reação resolvidas para cada golpe. Não aplicar o total como um único golpe no final.
 
 ### Chama — queimadura ao atacar e ao ser atacado
 
@@ -186,11 +186,11 @@ A raridade Mítica foi restaurada entre Épica e Lendária. Fundos vermelhos con
 
 ### Alex — Swarm dividido ou concentrado
 
-- Seu Swarm tem **220 de dano básico**, valor explicitado pelo criador na implementação.
+- O Swarm originalmente tinha 220. Na revisão autorizada da v0.22.0, passou a **120 de dano básico**, respeitando o teto Comum.
 - Pode escolher entre **distribuir o dano pelos adversários da linha de frente** ou **concentrá-lo em um único adversário**.
-- No modo concentrado, aplica os **220 de dano básico ao alvo escolhido**.
+- No modo concentrado, aplica os **120 de dano básico ao alvo escolhido**.
 - Confirmado pelo criador: **o Swarm atinge somente adversários**; o modo em área afeta os da linha de frente.
-- Confirmado pelo criador: no modo em área, os **220 são divididos igualmente entre os alvos**, arredondando **cada parcela para cima em múltiplos de 5**. Exemplos antes das defesas: um alvo recebe 220; dois recebem 110 cada; três recebem 75 cada. O exemplo dos três alvos foi confirmado explicitamente.
+- Confirmado pelo criador: no modo em área, o **dano básico é dividido igualmente entre os alvos**, arredondando **cada parcela para cima em múltiplos de 5**. Exemplos antes das defesas: com o básico atual, um alvo recebe 120; dois recebem 60 cada; três recebem 40 cada. A divisão igual e o arredondamento foram confirmados pelo criador.
 
 ### Karma — melhor amigo e revide automático
 

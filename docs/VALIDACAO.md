@@ -1,4 +1,22 @@
-# Validação — v0.21.0
+# Validação — v0.22.0
+
+`npm test`: **155 testes aprovados**, incluindo **300 partidas completas simuladas**. Dez testes novos cobrem cartas da mão em seis impedimentos, cura no próprio personagem e em aliado, bônus, Brisa, limite de um Apoio por turno, medalhas sem ação extra, bloqueios de vez e escolhas obrigatórias, comportamento da IA, vínculo real de John preservado, mana e faixas/exceções do balanceamento. Incluem a regressão em que Burn acorda e precisa escolher outra hipnose antes de agir.
+
+Os 34 testes das habilidades foram atualizados para os novos atributos, preservando os cenários e verificações de dados, alvos, defesas, dano, duração, uso único, múltiplos de 5 e eliminação permanente. Os testes históricos continuam com seu catálogo congelado, separado da produção. A integração atual exercita os 30 oficiais e a nova liberação da mão nas 200 partidas; a integração histórica acrescenta 100 partidas.
+
+## Ensaios de balanceamento
+
+Além da suíte, foram concluídos **8.880 combates comparativos**: 3.480 duelos e 960 confrontos de equipe com atributos antigos, repetidos com os novos. Os dois cenários usam as mesmas composições, sementes e regras atuais. Nenhum atingiu o limite de diagnóstico. Eliminações na primeira ação caíram de 804 para 702 nos duelos e de 257 para 231 nas equipes. Método, limites e resultados completos estão em [BALANCEAMENTO.md](BALANCEAMENTO.md).
+
+## Interface no computador e celular
+
+No Chromium em **1440×1000 e 390×844**, passaram **38 cenários**: os 26 fluxos anteriores adaptados aos novos valores, mais 12 fluxos de uso da mão (seis impedimentos em cada resolução). Nos fluxos novos, Bandeide cura o alvo escolhido, um segundo Apoio fica bloqueado no mesmo turno e uma medalha continua podendo ser resgatada. Foram comparados turno, rodada, ações já realizadas e fila antes/depois: usar a mão não os altera. O personagem continua impedido de atacar. As escolhas foram feitas pelos botões e cartas reais da interface.
+
+Sem exceções JavaScript, imagens ausentes, `undefined`/`NaN` ou transbordamento horizontal. Os números de todas as cartas foram medidos; Sam e Alex foram inspecionados com os novos básicos. Os dados e a ordem foram controlados para reproduzir os cenários; o bot aguardou durante as verificações. As imagens originais dos personagens não foram alteradas.
+
+[Mão no computador](previews/mao-v0.22.0-desktop.png) · [Mão no celular](previews/mao-v0.22.0-celular.png) · [Sam atualizado](previews/sam-v0.22.0-carta.png) · [Alex atualizada](previews/alex-v0.22.0-carta.png)
+
+# Validação anterior — v0.21.0
 
 `npm test`: **145 testes aprovados**, incluindo **300 partidas simuladas**. São os 110 testes anteriores, 34 testes das novas habilidades e uma integração de 200 partidas com o catálogo atual. Os 100 jogos da integração histórica continuam cobrindo recuperação, formação, mão e conservação de cartas.
 

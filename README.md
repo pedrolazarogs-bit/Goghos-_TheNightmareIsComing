@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.21.0** reúne **30 personagens oficiais**, com suas habilidades, e remove os personagens provisórios. **Petra fica de fora por enquanto**, conforme solicitado. As cartas usam as bases completas recebidas, com os valores atuais sobrepostos nos campos numéricos.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.22.0** revisa o balanceamento dos **30 personagens oficiais**, com ajustes em 22 deles considerando classe, raridade e habilidade. **Petra fica de fora por enquanto**, conforme solicitado. As cartas usam as bases completas recebidas, com os valores atuais sobrepostos nos campos numéricos.
 
 ## Jogar e desenvolver
 
@@ -10,7 +10,9 @@ Em **Jogar**, escolha um Comum. O bot escolhe outro, e cada equipe recebe **um R
 
 **Testar novos personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
 
-Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md).
+Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md). A [revisão de balanceamento](docs/BALANCEAMENTO.md) lista todos os valores anteriores, atuais e justificativas.
+
+As cartas da mão podem ser usadas na vez da equipe mesmo se o personagem estiver imobilizado ou sob outro impedimento. Isso não gasta a ação nem remove o efeito. Magos mantêm 3 de mana inicial, +1 por ação concluída e máximo de 3.
 
 É necessário **Node.js 20 ou superior** para rodar os testes e **Python 3** para `npm run dev`. Não há pacotes externos nem etapa de instalação:
 
@@ -29,7 +31,7 @@ npm test
 | `tests/` | Regras atuais e testes da interface com DOM simulado |
 | `docs/` | Regras completas e histórico das versões recebidas |
 
-[Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
+[Balanceamento](docs/BALANCEAMENTO.md) · [Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
 
 ## Estado do protótipo
 
@@ -37,6 +39,6 @@ A partida pode ser concluída contra a IA. Há seis montes de personagens, monte
 
 Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 30 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-![Pré-batalha no computador](docs/previews/prebatalha-v0.21.0-desktop.png)
+![Cartas disponíveis durante imobilização](docs/previews/mao-v0.22.0-desktop.png)
 
-[Seleção atual](docs/previews/selecao-v0.21.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.21.0-celular.png)
+[Seleção atual](docs/previews/selecao-v0.22.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.22.0-celular.png)

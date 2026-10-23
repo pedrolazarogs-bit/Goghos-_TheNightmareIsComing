@@ -68,12 +68,12 @@ function render(actor){
   const logScroll=app.querySelector('.log-list')?.scrollTop||0;
   ui.mode='battle';const s=ui.state,choice=s.deck.pendingChoice,pd=s.support.pending;
   const entry=G.pendingCharacterAbility(s),free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!entry&&!ui.busy&&!ui.paused;
-  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor?.class==='MAGO',area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
+  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',handUsable=free&&(playerTurn||idle),pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor?.class==='MAGO',area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
   const e=ui.busy?s.lastEvent:null,B=G.getBoard(s),impacts=G.eventImpacts(e);
   const cell=u=>{
-    const hits=impacts.filter(x=>x.targetUid===u.uid),status=hits.at(-1),acting=e?.actorUid===u.uid,heal=u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((mine&&support?.effect==='heal')||(mine&&ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u))||pd?.candidates.includes(u.uid));
+    const hits=impacts.filter(x=>x.targetUid===u.uid),status=hits.at(-1),acting=e?.actorUid===u.uid,heal=u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((handUsable&&support?.effect==='heal')||(mine&&ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u))||pd?.candidates.includes(u.uid));
     const cls=(actor?.uid===u.uid&&!ui.busy?'active ':'')+([ui.target,ui.healTarget,ui.swapPick].includes(u.uid)?'target ':'')+(mine&&actor&&!area&&ui.attackMode!=='heal'&&!actor.abilityOnly&&G.attackTargets(s,actor).includes(u)?'pick ':'')+(area&&G.attackTargets(s,actor).includes(u)?'area-target ':'')+(heal?'heal ':'')+(mine&&ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)?'pick ':'')+(mine&&ui.move&&u.team==='player'&&G.canTransit(u)?'swp':'');
     const fx=hits.map((x,i)=>`<span class="combat-float ${hits.length>3?'dense ':''}${x.kind==='reaction'||x.ability==='Steel Jaw'?'reaction ':''}${x.type}" style="top:${18+i*Math.min(27,70/Math.max(1,hits.length-1))}%">${impactLabel(x,true)}${x.ability?`<small>${x.ability}</small>`:''}</span>`).join('');
     const link=u.pinnedBy?`<span class="pin-status" title="Cravado por ${G.getUnit(s,u.pinnedBy)?.name} · sem ação · −20 de Vida após cada ação">Imobilizado</span>`:u.pinning?`<span class="pin-status holding" title="Mantendo machado em ${G.getUnit(s,u.pinning)?.name} · sem Parry">Vulnerável</span>`:'';
@@ -93,7 +93,7 @@ function render(actor){
   let info=ui.busy?'Confira o resultado da ação e as reações no registro da batalha. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:idle?'Não há personagens capazes de atacar. Use suas medalhas ou avance o ciclo para ambas as equipes comprarem uma carta.':mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
   let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)):btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
   if(idle&&s.deck.pile.length===0)info+=' O monte principal acabou; as medalhas na mão ainda podem ser resgatadas.';
-  if(pinned){info=actor.name+' está cravado e não pode atacar, mover ou usar cartas. Passe a vez para continuar a batalha.';actions=btn('pinned-wait','Passar vez · imobilizado');}
+  if(pinned){info=actor.name+' está cravado e não pode atacar ou se mover. Passe a vez para continuar a batalha.';actions=btn('pinned-wait','Passar vez · imobilizado');}
   if(holding){info='John mantém o machado em '+G.getUnit(s,actor.pinning)?.name+'. Manter encerra sua ação; retirar libera os dois e permite atacar novamente.';actions=btn('pin-keep','Manter machado')+btn('pin-release','Retirar e escolher ataque');}
   const areaDaly=area&&!actor.duelId&&G.isDalyExposed(s,'enemy');
   if(area){info=areaDaly?'A Daly Mãe está exposta: este ataque retira exatamente 1 vida, sem gastar mana.':'3000W atinge todos os adversários da linha de frente. Aliados e retaguarda ficam protegidos. Dano por alvo: '+G.previewDamage(s,actor,ui.mana,null,ui.attackMode)+'.';actions=btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Atacar em área · 3000W');}
@@ -111,8 +111,8 @@ function render(actor){
   if(mine&&actor&&G.officialStatus){
     const type=G.getMainAbility(actor)?.trigger;
     if(type==='paralyzingKick')actions=btn('mode-normal','Ataque normal',false,ui.attackMode==='normal'?'on':'')+btn('mode-stun','Golpe paralisante · +30% · d6 1–3',false,ui.attackMode==='stun'?'on':'')+actions;
-    if(type==='swarm')actions=btn('mode-normal','Concentrar · 220',false,ui.attackMode==='normal'?'on':'')+btn('mode-area','Dividir Swarm na frente',false,ui.attackMode==='area'?'on':'')+actions;
-    if(type==='swarm'&&area){info='Swarm divide 220 igualmente entre os adversários da frente. Cada parcela sobe para múltiplo de 5. Por alvo: '+G.previewDamage(s,actor,ui.mana,null,'area')+'.';actions=btn('mode-normal','Concentrar · 220')+btn('mode-area','Dividir Swarm',false,'on')+btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Confirmar Swarm em área');}
+    if(type==='swarm')actions=btn('mode-normal','Concentrar · '+actor.damage,false,ui.attackMode==='normal'?'on':'')+btn('mode-area','Dividir Swarm na frente',false,ui.attackMode==='area'?'on':'')+actions;
+    if(type==='swarm'&&area){info='Swarm divide '+actor.damage+' igualmente entre os adversários da frente. Cada parcela sobe para múltiplo de 5. Por alvo: '+G.previewDamage(s,actor,ui.mana,null,'area')+'.';actions=btn('mode-normal','Concentrar · '+actor.damage)+btn('mode-area','Dividir Swarm',false,'on')+btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Confirmar Swarm em área');}
     if(type==='sleepPowder')actions=btn('power-sleepPowder',actor.sleepUsed?'Pó mágico · já usado':'Adormecer oponente · uso único',actor.sleepUsed)+actions;
     if(type==='petrify')actions=btn('power-petrify',actor.petrifyPrecision?'Petrificar · d6 1–'+actor.petrifyPrecision:'Petrificação esgotada',actor.petrifyPrecision<=0||actor.petrifyAttemptRound===s.round||s.units.some(t=>!G.isCharacterDefeated(t)&&t.petrifiedBy===actor.uid))+actions;
     if(type==='fullHeal')actions=btn('full-heal',actor.fullHealUsed?'Cura total · já usada':'Cura total dos outros aliados · usa ação',actor.fullHealUsed||!G.healingTargets(s,actor).length)+actions;
@@ -124,6 +124,7 @@ function render(actor){
     if(type==='duelist')info='Duelo: d6 1–3 elimina até a própria raridade ou causa 200 nas superiores. 4–6 falha e você recebe o dano do alvo.';
   }
   if(locked){info=G.officialStatus(s,actor)+'. Resolva o impedimento para continuar a hierarquia.';actions=btn('status-turn',actor.sleep?'Rolar d6 para acordar · 1–2':'Passar vez · impedimento');}
+  if(handUsable&&!mine)info+=' As cartas da mão continuam disponíveis.';
   if(entry)info='Pré-batalha · '+G.getUnit(s,entry.actorUid)?.name+' está resolvendo a habilidade de entrada.';
   if(ui.busy&&e?.type==='area')info=(e.ability||'3000W')+' · '+impacts.map(x=>x.targetName+': '+(x.type==='parry'?'defendeu no Parry':x.type==='dodge'?'esquivou':x.instant?'eliminado':'−'+(x.amount??x.damage))).join(' · ');
   if(ui.busy&&e?.ticks?.length&&e.type!=='area')info=(e.type==='pin-keep'?'John manteve o machado. ':e.type==='pin-skip'?e.actorName+' passou a vez imobilizado. ':'')+e.ticks.map(x=>x.targetName+' recebeu '+x.amount+' de '+(x.ability||'efeito')+(x.type==='defeat'?' e foi eliminado':'')+'.').join(' ');
@@ -135,7 +136,7 @@ function render(actor){
   const pendingPanel=!ui.busy&&(s.recovery?.side==='player'?G.recoveryHTML(s):s.formation?.side==='player'?G.formationHTML(s):'');
   const entryModal=!ui.busy&&!ui.paused&&!pendingPanel&&!s.recovery&&!s.formation&&!choice&&!pd?G.characterAbilityChoiceHTML(s,ui.abilityTarget):'';
   const modal=pendingPanel?`<div class="choice-overlay"><section class="choice-dialog" role="dialog" aria-modal="true" aria-labelledby="${s.recovery?'recovery-title':'formation-title'}">${pendingPanel}${ui.msg?`<p class="msg">${ui.msg}</p>`:''}</section></div>`:'';
-  show(`<main class="arena"><header class="arena-header"><div class="arena-brand"><span>GOGHOS</span><small>The Nightmare Is Coming</small></div><div class="arena-round">${G.arenaArtHTML('trophy')}<span>Rodada <b>${s.round}</b></span></div><nav aria-label="Controles da batalha">${btn('pause',ui.paused?'Continuar':'Pausar')}${btn('menu','Menu')}</nav></header><aside class="arena-left">${G.characterPilesHTML(s)}<div class="history-panel"><div class="event-feed"><h4>Registro da batalha</h4>${combatMessage(s)}<div class="log-list">${logs||'<p class="history-empty">Escolha seu primeiro alvo. Cada ação da batalha aparece aqui.</p>'}</div></div>${G.eliminatedHTML(s,!!e)}</div>${G.handPanelHTML(s,ui.handIid,handDetail(mine))}</aside><section class="battle-board" aria-label="Campo de batalha">${side('enemy')}<div class="arena-divider" aria-hidden="true"><i></i><span>✦</span><i></i></div>${side('player')}<div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div></section><aside class="arena-right">${G.turnPanelHTML(s,actor,ui.busy)}${G.mainPileHTML(s)}${G.actorInfoHTML(s,actor,ui.busy)}</aside>${modal}${entryModal}</main>`);
+  show(`<main class="arena"><header class="arena-header"><div class="arena-brand"><span>GOGHOS</span><small>The Nightmare Is Coming</small></div><div class="arena-round">${G.arenaArtHTML('trophy')}<span>Rodada <b>${s.round}</b></span></div><nav aria-label="Controles da batalha">${btn('pause',ui.paused?'Continuar':'Pausar')}${btn('menu','Menu')}</nav></header><aside class="arena-left">${G.characterPilesHTML(s)}<div class="history-panel"><div class="event-feed"><h4>Registro da batalha</h4>${combatMessage(s)}<div class="log-list">${logs||'<p class="history-empty">Escolha seu primeiro alvo. Cada ação da batalha aparece aqui.</p>'}</div></div>${G.eliminatedHTML(s,!!e)}</div>${G.handPanelHTML(s,ui.handIid,handDetail(handUsable))}</aside><section class="battle-board" aria-label="Campo de batalha">${side('enemy')}<div class="arena-divider" aria-hidden="true"><i></i><span>✦</span><i></i></div>${side('player')}<div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div></section><aside class="arena-right">${G.turnPanelHTML(s,actor,ui.busy)}${G.mainPileHTML(s)}${G.actorInfoHTML(s,actor,ui.busy)}</aside>${modal}${entryModal}</main>`);
   const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
   syncDockHeight();
   if(arena)arena.scrollTop=scroll;
@@ -199,7 +200,14 @@ app.addEventListener('click',event=>{
       if(r.ok&&a!=='pin-release'){ui.msg='';feedback();}else finishChoice(r);return;
     }
     if(a==='status-turn'){const actor=G.getNextActor(s);if(ui.paused||actor?.team!=='player')return;const r=G.performStatusTurn(s,actor.uid);if(r.ok&&r.spent)feedback();else finishChoice(r);return;}
-    const actor=G.getNextActor(s);if(ui.paused||!G.canManageTeam(s,'player'))return;
+    const actor=G.getNextActor(s);if(ui.paused)return;
+    if(a==='redeem'||a==='usehand'){
+      if(!G.canUseHand(s,'player'))return;
+      if(a==='redeem'){const inst=selectedHand();if(inst)finishChoice(G.resolveDalle(s,'player',inst));}
+      else finishChoice(G.performHandSupport(s,ui.handIid,ui.healTarget));
+      return;
+    }
+    if(!G.canManageTeam(s,'player'))return;
     if(a.startsWith('power-')){finishChoice(G.requestOfficialChoice(s,actor.uid,a.slice(6)));return;}
     if(a==='full-heal'||a==='hypnosis-keep'){const r=a==='full-heal'?G.performFullHeal(s,actor.uid):G.performHypnosisTurn(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
     if(a==='idle-cycle'){finishChoice(G.advanceIdleCycle(s));return;}
@@ -208,8 +216,6 @@ app.addEventListener('click',event=>{
     if(a==='wait'){const r=G.performWait(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
     if(a==='attack'){const r=ui.attackMode==='break'?G.performBreakCurse(s,actor.uid,ui.target):ui.attackMode==='heal'?G.performHealingAttack(s,actor.uid,ui.target):G.performBasicAttack(s,actor.uid,ui.target,ui.mana,ui.attackMode);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}return;}
     if(a==='move'){ui.move=!ui.move;ui.target=null;ui.handIid=null;ui.healTarget=null;ui.swapPick=null;ui.msg='';render(actor);return;}
-    if(a==='redeem'){const inst=selectedHand();if(inst)finishChoice(G.resolveDalle(s,'player',inst));return;}
-    if(a==='usehand'){finishChoice(G.performHandSupport(s,ui.handIid,ui.healTarget));return;}
     if(a==='mana+'||a==='mana-'){ui.mana=Math.max(0,Math.min(actor.mana,ui.mana+(a==='mana+'?1:-1)));render(actor);return;}
     return;
   }
@@ -218,19 +224,19 @@ app.addEventListener('click',event=>{
   if(ui.busy)return;
   const abilityTarget=t.closest('[data-ability-target]');if(abilityTarget&&!ui.paused&&G.pendingCharacterAbility(s)?.side==='player'){ui.abilityTarget=abilityTarget.dataset.abilityTarget;render(null);return;}
   if(s.deck.pendingChoice){if(hand)finishChoice(G.resolveHandReplacement(s,hand.dataset.hand));return;}
-  const actor=G.getNextActor(s),mine=!ui.paused&&G.canManageTeam(s,'player');
+  const actor=G.getNextActor(s),mine=!ui.paused&&G.canManageTeam(s,'player'),handUsable=!ui.paused&&G.canUseHand(s,'player');
   if(hand){ui.handIid=ui.handIid===hand.dataset.hand?null:hand.dataset.hand;ui.healTarget=null;ui.move=false;ui.msg='';render(actor);return;}
   const u=c?G.getUnit(s,c.dataset.id):null;
   if(s.support.pending){if(u&&s.support.pending.candidates.includes(u.uid))finishChoice(G.resolveBrisa(s,u.uid));return;}
+  const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
+  if(handUsable&&support?.effect==='heal'&&u?.team==='player'){
+    ui.healTarget=u.hp>0&&u.hp<u.maxHp?u.uid:null;ui.msg=ui.healTarget?'':'Escolha um aliado ferido.';render(actor);return;
+  }
   if(!mine)return;
   if(daly&&daly.dataset.daly==='enemy'&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.attackMode='normal';ui.move=false;render(actor);return;}
   if(!u)return;
   if(ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
   if(ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
-  const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
-  if(support?.effect==='heal'&&u.team==='player'){
-    ui.healTarget=u.hp>0&&u.hp<u.maxHp?u.uid:null;ui.msg=ui.healTarget?'':'Escolha um aliado ferido.';render(actor);return;
-  }
   if(ui.move&&u.team==='player'){
     const r=ui.swapPick&&ui.swapPick!==u.uid?G.performSwap(s,ui.swapPick,u.uid):G.performTransit(s,u.uid);
     ui.msg=r.ok?'':r.error;

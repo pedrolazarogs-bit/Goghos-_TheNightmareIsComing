@@ -81,7 +81,7 @@ G.medalBlockReason=(s,side,handCard)=>{
 };
 G.resolveDalle=(s,side,handCard)=>{
   const why=G.medalBlockReason(s,side,handCard);if(why)return fail(why);
-  if(!G.canManageTeam(s,side))return fail('Resgate medalhas apenas na vez da sua equipe.');
+  if(!G.canUseHand(s,side))return fail('Resgate medalhas apenas na vez da sua equipe.');
   const def=G.getResetCard(handCard.id),pile=s.piles[def.rarity],inst=pile[pile.length-1];
   const u=G.addCharacterToTeam(s,side,inst);if(!u)return fail('A formação está cheia.');
   pile.pop();

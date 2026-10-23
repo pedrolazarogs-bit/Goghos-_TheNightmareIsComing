@@ -99,6 +99,13 @@ function canManageTeam(s,side){
   const actor=getNextActor(s);
   return isIdleBattle(s)||(actor?.team===side&&!actor.pinnedBy&&!actor.pinning&&!G.isActionLocked?.(actor));
 }
+// A mão pertence à equipe. Impedimentos do personagem não bloqueiam o uso das cartas.
+function canUseHand(s,side){
+  const pending=()=>s.result||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length;
+  if(!['player','enemy'].includes(side)||pending())return false;
+  const actor=getNextActor(s);
+  return !pending()&&(isIdleBattle(s)||actor?.team===side);
+}
 function advanceIdleCycle(s){
   if(!isIdleBattle(s))return fail('Há personagens capazes de atacar. Continue a hierarquia.');
   if(!canManageTeam(s,'player'))return fail('Resolva a escolha pendente antes de avançar o ciclo.');
@@ -367,6 +374,6 @@ function getBoard(s){
   const rows=(side,row)=>s.units.filter(u=>u.team===side&&u.row===row&&!isCharacterDefeated(u)).sort((a,b)=>a.slot-b.slot);
   return{player:{front:rows('player','front'),rear:rows('player','rear')},enemy:{front:rows('enemy','front'),rear:rows('enemy','rear')}};
 }
-Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
+Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,canUseHand,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
 Object.assign(G,{validateActor,completeAction,finishResolvedAction,recordBattleEvent:event,applyCharacterHit:applyHit,resolveNativeReaction:resolveReaction,attackDaly,regenerateMageMana});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

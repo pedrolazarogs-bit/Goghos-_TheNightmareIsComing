@@ -108,11 +108,11 @@ test('cravada bloqueada, esquivada ou fatal não prende, e Sark reage antes de c
  const reaction=state(['john'],['sarck']),r=pin(reaction);assert(r.john.eliminated);assert.equal(r.target.pinnedBy,null);assert.equal(r.john.pinning,null);
 });
 
-test('imobilizado não pode mover, trocar, esquivar ou usar mão; ações inválidas preservam vínculo',()=>{
+test('imobilizado não pode mover, trocar ou esquivar; a mão continua disponível sem desfazer o vínculo',()=>{
  const s=state(['john'],['char_05','char_03'],[],['char_07']);s.acted[byId(s,'char_05').uid]=true;const {john,target}=pin(s);assert.equal(target.id,'char_05');
  assert(!G.performTransit(s,target.uid).ok);assert(!G.performSwap(s,target.uid,byId(s,'char_07').uid).ok);assert.equal(G.dodgeInfo(john,target),null);
  assert(!G.withdrawPin(s,john.uid).ok,'só retira na vez de John');assert.equal(john.pinning,target.uid);
- s.deck.hands.enemy.push({iid:'support',id:'bandeide'});s.order.forEach(uid=>s.acted[uid]=uid!==target.uid);assert.equal(G.getNextActor(s).uid,target.uid);assert(!G.canManageTeam(s,'enemy'));
+ s.deck.hands.enemy.push({iid:'support',id:'bandeide'});s.order.forEach(uid=>s.acted[uid]=uid!==target.uid);assert.equal(G.getNextActor(s).uid,target.uid);assert(!G.canManageTeam(s,'enemy'));assert(G.canUseHand(s,'enemy'));
 });
 
 test('IA usa área, crava e passa ações imobilizadas pelas mesmas regras',()=>{

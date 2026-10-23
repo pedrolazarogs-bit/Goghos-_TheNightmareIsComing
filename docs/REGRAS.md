@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.21.0
+# Estrutura base do GOGHOS — v0.22.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -51,7 +51,7 @@ O leque fica no canto inferior esquerdo, com no máximo cinco cartas. No celular
 
 Ao comprar com cinco cartas, o jogador escolhe uma antiga para substituir ou descarta a nova. Isso vale também para medalhas. A compra pendente não vira uma sexta carta permanente. A IA substitui a mais antiga.
 
-Na própria vez, pode usar uma carta de Apoio por turno, sem gastar o ataque. **Na Moloeira** dá +20 ao próximo ataque; **Bandeide** cura até 80 de Vida de um aliado; **Brisa** permite curar outro aliado ferido em 30 quando um aliado é eliminado. Se uma ação eliminar vários aliados, as escolhas de Brisa são resolvidas uma por vez, com candidatos vivos. Cartas usadas vão para o descarte. Os efeitos de Item e Habilidade Especial continuam em desenvolvimento e são indicados ao selecionar essas cartas.
+Na vez da equipe, pode usar uma carta de Apoio por turno, sem gastar o ataque, **mesmo se o personagem da vez estiver imobilizado, mantendo o machado, dormindo, paralisado, petrificado ou hipnotizado**. Medalhas também podem ser usadas nessas condições. A mão pertence à equipe; seu uso não remove impedimentos nem faz o personagem agir. **Na Moloeira** dá +20 ao próximo ataque; **Bandeide** cura até 80 de Vida de um aliado; **Brisa** permite curar outro aliado ferido em 30 quando um aliado é eliminado. Se uma ação eliminar vários aliados, as escolhas de Brisa são resolvidas uma por vez, com candidatos vivos. Cartas usadas vão para o descarte. Os efeitos de Item e Habilidade Especial continuam em desenvolvimento e são indicados ao selecionar essas cartas.
 
 ## Eliminação, Daly Mãe e recuperação
 
@@ -94,7 +94,7 @@ Com a Daly Mãe exposta, a confirmação ataca apenas ela e tira exatamente uma 
 
 ## John — Parry e Sharp Guitar
 
-John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 270 de Vida**. Sua base está sem nome impresso; a interface preenche JOHN, conforme o nome indicado pelo criador. O rank ilustrado continua decorativo.
+John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 250 de Vida**. Sua base está sem nome impresso; a interface preenche JOHN, conforme o nome indicado pelo criador. O rank ilustrado continua decorativo.
 
 **Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 é específico de John; outros Fighters ainda não receberam valores confirmados.
 
@@ -102,7 +102,7 @@ John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 27
 
 Enquanto o machado estiver cravado:
 
-- O alvo fica imobilizado: não ataca, não usa cartas da mão na sua vez, não se move e não usa Parry, Esquiva ou reação. Sua posição na hierarquia permanece; **Passar vez · imobilizado** resolve essa ação.
+- O alvo fica imobilizado: não ataca, não se move e não usa Parry, Esquiva ou reação. Sua posição na hierarquia permanece; **Passar vez · imobilizado** resolve essa ação.
 - John não ataca enquanto mantém o machado. Ele continua podendo ser atacado pelos aliados do alvo e fica vulnerável, sem Parry.
 - O alvo recebe **20 de dano após cada ação de qualquer personagem, a partir da ação seguinte à cravada**. O golpe inicial causa somente 80. Uma ação em área conta uma vez. Passar a vez imobilizado e manter o machado também contam como ações.
 - Na próxima vez de John, **Manter machado** encerra sua ação e mantém o dano. **Retirar e escolher ataque** libera os dois sem gastar a ação, permitindo atacar novamente nessa mesma vez.
@@ -119,11 +119,11 @@ Antes de liberar a hierarquia, as habilidades de entrada pendentes são resolvid
 | Personagem | Classe / raridade | Vida / ataque básico | Velocidade / fôlego |
 | --- | --- | --- | --- |
 | Penxy | Assassino / Lendário | 875 / 360 | 7 / 20 |
-| Cavaleiro | Fighter / Comum | 180 / 75 | 3 / 30 |
-| Zikssy | Assassino / Épico | 425 / 120 | 7 / 20 |
+| Cavaleiro | Fighter / Comum | 145 / 40 | 3 / 30 |
+| Zikssy | Assassino / Épico | 390 / 110 | 7 / 20 |
 | Elysh | Suporte / Épico | 480 / 60 | 4 / 30 |
 | DD-X | Fighter / Raro | 285 / 90 | 4 / 10 |
-| Vaglar | Fighter / Mítico | 580 / sem ataque básico | 4 / 30 |
+| Vaglar | Fighter / Mítico | 520 / sem ataque básico | 4 / 30 |
 
 Vida e ataque foram recalculados pelas faixas e perfis atuais; velocidade, fôlego e ícones de classe seguem as cartas recebidas. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
 
@@ -174,7 +174,7 @@ A Daly Mãe mantém suas três vidas e perde uma por ataque; esse contador não 
 | Lendário | 550–1200 | 150–670 |
 | Secreto | 605–1320 | 165–740 |
 
-A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Os valores já confirmados individualmente de Elétrica, John, Sark, Sam (70 de dano), Chama (65), Nully (55) e Alex (220) foram preservados, mesmo quando diferem das faixas genéricas; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
+A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Na v0.22.0, os atributos iniciais foram revistos por habilidade, conforme autorização do criador. A [tabela de balanceamento](BALANCEAMENTO.md) registra todas as alterações e exceções, incluindo Sam com 100 por soco e Alex com Swarm total de 120; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
 Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam usa a carta completa mais recente recebida, com seus números atualizados. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Todos os nomes e retratos do catálogo atual são oficiais. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 

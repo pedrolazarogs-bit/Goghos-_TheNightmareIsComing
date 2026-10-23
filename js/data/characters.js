@@ -44,7 +44,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "duelist":{"name":"Duelo","description":"Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até Mítico, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.","trigger":"duelist"},
  "hypnosis":{"name":"Hipnose","description":"Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.","trigger":"hypnosis"},
  "souls":{"name":"Almas","description":"Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.","trigger":"souls"},
- "punchCombo":{"name":"Combo de socos","description":"Até seis socos individuais de 70 no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.","trigger":"punchCombo"},
+ "punchCombo":{"name":"Combo de socos","description":"Até seis socos individuais com o dano básico no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.","trigger":"punchCombo"},
  "flames":{"name":"Fogo persistente","description":"Ataca por 65 e queima o alvo por mais 65 nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.","trigger":"flames"},
  "fullHeal":{"name":"Cura total","description":"Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima.","trigger":"fullHeal"},
  "hunt":{"name":"Caça","description":"Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente.","trigger":"hunt"},
@@ -55,12 +55,12 @@ Object.assign(G.MAIN_ABILITIES,{
  "sleepPowder":{"name":"Pó mágico","description":"Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez.","trigger":"sleepPowder"},
  "petrify":{"name":"Petrificação","description":"Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez.","trigger":"petrify"},
  "guardian":{"name":"Sacrifício","description":"Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente.","trigger":"guardian"},
- "swarm":{"name":"Swarm","description":"Escolhe 220 em um adversário ou 220 divididos igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5.","trigger":"swarm"},
+ "swarm":{"name":"Swarm","description":"Escolhe concentrar o dano básico em um adversário ou dividi-lo igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5.","trigger":"swarm"},
  "friendship":{"name":"Melhor amigo","description":"Na entrada escolhe um amigo. Revida com seu dano contra quem o atacar, mesmo se o amigo esquivar, defender ou morrer. O revide permite defesa e esquiva.","trigger":"friendship"},
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.21.0',
+G.CONFIG={version:'0.22.0',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{min:2,rareAuto:true},   // Um Comum escolhido e um Raro sorteado automaticamente por equipe.
@@ -90,7 +90,7 @@ G.CHARACTERS=[
  {...received("sheriff","Xerife","ASSASSIN","MYTHIC",6,30,"duelist"),official:true,knownDamage:0},
  {...received("barn","Burn","FIGHTER","LEGENDARY",4,20,"hypnosis"),official:true},
  {...received("fonior","Fonior","SUPPORT","EPIC",3,25,"souls"),official:true},
- {...received("sam","Sam","FIGHTER","LEGENDARY",3,5,"punchCombo"),official:true,knownDamage:70},
+ {...received("sam","Sam","FIGHTER","LEGENDARY",3,5,"punchCombo"),official:true,knownDamage:100},
  {...received("chama","Chama","DESTROYER","MYTHIC",4,10,"flames"),official:true,knownDamage:65},
  {...received("zuri","Zuri","SUPPORT","SECRET",3,30,"fullHeal"),official:true},
  {...received("draktar","Draktar","ASSASSIN","SECRET",6,20,"hunt"),official:true},
@@ -101,7 +101,7 @@ G.CHARACTERS=[
  {...received("rayyb","Rayyb","SUPPORT","LEGENDARY",4,20,"sleepPowder"),official:true},
  {...received("rayvilin","Rayvilin","SUPPORT","LEGENDARY",5,20,"petrify"),official:true},
  {...received("z_zus","Z-Zus","SUPPORT","LEGENDARY",1,10,"guardian"),official:true},
- {...received("alex","Alex","FIGHTER","COMMON",5,20,"swarm"),official:true,knownDamage:220,copies:1},
+ {...received("alex","Alex","FIGHTER","COMMON",5,20,"swarm"),official:true,knownDamage:120,copies:1},
  {...received("karma","Karma","ASSASSIN","LEGENDARY",6,10,"friendship"),official:true},
  {...received("trucc","Trucc","ASSASSIN","EPIC",8,20,"fadingDodge"),official:true},
  {...received('vaglar','Vaglar','FIGHTER','MYTHIC',4,30,'death_book'),abilityOnly:true,knownDamage:0}
@@ -115,7 +115,41 @@ G.CHARACTERS=[
  c.cardBase.outline=true;return Object.freeze(c);
 });
 G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id)||null;
+// Ajustes por habilidade sobre as faixas e perfis. Valores iniciais; bônus em batalha continuam livres.
+G.CHARACTER_BALANCE={
+ "eletric":{"maxHp":220,"damage":130,"reason":"Área e mana já compensadas pela Vida baixa; manter os valores de referência."},
+ "john":{"maxHp":250,"damage":80,"reason":"Parry e imobilização justificam reduzir a resistência; preservar 80 inicial e 20 periódico."},
+ "sarck":{"maxHp":530,"damage":0,"reason":"Manter a exceção oficial: reativo, sem velocidade; precisa sobreviver para revidar."},
+ "penxy":{"maxHp":875,"damage":360,"reason":"O duelo isola os dois lados e não multiplica dano; manter o perfil de Assassino."},
+ "cavaleiro":{"maxHp":145,"damage":40,"reason":"80% de redução multiplicam por cinco sua resistência a dano; reduzir Vida e ataque."},
+ "zikssy":{"maxHp":390,"damage":110,"reason":"Reservar parte do poder básico para os bônus permanentes de susto."},
+ "elysh":{"maxHp":480,"damage":60,"reason":"A cura substitui o ataque; manter Vida alta e dano muito baixo de Suporte."},
+ "ddx":{"maxHp":285,"damage":90,"reason":"O dano dobrado é único; o perfil atual de Fighter já o comporta."},
+ "p_ullys":{"maxHp":585,"damage":450,"reason":"Reservar dano para a explosão: até 630 no conjunto, antes de defesas."},
+ "stally":{"maxHp":550,"damage":230,"reason":"Reduzir o básico para compensar o golpe de 300 com paralisia."},
+ "endrik":{"maxHp":585,"damage":560,"reason":"Dano alto de Destroyer, com desconto pela tentativa de execução após morrer."},
+ "striker":{"maxHp":445,"damage":350,"reason":"A proteção contra rápidos pede menos dano que outro Destroyer da mesma faixa."},
+ "sheriff":{"maxHp":450,"damage":0,"reason":"Execução ofensiva e defensiva exigem fragilidade; manter duelo e dano fixo de 200."},
+ "barn":{"maxHp":780,"damage":90,"reason":"Controle contínuo é seu poder; a carta deve mostrar os 90 realmente usados na hipnose."},
+ "fonior":{"maxHp":480,"damage":60,"reason":"As almas só aumentam o máximo, sem cura imediata; manter o perfil de Suporte."},
+ "sam":{"maxHp":1050,"damage":100,"reason":"Combo médio de 2,77 socos: cerca de 277 antes de defesas, máximo 600; aumentar a Vida."},
+ "chama":{"maxHp":445,"damage":65,"reason":"65 inicial mais cinco queimaduras já somam 390; preservar o dano periódico e o revide."},
+ "zuri":{"maxHp":1000,"damage":165,"reason":"A cura coletiva total é forte mesmo sendo única; reduzir resistência e ataque."},
+ "draktar":{"maxHp":850,"damage":265,"reason":"Contra a caça, o básico triplica para 795; reduzir os dois atributos."},
+ "daztirry":{"maxHp":930,"damage":420,"reason":"Oni acrescenta uma janela imortal e +30; descontar parte dos atributos iniciais."},
+ "mike":{"maxHp":135,"damage":120,"reason":"A imunidade é específica de classe; manter a Vida muito baixa e dano alto de Destroyer."},
+ "unicorn":{"maxHp":270,"damage":35,"reason":"A estrela já concede +150 de Vida, +50 de dano e +2 de velocidade; reduzir a base."},
+ "nully":{"maxHp":480,"damage":55,"reason":"Multiplicação, execução e velocidade alta justificam menos Vida; preservar os 55 por dado."},
+ "rayyb":{"maxHp":875,"damage":150,"reason":"Sono gratuito e potencialmente longo exige desconto na Vida e no dano básicos."},
+ "rayvilin":{"maxHp":700,"damage":150,"reason":"Petrificar e executar na mesma vez é forte; reduzir resistência e dano, sem mudar o d6."},
+ "z_zus":{"maxHp":1040,"damage":150,"reason":"Manter Vida alta para absorver dano; ataque no piso Lendário por ser Suporte."},
+ "alex":{"maxHp":155,"damage":120,"reason":"220 era muito acima do teto Comum; manter divisão/concentração com total básico de 120."},
+ "karma":{"maxHp":650,"damage":230,"reason":"O ataque se repete como reação aos golpes no amigo; reduzir resistência e básico."},
+ "trucc":{"maxHp":340,"damage":90,"reason":"Esquiva inicial de cinco faces e velocidade 8 exigem Vida e dano básicos menores."},
+ "vaglar":{"maxHp":520,"damage":0,"reason":"O livro ignora esquiva e Parry, executa abaixo de Mítico e aplica 200 acima; reduzir Vida."}
+};
 G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
   ...(Number.isFinite(c.knownHp)?{maxHp:G.roundUpToFive(c.knownHp)}:{}),
-  ...(Number.isFinite(c.knownDamage)?{damage:G.roundUpToFive(c.knownDamage)}:{})}));
+  ...(Number.isFinite(c.knownDamage)?{damage:G.roundUpToFive(c.knownDamage)}:{}),
+  ...G.CHARACTER_BALANCE[c.id]}));
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

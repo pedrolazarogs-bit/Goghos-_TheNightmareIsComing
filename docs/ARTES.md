@@ -157,3 +157,7 @@ A limpeza reaproveita apenas recortes das regiões numéricas do arquivo `number
 Trucc recebeu velocidade básica 8 para ser o mais rápido, conforme a orientação do criador; Sam, Chama, Nully e Alex preservam os danos individuais confirmados. Os demais atributos de Vida/dano seguem as faixas e os perfis atuais. Bônus, perdas de velocidade e Vida durante o jogo aparecem nos números da própria carta.
 
 Petra não foi adicionada. Todas as cartas jogáveis usam bases oficiais; os arquivos antigos de moldura e conceitos continuam disponíveis como recursos do projeto.
+
+## Valores balanceados — v0.22.0
+
+A revisão de atributos atualiza somente os números sobrepostos pela interface. Os PNGs originais, molduras e retratos permanecem sem alteração. O básico do Swarm e os socos de Sam são mostrados com os novos valores; textos e controles usam o dano atual. A [tabela de balanceamento](BALANCEAMENTO.md) conserva os números anteriores e a justificativa de cada alteração.

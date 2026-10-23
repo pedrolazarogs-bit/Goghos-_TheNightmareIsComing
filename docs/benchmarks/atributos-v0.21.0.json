@@ -1,0 +1,272 @@
+[
+  {
+    "id": "eletric",
+    "name": "Elétrica",
+    "rarity": "RARE",
+    "class": "MAGO",
+    "hp": 220,
+    "damage": 130,
+    "ability": "Causa 130 de dano a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente."
+  },
+  {
+    "id": "john",
+    "name": "John",
+    "rarity": "RARE",
+    "class": "FIGHTER",
+    "hp": 270,
+    "damage": 80,
+    "ability": "Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry."
+  },
+  {
+    "id": "sarck",
+    "name": "Sark",
+    "rarity": "LEGENDARY",
+    "class": "ASSASSIN",
+    "hp": 530,
+    "damage": 0,
+    "ability": "Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante abaixo de Lendário; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar."
+  },
+  {
+    "id": "penxy",
+    "name": "Penxy",
+    "rarity": "LEGENDARY",
+    "class": "ASSASSIN",
+    "hp": 875,
+    "damage": 360,
+    "ability": "Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez."
+  },
+  {
+    "id": "cavaleiro",
+    "name": "Cavaleiro",
+    "rarity": "COMMON",
+    "class": "FIGHTER",
+    "hp": 180,
+    "damage": 75,
+    "ability": "Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5."
+  },
+  {
+    "id": "zikssy",
+    "name": "Zikssy",
+    "rarity": "EPIC",
+    "class": "ASSASSIN",
+    "hp": 425,
+    "damage": 120,
+    "ability": "Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação."
+  },
+  {
+    "id": "elysh",
+    "name": "Elysh",
+    "rarity": "EPIC",
+    "class": "SUPPORT",
+    "hp": 480,
+    "damage": 60,
+    "ability": "Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. A cura usa a ação e respeita a Vida máxima."
+  },
+  {
+    "id": "ddx",
+    "name": "DD-X",
+    "rarity": "RARE",
+    "class": "FIGHTER",
+    "hp": 285,
+    "damage": 90,
+    "ability": "Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar o dano do ataque."
+  },
+  {
+    "id": "p_ullys",
+    "name": "P. Ullys",
+    "rarity": "LEGENDARY",
+    "class": "DESTROYER",
+    "hp": 585,
+    "damage": 645,
+    "ability": "Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha."
+  },
+  {
+    "id": "stally",
+    "name": "Stally",
+    "rarity": "MYTHIC",
+    "class": "FIGHTER",
+    "hp": 580,
+    "damage": 260,
+    "ability": "Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem."
+  },
+  {
+    "id": "endrik",
+    "name": "Endrik",
+    "rarity": "LEGENDARY",
+    "class": "DESTROYER",
+    "hp": 585,
+    "damage": 645,
+    "ability": "Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior."
+  },
+  {
+    "id": "striker",
+    "name": "Striker",
+    "rarity": "MYTHIC",
+    "class": "DESTROYER",
+    "hp": 445,
+    "damage": 415,
+    "ability": "Adversários mais rápidos que Striker não podem atacá-lo."
+  },
+  {
+    "id": "sheriff",
+    "name": "Xerife",
+    "rarity": "MYTHIC",
+    "class": "ASSASSIN",
+    "hp": 565,
+    "damage": 0,
+    "ability": "Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até Mítico, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo."
+  },
+  {
+    "id": "barn",
+    "name": "Burn",
+    "rarity": "LEGENDARY",
+    "class": "FIGHTER",
+    "hp": 910,
+    "damage": 410,
+    "ability": "Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado."
+  },
+  {
+    "id": "fonior",
+    "name": "Fonior",
+    "rarity": "EPIC",
+    "class": "SUPPORT",
+    "hp": 480,
+    "damage": 60,
+    "ability": "Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite."
+  },
+  {
+    "id": "sam",
+    "name": "Sam",
+    "rarity": "LEGENDARY",
+    "class": "FIGHTER",
+    "hp": 910,
+    "damage": 70,
+    "ability": "Até seis socos individuais de 70 no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação."
+  },
+  {
+    "id": "chama",
+    "name": "Chama",
+    "rarity": "MYTHIC",
+    "class": "DESTROYER",
+    "hp": 445,
+    "damage": 65,
+    "ability": "Ataca por 65 e queima o alvo por mais 65 nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama."
+  },
+  {
+    "id": "zuri",
+    "name": "Zuri",
+    "rarity": "SECRET",
+    "class": "SUPPORT",
+    "hp": 1145,
+    "damage": 195,
+    "ability": "Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima."
+  },
+  {
+    "id": "draktar",
+    "name": "Draktar",
+    "rarity": "SECRET",
+    "class": "ASSASSIN",
+    "hp": 965,
+    "damage": 395,
+    "ability": "Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente."
+  },
+  {
+    "id": "daztirry",
+    "name": "Daztirry",
+    "rarity": "SECRET",
+    "class": "FIGHTER",
+    "hp": 1000,
+    "damage": 455,
+    "ability": "Ao zerar a Vida, fica imortal por três ações de qualquer personagem, com +30 de dano. Depois é eliminado."
+  },
+  {
+    "id": "mike",
+    "name": "Mike",
+    "rarity": "COMMON",
+    "class": "DESTROYER",
+    "hp": 135,
+    "damage": 120,
+    "ability": "Nenhum adversário da classe Assassino pode atacar Mike."
+  },
+  {
+    "id": "unicorn",
+    "name": "Unicorn",
+    "rarity": "RARE",
+    "class": "SUPPORT",
+    "hp": 315,
+    "damage": 40,
+    "ability": "Na entrada, fortalece um aliado ou a si mesma: +150 de Vida máxima e atual, +50 de dano e +2 de velocidade. Uso único em um personagem; dura enquanto o beneficiado viver."
+  },
+  {
+    "id": "nully",
+    "name": "Nully",
+    "rarity": "MYTHIC",
+    "class": "ASSASSIN",
+    "hp": 565,
+    "damage": 55,
+    "ability": "Rola d6 ao atacar. 1–5 multiplica o dano básico de 55. 6 elimina raridade igual ou inferior; contra superior, causa 330."
+  },
+  {
+    "id": "rayyb",
+    "name": "Rayyb",
+    "rarity": "LEGENDARY",
+    "class": "SUPPORT",
+    "hp": 1040,
+    "damage": 180,
+    "ability": "Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez."
+  },
+  {
+    "id": "rayvilin",
+    "name": "Rayvilin",
+    "rarity": "LEGENDARY",
+    "class": "SUPPORT",
+    "hp": 1040,
+    "damage": 180,
+    "ability": "Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez."
+  },
+  {
+    "id": "z_zus",
+    "name": "Z-Zus",
+    "rarity": "LEGENDARY",
+    "class": "SUPPORT",
+    "hp": 1040,
+    "damage": 180,
+    "ability": "Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente."
+  },
+  {
+    "id": "alex",
+    "name": "Alex",
+    "rarity": "COMMON",
+    "class": "FIGHTER",
+    "hp": 180,
+    "damage": 220,
+    "ability": "Escolhe 220 em um adversário ou 220 divididos igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5."
+  },
+  {
+    "id": "karma",
+    "name": "Karma",
+    "rarity": "LEGENDARY",
+    "class": "ASSASSIN",
+    "hp": 875,
+    "damage": 360,
+    "ability": "Na entrada escolhe um amigo. Revida com seu dano contra quem o atacar, mesmo se o amigo esquivar, defender ou morrer. O revide permite defesa e esquiva."
+  },
+  {
+    "id": "trucc",
+    "name": "Trucc",
+    "rarity": "EPIC",
+    "class": "ASSASSIN",
+    "hp": 425,
+    "damage": 120,
+    "ability": "Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste."
+  },
+  {
+    "id": "vaglar",
+    "name": "Vaglar",
+    "rarity": "MYTHIC",
+    "class": "FIGHTER",
+    "hp": 580,
+    "damage": 0,
+    "ability": "Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado abaixo de Mítico; contra Mítico, Lendário ou Secreto, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico."
+  }
+]
