@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.18.0** implementa **Steel Jaw, do Sark**: um Assassino Lendário com 530 de Vida e 5 de fôlego, sem ataque básico ou velocidade. Ao ser atacado, recebe o dano e reage automaticamente conforme a raridade do atacante. A arena, a seleção alternada de Comuns e a continuidade da hierarquia após recuperação foram preservadas.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.18.1** corrige a carta do Sark: usa a base completa recebida, preservando a ilustração, o nome, as cores e os símbolos, e acrescenta somente os números de Vida e fôlego. Steel Jaw mantém as regras da v0.18.0: Sark recebe o ataque e reage automaticamente conforme a raridade do atacante. A arena, a seleção alternada de Comuns e a continuidade da hierarquia após recuperação foram preservadas.
 
 ## Jogar e desenvolver
 
@@ -31,7 +31,7 @@ npm test
 
 A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos outros personagens continuam em desenvolvimento. Sam, Eletric e Sark têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; Sark usa os atributos e a habilidade confirmados pelo criador.
 
-![Teste de Steel Jaw](docs/previews/sark-v0.18.0-desktop.png)
+![Carta do Sark com a base original](docs/previews/sark-v0.18.1-carta.png)
 
 Formação de exemplo para revisar o visual e o enquadramento das ilustrações:
 

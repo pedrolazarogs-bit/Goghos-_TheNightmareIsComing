@@ -1,4 +1,5 @@
-// Carta = cor da raridade (atrás, só nos vazados) + arte (atrás) + moldura oficial intacta + textos/ícones.
+// Bases completas recebidas são exibidas inteiras, com sobreposição somente dos campos numéricos.
+// Personagens ainda sem base própria mantêm a apresentação provisória.
 // Coordenadas em pixels da imagem original (1536x2048), medidas sobre a carta de referência. Ajuste SÓ este arquivo.
 (function(G){
 const F={x:159,y:14,w:1218,h:2034,imgW:1536}; // área útil da moldura (sem margem transparente)
@@ -44,18 +45,19 @@ const portraitStyle=base=>{
 G.cardHTML=function(u,cls='',caption=''){
   const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&u.hp<=0,hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
+  if(base.cardBase){
+    const values={hp,stamina:st,speed:u.speed,damage:u.damage,mana:u.mana??G.manaFor(base)};
+    const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>`<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${values[key]}</div>`).join('');
+    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${fr}">${numbers}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
+  }
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
   const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base),ability=G.getMainAbility(base);
-  // A base nova traz retrato/nome impressos. O recorte da moldura limpa remove essas partes só na apresentação.
-  // A máscara vetorial embutida também funciona ao abrir index.html localmente; não depende de buscar outra imagem.
-  const accentMask=base.cardFrame?`url("data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 2048"><defs><mask id="frame"><rect width="1536" height="1035" fill="white"/><polygon points="'+L.window.map(p=>p.join(',')).join(' ')+'" fill="black"/></mask></defs><rect width="1536" height="2048" fill="white" mask="url(#frame)"/></svg>')}")`:'';
-  const accent=base.cardFrame?`<img class="frame frame-accent" decoding="sync" src="${base.cardFrame}" alt="" style='${fr};mask-image:${accentMask};-webkit-mask-image:${accentMask};mask-size:100% 100%;-webkit-mask-size:100% 100%'>`:'';
   const nameSize=Math.min(L.name.s,Math.floor(415/(u.name.length*0.63)));
   const safeName=String(u.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   return `<div class="slot"><div class="card ${cls}${dead?' dead':''}${cf?' baked':''}" data-id="${u.uid||u.id}">`
    +`<div class="rar" style="${fr};background:${bg};-webkit-mask-image:${m};mask-image:${m}"></div>`
    +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip});${base.artBackground?'background:'+base.artBackground:''}"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span>${u.art?`<img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
-   +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">${accent}`
+   +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">`
    +(base.passiveOnly?'':t('speed',u.speed??'—'))+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
    +t('damage',base.passiveOnly?'—':u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(ability?t('reactionDamage',ability.damage)+t('reactionAbility',ability.name.replace(/ /g,'<br>'),0,'white-space:normal;line-height:.95'):'')+(u.class==='MAGO'?t('mana',mana):'')+(!ability&&base.mainAbility?t('ability',base.mainAbility,Math.min(L.ability.s,152/(base.mainAbility.length*.63))):'')
    +(base.abilityArt?`<div class="ci ability-symbol" style="${box(L.abilityIcon)}"><img src="${base.abilityArt}" alt="" onerror="this.remove()"></div>`:'')

@@ -123,15 +123,17 @@ test('IA pode usar medalha no ciclo sem atacante e Sark entra pelo monte Lendár
   assert(other.piles.LEGENDARY.some(c=>c.id==='sarck'));assert(!other.piles.EPIC.some(c=>c.id==='sarck'));
 });
 
-test('carta usa base nova e arte separada, Vida dinâmica, reação 390 e banner recebido',()=>{
+test('carta exibe a base integral recebida e acrescenta somente Vida e fôlego dinâmicos',()=>{
   const c=G.getCharacterById('sarck'),html=G.cardHTML({...c,hp:140});
-  assert(html.includes('assets/cards/card_base_sark.png'));assert(html.includes('assets/characters/sarck.png'));
-  assert(html.includes('140'));assert(html.includes('390'));assert(!html.includes('null'));assert(!html.includes('undefined'));
+  assert(html.includes('assets/cards/card_base_sark.png'));assert(!html.includes('assets/characters/sarck.png'));
+  assert(html.includes('140'));assert(!html.includes('null'));assert(!html.includes('undefined'));
+  assert.equal((html.match(/<img /g)||[]).length,1);assert(!html.includes('mask-image'));assert(!html.includes('clip-path'));
+  assert.deepEqual([...html.matchAll(/data-value="([^"]+)"/g)].map(m=>m[1]),['hp','stamina']);
   assert(!html.includes('Rank'));assert(!html.includes('assets/references/'));
   assert(G.actorPortraitHTML(c).includes('assets/characters/sark_banner.png'));
   assert(G.actorInfoHTML(battle().s,c).includes('elimina o atacante'));
-  for(const path of [c.art,c.cardFrame,c.abilityArt,c.portraitBanner.src])assert(fs.existsSync(require('node:path').join(__dirname,'..',path)));
-  const official=fs.readFileSync(require('node:path').join(__dirname,'..',c.cardFrame));
+  for(const path of [c.art,c.cardBase.src,c.abilityArt,c.portraitBanner.src])assert(fs.existsSync(require('node:path').join(__dirname,'..',path)));
+  const official=fs.readFileSync(require('node:path').join(__dirname,'..',c.cardBase.src));
   assert.notDeepEqual(official,fs.readFileSync(require('node:path').join(__dirname,'..','assets/references/characters/sarck.png')));
 });
 

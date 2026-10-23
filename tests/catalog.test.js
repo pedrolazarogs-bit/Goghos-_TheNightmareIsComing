@@ -6,13 +6,13 @@ const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 
-test('Sam, Eletric e Sark usam artes separadas e os atributos confirmados pelo criador',()=>{
+test('cartas ilustradas usam a base própria quando fornecida e os atributos confirmados pelo criador',()=>{
   const expected={sam:['LEGENDARY','FIGHTER'],eletric:['RARE','MAGO'],sarck:['LEGENDARY','ASSASSIN']};
   for(const [id,[rarity,cls]] of Object.entries(expected)){
     const c=G.getCharacterById(id);
     assert(c);assert.equal(c.rarity,rarity);assert.equal(c.class,cls);
     assert(c.illustrated);assert(c.artLayout);assert(!c.fullCardArt);assert(fs.existsSync(path.join(__dirname,'..',c.art)));
-    assert(G.cardHTML(c).includes(c.art));
+    assert(G.cardHTML(c).includes(c.cardBase?.src||c.art));
     const reference=fs.readFileSync(path.join(__dirname,'..','assets/references/characters',id+'.png'));
     assert(!fs.readFileSync(path.join(__dirname,'..',c.art)).equals(reference),'a carta pronta não pode servir de retrato');
     assert(!G.cardHTML(c).includes('assets/references/'));

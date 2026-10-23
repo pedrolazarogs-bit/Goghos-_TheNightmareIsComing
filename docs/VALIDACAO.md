@@ -1,6 +1,18 @@
-# Validação — v0.18.0
+# Validação — v0.18.1
 
-## Sark, composição da carta e Steel Jaw
+## Base integral do Sark
+
+Sark usa uma única imagem de carta, a base recebida no SarckKit. As únicas sobreposições na carta viva são os campos numéricos de Vida e fôlego. A referência visual atual do criador substitui a orientação anterior de recompor ilustração e moldura.
+
+`npm test`: 60 testes aprovados, incluindo 100 partidas simuladas. As expectativas de apresentação foram ajustadas à base integral; as regras de Steel Jaw, recuperação, velocidade, mãos e empate continuam cobertas. Não houve alteração em `js/core/`.
+
+No Chromium, a apresentação foi conferida em 1440×900 e 390×844, incluindo laboratório, ataques e mudança da Vida na carta. A imagem original do Sark foi preservada. O registro abaixo descreve a validação anterior da habilidade; as prévias atuais estão em [Carta](previews/sark-v0.18.1-carta.png), [Arena](previews/sark-v0.18.1-desktop.png) e [Celular](previews/sark-v0.18.1-celular.png).
+
+A comparação de duas renderizações a 400 pixels de largura, com e sem os números, encontrou 4.638 pixels alterados dentro dos campos de Vida e fôlego e nenhuma diferença fora desses campos.
+
+## Validação anterior — v0.18.0
+
+### Sark, composição da carta e Steel Jaw
 
 `npm test`: **60 testes aprovados**, incluindo 100 partidas simuladas que terminam em vitória ou no empate definido pelo criador. A suíte mantém as verificações anteriores de seleção, recuperação parcial, ordem após resgate, mão cheia e apresentação. Os 14 testes novos verificam:
 

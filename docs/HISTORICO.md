@@ -63,3 +63,7 @@ Sark passa de Tank Épico provisório para Assassino Lendário oficial, com 530 
 O pacote SarckKit trouxe dois arquivos novos e três já recebidos. A carta é composta com retrato e símbolo separados, molduras e valores dinâmicos; a referência completa não é carregada pelo jogo. O menu Testar Sark permite experimentar a habilidade dos dois lados com formações prontas, sem alterar a seleção normal.
 
 O criador definiu duas regras para a falta de atacantes: permitir avançar o ciclo e comprar, e declarar empate quando o monte acabar e não houver medalha utilizável em nenhuma das mãos. Compras mantêm a escolha de mão cheia; a retomada pelo primeiro atacante não provoca uma compra extra. A continuidade da recuperação da v0.17.1 foi preservada.
+
+## v0.18.1 — base integral de cada personagem
+
+O criador corrigiu a orientação visual: a base recebida deve representar o personagem literalmente, com acréscimo somente dos números nos espaços próprios. Sark passa a usar uma única imagem, `card_base_sark.png`, preservando pose, nome SARCK, rank, cores, estrela e valor 390. A reconstrução com outro retrato e moldura foi retirada desse caminho; somente Vida atual e fôlego são sobrepostos. O formato `cardBase` permite aplicar o mesmo padrão às bases dos próximos personagens. Regras, atributos e Steel Jaw não mudaram.

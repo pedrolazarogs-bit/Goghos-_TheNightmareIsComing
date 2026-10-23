@@ -1,2 +1,6 @@
 card_base.png = moldura oficial das cartas (arquivo original, sem alterações). Para trocar, substitua o arquivo mantendo o mesmo nome e tamanho; se mudar o layout, ajuste js/ui/card.js.
 card_holes_mask.png = máscara gerada a partir da moldura (marca os vazados decorativos). Serve para pintar a cor da raridade atrás da moldura. Pode ser regenerada se a moldura mudar.
+
+Padrão atual para bases de personagens (v0.18.1): usar a imagem completa recebida e acrescentar somente os números nos espaços indicados.
+card_base_sark.png = base integral de Sark, preservada sem alterações. Vida e fôlego são sobrepostos pela interface; retrato, nome, rank, estrela, cores e valor 390 vêm da própria imagem.
+Cadastre novas bases em cardBase.src e os campos numéricos em cardBase.fields, em js/data/characters.js. Não recomponha a ilustração quando houver uma base completa do personagem.

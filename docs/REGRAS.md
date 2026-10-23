@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.18.0
+# Estrutura base do GOGHOS — v0.18.1
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -66,7 +66,7 @@ Se nenhum monte permitir recuperação, a partida segue com a Daly Mãe exposta.
 
 ## Habilidade principal de Sark — Steel Jaw
 
-Sark é **Assassino Lendário**, com **530 de Vida** e **5 de fôlego**. Não tem ataque básico nem velocidade; os traços da carta representam essa ausência. O rank roxo é decorativo e não participa das regras nem aparece como camada na carta composta. Sark ocupa uma vaga da frente e protege sua Daly Mãe como os demais personagens, mas nunca recebe uma ação de ataque.
+Sark é **Assassino Lendário**, com **530 de Vida** e **5 de fôlego**. Não tem ataque básico nem velocidade; os traços da carta representam essa ausência. O rank roxo é decorativo e não participa das regras; permanece na imagem original. Sark ocupa uma vaga da frente e protege sua Daly Mãe como os demais personagens, mas nunca recebe uma ação de ataque.
 
 Ao receber um ataque válido, Sark recebe o dano normal, incluindo mana e bônus de ataque existentes. Na mesma ação, **Steel Jaw reage automaticamente contra o atacante**:
 
@@ -79,7 +79,7 @@ A reação acontece inclusive quando o ataque derrota Sark: as duas perdas são 
 
 Derrotados pelo ataque ou pela reação seguem a mesma eliminação permanente. Avanço de Suportes e Brisa consideram as perdas das duas equipes. Curas existentes usam a Vida atual de Sark. Não foram inventadas cartas de imunidade ou redução: ainda não há uma carta com esses efeitos no catálogo.
 
-O menu **Testar Sark** oferece formações prontas para atacar ou defender, sem mudar a seleção normal de Comuns. Na partida normal, a medalha Holográfica resgata o topo do monte Lendário, que pode conter Sark. A carta usa ilustração e símbolo separados, com valores dinâmicos. O nome exibido é Sark; o identificador interno legado `sarck` foi preservado.
+O menu **Testar Sark** oferece formações prontas para atacar ou defender, sem mudar a seleção normal de Comuns. Na partida normal, a medalha Holográfica resgata o topo do monte Lendário, que pode conter Sark. A carta exibe a base completa enviada, sem reconstruir o retrato ou os símbolos, e acrescenta somente Vida atual e fôlego nos espaços vazios. A imagem mantém o nome impresso SARCK; o nome no estado é Sark, e o identificador legado `sarck` foi preservado.
 
 ## Ritmo e leitura das ações
 
@@ -99,7 +99,7 @@ A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; m
 
 O perfil da classe posiciona os atributos nessas faixas. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
-Sam, Eletric e Sark usam ilustrações separadas, molduras e atributos dinâmicos. As cartas prontas ficam apenas como referência. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos, enquadramentos e símbolos.
+Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark já usa esse formato com a base recebida no SarckKit. Personagens ainda sem base numérica própria mantêm a apresentação provisória. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 
 Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto Steel Jaw, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
 

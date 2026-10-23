@@ -1,8 +1,8 @@
 # Artes recebidas: kikiy.zip e SarckKit.zip
 
-Os 48 PNGs originais estão preservados sem alterações. As cartas prontas de Sam, Eletric e Sarck ficam em `assets/references/characters/` e servem apenas de referência. O jogo monta cada carta com a ilustração separada, fundo, moldura e atributos calculados.
+Os 48 PNGs originais estão preservados sem alterações. A orientação atual do criador é usar a base completa de cada personagem e acrescentar somente os números. Na v0.18.1, Sark usa literalmente `assets/cards/card_base_sark.png`, recebido no SarckKit, sem reconstruir sua ilustração. As cartas completas anteriores de Sam, Eletric e Sarck permanecem em `assets/references/characters/`.
 
-Eletric e Sarck usam as ilustrações avulsas 39 e 29. Sam usa o rosto do banner ilustrado 40, o material separado disponível neste pacote; poderá receber uma ilustração própria quando enviada. O enquadramento é definido por `artLayout` em `js/data/characters.js`: `focus` delimita a região relevante no PNG e `target` a posiciona na moldura. A escala mantém as proporções. Nenhuma carta de referência é carregada pela interface.
+Até a v0.18.0, as cartas eram compostas com ilustrações separadas: Eletric e Sarck usavam 39 e 29, e Sam usava o rosto do banner 40. A partir da v0.18.1, uma entrada `cardBase` em `js/data/characters.js` define a imagem integral recebida e os campos numéricos. Esse caminho tem prioridade sobre a composição antiga. Sam e Eletric ainda aguardam bases próprias com os campos a preencher; suas referências atuais têm números impressos. Retratos fora da carta, como o painel de vez, podem continuar usando as ilustrações avulsas e o banner.
 
 Os símbolos de habilidade de Sark (mandíbula, arte 20) e Eletric (raio, arte 33) usam apenas o centro das imagens, sem duplicar a estrela da moldura. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, de Sark, foi definida e implementada na v0.18.0; as habilidades de Sam e Eletric continuam pendentes.
 
@@ -74,9 +74,9 @@ O pacote tem cinco PNGs. Três já estavam no projeto e são idênticos por SHA-
 | `152 Sem Título_20261021223922.png` | `assets/characters/sarck.png` | Ilustração separada; não é a carta pronta |
 | `Original-Base63_20261021225245.png` | `assets/abilities/sarck.png` | Símbolo separado de Steel Jaw |
 | `Original-Base63_20261021225220.png` | `assets/references/characters/sarck.png` | Apenas referência completa |
-| `Original-Base64_20261022212809.png` | `assets/cards/card_base_sark.png` | Base nova, enquadrada como camada da moldura |
+| `Original-Base64_20261022212809.png` | `assets/cards/card_base_sark.png` | Base integral da carta de Sark, preservada na apresentação |
 | `202 Sem Título2_20261022213058.png` | `assets/characters/sark_banner.png` | Banner do personagem e habilidade no laboratório |
 
-A base nova já contém retrato, nome, rank e símbolo impressos, embora deixe Vida e fôlego vazios. Para montar a carta com as peças separadas, a borda superior dessa base é recortada pela janela da moldura limpa de Assassino, com uma máscara vetorial embutida no HTML. O painel inferior e a etiqueta vêm da moldura limpa compatível. Assim o desenho impresso não se sobrepõe à ilustração, ao nome e aos números dinâmicos. Rank não é renderizado nem tratado como atributo. Nada é apagado ou pintado nos PNGs; recorte, composição, máscara e enquadramento acontecem em HTML/CSS.
+A base contém retrato, nome, rank, traços de ataque/velocidade, Steel Jaw e valor 390 impressos, e deixa Vida e fôlego vazios. Conforme a correção do criador, ela é mostrada inteira em uma única imagem. Não recebe outro retrato, moldura, fundo, máscara ou símbolo por cima. Os únicos acréscimos na carta viva são os números da Vida atual e do fôlego. O rank continua decorativo dentro da imagem; não vira um atributo. O PNG original não é alterado.
 
-O rosto ocupa `focus: [500,454,1549,1525]`, com proporção preservada no espaço `target: [440,300,1250,1165]`. O fundo pastel acompanha a raridade Lendária. O banner usa a área `[21,159,1918,1458]` de um PNG 2048×2048. Vida atual, fôlego, nome, valor 390 e identificação de Steel Jaw são camadas independentes. Os traços de ataque e velocidade representam o funcionamento reativo.
+Os números de Vida ocupam `[470,1310,895,1530]`, e o fôlego ocupa `[350,656,490,746]`, em coordenadas da base 1536×2048. A pose, a estrela, as cores, o nome SARCK e o valor 390 são os da imagem recebida. O banner continua usando a área `[21,159,1918,1458]` de um PNG 2048×2048, fora da carta.
