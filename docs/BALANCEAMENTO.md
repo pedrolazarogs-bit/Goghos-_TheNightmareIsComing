@@ -104,3 +104,7 @@ Os ajustes ficam em `G.CHARACTER_BALANCE`, em `js/data/characters.js`, com uma j
 A mão pertence à equipe. Na vez dela, cartas podem ser usadas mesmo se o personagem estiver preso pelo machado, mantendo o machado, dormindo, paralisado, petrificado ou hipnotizado. Isso permite cura, bônus, Brisa e medalhas, respeitando vagas e o limite de um Apoio por turno. A carta não remove o impedimento nem gasta a ação; o personagem continua sem poder atacar, mover ou reagir quando o efeito proíbe.
 
 A vez adversária, a pausa, as escolhas obrigatórias e o feedback da ação continuam com seus bloqueios normais. Itens e Habilidades Especiais seguem aguardando implementação; esta regra não inventa efeitos para essas cartas. A IA pode resgatar medalhas antes de resolver sua ação impedida.
+
+## Regras acrescentadas na v0.23.0
+
+Os valores iniciais da tabela acima foram preservados. Tanque agora reduz 10% de dano de ataques; Destroyer rola 1–2 no d6 para causar +25%. Os ensaios numéricos anteriores são registros da v0.22.0, antes desses tributos e dos 17 Apoios. A suíte atual acrescenta partidas com os novos efeitos e 40 partidas com invocação garantida. Zeenneriam tem 1700 de Vida/700 de Dano conforme a arte, não tem raridade e fica fora das faixas convencionais. Seu acesso exige os três únicos fragmentos do monte compartilhado.

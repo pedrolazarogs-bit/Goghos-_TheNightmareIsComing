@@ -1,6 +1,6 @@
 // Fluxo completo com as regras atuais: seleção, partida, compras e vitória.
 const assert = require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
 require('./fixtures/legacy_catalog.js');
 const G = globalThis.GOGHOS;
 const seeded = seed => () => {seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
@@ -66,13 +66,13 @@ test('100 partidas de IA terminam em vitória ou empate válido, sem perder cart
       assert(actor,`sem ator na partida ${i}`);
       const result=G.AI.takeTurn(s,actor);
       assert(result.ok,`partida ${i}: ${result.error}`);
-      for(const u of s.units){assert.equal(u.maxHp%5,0);assert.equal(u.hp%5,0);assert.equal(u.damage%5,0);}
+      for(const u of s.units){assert.equal(u.maxHp%5,0);assert(u.hp%5===0||u.revivedNoAbility&&u.hp===1);assert.equal(u.damage%5,0);}
       for(const hit of G.eventImpacts(s.lastEvent).filter(h=>h.type!=='daly-hit')){
-        assert.equal(hit.damage%5,0);assert.equal(hit.beforeHp%5,0);assert.equal(hit.afterHp%5,0);
+        const revived=G.getUnit(s,hit.targetUid)?.revivedNoAbility;assert(hit.damage%5===0||revived&&hit.damage===1);assert(hit.beforeHp%5===0||revived&&hit.beforeHp===1);assert(hit.afterHp%5===0||revived&&hit.afterHp===1);
       }
       for(const side of ['player','enemy']){
         const live=s.units.filter(u=>u.team===side&&u.hp>0&&!u.eliminated);
-        assert(live.filter(u=>u.row==='front').length<=3);
+        assert(live.filter(u=>u.row==='front').length<=G.frontLimit(s,side));
         assert(live.filter(u=>u.row==='rear').length<=2);
         assert(live.filter(u=>u.row==='rear').every(u=>u.class==='SUPPORT'));
         if(live.length)assert(live.some(u=>u.row==='front'));

@@ -20,6 +20,7 @@ function supportBlockReason(s,idx){
   if(sp.usedTurn===s.turn)return 'Você já usou uma carta de apoio neste turno.';
   if(sl.uses<=0)return 'Carta esgotada.';
   const d=G.getSupportCard(sl.id);
+  if(!['heal','nextAttackBonus','onAllyDefeatedHeal'].includes(d.effect))return 'Use este Apoio pela mão, após comprá-lo do monte principal.';
   if(d.effect==='onAllyDefeatedHeal'&&sp.brisa)return 'Brisa já está ativa.';
   if(d.effect==='heal'&&!s.units.some(u=>u.team==='player'&&u.hp>0&&u.hp<u.maxHp))return 'Nenhum aliado precisa de cura.';
   return '';

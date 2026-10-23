@@ -107,3 +107,11 @@ As 21 cartas completas recebidas foram preservadas byte a byte, com limpeza apen
 Mantidas as seis raridades e a transferência de faixas, após reconfirmação do criador. Os 30 personagens foram revisados e 22 receberam ajustes em Vida/dano conforme classe e habilidade. Sam passou a 100 por soco; Alex, a 120 de Swarm básico. Armadura, execução, esquiva, área, controle, revides, buffs e dano contínuo foram considerados no orçamento de atributos. As mecânicas e os dados das habilidades permanecem. A tabela completa e os resultados comparativos estão em `docs/BALANCEAMENTO.md`.
 
 Apoios e medalhas podem ser usados na vez da equipe mesmo durante imobilização, sono, paralisia, petrificação, hipnose ou manutenção do machado. Não gastam a ação nem removem o estado; movimento, ataque e reação continuam respeitando o impedimento. A IA resgata medalhas antes de resolver a ação impedida. Corrigida a retomada da IA quando Burn acorda e precisa escolher outra hipnose antes de agir. Mana dos Magos permanece 3 inicial, +1 por ação e máximo 3.
+
+## v0.23.0 — Apoios, invocação primordial e MAX
+
+KitApoio integra 17 efeitos oficiais, substituindo os três nomes já existentes. O leque oferece alvos vivos ou eliminados, respeita um Apoio por turno e funciona durante impedimentos. Recruta abre a quarta vaga frontal; Morto Vivo volta com 1 de Vida e sem habilidade; Sortudo favorece o próximo dado; Eu Denovo e Combokill mantêm a hierarquia restante.
+
+KitZenneriam acrescenta um Deus sem raridade, fora dos seis montes e da seleção, obtido apenas com os três fragmentos únicos da partida. Sua base original recebe os números 1700/700/7 e preserva fôlego 12, MAX e Presence. Presence ignora habilidades de personagens, mantendo Apoios válidos. MAX reúne Mana, Esquiva, Parry 1–2, resistência de Tanque, crítico de Destroyer e transição de Suporte.
+
+Foram corrigidos bloqueios de IA ao surgir uma nova escolha dimensional após resgate, tentativa de quebrar maldição enquanto Burn mantinha hipnose e retomada sem atacante por invocação/ressurreição. Documentação em [APOIOS.md](APOIOS.md) e [DEUSES.md](DEUSES.md).

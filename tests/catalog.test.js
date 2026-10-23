@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;let passed=0;const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 test('catálogo tem 30 personagens oficiais, com bases recebidas e sem Petra ou personagens provisórios',()=>{
  assert.equal(G.CHARACTERS.length,30);assert.equal(new Set(G.CHARACTERS.map(c=>c.id)).size,30);assert.equal(G.getCharacterById('petra'),null);

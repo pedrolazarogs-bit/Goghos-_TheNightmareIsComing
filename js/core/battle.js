@@ -7,7 +7,7 @@ const isCharacterDefeated=u=>!!u.eliminated||(u.hp<=0&&!u.oniActive);
 const getUnit=(s,uid)=>s.units.find(u=>u.uid===uid)||null;
 const canAct=u=>!isCharacterDefeated(u)&&(u.row==='front'||!!u.duelId)&&!u.passiveOnly&&!u.abilityDormant;
 const isTargetable=u=>!isCharacterDefeated(u)&&u.row==='front'; // retaguarda não pode ser atacada
-const canTransit=u=>u.class==='SUPPORT';                        // troca voluntária (inalterada): somente Suportes
+const canTransit=u=>G.hasClass(u,'SUPPORT');                        // troca voluntária (inalterada): somente Suportes
 const fail=error=>({ok:false,error});
 function validateTeam(team){
   const ids=[...team.front,...team.rear];
@@ -16,6 +16,7 @@ function validateTeam(team){
   if(team.rear.length>2)return fail('A retaguarda permite no máximo 2 personagens.');
   if(team.rear.some(id=>G.getCharacterById(id)?.class!=='SUPPORT'))return fail('Somente personagens da classe SUPPORT podem ficar na retaguarda.');
   if(new Set(ids).size!==ids.length)return fail('Personagem repetido na equipe.');
+  if(ids.some(id=>G.getCharacterById(id)?.summonOnly))return fail('Este personagem só pode entrar por invocação primordial.');
   if(ids.some(id=>!G.getCharacterById(id)))return fail('Personagem inexistente.');
   return{ok:true};
 }
@@ -32,7 +33,7 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   ['player','enemy'].forEach(side=>{const v=validateTeam(teams[side]);if(!v.ok)throw new Error(side+': '+v.error);});
   const s={config:{playerTeam:cp(playerTeam),enemyTeam:cp(enemyTeam),supportIds:[...supportIds]},units:[],uidSeq:{player:0,enemy:0},round:0,turn:1,phase:'battle',
     support:G.createSupportState(supportIds),order:[],acted:{},speedCursor:null,result:null,final:null,log:[],rng,eventSeq:0,lastEvent:null,
-    deck:G.createDeckState(rng),piles:G.createCharacterPiles(rng),eliminated:[],daly:G.createDalyMae(),recovery:null,formation:null,formationQueue:[],abilityChoices:[],duels:[],duelSeq:0,openingAbilities:true,
+    divineReserve:G.createGodReserve(),deck:G.createDeckState(rng),piles:G.createCharacterPiles(rng),eliminated:[],daly:G.createDalyMae(),recovery:null,formation:null,formationQueue:[],abilityChoices:[],duels:[],duelSeq:0,openingAbilities:true,
     roll:opts.roll||(n=>1+Math.floor(rng()*n))}; // roll(n): dado de n lados (injetável nos testes). Tudo aqui é novo a cada partida: nada vaza da anterior.
   ['player','enemy'].forEach(side=>{const t=teams[side];
     t.front.forEach(id=>makeUnit(s,side,G.claimCharacter(s,id),'front'));t.rear.forEach(id=>makeUnit(s,side,G.claimCharacter(s,id),'rear'));});
@@ -63,7 +64,7 @@ const compareSpeed=(a,b)=>b.speed-a.speed||(a.team===b.team?0:a.team==='player'?
 function buildTurnOrder(s){
   const list=s.units.filter(canAct);
   list.sort(compareSpeed);
-  s.order=list.map(u=>u.uid);s.acted={};s.speedCursor=null;s.round++;return s.order;
+  s.order=list.map(u=>u.uid);s.acted={};s.speedCursor=null;s.round++;G.supportRoundStarted?.(s);return s.order;
 }
 // Inclui apenas os recuperados cuja velocidade ainda não passou, sem resetar rodada, compras ou ações gastas.
 function resumeRecoveryOrder(s,units){
@@ -79,7 +80,7 @@ function getNextActor(s){
   if(paused())return null; // decisões pendentes pausam a ordem, sem avançar a rodada
   if(checkIdleDraw(s))return null;
   if(G.hasMeaningfulAction&&isIdleBattle(s))return null;
-  const find=()=>s.order.map(id=>getUnit(s,id)).find(u=>u&&canAct(u)&&!s.acted[u.uid]);
+  const find=()=>G.pendingSupportExtra?.(s)||s.order.map(id=>getUnit(s,id)).find(u=>u&&canAct(u)&&!s.acted[u.uid]);
   let a=find();if(!a&&s.units.some(canAct)){buildTurnOrder(s);G.onSpeedReset(s);if(paused())return null;a=find();} // sem atacante, consultas não iniciam ciclos infinitos
   if(a){G.prepareActorAbility?.(s,a);if(paused())return null;}
   return a||null;
@@ -88,7 +89,7 @@ const isIdleBattle=s=>{G.refreshAbilityAvailability?.(s);return !s.result&&!s.un
 function checkIdleDraw(s){
   if(!isIdleBattle(s)||G.hasTimedEffects?.(s)||s.deck.pile.length||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return null;
   const canRedeem=['player','enemy'].some(side=>s.deck.hands[side].some(c=>G.getResetCard(c.id)?.type==='DALY'&&!G.medalBlockReason(s,side,c)));
-  if(canRedeem)return null;
+  if(canRedeem||['player','enemy'].some(side=>G.canSummonFromHand?.(s,side)||G.hasIdleHandResources?.(s,side)))return null;
   s.result='draw';s.phase='ended';s.order=[];
   s.final={winner:null,loser:null,reason:'no-attackers',daly:{player:s.daly.player.hp,enemy:s.daly.enemy.hp},round:s.round};
   s.log.push('Empate · nenhum personagem pode atacar, o monte principal acabou e não há medalhas utilizáveis nas mãos.');
@@ -109,7 +110,7 @@ function canUseHand(s,side){
 function advanceIdleCycle(s){
   if(!isIdleBattle(s))return fail('Há personagens capazes de atacar. Continue a hierarquia.');
   if(!canManageTeam(s,'player'))return fail('Resolva a escolha pendente antes de avançar o ciclo.');
-  if(!s.deck.pile.length&&!G.hasTimedEffects?.(s))return fail('O monte principal está vazio. Resgate uma medalha disponível na mão.');
+  if(!s.deck.pile.length&&!G.hasTimedEffects?.(s)&&!['player','enemy'].some(side=>G.hasIdleHandResources?.(s,side)))return fail('O monte principal está vazio. Resgate uma medalha disponível na mão.');
   buildTurnOrder(s);s.turn++;G.onSpeedReset(s);if(G.hasTimedEffects?.(s)){event(s,{type:'wait',actorName:'Ciclo',hits:[]});finishResolvedAction(s);}
   return{ok:true};
 }
@@ -142,7 +143,7 @@ function performTransit(s,uid){
   if(actor.pinnedBy||actor.pinning)return fail('Resolva o vínculo do personagem da vez antes de mover Suportes.');
   const board=getBoard(s)[u.team],to=u.row==='front'?'rear':'front';
   if(u.row==='front'&&board.front.length<=1)return fail('A linha de frente precisa manter pelo menos um personagem.');
-  if(board[to].length>=(to==='front'?3:2))return fail('Essa linha está cheia. Escolha um Suporte da outra linha para trocar.');
+  if(board[to].length>=(to==='front'?(G.frontLimit?.(s,u.team)||3):2))return fail('Essa linha está cheia. Escolha um Suporte da outra linha para trocar.');
   u.row=to;u.slot=nextSlot(s,u.team,to);s.log.push(u.name+' foi para '+(to==='front'?'a linha de frente':'a retaguarda'));
   return{ok:true};
 }
@@ -165,22 +166,22 @@ function checkBattleResult(s){
 }
 // Esquivar (Tributo do Assassin): só esquiva quem é MAIS rápido que o atacante; tira-se um dado e esquiva se sair de 1 até a diferença
 // de velocidade (ex.: 5 − 3 = 2 → 1 ou 2). Velocidade igual ou maior do atacante: não esquiva. Magos sempre acertam. Esquivar = nenhum dano.
-function dodgeInfo(a,t){if(G.getMainAbility(t||{})?.trigger==='fadingDodge')return a.class==='MAGO'?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(!t||t.pinnedBy||t.pinning||t.class!=='ASSASSIN'||a.class==='MAGO')return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
+function dodgeInfo(a,t){if(G.getMainAbility(t||{})?.trigger==='fadingDodge')return G.hasClass(a,'MAGO')?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(!t||t.pinnedBy||t.pinning||!G.hasClass(t,'ASSASSIN')||G.hasClass(a,'MAGO'))return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
 function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{diff:i.diff,sides:i.sides,roll,dodged:roll<=i.diff};}
 // Ataque à Daly Mãe exposta: retira EXATAMENTE 1 vida, qualquer que seja o Dano do atacante (sem excedente, sem esquiva).
 // Bônus de apoio e mana não são gastos (não teriam efeito). Cada ataque é processado uma vez (o atacante só age uma vez por rodada).
 function regenerateMageMana(s){
-  const recovered=[];s.units.forEach(u=>{if(u.class==='MAGO'&&!isCharacterDefeated(u)&&u.mana<(u.maxMana||G.MAGE_MAX_MANA)){u.mana=Math.min(u.maxMana||G.MAGE_MAX_MANA,u.mana+1);recovered.push(u.name+' +1 ('+u.mana+'/'+u.maxMana+')');}});
+  const recovered=[];s.units.forEach(u=>{if(G.hasClass(u,'MAGO')&&!isCharacterDefeated(u)&&u.mana<(u.maxMana||G.MAGE_MAX_MANA)){u.mana=Math.min(u.maxMana||G.MAGE_MAX_MANA,u.mana+1);recovered.push(u.name+' +1 ('+u.mana+'/'+u.maxMana+')');}});
   if(recovered.length)s.log.push('Mana · '+recovered.join(', '));
 }
 function event(s,data){s.eventSeq=(s.eventSeq||0)+1;s.lastEvent={id:s.eventSeq,...data};}
-function completeAction(s,a){s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;}
+function completeAction(s,a){const resume=s.speedCursor;s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;G.supportActionCompleted?.(s,a,resume);}
 function validateActor(s,uid){
   if(s.result)return fail('Batalha encerrada.');
   if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return fail('Resolva a escolha pendente antes de continuar.');
   const a=getUnit(s,uid);
   if(!a||!canAct(a))return fail('Personagem indisponível para agir.');
-  if(s.acted[uid])return fail('Já agiu nesta rodada.');
+  if(s.acted[uid]&&!G.isSupportExtra?.(s,uid))return fail('Já agiu nesta rodada.');
   if(getNextActor(s)?.uid!==uid)return fail('Não é a vez deste personagem.');
   return{ok:true,actor:a};
 }
@@ -193,7 +194,7 @@ function releasePinLink(s,u){
 }
 function parryInfo(a,t){
   if(G.isReactionBlocked?.(t))return null;
-  return t&&t.team!==a.team&&t.class==='FIGHTER'&&t.parryThreshold>0&&!t.pinnedBy&&!t.pinning?{threshold:t.parryThreshold,sides:6}:null;
+  return t&&t.team!==a.team&&G.hasClass(t,'FIGHTER')&&t.parryThreshold>0&&!t.pinnedBy&&!t.pinning?{threshold:t.parryThreshold,sides:6}:null;
 }
 function applyHit(s,a,t,damage,options={}){
   if(G.officialApplyHit)return G.officialApplyHit(s,a,t,damage,options);
@@ -205,7 +206,7 @@ function applyHit(s,a,t,damage,options={}){
   if(!parried&&!dodged&&armor.blocked)hit.armor=armor;
   if(info)hit.parry={roll,threshold:info.threshold,sides:6,blocked:parried};
   if(dodge)hit.roll=dodge.roll;
-  s.log.push(parried?t.name+' defendeu com Parry · dado '+roll+'/6 (precisa 1–'+info.threshold+') · nenhum dano':dodged?a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dodge.roll+' ≤ '+dodge.diff+')':a.name+' causou '+armor.damage+' em '+t.name+(armor.blocked?' · armadura 80%: '+damage+' → '+armor.damage:'')+(t.hp<=0?' (derrotado)':'')+(info?' · Parry falhou: dado '+roll+'/6':'')+(dodge?' [esquiva falhou: dado '+dodge.roll+' > '+dodge.diff+']':''));
+  s.log.push(parried?t.name+' defendeu com Parry · dado '+roll+'/6 (precisa 1–'+info.threshold+') · nenhum dano':dodged?a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dodge.roll+' ≤ '+dodge.diff+')':a.name+' causou '+armor.damage+' em '+t.name+(armor.blocked?' · defesa: '+damage+' → '+armor.damage:'')+(t.hp<=0?' (derrotado)':'')+(info?' · Parry falhou: dado '+roll+'/6':'')+(dodge?' [esquiva falhou: dado '+dodge.roll+' > '+dodge.diff+']':''));
   return hit;
 }
 function finishResolvedAction(s){
@@ -243,6 +244,7 @@ function withdrawPin(s,uid){
   releasePinLink(s,v.actor);s.log.push(v.actor.name+' retirou o machado e pode escolher um novo ataque');return{ok:true};
 }
 function reactionPreview(attacker,target,incomingDamage=null){
+  if(G.isPresence(attacker)||G.isPresence(target))return null;
   if(!target||G.isReactionBlocked?.(target)||target.team===attacker.team||target.pinnedBy||target.pinning||isCharacterDefeated(target)||(incomingDamage!==null&&G.roundUpToFive(incomingDamage)>=target.hp))return null;
   const ability=target&&G.getMainAbility(target);if(ability?.trigger!=='onAttacked')return null;
   return{ability:ability.name,instant:ability.instantRarities.includes(attacker.rarity),damage:G.roundUpToFive(ability.damage)};
@@ -259,10 +261,10 @@ function resolveReaction(s,a,t){
   const beforeHp=a.hp,armor=G.damageInfo(a,p.damage);
   const applied=G.dealCharacterDamage?.(s,t,a,p.damage,{instant:p.instant,ability:p.ability,kind:'reaction'});
   if(!applied)a.hp=p.instant?0:G.roundUpToFive(a.hp-armor.damage);
-  if(applied){s.log.push(t.name+' · '+p.ability+': '+(applied.instant?applied.targetName+' foi eliminado instantaneamente':applied.targetName+' recebeu '+applied.amount+' de dano ('+applied.beforeHp+' → '+applied.afterHp+')'+(applied.armor?' · armadura 80%':'')));return{...applied,sourceUid:t.uid,sourceName:t.name};}
+  if(applied){s.log.push(t.name+' · '+p.ability+': '+(applied.instant?applied.targetName+' foi eliminado instantaneamente':applied.targetName+' recebeu '+applied.amount+' de dano ('+applied.beforeHp+' → '+applied.afterHp+')'+(applied.armor?' · defesa':'')));return{...applied,sourceUid:t.uid,sourceName:t.name};}
   const r={type:a.hp<=0?'defeat':'hit',sourceUid:t.uid,sourceName:t.name,targetUid:a.uid,targetName:a.name,targetTeam:a.team,targetRow:a.row,targetSlot:a.slot,beforeHp,afterHp:a.hp,damage:beforeHp-a.hp,amount:p.instant?null:p.damage,instant:p.instant,ability:p.ability};
   if(!p.instant&&armor.blocked){r.armor=armor;r.amount=armor.damage;}
-  s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+r.amount+' de dano ('+beforeHp+' → '+a.hp+')'+(r.armor?' · armadura 80%':'')));
+  s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+r.amount+' de dano ('+beforeHp+' → '+a.hp+')'+(r.armor?' · defesa':'')));
   return r;
 }
 function attackDaly(s,a,side){
@@ -281,7 +283,7 @@ function performAreaAttack(s,attackerUid,mana=0){
   if(!Number.isInteger(mana)||mana<0||mana>a.mana)return fail('Quantidade de mana inválida.');
   const side=a.team==='player'?'enemy':'player',targets=G.attackTargets(s,a);
   if(!targets.length)return !a.duelId&&G.isDalyExposed(s,side)?attackDaly(s,a,side):fail('Não há adversários acessíveis para este ataque.');
-  const bonus=a.team==='player'?G.takeAttackBonus(s):0,damage=G.roundUpToFive(a.damage+bonus+mana*G.CONFIG.manaDamagePerPoint);
+  const bonus=G.takeAttackBonus(s,a.team),damage=G.roundUpToFive(a.damage+bonus+mana*G.CONFIG.manaDamagePerPoint);
   a.mana-=mana;completeAction(s,a);
   const hits=targets.map(t=>applyHit(s,a,t,damage,{area:true}));
   event(s,{type:'area',actorUid:a.uid,actorName:a.name,targetName:'Linha de frente adversária',hits,damage:hits.reduce((n,h)=>n+h.damage,0),manaSpent:mana,bonus});
@@ -308,7 +310,7 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
   if(a.pinnedBy)return fail('Este personagem está cravado e não pode atacar.');
   if(a.pinning)return fail('Escolha manter ou retirar o machado antes de atacar.');
   if(!['normal','pin','double'].includes(mode)||mode==='pin'&&G.getMainAbility(a)?.trigger!=='pinAttack'||mode==='double'&&(G.getMainAbility(a)?.trigger!=='doubleAttack'||a.doubleUsed))return fail('Tipo de ataque indisponível ou já utilizado.');
-  if(s.acted[a.uid])return fail('Já agiu nesta rodada.');
+  if(s.acted[a.uid]&&!G.isSupportExtra?.(s,a.uid))return fail('Já agiu nesta rodada.');
   const next=getNextActor(s);if(!next||next.uid!==a.uid)return fail('Não é a vez deste personagem.');
   if(dSide){
     if(a.duelId)return fail('O duelo permite atacar somente seu adversário dimensional.');
@@ -317,7 +319,7 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
     if(dSide===a.team)return fail('O alvo deve ser adversário.');
     if(!G.isDalyExposed(s,dSide))return fail('A Daly Mãe está protegida enquanto houver personagens vivos.');
     if(!Number.isInteger(mana)||mana<0)return fail('Quantidade de mana inválida.');
-    if(mana>0&&a.class!=='MAGO')return fail('Somente Magos usam mana.');
+    if(mana>0&&!G.hasClass(a,'MAGO'))return fail('Somente Magos usam mana.');
     if(mana>a.mana)return fail('Mana insuficiente.');
     return attackDaly(s,a,dSide);
   }
@@ -326,20 +328,20 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
   if(!G.attackTargets(s,a).includes(t))return fail('Este alvo está protegido pela retaguarda ou por outra dimensão.');
   if(mode==='pin'&&(t.pinnedBy||t.pinning))return fail('Este personagem já participa de um vínculo. Use o ataque normal.');
   if(!Number.isInteger(mana)||mana<0)return fail('Quantidade de mana inválida.');
-  if(mana>0&&a.class!=='MAGO')return fail('Somente Magos usam mana.');
+  if(mana>0&&!G.hasClass(a,'MAGO'))return fail('Somente Magos usam mana.');
   if(mana>a.mana)return fail('Mana insuficiente.');
-  const per=G.CONFIG.manaDamagePerPoint,bonus=a.team==='player'?G.takeAttackBonus(s):0,dmg=G.roundUpToFive((a.damage+bonus+mana*per)*(mode==='double'?2:1));
+  const per=G.CONFIG.manaDamagePerPoint,bonus=G.takeAttackBonus(s,a.team),dmg=G.roundUpToFive((G.attackBaseDamage(a,t)+bonus+mana*per)*(mode==='double'&&!G.isPresence(t)?2:1)),critical=G.criticalDamage(s,a,dmg),resolvedDamage=critical.damage;
   if(mode==='double')a.doubleUsed=true;
   a.mana-=mana; // Mana gasta é parcialmente recuperada ao fim de cada ação/turno que passa
-  completeAction(s,a);const hit=applyHit(s,a,t,dmg);event(s,{...hit,manaSpent:mana,bonus,...(mode==='double'?{doubleAttack:true}:{})});
+  completeAction(s,a);const hit=applyHit(s,a,t,resolvedDamage);event(s,{...hit,critical,manaSpent:mana,bonus,...(mode==='double'?{doubleAttack:true}:{})});
   const landed=G.hitLanded?G.hitLanded(hit):['hit','defeat'].includes(hit.type),responses=G.resolveAttackResponses?G.resolveAttackResponses(s,a,t,hit):landed?[resolveReaction(s,a,t)].filter(Boolean):[],reaction=responses[0]||null;
   if(responses.length){s.lastEvent.reactions=responses;s.lastEvent.reaction=reaction;}
-  if(mode==='pin'&&landed&&!isCharacterDefeated(a)&&!isCharacterDefeated(t)){
+  if(mode==='pin'&&!G.isPresence(t)&&landed&&!isCharacterDefeated(a)&&!isCharacterDefeated(t)){
     a.pinning=t.uid;a.pinStartedTurn=s.turn;a.pinLastKeptHp=null;t.pinnedBy=a.uid;
     s.lastEvent.pin={sourceUid:a.uid,targetUid:t.uid};s.log.push('Sharp Guitar · '+a.name+' cravou o machado em '+t.name+' · ambos presos ao vínculo');
   }
   finishResolvedAction(s);
-  return{ok:true,damage:landed?dmg:0,defeated:t.hp<=0,reaction,dodged:hit.type==='dodge',parried:hit.type==='parry',roll:hit.roll};
+  return{ok:true,damage:landed?resolvedDamage:0,defeated:t.hp<=0,reaction,dodged:hit.type==='dodge',parried:hit.type==='parry',roll:hit.roll};
 }
 // Troca voluntária (somente na vez da própria equipe): um Suporte da retaguarda e um da linha de frente trocam de lugar.
 // Não consome a ação nem dá ataque extra. Quem estava na retaguarda entra na ordem da rodada seguinte.
@@ -367,7 +369,7 @@ function getSwapPairs(s,side){
   const rear=s.units.filter(u=>ok(u)&&u.row==='rear'),front=s.units.filter(u=>ok(u)&&u.row==='front');
   return rear.flatMap(r=>front.map(f=>[r.uid,f.uid]));
 }
-function previewDamage(s,a,mana=0,target=null,mode='normal'){if(G.officialPreviewDamage){const result=G.officialPreviewDamage(s,a,mana,target,mode);if(result!==null)return result;}const damage=G.roundUpToFive((a.damage+(a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint)*(mode==='double'?2:1));return target?G.damageInfo(target,damage).damage:damage;}
+function previewDamage(s,a,mana=0,target=null,mode='normal'){if(G.officialPreviewDamage){const result=G.officialPreviewDamage(s,a,mana,target,mode);if(result!==null)return result;}if(G.isPresence(target)&&G.getMainAbility(a)?.trigger==='areaAttack')return 0;const damage=G.roundUpToFive((G.attackBaseDamage(a,target)+(G.attackBonusFor?G.attackBonusFor(s,a.team):a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint)*(mode==='double'&&!G.isPresence(target)?2:1));return target?G.damageInfo(target,damage,{ignoreMainAbilities:G.isPresence(a)}).damage:damage;}
 const resetBattle=s=>createBattleState(s.config.playerTeam,s.config.enemyTeam,s.config.supportIds); // recomeça com as mesmas equipes iniciais; montes, mãos, Daly Mães e eliminados voltam do zero
 // Tabuleiro para a UI: por lado, os vivos de cada linha (ordenados pela posição). Eliminados não aparecem: ficam em s.eliminated.
 function getBoard(s){

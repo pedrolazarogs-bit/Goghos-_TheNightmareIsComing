@@ -19,3 +19,11 @@ GOGHOS.createAbilityTestState=function(id){
   if(id==='vaglar')return GOGHOS.createBattleState({front:['vaglar'],rear:[]},{front:['cavaleiro','sarck'],rear:['char_07']});
   throw new Error('Teste de habilidade indisponível.');
 }
+
+// A IA histórica não usava Apoios da mão; a integração oficial verifica o comportamento atual.
+GOGHOS.CONFIG.aiSupport=false;
+
+GOGHOS.CONFIG.classTributes=false;
+
+GOGHOS.CONFIG.allowSummon=false;
+GOGHOS.CONFIG.mainDeckTypes=['SUPPORT','SPECIAL','ITEM','DALY'];

@@ -14,7 +14,7 @@ function artHTML(a,cls=''){
   return `<span class="asset-window ${cls}" style="aspect-ratio:${w}/${h}"><img src="${a.src}" style="${style}" alt="" decoding="sync"></span>`;
 }
 G.arenaArtHTML=(id,cls='')=>artHTML(G.ARENA_ART[id],cls);
-G.CLASS_LABEL={ASSASSIN:'Assassino',SUPPORT:'Suporte',FIGHTER:'Lutador',TANK:'Tanque',DESTROYER:'Destruidor',MAGO:'Mago'};
+G.CLASS_LABEL={ASSASSIN:'Assassino',SUPPORT:'Suporte',FIGHTER:'Lutador',TANK:'Tanque',DESTROYER:'Destruidor',MAGO:'Mago',DEUS:'Deus'};
 G.CLASS_SIGIL={ASSASSIN:'✧',SUPPORT:'✚',FIGHTER:'✦',TANK:'⬟',DESTROYER:'✹',MAGO:'ϟ'};
 G.actorPortraitHTML=(u,cls='')=>{
   const base=u&&(G.getCharacterById(u.id)||u);
@@ -32,7 +32,8 @@ G.pilesHTML=s=>G.characterPilesHTML(s)+G.mainPileHTML(s);
 G.turnPreview=(s,actor,busy=false)=>{
   const waiting=!!(s.recovery||s.formation||s.deck.pendingChoice||s.support.pending||s.abilityChoices?.length);
   const current=actor||(busy&&s.lastEvent?G.getUnit(s,s.lastEvent.actorUid):null);
-  const upcoming=waiting||s.result?null:s.order.map(uid=>G.getUnit(s,uid)).find(u=>u&&G.canAct(u)&&!s.acted[u.uid]&&u.uid!==current?.uid)||null;
+  const bonus=(s.supportExtra||[]).map(x=>G.getUnit(s,x.uid)).find(u=>u&&G.canAct(u)&&(busy||u.uid!==current?.uid));
+  const upcoming=waiting||s.result?null:bonus||s.order.map(uid=>G.getUnit(s,uid)).find(u=>u&&G.canAct(u)&&!s.acted[u.uid]&&u.uid!==current?.uid)||null;
   const decisionSide=s.recovery?.side||s.formation?.side||s.deck.pendingChoice?.side||(s.support.pending?'player':null)||s.abilityChoices?.[0]?.side;
   return{current,upcoming,waiting,decisionSide};
 };
@@ -48,7 +49,7 @@ G.actorInfoHTML=(s,actor,busy=false)=>{
   const u=current,base=G.getCharacterById(u.id);
   const ability=G.getMainAbility(u);
   const status=u.pinnedBy?'Imobilizado · não pode agir':u.pinning?'Mantendo machado · vulnerável, sem Parry':u.duelId?'Duelo dimensional · só pode atingir seu oponente':u.bookTarget?'Livro marcado: '+G.getUnit(s,u.bookTarget)?.name:u.armorReduction?'Armadura · bloqueia 80% do dano':G.getMainAbility(u)?.trigger==='doubleAttack'?'Quatro braços · '+(u.doubleUsed?'já utilizado':'disponível'):u.frightResolved?'Susto · +'+u.frightBonus+' ataque / +'+u.frightSpeedBonus+' velocidade':u.parryThreshold?'Parry · defende com 1–'+u.parryThreshold+' no d6':'';
-  return `<section class="actor-info"><h3>${u.passiveOnly?'Habilidade reativa':u.pinnedBy?'Vez imobilizada':u.pinning?'Decisão do machado':'Quem vai atacar'}</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.RARITY_LABEL[u.rarity]}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.passiveOnly||u.abilityOnly||G.getMainAbility(u)?.trigger==='duelist'?'—':u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed??'—'}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${status?`<p class="actor-status">${status}</p>`:''}${G.officialStatus?.(s,u)?'<p class="actor-status">'+G.officialStatus(s,u)+'</p>':''}${u.class==='MAGO'?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>${ability?safe(ability.description):'Habilidade em desenvolvimento'}</small></p>`:''}</section>`;
+  return `<section class="actor-info"><h3>${u.passiveOnly?'Habilidade reativa':u.pinnedBy?'Vez imobilizada':u.pinning?'Decisão do machado':'Quem vai atacar'}</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.rarityLabel(u)}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.passiveOnly||u.abilityOnly||G.getMainAbility(u)?.trigger==='duelist'?'—':u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed??'—'}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${G.CONFIG.classTributes&&G.hasClass(u,'DESTROYER')?'<p class="actor-status">Crítico · d6 1–2 dá +25% de dano</p>':''}${G.CONFIG.classTributes&&G.hasClass(u,'TANK')?'<p class="actor-status">Resistência natural · −10% no dano de ataques</p>':''}${status?`<p class="actor-status">${status}</p>`:''}${G.officialStatus?.(s,u)?'<p class="actor-status">'+G.officialStatus(s,u)+'</p>':''}${G.hasClass(u,'MAGO')?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${G.isGod(u)?'<p class="actor-status">MAX · Mana até 3 · Parry 1–2 · Esquiva por velocidade · resistência 10% · crítico 1–2 · transição entre linhas</p>':''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>${ability?safe(ability.description):'Habilidade em desenvolvimento'}</small></p>`:''}</section>`;
 };
 G.characterAbilityChoiceHTML=(s,selectedUid)=>{
   const p=G.pendingCharacterAbility(s);if(!p||p.side!=='player')return '';
@@ -63,7 +64,7 @@ G.characterAbilityChoiceHTML=(s,selectedUid)=>{
     petrify:['Petrificação','Apenas raridade igual ou inferior. Acerta com 1–'+u.petrifyPrecision+' no d6. Cada falha reduz a precisão. Um aliado liberta o alvo com um ataque de 30. A tentativa permite atacar nesta vez.'],
     sleepPowder:['Pó mágico','Uso único, sem gastar a ação: o alvo dorme e tenta acordar com 1 ou 2 no d6 em cada vez dele.']
   }[p.type]||['Habilidade','Escolha um alvo.'];
-  const targets=p.type==='fright'?'':`<div class="entry-targets">${G.abilityTargets(s,u,p.type).map(t=>`<button data-ability-target="${t.uid}" aria-pressed="${selectedUid===t.uid}" class="${selectedUid===t.uid?'selected':''}">${G.cardHTML(t)}<strong>${safe(t.name)}</strong><small>${G.RARITY_LABEL[t.rarity]} · ${t.row==='rear'?'Retaguarda':'Frente'}</small></button>`).join('')}</div>`;
+  const targets=p.type==='fright'?'':`<div class="entry-targets">${G.abilityTargets(s,u,p.type).map(t=>`<button data-ability-target="${t.uid}" aria-pressed="${selectedUid===t.uid}" class="${selectedUid===t.uid?'selected':''}">${G.cardHTML(t)}<strong>${safe(t.name)}</strong><small>${G.rarityLabel(t)} · ${t.row==='rear'?'Retaguarda':'Frente'}</small></button>`).join('')}</div>`;
   return `<div class="choice-overlay"><section class="choice-dialog entry-choice" role="dialog" aria-modal="true" aria-labelledby="entry-title"><small>${p.reason==='entry'?'Pré-batalha · habilidade de entrada':'Escolha de habilidade'}</small><h3 id="entry-title">${safe(u.name)} · ${copy[0]}</h3><p>${copy[1]}</p>${targets}<button data-act="resolve-entry"${p.type!=='fright'&&!G.abilityTargets(s,u,p.type).some(t=>t.uid===selectedUid)?' disabled':''}>${p.type==='fright'?'Rolar os dados do susto':p.type==='petrify'?'Tentar petrificar · d6':'Confirmar escolha'}</button>${p.reason==='turn'&&['hypnosis','petrify','sleepPowder'].includes(p.type)?'<button data-act="cancel-entry">Voltar sem usar</button>':''}</section></div>`;
 };
 })(globalThis.GOGHOS);

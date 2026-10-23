@@ -4,7 +4,7 @@ function chooseTarget(s,actor){
   return G.attackTargets(s,actor).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0]||null;
 }
 // Mago: gasta o mínimo de mana que elimina o alvo; se não der, gasta 1 (se tiver).
-function manaPlan(s,a,t){if(a.class!=='MAGO'||a.mana<=0)return 0;const per=G.CONFIG.manaDamagePerPoint,need=Math.max(0,Math.ceil((t.hp-a.damage)/per));return need<=a.mana?need:1;}
+function manaPlan(s,a,t){if(!G.hasClass(a,'MAGO')||a.mana<=0)return 0;const per=G.CONFIG.manaDamagePerPoint,need=Math.max(0,Math.ceil((t.hp-a.damage)/per));return need<=a.mana?need:1;}
 // Sem alvo vivo na linha de frente adversária, a Daly Mãe exposta é o alvo (o ataque normal a atinge; não precisa de ação especial).
 function redeemMedals(s,side){
   const obtained=[];
@@ -15,8 +15,11 @@ function redeemMedals(s,side){
   return obtained;
 }
 function takeTurn(s,actor){
+  if(G.canSummonFromHand(s,actor.team)&&G.canUseHand(s,actor.team))return{...G.performSummon(s,actor.team),supportPlayed:true};
+  const played=G.chooseAISupport?.(s,actor.team);if(played)return{...played,pending:!!s.abilityChoices.length,supportPlayed:true};
   redeemMedals(s,actor.team);
-  if(s.abilityChoices.length)return{ok:true,pending:true};
+  const readyAfterCards=G.getNextActor(s);
+  if(s.abilityChoices.length||readyAfterCards?.uid!==actor.uid)return{ok:true,pending:true};
   if(G.isActionLocked?.(actor)){
     const r=G.performStatusTurn(s,actor.uid);if(!r.ok||r.spent)return r;
     // Acordar pode liberar uma escolha de habilidade antes do ataque, como uma nova hipnose.

@@ -1,0 +1,20 @@
+{
+  "kit": "KitZenneriam.zip",
+  "files": [
+    {
+      "source": "Original-Base65_20261023032340.png",
+      "destination": "assets/references/characters/zenneriam.png",
+      "sha256": "62ce07c499a940b07e3dad26a5e2df4923ace0204681aa29c220eca1dc5c3d64"
+    },
+    {
+      "source": "Original-Base65_20261023032427.png",
+      "destination": "assets/cards/card_base_zenneriam.png",
+      "sha256": "116d2a8309231e43cd5d05fbd364aa01fc1de369a0c84ec48f873e3ebc37e537"
+    },
+    {
+      "source": "202 Sem Título_20260502115538.png",
+      "destination": "assets/characters/zenneriam_banner.png",
+      "sha256": "3c63da738452460178a9b66a256c62d8894b81d52ea628f00641aedc6fd137cc"
+    }
+  ]
+}

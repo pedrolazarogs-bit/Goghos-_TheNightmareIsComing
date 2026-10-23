@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.22.0
+# Estrutura base do GOGHOS — v0.23.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -10,7 +10,7 @@ Os dois Comuns escolhidos e os dois Raros sorteados saem de seus montes. As duas
 
 ## Equipes e Suportes
 
-A equipe tem no máximo cinco personagens: três na linha de frente e dois na retaguarda. Somente Suportes podem ficar na retaguarda; eles não atacam nem podem ser atacados por ataques normais enquanto estiverem lá. Ghost Claw e o livro de Vaglar podem escolher a retaguarda; o alvo do duelo pode agir contra Penxy mesmo ficando na sua vaga de trás.
+A equipe tem três vagas frontais e duas traseiras. Recruta pode abrir uma quarta vaga frontal, totalizando seis personagens. Somente personagens com o tributo de Suporte, incluindo MAX de Zeenneriam, podem ficar na retaguarda; eles não atacam nem podem ser atacados por ataques normais enquanto estiverem lá. Ghost Claw e o livro de Vaglar podem escolher a retaguarda; o alvo do duelo pode agir contra Penxy mesmo ficando na sua vaga de trás.
 
 Personagens obtidos ocupam vagas da frente primeiro. Com a frente cheia, somente um Suporte pode entrar na retaguarda. Um resgate sem vaga válida não retira o personagem do monte nem gasta a medalha.
 
@@ -24,13 +24,13 @@ Os personagens vivos da frente que têm ataque agem da maior velocidade para a m
 
 Cada reset compra uma única vez, mesmo se a interface consultar a ordem várias vezes. Escolhas de recuperação, formação, mão cheia e cura da Brisa pausam a batalha.
 
-Se não houver atacante nas duas equipes, **Avançar ciclo · comprar cartas** permite comprar uma carta por equipe, mantendo o limite da mão e a escolha de substituição. Consultar a fila não avança esse ciclo. As medalhas podem ser usadas nessa espera; o bot também as resgata. O primeiro atacante obtido entra no ciclo que aguardava, sem provocar outra compra. Sem atacantes, com o monte principal vazio e nenhuma medalha utilizável nas duas mãos, a partida termina em **empate**, conforme definido pelo criador. Uma escolha de mão cheia, formação, recuperação ou Brisa é resolvida antes dessa verificação.
+Se não houver atacante nas duas equipes, **Avançar ciclo · comprar cartas** permite comprar uma carta por equipe, mantendo o limite da mão e a escolha de substituição. Consultar a fila não avança esse ciclo. As medalhas podem ser usadas nessa espera; o bot também as resgata. O primeiro atacante obtido entra no ciclo que aguardava, sem provocar outra compra. Sem atacantes, com o monte principal vazio, nenhuma medalha utilizável e sem invocação ou ressurreição capaz de devolver um atacante, a partida termina em **empate**, conforme definido pelo criador. Uma escolha de mão cheia, formação, recuperação ou Brisa é resolvida antes dessa verificação.
 
 ## Montes e medalhas
 
 Há sete montes compartilhados, visíveis na arena: o principal e seis de personagens, separados por **raridade**. Cada monte é embaralhado independentemente no início da partida. Classe (Mago, Suporte etc.) é um atributo do personagem, não um monte adicional.
 
-O monte principal provisório tem 26 cartas: 6 de Apoio, 4 de Item, 4 de Habilidade Especial e 12 medalhas (duas de cada cor). Fragmentos Primordiais ficam fora dele.
+O monte principal tem **57 cartas**: 34 Apoios (17 tipos × 2), 4 Itens, 4 Habilidades Especiais, 12 medalhas (duas de cada cor) e **3 Fragmentos Primordiais únicos**. A distribuição de Apoios/Itens/Habilidades/medalhas é provisória; os três fragmentos são o limite confirmado para toda a partida.
 
 | Medalha | Monte resgatado |
 | --- | --- |
@@ -49,13 +49,13 @@ O catálogo tem **30 personagens oficiais**: 3 Comuns, 4 Raros, 4 Épicos, 6 Mí
 
 O leque fica no canto inferior esquerdo, com no máximo cinco cartas. No celular, a arena rola acima de uma área reservada ao leque para evitar sobreposições. A mão adversária é mostrada apenas como contagem.
 
-Ao comprar com cinco cartas, o jogador escolhe uma antiga para substituir ou descarta a nova. Isso vale também para medalhas. A compra pendente não vira uma sexta carta permanente. A IA substitui a mais antiga.
+Ao comprar com cinco cartas, o jogador escolhe uma antiga para substituir ou descarta a nova. Isso vale também para medalhas. A compra pendente não vira uma sexta carta permanente. A IA substitui a mais antiga que não seja Fragmento Primordial, quando possível.
 
 Na vez da equipe, pode usar uma carta de Apoio por turno, sem gastar o ataque, **mesmo se o personagem da vez estiver imobilizado, mantendo o machado, dormindo, paralisado, petrificado ou hipnotizado**. Medalhas também podem ser usadas nessas condições. A mão pertence à equipe; seu uso não remove impedimentos nem faz o personagem agir. **Na Moloeira** dá +20 ao próximo ataque; **Bandeide** cura até 80 de Vida de um aliado; **Brisa** permite curar outro aliado ferido em 30 quando um aliado é eliminado. Se uma ação eliminar vários aliados, as escolhas de Brisa são resolvidas uma por vez, com candidatos vivos. Cartas usadas vão para o descarte. Os efeitos de Item e Habilidade Especial continuam em desenvolvimento e são indicados ao selecionar essas cartas.
 
 ## Eliminação, Daly Mãe e recuperação
 
-Personagens derrotados ficam na área **Personagens Eliminados**, identificados por equipe. Saem da fila de ações e não voltam aos montes, à mão ou à equipe durante a partida.
+Personagens derrotados ficam na área **Personagens Eliminados**, identificados por equipe. Saem da fila de ações e não voltam aos montes nem à mão. Morto Vivo é a exceção explícita: a mesma carta pode voltar à equipe com 1 de Vida e sem habilidade principal. Deuses só entram por invocação e não são ressuscitados.
 
 Cada Daly Mãe começa com três vidas. Fica exposta somente quando sua equipe não tem personagens vivos na frente nem atrás. Cada ataque válido à Daly Mãe tira exatamente uma vida, independentemente do dano do atacante. Não usa bônus de dano nem mana.
 
@@ -96,7 +96,7 @@ Com a Daly Mãe exposta, a confirmação ataca apenas ela e tira exatamente uma 
 
 John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 250 de Vida**. Sua base está sem nome impresso; a interface preenche JOHN, conforme o nome indicado pelo criador. O rank ilustrado continua decorativo.
 
-**Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 é específico de John; outros Fighters ainda não receberam valores confirmados.
+**Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 está definido para John e Zeenneriam; outros Fighters ainda não receberam valores confirmados.
 
 **Sharp Guitar:** John escolhe entre um ataque normal de 80 ou causar 80 e cravar o machado. O vínculo só é criado se o golpe acertar e ambos sobreviverem. Parry, Esquiva, dano fatal e a reação fatal de Sark impedem o vínculo. Não é possível cravar na Daly Mãe nem em um personagem já envolvido em outro vínculo.
 
@@ -159,7 +159,7 @@ A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; m
 
 ## Atributos e regras preservadas
 
-**Arredondamento desde a v0.19.1:** Vida máxima, Vida atual e dano dos personagens terminam sempre em 0 ou 5. Valores que não são múltiplos de 5 sobem ao próximo: 211–214 viram 215; 216–219 viram 220. Valores já redondos permanecem iguais. Os atributos calculados por classe/raridade também seguem essa regra.
+**Arredondamento desde a v0.19.1:** Vida máxima, Vida atual e dano dos personagens terminam em 0 ou 5, com a exceção explícita de Morto Vivo voltando com 1 de Vida. Valores que não são múltiplos de 5 sobem ao próximo: 211–214 viram 215; 216–219 viram 220. Valores já redondos permanecem iguais. Os atributos calculados por classe/raridade também seguem essa regra.
 
 O total de um ataque, incluindo mana e bônus, é arredondado antes de retirar Vida. A Vida restante após dano e a soma após cura também são arredondadas para cima. A cura respeita a Vida máxima; dano fatal deixa a Vida em zero, sem ressuscitar. Ataques em área, Steel Jaw e o dano periódico de Sharp Guitar seguem a mesma regra. Cartas, previsão, painel e registro usam os valores reais da batalha.
 
@@ -187,3 +187,9 @@ A alteração da v0.17.0 foi visual, com o núcleo e os tempos da v0.16.0 preser
 As prévias de vez e próximo personagem apenas consultam a fila atual. Durante escolhas pendentes, a interface avisa que está aguardando; ao terminar a fila, mostra que o próximo passo é o reset. O painel de atributos usa Vida, Dano, Velocidade, Fôlego e mana do estado atual.
 
 No celular, os painéis se reorganizam e a arena rola acima do espaço reservado ao leque. Essa reserva acompanha mudanças de tamanho e orientação da tela.
+
+## Apoios, invocação e tributos — v0.23.0
+
+O [guia dos 17 Apoios](APOIOS.md) registra todos os alvos, limites e interações. Eu Denovo concede uma ação extra; Combokill concede outro ataque após uma eliminação por golpe. Essas ações continuam a mesma rodada e retomam a faixa de velocidade anterior, sem compras extras.
+
+O [guia de Zeenneriam e MAX](DEUSES.md) define os três fragmentos únicos, a reserva fora dos montes, Presence e os tributos de todas as classes. Tanque reduz 10% de ataques; Destroyer causa +25% de dano com 1 ou 2 no d6. O MAX reúne esses tributos com mana, esquiva, Parry e transição. Presence ignora habilidades de personagens; Apoios continuam válidos.

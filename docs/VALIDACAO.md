@@ -1,4 +1,26 @@
-# Validação — v0.22.0
+# Validação — v0.23.0
+
+`npm test`: **215 testes aprovados**, incluindo **340 partidas completas simuladas**: 100 históricas, 200 com o catálogo atual/Apoios/tributos e 40 com invocação garantida, alternando a equipe que reúne os fragmentos.
+
+Os 28 testes do kit cobrem todos os 17 Apoios, uso durante impedimentos, validação antes de consumir cartas, roubo/descarte, limiares, silêncio por quatro ações, dados favorecidos, escudo, invulnerabilidade, ações extras sem reset/compra, ressurreição da mesma instância com 1 de Vida, recrutamento, cópia de Vida e recarga de habilidades, incluindo outra duração de Oni sem acumular dano.
+
+Os 32 testes de invocação/Presence/tributos verificam três fragmentos físicos únicos por partida, reserva única fora dos montes, obtenção exclusiva, consumo sem alterar rodada/turno, vagas e retaguarda, retomada sem atacante, eliminação sem reciclagem, imunidades e ataques atravessando habilidades, Apoios válidos contra o Deus, Mana/Parry/Esquiva/resistência/crítico/transição, reinício e conservação nas 40 partidas com o Deus. A integração atual acompanha 31 cartas de personagem (30 de raridade + reserva/Deus), as 57 cartas principais, os limites das linhas e da mão e a exceção de 1 de Vida.
+
+Foram corrigidas duas decisões inválidas da IA: ataque antes de uma escolha dimensional que passou a existir após resgate e tentativa de quebrar maldição enquanto Burn mantinha hipnose. Invocação e Morto Vivo capaz de devolver um atacante também impedem empate prematuro; o bot resolve esses recursos na espera sem atacantes.
+
+## Interface
+
+No Chromium, em **1440×1000 e 390×844**, passaram **84 cenários**: 40 novos fluxos de galeria/uso dos 17 Apoios/invocação/coleção, 26 regressões de seleção e habilidades, 12 de mão durante seis impedimentos e 6 finais de crítico MAX/mana, quarta vaga ocupada e invocação do bot sem atacantes. Foram usados os botões reais da interface. Não houve erros de JavaScript, recursos ausentes, texto indefinido, números vazando dos campos ou transbordamento horizontal nos cenários.
+
+As três imagens de KitZenneriam e as 18 de KitApoio mantêm os bytes originais. Os manifests registram origem e SHA-256. A conferência visual mostrou carta de Deus, campos numéricos, lista de alvos, quatro cartas frontais e mensagens de invocação/crítico.
+
+[Invocação no computador](previews/invocacao-v0.23.0-desktop.png) · [No celular](previews/invocacao-v0.23.0-celular.png) · [Quarta vaga ocupada](previews/recruta-v0.23.0-desktop.png) · [Crítico MAX](previews/critico-v0.23.0-desktop.png)
+
+Os ensaios numéricos de balanceamento abaixo registram a v0.22.0. A v0.23.0 acrescenta tributos e Apoios e não refaz aqueles números históricos. Itens, Habilidades Especiais e Loja permanecem em desenvolvimento.
+
+---
+
+# Histórico de validação — v0.22.0
 
 `npm test`: **155 testes aprovados**, incluindo **300 partidas completas simuladas**. Dez testes novos cobrem cartas da mão em seis impedimentos, cura no próprio personagem e em aliado, bônus, Brisa, limite de um Apoio por turno, medalhas sem ação extra, bloqueios de vez e escolhas obrigatórias, comportamento da IA, vínculo real de John preservado, mana e faixas/exceções do balanceamento. Incluem a regressão em que Burn acorda e precisa escolher outra hipnose antes de agir.
 

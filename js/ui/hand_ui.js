@@ -6,7 +6,7 @@ const art=c=>{
     const m=G.MEDAL_COLORS[c.rarity];
     return `<div class="scard medal-card ${c.rarity.toLowerCase()}" style="--medal:${m.color}"><span class="medal-emblem">✦</span><strong>${c.name}</strong><span>${G.RARITY_LABEL[c.rarity]}<br>Resgate 1 personagem</span></div>`;
   }
-  if(c.supportCard)return G.supportArtHTML(c);
+  if(c.supportCard||c.type==='PRIMORDIAL')return G.supportArtHTML(c);
   return `<div class="scard placeholder-card"><b>${c.type==='ITEM'?'◇':'✧'}</b><span>${c.name}</span></div>`;
 };
 const mini=(h,isNew,opts={})=>{

@@ -1,7 +1,7 @@
 // Ensaio comparativo de combate; não altera regras ou catálogo salvo. Uso: npm run balance -- [atributos-antigos.json] [resultado.json]
 const fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai'].forEach(f=>require(path.join(root,'js',f+'.js')));
+['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai'].forEach(f=>require(path.join(root,'js',f+'.js')));
 const G=globalThis.GOGHOS;
 if(process.argv[2]&&process.argv[2]!=='current'){
   const before=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));

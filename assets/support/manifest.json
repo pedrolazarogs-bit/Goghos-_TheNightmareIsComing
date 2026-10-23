@@ -1,0 +1,146 @@
+[
+  {
+    "id": "zap",
+    "name": "Zap",
+    "source": "52 Sem Título13_20260227200239.png",
+    "path": "assets/support/zap.png",
+    "sha256": "85093430439826e86ea875d1edda4b381118701670506320570544bba621336c",
+    "replacesExisting": false
+  },
+  {
+    "id": "bandeide",
+    "name": "Bandeide",
+    "source": "52 Sem Título21_20260227200133.png",
+    "path": "assets/support/bandeide.png",
+    "sha256": "e8cfbf6cb7812aea873aeff308c1eeefbdaf156dc01e839b08e794c28eddfb36",
+    "replacesExisting": true
+  },
+  {
+    "id": "brisa",
+    "name": "Brisa",
+    "source": "52 Sem Título23_20260227200025.png",
+    "path": "assets/support/brisa.png",
+    "sha256": "f294be4c10882cdb79ea8f943ee934b7c126d09e605a4e8f589cfd0f20e8dffc",
+    "replacesExisting": true
+  },
+  {
+    "id": "nao_grita",
+    "name": "Não Grita",
+    "source": "52 Sem Título2_20260227200256.png",
+    "path": "assets/support/nao_grita.png",
+    "sha256": "d1bf2dc5dfb431b8296292a55f63bf3f7f6c462078d2e9b3cff4600a1e765519",
+    "replacesExisting": false
+  },
+  {
+    "id": "sortudo",
+    "name": "Sortudo",
+    "source": "52 Sem Título22_20260606084630.png",
+    "path": "assets/support/sortudo.png",
+    "sha256": "3badba62b8060d5510ff7160d8cd776ddd9ce436919af712dfdea82aeec6297e",
+    "replacesExisting": false
+  },
+  {
+    "id": "folego",
+    "name": "Fôlego",
+    "source": "52 Sem Título9_20260227200247.png",
+    "path": "assets/support/folego.png",
+    "sha256": "a1bd6df62da0299d7455f7bac207a2cf7c368135a06062d133b2c81af3998dba",
+    "replacesExisting": false
+  },
+  {
+    "id": "combokill",
+    "name": "Combokill",
+    "source": "52 Sem Título6_20260227200123.png",
+    "path": "assets/support/combokill.png",
+    "sha256": "de5352f92de8c0e73e99fe1fb1baddb339f8047d805f44c9597cb856483b3d87",
+    "replacesExisting": false
+  },
+  {
+    "id": "papakill",
+    "name": "Papakill",
+    "source": "52 Sem Título20_20260227200044.png",
+    "path": "assets/support/papakill.png",
+    "sha256": "8e26587c48eca253824425dbea7b04e102a52781543c6c7192698d0aebd3e948",
+    "replacesExisting": false
+  },
+  {
+    "id": "eu_denovo",
+    "name": "Eu Denovo",
+    "source": "52 Sem Título12_20260227200219.png",
+    "path": "assets/support/eu_denovo.png",
+    "sha256": "d4905304d353fd662a3999e83ad49a2edf03ef55f90b21e4af011049cf5867b3",
+    "replacesExisting": false
+  },
+  {
+    "id": "furto",
+    "name": "Furto",
+    "source": "52 Sem Título19_20260227200052.png",
+    "path": "assets/support/furto.png",
+    "sha256": "33dbb7d8516ef976a122809e1ef87b9620d543a9af364fa65f80d26605692981",
+    "replacesExisting": false
+  },
+  {
+    "id": "morto_vivo",
+    "name": "Morto Vivo",
+    "source": "52 Sem Título8_20260227200311.png",
+    "path": "assets/support/morto_vivo.png",
+    "sha256": "4ce416a2e2743ffc6fbc9b1c3ec2cc91c7e09ca92819a9a27a64269e85d4e092",
+    "replacesExisting": false
+  },
+  {
+    "id": "recruta",
+    "name": "Recruta",
+    "source": "52 Sem Título15_20260227200210.png",
+    "path": "assets/support/recruta.png",
+    "sha256": "9bdf69b51c09fcd3d840ef80462b24a437742e9e02c6d14fcde8dcf275c6703d",
+    "replacesExisting": false
+  },
+  {
+    "id": "na_moloeira",
+    "name": "Na Moloeira",
+    "source": "52 Sem Título17_20260227200143.png",
+    "path": "assets/support/na_moloeira.png",
+    "sha256": "05f8349cc502b87d66e5d7ed7b273f8eaf09c71c4ae0135bd87ce31e473d53aa",
+    "replacesExisting": true
+  },
+  {
+    "id": "escudo_volatil",
+    "name": "Escudo Volátil",
+    "source": "52 Sem Título18_20260227200153.png",
+    "path": "assets/support/escudo_volatil.png",
+    "sha256": "0dc044905a927017b0e7a50e90cfb422fbdee92d065e48b30ca21ebb42a2799a",
+    "replacesExisting": false
+  },
+  {
+    "id": "poder_adicional",
+    "name": "Poder Adicional",
+    "source": "52 Sem Título16_20260227200201.png",
+    "path": "assets/support/poder_adicional.png",
+    "sha256": "65f9273d63935dd7d3adf3b7dc5a4d13daf748d3bc45a382ca239ecf69d0c3c1",
+    "replacesExisting": false
+  },
+  {
+    "id": "uma_maozinha",
+    "name": "Uma Mãozinha",
+    "source": "52 Sem Título22_20260227200035.png",
+    "path": "assets/support/uma_maozinha.png",
+    "sha256": "c20d5b94fb36ec346443716d7a513d986766f8119dbecd7cce0a601aa586183d",
+    "replacesExisting": false
+  },
+  {
+    "id": "ultima_chance",
+    "name": "Última Chance",
+    "source": "52 Sem Título7_20260227200228.png",
+    "path": "assets/support/ultima_chance.png",
+    "sha256": "4367cd83e08f6d25a8c97a1226e812536eccf52afe6e1fa9280841f652694170",
+    "replacesExisting": false
+  },
+  {
+    "id": "fragmento_01",
+    "name": "Fragmento Primordial",
+    "source": "52 Sem Título14_20260227200113.png",
+    "path": "assets/reset/fragmento_01.png",
+    "sha256": "29bceca4734f8f12c1e16482aa7651d53563a4f2324ebf50e3019c5c0067bc54",
+    "replacesExisting": false
+  }
+]

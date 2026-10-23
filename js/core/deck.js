@@ -1,7 +1,7 @@
-// Monte principal (Apoio, Habilidade Especial, Item, Daly): um monte único e embaralhado por batalha. Toda vez que a hierarquia de velocidade reseta
+// Monte principal (Apoio, Habilidade Especial, Item, Daly e Fragmentos): um monte único e embaralhado por batalha. Toda vez que a hierarquia de velocidade reseta
 // (nova rodada), as DUAS equipes compram 1 carta dele (jogador primeiro, depois adversário). Quando o monte acaba, ninguém compra mais.
 // Toda carta comprada entra na mão, inclusive medalhas. O participante decide quando resgatar uma medalha na própria vez.
-// Personagens NÃO ficam neste monte: têm 5 montes próprios, um por raridade (roster.js).
+// Personagens NÃO ficam neste monte: têm 6 montes próprios, um por raridade (roster.js).
 (function(G){
 const SIDES=['player','enemy'];
 G.getResetCard=id=>G.RESET_CARDS.find(c=>c.id===id)||null;
@@ -29,7 +29,7 @@ G.onSpeedReset=s=>{
       // Retira a nova carta temporariamente da mão para preservar o limite enquanto o jogador decide.
       hand.pop();
       if(side==='player')d.pendingChoice={side,incoming:c,round:s.round};
-      else {const replaced=hand.shift();if(replaced)d.discard.push({...replaced,side,reason:'hand-limit'});hand.push(c);
+      else {const replaceIndex=hand.findIndex(c=>G.getResetCard(c.id).type!=='PRIMORDIAL'),replaced=hand.splice(Math.max(0,replaceIndex),1)[0];if(replaced)d.discard.push({...replaced,side,reason:'hand-limit'});hand.push(c);
         s.log.push('Mão adversária cheia: '+def.name+' substituiu uma carta antiga.');}
     }
   }});

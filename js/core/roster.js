@@ -29,8 +29,8 @@ G.claimCharacter=(s,id)=>{
 G.addCharacterToTeam=(s,side,inst)=>{
   const live=liveOf(s,side),c=G.getCharacterById(inst.id),idle=G.isIdleBattle(s);
   let row='front';
-  if(live.filter(u=>u.row==='front').length<3)row='front';
-  else if(c&&c.class==='SUPPORT'&&live.filter(u=>u.row==='rear').length<2)row='rear';
+  if(live.filter(u=>u.row==='front').length<(G.frontLimit?.(s,side)||3))row='front';
+  else if(c&&G.canTransit(c)&&live.filter(u=>u.row==='rear').length<2)row='rear';
   else return null;
   const u=G.makeUnit(s,side,inst,row);
   u.enteredRound=s.round;u.recoverySpeed=s.recovery?s.speedCursor:null;
@@ -76,7 +76,7 @@ G.medalBlockReason=(s,side,handCard)=>{
   const pile=s.piles[def.rarity],inst=pile[pile.length-1];
   if(!inst)return 'O monte '+G.RARITY_LABEL[def.rarity]+' está vazio. Guarde a medalha ou substitua-a em uma compra futura.';
   const live=liveOf(s,side),char=G.getCharacterById(inst.id);
-  if(live.filter(u=>u.row==='front').length>=3&&(char.class!=='SUPPORT'||live.filter(u=>u.row==='rear').length>=2))return 'Não há vaga válida para o personagem do topo. Libere espaço na formação.';
+  if(live.filter(u=>u.row==='front').length>=(G.frontLimit?.(s,side)||3)&&(!G.canTransit(char)||live.filter(u=>u.row==='rear').length>=2))return 'Não há vaga válida para o personagem do topo. Libere espaço na formação.';
   return '';
 };
 G.resolveDalle=(s,side,handCard)=>{
@@ -95,7 +95,7 @@ G.resolveDalle=(s,side,handCard)=>{
 // Escolher UMA raridade: até 3 Comuns, 2 Raros ou 1 Épico. Se restarem menos cartas, recebe as restantes.
 // Não mistura raridades; só vem dos montes de personagens e nunca ressuscita eliminados.
 G.recoveryOptions=(s,side=s.recovery?.side||'player')=>G.CONFIG.recoveryOptions.map(o=>{
-  const live=liveOf(s,side),frontSlots=Math.max(0,3-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
+  const live=liveOf(s,side),frontSlots=Math.max(0,(G.frontLimit?.(s,side)||3)-live.filter(u=>u.row==='front').length),rearSlots=Math.max(0,2-live.filter(u=>u.row==='rear').length);
   const pile=s.piles[o.rarity]||[],have=pile.length,drawCount=Math.min(o.count,have),needRear=Math.max(0,drawCount-frontSlots);
   const supportCount=(drawCount?pile.slice(-drawCount):[]).filter(inst=>G.getCharacterById(inst.id)?.class==='SUPPORT').length;
   const fits=frontSlots+Math.min(rearSlots,supportCount)>=drawCount&&needRear<=rearSlots&&supportCount>=needRear;

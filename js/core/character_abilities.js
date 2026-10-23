@@ -5,10 +5,11 @@ const alive=u=>u&&!G.isCharacterDefeated(u);
 const sameDimension=(a,t)=>(a.duelId||null)===(t.duelId||null);
 const entryTypes=['dimension','deathBook','fright'];
 G.sameDimension=sameDimension;
-G.damageInfo=(target,raw)=>{
+G.damageInfo=(target,raw,options={})=>{
   const incoming=G.roundUpToFive(raw),reduction=target?.armorReduction||0;
   // Multiplicar por 20/100 evita resíduos de ponto flutuante em 1 - 0.8.
-  const damage=G.roundUpToFive(incoming*(reduction?20:100)/100);
+  const resistance=G.CONFIG.classTributes&&G.hasClass(target,'TANK')&&!['book','burn-damage','pin-damage','support'].includes(options.kind)?0.1:0;
+  const damage=G.roundUpToFive(incoming*(reduction?20:100)/100*(1-resistance));
   return{incoming,damage,blocked:incoming-damage};
 };
 G.attackTargets=(s,a)=>s.units.filter(t=>alive(t)&&t.team!==a.team&&sameDimension(a,t)&&(t.row==='front'||!!a.duelId));
@@ -60,7 +61,7 @@ G.resolveCharacterAbility=(s,actorUid,targetUid=null)=>{
   if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice)return fail('Resolva a escolha da batalha antes da habilidade de entrada.');
   if(p.type==='fright'){
     if(u.frightResolved)return fail('O susto já foi resolvido.');
-    const foes=s.units.filter(t=>alive(t)&&t.team!==u.team),results=foes.map(t=>{const roll=s.roll(6);return{uid:t.uid,name:t.name,roll,scared:roll<=2};});
+    const foes=s.units.filter(t=>alive(t)&&t.team!==u.team),results=foes.map(t=>{const roll=G.rollDie?G.rollDie(s,{side:u.team,best:1,reason:'Susto'}):s.roll(6);return{uid:t.uid,name:t.name,roll,scared:roll<=2&&!G.isPresence(t)};});
     const scared=results.filter(r=>r.scared).length,bonus=scared*20,speedBonus=results.length>0&&scared===results.length?1:0;
     u.damage+=bonus;u.speed+=speedBonus;u.frightResolved=true;u.frightBonus=bonus;u.frightSpeedBonus=speedBonus;
     s.log.push(u.name+' · susto de entrada: '+results.map(r=>r.name+' d6='+r.roll+' '+(r.scared?'assustado':'resistiu')).join(' · '));

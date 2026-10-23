@@ -1,6 +1,6 @@
 const assert = require('assert');
 [
-  'data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai'
+  'data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai'
 ].forEach(f => require('../js/' + f + '.js'));
 require('./fixtures/legacy_catalog.js');
 const G = globalThis.GOGHOS;

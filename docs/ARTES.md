@@ -161,3 +161,9 @@ Petra não foi adicionada. Todas as cartas jogáveis usam bases oficiais; os arq
 ## Valores balanceados — v0.22.0
 
 A revisão de atributos atualiza somente os números sobrepostos pela interface. Os PNGs originais, molduras e retratos permanecem sem alteração. O básico do Swarm e os socos de Sam são mostrados com os novos valores; textos e controles usam o dano atual. A [tabela de balanceamento](BALANCEAMENTO.md) conserva os números anteriores e a justificativa de cada alteração.
+
+## KitApoio e KitZenneriam — v0.23.0
+
+Os 18 PNGs de KitApoio foram incorporados sem modificar seus bytes: 17 Apoios em `assets/support/` e o Fragmento Primordial em `assets/reset/fragmento_01.png`. Bandeide, Brisa e Na Moloeira substituem os mesmos IDs anteriores. A origem e os SHA-256 constam de `assets/support/manifest.json`.
+
+KitZenneriam preserva a referência preenchida em `assets/references/characters/zenneriam.png`, a base sem números em `assets/cards/card_base_zenneriam.png` e o banner em `assets/characters/zenneriam_banner.png`. Apenas Vida, Dano e Velocidade são acrescentados por HTML/CSS à base original; os símbolos, nome impresso, fôlego 12 e ilustração permanecem na imagem. Os hashes estão em `assets/characters/zenneriam_manifest.json`.
