@@ -56,4 +56,9 @@ G.cardHTML=function(u,cls='',caption=''){
    +`<div class="ci cls" style="${box(L.classIcon)};${fs(24)}"><span>${u.class}</span>${G.CLASS_ICONS[u.class]?`<img src="${G.CLASS_ICONS[u.class]}" alt="" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
    +(dead?'<em>DERROTADO</em>':'')+`</div>${caption?`<small>${caption}</small>`:''}</div>`;
 };
+// Vagas da arena usam a moldura oficial, sem números ou personagem fictício.
+G.emptyCardHTML=(label,caption)=>{
+  const fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
+  return `<div class="slot empty" aria-label="${label}"><div class="empty-frame"><img src="${L.frame}" alt="" style="${fr}"></div><span>${caption}</span></div>`;
+};
 })(globalThis.GOGHOS);

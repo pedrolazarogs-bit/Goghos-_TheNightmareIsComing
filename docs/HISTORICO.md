@@ -43,3 +43,9 @@ Validação: suíte de regras, catálogo, recuperação e interface, incluindo 1
 - Recuperação parcial e limite de cinco cartas preservados, incluindo compras de medalhas com a mão cheia.
 
 A descrição corrente está em REGRAS.md. Item, Habilidade Especial, Loja e parte dos personagens continuam provisórios.
+
+## v0.17.0 — visual da arena inspirado na referência
+
+O campo passou a ocupar o centro da tela, com as linhas de frente voltadas para o centro e os Suportes nas laterais da Daly Mãe. À esquerda ficam os cinco montes de raridade, o registro, os eliminados e o leque. À direita aparecem vez atual, próximo personagem, hierarquia, monte principal e atributos. O alto recebe o troféu e a rodada atual.
+
+A arena reutiliza seis artes originais antes catalogadas como conceitos. As molduras vazias passam a marcar as vagas. As prévias são funções de leitura, sem avançar rodada ou comprar cartas. Regras, atributos, seleção, ritmo e controles da v0.16.0 foram preservados.

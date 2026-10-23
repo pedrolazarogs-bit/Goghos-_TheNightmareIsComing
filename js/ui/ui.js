@@ -1,13 +1,18 @@
 // Interface: mostra o estado e encaminha as interações para as regras do núcleo.
 (function(G){
 const app=document.getElementById('app');
+let dockObserver=null;
 const ui={mode:'menu',state:null,sel:null,timer:null,target:null,handIid:null,healTarget:null,mana:0,move:false,swapPick:null,msg:'',notice:'',busy:false,paused:false,actor:null};
 const show=html=>{app.innerHTML=html;};
 const btn=(act,label,disabled=false,cls='')=>`<button class="${cls}" data-act="${act}"${disabled?' disabled':''}>${label}</button>`;
 const card=G.cardHTML;
 const toTop=()=>globalThis.scrollTo?.({top:0,behavior:'instant'});
 const clearPick=()=>{ui.target=null;ui.handIid=null;ui.healTarget=null;ui.mana=0;ui.move=false;ui.swapPick=null;};
-function wipe(){clearTimeout(ui.timer);clearPick();Object.assign(ui,{state:null,sel:null,msg:'',notice:'',busy:false,paused:false,actor:null});}
+function wipe(){clearTimeout(ui.timer);dockObserver?.disconnect();clearPick();Object.assign(ui,{state:null,sel:null,msg:'',notice:'',busy:false,paused:false,actor:null});}
+function syncDockHeight(){
+  const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
+  if(arena&&dock){const h=Math.ceil(dock.getBoundingClientRect().height+24)+'px';if(arena.style.getPropertyValue('--hand-height')!==h)arena.style.setProperty('--hand-height',h);}
+}
 function menu(){wipe();ui.mode='menu';show(`<section class="center"><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming"></div><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',false,'big')}${btn('characters','Personagens',false,'big')}${btn('shop','Loja',false,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);toTop();}
 function characters(){ui.mode='characters';show(`<section class="collection"><h1>Personagens</h1><p>Cartas ilustradas disponíveis no jogo. Suas habilidades especiais ainda estão em desenvolvimento.</p><div class="collection-grid">${G.CHARACTERS.filter(c=>c.illustrated).map(c=>`<article>${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${c.class}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
 function startMatch(){wipe();ui.mode='select';const r=G.createSelection();if(!r.ok){show(`<section><p>${r.error}</p>${btn('menu','Menu')}</section>`);return;}ui.sel=r.sel;selectionScreen();toTop();}
@@ -43,7 +48,10 @@ function combatMessage(s){
   return `<div class="combat-message ${ui.busy?'playing':''}" role="status"><span>${e.actorName} <b>→</b> ${e.targetName}</span><strong>${outcome}</strong><small>${e.beforeHp} → ${e.afterHp}${e.type==='defeat'?' · eliminado permanentemente':''}</small></div>`;
 }
 function render(actor){
+  dockObserver?.disconnect();
   const scroll=app.querySelector('.arena')?.scrollTop||0;
+  const excludedOpen=app.querySelector('.elim')?.open||false;
+  const logScroll=app.querySelector('.log-list')?.scrollTop||0;
   ui.mode='battle';const s=ui.state,choice=s.deck.pendingChoice,pd=s.support.pending;
   const free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!ui.busy&&!ui.paused;
   const mine=free&&actor?.team==='player',mage=mine&&actor.class==='MAGO';
@@ -60,23 +68,27 @@ function render(actor){
     const live=B[side][where],list=[...live],max=where==='front'?3:2;
     if(e?.type==='defeat'&&e.targetTeam===side&&e.targetRow===where)list.push(G.getUnit(s,e.targetUid));
     const caption=where==='front'?`Linha de frente · ${live.length}/3`:`Retaguarda · ${live.length}/2 · só Suportes`;
-    return `<div class="formation-row ${where}"><p class="lbl">${caption}</p><div class="frow">${list.map(cell).join('')}${Array.from({length:Math.max(0,max-list.length)},()=>`<div class="slot empty" aria-label="Vaga da ${where==='front'?'linha de frente':'retaguarda'}"><span>${where==='front'?'Defesa':'Suporte'}</span></div>`).join('')}</div></div>`;
+    return `<div class="formation-row ${where}"><p class="lbl">${caption}</p><div class="frow">${list.map(cell).join('')}${Array.from({length:Math.max(0,max-list.length)},()=>G.emptyCardHTML('Vaga da '+(where==='front'?'linha de frente':'retaguarda'),where==='front'?'Defesa':'Suporte')).join('')}</div></div>`;
   };
   const side=t=>{
     const hit=e?.targetUid===G.dalyTargetId(t);
-    return `<div class="side ${t}"><h3>${t==='player'?'Sua equipe':'Equipe adversária'}</h3><div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}</div>${t==='enemy'?row(t,'rear')+row(t,'front'):row(t,'front')+row(t,'rear')}</div>`;
+    return `<div class="side ${t}"><h3 class="team-label">${t==='player'?'Sua equipe':'Adversário'}</h3>${row(t,'front')}${row(t,'rear')}<div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}<p class="rear-count">Retaguarda · ${B[t].rear.length}/2 · Suportes</p></div></div>`;
   };
-  const order=s.order.map(uid=>{const u=G.getUnit(s,uid);return `<span class="${s.acted[uid]?'done':actor?.uid===uid?'current':''}"><b>${u.speed}</b> ${u.name}</span>`;}).join('<i>›</i>');
   let info=ui.busy?'Confira o resultado do ataque. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
   let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
   if(mage&&ui.target!=='daly_enemy')actions+=btn('mana-','− Mana',ui.mana<=0)+`<span>Mana no ataque: ${ui.mana}/${actor.mana}</span>`+btn('mana+','+ Mana',ui.mana>=actor.mana);
   if(mine&&ui.target){const target=G.getUnit(s,ui.target),dodge=target&&G.dodgeInfo(actor,target);info+=ui.target==='daly_enemy'?' A Daly Mãe perderá exatamente 1 vida.':` Dano previsto: ${G.previewDamage(s,actor,ui.mana)}.${dodge?' O alvo pode esquivar.':''}`;}
-  const logs=s.log.slice(-8).map(line=>`<div class="battle-event"><span>·</span><p>${line}</p></div>`).join('');
+  const logs=s.log.slice(-12).reverse().map((line,i)=>`<div class="battle-event${i===0?' latest':''}"><span>✧</span><p>${line}</p></div>`).join('');
   const pendingPanel=!ui.busy&&(s.recovery?.side==='player'?G.recoveryHTML(s):s.formation?.side==='player'?G.formationHTML(s):'');
   const modal=pendingPanel?`<div class="choice-overlay"><section class="choice-dialog" role="dialog" aria-modal="true" aria-labelledby="${s.recovery?'recovery-title':'formation-title'}">${pendingPanel}${ui.msg?`<p class="msg">${ui.msg}</p>`:''}</section></div>`:'';
-  show(`<main class="arena"><aside class="arena-left"><div class="event-feed"><h4>Registro da batalha</h4>${logs||'<p>Os dois primeiros personagens de cada equipe estão na frente.</p>'}</div>${G.eliminatedHTML(s,!!e)}</aside><section class="battle-board"><header class="arena-header"><span>Rodada ${s.round}</span>${btn('pause',ui.paused?'Continuar batalha':'Pausar')}${btn('menu','Voltar ao menu')}</header><div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div>${side('enemy')}${combatMessage(s)}${side('player')}<div class="speed-order"><h4>Hierarquia de velocidade</h4><div class="order">${order}</div><p>Maior → menor. No reset, cada equipe compra 1 carta.</p></div>${G.resetNoticeHTML(s)}</section>${G.pilesHTML(s)}${G.handPanelHTML(s,ui.handIid,handDetail(mine))}${modal}</main>`);
+  show(`<main class="arena"><header class="arena-header"><div class="arena-brand"><span>GOGHOS</span><small>The Nightmare Is Coming</small></div><div class="arena-round">${G.arenaArtHTML('trophy')}<span>Rodada <b>${s.round}</b></span></div><nav aria-label="Controles da batalha">${btn('pause',ui.paused?'Continuar':'Pausar')}${btn('menu','Menu')}</nav></header><aside class="arena-left">${G.characterPilesHTML(s)}<div class="history-panel"><div class="event-feed"><h4>Registro da batalha</h4>${combatMessage(s)}<div class="log-list">${logs||'<p class="history-empty">Escolha seu primeiro alvo. Cada ação da batalha aparece aqui.</p>'}</div></div>${G.eliminatedHTML(s,!!e)}</div>${G.handPanelHTML(s,ui.handIid,handDetail(mine))}</aside><section class="battle-board" aria-label="Campo de batalha">${side('enemy')}<div class="arena-divider" aria-hidden="true"><i></i><span>✦</span><i></i></div>${side('player')}<div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div></section><aside class="arena-right">${G.turnPanelHTML(s,actor,ui.busy)}${G.mainPileHTML(s)}${G.actorInfoHTML(s,actor,ui.busy)}</aside>${modal}</main>`);
   const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
-  if(arena&&dock){arena.style.setProperty('--hand-height',Math.ceil(dock.getBoundingClientRect().height+24)+'px');arena.scrollTop=scroll;}
+  syncDockHeight();
+  if(arena)arena.scrollTop=scroll;
+  if(dock&&typeof ResizeObserver!=='undefined'){dockObserver=new ResizeObserver(syncDockHeight);dockObserver.observe(dock);}
+  const excluded=app.querySelector('.elim'),log=app.querySelector('.log-list');
+  if(excluded)excluded.open=excludedOpen||e?.type==='defeat';
+  if(log)log.scrollTop=logScroll;
 }
 function feedback(){
   clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);

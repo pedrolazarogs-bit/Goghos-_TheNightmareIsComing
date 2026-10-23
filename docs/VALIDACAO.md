@@ -1,34 +1,35 @@
-# Validação da estrutura base — v0.16.0
+# Validação da arena — v0.17.0
 
-## Testes de regras e interface
+## Regras preservadas
 
-`npm test`: 35 testes aprovados, incluindo 100 partidas completas de integração. Foram verificados:
+Os arquivos de `js/core/` não mudaram em relação à v0.16.0. Os dados dos personagens e os tempos da batalha são os mesmos; em `js/data/characters.js` mudou apenas a identificação da versão.
 
-- Todos os Comuns na seleção e quatro escolhas alternadas, sem repetição.
-- Dois personagens iniciais por equipe, limites de três na frente e dois Suportes atrás.
-- Velocidade decrescente e uma compra por equipe a cada reset, sem compra duplicada.
-- Cinco cores de medalhas, resgate do topo da raridade correta e preservação das outras pilhas.
-- Medalhas na mão, inclusive com cinco cartas e decisão de substituição ou descarte.
-- Resgate sem vaga ou com monte vazio preservando a medalha e a carta do topo.
-- Avanço automático com um Suporte e escolha de qualquer um ou ambos quando há dois.
-- Trânsito e troca de Suportes, sem esvaziar a defesa ou ganhar ataques extras.
-- Eliminação permanente, golpe de uma vida na Daly Mãe, recuperação parcial e fim de partida.
-- Conservação das instâncias de personagens e cartas em todas as partidas simuladas.
+`npm test`: 39 testes aprovados, incluindo 100 partidas completas simuladas. Além dos 35 testes anteriores, há verificações de que as prévias visuais não avançam a fila nem compram cartas, respeitam escolhas pendentes, apresentam os atributos atuais e mantêm a mão adversária oculta.
 
 ## Revisão no navegador
 
-Chromium com Playwright, em janelas de 1440×1000, 1280×800, 390×844 e 360×640. As duas últimas simulam o espaço de tela de celulares.
+Chromium com Playwright, em 1440×900, 1280×800, 390×844 e 360×640. Cinco fluxos foram percorridos em cada resolução:
 
-Foram percorridos cinco fluxos em cada resolução: seleção e arena; mão cheia seguida de resgate de medalha; eliminação com avanço de dois Suportes; ataque à Daly Mãe com recuperação de lote incompleto; e ataque com dano, pausa e retomada. Após reservar uma área para o leque no celular, os dez fluxos móveis foram repetidos, verificando também que a arena termina acima da mão e não cria rolagem horizontal.
+1. Seleção de todos os Comuns, quatro escolhas alternadas e entrada na arena.
+2. Mão cheia, substituição por uma medalha e resgate do topo da raridade correspondente.
+3. Ataque com eliminação, feedback visível, avanço automático e escolha dos dois Suportes.
+4. Ataque de uma vida à Daly Mãe e recuperação com lotes incompletos.
+5. Dano mostrado antes da remoção da carta, pausa e retomada.
 
-Uma revisão adicional em 1280×800 e 360×640 percorreu a seleção por teclado, recuo de Suporte, cura de aliado, resgate de personagem, avanço e troca entre linhas. Sem exceções JavaScript ou pedidos de arquivos ausentes nesses fluxos. O feedback permanece visível antes de liberar a próxima ação.
+Também foram testados seleção por teclado, recuo e avanço de Suportes, cura, resgate e troca entre linhas em 1024×768 e 360×640. No celular, a reserva do leque foi conferida após girar a tela e voltar à orientação original. Esses fluxos passaram sem exceções JavaScript ou arquivos de arte ausentes.
 
-## Imagens da revisão
+A composição visual foi inspecionada também em 1920×1080. As telas estreitas usam a arena rolável acima do leque. No computador, as laterais e as equipes têm áreas próprias, com a mão abaixo do registro.
 
-[Seleção no computador](previews/selecao-v0.16.0-1440.png) · [Seleção no celular](previews/selecao-v0.16.0-390.png)
+## Imagens
 
-![Arena no computador](previews/arena-v0.16.0-1440.png)
+A formação abaixo foi montada para revisar Sam, Eletric e Sarck nas posições da referência; não altera a seleção inicial do jogo. O registro mostra um ataque calculado pelo núcleo.
 
-[Arena no celular](previews/arena-v0.16.0-390.png) · [Mão cheia com medalha nova](previews/mao-v0.16.0-390.png) · [Escolha dos Suportes](previews/suportes-v0.16.0-390.png)
+![Arena com formação de exemplo](previews/arena-v0.17.0-desktop.png)
 
-As regras estão em [REGRAS.md](REGRAS.md). Os nomes e artes provisórios e os efeitos ainda não definidos de Item/Habilidade Especial permanecem indicados no projeto.
+[Partida após a seleção de Comuns](previews/arena-v0.17.0-inicio.png) · [Arena no celular](previews/arena-v0.17.0-celular.png) · [Escolha com a mão cheia](previews/mao-v0.17.0-celular.png)
+
+## Artes
+
+Troféu, verso, cristal, retrato provisório e ícones foram movidos para `assets/arena/`. Os seis arquivos foram comparados por SHA-256 com os originais da versão anterior: nenhum pixel foi alterado. O enquadramento acontece apenas na apresentação. A imagem enviada pelo criador serviu como referência de posições e estilo.
+
+As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em [ARTES.md](ARTES.md).

@@ -10,25 +10,25 @@ Os símbolos de habilidade de Sarck (mandíbula, arte 20) e Eletric (raio, arte 
 | ---: | --- | --- | --- |
 | 01 | 52 Sem Título2_20260227200256.png | `assets/concepts/kikiy/01.png` | Conceito |
 | 02 | 8 Sem Título9_20261020200140.png | `assets/concepts/kikiy/02.png` | Conceito |
-| 03 | 97 Sem Título_20251018022016.png | `assets/concepts/kikiy/03.png` | Conceito |
+| 03 | 97 Sem Título_20251018022016.png | `assets/arena/trophy.png` | Em uso na arena |
 | 04 | 52 Sem Título21_20260227200133.png | `assets/support/bandeide.png` | Em uso |
 | 05 | 52 Sem Título17_20260227200143.png | `assets/support/na_moloeira.png` | Em uso |
-| 06 | 52 Sem Título5_20261019235613.png | `assets/concepts/kikiy/06.png` | Conceito |
+| 06 | 52 Sem Título5_20261019235613.png | `assets/arena/card_back.png` | Em uso na arena |
 | 07 | 52 Sem Título13_20260227200239.png | `assets/concepts/kikiy/07.png` | Conceito |
 | 08 | 52 Sem Título23_20260227200025.png | `assets/support/brisa.png` | Em uso |
 | 09 | Original-Base54_20261019002932.png | `assets/references/characters/sam.png` | Referência |
 | 10 | 89 Sem Título3_20260129005216.png | `assets/concepts/kikiy/10.png` | Conceito |
 | 11 | 94 Sem Título_20251017001542.png | `assets/concepts/kikiy/11.png` | Conceito |
-| 12 | 168 Sem Título_20260502120457.png | `assets/concepts/kikiy/12.png` | Conceito |
+| 12 | 168 Sem Título_20260502120457.png | `assets/arena/attack.png` | Em uso na arena |
 | 13 | 83 Sem Título7_20260117104757.png | `assets/concepts/kikiy/13.png` | Conceito |
 | 14 | 52 Sem Título14_20260227200113.png | `assets/concepts/kikiy/14.png` | Conceito |
 | 15 | 52 Sem Título19_20260227200052.png | `assets/concepts/kikiy/15.png` | Conceito |
 | 16 | 52 Sem Título9_20260227200247.png | `assets/concepts/kikiy/16.png` | Conceito |
 | 17 | 52 Sem Título12_20260227200219.png | `assets/concepts/kikiy/17.png` | Conceito |
 | 18 | Original-Base5_20251015133159.png | `assets/concepts/kikiy/18.png` | Conceito |
-| 19 | 202 Sem Título_20260505113737.png | `assets/concepts/kikiy/19.png` | Conceito |
+| 19 | 202 Sem Título_20260505113737.png | `assets/arena/unknown_portrait.png` | Em uso na arena |
 | 20 | Original-Base63_20261021225245.png | `assets/abilities/sarck.png` | Em uso |
-| 21 | Original-Base43_20260131112227.png | `assets/concepts/kikiy/21.png` | Conceito |
+| 21 | Original-Base43_20260131112227.png | `assets/arena/heart.png` | Em uso na arena |
 | 22 | 52 Sem Título8_20260227200311.png | `assets/concepts/kikiy/22.png` | Conceito |
 | 23 | 52 Sem Título15_20260227200210.png | `assets/concepts/kikiy/23.png` | Conceito |
 | 24 | 52 Sem Título16_20260227200201.png | `assets/concepts/kikiy/24.png` | Conceito |
@@ -51,10 +51,16 @@ Os símbolos de habilidade de Sarck (mandíbula, arte 20) e Eletric (raio, arte 
 | 41 | 52 Sem Título18_20260227200153.png | `assets/concepts/kikiy/41.png` | Conceito |
 | 42 | 84 Sem Título_20260225120110.png | `assets/concepts/kikiy/42.png` | Conceito |
 | 43 | 52 Sem Título7_20260227200228.png | `assets/concepts/kikiy/43.png` | Conceito |
-| 44 | 62 Sem Título_20241025235811.png | `assets/concepts/kikiy/44.png` | Conceito |
+| 44 | 62 Sem Título_20241025235811.png | `assets/arena/daly_mae.png` | Em uso na arena |
 | 45 | Original-Base62_20261020163633.png | `assets/references/characters/eletric.png` | Referência |
 | 46 | file_00000000e9b8720e9d6dc6217a3514cc.png | `assets/concepts/kikiy/46.png` | Conceito |
 | 47 | 52 Sem Título20_20260227200044.png | `assets/concepts/kikiy/47.png` | Conceito |
 | 48 | Original-Base63_20261021225220.png | `assets/references/characters/sarck.png` | Referência |
 
 As artes marcadas como conceito ficam disponíveis para decisões futuras sobre efeitos, raridade e uso.
+
+## Arena da v0.17.0
+
+A imagem de layout enviada pelo criador orienta as posições. As artes 03 (troféu), 06 (verso), 12 (ataque), 19 (retrato provisório), 21 (Vida) e 44 (cristal da Daly Mãe) agora ficam em `assets/arena/`. Os seis arquivos foram apenas movidos: continuam idênticos aos PNGs recebidos.
+
+`js/ui/arena_ui.js` declara os limites transparentes das imagens e as enquadra por CSS, sem regravar os originais. Os retratos de Sam, Eletric e Sarck continuam vindo das ilustrações separadas. As vagas usam a moldura vazia oficial. O troféu acompanha o número da rodada; não foi adicionada mecânica de cronômetro.

@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.16.0
+# Estrutura base do GOGHOS — v0.17.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -64,7 +64,7 @@ Se nenhum monte permitir recuperação, a partida segue com a Daly Mãe exposta.
 
 O bot espera 1,8 segundo antes de agir. Após cada ataque, há 2,2 segundos para conferir atacante, alvo, dano, Vida antes/depois e a barra de Vida. Uma carta eliminada permanece visível durante esse feedback e depois sai da equipe. O botão **Pausar** permite interromper o andamento; escolhas do jogador não têm limite de tempo.
 
-A arena mostra vagas de frente e retaguarda, ordem de velocidade, seis montes com contagens, leque, registro das ações e eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
+A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, seis montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
 
 ## Atributos e regras preservadas
 
@@ -81,3 +81,11 @@ O perfil da classe posiciona os atributos nessas faixas. Magos começam com 3/3 
 Sam, Eletric e Sarck usam ilustrações separadas, molduras e atributos dinâmicos. As cartas prontas ficam apenas como referência. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos, enquadramentos e símbolos.
 
 Continuam provisórios os efeitos de Item/Habilidade Especial, habilidades dos personagens, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
+
+## Apresentação da v0.17.0
+
+A alteração desta versão é visual. Os arquivos de `js/core/`, os atributos dos personagens e os tempos de ação da v0.16.0 permanecem iguais. O cristal rosa, os corações, o verso das cartas e o troféu usam os arquivos recebidos. A indicação superior mostra a rodada atual.
+
+As prévias de vez e próximo personagem apenas consultam a fila atual. Durante escolhas pendentes, a interface avisa que está aguardando; ao terminar a fila, mostra que o próximo passo é o reset. O painel de atributos usa Vida, Dano, Velocidade, Fôlego e mana do estado atual.
+
+No celular, os painéis se reorganizam e a arena rola acima do espaço reservado ao leque. Essa reserva acompanha mudanças de tamanho e orientação da tela.

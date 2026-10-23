@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.16.0** apresenta todos os Comuns na seleção, escolhas alternadas de dois personagens por equipe, arena com seis montes visíveis, medalhas por cor e movimentação de Suportes. O leque fica no canto inferior esquerdo e a batalha pausa para mostrar o resultado de cada ataque.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.17.0** apresenta todos os Comuns na seleção, escolhas alternadas de dois personagens por equipe, arena com seis montes visíveis, medalhas por cor e movimentação de Suportes. A arena segue a referência visual do criador: campo aberto no centro, registro e leque à esquerda, vez atual e atributos à direita, com as artes originais do pacote recebido. As regras da v0.16.0 foram preservadas.
 
 ## Jogar e desenvolver
 
@@ -29,4 +29,6 @@ npm test
 
 A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. A Loja, os efeitos de Item e Habilidade Especial e parte da arte continuam em desenvolvimento. Sam, Eletric e Sarck têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; os atributos seguem as faixas da v0.14, com os valores conhecidos de Eletric e da Vida de Sarck preservados.
 
-![Arena no computador](docs/previews/arena-v0.16.0-1440.png)
+Formação de exemplo para revisar o visual e o enquadramento das ilustrações:
+
+![Arena no computador](docs/previews/arena-v0.17.0-desktop.png)

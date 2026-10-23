@@ -25,7 +25,7 @@ G.getCharacterStats=c=>{
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
-G.CONFIG={version:'0.16.0 (protótipo)',
+G.CONFIG={version:'0.17.0 (protótipo)',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
