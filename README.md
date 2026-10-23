@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.23.1** atualiza a recuperação da Daly Mãe: após perder uma vida, escolha **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.24.0** renova a interface com um visual cartoon mais limpo, turno em destaque, instruções diretas e resultados de batalha por alvo. Fichas, ordem e histórico ficam disponíveis sob demanda. A recuperação da Daly Mãe continua oferecendo **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
 
 ## Jogar e desenvolver
 
@@ -8,7 +8,7 @@ Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou i
 
 Em **Jogar**, escolha um Comum. O bot escolhe outro, e cada equipe recebe **um Raro sorteado automaticamente**, sem repetição. Confira as quatro cartas e clique em **Play · começar batalha**. Ambas as equipes começam com dois personagens na frente.
 
-**Testar novos personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. O menu **Testar cartas de Apoio** inclui os 17 efeitos; **Invocação de Zeenneriam** prepara os três fragmentos para a invocação manual. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
+No menu **Treinar e testar**, **Personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. O menu **Testar cartas de Apoio** inclui os 17 efeitos; **Invocação de Zeenneriam** prepara os três fragmentos para a invocação manual. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
 
 Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md). A [revisão de balanceamento](docs/BALANCEAMENTO.md) lista todos os valores anteriores, atuais e justificativas.
 
@@ -39,6 +39,6 @@ A partida pode ser concluída contra a IA. Há seis montes de personagens, monte
 
 Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 30 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-![Zeenneriam invocado com a arte original](docs/previews/invocacao-v0.23.0-desktop.png)
+![Arena cartoon com turno, alvos e resultados em destaque](docs/previews/arena-v0.24.0-desktop.png)
 
-[Seleção atual](docs/previews/selecao-v0.22.0-desktop.png) · [Invocação no celular](docs/previews/invocacao-v0.23.0-celular.png)
+[Arena no celular](docs/previews/arena-v0.24.0-celular.png) · [Guia da interface](docs/UI.md) · [Resultado de combo](docs/previews/combo-v0.24.0-desktop.png)

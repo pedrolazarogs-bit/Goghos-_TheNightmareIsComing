@@ -1,3 +1,17 @@
+# Validação — v0.24.0
+
+`npm test`: **229 testes aprovados**, incluindo **340 partidas completas simuladas**. Os oito testes novos verificam apresentação sem mutar a batalha, combo real com golpes separados e total visual, revide fatal de Sark, defesa por alvo na área, estados temporários, previsão, escape de texto e continuidade da vez ao usar Apoio gratuito.
+
+No Chromium, passaram **75 cenários de interface**: 60 fluxos em **1440×1000 e 390×844**, três formações completas em **1440×1000, 1280×720 e 390×844**, e 12 usos de Apoio durante seis impedimentos nas duas resoluções principais. Os fluxos cobrem menu e laboratórios, seleção, sete montes, alvo e confirmação por teclado, ficha, pausa e retomada do bot, preferência de ordem expandida, histórico, combo, área/mana, cravar/retirar, revide, recuperação, substituição da mão cheia, catálogo, os 17 Apoios, quarta vaga e invocação.
+
+Os testes usaram botões reais. Nos cenários de ficha, foram conferidos os contadores e a ausência de avanço enquanto a leitura permanecia aberta; ao fechar, o bot voltou a agir. Equipes completas não sobrepuseram as barras de Vida ao divisor ou aos comandos. As telas baixas permitem rolar o campo. Não houve erro de JavaScript ou transbordamento horizontal nos cenários. Os arquivos de arte originais não foram alterados.
+
+[Menu](previews/menu-v0.24.0-desktop.png) · [Arena no computador](previews/arena-v0.24.0-desktop.png) · [No celular](previews/arena-v0.24.0-celular.png) · [Equipes completas](previews/equipes-v0.24.0-desktop.png) · [Combo](previews/combo-v0.24.0-desktop.png) · [Ficha no celular](previews/ficha-v0.24.0-celular.png)
+
+O [guia da interface](UI.md) registra controles e organização. A alteração é de apresentação: regras, atributos, imagens e tempos configurados são os da v0.23.1.
+
+---
+
 # Validação — v0.23.1
 
 `npm test`: **221 testes aprovados**, incluindo **340 partidas completas simuladas** com as regras atuais e regressões históricas.

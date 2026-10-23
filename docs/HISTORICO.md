@@ -119,3 +119,12 @@ Foram corrigidos bloqueios de IA ao surgir uma nova escolha dimensional após re
 ## v0.23.1 — Recuperação da Daly Mãe
 
 Ao perder uma vida e sobreviver, a equipe escolhe até dois Épicos ou até três Raros. A opção de Comuns foi removida. Montes parciais entregam os disponíveis; vazios ficam bloqueados. Jogador e bot usam a mesma configuração. A recuperação continua a faixa de velocidade restante, sem compra, reset ou repetição de ações.
+
+
+## v0.24.0 — interface cartoon e leitura direta
+
+Arena, menu, seleção e galerias recebem contornos, formas arredondadas e uma paleta roxa com destaques menta/coral. O turno atual e o próximo personagem ficam acima do campo. As cartas destacam Vida, alvo e estados temporários; passivas e explicações completas ficam na ficha. Histórico, ordem de velocidade e habilidades podem ser expandidos sem perder suas posições a cada atualização.
+
+Os resultados mostram dano, cura, defesa e revide por alvo, com Vida antes/depois e dados do combo. Os impactos de um mesmo efeito são somados apenas na apresentação: socos, testes e reações continuam separados no motor. A instrução da vez e os botões usam textos menores e específicos para a ação selecionada.
+
+Ficha e registro ampliados suspendem o bot e o tempo de exibição, retomando ao fechar. Há seleção por teclado e fechamento por Escape. O celular mantém os comandos próximos do campo e reserva espaço para a mão. As regras, atributos, tempos de combate e imagens originais foram preservados. Detalhes em [UI.md](UI.md) e resultados em [VALIDACAO.md](VALIDACAO.md).

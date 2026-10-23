@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.23.1
+# Estrutura base do GOGHOS — v0.24.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -155,7 +155,7 @@ Durações em ações globais começam após a ação de aplicação. Os seis so
 
 O bot espera 1,8 segundo antes de agir. Após cada ação, há 2,2 segundos para conferir atacante, alvo, dano, Vida antes/depois e a barra de Vida. Com vários impactos, incluindo Steel Jaw, área ou dano periódico, esse intervalo é de 4,4 segundos para ler os efeitos, apresentados juntos no registro e nas cartas. Uma carta eliminada permanece visível durante esse feedback e depois sai da equipe. Imobilização e vulnerabilidade aparecem junto das cartas e no painel da vez. O botão **Pausar** permite interromper o andamento; escolhas do jogador não têm limite de tempo.
 
-A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, sete montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
+A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; vez atual e próximo personagem acima do campo; e ficha de atributos e monte principal à direita. Mantém vagas, ordem de velocidade, sete montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Na v0.24.0, histórico, ordem e descrição das habilidades podem ser expandidos; a ficha ampliada suspende os temporizadores até o jogador voltar. O resumo mostra dano, cura, defesa e revide por alvo. Agrupar os números na apresentação não altera os golpes individuais, dados ou reações. Veja o [guia da interface](UI.md). Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
 
 ## Atributos e regras preservadas
 
