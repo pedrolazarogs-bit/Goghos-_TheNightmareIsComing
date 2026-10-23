@@ -15,7 +15,9 @@ const L=G.CARD_LAYOUT={frame:'assets/cards/card_base.png',holes:'assets/cards/ca
  name:{b:[305,1035,720,1150],s:110,a:'l',c:'#1a1420'},      // etiqueta: Nome
  damage:{b:[505,1140,800,1340],s:108,a:'l',c:'#1a1420'},
  hp:{b:[495,1310,980,1550],s:170,a:'l',c:'#1a1420'},
+ reactionDamage:{b:[1190,1300,1300,1380],s:46,a:'c',c:'#1a1420'},
  ability:{b:[688,1175,840,1222],s:38,a:'l',c:'#1a1420'},   // nome da Habilidade principal
+ reactionAbility:{b:[690,1175,850,1260],s:48,a:'l',c:'#1a1420'},
  abilityIcon:[925,1190,1125,1380],                           // dentro da estrela
  classIcon:[700,1700,840,1890]};                             // losango inferior: Classe
 if(typeof Image!=='undefined')new Image().src=L.frame; // pré-carrega a moldura: evita "piscar" na 1ª exibição
@@ -43,15 +45,19 @@ G.cardHTML=function(u,cls='',caption=''){
   const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&u.hp<=0,hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
-  const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base);
+  const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base),ability=G.getMainAbility(base);
+  // A base nova traz retrato/nome impressos. O recorte da moldura limpa remove essas partes só na apresentação.
+  // A máscara vetorial embutida também funciona ao abrir index.html localmente; não depende de buscar outra imagem.
+  const accentMask=base.cardFrame?`url("data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 2048"><defs><mask id="frame"><rect width="1536" height="1035" fill="white"/><polygon points="'+L.window.map(p=>p.join(',')).join(' ')+'" fill="black"/></mask></defs><rect width="1536" height="2048" fill="white" mask="url(#frame)"/></svg>')}")`:'';
+  const accent=base.cardFrame?`<img class="frame frame-accent" decoding="sync" src="${base.cardFrame}" alt="" style='${fr};mask-image:${accentMask};-webkit-mask-image:${accentMask};mask-size:100% 100%;-webkit-mask-size:100% 100%'>`:'';
   const nameSize=Math.min(L.name.s,Math.floor(415/(u.name.length*0.63)));
   const safeName=String(u.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   return `<div class="slot"><div class="card ${cls}${dead?' dead':''}${cf?' baked':''}" data-id="${u.uid||u.id}">`
    +`<div class="rar" style="${fr};background:${bg};-webkit-mask-image:${m};mask-image:${m}"></div>`
-   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip})"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span>${u.art?`<img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
-   +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">`
-   +t('speed',u.speed)+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
-   +t('damage',u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(u.class==='MAGO'?t('mana',mana):'')+(base.mainAbility?t('ability',base.mainAbility,Math.min(L.ability.s,152/(base.mainAbility.length*.63))):'')
+   +`<div class="art art-${String(u.class).toLowerCase()}" style="clip-path:polygon(${clip});${base.artBackground?'background:'+base.artBackground:''}"><span class="art-placeholder"><b>✦</b><small>${safeName}</small></span>${u.art?`<img decoding="sync" src="${u.art}" alt="" style="${portraitStyle(base)}" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
+   +`<img class="frame" decoding="sync" src="${frameSrc}" alt="" style="${fr}">${accent}`
+   +(base.passiveOnly?'':t('speed',u.speed??'—'))+(st!=null?t(cf?'stamina_'+u.class:'stamina',st):'')+t('name',u.name,nameSize,'text-transform:uppercase')
+   +t('damage',base.passiveOnly?'—':u.damage,0,'',unit('Atk',31,108,-.65))+t('hp',hp,0,'',unit('Life',40,170,-.1))+(ability?t('reactionDamage',ability.damage)+t('reactionAbility',ability.name.replace(/ /g,'<br>'),0,'white-space:normal;line-height:.95'):'')+(u.class==='MAGO'?t('mana',mana):'')+(!ability&&base.mainAbility?t('ability',base.mainAbility,Math.min(L.ability.s,152/(base.mainAbility.length*.63))):'')
    +(base.abilityArt?`<div class="ci ability-symbol" style="${box(L.abilityIcon)}"><img src="${base.abilityArt}" alt="" onerror="this.remove()"></div>`:'')
    +`<div class="ci cls" style="${box(L.classIcon)};${fs(24)}"><span>${u.class}</span>${G.CLASS_ICONS[u.class]?`<img src="${G.CLASS_ICONS[u.class]}" alt="" onload="this.previousElementSibling.remove()" onerror="this.remove()">`:''}</div>`
    +(dead?'<em>DERROTADO</em>':'')+`</div>${caption?`<small>${caption}</small>`:''}</div>`;

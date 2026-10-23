@@ -27,12 +27,13 @@ G.claimCharacter=(s,id)=>{
 // Novo personagem ocupa uma das 3 vagas da frente; com a frente cheia, só Suportes podem ocupar as 2 vagas da retaguarda.
 // A inclusão por medalha espera a próxima rodada; a recuperação ajusta a fila após colocar todas as cartas.
 G.addCharacterToTeam=(s,side,inst)=>{
-  const live=liveOf(s,side),c=G.getCharacterById(inst.id);
+  const live=liveOf(s,side),c=G.getCharacterById(inst.id),idle=G.isIdleBattle(s);
   let row='front';
   if(live.filter(u=>u.row==='front').length<3)row='front';
   else if(c&&c.class==='SUPPORT'&&live.filter(u=>u.row==='rear').length<2)row='rear';
   else return null;
   const u=G.makeUnit(s,side,inst,row);
+  if(idle&&G.canAct(u))s.order.push(u.uid); // primeiro atacante retoma o ciclo que estava aguardando, sem outra compra
   s.log.push(who(side,'Você obteve ','O adversário obteve ')+u.name+' ('+(G.RARITY_LABEL[u.rarity]||'sem raridade')+') · '+(row==='front'?'linha de frente':'retaguarda'));
   G.refreshDaly(s,side);return u;
 };
@@ -77,7 +78,7 @@ G.medalBlockReason=(s,side,handCard)=>{
 };
 G.resolveDalle=(s,side,handCard)=>{
   const why=G.medalBlockReason(s,side,handCard);if(why)return fail(why);
-  const actor=G.getNextActor(s);if(!actor||actor.team!==side)return fail('Resgate medalhas apenas na vez da sua equipe.');
+  if(!G.canManageTeam(s,side))return fail('Resgate medalhas apenas na vez da sua equipe.');
   const def=G.getResetCard(handCard.id),pile=s.piles[def.rarity],inst=pile[pile.length-1];
   const u=G.addCharacterToTeam(s,side,inst);if(!u)return fail('A formação está cheia.');
   pile.pop();

@@ -18,6 +18,7 @@ G.CLASS_LABEL={ASSASSIN:'Assassino',SUPPORT:'Suporte',FIGHTER:'Lutador',TANK:'Ta
 G.CLASS_SIGIL={ASSASSIN:'✧',SUPPORT:'✚',FIGHTER:'✦',TANK:'⬟',DESTROYER:'✹',MAGO:'ϟ'};
 G.actorPortraitHTML=(u,cls='')=>{
   const base=u&&(G.getCharacterById(u.id)||u);
+  if(base?.portraitBanner&&!cls.includes('stats-portrait'))return `<span class="actor-portrait illustrated banner ${cls}">${artHTML(base.portraitBanner)}</span>`;
   if(!base?.art||!base.artLayout)return `<span class="actor-portrait unillustrated ${cls}">${G.arenaArtHTML('unknown')}${base?`<i>${G.CLASS_SIGIL[base.class]||'✦'}</i>`:''}</span>`;
   const banner=base.id==='sam'&&!cls.includes('stats-portrait');
   const bounds=banner?[0,127,1945,1484]:base.artLayout.focus;
@@ -45,6 +46,7 @@ G.actorInfoHTML=(s,actor,busy=false)=>{
   const {current}=G.turnPreview(s,actor,busy);
   if(!current)return `<section class="actor-info idle"><h3>Quem vai atacar</h3>${G.actorPortraitHTML(null)}<p>As informações aparecem quando a batalha retomar.</p></section>`;
   const u=current,base=G.getCharacterById(u.id);
-  return `<section class="actor-info"><h3>Quem vai atacar</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.RARITY_LABEL[u.rarity]}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${u.class==='MAGO'?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>Habilidade em desenvolvimento</small></p>`:''}</section>`;
+  const ability=G.getMainAbility(u);
+  return `<section class="actor-info"><h3>${u.passiveOnly?'Habilidade reativa':'Quem vai atacar'}</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.RARITY_LABEL[u.rarity]}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.passiveOnly?'—':u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed??'—'}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${u.class==='MAGO'?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>${ability?safe(ability.description):'Habilidade em desenvolvimento'}</small></p>`:''}</section>`;
 };
 })(globalThis.GOGHOS);

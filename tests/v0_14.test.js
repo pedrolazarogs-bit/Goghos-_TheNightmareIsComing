@@ -13,7 +13,8 @@ test('vida e dano de todos os personagens respeitam as faixas da raridade', () =
     const hp = G.RARITY_HP[c.rarity];
     const dmg = G.RARITY_DAMAGE[c.rarity];
     assert(c.maxHp >= hp.min && c.maxHp <= hp.max, `${c.id} Vida ${c.maxHp} fora de ${c.rarity}`);
-    assert(c.damage >= dmg.min && c.damage <= dmg.max, `${c.id} Dano ${c.damage} fora de ${c.rarity}`);
+    if(c.passiveOnly){assert.strictEqual(c.damage,0);assert.strictEqual(c.speed,null);}
+    else assert(c.damage >= dmg.min && c.damage <= dmg.max, `${c.id} Dano ${c.damage} fora de ${c.rarity}`);
   }
 });
 

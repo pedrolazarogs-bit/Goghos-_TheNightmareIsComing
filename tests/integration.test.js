@@ -36,7 +36,7 @@ test('Daly Mãe perde uma vida por ataque e permite recuperação antes do golpe
   }
 });
 
-test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da formação e da mão',()=>{
+test('100 partidas de IA terminam em vitória ou empate válido, sem perder cartas ou ultrapassar limites',()=>{
   for(let i=0;i<100;i++){
     const selection=G.createSelection({rng:seeded(i+1000)}).sel;
     while(!G.selectionDone(selection)){
@@ -51,9 +51,15 @@ test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da
       if(s.recovery){assert(G.AI.resolveRecovery(s).ok);continue;}
       if(s.formation){assert(G.AI.resolveFormation(s).ok);continue;}
       if(s.support.pending){assert(G.resolveBrisa(s,null).ok);continue;}
-      const actor=G.getNextActor(s);
+      let actor=G.getNextActor(s);
+      if(s.result)break;
       if(s.deck.pendingChoice)continue;
       if(s.recovery)continue;
+      if(!actor&&G.isIdleBattle(s)){
+        G.AI.redeemMedals(s,'player');G.AI.redeemMedals(s,'enemy');actor=G.getNextActor(s);
+        if(s.result)break;
+        if(!actor){assert(G.advanceIdleCycle(s).ok,`partida ${i}: ciclo sem atacante precisa permitir compra`);continue;}
+      }
       assert(actor,`sem ator na partida ${i}`);
       const result=G.AI.takeTurn(s,actor);
       assert(result.ok,`partida ${i}: ${result.error}`);
@@ -79,8 +85,11 @@ test('100 partidas de IA terminam sem perder cartas ou ultrapassar os limites da
     }
     assert(s.result,`partida ${i} não terminou`);
     assert(steps<3000);
-    assert.equal(s.daly[s.final.loser].hp,0);
-    assert(s.daly[s.final.winner].hp>0);
+    if(s.result==='draw'){
+      assert.equal(s.final.reason,'no-attackers');assert.equal(s.deck.pile.length,0);
+      assert(s.daly.player.hp>0&&s.daly.enemy.hp>0);assert(!s.units.some(G.canAct));
+      for(const side of ['player','enemy'])assert(!s.deck.hands[side].some(c=>G.getResetCard(c.id).type==='DALY'&&!G.medalBlockReason({...s,result:null},side,c)));
+    }else{assert.equal(s.daly[s.final.loser].hp,0);assert(s.daly[s.final.winner].hp>0);}
   }
 });
 console.log(`${passed} testes de integração passaram`);

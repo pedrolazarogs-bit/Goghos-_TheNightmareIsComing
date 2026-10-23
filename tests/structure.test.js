@@ -39,9 +39,9 @@ test('a velocidade desce e cada reset compra uma carta por equipe, uma única ve
 test('as cinco cores resgatam exatamente o topo de sua raridade, sem ataque extra',()=>{
   const original=G.CHARACTERS;
   const secret=id=>({...G.getCharacterById('sam'),id,rarity:'SECRET',...G.getCharacterStats({rarity:'SECRET',class:'FIGHTER'})});
-  G.CHARACTERS=[...original,secret('secret-test-1'),secret('secret-test-2')];
+  G.CHARACTERS=[...original,secret('secret-test-1'),secret('secret-test-2'),{...G.getCharacterById('char_09'),id:'epic-test'}];
   try{
-    const ids={COMMON:['char_04','char_06'],RARE:['char_10','eletric'],EPIC:['char_09','sarck'],LEGENDARY:['char_11','sam'],SECRET:['secret-test-1','secret-test-2']};
+    const ids={COMMON:['char_04','char_06'],RARE:['char_10','eletric'],EPIC:['char_09','epic-test'],LEGENDARY:['char_11','sam'],SECRET:['secret-test-1','secret-test-2']};
     const colors=['Azul','Verde','Roxa','Holográfica','Preta'];
     for(const [i,rarity] of G.RARITIES.entries()){
       const s=battle(),c=medal(s,'daly_0'+(i+1));

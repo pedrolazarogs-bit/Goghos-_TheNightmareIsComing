@@ -10,7 +10,7 @@ G.dalyHTML=(s,side,o={})=>{
 };
 // Área "Personagens Eliminados": separada dos montes e dos descartes de cartas.
 G.eliminatedHTML=(s,freshEvent=false)=>{
-  const chip=e=>{const ev=freshEvent&&s.lastEvent&&s.lastEvent.type==='defeat'&&s.lastEvent.targetUid===e.uid;return `<span class="chip${ev?' chip-hit':''}" title="${e.name} · ${e.class} · eliminado na rodada ${e.round}">${e.name} <small>${e.class}</small>${ev?` <b>−${s.lastEvent.damage}</b>`:''}</span>`;};
+  const chip=e=>{const ev=freshEvent&&[s.lastEvent,s.lastEvent?.reaction].find(x=>x?.type==='defeat'&&x.targetUid===e.uid);return `<span class="chip${ev?' chip-hit':''}" title="${e.name} · ${e.class} · eliminado na rodada ${e.round}">${e.name} <small>${e.class}</small>${ev?` <b>${ev.instant?'Steel Jaw':'−'+ev.damage}</b>`:''}</span>`;};
   const line=(side,t)=>{const l=G.getEliminated(s,side);return `<p>${t}: ${l.length?l.map(chip).join(' '):'<small>nenhum</small>'}</p>`;};
   return `<details class="elim"><summary>Personagens Eliminados <b>${s.eliminated.length}</b></summary><div>${line('player','Seus')}${line('enemy','Adversário')}</div></details>`;
 };

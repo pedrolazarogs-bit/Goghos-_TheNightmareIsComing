@@ -43,7 +43,7 @@ G.performHandSupport=(s,iid,targetUid)=>{
   if(s.recovery)return fail('Escolha a recuperação antes de continuar.');
   if(s.deck.pendingChoice)return fail('Resolva a substituição da mão antes de continuar.');
   if(s.support.pending)return fail('Resolva a Brisa antes de continuar.');
-  const actor=G.getNextActor(s);if(!actor||actor.team!=='player')return fail('Cartas de Apoio só podem ser usadas na sua vez.');
+  if(!G.canManageTeam(s,'player'))return fail('Cartas de Apoio só podem ser usadas na sua vez.');
   if(s.support.usedTurn===s.turn)return fail('Você já usou uma carta de apoio neste turno.');
   const hand=s.deck.hands.player,i=hand.findIndex(c=>c.iid===iid),inst=hand[i];if(i<0)return fail('A carta não está na sua mão.');
   const rd=G.getResetCard(inst.id),d=G.getSupportCard(inst.id);if(!rd||rd.type!=='SUPPORT'||!d)return fail('Esta carta não é uma carta de Apoio utilizável.');

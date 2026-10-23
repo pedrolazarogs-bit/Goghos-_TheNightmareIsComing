@@ -39,7 +39,7 @@ test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',
 });
 test('a coleção mostra as três cartas ilustradas',()=>{
   action('menu');action('characters');
-  assert(html.includes('Sam')&&html.includes('Eletric')&&html.includes('Sarck'));
+  assert(html.includes('Sam')&&html.includes('Eletric')&&html.includes('Sark'));
   assert(html.includes('assets/characters/eletric.png')&&html.includes('assets/characters/sarck.png'));
   action('menu');assert(html.includes('data-act="play"'));
 });

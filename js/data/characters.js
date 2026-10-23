@@ -25,7 +25,9 @@ G.getCharacterStats=c=>{
 };
 G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
-G.CONFIG={version:'0.17.1 (protótipo)',
+G.MAIN_ABILITIES={steel_jaw:{name:'Steel Jaw',trigger:'onAttacked',damage:390,instantRarities:['COMMON','RARE','EPIC'],description:'Ao ser atacado, recebe o dano e reage automaticamente: elimina o atacante Comum, Raro ou Épico; contra Lendário ou Secreto, causa 390 de dano. A reação acontece mesmo se Sark for derrotado pelo ataque.'}};
+G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
+G.CONFIG={version:'0.18.0 (protótipo)',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
   selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
@@ -45,8 +47,8 @@ G.CHARACTERS=[
  C('char_12','Personagem 12','ASSASSIN',750,95,4,{rarity:'LEGENDARY',tribute:'Esquivar'}),
  // A arte de Eletric informa 220 de Vida e 130 de Dano; ambos cabem na faixa Rara.
  C('eletric','Eletric','MAGO',220,130,3,{rarity:'RARE',stamina:4,mainAbility:'3000W',knownHp:220,knownDamage:130,illustrated:true,abilityArt:'assets/abilities/eletric.png',artLayout:{size:[2048,2048],focus:[500,715,1550,1778],target:[440,360,1220,1080]},description:'Manipula eletricidade. O efeito especial de 3000W ainda não está implementado.'}),
- // A arte de Sarck informa 530 de Vida, mas deixa o Dano indefinido. Dano e Velocidade são provisórios.
- C('sarck','Sarck','TANK',530,0,2,{rarity:'EPIC',stamina:5,mainAbility:'Steel Jaw',knownHp:530,illustrated:true,abilityArt:'assets/abilities/sarck.png',artLayout:{size:[2048,2048],focus:[500,454,1549,1525],target:[440,350,1230,1080]},description:'Resiste na linha de frente. O efeito especial de Steel Jaw ainda não está implementado.'})].map(Object.freeze);
+ // Sark: dados oficiais explicados pelo criador. id legado preservado para referências e partidas.
+ C('sarck','Sark','ASSASSIN',530,0,null,{rarity:'LEGENDARY',stamina:5,mainAbility:'Steel Jaw',abilityId:'steel_jaw',passiveOnly:true,knownHp:530,knownDamage:0,illustrated:true,cardFrame:'assets/cards/card_base_sark.png',artBackground:'linear-gradient(135deg,#ffe4a0,#e9a5dc 45%,#a0b8fa 75%,#95f3be)',portraitBanner:{src:'assets/characters/sark_banner.png',size:[2048,2048],bounds:[21,159,1918,1458]},abilityArt:'assets/abilities/sarck.png',artLayout:{size:[2048,2048],focus:[500,454,1549,1525],target:[440,300,1250,1165]},description:G.MAIN_ABILITIES.steel_jaw.description})].map(Object.freeze);
 G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id)||null;
 G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
   ...(Number.isFinite(c.knownHp)?{maxHp:c.knownHp}:{}),

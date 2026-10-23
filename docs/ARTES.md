@@ -1,10 +1,10 @@
-# Artes recebidas: kikiy.zip
+# Artes recebidas: kikiy.zip e SarckKit.zip
 
 Os 48 PNGs originais estão preservados sem alterações. As cartas prontas de Sam, Eletric e Sarck ficam em `assets/references/characters/` e servem apenas de referência. O jogo monta cada carta com a ilustração separada, fundo, moldura e atributos calculados.
 
 Eletric e Sarck usam as ilustrações avulsas 39 e 29. Sam usa o rosto do banner ilustrado 40, o material separado disponível neste pacote; poderá receber uma ilustração própria quando enviada. O enquadramento é definido por `artLayout` em `js/data/characters.js`: `focus` delimita a região relevante no PNG e `target` a posiciona na moldura. A escala mantém as proporções. Nenhuma carta de referência é carregada pela interface.
 
-Os símbolos de habilidade de Sarck (mandíbula, arte 20) e Eletric (raio, arte 33) usam apenas o centro das imagens, sem duplicar a estrela da moldura. Sam ainda não tem símbolo avulso de habilidade neste pacote. Seus efeitos especiais continuam pendentes de definição.
+Os símbolos de habilidade de Sark (mandíbula, arte 20) e Eletric (raio, arte 33) usam apenas o centro das imagens, sem duplicar a estrela da moldura. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, de Sark, foi definida e implementada na v0.18.0; as habilidades de Sam e Eletric continuam pendentes.
 
 | Nº | Arquivo recebido | Local no projeto | Estado |
 | ---: | --- | --- | --- |
@@ -64,3 +64,19 @@ As artes marcadas como conceito ficam disponíveis para decisões futuras sobre 
 A imagem de layout enviada pelo criador orienta as posições. As artes 03 (troféu), 06 (verso), 12 (ataque), 19 (retrato provisório), 21 (Vida) e 44 (cristal da Daly Mãe) agora ficam em `assets/arena/`. Os seis arquivos foram apenas movidos: continuam idênticos aos PNGs recebidos.
 
 `js/ui/arena_ui.js` declara os limites transparentes das imagens e as enquadra por CSS, sem regravar os originais. Os retratos de Sam, Eletric e Sarck continuam vindo das ilustrações separadas. As vagas usam a moldura vazia oficial. O troféu acompanha o número da rodada; não foi adicionada mecânica de cronômetro.
+
+## SarckKit.zip — v0.18.0
+
+O pacote tem cinco PNGs. Três já estavam no projeto e são idênticos por SHA-256: retrato, símbolo e referência completa. Os outros dois foram copiados sem alteração. O nome exibido passa a ser **Sark**, conforme a explicação do criador; os caminhos legados `sarck` continuam válidos.
+
+| Arquivo recebido | Local no projeto | Uso |
+| --- | --- | --- |
+| `152 Sem Título_20261021223922.png` | `assets/characters/sarck.png` | Ilustração separada; não é a carta pronta |
+| `Original-Base63_20261021225245.png` | `assets/abilities/sarck.png` | Símbolo separado de Steel Jaw |
+| `Original-Base63_20261021225220.png` | `assets/references/characters/sarck.png` | Apenas referência completa |
+| `Original-Base64_20261022212809.png` | `assets/cards/card_base_sark.png` | Base nova, enquadrada como camada da moldura |
+| `202 Sem Título2_20261022213058.png` | `assets/characters/sark_banner.png` | Banner do personagem e habilidade no laboratório |
+
+A base nova já contém retrato, nome, rank e símbolo impressos, embora deixe Vida e fôlego vazios. Para montar a carta com as peças separadas, a borda superior dessa base é recortada pela janela da moldura limpa de Assassino, com uma máscara vetorial embutida no HTML. O painel inferior e a etiqueta vêm da moldura limpa compatível. Assim o desenho impresso não se sobrepõe à ilustração, ao nome e aos números dinâmicos. Rank não é renderizado nem tratado como atributo. Nada é apagado ou pintado nos PNGs; recorte, composição, máscara e enquadramento acontecem em HTML/CSS.
+
+O rosto ocupa `focus: [500,454,1549,1525]`, com proporção preservada no espaço `target: [440,300,1250,1165]`. O fundo pastel acompanha a raridade Lendária. O banner usa a área `[21,159,1918,1458]` de um PNG 2048×2048. Vida atual, fôlego, nome, valor 390 e identificação de Steel Jaw são camadas independentes. Os traços de ataque e velocidade representam o funcionamento reativo.

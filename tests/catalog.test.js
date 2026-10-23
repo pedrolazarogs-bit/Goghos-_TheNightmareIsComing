@@ -6,8 +6,8 @@ const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 
-test('Sam, Eletric e Sarck usam as artes recebidas e continuam dentro das faixas de raridade',()=>{
-  const expected={sam:['LEGENDARY','FIGHTER'],eletric:['RARE','MAGO'],sarck:['EPIC','TANK']};
+test('Sam, Eletric e Sark usam artes separadas e os atributos confirmados pelo criador',()=>{
+  const expected={sam:['LEGENDARY','FIGHTER'],eletric:['RARE','MAGO'],sarck:['LEGENDARY','ASSASSIN']};
   for(const [id,[rarity,cls]] of Object.entries(expected)){
     const c=G.getCharacterById(id);
     assert(c);assert.equal(c.rarity,rarity);assert.equal(c.class,cls);
@@ -18,7 +18,7 @@ test('Sam, Eletric e Sarck usam as artes recebidas e continuam dentro das faixas
     assert(!G.cardHTML(c).includes('assets/references/'));
     if(c.abilityArt)assert(fs.existsSync(path.join(__dirname,'..',c.abilityArt)));
     assert(c.maxHp>=G.RARITY_HP[rarity].min&&c.maxHp<=G.RARITY_HP[rarity].max);
-    assert(c.damage>=G.RARITY_DAMAGE[rarity].min&&c.damage<=G.RARITY_DAMAGE[rarity].max);
+    if(!c.passiveOnly)assert(c.damage>=G.RARITY_DAMAGE[rarity].min&&c.damage<=G.RARITY_DAMAGE[rarity].max);
   }
   assert.equal(G.getCharacterById('eletric').maxHp,220);
   assert.equal(G.getCharacterById('eletric').damage,130);
@@ -27,13 +27,13 @@ test('Sam, Eletric e Sarck usam as artes recebidas e continuam dentro das faixas
   assert(fs.existsSync(path.join(__dirname,'..','assets/logo/logo.png')));
 });
 
-test('Eletric e Sarck podem entrar na equipe por uma Daly quando houver espaço',()=>{
+test('Eletric e Sark podem entrar na equipe por medalhas de suas raridades quando houver espaço',()=>{
   for(const id of ['eletric','sarck']){
     const rarity=G.getCharacterById(id).rarity;
     const s=G.createBattleState({front:['char_02','char_03'],rear:[]},{front:['char_04','char_05'],rear:[]});
     for(const r of G.RARITIES)s.piles[r]=[];
     s.piles[rarity]=[{iid:'character-'+id,id}];
-    const card={iid:'daly-'+id,id:rarity==='RARE'?'daly_02':'daly_03'};s.deck.hands.player.push(card);
+    const card={iid:'daly-'+id,id:'daly_0'+(G.RARITIES.indexOf(rarity)+1)};s.deck.hands.player.push(card);
     const result=G.resolveDalle(s,'player',card);
     assert(result.ok,result.error);assert(result.obtained);
     const unit=G.getUnit(s,result.obtained);

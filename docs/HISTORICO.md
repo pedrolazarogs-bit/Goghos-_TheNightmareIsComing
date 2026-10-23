@@ -55,3 +55,11 @@ A arena reutiliza seis artes originais antes catalogadas como conceitos. As mold
 Os personagens recuperados após um ataque à Daly Mãe ficavam fora da fila até a rodada seguinte, deixando os oponentes restantes agirem antes deles independentemente da velocidade. Agora o núcleo registra a velocidade da última ação e inclui os recuperados na parte ainda válida da hierarquia. Após um ataque de velocidade 5, recuperados de 5 ou menos entram na sequência atual; velocidades já ultrapassadas aguardam o reset. O desempate existente vale para as duas equipes.
 
 O resgate preserva ações gastas, rodada, compras e ritmo. A escolha informa como a hierarquia continua, e o registro identifica quem entra agora e quem aguarda. A entrada por medalha e o trânsito de Suportes mantêm suas regras anteriores.
+
+## v0.18.0 — Sark e a primeira habilidade principal
+
+Sark passa de Tank Épico provisório para Assassino Lendário oficial, com 530 de Vida, 5 de fôlego e sem ataque ou velocidade. Steel Jaw reage na mesma ação em que ele é atacado: elimina Comuns, Raros e Épicos e causa 390 em Lendários ou Secretos, inclusive quando o golpe é fatal para Sark. As duas perdas são registradas e resolvidas antes da continuação, preservando avanço de Suportes, Brisa e eliminação permanente.
+
+O pacote SarckKit trouxe dois arquivos novos e três já recebidos. A carta é composta com retrato e símbolo separados, molduras e valores dinâmicos; a referência completa não é carregada pelo jogo. O menu Testar Sark permite experimentar a habilidade dos dois lados com formações prontas, sem alterar a seleção normal.
+
+O criador definiu duas regras para a falta de atacantes: permitir avançar o ciclo e comprar, e declarar empate quando o monte acabar e não houver medalha utilizável em nenhuma das mãos. Compras mantêm a escolha de mão cheia; a retomada pelo primeiro atacante não provoca uma compra extra. A continuidade da recuperação da v0.17.1 foi preservada.

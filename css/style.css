@@ -31,7 +31,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 h1,h2,h3{font-weight:normal}.card .rar{z-index:0;aspect-ratio:1536/2048;-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .card .ci{z-index:3;display:flex;align-items:center;justify-content:center;color:#2c2338}.card .ci img{max-width:100%;max-height:100%;object-fit:contain}
 .card .ability-symbol{overflow:hidden;clip-path:ellipse(48% 44% at 50% 50%)}.card .ability-symbol img{position:absolute;max-width:none;max-height:none;width:293.55%;height:282.96%;left:-116.13%;top:-118.52%} /* símbolo central da arte 455×382, sem repetir a moldura da estrela */
-.card .t .u{align-self:flex-end;position:relative;margin-left:.5em}
+.card .t .u{align-self:flex-end;position:relative;margin-left:.5em;color:inherit}
 button.big{display:block;margin:14px auto;min-width:260px;padding:14px 30px;font-size:28px;letter-spacing:.1em}.soon{font-size:32px;color:var(--gold)}
 button.on{background:var(--gold);color:#1a1420}.msg{min-height:1.4em;color:var(--red)}.lbl{margin:6px 0 0;color:var(--gold);font-size:14px}
 .pv .card{width:clamp(80px,12vw,110px)}
@@ -45,3 +45,6 @@ h3{margin:6px 0}.info,.order,.log,.msg{margin:4px 0}.log{min-height:2.6em}
 .selection{max-width:1220px;padding:20px}.selection>.row{gap:22px;margin:30px 0}.selection-pick{border:2px solid transparent;border-radius:12px;padding:12px;cursor:pointer}.selection-pick:focus-visible{outline:3px solid var(--gold)}.selection-pick.player{border-color:#60dca4;background:#12372955}.selection-pick.enemy{border-color:#f58b9a;background:#451b3255}.selection-pick[aria-disabled="true"]{cursor:default}.selection-pick .slot>small{font:600 12px/1.4 system-ui,sans-serif}.selection-pick.player .slot>small{color:#70ecb1}.selection-pick.enemy .slot>small{color:#ffa6b2}.selection .start-battle{display:block;margin:20px auto;font-size:22px;padding:14px 28px}
 
 .card.baked .ci.cls{display:none}
+.collection-ability{font:11px/1.6 system-ui,sans-serif;color:#c8b8d8!important;margin-top:10px!important}
+.ability-lab{max-width:950px;padding:20px}.ability-lab h1{letter-spacing:.08em}.ability-lab-content{display:grid;grid-template-columns:260px minmax(0,1fr);gap:30px;align-items:center;margin:24px auto;text-align:left}.ability-lab-content .card{width:240px}.ability-lab-content article>p{font:14px/1.8 system-ui,sans-serif;color:#cfc0dc}.ability-lab-content article>h2{font-size:32px}.ability-lab-content .actor-portrait{width:250px;height:145px}.ability-lab-content .actor-portrait .asset-window{width:245px}.ability-lab-content article>button{margin-left:0}
+@media(max-width:650px){.ability-lab-content{grid-template-columns:1fr;gap:10px;text-align:center}.ability-lab-content .card{width:200px}.ability-lab-content article>.actor-portrait{margin:auto}.ability-lab-content article>p{font-size:12px}.ability-lab h1{font-size:26px}.ability-lab-content article>button{display:block;width:100%;margin:10px 0}}
