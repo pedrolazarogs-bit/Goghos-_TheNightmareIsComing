@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/ai','ui/match_ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/ai','ui/match_ui'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};

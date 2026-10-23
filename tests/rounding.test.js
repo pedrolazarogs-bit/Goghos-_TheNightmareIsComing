@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 const battle=(player=['char_06'],enemy=['char_03'],supports=[])=>G.createBattleState({front:player,rear:[]},{front:enemy,rear:[]},supports,{rng:()=>.5,roll:()=>6});
@@ -36,11 +36,11 @@ test('área com mana e bônus arredonda uma vez por alvo, sem alterar quantidade
 
 test('Bandeide na mão e no apoio arredonda a soma para cima e respeita a Vida máxima',()=>{
  const card=G.getSupportCard('bandeide'),original=card.value;card.value=81;
- try{for(const hand of [true,false])for(const hp of [100,575]){
+ try{for(const hand of [true,false])for(const hp of [100,905]){
   const s=battle(['sam'],['char_03'],hand?[]:['bandeide']),t=unit(s,'sam');t.hp=hp;
   if(hand)s.deck.hands.player.push({iid:'heal',id:'bandeide'});
   const result=hand?G.performHandSupport(s,'heal',t.uid):G.performSupport(s,0,t.uid);assert(result.ok);
-  assert.equal(t.hp,hp===100?185:580);assert.equal(t.hp%5,0);assert(t.hp<=t.maxHp);
+  assert.equal(t.hp,hp===100?185:910);assert.equal(t.hp%5,0);assert(t.hp<=t.maxHp);
   assert(s.log.some(line=>line.includes('recuperou '+(hand?'+':'')+(hp===100?85:5)+' de Vida')));
  }}finally{card.value=original;}
 });
@@ -48,7 +48,7 @@ test('Bandeide na mão e no apoio arredonda a soma para cima e respeita a Vida m
 test('Brisa arredonda a cura para cima, limita a Vida máxima e não ressuscita',()=>{
  const s=battle(['sam'],['char_03']),t=unit(s,'sam');t.hp=100;
  s.support.pending={type:'brisa',value:31,candidates:[t.uid]};assert(G.resolveBrisa(s,t.uid).ok);assert.equal(t.hp,135);
- t.hp=575;s.support.pending={type:'brisa',value:31,candidates:[t.uid]};assert(G.resolveBrisa(s,t.uid).ok);assert.equal(t.hp,580);
+ t.hp=905;s.support.pending={type:'brisa',value:31,candidates:[t.uid]};assert(G.resolveBrisa(s,t.uid).ok);assert.equal(t.hp,910);
  G.eliminateUnit(s,t);s.support.pending={type:'brisa',value:31,candidates:[t.uid]};assert(!G.resolveBrisa(s,t.uid).ok);assert.equal(t.hp,0);
 });
 
@@ -57,7 +57,7 @@ test('reações e dano periódico seguem múltiplos de 5, com eliminação ao ch
  try{
   jaw.damage=391;const s=battle(['sam'],['sarck']),a=unit(s,'sam');
   assert.equal(G.reactionPreview(a,unit(s,'sarck')).damage,395);assert(G.performBasicAttack(s,a.uid,unit(s,'sarck').uid).ok);
-  assert.equal(a.hp,185);assert.equal(s.lastEvent.reaction.amount,395);assert.equal(s.lastEvent.reaction.damage,395);
+  assert.equal(a.hp,515);assert.equal(s.lastEvent.reaction.amount,395);assert.equal(s.lastEvent.reaction.damage,395);
   axe.damage=21;const p=battle(['john'],['char_03']),j=unit(p,'john'),t=unit(p,'char_03');
   assert(G.performBasicAttack(p,j.uid,t.uid,0,'pin').ok);assert.equal(t.hp,140);
   assert(G.performPinnedTurn(p,t.uid).ok);assert.equal(t.hp,115);assert.equal(p.lastEvent.ticks[0].amount,25);

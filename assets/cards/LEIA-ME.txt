@@ -7,3 +7,5 @@ card_base_eletric.png = base integral de Elétrica, preservada sem alterações.
 card_base_john.png = base integral de John, preservada sem alterações. Vida, ataque, velocidade, fôlego, Parry e o nome JOHN preenchem os campos vazios.
 Cadastre novas bases em cardBase.src e os campos numéricos em cardBase.fields, em js/data/characters.js. Não recomponha a ilustração quando houver uma base completa do personagem.
 Quando a base também deixar um campo de texto vazio, cardBase.labels permite preenchê-lo sem alterar o PNG original.
+
+v0.20.0: card_base_penxy/cavaleiro/zikssy/elysh/ddx/vaglar.png preservam as cartas prontas recebidas byte a byte. Os recortes declarados em cardBase.cleanup.regions usam os arquivos number_cleanup_<id>.png para limpar somente os números antigos. A interface acrescenta os valores atuais; retrato, nome, cores, moldura e símbolos continuam vindo do original. Não substitua a carta inteira pela imagem de limpeza.

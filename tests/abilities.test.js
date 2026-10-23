@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/match_ui','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/match_ui','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 const state=(front=['john'],enemy=['char_03'],rear=[],enemyRear=[],roll=6)=>G.createBattleState({front,rear},{front:enemy,rear:enemyRear},[],{rng:()=>.5,roll:()=>roll});

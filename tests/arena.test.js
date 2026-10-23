@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','ui/card','ui/match_ui','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','ui/card','ui/match_ui','ui/arena_ui'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
@@ -50,7 +50,7 @@ test('as artes da arena existem, os montes são separados e a mão adversária f
   }
   const s=battle();s.deck.hands.enemy.push({iid:'hidden',id:'daly_05'});
   const html=G.pilesHTML(s);
-  assert.equal((html.match(/class="deck-pile /g)||[]).length,6);
+  assert.equal((html.match(/class="deck-pile /g)||[]).length,G.RARITIES.length+1);
   assert(html.includes('Mão adversária <b>1/5</b>'));assert(!html.includes('Medalha Preta'));
   for(const r of G.RARITIES)assert(html.includes(`Monte ${G.RARITY_LABEL[r]}: ${s.piles[r].length} cartas`));
 });

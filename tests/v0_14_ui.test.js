@@ -4,7 +4,7 @@ globalThis.document = { getElementById: () => ({ set innerHTML(v){html=v;}, get 
 globalThis.confirm = () => true; globalThis.alert = m => { throw new Error('unexpected alert: '+m); };
 globalThis.setTimeout = f => {timers.push(f);return timers.length;}; globalThis.clearTimeout = () => {timers=[];};
 let seed=1701; Math.random=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/support_ui','ui/hand_ui','ui/match_ui','ui/arena_ui','ui/shop','ui/ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai','ui/card','ui/support_ui','ui/hand_ui','ui/match_ui','ui/arena_ui','ui/shop','ui/ui'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS; let passed=0;
 function test(n,f){f();passed++;console.log('OK  '+n);}
 function click(selector, data, disabled=false){handler({target:{closest:s=>s===selector?{dataset:data,disabled}:null}});}
@@ -24,7 +24,7 @@ test('a seleção mostra todos os Comuns, somente menu, cartas e Play após quat
   action('menu');
 });
 test('a tela de batalha tem leque da mão e registro de eventos, sem painel lateral de Apoio',()=>{
-  selectAndFight(); assert(html.includes('class="mao')); assert(html.includes('class="event-feed"')); assert(!html.includes('class="apoio"')); assert(html.includes('Registro da batalha'));assert.equal((html.match(/class="deck-pile /g)||[]).length,6);assert.equal((html.match(/class="formation-row /g)||[]).length,4);
+  selectAndFight(); assert(html.includes('class="mao')); assert(html.includes('class="event-feed"')); assert(!html.includes('class="apoio"')); assert(html.includes('Registro da batalha'));assert.equal((html.match(/class="deck-pile /g)||[]).length,G.RARITIES.length+1);assert.equal((html.match(/class="formation-row /g)||[]).length,4);
 });
 test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',()=>{
   // Recomeça uma luta e faz o primeiro reset comprar uma Na Moloeira para o jogador.
@@ -37,7 +37,7 @@ test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',
     click('[data-hand]',{hand:m[1]});assert(html.includes('data-act="usehand"'));action('usehand');assert(html.includes('BÔNUS')||html.includes('próximo ataque causa +20'));
   } finally {G.createDeckState=create;G.CONFIG.resetDraw.onBattleStart=false;}
 });
-test('a coleção mostra os quatro personagens ilustrados',()=>{
+test('a coleção mostra todos os personagens ilustrados',()=>{
   action('menu');action('characters');
   assert(html.includes('Sam')&&html.includes('Elétrica')&&html.includes('Sark')&&html.includes('John'));
   for(const c of G.CHARACTERS.filter(c=>c.illustrated))assert(html.includes(c.cardBase?.src||c.art));

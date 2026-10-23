@@ -102,3 +102,24 @@ As bases 1536×2048 são apresentadas em uma única imagem cada, preservando pos
 Os campos ficam declarados em `cardBase.fields`; o nome de John usa `cardBase.labels`. O enquadramento transparente é feito por CSS e não modifica o original. As bases têm limites visíveis `[159,14,1377,2048]`. Os banners são usados fora das cartas, com áreas `[21,159,1918,1458]` para Elétrica e `[0,127,1945,1484]` para John. As bordas verdes mantêm os dois no monte Raro.
 
 [Bases preenchidas pela interface](previews/habilidades-v0.19.0-cartas.png) · [Elétrica na arena](previews/eletrica-v0.19.0-desktop.png) · [John na arena](previews/john-v0.19.0-desktop.png)
+
+## Photos-1-001.zip — primeiro grupo da v0.20.0
+
+O primeiro pacote tem 26 cartas e o segundo tem três. Há 28 personagens distintos, pois Sam aparece em duas versões. Nesta etapa foram implementados somente os seis cujas mecânicas foram explicadas e autorizadas. Os demais estão em [PERSONAGENS_PENDENTES.md](PERSONAGENS_PENDENTES.md).
+
+| Personagem | Original do primeiro pacote | Referência preservada |
+| --- | --- | --- |
+| Penxy | `Original-Base13_20260223193944.png` | `assets/references/characters/penxy.png` |
+| Cavaleiro | `Original-Base16_20260127112128.png` | `assets/references/characters/cavaleiro.png` |
+| Zikssy | `Original-Base17_20260224091058.png` | `assets/references/characters/zikssy.png` |
+| Elysh | `Original-Base18_20260223193557.png` | `assets/references/characters/elysh.png` |
+| DD-X | `Original-Base19_20260127120036.png` | `assets/references/characters/ddx.png` |
+| Vaglar | `Original-Base21_20260127115556.png` | `assets/references/characters/vaglar.png` |
+
+Cada `assets/cards/card_base_<id>.png` é uma cópia byte a byte do original correspondente, incluindo retrato, pose, nome, moldura, raridade, estrela e ícone de classe. As seis bases e referências foram comparadas por SHA-256 com os arquivos recebidos. Cavaleiro, DD-X e Vaglar usam o ícone de Fighter; Penxy e Zikssy, de Assassino; Elysh, de Suporte.
+
+Os arquivos `number_cleanup_<id>.png` foram preparados com a ferramenta de edição de imagem para retirar os números antigos. A interface usa **somente recortes dos campos numéricos** desses arquivos, definidos em `cardBase.cleanup.regions`. Assim, os demais elementos continuam vindo da imagem original, sem redesenhar o retrato ou trocar os símbolos. A limpeza dos multiplicadores antigos de DD-X evita confundir o ataque básico atualizado com o poder de quatro braços. O traço original de Vaglar permanece porque ele não tem ataque básico. As amostras de paleta fora da carta são ocultadas na apresentação.
+
+Vida máxima e Dano são calculados pelas faixas atuais de classe e raridade. Os outros números deste grupo seguem as cartas até nova orientação do criador. Os novos valores de Vida, Dano e velocidade modificada por susto aparecem durante a batalha. Cores e molduras permanecem nas raridades ilustradas, inclusive o vermelho Mítico. Fora das cartas, os retratos da vez usam apenas um enquadramento da cabeça na mesma imagem recebida.
+
+[Seis cartas e habilidades](previews/personagens-v0.20.0.png) · [Pré-batalha](previews/prebatalha-v0.20.0-desktop.png) · [Duelo dimensional](previews/penxy-v0.20.0-desktop.png)

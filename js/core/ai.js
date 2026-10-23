@@ -1,7 +1,7 @@
 // IA simples (não usa a troca voluntária de Suportes nesta versão): ataca o adversário vivo da linha de frente com menor Vida atual (empate: menor slot); se não houver, a Daly Mãe exposta. Usa as mesmas regras do jogador.
 (function(G){
 function chooseTarget(s,actor){
-  return s.units.filter(u=>u.team!==actor.team&&G.isTargetable(u)).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0]||null;
+  return G.attackTargets(s,actor).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0]||null;
 }
 // Mago: gasta o mínimo de mana que elimina o alvo; se não der, gasta 1 (se tiver).
 function manaPlan(s,a,t){if(a.class!=='MAGO'||a.mana<=0)return 0;const per=G.CONFIG.manaDamagePerPoint,need=Math.max(0,Math.ceil((t.hp-a.damage)/per));return need<=a.mana?need:1;}
@@ -16,10 +16,21 @@ function redeemMedals(s,side){
 }
 function takeTurn(s,actor){
   if(actor.pinnedBy)return G.performPinnedTurn(s,actor.uid);
-  if(actor.pinning){if(actor.hp>=80)return G.keepPin(s,actor.uid);G.withdrawPin(s,actor.uid);}
+  if(actor.pinning){
+    const target=G.getUnit(s,actor.pinning),progressing=actor.pinLastKeptHp==null||target.hp<actor.pinLastKeptHp;
+    if(actor.hp>=80&&progressing){actor.pinLastKeptHp=target.hp;return G.keepPin(s,actor.uid);}
+    G.withdrawPin(s,actor.uid); // Evita manter para sempre um alvo que está recuperando todo o dano.
+  }
   redeemMedals(s,actor.team);
+  if(s.abilityChoices.length)return{ok:true,pending:true};
+  if(G.getMainAbility(actor)?.trigger==='deathBook')return G.performBookAttack(s,actor.uid);
+  if(G.getMainAbility(actor)?.trigger==='healingAttack'){
+    const ally=G.healingTargets(s,actor).filter(u=>u.hp<=u.maxHp/2).sort((a,b)=>a.hp-b.hp)[0];
+    if(ally)return G.performHealingAttack(s,actor.uid,ally.uid);
+  }
+  if(!G.hasActionTarget(s,actor))return G.performWait(s,actor.uid);
   if(G.getMainAbility(actor)?.trigger==='areaAttack')return G.performAreaAttack(s,actor.uid,actor.mana>0?1:0);
-  const t=chooseTarget(s,actor);if(t)return G.performBasicAttack(s,actor.uid,t.uid,manaPlan(s,actor,t),G.getMainAbility(actor)?.trigger==='pinAttack'&&t.hp>actor.damage?'pin':'normal');
+  const t=chooseTarget(s,actor);if(t)return G.performBasicAttack(s,actor.uid,t.uid,manaPlan(s,actor,t),G.getMainAbility(actor)?.trigger==='pinAttack'&&t.hp>actor.damage?'pin':G.getMainAbility(actor)?.trigger==='doubleAttack'&&!actor.doubleUsed?'double':'normal');
   const foe=actor.team==='player'?'enemy':'player';
   return G.isDalyExposed(s,foe)?G.performBasicAttack(s,actor.uid,G.dalyTargetId(foe),0):{ok:false,error:'Sem alvo.'};}
 // Recuperação do bot: escolhe ao acaso entre as opções que podem ser completadas (não há lógica de decisão própria no projeto).
@@ -27,5 +38,6 @@ function resolveRecovery(s){const r=s.recovery;if(!r)return{ok:false,error:'Nenh
   const av=G.recoveryOptions(s).filter(o=>o.available);if(!av.length)return{ok:false,error:'Nenhuma opção disponível.'};
   return G.performRecovery(s,av[Math.floor(s.rng()*av.length)].id);}
 function resolveFormation(s){return s.formation?G.resolveFrontLine(s,[...s.formation.candidates]):{ok:false,error:'Nenhum avanço pendente.'};}
-G.AI={chooseTarget,takeTurn,manaPlan,resolveRecovery,redeemMedals,resolveFormation};
+function resolveCharacterAbility(s){const p=G.pendingCharacterAbility(s);if(!p)return{ok:false,error:'Nenhuma habilidade pendente.'};const u=G.getUnit(s,p.actorUid),targets=G.abilityTargets(s,u,p.type).sort((a,b)=>a.hp-b.hp);return G.resolveCharacterAbility(s,u.uid,targets[0]?.uid);}
+G.AI={chooseTarget,takeTurn,manaPlan,resolveRecovery,redeemMedals,resolveFormation,resolveCharacterAbility};
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
@@ -17,7 +17,7 @@ test('cartas ilustradas usam a base própria quando fornecida e os atributos con
     assert(!fs.readFileSync(path.join(__dirname,'..',c.art)).equals(reference),'a carta pronta não pode servir de retrato');
     assert(!G.cardHTML(c).includes('assets/references/'));
     if(c.abilityArt)assert(fs.existsSync(path.join(__dirname,'..',c.abilityArt)));
-    assert(c.maxHp>=G.RARITY_HP[rarity].min&&c.maxHp<=G.RARITY_HP[rarity].max);
+    assert(Number.isFinite(c.knownHp)?c.maxHp===c.knownHp:c.maxHp>=G.RARITY_HP[rarity].min&&c.maxHp<=G.RARITY_HP[rarity].max);
     if(!c.passiveOnly)assert(c.damage>=G.RARITY_DAMAGE[rarity].min&&c.damage<=G.RARITY_DAMAGE[rarity].max);
   }
   assert.equal(G.getCharacterById('eletric').maxHp,220);
@@ -33,7 +33,7 @@ test('Eletric e Sark podem entrar na equipe por medalhas de suas raridades quand
     const s=G.createBattleState({front:['char_02','char_03'],rear:[]},{front:['char_04','char_05'],rear:[]});
     for(const r of G.RARITIES)s.piles[r]=[];
     s.piles[rarity]=[{iid:'character-'+id,id}];
-    const card={iid:'daly-'+id,id:'daly_0'+(G.RARITIES.indexOf(rarity)+1)};s.deck.hands.player.push(card);
+    const card={iid:'daly-'+id,id:G.MEDAL_ID[rarity]};s.deck.hands.player.push(card);
     const result=G.resolveDalle(s,'player',card);
     assert(result.ok,result.error);assert(result.obtained);
     const unit=G.getUnit(s,result.obtained);

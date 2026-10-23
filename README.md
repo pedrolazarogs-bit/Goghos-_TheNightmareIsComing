@@ -1,10 +1,12 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. Na versão **0.19.1**, Vida, dano e cura dos personagens usam múltiplos de 5, sempre arredondando para cima: 211 vira 215 e 216 vira 220. As habilidades de **Elétrica** e **John** continuam disponíveis: ataque em área contra a frente adversária, Parry com dado e machado que imobiliza e causa dano após cada ação. Os dois usam as bases completas recebidas. Sark continua recebendo o dano antes de reagir, somente se sobreviver.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.20.0** adiciona **Penxy, Cavaleiro, Zikssy, Elysh, DD-X e Vaglar**, com pré-batalha, duelo dimensional, armadura, susto com d6, cura por ação, ataque dobrado de uso único e livro de execução. A raridade **Mítica** fica entre Épica e Lendária; somente as faixas de Vida e Dano foram transferidas, preservando as cores das cartas. Vida, dano e cura continuam em múltiplos de 5, sempre arredondados para cima.
 
 ## Jogar e desenvolver
 
 Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
+
+Clique em **Testar novos personagens** no menu e escolha um dos seis. Penxy, Zikssy e Vaglar apresentam sua habilidade de entrada antes de liberar os ataques; as mesmas escolhas aparecem quando chegam por medalha ou recuperação. Cavaleiro também passa a participar da seleção normal de Comuns.
 
 Para experimentar as novas habilidades sem depender dos montes, clique em **Testar Elétrica e John** no menu e escolha um deles. Elétrica ataca todos os adversários da frente com uma confirmação; John permite escolher entre ataque normal e cravar o machado. Na vez seguinte dele, é possível manter ou retirar o machado. Nas partidas normais, os dois estão no monte Raro e podem entrar por uma medalha Verde.
 
@@ -31,10 +33,10 @@ npm test
 
 ## Estado do protótipo
 
-A partida já pode ser concluída contra a IA. Há seleção inicial, cinco montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos demais personagens continuam em desenvolvimento. Sam, Elétrica, John e Sark têm ilustrações recebidas e aparecem em **Personagens** no menu. Os outros nomes e retratos ainda são provisórios; Sam aguarda sua base própria.
+A partida já pode ser concluída contra a IA. Há seleção inicial, seis montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos demais personagens continuam em desenvolvimento. Os dez personagens ilustrados aparecem em **Personagens**. Os seis novos usam a arte original recebida, com limpeza restrita aos campos numéricos e valores atuais por classe/raridade. Sam mantém a apresentação anterior até a próxima etapa. As habilidades dos 22 personagens restantes dos pacotes aguardam explicação em [PERSONAGENS_PENDENTES.md](docs/PERSONAGENS_PENDENTES.md).
 
-![Bases originais de Elétrica e John com os valores do jogo](docs/previews/habilidades-v0.19.0-cartas.png)
+[As seis cartas e suas habilidades](docs/previews/personagens-v0.20.0.png)
 
-Ataque em área no computador:
+Pré-batalha com escolha de alvo:
 
-![Arena no computador](docs/previews/eletrica-v0.19.0-desktop.png)
+![Arena no computador](docs/previews/prebatalha-v0.20.0-desktop.png)

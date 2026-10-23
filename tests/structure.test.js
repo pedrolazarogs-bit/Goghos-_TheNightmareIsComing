@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
 const G=globalThis.GOGHOS;
 let passed=0;
 const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
@@ -36,15 +36,15 @@ test('a velocidade desce e cada reset compra uma carta por equipe, uma única ve
   assert.deepEqual(new Set(G.RESET_CARDS.filter(c=>G.CONFIG.mainDeckTypes.includes(c.type)).map(c=>c.type)),new Set(['SUPPORT','DALY','SPECIAL','ITEM']));
 });
 
-test('as cinco cores resgatam exatamente o topo de sua raridade, sem ataque extra',()=>{
+test('as seis cores resgatam exatamente o topo de sua raridade, sem ataque extra',()=>{
   const original=G.CHARACTERS;
   const secret=id=>({...G.getCharacterById('sam'),id,rarity:'SECRET',...G.getCharacterStats({rarity:'SECRET',class:'FIGHTER'})});
-  G.CHARACTERS=[...original,secret('secret-test-1'),secret('secret-test-2'),{...G.getCharacterById('char_09'),id:'epic-test'}];
+  G.CHARACTERS=[...original,...['mythic-test-1','mythic-test-2'].map(id=>({...secret(id),rarity:'MYTHIC'})),secret('secret-test-1'),secret('secret-test-2'),{...G.getCharacterById('char_09'),id:'epic-test'}];
   try{
-    const ids={COMMON:['char_04','char_06'],RARE:['char_10','eletric'],EPIC:['char_09','epic-test'],LEGENDARY:['char_11','sam'],SECRET:['secret-test-1','secret-test-2']};
-    const colors=['Azul','Verde','Roxa','Holográfica','Preta'];
+    const ids={COMMON:['char_04','char_06'],RARE:['char_10','eletric'],EPIC:['char_09','epic-test'],MYTHIC:['mythic-test-1','mythic-test-2'],LEGENDARY:['char_11','sam'],SECRET:['secret-test-1','secret-test-2']};
+    const colors=['Azul','Verde','Roxa','Vermelha','Holográfica','Preta'];
     for(const [i,rarity] of G.RARITIES.entries()){
-      const s=battle(),c=medal(s,'daly_0'+(i+1));
+      const s=battle(),c=medal(s,G.MEDAL_ID[rarity]);
       const pile=s.piles[rarity]=ids[rarity].map((id,n)=>({iid:rarity+'-'+n,id}));
       const top=pile.at(-1),bottom=pile[0],order=[...s.order],turn=s.turn;
       const before=G.RARITIES.filter(r=>r!==rarity).map(r=>[r,JSON.stringify(s.piles[r])]);

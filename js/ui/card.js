@@ -47,9 +47,12 @@ G.cardHTML=function(u,cls='',caption=''){
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
   if(base.cardBase){
     const values={hp,stamina:st,speed:u.speed,damage:u.damage,mana:u.mana??G.manaFor(base),parry:u.parryThreshold??base.parryThreshold};
-    const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>`<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${values[key]}</div>`).join('');
+    const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>`<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${key==='damage'&&base.abilityOnly?'—':values[key]}</div>`).join('');
     const labels=Object.entries(base.cardBase.labels||{}).map(([key,label])=>t(key,label)).join('');
-    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${fr}">${numbers}${labels}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
+    // Somente os antigos campos numéricos usam a limpeza; retrato, nome, moldura e ícones vêm do PNG original.
+    const cleanup=base.cardBase.cleanup,patches=cleanup?cleanup.regions.map(b=>`<span class="numeric-cleanup" style="${box(b)}"><img src="${cleanup.src}" alt="" style="left:${-b[0]/(b[2]-b[0])*100}%;top:${-b[1]/(b[3]-b[1])*100}%;width:${1536/(b[2]-b[0])*100}%;height:${2048/(b[3]-b[1])*100}%"></span>`).join(''):'';
+    const layout=base.cardBase.layout,b=layout?.bounds,frameStyle=b?`left:${-b[0]/(b[2]-b[0])*100}%;top:${-b[1]/(b[3]-b[1])*100}%;width:${layout.size[0]/(b[2]-b[0])*100}%;height:${layout.size[1]/(b[3]-b[1])*100}%`:fr;
+    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${frameStyle}">${patches}${numbers}${labels}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
   }
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
   const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base),ability=G.getMainAbility(base);

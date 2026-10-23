@@ -85,3 +85,11 @@ As bases integrais de Elétrica e John passam a ser usadas com números dinâmic
 ## v0.19.1 — Vida, dano e cura em múltiplos de 5
 
 Conforme a orientação do criador, Vida e dano passam a terminar em 0 ou 5, sempre arredondando para cima. Isso vale para os atributos calculados, o total dos ataques com bônus e mana, a Vida restante, as curas, Steel Jaw e o machado de John. A previsão e os registros usam os mesmos valores do combate. Cura continua limitada à Vida máxima, personagens derrotados ficam em zero e a Daly Mãe mantém três vidas, com perda de uma por ataque.
+
+## v0.20.0 — pré-batalha e primeiro grupo de seis personagens
+
+Entram Penxy, Cavaleiro, Zikssy, Elysh, DD-X e Vaglar, conforme o pedido de implementar esse grupo antes dos demais. A pré-batalha resolve escolhas e dados de entrada sem consumir ação. Penxy cria um 1×1 isolado; Cavaleiro bloqueia 80% do dano; Zikssy rola um d6 por adversário, com sucesso em 1 ou 2 e bônus permanente; Elysh troca o ataque por cura de aliado; DD-X pode dobrar um ataque uma única vez; Vaglar marca e executa por raridade ou causa 200.
+
+A Mítica retorna entre Épica e Lendária. Somente as faixas de Vida/Dano são transferidas: antiga Lendária → Mítica e antiga Secreta → Lendária. Secreta fica aproximadamente 10% acima. A medalha Vermelha e o monte Mítico são adicionados, preservando os identificadores das medalhas antigas. O monte principal passa a 26 cartas. Os valores já confirmados de Elétrica, John e Sark continuam preservados.
+
+As seis cartas usam os PNGs originais com limpeza apenas dos campos numéricos e números dinâmicos. O menu recebe seis formações de teste; os 22 personagens restantes ficam documentados como pendentes. A IA retira o machado quando as curas anulam o progresso, evitando repetição infinita. As regras de recuperação, arredondamento e eliminação permanente continuam em vigor.

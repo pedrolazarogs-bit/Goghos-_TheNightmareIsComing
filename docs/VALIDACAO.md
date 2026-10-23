@@ -1,4 +1,25 @@
-# Validação — v0.19.1
+# Validação — v0.20.0
+
+## Pré-batalha e seis personagens
+
+`npm test`: **110 testes aprovados**, incluindo **100 partidas simuladas** com todas as habilidades em uso. Os 24 testes novos cobrem as seis raridades e faixas, preservação dos PNGs originais, bloqueio da pré-batalha, alvo da retaguarda, isolamento e término do duelo, atuação simultânea do restante da arena, passagem sem alvo acessível e várias entradas sem alvos restantes. Também verificam armadura em ataques simples, área e machado; cada resultado do d6 do susto, permanência dos bônus e ordem após recuperação; cura da Elysh com limite e gasto de ação; uso único de DD-X inclusive contra defesa; livro por raridade, manutenção e substituição de nomes, retaguarda, dano de 200 e ciclo sem atacante.
+
+Uma regressão específica verifica a IA retirando o machado quando Elysh cura todo o dano periódico. As partidas simuladas continuam verificando limite de equipe/mão, conservação de cartas, eliminação permanente e múltiplos de 5 em Vida e dano. Os testes antigos foram adaptados ao sexto monte, à medalha Vermelha e às novas faixas, preservando os atributos oficiais já confirmados de Elétrica, John e Sark.
+
+No Chromium, com os tempos reais da batalha, **seis fluxos passaram em 1440×1000 e 390×844**:
+
+1. Penxy escolhe a retaguarda na pré-batalha; o alvo de trás ataca somente ele, e os aliados seguem a hierarquia contra alvos externos.
+2. Cavaleiro recebe 40 de um ataque dobrado de 180, com redução no registro.
+3. Zikssy rola três dados com resultado 2: +60 de ataque e +1 de velocidade, apresentados antes do combate.
+4. Elysh cura 60 em um Cavaleiro aliado, mostra o efeito e consome sua ação.
+5. DD-X causa 180, mantém o uso gasto após reset e bloqueia nova ativação.
+6. Vaglar marca sem dano antecipado, executa um Comum, marca novamente e causa 200 em Sark Lendário.
+
+Os **12 fluxos passaram** sem exceções JavaScript, imagens ausentes ou transbordamento horizontal. As seis cartas foram inspecionadas individualmente no laboratório; os campos numéricos antigos foram limpos sem substituir o retrato, a moldura ou os ícones da imagem original. Os seis pares base/referência correspondem aos arquivos recebidos por SHA-256.
+
+[Cartas e laboratório](previews/personagens-v0.20.0.png) · [Pré-batalha no computador](previews/prebatalha-v0.20.0-desktop.png) · [Pré-batalha no celular](previews/prebatalha-v0.20.0-celular.png) · [Penxy](previews/penxy-v0.20.0-desktop.png) · [Zikssy](previews/zikssy-v0.20.0-desktop.png) · [Elysh](previews/elysh-v0.20.0-desktop.png) · [Vaglar](previews/vaglar-v0.20.0-desktop.png) · [Vaglar no celular](previews/vaglar-v0.20.0-celular.png)
+
+## Validação anterior — v0.19.1
 
 ## Arredondamento de Vida, dano e cura
 

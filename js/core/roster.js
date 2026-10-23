@@ -1,4 +1,4 @@
-// Personagens durante a partida: 5 montes por raridade, equipe (linha de frente + retaguarda), eliminação permanente,
+// Personagens durante a partida: 6 montes por raridade, equipe (linha de frente + retaguarda), eliminação permanente,
 // Daly Mãe (proteção final, 3 vidas), resolução de Daly (obter personagem) e recuperação após a Daly Mãe perder uma vida.
 // O estado (battle.js → createBattleState) é a única fonte de verdade; a UI só lê e chama estas funções.
 (function(G){
@@ -8,7 +8,7 @@ const shuffle=(a,rng)=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(
 const who=(side,you,foe)=>side==='player'?you:foe;
 const liveOf=(s,side)=>s.units.filter(u=>u.team===side&&!G.isCharacterDefeated(u));
 
-// ---------- 5 montes de personagens (um por raridade; independentes entre si e do monte principal) ----------
+// ---------- 6 montes de personagens (um por raridade; independentes entre si e do monte principal) ----------
 // Cada carta física é uma instância {iid,id} (iid único): cópias legítimas da mesma carta não se confundem. Compartilhados pelas duas equipes (como o monte principal).
 // Personagem sem raridade válida não entra em nenhum monte (não pode ser obtido por Daly nem por recuperação).
 G.createCharacterPiles=(rng=Math.random)=>{
@@ -33,9 +33,10 @@ G.addCharacterToTeam=(s,side,inst)=>{
   else if(c&&c.class==='SUPPORT'&&live.filter(u=>u.row==='rear').length<2)row='rear';
   else return null;
   const u=G.makeUnit(s,side,inst,row);
+  u.enteredRound=s.round;u.recoverySpeed=s.recovery?s.speedCursor:null;
   if(idle&&G.canAct(u))s.order.push(u.uid); // primeiro atacante retoma o ciclo que estava aguardando, sem outra compra
   s.log.push(who(side,'Você obteve ','O adversário obteve ')+u.name+' ('+(G.RARITY_LABEL[u.rarity]||'sem raridade')+') · '+(row==='front'?'linha de frente':'retaguarda'));
-  G.refreshDaly(s,side);return u;
+  G.refreshDaly(s,side);G.queueEntryAbility(s,u);return u;
 };
 
 // ---------- Eliminação permanente ----------
@@ -44,6 +45,7 @@ G.eliminateUnit=(s,u)=>{
   if(!u||u.eliminated)return false; // idempotente: eliminar duas vezes não registra duas vezes
   const from=u.row;u.hp=0;u.eliminated=true;u.row=null;
   if(u.pinning||u.pinnedBy)G.releasePinLink(s,u);
+  G.onCharacterEliminated(s,u);
   s.order=s.order.filter(id=>id!==u.uid);
   s.eliminated.push({uid:u.uid,iid:u.iid,id:u.id,name:u.name,class:u.class,team:u.team,from,round:s.round});
   s.log.push(u.name+' foi eliminado');
@@ -63,14 +65,14 @@ G.refreshDaly=(s,side)=>{const d=s.daly[side],was=d.exposed;d.exposed=G.isDalyEx
   if(!d.exposed&&was)s.log.push(who(side,'Sua Daly Mãe está protegida de novo','A Daly Mãe adversária está protegida de novo'));};
 G.dalyTargetId=side=>'daly_'+side; // alvo de ataque: a Daly Mãe daquele lado
 
-// ---------- Medalha Daly: a cor determina um dos cinco montes ----------
+// ---------- Medalha Daly: a cor determina um dos seis montes ----------
 // O topo é o último elemento, como no monte principal (pop). Não escolhe outra carta nem sorteia outra raridade.
 G.medalBlockReason=(s,side,handCard)=>{
   if(s.result)return 'Batalha encerrada.';
   if(!s.deck.hands[side]?.some(c=>c.iid===handCard?.iid))return 'A medalha não está na mão deste participante.';
   const def=G.getResetCard(handCard.id);
   if(!def||def.type!=='DALY'||!G.RARITIES.includes(def.rarity))return 'Esta carta não é uma medalha válida.';
-  if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice)return 'Resolva a escolha pendente antes do resgate.';
+  if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return 'Resolva a escolha pendente antes do resgate.';
   const pile=s.piles[def.rarity],inst=pile[pile.length-1];
   if(!inst)return 'O monte '+G.RARITY_LABEL[def.rarity]+' está vazio. Guarde a medalha ou substitua-a em uma compra futura.';
   const live=liveOf(s,side),char=G.getCharacterById(inst.id);

@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.19.1
+# Estrutura base do GOGHOS — v0.20.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -10,7 +10,7 @@ Os quatro personagens escolhidos saem de seus montes. As duas equipes começam c
 
 ## Equipes e Suportes
 
-A equipe tem no máximo cinco personagens: três na linha de frente e dois na retaguarda. Somente Suportes podem ficar na retaguarda; eles não atacam nem podem ser atacados enquanto estiverem lá.
+A equipe tem no máximo cinco personagens: três na linha de frente e dois na retaguarda. Somente Suportes podem ficar na retaguarda; eles não atacam nem podem ser atacados por ataques normais enquanto estiverem lá. Ghost Claw e o livro de Vaglar podem escolher a retaguarda; o alvo do duelo pode agir contra Penxy mesmo ficando na sua vaga de trás.
 
 Personagens obtidos ocupam vagas da frente primeiro. Com a frente cheia, somente um Suporte pode entrar na retaguarda. Um resgate sem vaga válida não retira o personagem do monte nem gasta a medalha.
 
@@ -28,21 +28,22 @@ Se não houver atacante nas duas equipes, **Avançar ciclo · comprar cartas** p
 
 ## Montes e medalhas
 
-Há seis montes compartilhados, visíveis na arena: o principal e cinco de personagens, separados por **raridade**. Cada monte é embaralhado independentemente no início da partida. Classe (Mago, Suporte etc.) é um atributo do personagem, não um monte adicional.
+Há sete montes compartilhados, visíveis na arena: o principal e seis de personagens, separados por **raridade**. Cada monte é embaralhado independentemente no início da partida. Classe (Mago, Suporte etc.) é um atributo do personagem, não um monte adicional.
 
-O monte principal provisório tem 24 cartas: 6 de Apoio, 4 de Item, 4 de Habilidade Especial e 10 medalhas (duas de cada cor). Fragmentos Primordiais ficam fora dele.
+O monte principal provisório tem 26 cartas: 6 de Apoio, 4 de Item, 4 de Habilidade Especial e 12 medalhas (duas de cada cor). Fragmentos Primordiais ficam fora dele.
 
 | Medalha | Monte resgatado |
 | --- | --- |
 | Azul | Comum |
 | Verde | Raro |
 | Roxa | Épico |
+| Vermelha | Mítico |
 | Holográfica | Lendário |
 | Preta | Secreto |
 
 Toda compra vai para a mão, inclusive as medalhas. Na vez da equipe, selecione uma medalha e use **Resgatar personagem**. Ela obtém exatamente a carta do topo do monte indicado pela cor, sem sorteio adicional de raridade e sem ataque extra. A medalha vai para o descarte somente quando o personagem entra na equipe. Com o monte vazio ou sem vaga para o topo, permanece na mão. A IA usa as mesmas regras.
 
-O catálogo atual tem 15 personagens: 7 Comuns, 3 Raros, 1 Épico, 4 Lendários e nenhum Secreto. Elétrica e John ficam no monte Raro; John foi classificado pela borda verde recebida. Sark fica no monte Lendário. O monte Secreto aparece vazio até receber personagens; a medalha preta não cria um personagem inexistente.
+O catálogo atual tem 21 personagens: 8 Comuns, 4 Raros, 3 Épicos, 1 Mítico, 5 Lendários e nenhum Secreto. Cavaleiro fica no Comum; DD-X, Elétrica e John no Raro; Zikssy e Elysh no Épico; Vaglar no Mítico; Penxy e Sark no Lendário. A seleção normal continua limitada aos Comuns. O monte Secreto aparece vazio até receber personagens; a medalha preta não cria um personagem inexistente.
 
 ## Mão e cartas de Apoio
 
@@ -72,7 +73,7 @@ Ao receber um ataque válido, Sark recebe primeiro o dano normal, incluindo mana
 
 | Raridade do atacante | Resposta de Steel Jaw |
 | --- | --- |
-| Comum, Raro ou Épico | Eliminação instantânea, independentemente da Vida restante |
+| Comum, Raro, Épico ou Mítico | Eliminação instantânea, independentemente da Vida restante |
 | Lendário ou Secreto | 390 de dano; é eliminado se a Vida chegar a zero |
 
 A condição de sobrevivência vale para todas as raridades: com 50 de Vida e recebendo 100 de dano, Sark morre sem revidar; com 100 de Vida e recebendo 50, fica com 50 e então reage. Dano exatamente igual à Vida também impede a reação. Se sobrarem somente 5 de Vida, ele ainda pode revidar.
@@ -111,11 +112,44 @@ O dano periódico não testa defesa nem dispara Steel Jaw: é o efeito do machad
 
 O menu **Testar Elétrica e John** oferece duas formações prontas. São testes separados, sem alterar a seleção inicial de Comuns, os atributos do catálogo ou as regras das partidas normais.
 
+## Pré-batalha e os seis personagens da v0.20.0
+
+Antes de liberar a hierarquia, as habilidades de entrada pendentes são resolvidas uma por vez. Isso vale no início e quando um personagem entra por medalha ou recuperação. Escolher um alvo ou rolar o susto não consome ação, mana nem fôlego e não compra cartas. O bot usa a mesma etapa. Se uma escolha anterior deixar o próximo personagem sem alvo acessível, sua habilidade aguarda até existir um alvo, sem travar a partida.
+
+| Personagem | Classe / raridade | Vida / ataque básico | Velocidade / fôlego |
+| --- | --- | --- | --- |
+| Penxy | Assassino / Lendário | 875 / 360 | 7 / 20 |
+| Cavaleiro | Fighter / Comum | 180 / 75 | 3 / 30 |
+| Zikssy | Assassino / Épico | 425 / 120 | 7 / 20 |
+| Elysh | Suporte / Épico | 480 / 60 | 4 / 30 |
+| DD-X | Fighter / Raro | 285 / 90 | 4 / 10 |
+| Vaglar | Fighter / Mítico | 580 / sem ataque básico | 4 / 30 |
+
+Vida e ataque foram recalculados pelas faixas e perfis atuais; velocidade, fôlego e ícones de classe seguem as cartas recebidas. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
+
+**Penxy — Ghost Claw:** escolhe um adversário da frente ou retaguarda na entrada e leva os dois para um duelo. Só eles podem se atacar, seguindo suas posições na hierarquia de velocidade. Os demais continuam lutando normalmente, sem atingir o par; área e habilidades direcionadas respeitam a dimensão. Um Suporte puxado de trás pode atacar Penxy sem ocupar uma quarta vaga na frente. Os dois continuam contando como defensores da equipe, protegendo a Daly Mãe. Não podem trocar de linha durante o duelo. Um vínculo de machado com alguém de fora é encerrado ao mudar de dimensão.
+
+Quando um dos dois é eliminado, o sobrevivente retorna ao campo, conservando sua Vida e sua vaga. Se Penxy sobreviver, pode escolher outro adversário na próxima vez dele, antes de atacar, sem ganhar ação extra. Aliados de fora sem alvo acessível podem passar a vez; isso continua a hierarquia sem atingir o duelo. Cartas de Apoio continuam seguindo suas regras de uso; a restrição dimensional trata dos personagens e dos ataques.
+
+**Cavaleiro — Armadura:** bloqueia permanentemente 80% de todo dano numérico, incluindo ataques simples, área, dano periódico e dano do livro. Os 20% restantes são arredondados para cima em múltiplos de 5: 75 vira 15; 130 vira 30; o machado de 20 vira 5. A previsão e o registro mostram o valor efetivo. Execução instantânea não é dano numérico e continua sendo eliminação direta.
+
+**Zikssy — Claws:** ao entrar, rola um d6 para cada adversário vivo, incluindo a retaguarda. 1 ou 2 assusta; 3 a 6 resiste. Cada assustado dá +20 ao ataque básico dela. Se todos os adversários presentes forem assustados, também recebe +1 de velocidade. Sem adversários não ganha velocidade. Os bônus não somem quando os alvos morrem e não são rolados de novo ao mover a carta ou reiniciar a hierarquia; duram até sua eliminação. O susto não inventa impedimento de ação nos oponentes. Um aumento de velocidade durante recuperação não permite voltar a uma faixa já passada.
+
+**Elysh — Lazer Gun:** na sua ação escolhe atacar ou curar outro aliado ferido com o valor atual do ataque básico. Pode curar a retaguarda, respeitando a dimensão e a Vida máxima. A cura gasta a ação, não é dano e não testa armadura, Parry, Esquiva ou Steel Jaw. Não cura mortos, a Daly Mãe ou a si própria. O bônus de Apoio para o próximo ataque não é gasto ao curar.
+
+**DD-X — Fish:** ataque básico usa dois braços. O jogador pode ativar quatro braços uma única vez por vida para dobrar o total do ataque. A ativação é gasta numa ação válida, mesmo se for defendida ou esquivada; tentativa inválida não a gasta. Reset, cura e movimentação não restauram esse uso. Ataque à Daly Mãe continua tirando uma vida e não gasta o poder.
+
+**Vaglar — Charm:** marca um personagem adversário da frente ou retaguarda na entrada. Na velocidade dele, o livro elimina instantaneamente Comum, Raro ou Épico. Contra Mítico, Lendário ou Secreto causa 200, reduzidos por armadura quando houver. É uma habilidade de livro, sem teste de Parry/Esquiva e sem reação de ataque de Sark. Se o marcado sobreviver, seu nome permanece para a próxima vez. Se morrer, Vaglar pode marcar outro imediatamente, sem executar duas vezes na mesma ação. Se outro personagem eliminar o marcado, a substituição é feita antes da próxima ação de Vaglar. O livro não alcança outra dimensão.
+
+Vaglar não ataca a Daly Mãe. Se só restarem personagens sem ação utilizável, como um Vaglar sem personagens adversários para marcar, o jogo usa o ciclo de compra e o empate sem recursos já existentes. A IA retira o machado de John quando as curas anulam continuamente o progresso, evitando uma repetição infinita de manter/curar.
+
+O menu **Testar novos personagens** oferece uma formação para cada um dos seis, sem alterar seus atributos no catálogo. Os 22 personagens restantes do pacote aguardam explicação em [PERSONAGENS_PENDENTES.md](PERSONAGENS_PENDENTES.md).
+
 ## Ritmo e leitura das ações
 
 O bot espera 1,8 segundo antes de agir. Após cada ação, há 2,2 segundos para conferir atacante, alvo, dano, Vida antes/depois e a barra de Vida. Com vários impactos, incluindo Steel Jaw, área ou dano periódico, esse intervalo é de 4,4 segundos para ler os efeitos, apresentados juntos no registro e nas cartas. Uma carta eliminada permanece visível durante esse feedback e depois sai da equipe. Imobilização e vulnerabilidade aparecem junto das cartas e no painel da vez. O botão **Pausar** permite interromper o andamento; escolhas do jogador não têm limite de tempo.
 
-A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, seis montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
+A arena coloca as equipes no centro, com os Suportes nos flancos da Daly Mãe; montes de raridade, registro e leque à esquerda; e vez atual, próximo personagem, monte principal e atributos à direita. Mantém vagas, ordem de velocidade, sete montes com contagens e a área separada de eliminados. Resgates, curas, movimentações e compras são registrados. Parâmetros de ritmo ficam em `G.CONFIG.pacing`.
 
 ## Atributos e regras preservadas
 
@@ -130,14 +164,15 @@ A Daly Mãe mantém suas três vidas e perde uma por ataque; esse contador não 
 | Comum | 130–220 | 25–120 |
 | Raro | 200–350 | 30–150 |
 | Épico | 320–530 | 50–220 |
-| Lendário | 430–700 | 90–430 |
-| Secreto | 550–1200 | 150–670 |
+| Mítico | 430–700 | 90–430 |
+| Lendário | 550–1200 | 150–670 |
+| Secreto | 605–1320 | 165–740 |
 
-O perfil da classe posiciona os atributos nessas faixas. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
+A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Os valores já confirmados individualmente de Elétrica, John e Sark foram preservados; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
 Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam ainda aguarda sua base própria e mantém a apresentação provisória. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 
-Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto Steel Jaw, 3000W e Sharp Guitar, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
+Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto as nove habilidades principais já implementadas, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
 
 ## Apresentação da v0.17.0
 

@@ -1,6 +1,6 @@
 const assert = require('assert');
 [
-  'data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai'
+  'data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai'
 ].forEach(f => require('../js/' + f + '.js'));
 const G = globalThis.GOGHOS;
 let passed = 0;
@@ -12,8 +12,8 @@ test('vida e dano de todos os personagens respeitam as faixas da raridade', () =
   for (const c of G.CHARACTERS) {
     const hp = G.RARITY_HP[c.rarity];
     const dmg = G.RARITY_DAMAGE[c.rarity];
-    assert(c.maxHp >= hp.min && c.maxHp <= hp.max, `${c.id} Vida ${c.maxHp} fora de ${c.rarity}`);
-    if(c.passiveOnly){assert.strictEqual(c.damage,0);assert.strictEqual(c.speed,null);}
+    assert(Number.isFinite(c.knownHp)?c.maxHp===c.knownHp:c.maxHp >= hp.min && c.maxHp <= hp.max, `${c.id} Vida ${c.maxHp} fora de ${c.rarity}`);
+    if(c.passiveOnly||c.abilityOnly){assert.strictEqual(c.damage,0);if(c.passiveOnly)assert.strictEqual(c.speed,null);}
     else assert(c.damage >= dmg.min && c.damage <= dmg.max, `${c.id} Dano ${c.damage} fora de ${c.rarity}`);
   }
 });

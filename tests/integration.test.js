@@ -1,6 +1,6 @@
 // Fluxo completo com as regras atuais: seleção, partida, compras e vitória.
 const assert = require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/deck','core/support','core/roster','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
 const G = globalThis.GOGHOS;
 const seeded = seed => () => {seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
 let passed = 0;
@@ -51,14 +51,16 @@ test('100 partidas de IA terminam em vitória ou empate válido, sem perder cart
       if(s.recovery){assert(G.AI.resolveRecovery(s).ok);continue;}
       if(s.formation){assert(G.AI.resolveFormation(s).ok);continue;}
       if(s.support.pending){assert(G.resolveBrisa(s,null).ok);continue;}
+      if(s.abilityChoices.length){assert(G.AI.resolveCharacterAbility(s).ok);continue;}
       let actor=G.getNextActor(s);
       if(s.result)break;
       if(s.deck.pendingChoice)continue;
-      if(s.recovery)continue;
+      if(s.recovery||s.abilityChoices.length)continue;
       if(!actor&&G.isIdleBattle(s)){
         G.AI.redeemMedals(s,'player');G.AI.redeemMedals(s,'enemy');actor=G.getNextActor(s);
         if(s.result)break;
-        if(!actor){assert(G.advanceIdleCycle(s).ok,`partida ${i}: ciclo sem atacante precisa permitir compra`);continue;}
+        if(s.abilityChoices.length||s.deck.pendingChoice||s.recovery||s.formation||s.support.pending)continue;
+        if(!actor){const advance=G.advanceIdleCycle(s);assert(advance.ok,`partida ${i}: ${advance.error}; fase ${s.phase}; escolhas ${s.abilityChoices.length}; mão pendente ${!!s.deck.pendingChoice}`);continue;}
       }
       assert(actor,`sem ator na partida ${i}`);
       const result=G.AI.takeTurn(s,actor);

@@ -18,7 +18,7 @@ G.CLASS_LABEL={ASSASSIN:'Assassino',SUPPORT:'Suporte',FIGHTER:'Lutador',TANK:'Ta
 G.CLASS_SIGIL={ASSASSIN:'✧',SUPPORT:'✚',FIGHTER:'✦',TANK:'⬟',DESTROYER:'✹',MAGO:'ϟ'};
 G.actorPortraitHTML=(u,cls='')=>{
   const base=u&&(G.getCharacterById(u.id)||u);
-  if(base?.portraitBanner&&!cls.includes('stats-portrait'))return `<span class="actor-portrait illustrated banner ${cls}">${artHTML(base.portraitBanner)}</span>`;
+  if(base?.portraitBanner&&(!cls.includes('stats-portrait')||!base.artLayout))return `<span class="actor-portrait illustrated banner ${cls}">${artHTML(base.portraitBanner)}</span>`;
   if(!base?.art||!base.artLayout)return `<span class="actor-portrait unillustrated ${cls}">${G.arenaArtHTML('unknown')}${base?`<i>${G.CLASS_SIGIL[base.class]||'✦'}</i>`:''}</span>`;
   const banner=base.id==='sam'&&!cls.includes('stats-portrait');
   const bounds=banner?[0,127,1945,1484]:base.artLayout.focus;
@@ -30,10 +30,10 @@ G.mainPileHTML=s=>`<section class="main-deck"><div class="main-deck-copy"><h3>Mo
 G.pilesHTML=s=>G.characterPilesHTML(s)+G.mainPileHTML(s);
 // A prévia lê a fila existente; jamais chama getNextActor, que pode disparar uma compra.
 G.turnPreview=(s,actor,busy=false)=>{
-  const waiting=!!(s.recovery||s.formation||s.deck.pendingChoice||s.support.pending);
+  const waiting=!!(s.recovery||s.formation||s.deck.pendingChoice||s.support.pending||s.abilityChoices?.length);
   const current=actor||(busy&&s.lastEvent?G.getUnit(s,s.lastEvent.actorUid):null);
   const upcoming=waiting||s.result?null:s.order.map(uid=>G.getUnit(s,uid)).find(u=>u&&G.canAct(u)&&!s.acted[u.uid]&&u.uid!==current?.uid)||null;
-  const decisionSide=s.recovery?.side||s.formation?.side||s.deck.pendingChoice?.side||(s.support.pending?'player':null);
+  const decisionSide=s.recovery?.side||s.formation?.side||s.deck.pendingChoice?.side||(s.support.pending?'player':null)||s.abilityChoices?.[0]?.side;
   return{current,upcoming,waiting,decisionSide};
 };
 G.turnPanelHTML=(s,actor,busy=false)=>{
@@ -47,7 +47,14 @@ G.actorInfoHTML=(s,actor,busy=false)=>{
   if(!current)return `<section class="actor-info idle"><h3>Quem vai atacar</h3>${G.actorPortraitHTML(null)}<p>As informações aparecem quando a batalha retomar.</p></section>`;
   const u=current,base=G.getCharacterById(u.id);
   const ability=G.getMainAbility(u);
-  const status=u.pinnedBy?'Imobilizado · não pode agir':u.pinning?'Mantendo machado · vulnerável, sem Parry':u.parryThreshold?'Parry · defende com 1–'+u.parryThreshold+' no d6':'';
-  return `<section class="actor-info"><h3>${u.passiveOnly?'Habilidade reativa':u.pinnedBy?'Vez imobilizada':u.pinning?'Decisão do machado':'Quem vai atacar'}</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.RARITY_LABEL[u.rarity]}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.passiveOnly?'—':u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed??'—'}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${status?`<p class="actor-status">${status}</p>`:''}${u.class==='MAGO'?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>${ability?safe(ability.description):'Habilidade em desenvolvimento'}</small></p>`:''}</section>`;
+  const status=u.pinnedBy?'Imobilizado · não pode agir':u.pinning?'Mantendo machado · vulnerável, sem Parry':u.duelId?'Duelo dimensional · só pode atingir seu oponente':u.bookTarget?'Livro marcado: '+G.getUnit(s,u.bookTarget)?.name:u.armorReduction?'Armadura · bloqueia 80% do dano':G.getMainAbility(u)?.trigger==='doubleAttack'?'Quatro braços · '+(u.doubleUsed?'já utilizado':'disponível'):u.frightResolved?'Susto · +'+u.frightBonus+' ataque / +'+u.frightSpeedBonus+' velocidade':u.parryThreshold?'Parry · defende com 1–'+u.parryThreshold+' no d6':'';
+  return `<section class="actor-info"><h3>${u.passiveOnly?'Habilidade reativa':u.pinnedBy?'Vez imobilizada':u.pinning?'Decisão do machado':'Quem vai atacar'}</h3><div class="actor-identity">${G.actorPortraitHTML(u,'stats-portrait')}<div><strong>${safe(u.name)}</strong><small>${G.CLASS_LABEL[u.class]} · ${G.RARITY_LABEL[u.rarity]}</small></div></div><div class="actor-stats"><div><img src="assets/arena/heart.png" alt=""><b>${u.hp}<small>/${u.maxHp}</small></b><span>Vida</span></div><div><img src="assets/arena/attack.png" alt=""><b>${u.passiveOnly||u.abilityOnly?'—':u.damage}</b><span>Ataque</span></div><div><i aria-hidden="true">»</i><b>${u.speed??'—'}</b><span>Velocidade</span></div><div><i aria-hidden="true">✦</i><b>${u.stamina}</b><span>Fôlego</span></div></div>${status?`<p class="actor-status">${status}</p>`:''}${u.class==='MAGO'?`<p class="actor-mana">Mana <b>${u.mana}/${u.maxMana}</b></p>`:''}${base.mainAbility?`<p class="actor-ability">${safe(base.mainAbility)} <small>${ability?safe(ability.description):'Habilidade em desenvolvimento'}</small></p>`:''}</section>`;
+};
+G.characterAbilityChoiceHTML=(s,selectedUid)=>{
+  const p=G.pendingCharacterAbility(s);if(!p||p.side!=='player')return '';
+  const u=G.getUnit(s,p.actorUid),title=p.type==='dimension'?'Duelo dimensional':p.type==='deathBook'?'Marcar nome no livro':'Susto de entrada';
+  const description=p.type==='dimension'?'Escolha um adversário da frente ou retaguarda. Só ele e Penxy poderão se atacar até um deles morrer.':p.type==='deathBook'?'Escolha um adversário para marcar. O livro será usado apenas na vez de Vaglar.':'Um d6 por adversário. Resultados 1 e 2 assustam: +20 de ataque por alvo; todos assustados também dão +1 de velocidade.';
+  const targets=p.type==='fright'?'':`<div class="entry-targets">${G.abilityTargets(s,u,p.type).map(t=>`<button data-ability-target="${t.uid}" aria-pressed="${selectedUid===t.uid}" class="${selectedUid===t.uid?'selected':''}">${G.cardHTML(t)}<strong>${safe(t.name)}</strong><small>${G.RARITY_LABEL[t.rarity]} · ${t.row==='rear'?'Retaguarda':'Frente'}</small></button>`).join('')}</div>`;
+  return `<div class="choice-overlay"><section class="choice-dialog entry-choice" role="dialog" aria-modal="true" aria-labelledby="entry-title"><small>${p.reason==='entry'?'Pré-batalha · habilidade de entrada':'Escolha de habilidade'}</small><h3 id="entry-title">${safe(u.name)} · ${title}</h3><p>${description}</p>${targets}<button data-act="resolve-entry"${p.type!=='fright'&&!G.abilityTargets(s,u,p.type).some(t=>t.uid===selectedUid)?' disabled':''}>${p.type==='fright'?'Rolar os dados do susto':'Confirmar escolha'}</button></section></div>`;
 };
 })(globalThis.GOGHOS);
