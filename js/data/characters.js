@@ -1,8 +1,6 @@
-// Dez personagens têm cartas ilustradas; Personagem 02…12 são provisórios.
+// Catálogo oficial: 30 personagens. Petra fica reservada para uma atualização futura.
 // Atributos seguem as faixas atuais; os valores oficiais já confirmados são preservados.
 // Campos null = ainda sem dado: não são desenhados. Edite somente este arquivo.
-// RARIDADES PROVISÓRIAS: char_02…char_08 (Comum) e char_09 (Épico) NÃO são oficiais — foram atribuídas só para o jogo ser jogável (a seleção inicial exige Comuns).
-// Troque pelas raridades reais. Opcional por personagem: copies (nº de cópias no monte, padrão 1).
 (function(G){
 // Vida, dano e cura sobem até o próximo múltiplo de 5; zero continua zero.
 G.roundUpToFive=value=>Math.max(0,Math.ceil(value/5)*5);
@@ -38,11 +36,34 @@ G.MAIN_ABILITIES={
  four_arms:{name:'Fish',trigger:'doubleAttack',description:'Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar o dano do ataque.'},
  death_book:{name:'Charm',trigger:'deathBook',damage:200,description:'Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado abaixo de Mítico; contra Mítico, Lendário ou Secreto, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.'}
 };
+Object.assign(G.MAIN_ABILITIES,{
+ "missile":{"name":"Míssil","description":"Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha.","trigger":"missile"},
+ "paralyzingKick":{"name":"Paralisia","description":"Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem.","trigger":"paralyzingKick"},
+ "deathShark":{"name":"Tubarão","description":"Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior.","trigger":"deathShark"},
+ "speedWard":{"name":"Proteção de velocidade","description":"Adversários mais rápidos que Striker não podem atacá-lo.","trigger":"speedWard"},
+ "duelist":{"name":"Duelo","description":"Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até Mítico, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.","trigger":"duelist"},
+ "hypnosis":{"name":"Hipnose","description":"Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.","trigger":"hypnosis"},
+ "souls":{"name":"Almas","description":"Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.","trigger":"souls"},
+ "punchCombo":{"name":"Combo de socos","description":"Até seis socos individuais de 70 no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.","trigger":"punchCombo"},
+ "flames":{"name":"Fogo persistente","description":"Ataca por 65 e queima o alvo por mais 65 nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.","trigger":"flames"},
+ "fullHeal":{"name":"Cura total","description":"Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima.","trigger":"fullHeal"},
+ "hunt":{"name":"Caça","description":"Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente.","trigger":"hunt"},
+ "oni":{"name":"Estado Oni","description":"Ao zerar a Vida, fica imortal por três ações de qualquer personagem, com +30 de dano. Depois é eliminado.","trigger":"oni"},
+ "assassinWard":{"name":"Proteção contra Assassinos","description":"Nenhum adversário da classe Assassino pode atacar Mike.","trigger":"assassinWard"},
+ "starGift":{"name":"Estrela","description":"Na entrada, fortalece um aliado ou a si mesma: +150 de Vida máxima e atual, +50 de dano e +2 de velocidade. Uso único em um personagem; dura enquanto o beneficiado viver.","trigger":"starGift"},
+ "diceExecution":{"name":"Decapitação","description":"Rola d6 ao atacar. 1–5 multiplica o dano básico de 55. 6 elimina raridade igual ou inferior; contra superior, causa 330.","trigger":"diceExecution"},
+ "sleepPowder":{"name":"Pó mágico","description":"Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez.","trigger":"sleepPowder"},
+ "petrify":{"name":"Petrificação","description":"Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez.","trigger":"petrify"},
+ "guardian":{"name":"Sacrifício","description":"Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente.","trigger":"guardian"},
+ "swarm":{"name":"Swarm","description":"Escolhe 220 em um adversário ou 220 divididos igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5.","trigger":"swarm"},
+ "friendship":{"name":"Melhor amigo","description":"Na entrada escolhe um amigo. Revida com seu dano contra quem o atacar, mesmo se o amigo esquivar, defender ou morrer. O revide permite defesa e esquiva.","trigger":"friendship"},
+ "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
+});
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.20.0 (protótipo)',
+G.CONFIG={version:'0.21.0',
   handLimit:5,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
-  selection:{min:4},   // Todos os Comuns disponíveis; jogador → bot → jogador → bot.
+  selection:{min:2,rareAuto:true},   // Um Comum escolhido e um Raro sorteado automaticamente por equipe.
   pacing:{botThink:1800,feedback:2200}, // tempo para ler a ação e conferir o dano antes da próxima jogada
   dalyMaeLives:3,                // vidas de cada Daly Mãe
   // Recuperação quando a Daly Mãe perde uma vida e ainda tem vida: o participante escolhe UMA opção (sem misturar).
@@ -51,13 +72,6 @@ const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,
   description:'Provisório.',rarity:null,stamina:10,mainAbility:null,tribute:null,...x});
 const received=(id,name,cls,rarity,speed,stamina,abilityId)=>C(id,name,cls,0,0,speed,{rarity,stamina,abilityId,mainAbility:G.MAIN_ABILITIES[abilityId].name,illustrated:true,art:'assets/references/characters/'+id+'.png',portraitBanner:{src:'assets/cards/card_base_'+id+'.png',size:[1536,2048],bounds:[620,370,1220,1000]},cardBase:{src:'assets/cards/card_base_'+id+'.png',cleanup:{src:'assets/cards/number_cleanup_'+id+'.png',regions:[[690,95,855,255],[350,835,475,950],...(id==='vaglar'?[]:[[445,1170,685,1315]]),[505,1325,915,1585],...(id==='ddx'?[[630,1265,715,1320],[1060,1275,1155,1390]]:[])]},fields:{speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,835,475,950],s:80,a:'c'},...(id==='vaglar'?{}:{damage:{b:[460,1160,680,1310],s:145,a:'l'}}),hp:{b:[525,1340,890,1535],s:230,a:'l'}}},description:G.MAIN_ABILITIES[abilityId].description});
 G.CHARACTERS=[
- C('sam','Sam','FIGHTER',1070,70,3,{rarity:'LEGENDARY',stamina:10,mainAbility:'Pounch',tribute:'Parry',illustrated:true,artLayout:{size:[2048,2048],focus:[1000,480,1840,1400],target:[420,330,1230,1100]},description:'Retrato composto com o banner ilustrado recebido; os atributos seguem as faixas atuais.'}),
- C('char_02','Personagem 02','ASSASSIN',800,90,5,{rarity:'COMMON',tribute:'Esquivar'}),C('char_03','Personagem 03','TANK',1500,40,1,{rarity:'COMMON'}),
- C('char_04','Personagem 04','DESTROYER',900,110,2,{rarity:'COMMON'}),C('char_05','Personagem 05','SUPPORT',850,50,5,{rarity:'COMMON'}),
- C('char_06','Personagem 06','FIGHTER',1000,65,3,{rarity:'COMMON'}),C('char_07','Personagem 07','SUPPORT',900,45,4,{rarity:'COMMON'}),
- C('char_08','Personagem 08','TANK',1400,45,1,{rarity:'COMMON'}),C('char_09','Personagem 09','SUPPORT',800,55,2,{rarity:'EPIC'}),
- C('char_10','Personagem 10','MAGO',700,85,6,{rarity:'RARE',tribute:'Mana'}),C('char_11','Personagem 11','MAGO',650,80,3,{rarity:'LEGENDARY',tribute:'Mana'}),
- C('char_12','Personagem 12','ASSASSIN',750,95,4,{rarity:'LEGENDARY',tribute:'Esquivar'}),
  // A arte de Eletric informa 220 de Vida e 130 de Dano; ambos cabem na faixa Rara.
  C('eletric','Elétrica','MAGO',220,130,3,{rarity:'RARE',stamina:4,mainAbility:'3000W',abilityId:'electric_area',knownHp:220,knownDamage:130,illustrated:true,cardBase:{src:'assets/cards/card_base_eletric.png',fields:{hp:{b:[465,1320,885,1530],s:250,a:'l'},damage:{b:[440,1170,640,1310],s:145,a:'l'},speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,656,490,746],s:70,a:'c'},mana:{b:[352,828,492,968],s:110,a:'c'}}},portraitBanner:{src:'assets/characters/eletric_banner.png',size:[2048,2048],bounds:[21,159,1918,1458]},abilityArt:'assets/abilities/eletric.png',artLayout:{size:[2048,2048],focus:[500,715,1550,1778],target:[440,360,1220,1080]},description:G.MAIN_ABILITIES.electric_area.description}),
  C('john','John','FIGHTER',270,80,2,{rarity:'RARE',stamina:3,mainAbility:'Sharp Guitar',abilityId:'sharp_guitar',parryThreshold:2,tribute:'Parry',knownHp:270,knownDamage:80,illustrated:true,art:'assets/characters/john_banner.png',cardBase:{src:'assets/cards/card_base_john.png',labels:{name:'JOHN'},fields:{hp:{b:[465,1320,885,1530],s:250,a:'l'},damage:{b:[480,1170,645,1310],s:150,a:'l'},speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,656,490,746],s:70,a:'c'},parry:{b:[350,865,490,960],s:100,a:'c'}}},portraitBanner:{src:'assets/characters/john_banner.png',size:[2048,2048],bounds:[0,127,1945,1484]},abilityArt:'assets/abilities/john.png',artLayout:{size:[2048,2048],focus:[930,350,1840,1240],target:[440,300,1250,1165]},description:G.MAIN_ABILITIES.sharp_guitar.description}),
@@ -68,8 +82,38 @@ G.CHARACTERS=[
  received('zikssy','Zikssy','ASSASSIN','EPIC',7,20,'fright'),
  received('elysh','Elysh','SUPPORT','EPIC',4,30,'healing_shot'),
  received('ddx','DD-X','FIGHTER','RARE',4,10,'four_arms'),
+
+ {...received("p_ullys","P. Ullys","DESTROYER","LEGENDARY",4,20,"missile"),official:true},
+ {...received("stally","Stally","FIGHTER","MYTHIC",4,10,"paralyzingKick"),official:true},
+ {...received("endrik","Endrik","DESTROYER","LEGENDARY",4,20,"deathShark"),official:true},
+ {...received("striker","Striker","DESTROYER","MYTHIC",4,10,"speedWard"),official:true},
+ {...received("sheriff","Xerife","ASSASSIN","MYTHIC",6,30,"duelist"),official:true,knownDamage:0},
+ {...received("barn","Burn","FIGHTER","LEGENDARY",4,20,"hypnosis"),official:true},
+ {...received("fonior","Fonior","SUPPORT","EPIC",3,25,"souls"),official:true},
+ {...received("sam","Sam","FIGHTER","LEGENDARY",3,5,"punchCombo"),official:true,knownDamage:70},
+ {...received("chama","Chama","DESTROYER","MYTHIC",4,10,"flames"),official:true,knownDamage:65},
+ {...received("zuri","Zuri","SUPPORT","SECRET",3,30,"fullHeal"),official:true},
+ {...received("draktar","Draktar","ASSASSIN","SECRET",6,20,"hunt"),official:true},
+ {...received("daztirry","Daztirry","FIGHTER","SECRET",4,35,"oni"),official:true},
+ {...received("mike","Mike","DESTROYER","COMMON",3,20,"assassinWard"),official:true,copies:1},
+ {...received("unicorn","Unicorn","SUPPORT","RARE",3,20,"starGift"),official:true},
+ {...received("nully","Nully","ASSASSIN","MYTHIC",7,30,"diceExecution"),official:true,knownDamage:55},
+ {...received("rayyb","Rayyb","SUPPORT","LEGENDARY",4,20,"sleepPowder"),official:true},
+ {...received("rayvilin","Rayvilin","SUPPORT","LEGENDARY",5,20,"petrify"),official:true},
+ {...received("z_zus","Z-Zus","SUPPORT","LEGENDARY",1,10,"guardian"),official:true},
+ {...received("alex","Alex","FIGHTER","COMMON",5,20,"swarm"),official:true,knownDamage:220,copies:1},
+ {...received("karma","Karma","ASSASSIN","LEGENDARY",6,10,"friendship"),official:true},
+ {...received("trucc","Trucc","ASSASSIN","EPIC",8,20,"fadingDodge"),official:true},
  {...received('vaglar','Vaglar','FIGHTER','MYTHIC',4,30,'death_book'),abilityOnly:true,knownDamage:0}
-].map(Object.freeze);
+].map(c=>{
+ if(!c.official)return Object.freeze({...c,official:true,copies:c.copies||1});
+ const cleanup=c.cardBase.cleanup;cleanup.src='assets/cards/number_cleanup_cavaleiro.png';
+ cleanup.regions=cleanup.regions.filter(b=>b[1]!==835).map(b=>b[1]===1325?[450,1325,920,1585]:b[1]===1170?[440,1170,685,1350]:b);delete c.cardBase.fields.stamina;
+ // Os números da Vida e ataque são atualizados sobre a base recebida. Os demais símbolos ficam intactos.
+ if(c.id==='sheriff'){delete c.cardBase.fields.damage;cleanup.regions=cleanup.regions.filter(b=>b[1]!==1170);}
+ if(['draktar','alex'].includes(c.id))cleanup.regions.push([630,1265,745,1350]);
+ c.cardBase.outline=true;return Object.freeze(c);
+});
 G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id)||null;
 G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
   ...(Number.isFinite(c.knownHp)?{maxHp:G.roundUpToFive(c.knownHp)}:{}),

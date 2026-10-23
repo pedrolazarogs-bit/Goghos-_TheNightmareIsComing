@@ -101,7 +101,7 @@ G.performWait=(s,uid)=>{
 };
 G.performHealingAttack=(s,uid,targetUid)=>{
   const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,t=G.getUnit(s,targetUid);
-  if(G.getMainAbility(a)?.trigger!=='healingAttack'||a.pinnedBy||a.pinning)return fail('Cura por ataque indisponível.');
+  if(G.getMainAbility(a)?.trigger!=='healingAttack'||a.pinnedBy||a.pinning||G.isActionLocked?.(a))return fail('Cura por ataque indisponível.');
   if(!G.healingTargets(s,a).includes(t))return fail('Escolha outro aliado ferido na mesma dimensão.');
   const beforeHp=t.hp;t.hp=Math.min(t.maxHp,G.roundUpToFive(t.hp+a.damage));
   const healed=t.hp-beforeHp;

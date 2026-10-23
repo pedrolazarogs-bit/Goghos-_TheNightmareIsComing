@@ -43,16 +43,16 @@ const portraitStyle=base=>{
   return box([x,y,x+size[0]*scale,y+size[1]*scale]);
 };
 G.cardHTML=function(u,cls='',caption=''){
-  const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&u.hp<=0,hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
+  const base=G.getCharacterById(u.id)||u,dead=u.hp!==undefined&&(G.isCharacterDefeated?G.isCharacterDefeated(u):u.hp<=0),hp=u.hp!==undefined?u.hp:u.maxHp,st=u.stamina!==undefined?u.stamina:base.stamina;
   const clip=L.window.map(p=>X(p[0])+' '+Y(p[1])).join(','),fr=`left:${X(0)};top:${Y(0)};width:${(F.imgW/F.w*100).toFixed(2)}%`;
   if(base.cardBase){
     const values={hp,stamina:st,speed:u.speed,damage:u.damage,mana:u.mana??G.manaFor(base),parry:u.parryThreshold??base.parryThreshold};
-    const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>`<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(o.s)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${key==='damage'&&base.abilityOnly?'—':values[key]}</div>`).join('');
+    const numbers=Object.entries(base.cardBase.fields).map(([key,o])=>{const text=String(values[key]);const fitted=Math.min(o.s,(o.b[2]-o.b[0])/(Math.max(1,text.length)*.58));return `<div class="t card-number" data-value="${key}" style="${box(o.b)};${fs(fitted)};justify-content:${o.a==='c'?'center':'flex-start'};color:${o.c||'#000'}">${key==='damage'&&base.abilityOnly?'—':values[key]}</div>`;}).join('');
     const labels=Object.entries(base.cardBase.labels||{}).map(([key,label])=>t(key,label)).join('');
     // Somente os antigos campos numéricos usam a limpeza; retrato, nome, moldura e ícones vêm do PNG original.
     const cleanup=base.cardBase.cleanup,patches=cleanup?cleanup.regions.map(b=>`<span class="numeric-cleanup" style="${box(b)}"><img src="${cleanup.src}" alt="" style="left:${-b[0]/(b[2]-b[0])*100}%;top:${-b[1]/(b[3]-b[1])*100}%;width:${1536/(b[2]-b[0])*100}%;height:${2048/(b[3]-b[1])*100}%"></span>`).join(''):'';
     const layout=base.cardBase.layout,b=layout?.bounds,frameStyle=b?`left:${-b[0]/(b[2]-b[0])*100}%;top:${-b[1]/(b[3]-b[1])*100}%;width:${layout.size[0]/(b[2]-b[0])*100}%;height:${layout.size[1]/(b[3]-b[1])*100}%`:fr;
-    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${frameStyle}">${patches}${numbers}${labels}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
+    return `<div class="slot"><div class="card supplied-base ${cls}${dead?' dead':''}" data-id="${u.uid||u.id}"><img class="frame" decoding="sync" src="${base.cardBase.src}" alt="${base.name}" style="${frameStyle}${base.cardBase.outline?';clip-path:polygon(50% 1%,66% 12%,79% 10%,83% 17%,89% 22%,83% 30%,83% 64%,88% 70%,83% 75%,89% 85%,77% 85%,74% 92%,65% 91%,50% 100%,35% 91%,26% 92%,23% 85%,11% 85%,17% 75%,12% 70%,17% 64%,17% 30%,11% 22%,17% 17%,21% 10%,34% 12%)':''}">${patches}${numbers}${labels}${dead?'<em>DERROTADO</em>':''}</div>${caption?`<small>${caption}</small>`:''}</div>`;
   }
   const bg=G.RARITY_BG[base.rarity]||G.RARITY_BG.NONE,m='var('+((G.CLASS_FRAME[u.class]||{}).mask||'--holes')+')'; // máscara embutida em js/ui/holes-data.js
   const cf=G.CLASS_FRAME[u.class],frameSrc=cf?cf.src:L.frame,mana=u.mana!==undefined?u.mana:G.manaFor(base),ability=G.getMainAbility(base);

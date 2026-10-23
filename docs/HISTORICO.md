@@ -93,3 +93,11 @@ Entram Penxy, Cavaleiro, Zikssy, Elysh, DD-X e Vaglar, conforme o pedido de impl
 A Mítica retorna entre Épica e Lendária. Somente as faixas de Vida/Dano são transferidas: antiga Lendária → Mítica e antiga Secreta → Lendária. Secreta fica aproximadamente 10% acima. A medalha Vermelha e o monte Mítico são adicionados, preservando os identificadores das medalhas antigas. O monte principal passa a 26 cartas. Os valores já confirmados de Elétrica, John e Sark continuam preservados.
 
 As seis cartas usam os PNGs originais com limpeza apenas dos campos numéricos e números dinâmicos. O menu recebe seis formações de teste; os 22 personagens restantes ficam documentados como pendentes. A IA retira o machado quando as curas anulam o progresso, evitando repetição infinita. As regras de recuperação, arredondamento e eliminação permanente continuam em vigor.
+
+## v0.21.0 — elenco oficial e habilidades completas
+
+Removidos os personagens provisórios. O catálogo reúne 30 oficiais e deixa Petra fora, por orientação do criador. A seleção muda para um Comum escolhido por equipe e um Raro sorteado automaticamente para cada lado, sem repetição; ambos começam na frente.
+
+Implementadas as 21 habilidades registradas no guia: míssil de P. Ullys, paralisia de Stally, tubarão de Endrik, proteção de Striker, duelo do Sheriff, hipnose de Barn, almas de Fonior, combo de Sam, fogo de Chama, cura de Zuri, caça de Draktar, Oni de Daztirry, proteção de Mike, estrela de Unicorn, dado de Nully, sono de Rayyb, petrificação de Rayvilin, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva de Trucc. A IA usa as mesmas regras; vínculos, mortes, proteções, defesas e danos contínuos compartilham a resolução de eventos.
+
+As 21 cartas completas recebidas foram preservadas byte a byte, com limpeza apenas das regiões numéricas na apresentação. Sam usa a carta completa mais recente. O catálogo e o laboratório permitem busca por nome. Os testes anteriores usam um catálogo congelado exclusivo de regressão, sem reintroduzir personagens provisórios no jogo.

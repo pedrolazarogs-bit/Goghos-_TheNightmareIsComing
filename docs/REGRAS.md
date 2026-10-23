@@ -1,12 +1,12 @@
-# Estrutura base do GOGHOS — v0.20.0
+# Estrutura base do GOGHOS — v0.21.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
 ## Seleção
 
-Ao clicar em **Jogar**, aparecem todos os personagens Comuns cadastrados, as marcações das escolhas e o botão **Voltar ao menu**. A ordem é jogador → bot → jogador → bot, sem repetir personagens. Cada equipe recebe dois. Depois da quarta escolha, aparece **Play · começar batalha**, na mesma tela. Não há mão, cartas de Apoio ou montes na seleção.
+Ao clicar em **Jogar**, aparecem todos os personagens Comuns cadastrados, as marcações das escolhas e o botão **Voltar ao menu**. A ordem é jogador → bot: cada um escolhe um Comum, sem repetir personagens. Depois são sorteados automaticamente dois Raros diferentes, um para cada equipe. Cada equipe recebe dois personagens no total (um Comum e um Raro). Depois do sorteio, aparece **Play · começar batalha**, na mesma tela. Não há mão, cartas de Apoio ou montes na seleção.
 
-Os quatro personagens escolhidos saem de seus montes. As duas equipes começam com os dois na linha de frente e a retaguarda vazia.
+Os dois Comuns escolhidos e os dois Raros sorteados saem de seus montes. As duas equipes começam com os dois na linha de frente e a retaguarda vazia.
 
 ## Equipes e Suportes
 
@@ -43,7 +43,7 @@ O monte principal provisório tem 26 cartas: 6 de Apoio, 4 de Item, 4 de Habilid
 
 Toda compra vai para a mão, inclusive as medalhas. Na vez da equipe, selecione uma medalha e use **Resgatar personagem**. Ela obtém exatamente a carta do topo do monte indicado pela cor, sem sorteio adicional de raridade e sem ataque extra. A medalha vai para o descarte somente quando o personagem entra na equipe. Com o monte vazio ou sem vaga para o topo, permanece na mão. A IA usa as mesmas regras.
 
-O catálogo atual tem 21 personagens: 8 Comuns, 4 Raros, 3 Épicos, 1 Mítico, 5 Lendários e nenhum Secreto. Cavaleiro fica no Comum; DD-X, Elétrica e John no Raro; Zikssy e Elysh no Épico; Vaglar no Mítico; Penxy e Sark no Lendário. A seleção normal continua limitada aos Comuns. O monte Secreto aparece vazio até receber personagens; a medalha preta não cria um personagem inexistente.
+O catálogo tem **30 personagens oficiais**: 3 Comuns, 4 Raros, 4 Épicos, 6 Míticos, 10 Lendários e 3 Secretos. Os únicos Comuns são Cavaleiro, Mike e Alex. Os quatro Raros são DD-X, Elétrica, John e Unicorn. Zuri, Draktar e Daztirry ocupam o monte Secreto. Cada personagem corresponde a uma única carta física; personagens provisórios e Petra não entram nos montes.
 
 ## Mão e cartas de Apoio
 
@@ -143,7 +143,13 @@ Quando um dos dois é eliminado, o sobrevivente retorna ao campo, conservando su
 
 Vaglar não ataca a Daly Mãe. Se só restarem personagens sem ação utilizável, como um Vaglar sem personagens adversários para marcar, o jogo usa o ciclo de compra e o empate sem recursos já existentes. A IA retira o machado de John quando as curas anulam continuamente o progresso, evitando uma repetição infinita de manter/curar.
 
-O menu **Testar novos personagens** oferece uma formação para cada um dos seis, sem alterar seus atributos no catálogo. Os 22 personagens restantes do pacote aguardam explicação em [PERSONAGENS_PENDENTES.md](PERSONAGENS_PENDENTES.md).
+## Elenco completo da v0.21.0
+
+O menu **Testar novos personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome. O [guia dos personagens](PERSONAGENS_PENDENTES.md) registra as 21 habilidades adicionadas nesta versão, suas confirmações e interações. Petra foi adiada e não aparece na seleção, nos montes ou nos testes jogáveis.
+
+Pré-batalha inclui hipnose de Burn, estrela de Unicorn, petrificação de Rayvilin, protegido de Z-Zus e melhor amigo de Karma. Draktar recebe sua caça por sorteio. Na própria vez, aparecem escolhas de ataque, cura total, sono e novas tentativas de petrificar. A IA utiliza essas mesmas operações. Sono, paralisia, petrificação e hipnose impedem ações e reações enquanto estiverem ativos, conforme cada habilidade.
+
+Durações em ações globais começam após a ação de aplicação. Os seis socos possíveis de Sam formam uma única ação, mas cada soco tem sua própria defesa e reação. Z-Zus transfere dano direcionado e execuções, nunca área. Fonior aumenta somente a Vida máxima. Oni mantém Daztirry vivo em zero por três ações e o elimina ao final. A ausência de ação capaz de progredir permite avançar o ciclo; efeitos pendentes impedem empate prematuro.
 
 ## Ritmo e leitura das ações
 
@@ -168,11 +174,11 @@ A Daly Mãe mantém suas três vidas e perde uma por ataque; esse contador não 
 | Lendário | 550–1200 | 150–670 |
 | Secreto | 605–1320 | 165–740 |
 
-A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Os valores já confirmados individualmente de Elétrica, John e Sark foram preservados; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
+A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Os valores já confirmados individualmente de Elétrica, John, Sark, Sam (70 de dano), Chama (65), Nully (55) e Alex (220) foram preservados, mesmo quando diferem das faixas genéricas; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
-Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam ainda aguarda sua base própria e mantém a apresentação provisória. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Os demais nomes e retratos são provisórios. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
+Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam usa a carta completa mais recente recebida, com seus números atualizados. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Todos os nomes e retratos do catálogo atual são oficiais. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 
-Continuam provisórios os efeitos de Item/Habilidade Especial, as habilidades dos personagens exceto as nove habilidades principais já implementadas, alguns atributos e raridades, os ícones de classe ainda não recebidos e a Loja. Não há geração automática de novas artes ou de personagens Secretos.
+Continuam provisórios os efeitos de Item/Habilidade Especial, a Loja e os atributos derivados das faixas enquanto não receberem valores individuais do criador. As 30 habilidades presentes estão implementadas. Não há criação automática de personagens.
 
 ## Apresentação da v0.17.0
 

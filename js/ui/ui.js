@@ -14,9 +14,9 @@ function syncDockHeight(){
   if(arena&&dock){const h=Math.ceil(dock.getBoundingClientRect().height+24)+'px';if(arena.style.getPropertyValue('--hand-height')!==h)arena.style.setProperty('--hand-height',h);}
 }
 function menu(){wipe();ui.mode='menu';show(`<section class="center"><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming"></div><p class="menu-description">Escolha seus personagens, forme sua equipe e proteja a Daly Mãe.</p>${btn('play','Jogar',false,'big')}${btn('ability-test','Testar Elétrica e John',false,'big')}${btn('new-abilities','Testar novos personagens',false,'big')}${btn('sark-test','Testar Sark',false,'big')}${btn('characters','Personagens',false,'big')}${btn('shop','Loja',false,'big')}<p class="ver">Versão ${G.CONFIG.version}</p></section>`);toTop();}
-function characters(){ui.mode='characters';show(`<section class="collection"><h1>Personagens</h1><p>Confira as habilidades já implementadas e as bases recebidas para cada personagem.</p><div class="collection-grid">${G.CHARACTERS.filter(c=>c.illustrated).map(c=>`<article>${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${G.CLASS_LABEL[c.class]}</p><p class="collection-ability">${G.getMainAbility(c)?.description||'Habilidade em desenvolvimento.'}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
+function characters(){ui.mode='characters';show(`<section class="collection"><h1>Personagens</h1><p>Confira as habilidades já implementadas e as bases recebidas para cada personagem.</p><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="collection-grid">${G.CHARACTERS.filter(c=>c.illustrated).map(c=>`<article data-character-name="${c.name.toLowerCase()}">${card(c)}<h2>${c.name}</h2><p>${G.RARITY_LABEL[c.rarity]} · ${G.CLASS_LABEL[c.class]}</p><p class="collection-ability">${G.getMainAbility(c)?.description||'Habilidade em desenvolvimento.'}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
 function abilityTest(ids=['eletric','john']){
-  wipe();ui.mode='ability-test';show(`<section class="ability-tests">${btn('menu','Voltar ao menu')}<h1>Teste de habilidades</h1><div class="ability-tests-grid">${ids.map(id=>{const c=G.getCharacterById(id);return `<article>${card(c)}<h2>${c.name}</h2><p>${G.getMainAbility(c).description}</p>${id==='john'?'<p>Parry: dado de 6 lados, defende com 1 ou 2. Não funciona enquanto John mantém o machado cravado.</p>':''}${btn('lab-'+id,'Testar '+c.name)}</article>`;}).join('')}</div></section>`);toTop();
+  wipe();ui.mode='ability-test';show(`<section class="ability-tests">${btn('menu','Voltar ao menu')}<h1>Teste de habilidades</h1><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="ability-tests-grid">${ids.map(id=>{const c=G.getCharacterById(id);return `<article data-character-name="${c.name.toLowerCase()}">${card(c)}<h2>${c.name}</h2><p>${G.getMainAbility(c).description}</p>${id==='john'?'<p>Parry: dado de 6 lados, defende com 1 ou 2. Não funciona enquanto John mantém o machado cravado.</p>':''}${btn('lab-'+id,'Testar '+c.name)}</article>`;}).join('')}</div></section>`);toTop();
 }
 function sarkTest(){
   wipe();ui.mode='sark-test';const c=G.getCharacterById('sarck');
@@ -25,12 +25,13 @@ function sarkTest(){
 function startMatch(){wipe();ui.mode='select';const r=G.createSelection();if(!r.ok){show(`<section><p>${r.error}</p>${btn('menu','Menu')}</section>`);return;}ui.sel=r.sel;selectionScreen();toTop();}
 function selectionScreen(){
   const sel=ui.sel,turn=G.selectionTurn(sel);
-  const cards=sel.offered.map(id=>{
+  const displayed=[...sel.offered,...Object.values(sel.autoRares||{})];
+  const cards=displayed.map(id=>{
     const side=sel.picks.player.includes(id)?'player':sel.picks.enemy.includes(id)?'enemy':null;
-    const label=side?`${side==='player'?'Você':'Bot'} · ${sel.picks[side].indexOf(id)+1}ª escolha`:turn==='player'?'Sua vez · escolher':turn==='enemy'?'Bot escolhendo…':'Disponível';
+    const label=side&&Object.values(sel.autoRares||{}).includes(id)?`${side==='player'?'Você':'Bot'} · Raro sorteado`:side?`${side==='player'?'Você':'Bot'} · ${sel.picks[side].indexOf(id)+1}ª escolha`:turn==='player'?'Sua vez · escolher':turn==='enemy'?'Bot escolhendo…':'Disponível';
     return `<div class="selection-pick ${side||''}" role="button" tabindex="${turn==='player'&&!side?0:-1}" data-character="${id}" aria-label="${G.getCharacterById(id).name}: ${label}" aria-disabled="${!!side||turn!=='player'}">${card(G.getCharacterById(id),side?'sel chosen-'+side:'',label)}</div>`;
   }).join('');
-  show(`<section class="selection" aria-label="Seleção alternada de personagens Comuns">${btn('menu','Voltar ao menu')}<div class="row">${cards}</div>${G.selectionDone(sel)?btn('fight','Play · começar batalha',false,'start-battle'):''}</section>`);
+  show(`<section class="selection" aria-label="Escolha um Comum; cada equipe recebe um Raro sorteado">${btn('menu','Voltar ao menu')}<div class="row">${cards}</div>${G.selectionDone(sel)?btn('fight','Play · começar batalha',false,'start-battle'):''}</section>`);
 }
 function selectAdvance(){clearTimeout(ui.timer);selectionScreen();if(G.selectionTurn(ui.sel)==='enemy')ui.timer=setTimeout(()=>{G.selectionBotPick(ui.sel);selectAdvance();},1000);}
 function pickCharacter(id){if(!ui.sel||G.selectionTurn(ui.sel)!=='player')return;const r=G.selectionPick(ui.sel,'player',id);if(r.ok)selectAdvance();}
@@ -49,10 +50,16 @@ function handDetail(mine){
   if(!mine)detail+='<small>Você pode usar cartas na vez da sua equipe.</small>';
   return detail+'</div>';
 }
+function impactLabel(x,compact=false){
+  if(x.type==='heal')return '+'+x.healed+(compact?'':' DE VIDA');
+  if(x.instant)return compact?'ELIMINADO':'ELIMINAÇÃO INSTANTÂNEA';
+  const label={parry:'PARRY · DEFENDEU',dodge:'ESQUIVOU',miss:'ERROU', 'duel-miss':'FALHOU NO DUELO',immune:'IMORTAL',oni:'ESTADO ONI'}[x.type];
+  return label||'−'+(x.amount??x.damage)+(compact?'':x.type==='daly-hit'?' VIDA DA DALY MÃE':' DE VIDA');
+}
 function combatMessage(s){
   const e=s.lastEvent;if(!e)return '<div class="combat-message idle">Os personagens mais rápidos agem primeiro.</div>';
-  const lines=G.eventImpacts(e).map((x,i)=>`<div class="${x.ability==='Steel Jaw'?'reaction-message':'impact-message'}"><span>${x.sourceName||x.actorName} <b>→</b> ${x.targetName}${x.kind==='pin-damage'?' · machado cravado':''}</span><strong>${x.type==='heal'?'+'+x.healed+' DE VIDA':x.instant?'ELIMINAÇÃO INSTANTÂNEA':x.type==='parry'?'PARRY · DEFENDEU':x.type==='dodge'?'ESQUIVOU':'−'+(x.amount??x.damage)+(x.type==='daly-hit'?' VIDA DA DALY MÃE':' DE VIDA')}</strong><small>${x.beforeHp} → ${x.afterHp}${x.parry?' · dado '+x.parry.roll+'/6':''}${x.armor?' · armadura: '+x.armor.incoming+' → '+x.armor.damage:''}${x.type==='defeat'?' · eliminado permanentemente':''}</small></div>`).join('');
-  return `<div class="combat-message ${ui.busy?'playing':''}" role="status">${e.type==='fright'?'<b>Susto · '+e.actorName+'</b><p>'+e.results.map(r=>r.name+': dado '+r.roll+' · '+(r.scared?'assustado':'resistiu')).join('<br>')+'</p><strong>+'+e.bonus+' ataque · +'+e.speedBonus+' velocidade</strong>':e.type==='wait'?'<b>'+e.actorName+' passou a vez: sem alvo acessível</b>':e.type==='area'?'<b>3000W · ataque em área</b>':e.type==='pin-keep'?'<b>John manteve o machado</b>':e.type==='pin-skip'?'<b>'+e.actorName+' passou a vez: imobilizado</b>':''}${lines}</div>`;
+  const lines=G.eventImpacts(e).map((x,i)=>`<div class="${x.kind==='reaction'||x.ability==='Steel Jaw'?'reaction-message':'impact-message'}"><span>${x.sourceName||x.actorName} <b>→</b> ${x.targetName}${x.kind==='pin-damage'?' · machado cravado':''}${x.protectedName?' · protegendo '+x.protectedName:''}</span><strong>${impactLabel(x)}</strong><small>${x.beforeHp} → ${x.afterHp}${x.parry?' · dado '+x.parry.roll+'/6':x.roll?' · dado '+x.roll+'/6':''}${x.armor?' · armadura: '+x.armor.incoming+' → '+x.armor.damage:''}${x.type==='defeat'?' · eliminado permanentemente':''}</small></div>`).join('');
+  return `<div class="combat-message ${ui.busy?'playing':''}" role="status">${e.rolls?.length?'<b>'+e.ability+' · dados '+e.rolls.map(r=>r.roll+(r.repeated?' (repetido)':'')).join(' → ')+'</b>':''}${e.type==='ability'?'<b>'+e.actorName+' · '+e.ability+'</b><p>Alvo: '+e.targetName+'</p>':''}${e.type==='status-skip'?'<b>'+e.actorName+' perdeu a ação por um impedimento</b>':''}${e.type==='fright'?'<b>Susto · '+e.actorName+'</b><p>'+e.results.map(r=>r.name+': dado '+r.roll+' · '+(r.scared?'assustado':'resistiu')).join('<br>')+'</p><strong>+'+e.bonus+' ataque · +'+e.speedBonus+' velocidade</strong>':e.type==='wait'?'<b>'+e.actorName+' passou a vez: sem alvo acessível</b>':e.type==='area'?'<b>'+(e.ability||'3000W')+' · ataque em área</b>':e.type==='pin-keep'?'<b>John manteve o machado</b>':e.type==='pin-skip'?'<b>'+e.actorName+' passou a vez: imobilizado</b>':''}${lines}</div>`;
 }
 function render(actor){
   dockObserver?.disconnect();
@@ -61,16 +68,16 @@ function render(actor){
   const logScroll=app.querySelector('.log-list')?.scrollTop||0;
   ui.mode='battle';const s=ui.state,choice=s.deck.pendingChoice,pd=s.support.pending;
   const entry=G.pendingCharacterAbility(s),free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!entry&&!ui.busy&&!ui.paused;
-  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,mine=free&&((actor?.team==='player'&&!pinned&&!holding)||idle),mage=mine&&actor?.class==='MAGO',area=mine&&G.getMainAbility(actor||{})?.trigger==='areaAttack',pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
+  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor?.class==='MAGO',area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
   const e=ui.busy?s.lastEvent:null,B=G.getBoard(s),impacts=G.eventImpacts(e);
   const cell=u=>{
     const hits=impacts.filter(x=>x.targetUid===u.uid),status=hits.at(-1),acting=e?.actorUid===u.uid,heal=u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((mine&&support?.effect==='heal')||(mine&&ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u))||pd?.candidates.includes(u.uid));
-    const cls=(actor?.uid===u.uid&&!ui.busy?'active ':'')+([ui.target,ui.healTarget,ui.swapPick].includes(u.uid)?'target ':'')+(mine&&actor&&!area&&ui.attackMode!=='heal'&&!actor.abilityOnly&&G.attackTargets(s,actor).includes(u)?'pick ':'')+(area&&G.attackTargets(s,actor).includes(u)?'area-target ':'')+(heal?'heal ':'')+(mine&&ui.move&&u.team==='player'&&G.canTransit(u)?'swp':'');
-    const fx=hits.map((x,i)=>`<span class="combat-float ${x.ability==='Steel Jaw'?'reaction ':''}${x.type}" style="top:${18+i*27}%">${x.type==='heal'?'+'+x.healed:x.instant?'ELIMINADO':x.type==='parry'?'PARRY':x.type==='dodge'?'ESQUIVA':'−'+(x.amount??x.damage)}${x.ability?`<small>${x.ability}</small>`:''}</span>`).join('');
+    const cls=(actor?.uid===u.uid&&!ui.busy?'active ':'')+([ui.target,ui.healTarget,ui.swapPick].includes(u.uid)?'target ':'')+(mine&&actor&&!area&&ui.attackMode!=='heal'&&!actor.abilityOnly&&G.attackTargets(s,actor).includes(u)?'pick ':'')+(area&&G.attackTargets(s,actor).includes(u)?'area-target ':'')+(heal?'heal ':'')+(mine&&ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)?'pick ':'')+(mine&&ui.move&&u.team==='player'&&G.canTransit(u)?'swp':'');
+    const fx=hits.map((x,i)=>`<span class="combat-float ${hits.length>3?'dense ':''}${x.kind==='reaction'||x.ability==='Steel Jaw'?'reaction ':''}${x.type}" style="top:${18+i*Math.min(27,70/Math.max(1,hits.length-1))}%">${impactLabel(x,true)}${x.ability?`<small>${x.ability}</small>`:''}</span>`).join('');
     const link=u.pinnedBy?`<span class="pin-status" title="Cravado por ${G.getUnit(s,u.pinnedBy)?.name} · sem ação · −20 de Vida após cada ação">Imobilizado</span>`:u.pinning?`<span class="pin-status holding" title="Mantendo machado em ${G.getUnit(s,u.pinning)?.name} · sem Parry">Vulnerável</span>`:'';
-    return `<div class="cell ${status?'event-'+status.type:''} ${acting?'event-actor':''}">${card(u,cls,`Vida ${u.hp}/${u.maxHp} · ${u.passiveOnly?'Reativo':'V'+u.speed}`)}${fx}<div class="hp-track" aria-hidden="true"><i style="--before:${(hits[0]?.beforeHp??u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></div>${link}${u.duelId?'<span class="dimension-status">Duelo dimensional</span>':''}${s.units.some(a=>a.bookTarget===u.uid&&a.hp>0)?'<span class="book-status">Nome no livro</span>':''}</div>`;
+    return `<div class="cell ${status?'event-'+status.type:''} ${acting?'event-actor':''}">${card(u,cls,`Vida ${u.hp}/${u.maxHp} · ${u.passiveOnly?'Reativo':'V'+u.speed}`)}${fx}<div class="hp-track" aria-hidden="true"><i style="--before:${(hits[0]?.beforeHp??u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></div>${G.officialStatus?.(s,u)?'<span class="official-status">'+G.officialStatus(s,u)+'</span>':''}${link}${u.duelId?'<span class="dimension-status">Duelo dimensional</span>':''}${s.units.some(a=>a.bookTarget===u.uid&&a.hp>0)?'<span class="book-status">Nome no livro</span>':''}</div>`;
   };
   const row=(side,where)=>{
     const live=B[side][where],list=[...live],max=where==='front'?3:2;
@@ -83,8 +90,8 @@ function render(actor){
     const hit=e?.targetUid===G.dalyTargetId(t);
     return `<div class="side ${t}"><h3 class="team-label">${t==='player'?'Sua equipe':'Adversário'}</h3>${row(t,'front')}${row(t,'rear')}<div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&!actor?.duelId&&!actor?.abilityOnly&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}<p class="rear-count">Retaguarda · ${B[t].rear.length}/2 · Suportes</p></div></div>`;
   };
-  let info=ui.busy?(e?.reaction?'Confira o ataque e a resposta automática de Steel Jaw.':'Confira o resultado do ataque. A próxima ação começa em instantes.'):ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:idle?'Não há personagens capazes de atacar. Use suas medalhas ou avance o ciclo para ambas as equipes comprarem uma carta.':mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
-  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle','Avançar ciclo · comprar cartas',s.deck.pile.length===0):btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
+  let info=ui.busy?'Confira o resultado da ação e as reações no registro da batalha. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:idle?'Não há personagens capazes de atacar. Use suas medalhas ou avance o ciclo para ambas as equipes comprarem uma carta.':mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
+  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)):btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
   if(idle&&s.deck.pile.length===0)info+=' O monte principal acabou; as medalhas na mão ainda podem ser resgatadas.';
   if(pinned){info=actor.name+' está cravado e não pode atacar, mover ou usar cartas. Passe a vez para continuar a batalha.';actions=btn('pinned-wait','Passar vez · imobilizado');}
   if(holding){info='John mantém o machado em '+G.getUnit(s,actor.pinning)?.name+'. Manter encerra sua ação; retirar libera os dois e permite atacar novamente.';actions=btn('pin-keep','Manter machado')+btn('pin-release','Retirar e escolher ataque');}
@@ -101,12 +108,28 @@ function render(actor){
   }
   if(mine&&actor?.abilityOnly){const target=G.getUnit(s,actor.bookTarget);info='Livro marcado: '+(target?.name||'aguardando nome')+'. A habilidade elimina abaixo de Mítico; nas demais raridades, causa 200.';actions=btn('attack','Usar livro · '+(target?.name||'sem alvo'),!target);}
   if(mine&&actor&&!G.hasActionTarget(s,actor)){info='Não há alvo acessível nesta dimensão. Passe a vez para continuar a hierarquia.';actions=btn('wait','Sem alvo · passar vez');}
+  if(mine&&actor&&G.officialStatus){
+    const type=G.getMainAbility(actor)?.trigger;
+    if(type==='paralyzingKick')actions=btn('mode-normal','Ataque normal',false,ui.attackMode==='normal'?'on':'')+btn('mode-stun','Golpe paralisante · +30% · d6 1–3',false,ui.attackMode==='stun'?'on':'')+actions;
+    if(type==='swarm')actions=btn('mode-normal','Concentrar · 220',false,ui.attackMode==='normal'?'on':'')+btn('mode-area','Dividir Swarm na frente',false,ui.attackMode==='area'?'on':'')+actions;
+    if(type==='swarm'&&area){info='Swarm divide 220 igualmente entre os adversários da frente. Cada parcela sobe para múltiplo de 5. Por alvo: '+G.previewDamage(s,actor,ui.mana,null,'area')+'.';actions=btn('mode-normal','Concentrar · 220')+btn('mode-area','Dividir Swarm',false,'on')+btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Confirmar Swarm em área');}
+    if(type==='sleepPowder')actions=btn('power-sleepPowder',actor.sleepUsed?'Pó mágico · já usado':'Adormecer oponente · uso único',actor.sleepUsed)+actions;
+    if(type==='petrify')actions=btn('power-petrify',actor.petrifyPrecision?'Petrificar · d6 1–'+actor.petrifyPrecision:'Petrificação esgotada',actor.petrifyPrecision<=0||actor.petrifyAttemptRound===s.round||s.units.some(t=>!G.isCharacterDefeated(t)&&t.petrifiedBy===actor.uid))+actions;
+    if(type==='fullHeal')actions=btn('full-heal',actor.fullHealUsed?'Cura total · já usada':'Cura total dos outros aliados · usa ação',actor.fullHealUsed||!G.healingTargets(s,actor).length)+actions;
+    if(type==='hypnosis'&&actor.hypnosisTarget){info='Hipnose: '+(G.getUnit(s,actor.hypnosisTarget)?.name||'sem alvo')+'. Manter ou trocar: 90 de dano ao alvo na sua vez.';actions=btn('hypnosis-keep','Manter · causar 90',!actor.hypnosisTarget)+btn('power-hypnosis','Trocar alvo e depois causar 90',actor.hypnosisChangeRound===s.round);}
+    if(G.breakCurseTargets(s,actor).length&&type!=='hypnosis')actions=btn('mode-break','Libertar aliado petrificado · dano 30',false,ui.attackMode==='break'?'on':'')+actions;
+    if(ui.attackMode==='break'){info='Escolha um aliado petrificado. Libertá-lo usa sua ação e causa somente 30, substituindo o ataque normal.';actions=btn('mode-normal','Voltar ao ataque')+btn('attack','Quebrar maldição · dano 30',!G.breakCurseTargets(s,actor).some(t=>t.uid===ui.target));}
+    if(type==='punchCombo')info+=' Combo: um d6 por soco, até seis. Repetir encerra. Cada soco tem defesa e reação.';
+    if(type==='diceExecution')info+=' D6 multiplica o básico de 55; 6 executa até a própria raridade e causa 330 nas superiores.';
+    if(type==='duelist')info='Duelo: d6 1–3 elimina até a própria raridade ou causa 200 nas superiores. 4–6 falha e você recebe o dano do alvo.';
+  }
+  if(locked){info=G.officialStatus(s,actor)+'. Resolva o impedimento para continuar a hierarquia.';actions=btn('status-turn',actor.sleep?'Rolar d6 para acordar · 1–2':'Passar vez · impedimento');}
   if(entry)info='Pré-batalha · '+G.getUnit(s,entry.actorUid)?.name+' está resolvendo a habilidade de entrada.';
-  if(ui.busy&&e?.type==='area')info='3000W · '+impacts.map(x=>x.targetName+': '+(x.type==='parry'?'defendeu no Parry':x.instant?'eliminado':'−'+(x.amount??x.damage))).join(' · ');
-  if(ui.busy&&e?.ticks?.length&&e.type!=='area')info=(e.type==='pin-keep'?'John manteve o machado. ':e.type==='pin-skip'?e.actorName+' passou a vez imobilizado. ':'')+e.ticks.map(x=>x.targetName+' recebeu '+x.amount+' de dano do machado'+(x.type==='defeat'?' e foi eliminado':'')+'.').join(' ');
-  if(ui.busy&&e?.reaction&&e.type!=='area'){const r=e.reaction;info=`${e.actorName} causou ${e.damage} de dano em ${e.targetName}. ${r.sourceName} reagiu com ${r.ability}: ${r.instant?r.targetName+' foi eliminado instantaneamente':r.targetName+' recebeu '+r.amount+' de dano'+(r.type==='defeat'?' e foi eliminado':'')}.`;}
+  if(ui.busy&&e?.type==='area')info=(e.ability||'3000W')+' · '+impacts.map(x=>x.targetName+': '+(x.type==='parry'?'defendeu no Parry':x.type==='dodge'?'esquivou':x.instant?'eliminado':'−'+(x.amount??x.damage))).join(' · ');
+  if(ui.busy&&e?.ticks?.length&&e.type!=='area')info=(e.type==='pin-keep'?'John manteve o machado. ':e.type==='pin-skip'?e.actorName+' passou a vez imobilizado. ':'')+e.ticks.map(x=>x.targetName+' recebeu '+x.amount+' de '+(x.ability||'efeito')+(x.type==='defeat'?' e foi eliminado':'')+'.').join(' ');
+  if(ui.busy&&(e?.reaction||e?.reactions?.length)&&e.type!=='area')info=impacts.map(x=>(x.sourceName||x.actorName)+' → '+x.targetName+': '+(x.type==='parry'?'Parry':x.type==='dodge'?'esquiva':x.type==='duel-miss'?'falhou no duelo':x.type==='miss'?'errou':x.instant?'eliminação instantânea':x.type==='immune'?'imortal':x.type==='heal'?'+'+x.healed+' de Vida':'−'+(x.amount??x.damage)+' de Vida')+(x.ability?' · '+x.ability:'')).join(' | ');
   if(mage&&!areaDaly&&ui.target!=='daly_enemy')actions+=btn('mana-','− Mana',ui.mana<=0)+`<span>Mana no ataque: ${ui.mana}/${actor.mana}</span>`+btn('mana+','+ Mana',ui.mana>=actor.mana);
-  if(mine&&actor&&ui.target&&ui.attackMode!=='heal'){const target=G.getUnit(s,ui.target),dodge=target&&G.dodgeInfo(actor,target),damage=G.previewDamage(s,actor,ui.mana,target,ui.attackMode),reply=target&&G.reactionPreview(actor,target,damage);info+=ui.target==='daly_enemy'?' A Daly Mãe perderá exatamente 1 vida.':` Dano previsto: ${damage}.${dodge?' O alvo pode esquivar.':''}${reply?` ${target.name} sobrevive e reage com ${reply.ability}: ${reply.instant?'seu atacante será eliminado instantaneamente':reply.damage+' de dano no seu atacante'}.`:target&&G.getMainAbility(target)?.trigger==='onAttacked'?` Golpe fatal: ${target.name} será eliminado sem revidar.`:''}`;}
+  if(mine&&actor&&ui.target&&!['heal','break'].includes(ui.attackMode)&&G.getMainAbility(actor)?.trigger!=='duelist'){const target=G.getUnit(s,ui.target),dodge=target&&G.dodgeInfo(actor,target),damage=G.previewDamage(s,actor,ui.mana,target,ui.attackMode),reply=target&&G.reactionPreview(actor,target,damage);info+=ui.target==='daly_enemy'?' A Daly Mãe perderá exatamente 1 vida.':` Dano previsto: ${damage}.${dodge?' O alvo pode esquivar.':''}${reply?` ${target.name} sobrevive e reage com ${reply.ability}: ${reply.instant?'seu atacante será eliminado instantaneamente':reply.damage+' de dano no seu atacante'}.`:target&&G.getMainAbility(target)?.trigger==='onAttacked'?` Golpe fatal: ${target.name} será eliminado sem revidar.`:''}`;}
   if(mine&&actor&&ui.target){const parry=G.parryInfo(actor,G.getUnit(s,ui.target));if(parry)info+=' Parry do alvo: defende com 1–'+parry.threshold+' no dado de 6.';}
   const logs=s.log.slice(-12).reverse().map((line,i)=>`<div class="battle-event${i===0?' latest':''}"><span>✧</span><p>${line}</p></div>`).join('');
   const pendingPanel=!ui.busy&&(s.recovery?.side==='player'?G.recoveryHTML(s):s.formation?.side==='player'?G.formationHTML(s):'');
@@ -136,7 +159,7 @@ function step(){
   if(s.formation){if(s.formation.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveFormation(s);step();},G.CONFIG.pacing.botThink);return;}
   if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},G.CONFIG.pacing.botThink);return;}
   if(s.support.pending)return;
-  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&p.type==='fright')feedback();else finishChoice(r);},G.CONFIG.pacing.botThink);return;}
+  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&(p.type==='fright'||r.free))feedback();else finishChoice(r);},G.CONFIG.pacing.botThink);return;}
   if(actor?.team==='enemy')ui.timer=setTimeout(()=>{
     const redeemed=G.AI.redeemMedals(s,'enemy');
     const attack=()=>{const r=G.AI.takeTurn(s,actor);if(r.pending){step();return;}if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}};
@@ -155,8 +178,8 @@ app.addEventListener('click',event=>{
     if(a==='play'){startMatch();return;}
     if(a==='sark-test'){sarkTest();return;}
     if(a==='ability-test'){abilityTest();return;}
-    if(a==='new-abilities'){abilityTest(['penxy','cavaleiro','zikssy','elysh','ddx','vaglar']);return;}
-    if(a.startsWith('lab-')&&['eletric','john','penxy','cavaleiro','zikssy','elysh','ddx','vaglar'].includes(a.slice(4))){wipe();ui.state=G.createAbilityTestState(a.slice(4));step();toTop();return;}
+    if(a==='new-abilities'){abilityTest(G.CHARACTERS.map(c=>c.id));return;}
+    if(a.startsWith('lab-')&&G.getCharacterById(a.slice(4))){wipe();ui.state=G.createAbilityTestState(a.slice(4));step();toTop();return;}
     if(a==='sark-enemy'||a==='sark-player'){wipe();ui.state=G.createSarkTestState(a==='sark-player'?'player':'enemy');step();toTop();return;}
     if(a==='characters'){characters();return;}
     if(a==='shop'){show(G.shopHTML());return;}
@@ -164,7 +187,8 @@ app.addEventListener('click',event=>{
     if(ui.mode!=='battle')return;const s=ui.state;
     if(a==='pause'){ui.paused=!ui.paused;if(ui.busy)render(null);else step();return;}
     if(ui.busy)return;
-    if(a==='resolve-entry'){if(ui.paused)return;const p=G.pendingCharacterAbility(s);if(p?.side!=='player')return;const r=G.resolveCharacterAbility(s,p.actorUid,ui.abilityTarget);if(r.ok&&p.type==='fright')feedback();else{ui.abilityTarget=null;finishChoice(r);}return;}
+    if(a==='cancel-entry'){finishChoice(G.cancelCharacterAbility(s));return;}
+    if(a==='resolve-entry'){if(ui.paused)return;const p=G.pendingCharacterAbility(s);if(p?.side!=='player')return;const r=G.resolveCharacterAbility(s,p.actorUid,ui.abilityTarget);if(r.ok&&(p.type==='fright'||r.free))feedback();else{ui.abilityTarget=null;finishChoice(r);}return;}
     if(a==='keep-new'){finishChoice(G.resolveHandReplacement(s,null));return;}
     if(a.startsWith('recover-')){if(s.recovery?.side==='player')finishChoice(G.performRecovery(s,a.slice(8)));return;}
     if(a.startsWith('advance-')){if(s.formation?.side==='player')finishChoice(G.resolveFrontLine(s,a==='advance-all'?[...s.formation.candidates]:[a.slice(8)]));return;}
@@ -174,12 +198,15 @@ app.addEventListener('click',event=>{
       const r=a==='pin-keep'?G.keepPin(s,actor.uid):a==='pin-release'?G.withdrawPin(s,actor.uid):G.performPinnedTurn(s,actor.uid);
       if(r.ok&&a!=='pin-release'){ui.msg='';feedback();}else finishChoice(r);return;
     }
+    if(a==='status-turn'){const actor=G.getNextActor(s);if(ui.paused||actor?.team!=='player')return;const r=G.performStatusTurn(s,actor.uid);if(r.ok&&r.spent)feedback();else finishChoice(r);return;}
     const actor=G.getNextActor(s);if(ui.paused||!G.canManageTeam(s,'player'))return;
+    if(a.startsWith('power-')){finishChoice(G.requestOfficialChoice(s,actor.uid,a.slice(6)));return;}
+    if(a==='full-heal'||a==='hypnosis-keep'){const r=a==='full-heal'?G.performFullHeal(s,actor.uid):G.performHypnosisTurn(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
     if(a==='idle-cycle'){finishChoice(G.advanceIdleCycle(s));return;}
     if(a==='attack'&&!actor)return;
-    if(['mode-normal','mode-pin','mode-heal','mode-double'].includes(a)){ui.attackMode=a.slice(5);ui.target=null;render(actor);return;}
+    if(['mode-normal','mode-pin','mode-heal','mode-double','mode-stun','mode-area','mode-break'].includes(a)){ui.attackMode=a.slice(5);ui.target=null;render(actor);return;}
     if(a==='wait'){const r=G.performWait(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
-    if(a==='attack'){const r=ui.attackMode==='heal'?G.performHealingAttack(s,actor.uid,ui.target):G.performBasicAttack(s,actor.uid,ui.target,ui.mana,ui.attackMode);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}return;}
+    if(a==='attack'){const r=ui.attackMode==='break'?G.performBreakCurse(s,actor.uid,ui.target):ui.attackMode==='heal'?G.performHealingAttack(s,actor.uid,ui.target):G.performBasicAttack(s,actor.uid,ui.target,ui.mana,ui.attackMode);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}return;}
     if(a==='move'){ui.move=!ui.move;ui.target=null;ui.handIid=null;ui.healTarget=null;ui.swapPick=null;ui.msg='';render(actor);return;}
     if(a==='redeem'){const inst=selectedHand();if(inst)finishChoice(G.resolveDalle(s,'player',inst));return;}
     if(a==='usehand'){finishChoice(G.performHandSupport(s,ui.handIid,ui.healTarget));return;}
@@ -198,6 +225,7 @@ app.addEventListener('click',event=>{
   if(!mine)return;
   if(daly&&daly.dataset.daly==='enemy'&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.attackMode='normal';ui.move=false;render(actor);return;}
   if(!u)return;
+  if(ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
   if(ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
   if(support?.effect==='heal'&&u.team==='player'){
@@ -211,5 +239,6 @@ app.addEventListener('click',event=>{
   if(G.attackTargets(s,actor).includes(u)&&ui.attackMode!=='heal'&&!actor.abilityOnly&&G.getMainAbility(actor)?.trigger!=='areaAttack'){ui.target=u.uid;render(actor);}
 });
 app.addEventListener('keydown',event=>{if(ui.mode==='select'&&(event.key==='Enter'||event.key===' ')){const c=event.target.closest('[data-character]');if(c){event.preventDefault();pickCharacter(c.dataset.character);}}});
+app.addEventListener('input',event=>{if(event.target.matches?.('[data-character-search]')){const q=event.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');app.querySelectorAll('[data-character-name]').forEach(a=>{a.hidden=!a.dataset.characterName.normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(q);});}});
 menu();
 })(globalThis.GOGHOS);

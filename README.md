@@ -1,16 +1,16 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.20.0** adiciona **Penxy, Cavaleiro, Zikssy, Elysh, DD-X e Vaglar**, com pré-batalha, duelo dimensional, armadura, susto com d6, cura por ação, ataque dobrado de uso único e livro de execução. A raridade **Mítica** fica entre Épica e Lendária; somente as faixas de Vida e Dano foram transferidas, preservando as cores das cartas. Vida, dano e cura continuam em múltiplos de 5, sempre arredondados para cima.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.21.0** reúne **30 personagens oficiais**, com suas habilidades, e remove os personagens provisórios. **Petra fica de fora por enquanto**, conforme solicitado. As cartas usam as bases completas recebidas, com os valores atuais sobrepostos nos campos numéricos.
 
 ## Jogar e desenvolver
 
 Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
-Clique em **Testar novos personagens** no menu e escolha um dos seis. Penxy, Zikssy e Vaglar apresentam sua habilidade de entrada antes de liberar os ataques; as mesmas escolhas aparecem quando chegam por medalha ou recuperação. Cavaleiro também passa a participar da seleção normal de Comuns.
+Em **Jogar**, escolha um Comum. O bot escolhe outro, e cada equipe recebe **um Raro sorteado automaticamente**, sem repetição. Confira as quatro cartas e clique em **Play · começar batalha**. Ambas as equipes começam com dois personagens na frente.
 
-Para experimentar as novas habilidades sem depender dos montes, clique em **Testar Elétrica e John** no menu e escolha um deles. Elétrica ataca todos os adversários da frente com uma confirmação; John permite escolher entre ataque normal e cravar o machado. Na vez seguinte dele, é possível manter ou retirar o machado. Nas partidas normais, os dois estão no monte Raro e podem entrar por uma medalha Verde.
+**Testar novos personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
 
-**Testar Sark** continua disponível para controlar os atacantes ou observar a reação contra a IA. Sark está no monte Lendário. **Jogar** mantém a seleção alternada de dois Comuns por equipe e a continuidade da hierarquia após recuperação.
+Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md).
 
 É necessário **Node.js 20 ou superior** para rodar os testes e **Python 3** para `npm run dev`. Não há pacotes externos nem etapa de instalação:
 
@@ -33,10 +33,10 @@ npm test
 
 ## Estado do protótipo
 
-A partida já pode ser concluída contra a IA. Há seleção inicial, seis montes de personagens, compra do monte principal, cartas de Apoio, Esquiva, mana, recuperação e vitória ao eliminar a Daly Mãe adversária. Sem atacantes, é possível avançar o ciclo e comprar; com o monte vazio e nenhuma medalha utilizável nas mãos, há empate. A Loja, Item, Habilidade Especial e as habilidades dos demais personagens continuam em desenvolvimento. Os dez personagens ilustrados aparecem em **Personagens**. Os seis novos usam a arte original recebida, com limpeza restrita aos campos numéricos e valores atuais por classe/raridade. Sam mantém a apresentação anterior até a próxima etapa. As habilidades dos 22 personagens restantes dos pacotes aguardam explicação em [PERSONAGENS_PENDENTES.md](docs/PERSONAGENS_PENDENTES.md).
+A partida pode ser concluída contra a IA. Há seis montes de personagens, monte principal, mão de cinco cartas, cartas de Apoio, pré-batalha, habilidades individuais, recuperação sem reiniciar a velocidade e vitória ao eliminar a Daly Mãe adversária. Vida, dano e cura são arredondados para cima em múltiplos de 5. O contador da Daly Mãe perde uma vida por ataque.
 
-[As seis cartas e suas habilidades](docs/previews/personagens-v0.20.0.png)
+Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 30 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-Pré-batalha com escolha de alvo:
+![Pré-batalha no computador](docs/previews/prebatalha-v0.21.0-desktop.png)
 
-![Arena no computador](docs/previews/prebatalha-v0.20.0-desktop.png)
+[Seleção atual](docs/previews/selecao-v0.21.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.21.0-celular.png)

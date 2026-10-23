@@ -3,7 +3,7 @@
 // Cada lado começa com 2 na frente e a retaguarda vazia; a equipe cresce por Daly e pela recuperação da Daly Mãe (js/core/roster.js).
 // A batalha só termina quando uma Daly Mãe chega a 0 vida; quem tem a Daly Mãe viva vence.
 (function(G){
-const isCharacterDefeated=u=>u.hp<=0||!!u.eliminated;
+const isCharacterDefeated=u=>!!u.eliminated||(u.hp<=0&&!u.oniActive);
 const getUnit=(s,uid)=>s.units.find(u=>u.uid===uid)||null;
 const canAct=u=>!isCharacterDefeated(u)&&(u.row==='front'||!!u.duelId)&&!u.passiveOnly&&!u.abilityDormant;
 const isTargetable=u=>!isCharacterDefeated(u)&&u.row==='front'; // retaguarda não pode ser atacada
@@ -39,20 +39,21 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   G.prepareInitialAbilities?.(s);buildTurnOrder(s);if(G.CONFIG.resetDraw.onBattleStart)G.onSpeedReset(s);return s;
 }
 function createSarkTestState(side='enemy'){
-  const sark={front:['sarck'],rear:[]},attackers={front:['char_10','sam','char_06'],rear:[]};
+  const sark={front:['sarck'],rear:[]},attackers={front:['john','sam','cavaleiro'],rear:[]};
   const s=createBattleState(side==='player'?sark:attackers,side==='player'?attackers:sark);
   s.log.push('Teste de Steel Jaw · ataque Sark com Raro, Lendário ou Comum para comparar a reação.');
   return s;
 }
 function createAbilityTestState(id){
-  if(id==='eletric')return createBattleState({front:['eletric'],rear:['char_05']},{front:['john','char_03','char_08'],rear:['char_07']});
-  if(id==='john')return createBattleState({front:['john','char_03'],rear:[]},{front:['char_08','char_04'],rear:[]});
-  if(id==='penxy')return createBattleState({front:['penxy','char_06'],rear:[]},{front:['cavaleiro','char_08'],rear:['char_07']});
-  if(id==='cavaleiro')return createBattleState({front:['cavaleiro','char_06'],rear:[]},{front:['ddx'],rear:[]});
-  if(id==='zikssy')return createBattleState({front:['zikssy'],rear:[]},{front:['cavaleiro','char_08'],rear:['char_07']});
-  if(id==='elysh') {const s=createBattleState({front:['elysh','cavaleiro'],rear:[]},{front:['char_03'],rear:[]});s.units.find(u=>u.id==='cavaleiro').hp=80;return s;}
-  if(id==='ddx')return createBattleState({front:['ddx'],rear:[]},{front:['char_03','char_08'],rear:[]});
-  if(id==='vaglar')return createBattleState({front:['vaglar'],rear:[]},{front:['cavaleiro','sarck'],rear:['char_07']});
+  if(G.CONFIG.selection.rareAuto){
+    if(!G.getCharacterById(id))throw new Error('Personagem indisponível.');
+    const allies=['starGift','guardian','friendship','fullHeal','healingAttack','souls'].includes(G.getMainAbility(G.getCharacterById(id))?.trigger)?[id,'mike']:[id];
+    const foes=(id==='mike'?['sheriff','cavaleiro','ddx']:id==='trucc'?['eletric','john','ddx']:['cavaleiro','john','ddx','mike']).filter(c=>!allies.includes(c)).slice(0,3);
+    const rear=id==='elysh'?[]:['elysh'];const s=createBattleState({front:allies,rear:[]},{front:foes,rear});
+    if(['zuri','elysh'].includes(id)){const target=s.units.find(u=>u.id==='mike');if(target)target.hp=35;}
+    return s;
+  }
+
   throw new Error('Teste de habilidade indisponível.');
 }
 // Ordem: só quem pode agir (frente, vivo), por Velocidade (maior primeiro).
@@ -77,14 +78,15 @@ function getNextActor(s){
   const paused=()=>s.result||s.recovery||s.formation||s.support.pending||(s.deck&&s.deck.pendingChoice)||s.abilityChoices?.length;
   if(paused())return null; // decisões pendentes pausam a ordem, sem avançar a rodada
   if(checkIdleDraw(s))return null;
+  if(G.hasMeaningfulAction&&isIdleBattle(s))return null;
   const find=()=>s.order.map(id=>getUnit(s,id)).find(u=>u&&canAct(u)&&!s.acted[u.uid]);
   let a=find();if(!a&&s.units.some(canAct)){buildTurnOrder(s);G.onSpeedReset(s);if(paused())return null;a=find();} // sem atacante, consultas não iniciam ciclos infinitos
   if(a){G.prepareActorAbility?.(s,a);if(paused())return null;}
   return a||null;
 }
-const isIdleBattle=s=>{G.refreshAbilityAvailability?.(s);return !s.result&&!s.units.some(canAct);};
+const isIdleBattle=s=>{G.refreshAbilityAvailability?.(s);return !s.result&&!s.units.some(u=>canAct(u)&&(!G.hasMeaningfulAction||G.hasMeaningfulAction(s,u)));};
 function checkIdleDraw(s){
-  if(!isIdleBattle(s)||s.deck.pile.length||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return null;
+  if(!isIdleBattle(s)||G.hasTimedEffects?.(s)||s.deck.pile.length||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return null;
   const canRedeem=['player','enemy'].some(side=>s.deck.hands[side].some(c=>G.getResetCard(c.id)?.type==='DALY'&&!G.medalBlockReason(s,side,c)));
   if(canRedeem)return null;
   s.result='draw';s.phase='ended';s.order=[];
@@ -95,13 +97,13 @@ function checkIdleDraw(s){
 function canManageTeam(s,side){
   if(s.result||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return false;
   const actor=getNextActor(s);
-  return isIdleBattle(s)||(actor?.team===side&&!actor.pinnedBy&&!actor.pinning);
+  return isIdleBattle(s)||(actor?.team===side&&!actor.pinnedBy&&!actor.pinning&&!G.isActionLocked?.(actor));
 }
 function advanceIdleCycle(s){
   if(!isIdleBattle(s))return fail('Há personagens capazes de atacar. Continue a hierarquia.');
   if(!canManageTeam(s,'player'))return fail('Resolva a escolha pendente antes de avançar o ciclo.');
-  if(!s.deck.pile.length)return fail('O monte principal está vazio. Resgate uma medalha disponível na mão.');
-  buildTurnOrder(s);s.turn++;G.onSpeedReset(s);
+  if(!s.deck.pile.length&&!G.hasTimedEffects?.(s))return fail('O monte principal está vazio. Resgate uma medalha disponível na mão.');
+  buildTurnOrder(s);s.turn++;G.onSpeedReset(s);if(G.hasTimedEffects?.(s)){event(s,{type:'wait',actorName:'Ciclo',hits:[]});finishResolvedAction(s);}
   return{ok:true};
 }
 // Promove um Suporte na hora. Com dois disponíveis, pausa para escolher qual deles (ou ambos) defenderá a frente.
@@ -125,9 +127,11 @@ function resolveFrontLine(s,uids){
 function performTransit(s,uid){
   if(s.result||s.recovery||s.formation||s.support.pending||s.deck.pendingChoice)return fail('Resolva a escolha pendente antes de mover Suportes.');
   const u=getUnit(s,uid);if(!u||isCharacterDefeated(u)||!canTransit(u))return fail('Somente Suportes vivos podem transitar.');
+  if(G.isActionLocked?.(u))return fail('O impedimento do Suporte bloqueia a movimentação.');
   if(u.pinnedBy||u.pinning)return fail('O vínculo do machado impede a movimentação.');
   if(u.duelId)return fail('Personagens no duelo dimensional não podem mudar de linha.');
   const actor=getNextActor(s);if(!actor||actor.team!==u.team)return fail('Mova Suportes apenas na vez da sua equipe.');
+  if(G.isActionLocked?.(actor))return fail('Resolva o impedimento do personagem da vez antes de mover Suportes.');
   if(actor.pinnedBy||actor.pinning)return fail('Resolva o vínculo do personagem da vez antes de mover Suportes.');
   const board=getBoard(s)[u.team],to=u.row==='front'?'rear':'front';
   if(u.row==='front'&&board.front.length<=1)return fail('A linha de frente precisa manter pelo menos um personagem.');
@@ -154,7 +158,7 @@ function checkBattleResult(s){
 }
 // Esquivar (Tributo do Assassin): só esquiva quem é MAIS rápido que o atacante; tira-se um dado e esquiva se sair de 1 até a diferença
 // de velocidade (ex.: 5 − 3 = 2 → 1 ou 2). Velocidade igual ou maior do atacante: não esquiva. Magos sempre acertam. Esquivar = nenhum dano.
-function dodgeInfo(a,t){if(!t||t.pinnedBy||t.pinning||t.class!=='ASSASSIN'||a.class==='MAGO')return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
+function dodgeInfo(a,t){if(G.getMainAbility(t||{})?.trigger==='fadingDodge')return a.class==='MAGO'?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(!t||t.pinnedBy||t.pinning||t.class!=='ASSASSIN'||a.class==='MAGO')return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
 function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{diff:i.diff,sides:i.sides,roll,dodged:roll<=i.diff};}
 // Ataque à Daly Mãe exposta: retira EXATAMENTE 1 vida, qualquer que seja o Dano do atacante (sem excedente, sem esquiva).
 // Bônus de apoio e mana não são gastos (não teriam efeito). Cada ataque é processado uma vez (o atacante só age uma vez por rodada).
@@ -181,9 +185,11 @@ function releasePinLink(s,u){
   source.pinning=null;source.pinStartedTurn=null;source.pinLastKeptHp=null;return true;
 }
 function parryInfo(a,t){
+  if(G.isReactionBlocked?.(t))return null;
   return t&&t.team!==a.team&&t.class==='FIGHTER'&&t.parryThreshold>0&&!t.pinnedBy&&!t.pinning?{threshold:t.parryThreshold,sides:6}:null;
 }
-function applyHit(s,a,t,damage){
+function applyHit(s,a,t,damage,options={}){
+  if(G.officialApplyHit)return G.officialApplyHit(s,a,t,damage,options);
   const beforeHp=t.hp,info=parryInfo(a,t),roll=info?s.roll(6):null,parried=!!info&&roll<=info.threshold;
   const dodge=parried?null:rollDodge(s,a,t),dodged=!!dodge?.dodged;
   const armor=G.damageInfo(t,damage);
@@ -196,6 +202,7 @@ function applyHit(s,a,t,damage){
   return hit;
 }
 function finishResolvedAction(s){
+  if(G.officialAfterAction)return G.officialAfterAction(s);
   const defeated=s.units.filter(u=>u.hp<=0&&!u.eliminated);
   defeated.forEach(u=>G.eliminateUnit(s,u));
   if(!s.result)for(const source of s.units.filter(u=>u.pinning&&!isCharacterDefeated(u)&&u.pinStartedTurn<s.turn)){
@@ -229,7 +236,7 @@ function withdrawPin(s,uid){
   releasePinLink(s,v.actor);s.log.push(v.actor.name+' retirou o machado e pode escolher um novo ataque');return{ok:true};
 }
 function reactionPreview(attacker,target,incomingDamage=null){
-  if(!target||target.team===attacker.team||target.pinnedBy||target.pinning||isCharacterDefeated(target)||(incomingDamage!==null&&G.roundUpToFive(incomingDamage)>=target.hp))return null;
+  if(!target||G.isReactionBlocked?.(target)||target.team===attacker.team||target.pinnedBy||target.pinning||isCharacterDefeated(target)||(incomingDamage!==null&&G.roundUpToFive(incomingDamage)>=target.hp))return null;
   const ability=target&&G.getMainAbility(target);if(ability?.trigger!=='onAttacked')return null;
   return{ability:ability.name,instant:ability.instantRarities.includes(attacker.rarity),damage:G.roundUpToFive(ability.damage)};
 }
@@ -242,7 +249,10 @@ function resolveReaction(s,a,t){
     return null;
   }
   const p=reactionPreview(a,t);if(!p)return null;
-  const beforeHp=a.hp,armor=G.damageInfo(a,p.damage);a.hp=p.instant?0:G.roundUpToFive(a.hp-armor.damage);
+  const beforeHp=a.hp,armor=G.damageInfo(a,p.damage);
+  const applied=G.dealCharacterDamage?.(s,t,a,p.damage,{instant:p.instant,ability:p.ability,kind:'reaction'});
+  if(!applied)a.hp=p.instant?0:G.roundUpToFive(a.hp-armor.damage);
+  if(applied){s.log.push(t.name+' · '+p.ability+': '+(applied.instant?applied.targetName+' foi eliminado instantaneamente':applied.targetName+' recebeu '+applied.amount+' de dano ('+applied.beforeHp+' → '+applied.afterHp+')'+(applied.armor?' · armadura 80%':'')));return{...applied,sourceUid:t.uid,sourceName:t.name};}
   const r={type:a.hp<=0?'defeat':'hit',sourceUid:t.uid,sourceName:t.name,targetUid:a.uid,targetName:a.name,targetTeam:a.team,targetRow:a.row,targetSlot:a.slot,beforeHp,afterHp:a.hp,damage:beforeHp-a.hp,amount:p.instant?null:p.damage,instant:p.instant,ability:p.ability};
   if(!p.instant&&armor.blocked){r.armor=armor;r.amount=armor.damage;}
   s.log.push(t.name+' · '+p.ability+': '+(p.instant?a.name+' foi eliminado instantaneamente':a.name+' recebeu '+r.amount+' de dano ('+beforeHp+' → '+a.hp+')'+(r.armor?' · armadura 80%':'')));
@@ -260,19 +270,20 @@ function attackDaly(s,a,side){
 function performAreaAttack(s,attackerUid,mana=0){
   const v=validateActor(s,attackerUid);if(!v.ok)return v;const a=v.actor;
   if(G.getMainAbility(a)?.trigger!=='areaAttack')return fail('Este personagem não tem ataque em área.');
-  if(a.pinnedBy||a.pinning)return fail('O vínculo do machado impede ataques.');
+  if(a.pinnedBy||a.pinning||G.isActionLocked?.(a))return fail('O personagem está impedido de atacar.');
   if(!Number.isInteger(mana)||mana<0||mana>a.mana)return fail('Quantidade de mana inválida.');
   const side=a.team==='player'?'enemy':'player',targets=G.attackTargets(s,a);
   if(!targets.length)return !a.duelId&&G.isDalyExposed(s,side)?attackDaly(s,a,side):fail('Não há adversários acessíveis para este ataque.');
   const bonus=a.team==='player'?G.takeAttackBonus(s):0,damage=G.roundUpToFive(a.damage+bonus+mana*G.CONFIG.manaDamagePerPoint);
   a.mana-=mana;completeAction(s,a);
-  const hits=targets.map(t=>applyHit(s,a,t,damage));
+  const hits=targets.map(t=>applyHit(s,a,t,damage,{area:true}));
   event(s,{type:'area',actorUid:a.uid,actorName:a.name,targetName:'Linha de frente adversária',hits,damage:hits.reduce((n,h)=>n+h.damage,0),manaSpent:mana,bonus});
-  s.lastEvent.reactions=targets.flatMap((t,i)=>['hit','defeat'].includes(hits[i].type)?[resolveReaction(s,a,t)].filter(Boolean):[]);
+  s.lastEvent.reactions=targets.flatMap((t,i)=>G.resolveAttackResponses?G.resolveAttackResponses(s,a,t,hits[i],{area:true}):['hit','defeat'].includes(hits[i].type)?[resolveReaction(s,a,t)].filter(Boolean):[]);
   if(s.lastEvent.reactions.length)s.lastEvent.reaction=s.lastEvent.reactions[0];
   finishResolvedAction(s);return{ok:true,damage,hits,reactions:s.lastEvent.reactions,reaction:s.lastEvent.reactions[0]||null};
 }
 function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
+  if(G.usesOfficialAttack?.(getUnit(s,attackerUid)))return G.performOfficialAttack(s,attackerUid,targetUid,mana,mode);
   if(G.getMainAbility(getUnit(s,attackerUid)||{})?.trigger==='areaAttack')return performAreaAttack(s,attackerUid,mana);
   if(G.getMainAbility(getUnit(s,attackerUid)||{})?.trigger==='deathBook')return G.performBookAttack(s,attackerUid);
   if(s.result)return fail('Batalha encerrada.');
@@ -285,6 +296,7 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
   if(!a||(!dSide&&!t))return fail('Personagem inexistente.');
   if(isCharacterDefeated(a))return fail('Atacante derrotado.');
   if(a.row!=='front'&&!a.duelId)return fail('A retaguarda não pode atacar.');
+  if(G.isActionLocked?.(a))return fail('O personagem está impedido de agir.');
   if(a.passiveOnly)return fail(a.name+' não tem ataque básico: sua habilidade reage automaticamente ao ser atacado.');
   if(a.pinnedBy)return fail('Este personagem está cravado e não pode atacar.');
   if(a.pinning)return fail('Escolha manter ou retirar o machado antes de atacar.');
@@ -313,7 +325,8 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0,mode='normal'){
   if(mode==='double')a.doubleUsed=true;
   a.mana-=mana; // Mana gasta é parcialmente recuperada ao fim de cada ação/turno que passa
   completeAction(s,a);const hit=applyHit(s,a,t,dmg);event(s,{...hit,manaSpent:mana,bonus,...(mode==='double'?{doubleAttack:true}:{})});
-  const landed=['hit','defeat'].includes(hit.type),reaction=landed?resolveReaction(s,a,t):null;if(reaction)s.lastEvent.reaction=reaction;
+  const landed=G.hitLanded?G.hitLanded(hit):['hit','defeat'].includes(hit.type),responses=G.resolveAttackResponses?G.resolveAttackResponses(s,a,t,hit):landed?[resolveReaction(s,a,t)].filter(Boolean):[],reaction=responses[0]||null;
+  if(responses.length){s.lastEvent.reactions=responses;s.lastEvent.reaction=reaction;}
   if(mode==='pin'&&landed&&!isCharacterDefeated(a)&&!isCharacterDefeated(t)){
     a.pinning=t.uid;a.pinStartedTurn=s.turn;a.pinLastKeptHp=null;t.pinnedBy=a.uid;
     s.lastEvent.pin={sourceUid:a.uid,targetUid:t.uid};s.log.push('Sharp Guitar · '+a.name+' cravou o machado em '+t.name+' · ambos presos ao vínculo');
@@ -332,6 +345,7 @@ function performSwap(s,aUid,bUid){
   if(!a||!b)return fail('Personagem inexistente.');
   if(a.team!==b.team)return fail('A troca é entre aliados.');
   const next=getNextActor(s);if(!next||next.team!==a.team)return fail('Só é possível trocar na vez da sua equipe.');
+  if([next,a,b].some(u=>G.isActionLocked?.(u)))return fail('Resolva os impedimentos antes de trocar Suportes.');
   if(next.pinnedBy||next.pinning)return fail('Resolva o vínculo do personagem da vez antes de trocar Suportes.');
   if(isCharacterDefeated(a)||isCharacterDefeated(b))return fail('Personagem derrotado.');
   if(a.pinnedBy||a.pinning||b.pinnedBy||b.pinning)return fail('O vínculo do machado impede a troca.');
@@ -346,7 +360,7 @@ function getSwapPairs(s,side){
   const rear=s.units.filter(u=>ok(u)&&u.row==='rear'),front=s.units.filter(u=>ok(u)&&u.row==='front');
   return rear.flatMap(r=>front.map(f=>[r.uid,f.uid]));
 }
-function previewDamage(s,a,mana=0,target=null,mode='normal'){const damage=G.roundUpToFive((a.damage+(a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint)*(mode==='double'?2:1));return target?G.damageInfo(target,damage).damage:damage;}
+function previewDamage(s,a,mana=0,target=null,mode='normal'){if(G.officialPreviewDamage){const result=G.officialPreviewDamage(s,a,mana,target,mode);if(result!==null)return result;}const damage=G.roundUpToFive((a.damage+(a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint)*(mode==='double'?2:1));return target?G.damageInfo(target,damage).damage:damage;}
 const resetBattle=s=>createBattleState(s.config.playerTeam,s.config.enemyTeam,s.config.supportIds); // recomeça com as mesmas equipes iniciais; montes, mãos, Daly Mães e eliminados voltam do zero
 // Tabuleiro para a UI: por lado, os vivos de cada linha (ordenados pela posição). Eliminados não aparecem: ficam em s.eliminated.
 function getBoard(s){
@@ -354,5 +368,5 @@ function getBoard(s){
   return{player:{front:rows('player','front'),rear:rows('player','rear')},enemy:{front:rows('enemy','front'),rear:rows('enemy','rear')}};
 }
 Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
-Object.assign(G,{validateActor,completeAction,finishResolvedAction,recordBattleEvent:event});
+Object.assign(G,{validateActor,completeAction,finishResolvedAction,recordBattleEvent:event,applyCharacterHit:applyHit,resolveNativeReaction:resolveReaction,attackDaly,regenerateMageMana});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

@@ -15,6 +15,7 @@ function redeemMedals(s,side){
   return obtained;
 }
 function takeTurn(s,actor){
+  if(G.isActionLocked?.(actor)){const r=G.performStatusTurn(s,actor.uid);if(!r.ok||r.spent)return r;}
   if(actor.pinnedBy)return G.performPinnedTurn(s,actor.uid);
   if(actor.pinning){
     const target=G.getUnit(s,actor.pinning),progressing=actor.pinLastKeptHp==null||target.hp<actor.pinLastKeptHp;
@@ -23,6 +24,7 @@ function takeTurn(s,actor){
   }
   redeemMedals(s,actor.team);
   if(s.abilityChoices.length)return{ok:true,pending:true};
+  const official=G.officialAITurn?.(s,actor);if(official)return official;
   if(G.getMainAbility(actor)?.trigger==='deathBook')return G.performBookAttack(s,actor.uid);
   if(G.getMainAbility(actor)?.trigger==='healingAttack'){
     const ally=G.healingTargets(s,actor).filter(u=>u.hp<=u.maxHp/2).sort((a,b)=>a.hp-b.hp)[0];
@@ -38,6 +40,6 @@ function resolveRecovery(s){const r=s.recovery;if(!r)return{ok:false,error:'Nenh
   const av=G.recoveryOptions(s).filter(o=>o.available);if(!av.length)return{ok:false,error:'Nenhuma opção disponível.'};
   return G.performRecovery(s,av[Math.floor(s.rng()*av.length)].id);}
 function resolveFormation(s){return s.formation?G.resolveFrontLine(s,[...s.formation.candidates]):{ok:false,error:'Nenhum avanço pendente.'};}
-function resolveCharacterAbility(s){const p=G.pendingCharacterAbility(s);if(!p)return{ok:false,error:'Nenhuma habilidade pendente.'};const u=G.getUnit(s,p.actorUid),targets=G.abilityTargets(s,u,p.type).sort((a,b)=>a.hp-b.hp);return G.resolveCharacterAbility(s,u.uid,targets[0]?.uid);}
+function resolveCharacterAbility(s){const p=G.pendingCharacterAbility(s);if(!p)return{ok:false,error:'Nenhuma habilidade pendente.'};const u=G.getUnit(s,p.actorUid),targets=G.abilityTargets(s,u,p.type).sort((a,b)=>['starGift','guardian','friendship'].includes(p.type)?b.damage-a.damage||b.hp-a.hp:a.hp-b.hp);return G.resolveCharacterAbility(s,u.uid,targets[0]?.uid);}
 G.AI={chooseTarget,takeTurn,manaPlan,resolveRecovery,redeemMedals,resolveFormation,resolveCharacterAbility};
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

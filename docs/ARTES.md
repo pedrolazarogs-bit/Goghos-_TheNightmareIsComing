@@ -2,9 +2,9 @@
 
 Os 48 PNGs originais estão preservados sem alterações, assim como as artes adicionadas pelos kits seguintes. A orientação atual do criador é usar a base completa de cada personagem e acrescentar somente os números. Sark, Elétrica e John usam literalmente as bases recebidas, sem reconstruir suas ilustrações. As cartas preenchidas de referência permanecem em `assets/references/characters/`.
 
-Até a v0.18.0, as cartas eram compostas com ilustrações separadas: Eletric e Sarck usavam 39 e 29, e Sam usava o rosto do banner 40. A partir da v0.18.1, uma entrada `cardBase` em `js/data/characters.js` define a imagem integral recebida e os campos numéricos. Esse caminho tem prioridade sobre a composição antiga. Sam ainda aguarda sua base própria com os campos a preencher, conforme a escolha do criador. Elétrica e John receberam bases na v0.19.0. Retratos fora da carta, como o painel de vez, podem continuar usando as ilustrações avulsas e o banner.
+Até a v0.18.0, as cartas eram compostas com ilustrações separadas: Eletric e Sarck usavam 39 e 29, e Sam usava o rosto do banner 40. A partir da v0.18.1, uma entrada `cardBase` em `js/data/characters.js` define a imagem integral recebida e os campos numéricos. Esse caminho tem prioridade sobre a composição antiga. Sam passou a usar a carta completa mais recente recebida na v0.21.0, com limpeza numérica por CSS. Elétrica e John receberam bases na v0.19.0. Retratos fora da carta, como o painel de vez, podem continuar usando as ilustrações avulsas e o banner.
 
-Nas bases integrais, os símbolos das habilidades já fazem parte da imagem e não são duplicados. Os símbolos avulsos de Sark, Elétrica e John ficam disponíveis fora das cartas. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, 3000W e Sharp Guitar estão implementadas; a habilidade de Sam continua pendente.
+Nas bases integrais, os símbolos das habilidades já fazem parte da imagem e não são duplicados. Os símbolos avulsos de Sark, Elétrica e John ficam disponíveis fora das cartas. Sam ainda não tem símbolo avulso de habilidade neste pacote. Steel Jaw, 3000W e Sharp Guitar estão implementadas; o combo de Sam foi implementado na v0.21.0.
 
 | Nº | Arquivo recebido | Local no projeto | Estado |
 | ---: | --- | --- | --- |
@@ -123,3 +123,37 @@ Os arquivos `number_cleanup_<id>.png` foram preparados com a ferramenta de ediç
 Vida máxima e Dano são calculados pelas faixas atuais de classe e raridade. Os outros números deste grupo seguem as cartas até nova orientação do criador. Os novos valores de Vida, Dano e velocidade modificada por susto aparecem durante a batalha. Cores e molduras permanecem nas raridades ilustradas, inclusive o vermelho Mítico. Fora das cartas, os retratos da vez usam apenas um enquadramento da cabeça na mesma imagem recebida.
 
 [Seis cartas e habilidades](previews/personagens-v0.20.0.png) · [Pré-batalha](previews/prebatalha-v0.20.0-desktop.png) · [Duelo dimensional](previews/penxy-v0.20.0-desktop.png)
+
+## Elenco oficial completo — v0.21.0
+
+As 21 cartas desta etapa usam literalmente os PNGs recebidos. Cada imagem foi copiada para `assets/cards/card_base_<id>.png` e `assets/references/characters/<id>.png`, sem regravar pixels. Os 21 pares foram comparados por SHA-256 com os arquivos enviados. Sam usa a versão mais recente (Base54), que já estava preservada como referência.
+
+| Personagem | Original recebido | Identificador |
+| --- | --- | --- |
+| P. Ullys | `Original-Base22_20260127115144.png` | `p_ullys` |
+| Stally | `Original-Base23_20260127114324.png` | `stally` |
+| Endrik | `Original-Base24_20260127113906.png` | `endrik` |
+| Striker | `Original-Base26_20260127113324.png` | `striker` |
+| Sheriff | `Original-Base27_20260127112944.png` | `sheriff` |
+| Barn | `Original-Base28_20260127112625.png` | `barn` |
+| Fonior | `Original-Base32_20260119135301.png` | `fonior` |
+| Sam | `Original-Base54_20261019002932.png` | `sam` |
+| Chama | `Original-Base34_20260121003310.png` | `chama` |
+| Zuri | `Original-Base35_20260120203352.png` | `zuri` |
+| Draktar | `Original-Base36_20260121124719.png` | `draktar` |
+| Daztirry | `Original-Base37_20260121012205.png` | `daztirry` |
+| Mike | `Original-Base38_20260121133519.png` | `mike` |
+| Unicorn | `Original-Base39_20260124105358.png` | `unicorn` |
+| Nully | `Original-Base40_20260124012744.png` | `nully` |
+| Rayyb | `Original-Base47_20260225195543.png` | `rayyb` |
+| Rayvilin | `Original-Base51_20260225194828.png` | `rayvilin` |
+| Z-Zus | `Original-Base52_20260301022229.png` | `z_zus` |
+| Alex | `Original-Base46_20260604221119.png` | `alex` |
+| Karma | `Original-Base26_20260927200336.png` | `karma` |
+| Trucc | `Original-Base57_20260927200414.png` | `trucc` |
+
+A limpeza reaproveita apenas recortes das regiões numéricas do arquivo `number_cleanup_cavaleiro.png`, já preparado na v0.20.0. A imagem integral continua sendo o original. O contorno CSS oculta as amostras de paleta externas; a pose, a moldura, o nome, os símbolos e a raridade ilustrada são preservados. Os campos de Vida, dano e velocidade são atualizados em HTML; números longos ajustam o tamanho da fonte. Fôlego e traço de ataque do Sheriff permanecem impressos. Multiplicadores antigos de Alex e Draktar são cobertos para não contradizer as habilidades confirmadas.
+
+Trucc recebeu velocidade básica 8 para ser o mais rápido, conforme a orientação do criador; Sam, Chama, Nully e Alex preservam os danos individuais confirmados. Os demais atributos de Vida/dano seguem as faixas e os perfis atuais. Bônus, perdas de velocidade e Vida durante o jogo aparecem nos números da própria carta.
+
+Petra não foi adicionada. Todas as cartas jogáveis usam bases oficiais; os arquivos antigos de moldura e conceitos continuam disponíveis como recursos do projeto.

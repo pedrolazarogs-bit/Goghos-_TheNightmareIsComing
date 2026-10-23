@@ -1,4 +1,20 @@
-# Validação — v0.20.0
+# Validação — v0.21.0
+
+`npm test`: **145 testes aprovados**, incluindo **300 partidas simuladas**. São os 110 testes anteriores, 34 testes das novas habilidades e uma integração de 200 partidas com o catálogo atual. Os 100 jogos da integração histórica continuam cobrindo recuperação, formação, mão e conservação de cartas.
+
+A integração atual usou **os 30 oficiais**, com um Comum escolhido e um Raro sorteado por equipe. Todos apareceram nas 200 partidas; todas terminaram em vitória ou empate válido. A cada ação foram verificados: identidade e conservação das 30 cartas de personagem, conservação do monte principal, máximo de três na frente e dois Suportes atrás, mão de cinco, Vida/dano em múltiplos de 5, Oni vivo em zero e eliminação permanente.
+
+Os 34 testes específicos cobrem as 21 habilidades e suas interações: dados de acerto/erro, alvo principal e vizinhos do míssil sem saltar uma posição protegida, armadura, paralisia em ações globais, raridades de execução, revide fatal de Endrik, duelo nas duas direções, troca de hipnose com dano no novo alvo, almas sem cura, socos separados e interrupção por morte, queimaduras após morte da origem, cura única, caça tripla repetível, Oni com prazo fixo, bloqueio por classe/velocidade, estrela em si ou aliado, sono gratuito, petrificação com precisão decrescente e quebra por 30, proteção direcionada versus área, Swarm dividido, defesa contra Karma e esquiva progressiva de Trucc. Regressões verificam o retorno à Daly Mãe quando Burn perde o alvo, combo contando uma ação, estrela sem voltar a uma velocidade passada, impedimentos bloqueando movimentos e empate após esgotar recursos.
+
+## Navegador no computador e celular
+
+No Chromium em **1440×1000 e 390×844**, passaram **26 cenários de interface** (13 em cada resolução): seleção inicial e sorteio, Stally, Sam, míssil, troca de hipnose, sono, petrificação/execução, cura total, estrela, Swarm, revide de Karma, Oni e catálogo/busca. Os dados e a ordem foram controlados para reproduzir cada caso; o bot ficou aguardando enquanto os botões eram conferidos. Alguns feedbacks mantiveram os 2,2 segundos configurados e outros foram acelerados para validar o estado seguinte.
+
+Também foram abertas **as 30 formações do laboratório em cada resolução**, resolvendo todas as escolhas de entrada que surgiram. Não houve exceções JavaScript, imagens ausentes, texto `undefined`/`NaN` ou transbordamento horizontal. A largura dos números foi medida nos campos de todas as cartas do catálogo. As cartas de Sam, Alex, Trucc e Unicorn foram inspecionadas visualmente; os 21 pares base/referência desta etapa são idênticos por SHA-256 aos PNGs recebidos.
+
+[Seleção](previews/selecao-v0.21.0-desktop.png) · [Arena no computador](previews/arena-v0.21.0-desktop.png) · [Arena no celular](previews/arena-v0.21.0-celular.png) · [Pré-batalha no computador](previews/prebatalha-v0.21.0-desktop.png) · [Pré-batalha no celular](previews/prebatalha-v0.21.0-celular.png) · [Combo de Sam](previews/sam-v0.21.0-desktop.png) · [Swarm no celular](previews/swarm-v0.21.0-celular.png)
+
+# Validação anterior — v0.20.0
 
 ## Pré-batalha e seis personagens
 

@@ -1,44 +1,21 @@
-const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const path=require('node:path');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
-const G=globalThis.GOGHOS;
-let passed=0;
-const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
-
-test('cartas ilustradas usam a base própria quando fornecida e os atributos confirmados pelo criador',()=>{
-  const expected={sam:['LEGENDARY','FIGHTER'],eletric:['RARE','MAGO'],sarck:['LEGENDARY','ASSASSIN']};
-  for(const [id,[rarity,cls]] of Object.entries(expected)){
-    const c=G.getCharacterById(id);
-    assert(c);assert.equal(c.rarity,rarity);assert.equal(c.class,cls);
-    assert(c.illustrated);assert(c.artLayout);assert(!c.fullCardArt);assert(fs.existsSync(path.join(__dirname,'..',c.art)));
-    assert(G.cardHTML(c).includes(c.cardBase?.src||c.art));
-    const reference=fs.readFileSync(path.join(__dirname,'..','assets/references/characters',id+'.png'));
-    assert(!fs.readFileSync(path.join(__dirname,'..',c.art)).equals(reference),'a carta pronta não pode servir de retrato');
-    assert(!G.cardHTML(c).includes('assets/references/'));
-    if(c.abilityArt)assert(fs.existsSync(path.join(__dirname,'..',c.abilityArt)));
-    assert(Number.isFinite(c.knownHp)?c.maxHp===c.knownHp:c.maxHp>=G.RARITY_HP[rarity].min&&c.maxHp<=G.RARITY_HP[rarity].max);
-    if(!c.passiveOnly)assert(c.damage>=G.RARITY_DAMAGE[rarity].min&&c.damage<=G.RARITY_DAMAGE[rarity].max);
-  }
-  assert.equal(G.getCharacterById('eletric').maxHp,220);
-  assert.equal(G.getCharacterById('eletric').damage,130);
-  assert.equal(G.getCharacterById('sarck').maxHp,530);
-  for(const c of G.SUPPORT_CARDS)assert(fs.existsSync(path.join(__dirname,'..',c.art)));
-  assert(fs.existsSync(path.join(__dirname,'..','assets/logo/logo.png')));
+const assert=require('node:assert/strict'),fs=require('node:fs');
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
+const G=globalThis.GOGHOS;let passed=0;const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
+test('catálogo tem 30 personagens oficiais, com bases recebidas e sem Petra ou personagens provisórios',()=>{
+ assert.equal(G.CHARACTERS.length,30);assert.equal(new Set(G.CHARACTERS.map(c=>c.id)).size,30);assert.equal(G.getCharacterById('petra'),null);
+ for(const c of G.CHARACTERS){assert(c.official);assert(!c.id.startsWith('char_'));assert(c.cardBase);assert(G.getMainAbility(c));assert(fs.existsSync(c.cardBase.src));assert.equal(c.maxHp%5,0);assert.equal(c.damage%5,0);if(c.cardBase.cleanup)assert(fs.existsSync(c.cardBase.cleanup.src));assert(!G.cardHTML(c).includes('undefined'));}
+ for(const c of G.CHARACTERS.filter(c=>c.cardBase.outline))assert(fs.readFileSync(c.cardBase.src).equals(fs.readFileSync('assets/references/characters/'+c.id+'.png')));
+ assert.equal(G.getCharacterById('sam').damage,70);assert.equal(G.getCharacterById('chama').damage,65);assert.equal(G.getCharacterById('nully').damage,55);assert.equal(G.getCharacterById('alex').damage,220);
+ assert.equal(G.getCharacterById('sarck').maxHp,530);assert.equal(G.getCharacterById('eletric').damage,130);assert.equal(G.getCharacterById('john').damage,80);
 });
-
-test('Eletric e Sark podem entrar na equipe por medalhas de suas raridades quando houver espaço',()=>{
-  for(const id of ['eletric','sarck']){
-    const rarity=G.getCharacterById(id).rarity;
-    const s=G.createBattleState({front:['char_02','char_03'],rear:[]},{front:['char_04','char_05'],rear:[]});
-    for(const r of G.RARITIES)s.piles[r]=[];
-    s.piles[rarity]=[{iid:'character-'+id,id}];
-    const card={iid:'daly-'+id,id:G.MEDAL_ID[rarity]};s.deck.hands.player.push(card);
-    const result=G.resolveDalle(s,'player',card);
-    assert(result.ok,result.error);assert(result.obtained);
-    const unit=G.getUnit(s,result.obtained);
-    assert.equal(unit.id,id);assert.equal(unit.row,'front');
-    assert.equal(s.piles[rarity].length,0);
-  }
+test('seleção escolhe um Comum por equipe e sorteia um Raro diferente para cada uma, sem repetir cartas físicas',()=>{
+ for(let seed=1;seed<=20;seed++){
+  let state=seed;const rng=()=>((state=(Math.imul(state,1664525)+1013904223)>>>0)/4294967296);const {sel}=G.createSelection({rng});assert.equal(sel.offered.length,3);
+  assert(G.selectionPick(sel,'player',sel.offered[0]).ok);assert(G.selectionBotPick(sel).ok);assert(G.selectionDone(sel));
+  const teams=G.selectionTeams(sel),ids=[...teams.player.front,...teams.enemy.front];assert.equal(new Set(ids).size,4);
+  for(const t of Object.values(teams)){assert.equal(t.front.length,2);assert.equal(G.getCharacterById(t.front[0]).rarity,'COMMON');assert.equal(G.getCharacterById(t.front[1]).rarity,'RARE');}
+  const s=G.createBattleState(teams.player,teams.enemy,[],{rng});assert.equal(Object.values(s.piles).flat().length+s.units.length,30);
+  assert(s.units.every(u=>u.row==='front'));assert(!Object.values(s.piles).flat().some(c=>c.id.startsWith('char_')));
+ }
 });
-console.log(`${passed} testes do catálogo passaram`);
+console.log(`${passed} testes do catálogo oficial passaram`);

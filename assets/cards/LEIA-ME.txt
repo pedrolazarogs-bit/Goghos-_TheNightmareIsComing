@@ -9,3 +9,5 @@ Cadastre novas bases em cardBase.src e os campos numéricos em cardBase.fields, 
 Quando a base também deixar um campo de texto vazio, cardBase.labels permite preenchê-lo sem alterar o PNG original.
 
 v0.20.0: card_base_penxy/cavaleiro/zikssy/elysh/ddx/vaglar.png preservam as cartas prontas recebidas byte a byte. Os recortes declarados em cardBase.cleanup.regions usam os arquivos number_cleanup_<id>.png para limpar somente os números antigos. A interface acrescenta os valores atuais; retrato, nome, cores, moldura e símbolos continuam vindo do original. Não substitua a carta inteira pela imagem de limpeza.
+
+v0.21.0: as 21 bases restantes autorizadas (incluindo a carta mais recente de Sam) preservam os PNGs recebidos byte a byte. A limpeza numérica usa somente recortes de number_cleanup_cavaleiro.png por CSS; não há cópia de retrato ou moldura dessa limpeza. O contorno CSS oculta as amostras de paleta fora da carta. Petra não está no catálogo. Todos os 30 personagens jogáveis usam bases oficiais.

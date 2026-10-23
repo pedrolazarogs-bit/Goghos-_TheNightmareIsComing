@@ -1,6 +1,7 @@
 // Fluxo completo com as regras atuais: seleção, partida, compras e vitória.
 const assert = require('node:assert/strict');
-['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/selection','core/ai'].forEach(f=>require('../js/'+f+'.js'));
+require('./fixtures/legacy_catalog.js');
 const G = globalThis.GOGHOS;
 const seeded = seed => () => {seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
 let passed = 0;
