@@ -19,7 +19,8 @@ G.recoveryHTML=s=>{
   const r=s.recovery;if(!r||r.side!=='player')return '';
   const plural={COMMON:'Comuns',RARE:'Raros',EPIC:'Épicos'};
   const b=G.recoveryOptions(s).map(o=>`<button data-act="recover-${o.id}"${o.available?'':' disabled'}>${o.id} · ${o.drawCount} ${o.drawCount===1?lbl(o.rarity):plural[o.rarity]}<small>${o.have===0?'Monte vazio':!o.available?'Sem espaço na formação':`${o.have} no monte · até ${o.count} por recuperação`}</small></button>`).join('');
-  return `<div class="recov" role="region" aria-labelledby="recovery-title"><h3 id="recovery-title">Sua Daly Mãe perdeu uma vida</h3><p>Escolha uma raridade. Você recebe cartas do topo desse monte; se restarem menos, recebe as restantes.</p><div class="recovery-options">${b}</div></div>`;
+  const order=s.speedCursor===null?'':`<p>A hierarquia continua da velocidade ${s.speedCursor}. Os resgatados com essa velocidade ou menor entram na sequência desta rodada; os mais rápidos aguardam o próximo reset. Os empates mantêm o desempate da arena.</p>`;
+  return `<div class="recov" role="region" aria-labelledby="recovery-title"><h3 id="recovery-title">Sua Daly Mãe perdeu uma vida</h3><p>Escolha uma raridade. Você recebe cartas do topo desse monte; se restarem menos, recebe as restantes.</p>${order}<div class="recovery-options">${b}</div></div>`;
 };
 // Linha com os 5 montes de personagens (disponíveis).
 G.pilesLineHTML=s=>s.piles?`Personagens: ${G.RARITIES.map(r=>lbl(r)+' '+s.piles[r].length).join(' · ')}`:'';

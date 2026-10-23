@@ -1,8 +1,16 @@
-# Validação da arena — v0.17.0
+# Validação — v0.17.1
 
-## Regras preservadas
+## Correção da hierarquia na recuperação
 
-Os arquivos de `js/core/` não mudaram em relação à v0.16.0. Os dados dos personagens e os tempos da batalha são os mesmos; em `js/data/characters.js` mudou apenas a identificação da versão.
+O erro foi reproduzido com um ataque de velocidade 5 à Daly Mãe seguido de recuperação: apenas os adversários de velocidades 4 e 2 permaneciam elegíveis. A versão corrigida inclui os novos personagens nas velocidades ainda válidas, sem apagar ações anteriores ou iniciar outro ciclo.
+
+`npm test`: 46 testes aprovados, incluindo 100 partidas completas simuladas. Os sete testes novos cobrem recuperação das duas equipes, velocidades iguais e menores, empate com oponente, velocidade já ultrapassada, resgate após o último atacante, reset com compra única, cliques repetidos, opções inválidas e consultas da interface sem alterar a velocidade salva. Também executam a sequência de ações após a recuperação.
+
+No Chromium, em 1280×800 e 390×844, foram conferidos seis fluxos com os tempos reais do jogo: resgates de velocidade 4 e 5 após ataque de 5 para o jogador, e resgate de 4 para o bot. As cartas entram na hierarquia exibida e atacam na rodada correta, sem compra no resgate, exceções JavaScript, imagens ausentes ou transbordamento horizontal. O visual da v0.17.0 foi mantido.
+
+## Validação anterior da arena — v0.17.0
+
+Na v0.17.0, os arquivos de `js/core/` não mudaram em relação à v0.16.0. Os dados dos personagens e os tempos da batalha permaneceram iguais; em `js/data/characters.js` mudou apenas a identificação da versão.
 
 `npm test`: 39 testes aprovados, incluindo 100 partidas completas simuladas. Além dos 35 testes anteriores, há verificações de que as prévias visuais não avançam a fila nem compram cartas, respeitam escolhas pendentes, apresentam os atributos atuais e mantêm a mão adversária oculta.
 

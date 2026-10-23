@@ -31,7 +31,7 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   const rng=opts.rng||Math.random,teams={player:playerTeam,enemy:enemyTeam};
   ['player','enemy'].forEach(side=>{const v=validateTeam(teams[side]);if(!v.ok)throw new Error(side+': '+v.error);});
   const s={config:{playerTeam:cp(playerTeam),enemyTeam:cp(enemyTeam),supportIds:[...supportIds]},units:[],uidSeq:{player:0,enemy:0},round:0,turn:1,phase:'battle',
-    support:G.createSupportState(supportIds),order:[],acted:{},result:null,final:null,log:[],rng,eventSeq:0,lastEvent:null,
+    support:G.createSupportState(supportIds),order:[],acted:{},speedCursor:null,result:null,final:null,log:[],rng,eventSeq:0,lastEvent:null,
     deck:G.createDeckState(rng),piles:G.createCharacterPiles(rng),eliminated:[],daly:G.createDalyMae(),recovery:null,formation:null,
     roll:opts.roll||(n=>1+Math.floor(rng()*n))}; // roll(n): dado de n lados (injetável nos testes). Tudo aqui é novo a cada partida: nada vaza da anterior.
   ['player','enemy'].forEach(side=>{const t=teams[side];
@@ -39,11 +39,21 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   buildTurnOrder(s);if(G.CONFIG.resetDraw.onBattleStart)G.onSpeedReset(s);return s;
 }
 // Ordem: só quem pode agir (frente, vivo), por Velocidade (maior primeiro).
-// DESEMPATE: equipe do jogador antes da adversária; depois posição (slot). Quem entra ou avança no meio da rodada age a partir da próxima.
+// DESEMPATE: equipe do jogador antes da adversária; depois posição (slot).
+// Medalhas e avanços esperam a próxima rodada; recuperação da Daly pode entrar na faixa de velocidade restante.
+const compareSpeed=(a,b)=>b.speed-a.speed||(a.team===b.team?0:a.team==='player'?-1:1)||a.slot-b.slot;
 function buildTurnOrder(s){
   const list=s.units.filter(canAct);
-  list.sort((a,b)=>b.speed-a.speed||(a.team===b.team?0:a.team==='player'?-1:1)||a.slot-b.slot);
-  s.order=list.map(u=>u.uid);s.acted={};s.round++;return s.order;
+  list.sort(compareSpeed);
+  s.order=list.map(u=>u.uid);s.acted={};s.speedCursor=null;s.round++;return s.order;
+}
+// Inclui apenas os recuperados cuja velocidade ainda não passou, sem resetar rodada, compras ou ações gastas.
+function resumeRecoveryOrder(s,units){
+  const eligible=units.filter(u=>canAct(u)&&s.speedCursor!==null&&u.speed<=s.speedCursor&&!s.acted[u.uid]&&!s.order.includes(u.uid));
+  const done=s.order.filter(uid=>s.acted[uid]);
+  const remaining=s.order.filter(uid=>!s.acted[uid]).map(uid=>getUnit(s,uid)).concat(eligible).sort(compareSpeed);
+  s.order=done.concat(remaining.map(u=>u.uid));
+  units.forEach(u=>s.log.push(u.name+' · velocidade '+u.speed+' · '+(eligible.includes(u)?'entra na hierarquia desta rodada':'aguarda o próximo reset de velocidade')));
 }
 function getNextActor(s){
   const paused=()=>s.result||s.recovery||s.formation||s.support.pending||(s.deck&&s.deck.pendingChoice);
@@ -108,8 +118,9 @@ function regenerateMageMana(s){
   if(recovered.length)s.log.push('Mana · '+recovered.join(', '));
 }
 function event(s,data){s.eventSeq=(s.eventSeq||0)+1;s.lastEvent={id:s.eventSeq,...data};}
+function completeAction(s,a){s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;}
 function attackDaly(s,a,side){
-  const d=s.daly[side],before=d.hp;d.hp=Math.max(0,d.hp-1);s.acted[a.uid]=true;s.turn++;event(s,{type:'daly-hit',actorUid:a.uid,targetUid:'daly_'+side,damage:before-d.hp});
+  const d=s.daly[side],before=d.hp;d.hp=Math.max(0,d.hp-1);completeAction(s,a);event(s,{type:'daly-hit',actorUid:a.uid,targetUid:'daly_'+side,damage:before-d.hp});
   Object.assign(s.lastEvent,{actorName:a.name,targetName:side==='player'?'Sua Daly Mãe':'Daly Mãe adversária',beforeHp:before,afterHp:d.hp});
   s.log.push(a.name+' atacou '+(side==='player'?'a sua Daly Mãe':'a Daly Mãe adversária')+' · −1 vida ('+d.hp+'/'+d.max+')');
   regenerateMageMana(s);
@@ -147,8 +158,8 @@ function performBasicAttack(s,attackerUid,targetUid,mana=0){
   const per=G.CONFIG.manaDamagePerPoint,bonus=a.team==='player'?G.takeAttackBonus(s):0,dmg=a.damage+bonus+mana*per; // apoio (Na Moloeira) + mana do Mago
   a.mana-=mana; // Mana gasta é parcialmente recuperada ao fim de cada ação/turno que passa
   const dd=rollDodge(s,a,t); // o bônus de apoio e a mana já foram gastos, mesmo se o ataque for esquivado
-  if(dd&&dd.dodged){s.acted[a.uid]=true;s.turn++;event(s,{type:'dodge',actorUid:a.uid,targetUid:t.uid,actorName:a.name,targetName:t.name,damage:0,beforeHp:t.hp,afterHp:t.hp,roll:dd.roll});s.log.push(a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dd.roll+' ≤ '+dd.diff+')');regenerateMageMana(s);return{ok:true,damage:0,defeated:false,dodged:true,roll:dd.roll,needed:dd.diff};}
-  const hpBefore=t.hp;t.hp=Math.min(t.maxHp,Math.max(0,t.hp-dmg));s.acted[a.uid]=true;s.turn++;event(s,{type:t.hp<=0?'defeat':'hit',actorUid:a.uid,targetUid:t.uid,actorName:a.name,targetName:t.name,targetTeam:t.team,targetRow:t.row,targetSlot:t.slot,beforeHp:hpBefore,afterHp:t.hp,damage:Math.min(hpBefore,dmg),manaSpent:mana,bonus});
+  if(dd&&dd.dodged){completeAction(s,a);event(s,{type:'dodge',actorUid:a.uid,targetUid:t.uid,actorName:a.name,targetName:t.name,damage:0,beforeHp:t.hp,afterHp:t.hp,roll:dd.roll});s.log.push(a.name+' atacou '+t.name+', mas '+t.name+' esquivou! (dado '+dd.roll+' ≤ '+dd.diff+')');regenerateMageMana(s);return{ok:true,damage:0,defeated:false,dodged:true,roll:dd.roll,needed:dd.diff};}
+  const hpBefore=t.hp;t.hp=Math.min(t.maxHp,Math.max(0,t.hp-dmg));completeAction(s,a);event(s,{type:t.hp<=0?'defeat':'hit',actorUid:a.uid,targetUid:t.uid,actorName:a.name,targetName:t.name,targetTeam:t.team,targetRow:t.row,targetSlot:t.slot,beforeHp:hpBefore,afterHp:t.hp,damage:Math.min(hpBefore,dmg),manaSpent:mana,bonus});
   s.log.push(a.name+' causou '+dmg+(bonus?' (+'+bonus+' de apoio)':'')+(mana?' (+'+mana*per+' com '+mana+' de mana)':'')+' em '+t.name+(t.hp<=0?' (derrotado)':'')+(dd?' [esquiva falhou: dado '+dd.roll+' > '+dd.diff+']':''));
   if(t.hp<=0)G.eliminateUnit(s,t); // eliminação permanente: sai da equipe e da fila, promove a retaguarda, expõe a Daly Mãe se a equipe acabou
   if(!s.result&&t.hp<=0)G.onAllyDefeated(s,t);
@@ -184,5 +195,5 @@ function getBoard(s){
   const rows=(side,row)=>s.units.filter(u=>u.team===side&&u.row===row&&!isCharacterDefeated(u)).sort((a,b)=>a.slot-b.slot);
   return{player:{front:rows('player','front'),rear:rows('player','rear')},enemy:{front:rows('enemy','front'),rear:rows('enemy','rear')}};
 }
-Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,buildTurnOrder,getNextActor,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performSwap,getSwapPairs,previewDamage,dodgeInfo,resetBattle,getBoard});
+Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,buildTurnOrder,resumeRecoveryOrder,getNextActor,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performSwap,getSwapPairs,previewDamage,dodgeInfo,resetBattle,getBoard});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

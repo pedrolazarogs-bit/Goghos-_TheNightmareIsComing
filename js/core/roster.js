@@ -25,7 +25,7 @@ G.claimCharacter=(s,id)=>{
 
 // ---------- Equipe: linha de frente e retaguarda ----------
 // Novo personagem ocupa uma das 3 vagas da frente; com a frente cheia, só Suportes podem ocupar as 2 vagas da retaguarda.
-// Não dá ataque extra nem muda a ordem da rodada (age a partir da rodada seguinte).
+// A inclusão por medalha espera a próxima rodada; a recuperação ajusta a fila após colocar todas as cartas.
 G.addCharacterToTeam=(s,side,inst)=>{
   const live=liveOf(s,side),c=G.getCharacterById(inst.id);
   let row='front';
@@ -117,8 +117,9 @@ G.performRecovery=(s,optionId)=>{
   const ordered=[...taken.filter(inst=>G.getCharacterById(inst.id).class!=='SUPPORT'),...taken.filter(inst=>G.getCharacterById(inst.id).class==='SUPPORT')];
   pile.splice(pile.length-o.drawCount,o.drawCount);
   const units=ordered.map(inst=>G.addCharacterToTeam(s,r.side,inst));
+  G.resumeRecoveryOrder(s,units);
   s.recovery=null;s.phase='battle';
-  s.log.push(who(r.side,'Recuperação','Recuperação do adversário')+' '+o.id+': '+units.length+' personagem(ns) adicionado(s) · '+G.RARITY_LABEL[o.rarity]);
+  s.log.push(who(r.side,'Recuperação','Recuperação do adversário')+' '+o.id+': '+units.length+' personagem(ns) adicionado(s) · '+G.RARITY_LABEL[o.rarity]+(s.speedCursor===null?'':' · hierarquia continua da velocidade '+s.speedCursor));
   return{ok:true,option:o.id,side:r.side,units:units.map(u=>u.uid)};
 };
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

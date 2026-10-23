@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.17.0** apresenta todos os Comuns na seleção, escolhas alternadas de dois personagens por equipe, arena com seis montes visíveis, medalhas por cor e movimentação de Suportes. A arena segue a referência visual do criador: campo aberto no centro, registro e leque à esquerda, vez atual e atributos à direita, com as artes originais do pacote recebido. As regras da v0.16.0 foram preservadas.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.17.1** corrige a hierarquia após a recuperação da Daly Mãe: os resgatados entram na sequência de velocidades que ainda falta, sem reiniciar a rodada nem repetir ataques. Há seleção alternada de dois Comuns por equipe, seis montes visíveis, medalhas por cor e movimentação de Suportes. A arena mantém a referência visual do criador: campo no centro, registro e leque à esquerda, vez atual e atributos à direita, com as artes originais recebidas.
 
 ## Jogar e desenvolver
 
