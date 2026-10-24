@@ -1,4 +1,4 @@
-// Loja: por enquanto só o ponto de entrada. Moeda, itens e preços ainda NÃO foram definidos pelo criador.
+// Entrada de compatibilidade da loja: o Santuário reúne os baús e visuais locais.
 (function(G){
-G.shopHTML=()=>`<section class="center"><h1>Loja</h1><p class="soon">Em breve</p><p class="ver">Os itens e a moeda ainda serão definidos.</p><button class="big" data-act="menu">Voltar</button></section>`;
+G.shopHTML=()=>G.Sanctuary?G.Sanctuary.render('vault'):`<section class="center"><h1>Santuário da noite</h1><p>Volte ao menu para acessar os baús e visuais.</p><button data-act="menu">Voltar</button></section>`;
 })(globalThis.GOGHOS);

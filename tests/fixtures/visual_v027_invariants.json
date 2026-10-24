@@ -1,0 +1,4672 @@
+{
+  "schemaVersion": 1,
+  "baselineVersion": "0.26.2",
+  "intent": "Invariantes da renovação visual: regras, balanceamento e cartas originais não mudam.",
+  "core": {
+    "js/core/ai.js": "d9670e5adb335cd635cc04babee6b66da67650087de7101892e58afe078f6494",
+    "js/core/battle.js": "e069fdff909a53c8d58690b9d761226f6828043ef340a4bcebbe66eb51b485ef",
+    "js/core/character_abilities.js": "0bb553d90607cb655fb27375e1b03d894854a72c6008b90ae97dba99eaaa0dde",
+    "js/core/deck.js": "2366c752efe3274836e48a17be2635212b9d260e4caa74a268d73ca695266019",
+    "js/core/divine.js": "17b005643a64087a39347a09bc3ee42582b2dd8833e947292b632a4cbf1209fc",
+    "js/core/official_abilities.js": "414f6011ae134ab2fd1b98034e8e07d3118d6b09bd949a058e471b59636b1a0d",
+    "js/core/roster.js": "f64cf825bc1ac65e1f247ee59f7d896bc64b56a73a80c7d3f3c25399a94e93d7",
+    "js/core/selection.js": "1b324a5fd6b06298dbf87b62a2daab1931ce45a06467f4c2652a499a3fe2de4f",
+    "js/core/support.js": "e3ca4adf77c1bfafa4c71d17a700924906316546a777faa5e2c69868b550cfbc",
+    "js/core/support_effects.js": "cbe000360ba9f6e139fd000b0b81e43bf554087912fa79168d0cb6a9ebcb5f68"
+  },
+  "dataSource": {
+    "js/data/characters.js": "d3a2bfb1f0e7f27839ca26a0907adc1a65bb0b64cb25ee5bd95c7171baf6b6b1",
+    "js/data/gods.js": "8eeaef11b4d80447052fb7f4918e2cb774ddd734452ffed11118ca67b29cbe07",
+    "js/data/reset_cards.js": "faddff44a5e7c2bf1e60448c8ebecc81feab5b30aefc07b4e50c02bc7e54e3f6",
+    "js/data/support_cards.js": "867830ea11700d575bd5ff2762165d02d39dfaf9d57fb6466002a8f45853a002"
+  },
+  "data": {
+    "CLASSES": [
+      "ASSASSIN",
+      "SUPPORT",
+      "FIGHTER",
+      "TANK",
+      "DESTROYER",
+      "MAGO"
+    ],
+    "RARITIES": [
+      "COMMON",
+      "RARE",
+      "EPIC",
+      "MYTHIC",
+      "LEGENDARY",
+      "SECRET"
+    ],
+    "RARITY_LABEL": {
+      "COMMON": "Comum",
+      "RARE": "Raro",
+      "EPIC": "Épico",
+      "MYTHIC": "Mítico",
+      "LEGENDARY": "Lendário",
+      "SECRET": "Secreto"
+    },
+    "RARITY_HP": {
+      "COMMON": {
+        "min": 130,
+        "max": 220
+      },
+      "RARE": {
+        "min": 200,
+        "max": 350
+      },
+      "EPIC": {
+        "min": 320,
+        "max": 530
+      },
+      "MYTHIC": {
+        "min": 430,
+        "max": 700
+      },
+      "LEGENDARY": {
+        "min": 550,
+        "max": 1200
+      },
+      "SECRET": {
+        "min": 605,
+        "max": 1320
+      }
+    },
+    "RARITY_DAMAGE": {
+      "COMMON": {
+        "min": 25,
+        "max": 120
+      },
+      "RARE": {
+        "min": 30,
+        "max": 150
+      },
+      "EPIC": {
+        "min": 50,
+        "max": 220
+      },
+      "MYTHIC": {
+        "min": 90,
+        "max": 430
+      },
+      "LEGENDARY": {
+        "min": 150,
+        "max": 670
+      },
+      "SECRET": {
+        "min": 165,
+        "max": 740
+      }
+    },
+    "CLASS_PROFILE": {
+      "MAGO": {
+        "hp": "low",
+        "damage": "veryHigh"
+      },
+      "ASSASSIN": {
+        "hp": "normal",
+        "damage": "medium"
+      },
+      "FIGHTER": {
+        "hp": "medium",
+        "damage": "normal"
+      },
+      "SUPPORT": {
+        "hp": "high",
+        "damage": "veryLow"
+      },
+      "TANK": {
+        "hp": "veryHigh",
+        "damage": "high"
+      },
+      "DESTROYER": {
+        "hp": "veryLow",
+        "damage": "veryHigh"
+      }
+    },
+    "MAGE_MAX_MANA": 3,
+    "MAIN_ABILITIES": {
+      "steel_jaw": {
+        "name": "Steel Jaw",
+        "trigger": "onAttacked",
+        "damage": 390,
+        "instantRarities": [
+          "COMMON",
+          "RARE",
+          "EPIC",
+          "MYTHIC"
+        ],
+        "description": "Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante abaixo de Lendário; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar."
+      },
+      "electric_area": {
+        "name": "3000W",
+        "trigger": "areaAttack",
+        "description": "Causa o dano básico a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente."
+      },
+      "sharp_guitar": {
+        "name": "Sharp Guitar",
+        "trigger": "pinAttack",
+        "damage": 20,
+        "description": "Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry."
+      },
+      "ghost_dimension": {
+        "name": "Ghost Claw",
+        "trigger": "dimension",
+        "description": "Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Striker não pode ser escolhido enquanto sua proteção estiver ativa e Penxy for mais rápido. Sem alvo permitido, aguarda a próxima oportunidade sem travar a pré-batalha. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez."
+      },
+      "knight_armor": {
+        "name": "Armadura",
+        "trigger": "armor",
+        "reduction": 0.8,
+        "description": "Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5."
+      },
+      "fright": {
+        "name": "Claws",
+        "trigger": "fright",
+        "description": "Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação."
+      },
+      "healing_shot": {
+        "name": "Lazer Gun",
+        "trigger": "healingAttack",
+        "description": "Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima."
+      },
+      "four_arms": {
+        "name": "Fish",
+        "trigger": "doubleAttack",
+        "description": "Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar a quantidade de golpes. Cada golpe tem sua própria defesa e reação."
+      },
+      "death_book": {
+        "name": "Charm",
+        "trigger": "deathBook",
+        "damage": 200,
+        "description": "Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado de raridade inferior à sua; nas demais, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico."
+      },
+      "missile": {
+        "name": "Míssil",
+        "description": "Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha.",
+        "trigger": "missile"
+      },
+      "paralyzingKick": {
+        "name": "Paralisia",
+        "description": "Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem.",
+        "trigger": "paralyzingKick"
+      },
+      "deathShark": {
+        "name": "Tubarão",
+        "description": "Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior.",
+        "trigger": "deathShark"
+      },
+      "speedWard": {
+        "name": "Proteção de velocidade",
+        "description": "Adversários mais rápidos que Striker não podem atacá-lo. Essa proteção também impede que Penxy mais rápido o leve para o duelo dimensional.",
+        "trigger": "speedWard"
+      },
+      "duelist": {
+        "name": "Duelo",
+        "description": "Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até a raridade do Xerife, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.",
+        "trigger": "duelist"
+      },
+      "hypnosis": {
+        "name": "Hipnose",
+        "description": "Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.",
+        "trigger": "hypnosis"
+      },
+      "souls": {
+        "name": "Almas",
+        "description": "Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.",
+        "trigger": "souls"
+      },
+      "punchCombo": {
+        "name": "Combo de socos",
+        "description": "Até seis socos individuais com o dano básico no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.",
+        "trigger": "punchCombo"
+      },
+      "flames": {
+        "name": "Fogo persistente",
+        "description": "Ataca pelo dano básico e queima o alvo por esse mesmo valor nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.",
+        "trigger": "flames"
+      },
+      "fullHeal": {
+        "name": "Cura total",
+        "description": "Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima.",
+        "trigger": "fullHeal"
+      },
+      "hunt": {
+        "name": "Caça",
+        "description": "Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente.",
+        "trigger": "hunt"
+      },
+      "oni": {
+        "name": "Estado Oni",
+        "description": "Ao zerar a Vida, fica imortal por três ações de qualquer personagem, com +30 de dano. Depois é eliminado.",
+        "trigger": "oni"
+      },
+      "assassinWard": {
+        "name": "Proteção contra Assassinos",
+        "description": "Nenhum adversário da classe Assassino pode atacar Mike.",
+        "trigger": "assassinWard"
+      },
+      "starGift": {
+        "name": "Estrela",
+        "description": "Na entrada, fortalece um aliado ou a si mesma: +150 de Vida máxima e atual, +50 de dano e +2 de velocidade. Uso único em um personagem; dura enquanto o beneficiado viver.",
+        "trigger": "starGift"
+      },
+      "diceExecution": {
+        "name": "Decapitação",
+        "description": "Rola d6 ao atacar. 1–5 multiplica o dano básico atual. 6 elimina raridade igual ou inferior; contra superior, causa seis vezes o básico.",
+        "trigger": "diceExecution"
+      },
+      "sleepPowder": {
+        "name": "Pó mágico",
+        "description": "Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez.",
+        "trigger": "sleepPowder"
+      },
+      "petrify": {
+        "name": "Petrificação",
+        "description": "Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez.",
+        "trigger": "petrify"
+      },
+      "guardian": {
+        "name": "Sacrifício",
+        "description": "Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente.",
+        "trigger": "guardian"
+      },
+      "swarm": {
+        "name": "Swarm",
+        "description": "Escolhe concentrar o dano básico em um adversário ou dividi-lo igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5.",
+        "trigger": "swarm"
+      },
+      "friendship": {
+        "name": "Melhor amigo",
+        "description": "Na entrada escolhe um amigo. Revida com seu dano contra quem o atacar, mesmo se o amigo esquivar, defender ou morrer. O revide permite defesa e esquiva.",
+        "trigger": "friendship"
+      },
+      "fadingDodge": {
+        "name": "Esquiva veloz",
+        "description": "Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.",
+        "trigger": "fadingDodge"
+      },
+      "max_hp_strike": {
+        "name": "Prototype",
+        "trigger": "maxHpStrike",
+        "description": "Ataca um adversário por 30% da Vida máxima dele, arredondando para cima em múltiplos de 5. O ataque respeita defesa, esquiva e proteção."
+      },
+      "presence": {
+        "name": "Presence",
+        "trigger": "presence",
+        "description": "Ignora habilidades de personagens: controles, execuções, defesas e reações. Seus ataques atravessam essas proteções. Cartas de Apoio continuam válidas. MAX reúne os tributos de classe já definidos."
+      }
+    },
+    "CONFIG": {
+      "handLimit": 5,
+      "aiSupport": true,
+      "classTributes": true,
+      "allowSummon": true,
+      "manaDamagePerPoint": 10,
+      "dodgeDie": 6,
+      "selection": {
+        "min": 4,
+        "rareAuto": false
+      },
+      "pacing": {
+        "botThink": 1800,
+        "feedback": 2200
+      },
+      "dalyMaeLives": 3,
+      "recoveryOptions": [
+        {
+          "id": "A",
+          "rarity": "EPIC",
+          "count": 2
+        },
+        {
+          "id": "B",
+          "rarity": "RARE",
+          "count": 3
+        }
+      ],
+      "supportMax": 3,
+      "mainDeckTypes": [
+        "SUPPORT",
+        "SPECIAL",
+        "ITEM",
+        "DALY",
+        "PRIMORDIAL"
+      ],
+      "resetDraw": {
+        "perTeam": 1,
+        "onBattleStart": false
+      }
+    },
+    "CHARACTERS": [
+      {
+        "id": "eletric",
+        "name": "Elétrica",
+        "class": "MAGO",
+        "maxHp": 220,
+        "damage": 100,
+        "speed": 3,
+        "art": "assets/rebalance/kit-master-upgrade/eletric.png",
+        "description": "Causa o dano básico a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente.",
+        "rarity": "RARE",
+        "stamina": 4,
+        "mainAbility": "3000W",
+        "tribute": null,
+        "abilityId": "electric_area",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/eletric.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/eletric.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            },
+            "mana": {
+              "b": [
+                365,
+                840,
+                475,
+                950
+              ],
+              "s": 90,
+              "a": "c"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false,
+          "patches": [
+            {
+              "src": "assets/cards/card_base_eletric.png",
+              "bounds": [
+                378,
+                855,
+                460,
+                935
+              ],
+              "role": "mana"
+            }
+          ]
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "john",
+        "name": "John",
+        "class": "FIGHTER",
+        "maxHp": 250,
+        "damage": 80,
+        "speed": 2,
+        "art": "assets/characters/john_banner.png",
+        "description": "Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry.",
+        "rarity": "RARE",
+        "stamina": 3,
+        "mainAbility": "Sharp Guitar",
+        "tribute": "Parry",
+        "abilityId": "sharp_guitar",
+        "parryThreshold": 2,
+        "knownHp": 270,
+        "knownDamage": 80,
+        "illustrated": true,
+        "cardBase": {
+          "src": "assets/cards/card_base_john.png",
+          "labels": {
+            "name": "JOHN"
+          },
+          "fields": {
+            "hp": {
+              "b": [
+                465,
+                1320,
+                885,
+                1530
+              ],
+              "s": 250,
+              "a": "l"
+            },
+            "damage": {
+              "b": [
+                480,
+                1170,
+                645,
+                1310
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "stamina": {
+              "b": [
+                350,
+                656,
+                490,
+                746
+              ],
+              "s": 70,
+              "a": "c"
+            },
+            "parry": {
+              "b": [
+                350,
+                865,
+                490,
+                960
+              ],
+              "s": 100,
+              "a": "c"
+            }
+          }
+        },
+        "portraitBanner": {
+          "src": "assets/characters/john_banner.png",
+          "size": [
+            2048,
+            2048
+          ],
+          "bounds": [
+            0,
+            127,
+            1945,
+            1484
+          ]
+        },
+        "abilityArt": "assets/abilities/john.png",
+        "artLayout": {
+          "size": [
+            2048,
+            2048
+          ],
+          "focus": [
+            930,
+            350,
+            1840,
+            1240
+          ],
+          "target": [
+            440,
+            300,
+            1250,
+            1165
+          ]
+        },
+        "official": true,
+        "copies": 1,
+        "reason": "Parry e imobilização justificam reduzir a resistência; preservar 80 inicial e 20 periódico."
+      },
+      {
+        "id": "sarck",
+        "name": "Sark",
+        "class": "ASSASSIN",
+        "maxHp": 530,
+        "damage": 0,
+        "speed": null,
+        "art": "assets/characters/sarck.png",
+        "description": "Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante abaixo de Lendário; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar.",
+        "rarity": "LEGENDARY",
+        "stamina": 5,
+        "mainAbility": "Steel Jaw",
+        "tribute": null,
+        "abilityId": "steel_jaw",
+        "passiveOnly": true,
+        "knownHp": 530,
+        "knownDamage": 0,
+        "illustrated": true,
+        "cardBase": {
+          "src": "assets/cards/card_base_sark.png",
+          "fields": {
+            "hp": {
+              "b": [
+                470,
+                1310,
+                895,
+                1530
+              ],
+              "s": 265,
+              "a": "l"
+            },
+            "stamina": {
+              "b": [
+                350,
+                656,
+                490,
+                746
+              ],
+              "s": 70,
+              "a": "c"
+            }
+          }
+        },
+        "portraitBanner": {
+          "src": "assets/characters/sark_banner.png",
+          "size": [
+            2048,
+            2048
+          ],
+          "bounds": [
+            21,
+            159,
+            1918,
+            1458
+          ]
+        },
+        "abilityArt": "assets/abilities/sarck.png",
+        "artLayout": {
+          "size": [
+            2048,
+            2048
+          ],
+          "focus": [
+            500,
+            454,
+            1549,
+            1525
+          ],
+          "target": [
+            440,
+            300,
+            1250,
+            1165
+          ]
+        },
+        "official": true,
+        "copies": 1,
+        "reason": "Manter a exceção oficial: reativo, sem velocidade; precisa sobreviver para revidar."
+      },
+      {
+        "id": "penxy",
+        "name": "Penxy",
+        "class": "ASSASSIN",
+        "maxHp": 500,
+        "damage": 140,
+        "speed": 9,
+        "art": "assets/rebalance/kit-master-upgrade/penxy.png",
+        "description": "Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Striker não pode ser escolhido enquanto sua proteção estiver ativa e Penxy for mais rápido. Sem alvo permitido, aguarda a próxima oportunidade sem travar a pré-batalha. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez.",
+        "rarity": "LEGENDARY",
+        "stamina": 7,
+        "mainAbility": "Ghost Claw",
+        "tribute": null,
+        "abilityId": "ghost_dimension",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/penxy.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/penxy.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "cavaleiro",
+        "name": "Cavaleiro",
+        "class": "TANK",
+        "maxHp": 920,
+        "damage": 130,
+        "speed": 2,
+        "art": "assets/rebalance/kit-master-upgrade/cavaleiro.png",
+        "description": "Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5.",
+        "rarity": "LEGENDARY",
+        "stamina": 8,
+        "mainAbility": "Armadura",
+        "tribute": null,
+        "abilityId": "knight_armor",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/cavaleiro.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/cavaleiro.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "tankResistance": 0,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "zikssy",
+        "name": "Zikssy",
+        "class": "ASSASSIN",
+        "maxHp": 160,
+        "damage": 120,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/zikssy.png",
+        "description": "Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação.",
+        "rarity": "RARE",
+        "stamina": 1,
+        "mainAbility": "Claws",
+        "tribute": null,
+        "abilityId": "fright",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/zikssy.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/zikssy.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "elysh",
+        "name": "Elysh",
+        "class": "SUPPORT",
+        "maxHp": 240,
+        "damage": 80,
+        "speed": 4,
+        "art": "assets/rebalance/kit-master-upgrade/elysh.png",
+        "description": "Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima.",
+        "rarity": "COMMON",
+        "stamina": 3,
+        "mainAbility": "Lazer Gun",
+        "tribute": null,
+        "abilityId": "healing_shot",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/elysh.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/elysh.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "rearHealing": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "ddx",
+        "name": "DD-X",
+        "class": "FIGHTER",
+        "maxHp": 260,
+        "damage": 45,
+        "speed": 3,
+        "art": "assets/rebalance/kit-master-upgrade/ddx.png",
+        "description": "Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar a quantidade de golpes. Cada golpe tem sua própria defesa e reação.",
+        "rarity": "RARE",
+        "stamina": 6,
+        "mainAbility": "Fish",
+        "tribute": null,
+        "abilityId": "four_arms",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/ddx.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/ddx.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "×2",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "parryThreshold": 3,
+        "attackCount": 2,
+        "damageDisplaySuffix": "×2",
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "p_ullys",
+        "name": "P. Ullys",
+        "class": "DESTROYER",
+        "maxHp": 150,
+        "damage": 300,
+        "speed": 6,
+        "art": "assets/rebalance/kit-master-upgrade/p_ullys.png",
+        "description": "Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha.",
+        "rarity": "EPIC",
+        "stamina": 6,
+        "mainAbility": "Míssil",
+        "tribute": null,
+        "abilityId": "missile",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/p_ullys.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/p_ullys.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "stally",
+        "name": "Stally",
+        "class": "FIGHTER",
+        "maxHp": 230,
+        "damage": 90,
+        "speed": 2,
+        "art": "assets/rebalance/kit-master-upgrade/vaglar_epic.png",
+        "description": "Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem.",
+        "rarity": "COMMON",
+        "stamina": 4,
+        "mainAbility": "Paralisia",
+        "tribute": null,
+        "abilityId": "paralyzingKick",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/vaglar_epic.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/vaglar_epic.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "labels": {
+            "name": "STALLY"
+          },
+          "outline": true,
+          "patches": [
+            {
+              "src": "assets/cards/card_base.png",
+              "bounds": [
+                280,
+                1030,
+                800,
+                1155
+              ],
+              "role": "name"
+            }
+          ],
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "parryThreshold": 5,
+        "rename": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "endrik",
+        "name": "Endrik",
+        "class": "DESTROYER",
+        "maxHp": 160,
+        "damage": 250,
+        "speed": 4,
+        "art": "assets/rebalance/kit-master-upgrade/endrik.png",
+        "description": "Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior.",
+        "rarity": "EPIC",
+        "stamina": 6,
+        "mainAbility": "Tubarão",
+        "tribute": null,
+        "abilityId": "deathShark",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/endrik.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/endrik.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "striker",
+        "name": "Striker",
+        "class": "DESTROYER",
+        "maxHp": 210,
+        "damage": 220,
+        "speed": 2,
+        "art": "assets/rebalance/kit-master-upgrade/sheriff_epic.png",
+        "description": "Adversários mais rápidos que Striker não podem atacá-lo. Essa proteção também impede que Penxy mais rápido o leve para o duelo dimensional.",
+        "rarity": "EPIC",
+        "stamina": 4,
+        "mainAbility": "Proteção de velocidade",
+        "tribute": null,
+        "abilityId": "speedWard",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/sheriff_epic.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/sheriff_epic.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "labels": {
+            "name": "STRIKER"
+          },
+          "outline": true,
+          "patches": [
+            {
+              "src": "assets/cards/card_base.png",
+              "bounds": [
+                280,
+                1030,
+                800,
+                1155
+              ],
+              "role": "name"
+            }
+          ],
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "rename": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "sheriff",
+        "name": "Xerife",
+        "class": "ASSASSIN",
+        "maxHp": 190,
+        "damage": 0,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/sheriff_rare.png",
+        "description": "Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até a raridade do Xerife, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.",
+        "rarity": "RARE",
+        "stamina": 3,
+        "mainAbility": "Duelo",
+        "tribute": null,
+        "abilityId": "duelist",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/sheriff_rare.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/sheriff_rare.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": true
+        },
+        "manualBalance": true,
+        "damageDash": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "barn",
+        "name": "Burn",
+        "class": "MAGO",
+        "maxHp": 330,
+        "damage": 120,
+        "speed": 3,
+        "art": "assets/rebalance/kit-master-upgrade/barn.png",
+        "description": "Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.",
+        "rarity": "MYTHIC",
+        "stamina": 6,
+        "mainAbility": "Hipnose",
+        "tribute": null,
+        "abilityId": "hypnosis",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/barn.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/barn.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            },
+            "mana": {
+              "b": [
+                365,
+                840,
+                475,
+                950
+              ],
+              "s": 90,
+              "a": "c"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false,
+          "patches": [
+            {
+              "src": "assets/cards/card_base_eletric.png",
+              "bounds": [
+                378,
+                855,
+                460,
+                935
+              ],
+              "role": "mana"
+            }
+          ]
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "fonior",
+        "name": "Fonior",
+        "class": "MAGO",
+        "maxHp": 260,
+        "damage": 220,
+        "speed": 4,
+        "art": "assets/rebalance/kit-master-upgrade/fonior.png",
+        "description": "Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.",
+        "rarity": "MYTHIC",
+        "stamina": 7,
+        "mainAbility": "Almas",
+        "tribute": null,
+        "abilityId": "souls",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/fonior.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/fonior.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            },
+            "mana": {
+              "b": [
+                365,
+                840,
+                475,
+                950
+              ],
+              "s": 90,
+              "a": "c"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false,
+          "patches": [
+            {
+              "src": "assets/cards/card_base_eletric.png",
+              "bounds": [
+                378,
+                855,
+                460,
+                935
+              ],
+              "role": "mana"
+            }
+          ]
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "sam",
+        "name": "Sam",
+        "class": "FIGHTER",
+        "maxHp": 530,
+        "damage": 70,
+        "speed": 7,
+        "art": "assets/rebalance/kit-master-upgrade/sam.png",
+        "description": "Até seis socos individuais com o dano básico no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.",
+        "rarity": "LEGENDARY",
+        "stamina": 7,
+        "mainAbility": "Combo de socos",
+        "tribute": null,
+        "abilityId": "punchCombo",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/sam.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/sam.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "×6",
+          "damageDash": false,
+          "patches": [
+            {
+              "src": "assets/cards/card_base_sam.png",
+              "bounds": [
+                695,
+                1700,
+                845,
+                1895
+              ],
+              "role": "class"
+            }
+          ]
+        },
+        "manualBalance": true,
+        "parryThreshold": 5,
+        "damageDisplaySuffix": "×6",
+        "classPatch": {
+          "src": "assets/cards/card_base_sam.png",
+          "bounds": [
+            695,
+            1700,
+            845,
+            1895
+          ]
+        },
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "chama",
+        "name": "Chama",
+        "class": "MAGO",
+        "maxHp": 230,
+        "damage": 55,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/chama.png",
+        "description": "Ataca pelo dano básico e queima o alvo por esse mesmo valor nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.",
+        "rarity": "MYTHIC",
+        "stamina": 7,
+        "mainAbility": "Fogo persistente",
+        "tribute": null,
+        "abilityId": "flames",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/chama.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/chama.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "×6",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "damageDisplaySuffix": "×6",
+        "burnDamage": 55,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "zuri",
+        "name": "Zuri",
+        "class": "SUPPORT",
+        "maxHp": 1050,
+        "damage": 160,
+        "speed": 1,
+        "art": "assets/rebalance/kit-master-upgrade/zuri.png",
+        "description": "Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima.",
+        "rarity": "SECRET",
+        "stamina": 12,
+        "mainAbility": "Cura total",
+        "tribute": null,
+        "abilityId": "fullHeal",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/zuri.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/zuri.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                420,
+                1330,
+                870,
+                1545
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                430,
+                1330,
+                870,
+                1545
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "draktar",
+        "name": "Draktar",
+        "class": "ASSASSIN",
+        "maxHp": 310,
+        "damage": 90,
+        "speed": 7,
+        "art": "assets/rebalance/kit-master-upgrade/draktar.png",
+        "description": "Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente.",
+        "rarity": "MYTHIC",
+        "stamina": 6,
+        "mainAbility": "Caça",
+        "tribute": null,
+        "abilityId": "hunt",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/draktar.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/draktar.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "×2",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "attackCount": 2,
+        "damageDisplaySuffix": "×2",
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "daztirry",
+        "name": "Daztirry",
+        "class": "FIGHTER",
+        "maxHp": 1250,
+        "damage": 240,
+        "speed": 6,
+        "art": "assets/rebalance/kit-master-upgrade/daztirry.png",
+        "description": "Ao zerar a Vida, fica imortal por três ações de qualquer personagem, com +30 de dano. Depois é eliminado.",
+        "rarity": "SECRET",
+        "stamina": 10,
+        "mainAbility": "Estado Oni",
+        "tribute": null,
+        "abilityId": "oni",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/daztirry.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/daztirry.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                420,
+                1330,
+                870,
+                1545
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                430,
+                1330,
+                870,
+                1545
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "parryThreshold": 3,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "mike",
+        "name": "Mike",
+        "class": "DESTROYER",
+        "maxHp": 130,
+        "damage": 170,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/mike.png",
+        "description": "Nenhum adversário da classe Assassino pode atacar Mike.",
+        "rarity": "COMMON",
+        "stamina": 6,
+        "mainAbility": "Proteção contra Assassinos",
+        "tribute": null,
+        "abilityId": "assassinWard",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/mike.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/mike.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "unicorn",
+        "name": "Unicorn",
+        "class": "SUPPORT",
+        "maxHp": 390,
+        "damage": 60,
+        "speed": 4,
+        "art": "assets/rebalance/kit-master-upgrade/unicorn.png",
+        "description": "Na entrada, fortalece um aliado ou a si mesma: +150 de Vida máxima e atual, +50 de dano e +2 de velocidade. Uso único em um personagem; dura enquanto o beneficiado viver.",
+        "rarity": "RARE",
+        "stamina": 6,
+        "mainAbility": "Estrela",
+        "tribute": null,
+        "abilityId": "starGift",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/unicorn.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/unicorn.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "nully",
+        "name": "Nully",
+        "class": "ASSASSIN",
+        "maxHp": 370,
+        "damage": 80,
+        "speed": 9,
+        "art": "assets/rebalance/kit-master-upgrade/nully.png",
+        "description": "Rola d6 ao atacar. 1–5 multiplica o dano básico atual. 6 elimina raridade igual ou inferior; contra superior, causa seis vezes o básico.",
+        "rarity": "LEGENDARY",
+        "stamina": 5,
+        "mainAbility": "Decapitação",
+        "tribute": null,
+        "abilityId": "diceExecution",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/nully.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/nully.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "rayyb",
+        "name": "Rayyb",
+        "class": "SUPPORT",
+        "maxHp": 240,
+        "damage": 90,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/rayyb.png",
+        "description": "Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez.",
+        "rarity": "EPIC",
+        "stamina": 4,
+        "mainAbility": "Pó mágico",
+        "tribute": null,
+        "abilityId": "sleepPowder",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/rayyb.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/rayyb.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "rayvilin",
+        "name": "Rayvilin",
+        "class": "FIGHTER",
+        "maxHp": 860,
+        "damage": 180,
+        "speed": 6,
+        "art": "assets/rebalance/kit-master-upgrade/rayvlin.png",
+        "description": "Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez.",
+        "rarity": "SECRET",
+        "stamina": 6,
+        "mainAbility": "Petrificação",
+        "tribute": null,
+        "abilityId": "petrify",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/rayvlin.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/rayvlin.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "parryThreshold": 2,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "z_zus",
+        "name": "Z-Zus",
+        "class": "TANK",
+        "maxHp": 1200,
+        "damage": 300,
+        "speed": 3,
+        "art": "assets/rebalance/kit-master-upgrade/z_zus.png",
+        "description": "Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente.",
+        "rarity": "LEGENDARY",
+        "stamina": 5,
+        "mainAbility": "Sacrifício",
+        "tribute": null,
+        "abilityId": "guardian",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/z_zus.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/z_zus.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                420,
+                1330,
+                870,
+                1545
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                430,
+                1330,
+                870,
+                1545
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "tankResistance": 0.2,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "alex",
+        "name": "Alex",
+        "class": "FIGHTER",
+        "maxHp": 200,
+        "damage": 170,
+        "speed": 3,
+        "art": "assets/rebalance/kit-master-upgrade/alex.png",
+        "description": "Escolhe concentrar o dano básico em um adversário ou dividi-lo igualmente entre os adversários da frente, com cada parcela arredondada para cima em múltiplos de 5.",
+        "rarity": "COMMON",
+        "stamina": 2,
+        "mainAbility": "Swarm",
+        "tribute": null,
+        "abilityId": "swarm",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/alex.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/alex.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "parryThreshold": 1,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "karma",
+        "name": "Karma",
+        "class": "DESTROYER",
+        "maxHp": 320,
+        "damage": 120,
+        "speed": 6,
+        "art": "assets/rebalance/kit-master-upgrade/karma.png",
+        "description": "Na entrada escolhe um amigo. Revida com seu dano contra quem o atacar, mesmo se o amigo esquivar, defender ou morrer. O revide permite defesa e esquiva.",
+        "rarity": "MYTHIC",
+        "stamina": 7,
+        "mainAbility": "Melhor amigo",
+        "tribute": null,
+        "abilityId": "friendship",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/karma.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/karma.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "trucc",
+        "name": "Trucc",
+        "class": "ASSASSIN",
+        "maxHp": 430,
+        "damage": 120,
+        "speed": 9,
+        "art": "assets/rebalance/kit-master-upgrade/trucc.png",
+        "description": "Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.",
+        "rarity": "MYTHIC",
+        "stamina": 4,
+        "mainAbility": "Esquiva veloz",
+        "tribute": null,
+        "abilityId": "fadingDodge",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/trucc.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/trucc.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": false
+        },
+        "manualBalance": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "vaglar",
+        "name": "Vaglar",
+        "class": "MAGO",
+        "maxHp": 590,
+        "damage": 0,
+        "speed": 5,
+        "art": "assets/rebalance/kit-master-upgrade/vaglar_secret.png",
+        "description": "Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado de raridade inferior à sua; nas demais, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.",
+        "rarity": "SECRET",
+        "stamina": 12,
+        "mainAbility": "Charm",
+        "tribute": null,
+        "abilityId": "death_book",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/vaglar_secret.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/vaglar_secret.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            },
+            "mana": {
+              "b": [
+                365,
+                840,
+                475,
+                950
+              ],
+              "s": 90,
+              "a": "c"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": true,
+          "patches": [
+            {
+              "src": "assets/cards/card_base_eletric.png",
+              "bounds": [
+                378,
+                855,
+                460,
+                935
+              ],
+              "role": "mana"
+            }
+          ]
+        },
+        "manualBalance": true,
+        "damageDash": true,
+        "abilityOnly": true,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      {
+        "id": "linx",
+        "name": "Linx",
+        "class": "FIGHTER",
+        "maxHp": 660,
+        "damage": 0,
+        "speed": 4,
+        "art": "assets/rebalance/kit-master-upgrade/linx.png",
+        "description": "Ataca um adversário por 30% da Vida máxima dele, arredondando para cima em múltiplos de 5. O ataque respeita defesa, esquiva e proteção.",
+        "rarity": "LEGENDARY",
+        "stamina": 3,
+        "mainAbility": "Prototype",
+        "tribute": null,
+        "abilityId": "max_hp_strike",
+        "illustrated": true,
+        "portraitBanner": {
+          "src": "assets/rebalance/kit-master-upgrade/linx.png",
+          "size": [
+            1536,
+            2048
+          ],
+          "bounds": [
+            620,
+            370,
+            1220,
+            1000
+          ]
+        },
+        "cardBase": {
+          "src": "assets/rebalance/kit-master-upgrade/linx.png",
+          "cleanup": {
+            "src": "assets/cards/card_base_eletric.png",
+            "regions": [
+              [
+                690,
+                95,
+                855,
+                255
+              ],
+              [
+                440,
+                1170,
+                690,
+                1325
+              ],
+              [
+                450,
+                1330,
+                840,
+                1550
+              ]
+            ]
+          },
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                680,
+                1325
+              ],
+              "s": 150,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                460,
+                1330,
+                840,
+                1550
+              ],
+              "s": 225,
+              "a": "l"
+            }
+          },
+          "outline": true,
+          "damageDisplayDivisor": 1,
+          "damageDisplaySuffix": "",
+          "damageDash": true
+        },
+        "manualBalance": true,
+        "parryThreshold": 1,
+        "damageDash": true,
+        "abilityOnly": false,
+        "passiveOnly": false,
+        "official": true,
+        "copies": 1,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      }
+    ],
+    "CHARACTER_BALANCE": {
+      "eletric": {
+        "maxHp": 220,
+        "damage": 100,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "john": {
+        "maxHp": 250,
+        "damage": 80,
+        "reason": "Parry e imobilização justificam reduzir a resistência; preservar 80 inicial e 20 periódico."
+      },
+      "sarck": {
+        "maxHp": 530,
+        "damage": 0,
+        "reason": "Manter a exceção oficial: reativo, sem velocidade; precisa sobreviver para revidar."
+      },
+      "penxy": {
+        "maxHp": 500,
+        "damage": 140,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "cavaleiro": {
+        "maxHp": 920,
+        "damage": 130,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "zikssy": {
+        "maxHp": 160,
+        "damage": 120,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "elysh": {
+        "maxHp": 240,
+        "damage": 80,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "ddx": {
+        "maxHp": 260,
+        "damage": 45,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "p_ullys": {
+        "maxHp": 150,
+        "damage": 300,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "stally": {
+        "maxHp": 230,
+        "damage": 90,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "endrik": {
+        "maxHp": 160,
+        "damage": 250,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "striker": {
+        "maxHp": 210,
+        "damage": 220,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "sheriff": {
+        "maxHp": 190,
+        "damage": 0,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "barn": {
+        "maxHp": 330,
+        "damage": 120,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "fonior": {
+        "maxHp": 260,
+        "damage": 220,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "sam": {
+        "maxHp": 530,
+        "damage": 70,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "chama": {
+        "maxHp": 230,
+        "damage": 55,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "zuri": {
+        "maxHp": 1050,
+        "damage": 160,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "draktar": {
+        "maxHp": 310,
+        "damage": 90,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "daztirry": {
+        "maxHp": 1250,
+        "damage": 240,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "mike": {
+        "maxHp": 130,
+        "damage": 170,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "unicorn": {
+        "maxHp": 390,
+        "damage": 60,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "nully": {
+        "maxHp": 370,
+        "damage": 80,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "rayyb": {
+        "maxHp": 240,
+        "damage": 90,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "rayvilin": {
+        "maxHp": 860,
+        "damage": 180,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "z_zus": {
+        "maxHp": 1200,
+        "damage": 300,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "alex": {
+        "maxHp": 200,
+        "damage": 170,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "karma": {
+        "maxHp": 320,
+        "damage": 120,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "trucc": {
+        "maxHp": 430,
+        "damage": 120,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "vaglar": {
+        "maxHp": 590,
+        "damage": 0,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      },
+      "linx": {
+        "maxHp": 660,
+        "damage": 0,
+        "reason": "Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão."
+      }
+    },
+    "MASTER_UPGRADE": [
+      {
+        "id": "fonior",
+        "assetKey": "fonior",
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "maxHp": 260,
+        "damage": 220,
+        "speed": 4,
+        "stamina": 7
+      },
+      {
+        "id": "zuri",
+        "assetKey": "zuri",
+        "rarity": "SECRET",
+        "class": "SUPPORT",
+        "maxHp": 1050,
+        "damage": 160,
+        "speed": 1,
+        "stamina": 12
+      },
+      {
+        "id": "trucc",
+        "assetKey": "trucc",
+        "rarity": "MYTHIC",
+        "class": "ASSASSIN",
+        "maxHp": 430,
+        "damage": 120,
+        "speed": 9,
+        "stamina": 4
+      },
+      {
+        "id": "daztirry",
+        "assetKey": "daztirry",
+        "rarity": "SECRET",
+        "class": "FIGHTER",
+        "maxHp": 1250,
+        "damage": 240,
+        "speed": 6,
+        "stamina": 10,
+        "parryThreshold": 3
+      },
+      {
+        "id": "eletric",
+        "assetKey": "eletric",
+        "rarity": "RARE",
+        "class": "MAGO",
+        "maxHp": 220,
+        "damage": 100,
+        "speed": 3,
+        "stamina": 4
+      },
+      {
+        "id": "chama",
+        "assetKey": "chama",
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "maxHp": 230,
+        "damage": 55,
+        "speed": 5,
+        "stamina": 7,
+        "damageDisplaySuffix": "×6",
+        "burnDamage": 55
+      },
+      {
+        "id": "sam",
+        "assetKey": "sam",
+        "rarity": "LEGENDARY",
+        "class": "FIGHTER",
+        "maxHp": 530,
+        "damage": 70,
+        "speed": 7,
+        "stamina": 7,
+        "parryThreshold": 5,
+        "damageDisplaySuffix": "×6",
+        "classPatch": {
+          "src": "assets/cards/card_base_sam.png",
+          "bounds": [
+            695,
+            1700,
+            845,
+            1895
+          ]
+        }
+      },
+      {
+        "id": "barn",
+        "assetKey": "barn",
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "maxHp": 330,
+        "damage": 120,
+        "speed": 3,
+        "stamina": 6
+      },
+      {
+        "id": "elysh",
+        "assetKey": "elysh",
+        "rarity": "COMMON",
+        "class": "SUPPORT",
+        "maxHp": 240,
+        "damage": 80,
+        "speed": 4,
+        "stamina": 3,
+        "rearHealing": true
+      },
+      {
+        "id": "unicorn",
+        "assetKey": "unicorn",
+        "rarity": "RARE",
+        "class": "SUPPORT",
+        "maxHp": 390,
+        "damage": 60,
+        "speed": 4,
+        "stamina": 6
+      },
+      {
+        "id": "rayvilin",
+        "assetKey": "rayvlin",
+        "rarity": "SECRET",
+        "class": "FIGHTER",
+        "maxHp": 860,
+        "damage": 180,
+        "speed": 6,
+        "stamina": 6,
+        "parryThreshold": 2
+      },
+      {
+        "id": "z_zus",
+        "assetKey": "z_zus",
+        "rarity": "LEGENDARY",
+        "class": "TANK",
+        "maxHp": 1200,
+        "damage": 300,
+        "speed": 3,
+        "stamina": 5,
+        "tankResistance": 0.2
+      },
+      {
+        "id": "mike",
+        "assetKey": "mike",
+        "rarity": "COMMON",
+        "class": "DESTROYER",
+        "maxHp": 130,
+        "damage": 170,
+        "speed": 5,
+        "stamina": 6
+      },
+      {
+        "id": "nully",
+        "assetKey": "nully",
+        "rarity": "LEGENDARY",
+        "class": "ASSASSIN",
+        "maxHp": 370,
+        "damage": 80,
+        "speed": 9,
+        "stamina": 5
+      },
+      {
+        "id": "alex",
+        "assetKey": "alex",
+        "rarity": "COMMON",
+        "class": "FIGHTER",
+        "maxHp": 200,
+        "damage": 170,
+        "speed": 3,
+        "stamina": 2,
+        "parryThreshold": 1
+      },
+      {
+        "id": "endrik",
+        "assetKey": "endrik",
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "maxHp": 160,
+        "damage": 250,
+        "speed": 4,
+        "stamina": 6
+      },
+      {
+        "id": "p_ullys",
+        "assetKey": "p_ullys",
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "maxHp": 150,
+        "damage": 300,
+        "speed": 6,
+        "stamina": 6
+      },
+      {
+        "id": "stally",
+        "assetKey": "vaglar_epic",
+        "rarity": "COMMON",
+        "class": "FIGHTER",
+        "maxHp": 230,
+        "damage": 90,
+        "speed": 2,
+        "stamina": 4,
+        "parryThreshold": 5,
+        "rename": true
+      },
+      {
+        "id": "ddx",
+        "assetKey": "ddx",
+        "rarity": "RARE",
+        "class": "FIGHTER",
+        "maxHp": 260,
+        "damage": 45,
+        "speed": 3,
+        "stamina": 6,
+        "parryThreshold": 3,
+        "attackCount": 2,
+        "damageDisplaySuffix": "×2"
+      },
+      {
+        "id": "sheriff",
+        "assetKey": "sheriff_rare",
+        "rarity": "RARE",
+        "class": "ASSASSIN",
+        "maxHp": 190,
+        "damage": 0,
+        "speed": 5,
+        "stamina": 3,
+        "damageDash": true
+      },
+      {
+        "id": "zikssy",
+        "assetKey": "zikssy",
+        "rarity": "RARE",
+        "class": "ASSASSIN",
+        "maxHp": 160,
+        "damage": 120,
+        "speed": 5,
+        "stamina": 1
+      },
+      {
+        "id": "vaglar",
+        "assetKey": "vaglar_secret",
+        "rarity": "SECRET",
+        "class": "MAGO",
+        "maxHp": 590,
+        "damage": 0,
+        "speed": 5,
+        "stamina": 12,
+        "damageDash": true
+      },
+      {
+        "id": "cavaleiro",
+        "assetKey": "cavaleiro",
+        "rarity": "LEGENDARY",
+        "class": "TANK",
+        "maxHp": 920,
+        "damage": 130,
+        "speed": 2,
+        "stamina": 8,
+        "tankResistance": 0
+      },
+      {
+        "id": "karma",
+        "assetKey": "karma",
+        "rarity": "MYTHIC",
+        "class": "DESTROYER",
+        "maxHp": 320,
+        "damage": 120,
+        "speed": 6,
+        "stamina": 7
+      },
+      {
+        "id": "penxy",
+        "assetKey": "penxy",
+        "rarity": "LEGENDARY",
+        "class": "ASSASSIN",
+        "maxHp": 500,
+        "damage": 140,
+        "speed": 9,
+        "stamina": 7
+      },
+      {
+        "id": "draktar",
+        "assetKey": "draktar",
+        "rarity": "MYTHIC",
+        "class": "ASSASSIN",
+        "maxHp": 310,
+        "damage": 90,
+        "speed": 7,
+        "stamina": 6,
+        "attackCount": 2,
+        "damageDisplaySuffix": "×2"
+      },
+      {
+        "id": "rayyb",
+        "assetKey": "rayyb",
+        "rarity": "EPIC",
+        "class": "SUPPORT",
+        "maxHp": 240,
+        "damage": 90,
+        "speed": 5,
+        "stamina": 4
+      },
+      {
+        "id": "striker",
+        "assetKey": "sheriff_epic",
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "maxHp": 210,
+        "damage": 220,
+        "speed": 2,
+        "stamina": 4,
+        "rename": true
+      },
+      {
+        "id": "linx",
+        "assetKey": "linx",
+        "rarity": "LEGENDARY",
+        "class": "FIGHTER",
+        "maxHp": 660,
+        "damage": 0,
+        "speed": 4,
+        "stamina": 3,
+        "parryThreshold": 1,
+        "damageDash": true
+      }
+    ],
+    "GODS": [
+      {
+        "id": "zenneriam",
+        "name": "Zeenneriam",
+        "class": "DEUS",
+        "rarity": null,
+        "summonOnly": true,
+        "official": true,
+        "illustrated": true,
+        "copies": 1,
+        "maxHp": 1700,
+        "damage": 700,
+        "speed": 7,
+        "stamina": 12,
+        "parryThreshold": 2,
+        "tribute": "MAX",
+        "abilityId": "presence",
+        "mainAbility": "Presence",
+        "description": "Ignora habilidades de personagens: controles, execuções, defesas e reações. Seus ataques atravessam essas proteções. Cartas de Apoio continuam válidas. MAX reúne os tributos de classe já definidos.",
+        "art": "assets/characters/zenneriam_banner.png",
+        "portraitBanner": {
+          "src": "assets/characters/zenneriam_banner.png",
+          "size": [
+            2048,
+            2048
+          ],
+          "bounds": [
+            0,
+            127,
+            1945,
+            1484
+          ]
+        },
+        "cardBase": {
+          "src": "assets/cards/card_base_zenneriam.png",
+          "fields": {
+            "speed": {
+              "b": [
+                690,
+                95,
+                855,
+                255
+              ],
+              "s": 150,
+              "a": "c",
+              "c": "#57465e"
+            },
+            "damage": {
+              "b": [
+                440,
+                1170,
+                690,
+                1320
+              ],
+              "s": 160,
+              "a": "l"
+            },
+            "hp": {
+              "b": [
+                450,
+                1330,
+                885,
+                1535
+              ],
+              "s": 250,
+              "a": "l"
+            }
+          }
+        }
+      }
+    ],
+    "SUPPORT_CARDS": [
+      {
+        "id": "na_moloeira",
+        "name": "Na Moloeira",
+        "effect": "nextAttackBonus",
+        "value": 20,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/na_moloeira.png",
+        "description": "O próximo ataque causa 20 pontos de dano a mais."
+      },
+      {
+        "id": "bandeide",
+        "name": "Bandeide",
+        "effect": "heal",
+        "value": 80,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/bandeide.png",
+        "description": "Cure até 80 de Vida de um aliado, sem ultrapassar sua Vida máxima."
+      },
+      {
+        "id": "brisa",
+        "name": "Brisa",
+        "effect": "onAllyDefeatedHeal",
+        "value": 30,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/brisa.png",
+        "description": "Sempre que um aliado é eliminado, outro aliado pode curar +30 pontos de saúde."
+      },
+      {
+        "id": "zap",
+        "name": "Zap",
+        "effect": "discardSupport",
+        "value": 1,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/zap.png",
+        "description": "Faz com que seu oponente perca uma carta de Apoio instantaneamente."
+      },
+      {
+        "id": "nao_grita",
+        "name": "Não Grita",
+        "effect": "silence",
+        "value": 4,
+        "target": "enemy",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/nao_grita.png",
+        "description": "Faz com que um oponente perca sua habilidade por quatro ações."
+      },
+      {
+        "id": "sortudo",
+        "name": "Sortudo",
+        "effect": "lucky",
+        "value": 1,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/sortudo.png",
+        "description": "Garante o melhor resultado para sua equipe no próximo dado que ela rolar."
+      },
+      {
+        "id": "folego",
+        "name": "Fôlego",
+        "effect": "endurance",
+        "value": 1,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/folego.png",
+        "description": "Após ser atacado, seu aliado recebe invencibilidade por uma ação."
+      },
+      {
+        "id": "combokill",
+        "name": "Combokill",
+        "effect": "comboKill",
+        "value": 1,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/combokill.png",
+        "description": "Sempre que um golpe do aliado eliminar um oponente, ele pode atacar novamente em seguida."
+      },
+      {
+        "id": "papakill",
+        "name": "Papakill",
+        "effect": "executeLow",
+        "value": 40,
+        "target": "enemy",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/papakill.png",
+        "description": "Se o oponente estiver com menos de 40 pontos de saúde, ele é eliminado instantaneamente."
+      },
+      {
+        "id": "eu_denovo",
+        "name": "Eu Denovo",
+        "effect": "extraAction",
+        "value": 1,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/eu_denovo.png",
+        "description": "Concede uma única ação extra a um aliado, sem reiniciar a hierarquia."
+      },
+      {
+        "id": "furto",
+        "name": "Furto",
+        "effect": "stealSupport",
+        "value": 1,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/furto.png",
+        "description": "Você pode roubar uma carta de Apoio do seu oponente."
+      },
+      {
+        "id": "morto_vivo",
+        "name": "Morto Vivo",
+        "effect": "revive",
+        "value": 1,
+        "target": "deadAlly",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/morto_vivo.png",
+        "description": "Você pode ressuscitar um aliado com 1 ponto de Vida e sem habilidade."
+      },
+      {
+        "id": "recruta",
+        "name": "Recruta",
+        "effect": "recruit",
+        "value": 1,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/recruta.png",
+        "description": "Agora você pode ter mais um aliado em sua equipe."
+      },
+      {
+        "id": "escudo_volatil",
+        "name": "Escudo Volátil",
+        "effect": "shield",
+        "value": 80,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/escudo_volatil.png",
+        "description": "Um aliado bloqueia 80 pontos de dano uma única vez."
+      },
+      {
+        "id": "poder_adicional",
+        "name": "Poder Adicional",
+        "effect": "recharge",
+        "value": 1,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/poder_adicional.png",
+        "description": "Faz com que seu aliado possa usar um poder passivo ou secundário mais uma vez."
+      },
+      {
+        "id": "uma_maozinha",
+        "name": "Uma Mãozinha",
+        "effect": "copyHealth",
+        "value": 1,
+        "target": "none",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/uma_maozinha.png",
+        "description": "Seu aliado mais fraco copia a saúde do personagem mais resistente."
+      },
+      {
+        "id": "ultima_chance",
+        "name": "Última Chance",
+        "effect": "lastChance",
+        "value": 50,
+        "target": "ally",
+        "uses": 2,
+        "copies": 2,
+        "art": "assets/support/ultima_chance.png",
+        "description": "O aliado que estiver abaixo de 100 pontos de Vida causará mais 50 de dano por ataque."
+      }
+    ],
+    "CARD_TYPES": {
+      "SUPPORT": {
+        "label": "Apoio",
+        "color": "#4fbf8a"
+      },
+      "ITEM": {
+        "label": "Item",
+        "color": "#5b9bd5"
+      },
+      "SPECIAL": {
+        "label": "Habilidade Especial",
+        "color": "#a06bd8"
+      },
+      "DALY": {
+        "label": "Medalha Daly",
+        "color": "#e0b84f"
+      },
+      "PRIMORDIAL": {
+        "label": "Fragmento Primordial",
+        "color": "#d1495b"
+      }
+    },
+    "MEDAL_COLORS": {
+      "COMMON": {
+        "name": "Azul",
+        "color": "#54a8ff"
+      },
+      "RARE": {
+        "name": "Verde",
+        "color": "#4fd491"
+      },
+      "EPIC": {
+        "name": "Roxa",
+        "color": "#b98aff"
+      },
+      "MYTHIC": {
+        "name": "Vermelha",
+        "color": "#fa476e"
+      },
+      "LEGENDARY": {
+        "name": "Holográfica",
+        "color": "#f3d58c"
+      },
+      "SECRET": {
+        "name": "Preta",
+        "color": "#25232d"
+      }
+    },
+    "MEDAL_ID": {
+      "COMMON": "daly_01",
+      "RARE": "daly_02",
+      "EPIC": "daly_03",
+      "MYTHIC": "daly_06",
+      "LEGENDARY": "daly_04",
+      "SECRET": "daly_05"
+    },
+    "RESET_CARDS": [
+      {
+        "id": "na_moloeira",
+        "type": "SUPPORT",
+        "name": "Na Moloeira",
+        "copies": 2,
+        "art": "assets/support/na_moloeira.png",
+        "description": "O próximo ataque causa 20 pontos de dano a mais.",
+        "supportCard": true
+      },
+      {
+        "id": "bandeide",
+        "type": "SUPPORT",
+        "name": "Bandeide",
+        "copies": 2,
+        "art": "assets/support/bandeide.png",
+        "description": "Cure até 80 de Vida de um aliado, sem ultrapassar sua Vida máxima.",
+        "supportCard": true
+      },
+      {
+        "id": "brisa",
+        "type": "SUPPORT",
+        "name": "Brisa",
+        "copies": 2,
+        "art": "assets/support/brisa.png",
+        "description": "Sempre que um aliado é eliminado, outro aliado pode curar +30 pontos de saúde.",
+        "supportCard": true
+      },
+      {
+        "id": "zap",
+        "type": "SUPPORT",
+        "name": "Zap",
+        "copies": 2,
+        "art": "assets/support/zap.png",
+        "description": "Faz com que seu oponente perca uma carta de Apoio instantaneamente.",
+        "supportCard": true
+      },
+      {
+        "id": "nao_grita",
+        "type": "SUPPORT",
+        "name": "Não Grita",
+        "copies": 2,
+        "art": "assets/support/nao_grita.png",
+        "description": "Faz com que um oponente perca sua habilidade por quatro ações.",
+        "supportCard": true
+      },
+      {
+        "id": "sortudo",
+        "type": "SUPPORT",
+        "name": "Sortudo",
+        "copies": 2,
+        "art": "assets/support/sortudo.png",
+        "description": "Garante o melhor resultado para sua equipe no próximo dado que ela rolar.",
+        "supportCard": true
+      },
+      {
+        "id": "folego",
+        "type": "SUPPORT",
+        "name": "Fôlego",
+        "copies": 2,
+        "art": "assets/support/folego.png",
+        "description": "Após ser atacado, seu aliado recebe invencibilidade por uma ação.",
+        "supportCard": true
+      },
+      {
+        "id": "combokill",
+        "type": "SUPPORT",
+        "name": "Combokill",
+        "copies": 2,
+        "art": "assets/support/combokill.png",
+        "description": "Sempre que um golpe do aliado eliminar um oponente, ele pode atacar novamente em seguida.",
+        "supportCard": true
+      },
+      {
+        "id": "papakill",
+        "type": "SUPPORT",
+        "name": "Papakill",
+        "copies": 2,
+        "art": "assets/support/papakill.png",
+        "description": "Se o oponente estiver com menos de 40 pontos de saúde, ele é eliminado instantaneamente.",
+        "supportCard": true
+      },
+      {
+        "id": "eu_denovo",
+        "type": "SUPPORT",
+        "name": "Eu Denovo",
+        "copies": 2,
+        "art": "assets/support/eu_denovo.png",
+        "description": "Concede uma única ação extra a um aliado, sem reiniciar a hierarquia.",
+        "supportCard": true
+      },
+      {
+        "id": "furto",
+        "type": "SUPPORT",
+        "name": "Furto",
+        "copies": 2,
+        "art": "assets/support/furto.png",
+        "description": "Você pode roubar uma carta de Apoio do seu oponente.",
+        "supportCard": true
+      },
+      {
+        "id": "morto_vivo",
+        "type": "SUPPORT",
+        "name": "Morto Vivo",
+        "copies": 2,
+        "art": "assets/support/morto_vivo.png",
+        "description": "Você pode ressuscitar um aliado com 1 ponto de Vida e sem habilidade.",
+        "supportCard": true
+      },
+      {
+        "id": "recruta",
+        "type": "SUPPORT",
+        "name": "Recruta",
+        "copies": 2,
+        "art": "assets/support/recruta.png",
+        "description": "Agora você pode ter mais um aliado em sua equipe.",
+        "supportCard": true
+      },
+      {
+        "id": "escudo_volatil",
+        "type": "SUPPORT",
+        "name": "Escudo Volátil",
+        "copies": 2,
+        "art": "assets/support/escudo_volatil.png",
+        "description": "Um aliado bloqueia 80 pontos de dano uma única vez.",
+        "supportCard": true
+      },
+      {
+        "id": "poder_adicional",
+        "type": "SUPPORT",
+        "name": "Poder Adicional",
+        "copies": 2,
+        "art": "assets/support/poder_adicional.png",
+        "description": "Faz com que seu aliado possa usar um poder passivo ou secundário mais uma vez.",
+        "supportCard": true
+      },
+      {
+        "id": "uma_maozinha",
+        "type": "SUPPORT",
+        "name": "Uma Mãozinha",
+        "copies": 2,
+        "art": "assets/support/uma_maozinha.png",
+        "description": "Seu aliado mais fraco copia a saúde do personagem mais resistente.",
+        "supportCard": true
+      },
+      {
+        "id": "ultima_chance",
+        "type": "SUPPORT",
+        "name": "Última Chance",
+        "copies": 2,
+        "art": "assets/support/ultima_chance.png",
+        "description": "O aliado que estiver abaixo de 100 pontos de Vida causará mais 50 de dano por ataque.",
+        "supportCard": true
+      },
+      {
+        "id": "item_01",
+        "type": "ITEM",
+        "name": "Item 01",
+        "copies": 2,
+        "art": "assets/reset/item_01.png",
+        "description": "Carta provisória.",
+        "placeholder": true
+      },
+      {
+        "id": "item_02",
+        "type": "ITEM",
+        "name": "Item 02",
+        "copies": 2,
+        "art": "assets/reset/item_02.png",
+        "description": "Carta provisória.",
+        "placeholder": true
+      },
+      {
+        "id": "habilidade_01",
+        "type": "SPECIAL",
+        "name": "Habilidade Especial 01",
+        "copies": 2,
+        "art": "assets/reset/habilidade_01.png",
+        "description": "Carta provisória.",
+        "placeholder": true
+      },
+      {
+        "id": "habilidade_02",
+        "type": "SPECIAL",
+        "name": "Habilidade Especial 02",
+        "copies": 2,
+        "art": "assets/reset/habilidade_02.png",
+        "description": "Carta provisória.",
+        "placeholder": true
+      },
+      {
+        "id": "daly_01",
+        "type": "DALY",
+        "name": "Medalha Azul",
+        "copies": 2,
+        "art": "assets/reset/daly_01.png",
+        "description": "Resgate o personagem do topo do monte Comum. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "COMMON",
+        "color": "#54a8ff"
+      },
+      {
+        "id": "daly_02",
+        "type": "DALY",
+        "name": "Medalha Verde",
+        "copies": 2,
+        "art": "assets/reset/daly_02.png",
+        "description": "Resgate o personagem do topo do monte Raro. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "RARE",
+        "color": "#4fd491"
+      },
+      {
+        "id": "daly_03",
+        "type": "DALY",
+        "name": "Medalha Roxa",
+        "copies": 2,
+        "art": "assets/reset/daly_03.png",
+        "description": "Resgate o personagem do topo do monte Épico. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "EPIC",
+        "color": "#b98aff"
+      },
+      {
+        "id": "daly_06",
+        "type": "DALY",
+        "name": "Medalha Vermelha",
+        "copies": 2,
+        "art": "assets/reset/daly_06.png",
+        "description": "Resgate o personagem do topo do monte Mítico. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "MYTHIC",
+        "color": "#fa476e"
+      },
+      {
+        "id": "daly_04",
+        "type": "DALY",
+        "name": "Medalha Holográfica",
+        "copies": 2,
+        "art": "assets/reset/daly_04.png",
+        "description": "Resgate o personagem do topo do monte Lendário. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "LEGENDARY",
+        "color": "#f3d58c"
+      },
+      {
+        "id": "daly_05",
+        "type": "DALY",
+        "name": "Medalha Preta",
+        "copies": 2,
+        "art": "assets/reset/daly_05.png",
+        "description": "Resgate o personagem do topo do monte Secreto. A medalha só é gasta quando o personagem entra na equipe.",
+        "placeholder": true,
+        "rarity": "SECRET",
+        "color": "#25232d"
+      },
+      {
+        "id": "fragmento_01",
+        "type": "PRIMORDIAL",
+        "name": "Fragmento Primordial",
+        "copies": 3,
+        "art": "assets/reset/fragmento_01.png",
+        "description": "Reúna os três únicos Fragmentos Primordiais na mão e consuma-os para invocar Zeenneriam."
+      }
+    ]
+  },
+  "originalCards": {
+    "assets/cards/card_base.png": "c26fbf05ae7fc803731626f5a0891550b05954bd2d502e9256c138e3cf7dea2a",
+    "assets/cards/card_base_alex.png": "280a9e2c6af2106a3e88659a8cc80d7683266f6a5b0a01ee34b1ad6431190882",
+    "assets/cards/card_base_assassin.png": "2d2635bc640a0609828de8ba1e2497bfd9cd3fda8d531efd2c7e6f7ee9170e6c",
+    "assets/cards/card_base_barn.png": "7fea1db787c8dc04953e84164ea2b49367054e8b95b209b8ddc288a195ba8fb4",
+    "assets/cards/card_base_cavaleiro.png": "4d48d5602e04b9a768bddeb7f3b0bcb061dc156be74a4b860ab14f7ee05fffb7",
+    "assets/cards/card_base_chama.png": "4dd4b8bc32c4acabd597f4d94ed359f4582615cc96aed60f76cd6004c1193c10",
+    "assets/cards/card_base_daztirry.png": "882ef56e0fad6015e58c7c06827372f732e76acb130d92d3f6ed9fa3527bb8f0",
+    "assets/cards/card_base_ddx.png": "242539add2e9a2377cda23d30c3d79b08911f1e077a12671f4f6415ce305c6db",
+    "assets/cards/card_base_draktar.png": "9038da1beba86470f677722c053990ed3ae5407a005a37b5586cd0b64a2182f3",
+    "assets/cards/card_base_eletric.png": "054b74c7c846bd5d4ba28fc5fdae2ce0cf2010344f33365e7597834b88196d8b",
+    "assets/cards/card_base_elysh.png": "30f438940e5c1c7d67ec1e9461b97367ae61f44a8ec35be3043c2ffdcaf4057e",
+    "assets/cards/card_base_endrik.png": "1a669c0d5f3fa96fc436fb444e939f399d7131ee9616c5f5d82258a2f376321a",
+    "assets/cards/card_base_fonior.png": "985829fd7ece1e1a6f0563f7f99bece299200cb6a17d9ebd8b326fd5ddab2731",
+    "assets/cards/card_base_john.png": "6e311f9df765d86b364879977e9eb92e1b675916978586fd311440c9f896dbfe",
+    "assets/cards/card_base_karma.png": "b40394fc311537b1dcb02eebcca97387e12418776b83b8ee2d28644d021513ad",
+    "assets/cards/card_base_mago.png": "924fc7b084af924cab2af6abb2911eefe74ce003cff3329126836e5fbe387480",
+    "assets/cards/card_base_mike.png": "233d81ef5a3f98aa355600a1af720c04e8d8479f0343e3b2cf2d5453232e11da",
+    "assets/cards/card_base_nully.png": "f39e9228bf4a90177aa2e11da17bfda322e5fe171929e4a10c6c86647b40b1f7",
+    "assets/cards/card_base_p_ullys.png": "132b396113d8e0070d96bf981d9ab42db73690f3c5ced1fdad0ae59d9d6c2dca",
+    "assets/cards/card_base_penxy.png": "93bbcdb89d6bfe37c2268eed5ff71a191ff6ab1f9344d49f9b9c8b56ab445038",
+    "assets/cards/card_base_rayvilin.png": "6773ddc5841ee5f802ea826ca6563b9c032412d173c825d3b967377e84867ac5",
+    "assets/cards/card_base_rayyb.png": "413256721fe04a1223dd0af8b22e0473d322ca1f884dd70c6fb761b44e51ad25",
+    "assets/cards/card_base_sam.png": "44c411b23e62cf762ccc970b17e093db43a1a921ff20ef526041ded09c04cf5e",
+    "assets/cards/card_base_sark.png": "fdd45cc6ff25e4c586dfc85c56452e035e19b030307e35044a6dd965056ead39",
+    "assets/cards/card_base_sheriff.png": "23a229a5677122fc1a410e69fb2c2c6bb68158ccc59612ca8e726e6cbd1d3fc8",
+    "assets/cards/card_base_stally.png": "038362876a861a08f91c32d716ec7b3dfcf157d5e9c1506911ba09070270565c",
+    "assets/cards/card_base_striker.png": "7c0850c2c48a56ae6a669ec9b5b3462d41751fa0387d2bfd5750dac4d33c66ae",
+    "assets/cards/card_base_trucc.png": "f4ec472598184a7ec237e95f8c7d1f4b19afb33e68e43715262416bd9ec4f4a1",
+    "assets/cards/card_base_unicorn.png": "814871805f8a21f99af9a935840c86b26ba63295ba1429a2ed06556c7965e4b7",
+    "assets/cards/card_base_vaglar.png": "38f8064d071e28c3d19bf5acf75e81b80a221f62f0626fa8a4f8ba91b55a051c",
+    "assets/cards/card_base_z_zus.png": "3ecac0b1cd7fee010db391928d312474db9388ef9834540118af36a090068347",
+    "assets/cards/card_base_zenneriam.png": "116d2a8309231e43cd5d05fbd364aa01fc1de369a0c84ec48f873e3ebc37e537",
+    "assets/cards/card_base_zikssy.png": "30e6b81058f5bdd5cf27b04aeb553fd6d4ad819090a578b6f2559eb3b1ac1290",
+    "assets/cards/card_base_zuri.png": "d3121b47027fd3051a0a4b728f5f19893bd235291387749e6fad4112f2ec730b",
+    "assets/cards/card_holes_mask.png": "b13f495850165edc85de95a44b286df95a22a0538df89493ba1ceb9d314946e3",
+    "assets/cards/card_holes_mask_assassin.png": "ad9d71af05676da6c0de7f55634547c3be438ab846ceed850f61dc7ead387054",
+    "assets/cards/number_cleanup_cavaleiro.png": "7952be7d60f52e2fc52a4c6a7bc3ca0b8d6f7536ac059c9a44249450718dbb41",
+    "assets/cards/number_cleanup_ddx.png": "433483a52cbb573b26c35bc6072bf84e9caa9d2d5f62190357c0bd8bec035933",
+    "assets/cards/number_cleanup_elysh.png": "14b63bb90684cef9a773b8ad0c8594a7e2944eb198fff4ee0af7184223b52c2f",
+    "assets/cards/number_cleanup_penxy.png": "797cf6163270be5ff007c4dfa14eeca4aa37d1429a52d6b1564a83c6cf008fed",
+    "assets/cards/number_cleanup_vaglar.png": "49605da2387a381b3034d2dae27bda260990d109d4575dbcde3e39d54a424e7f",
+    "assets/cards/number_cleanup_zikssy.png": "ab415a20b46c48a55aa935cc8553a56d796f22a31da38db7f631848bf636b672",
+    "assets/rebalance/kit-master-upgrade/alex.png": "4b8ca4fe9a7043b1bb72bfc840c14eeab0ee68cd1e670d30abf7c07f1703ea10",
+    "assets/rebalance/kit-master-upgrade/barn.png": "5ae417d64a16c211ab21f440ec489c885655b0a611b1e704cfea3d6e646d13fb",
+    "assets/rebalance/kit-master-upgrade/cavaleiro.png": "5477391e823c03b2271d05ba9dbb781e799485973e17dbacc6ccb170a0e2bd0f",
+    "assets/rebalance/kit-master-upgrade/chama.png": "2f10039a6a1ca778d05524162e71ab9e3fdbbcffb4b219e12c8df5cdcd486667",
+    "assets/rebalance/kit-master-upgrade/daztirry.png": "89f3760f7fbd0cb976fdf56f1153442fff445f5df15c2c627a77a35ac6a85af7",
+    "assets/rebalance/kit-master-upgrade/ddx.png": "9fef2f31ae6b48542cd017cb7e504a1b66e61db1ca6ff07e5b54942d24108a03",
+    "assets/rebalance/kit-master-upgrade/draktar.png": "bc5c5c948fe7e1de397a340dd71b9d31bdcb3a40889e0b214e220b4f1fdcfdf4",
+    "assets/rebalance/kit-master-upgrade/eletric.png": "408fd19094a3544bfa0871585004360e78430f7df0d101f57751aa9ae47e1531",
+    "assets/rebalance/kit-master-upgrade/elysh.png": "78066154f80e054f7886a76afd1eb97833d32e1af987bfd41f4b298d06b94e16",
+    "assets/rebalance/kit-master-upgrade/endrik.png": "23c42b3c97ed6bc8e1f1177a1280ea9477cc324de81ad985c25b7b38511f5995",
+    "assets/rebalance/kit-master-upgrade/fonior.png": "cfe8f9da1d4cb94beb89a7b137c7138f9f1a504c0d32345c86ae686a4bd4a33e",
+    "assets/rebalance/kit-master-upgrade/karma.png": "0dfcdca221dbcba57806e59a6dc108ea1ccc93579d76dcbbc4b032e533dd8b84",
+    "assets/rebalance/kit-master-upgrade/linx.png": "24a82865dd1b529b837827b8c3e9911a3e7b07fb09a91e8aa6bc0f8a3e063fb5",
+    "assets/rebalance/kit-master-upgrade/mike.png": "1ff5457f86f2eb6e25357f18887940cffe1e74773598401d0fcd31911a747b19",
+    "assets/rebalance/kit-master-upgrade/nully.png": "d23f243986dbb22b6b4ffe2c8139badc58c869bd2b2026063f1c01c3f8090ad9",
+    "assets/rebalance/kit-master-upgrade/p_ullys.png": "ea21e9453783d5deb20fc00521bc2fa41a872dabd5d9a47e3cdd10a52c65186a",
+    "assets/rebalance/kit-master-upgrade/penxy.png": "100bdd4f4c51e85fcf31828899a672ac9034e1eb09be3db5e2265970e261ec18",
+    "assets/rebalance/kit-master-upgrade/rayvlin.png": "168b7c7228e50dd1dd07ccfc6527400d19b1a27893f30c7749337265e4f5018d",
+    "assets/rebalance/kit-master-upgrade/rayyb.png": "ffb266662f8e5393643ea19ae95bcbb37a7cf669e32e23a4a7bb9583b076849e",
+    "assets/rebalance/kit-master-upgrade/sam.png": "decf1811b696c515b63411da01587ec8bbbe0e9e9540312dac8ee3f275fd1ffa",
+    "assets/rebalance/kit-master-upgrade/sheriff_epic.png": "b5b899c06f8da54f366725402472e60dc834bceca7ab2e65613980dd74a7648b",
+    "assets/rebalance/kit-master-upgrade/sheriff_rare.png": "87ba29c2cf966d6ccd5d4a987415af2409e482fa86e4b9f96c5ef6852f2d8467",
+    "assets/rebalance/kit-master-upgrade/trucc.png": "9398155f7142bd6975dc1293ad745a9fbb6fa4f8f7f2fa1c9b98c31431361ec9",
+    "assets/rebalance/kit-master-upgrade/unicorn.png": "566dbda6fa2751b72cf7c7a0f8c54842e73588fa3d1a1c59e05c5f25ff761682",
+    "assets/rebalance/kit-master-upgrade/vaglar_epic.png": "162e716b1dd09d6d1ebf01d59fb94741eed20afa4837efbdd049594491c0fadd",
+    "assets/rebalance/kit-master-upgrade/vaglar_secret.png": "e3b541c81b96d8801cc1f04720da273a78e8fcd8d3453418f169f7d21d4b9aac",
+    "assets/rebalance/kit-master-upgrade/z_zus.png": "94434cc7421369a4faaad6eb4725cfc3b04b0f62d13cf23d7cf15160d5f70faa",
+    "assets/rebalance/kit-master-upgrade/zikssy.png": "5392b26ea599f511f67a18f01e1b163337bb241c858b0c582fa5dc5370d4b669",
+    "assets/rebalance/kit-master-upgrade/zuri.png": "25e27d7e3a0269d47a96741815c5e847433442f238fe9692aafc8b78cfdfdbc4"
+  }
+}

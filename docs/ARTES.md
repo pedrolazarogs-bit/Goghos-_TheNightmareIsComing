@@ -172,3 +172,12 @@ KitZenneriam preserva a referência preenchida em `assets/references/characters/
 ## KitMasterUpgrade — v0.25.0
 
 Kit1 e Kit2 trouxeram 30 arquivos PNG, 29 únicos, todos 1536×2048. A imagem repetida de Elysh foi deduplicada por SHA-256. Os originais estão em `assets/rebalance/kit-master-upgrade/`, com arquivo de origem e situação no manifesto. Cinco cartas foram reconfirmadas e passam a fornecer as bases integrais: Elysh, Stally, Mike, Alex e Cavaleiro. Campos variáveis recebem limpeza de exibição com recortes da base vazia, preservando os PNGs. Stally também recebe o nome corrigido por camada, pois o original imprime Vaglar. As demais imagens aguardam conferência e não substituem automaticamente o catálogo. Veja [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).
+
+
+## MasterKitUp e Ms1–Ms4 — v0.27.0
+
+Os cinco RARs contêm 106 mídias, com 85 originais novos importados e 21 arquivos existentes idênticos reutilizados. Todos os arquivos foram comparados com os originais dos RARs. [Manifesto com SHA-256 e procedência](../assets/visual-v0.27/manifest.json) · [Catálogo do kit](../assets/visual-v0.27/CATALOGO.md).
+
+Os novos fundos aparecem no mundo, na arena personalizável e nas crônicas. Sam e Chama usam suas ilustrações separadas no menu; outros personagens ilustram as cenas narrativas. Estrela, verso, faixas, ícones e moeda mantêm a identidade recebida. As cartas oficiais e as 71 imagens anteriores de bases/limpeza permanecem intactas.
+
+As folhas antigas de personagem são referências organizadas. Nenhum número delas foi aplicado ao combate. Os dois vídeos foram preservados como referências e não são baixados ou reproduzidos automaticamente pela interface.

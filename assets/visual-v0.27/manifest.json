@@ -1,0 +1,1977 @@
+{
+  "schemaVersion": 1,
+  "receivedOn": "2026-10-24",
+  "version": "0.27.0",
+  "sourceFiles": 106,
+  "importedOriginals": 85,
+  "reusedOriginals": 21,
+  "combatDataPolicy": "Illustration and presentation references only. Printed values and text on old lore/card sheets are not combat definitions; existing character balance and mechanics remain authoritative. Petra remains out of the playable roster.",
+  "assets": [
+    {
+      "archive": "master",
+      "source": "MasterKitUp/lv_7605198561772440885_20260226234314.mp4",
+      "size": 17255526,
+      "sha256": "5b01259e810372612baa766ed8e82654f30a2008fcfb8722c9c11c599e3184db",
+      "key": "master-01",
+      "asset": "assets/visual-v0.27/video/zeenneriam-teaser.mp4",
+      "action": "import-original",
+      "sourceArchive": "MasterKitUp.rar"
+    },
+    {
+      "archive": "master",
+      "source": "MasterKitUp/Moldura (Original)_20241106153328.png",
+      "size": 306548,
+      "sha256": "1c6e9f9fbcf3f49d9c7df08cf942d859012c4b11ad76afbc94822753484af2b6",
+      "key": "master-02",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/32.png",
+      "action": "reuse-existing",
+      "sourceArchive": "MasterKitUp.rar",
+      "alphaBounds": [
+        130,
+        137,
+        1896,
+        1784
+      ]
+    },
+    {
+      "archive": "master",
+      "source": "MasterKitUp/Original-Base43_20260130231133.png",
+      "size": 1355531,
+      "sha256": "da05a994389a895ee6f53f5e9f431fb2c546c80d21ad63ef0edf6271f7f09157",
+      "key": "master-03",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/references/petra-card.png",
+      "action": "import-original",
+      "sourceArchive": "MasterKitUp.rar",
+      "alphaBounds": [
+        159,
+        14,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "master",
+      "source": "MasterKitUp/Original-Base43_20260131112227.png",
+      "size": 9020,
+      "sha256": "65a887447f8b38a3e163bf07b2ce917d3e076a99d369b4a71aede005520f0ab5",
+      "key": "master-04",
+      "width": 104,
+      "height": 99,
+      "mode": "RGBA",
+      "asset": "assets/arena/heart.png",
+      "action": "reuse-existing",
+      "sourceArchive": "MasterKitUp.rar",
+      "alphaBounds": [
+        0,
+        0,
+        104,
+        99
+      ]
+    },
+    {
+      "archive": "master",
+      "source": "MasterKitUp/Original-Base5_20251015133159.png",
+      "size": 24100,
+      "sha256": "fcff743f08cbafaaf0e95f149dcd65c17a95586bf097af2abedc795ac73905d2",
+      "key": "master-05",
+      "width": 188,
+      "height": 217,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/18.png",
+      "action": "reuse-existing",
+      "sourceArchive": "MasterKitUp.rar",
+      "alphaBounds": [
+        0,
+        0,
+        188,
+        217
+      ]
+    },
+    {
+      "archive": "master",
+      "source": "MasterKitUp/Original-Base62_20261020012047.png",
+      "size": 27616,
+      "sha256": "9fd67e1de9a766399908b8e1d7e974f16eb4ecc7f58ad91b24fc7514c55b59cd",
+      "key": "master-06",
+      "width": 180,
+      "height": 192,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/28.png",
+      "action": "reuse-existing",
+      "sourceArchive": "MasterKitUp.rar",
+      "alphaBounds": [
+        0,
+        0,
+        180,
+        192
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/1 Sem Título_20240513022352.png",
+      "size": 697339,
+      "sha256": "1e228b63286bfe4f5a9a924fd0a39a64107fcd6d4350e26bfbeb897b8d8c358a",
+      "key": "ms1-01",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/environment/pine-single.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        654,
+        147,
+        1697,
+        1807
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/1 Sem Título_20240513022527.png",
+      "size": 1187667,
+      "sha256": "fe8708f8a513b49a49a9ae4aed6f78b736cc5530ea7c317b0714cba6a3114b1d",
+      "key": "ms1-02",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/environment/pine-grove.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        372,
+        147,
+        1834,
+        1807
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/12 Sem Título_Restaurado_20240512234559.png",
+      "size": 477956,
+      "sha256": "bdcb6200dfdbc4e86e67a222e03052d9bfa4162754e3f4a7373c2d31891e769c",
+      "key": "ms1-03",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/linx.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        375,
+        23,
+        1533,
+        1951
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/123 Sem Título_20251110235329.png",
+      "size": 761677,
+      "sha256": "863c8f511542c55f84713abc57b5637cebe9d5f5364c750a67d983e3ac5df22e",
+      "key": "ms1-04",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/chama.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        211,
+        40,
+        1364,
+        2030
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/133 Sem Título_20251223015700.png",
+      "size": 885003,
+      "sha256": "eafa7482ae39c420937a847279137d534164a2ce0f9f210248d953950e1333b8",
+      "key": "ms1-05",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/sheriff.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        4,
+        39,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/139 Sem Título_20260115134318.png",
+      "size": 1199730,
+      "sha256": "f5ff6b5b7dd6c0d369c0b087c17a97677b00438c5996725e172592fd923468b8",
+      "key": "ms1-06",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/zuri.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/140 Sem Título_20260114112121.png",
+      "size": 814204,
+      "sha256": "0b6c1f1ff5fd7642612e30e9ff606aca2a3943a7ae05893e432267865c2b5696",
+      "key": "ms1-07",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/sam.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        111,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título (3).png",
+      "size": 2362172,
+      "sha256": "65af76b9a0d77814870f4367f7e40f984fb6a037bb51ee98220dcec9e0f1582b",
+      "key": "ms1-08",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/striker.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título3 (1)(1).png",
+      "size": 2679074,
+      "sha256": "07e6942b2715c69e4a249dab1c56da65a9ca9c6040361c915832090b64e5b676",
+      "key": "ms1-09",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/vaglar.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título3 (1).png",
+      "size": 2407245,
+      "sha256": "ffe2463a1d9d6ba052f2d07c2c722c4a29a7fa5fc3882c27df12c011ef57d814",
+      "key": "ms1-10",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/karma.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título4 (2).png",
+      "size": 2520935,
+      "sha256": "434d9557eb0097859293ea7b1da4b5ca8cdbdbd9a01035970dd3914cc744f40c",
+      "key": "ms1-11",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/draktar.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título_20260502121919.png",
+      "size": 3485,
+      "sha256": "b8682a4be27bec609e2d787ef8ffac24cd89ccaeef7d288bc483b6a67ce0d9e3",
+      "key": "ms1-12",
+      "width": 110,
+      "height": 81,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/mint-slab.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        110,
+        81
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título_20260502121933.png",
+      "size": 3982,
+      "sha256": "b7c25f4fcf077de3325d666beac159b7ae8368c330e7e8d44f70610cfc08981c",
+      "key": "ms1-13",
+      "width": 178,
+      "height": 86,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/green-slab.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        178,
+        86
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título_20260502121952.png",
+      "size": 5493,
+      "sha256": "aa17eea84096e3a3db4b25345c697fa4b90d204e632ab11c91fc4dd7ced6ef00",
+      "key": "ms1-14",
+      "width": 290,
+      "height": 96,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/sunset-slab.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        290,
+        96
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/149 Sem Título_20260502122010.png",
+      "size": 7152,
+      "sha256": "eb9d56a697ffde4b38f176c12dac1e932c613db1ec1592ef17372527eb0a340d",
+      "key": "ms1-15",
+      "width": 431,
+      "height": 106,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/crimson-slab.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        431,
+        106
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/16 Sem Título_Restaurado_20240517112605.png",
+      "size": 478277,
+      "sha256": "880f7f8fbe6cf86ebd88b78b30d72b4b82de24770a07d091e74de393c0f57bea",
+      "key": "ms1-16",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/fonior.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        268,
+        1821,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/23 Sem Título_20260610095050.png",
+      "size": 1456455,
+      "sha256": "4aee8da6cc62565f04502c12be9932deedebb709f41e086f38819249a5080b71",
+      "key": "ms1-17",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/trucc.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        230,
+        154,
+        2048,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/37 Sem Título_20240909121328.png",
+      "size": 978961,
+      "sha256": "ff631c9508fec2eb1f77151a2da62b267bcee1bd0f7549aba0992371cb9370bf",
+      "key": "ms1-18",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/vaglar.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        88,
+        19,
+        1333,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/42 Sem Título_20250502161210.png",
+      "size": 392195,
+      "sha256": "9aa53b4a2abe7d1b0752869f80d82d706d94051c9015865b2b0714976de5cf97",
+      "key": "ms1-19",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/champion-emblem.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        53,
+        191,
+        1483,
+        1399
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/43 Sem Título_20260116135901.png",
+      "size": 1015277,
+      "sha256": "dbf7bebdb7d20138b14c195fbb88d315c424e4e107de44626a001c343ec3c975",
+      "key": "ms1-20",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/championship-logo.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        62,
+        139,
+        1997,
+        1638
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título17_20260225012005.png",
+      "size": 46344,
+      "sha256": "7679d433f542e9efaf729bb280a536632850af256a7360b35eb8f793bb1821a5",
+      "key": "ms1-21",
+      "width": 614,
+      "height": 220,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/34.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        614,
+        220
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191200.png",
+      "size": 263659,
+      "sha256": "2066d439a2ff778b7c21840dc70e615cad0d31ee656cee632fc86ac7767e6ee0",
+      "key": "ms1-22",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-50.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191259.png",
+      "size": 263049,
+      "sha256": "fcad8ff7b8135a8f721ad26d1fb316fb95ffa02041962892d7dfebaacc031c39",
+      "key": "ms1-23",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-100.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191310.png",
+      "size": 265014,
+      "sha256": "ddb85cb7fc49324598fc4c90f7861ed88c202e7d96c31a3262fc46960f7149c3",
+      "key": "ms1-24",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-120.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191427.png",
+      "size": 271432,
+      "sha256": "815900619697eb74ba4a9f6f29ad046a64bbc427abf8db0c90205db7674b56e0",
+      "key": "ms1-25",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-150.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191447.png",
+      "size": 271000,
+      "sha256": "1387ccf18d14a3eb99ddc86a54cfb3029eaee6b07b5a55c4932ddf6bc235ac51",
+      "key": "ms1-26",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-170.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191456.png",
+      "size": 270204,
+      "sha256": "93d65463bb4db1b7a81ab7042265f2722c05a2fa8def463f2d826d6a251b36bc",
+      "key": "ms1-27",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-200.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191531.png",
+      "size": 266895,
+      "sha256": "4ca3683c6c457de1bcbf6b6684a5e7a3e03abc2c03ef0f431db1047142776605",
+      "key": "ms1-28",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-350.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191615.png",
+      "size": 264586,
+      "sha256": "5b903dd42e423e98d6c55562cc58d97efe72c5c7aeb25c68f965d3278a2ddf11",
+      "key": "ms1-29",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-400.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191647.png",
+      "size": 266463,
+      "sha256": "bff2847a07b4c7b782fe2c36a460f317f3bcceb0e2104ed6537e0f20768cdb9f",
+      "key": "ms1-30",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-520.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título2_20250831191709.png",
+      "size": 1007557,
+      "sha256": "35681a496f1c7a5b73a40e681096aee2aa5c98cefe49d64a068ded0154a4f9a8",
+      "key": "ms1-31",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/currency/coin-card-800.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título5_20260611210425.png",
+      "size": 1186450,
+      "sha256": "0374f509b2b5178a367a568668257289173863f0fea32c76a98b543a2e703bc0",
+      "key": "ms1-32",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/26.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/52 Sem Título5_20261019235613.png",
+      "size": 406087,
+      "sha256": "d248117a72d8fa788b014954ec7090087e28a324b8e2c9cdbb0da17ae8e43b88",
+      "key": "ms1-33",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/arena/card_back.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/53 Sem Título7_20251103105219.png",
+      "size": 27724,
+      "sha256": "610d898caf021f36a187aa734a7a5e8c278e5e842c78e204159b3ec7c97cd085",
+      "key": "ms1-34",
+      "width": 346,
+      "height": 173,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/35.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        346,
+        173
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/57 Sem Título_20250729204718.png",
+      "size": 37167,
+      "sha256": "764e382db466d407800cd7459729e03a5f6351324fae99153cef2d9827d55620",
+      "key": "ms1-35",
+      "width": 800,
+      "height": 576,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/speech-bubble.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        800,
+        576
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/62 Sem Título_20241025235811.png",
+      "size": 122536,
+      "sha256": "5a4fdba7737651dc42688c6a1209541f0b75c5c9cf324d2457ca1d5b57994df9",
+      "key": "ms1-36",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/arena/daly_mae.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        834,
+        236,
+        1214,
+        875
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/63 Sem Título_20241026001914.png",
+      "size": 268079,
+      "sha256": "dc8715eda7b0574ee468af81daa7806cb069ac35d9dc1123d1d73d838d8627a7",
+      "key": "ms1-37",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/36.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        560,
+        216,
+        1580,
+        1446
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/64 Sem Título_20241026003231.png",
+      "size": 215096,
+      "sha256": "a42221730c2644d9a5fdc574c1861ea24a281826909d15249d41e1b27669f092",
+      "key": "ms1-38",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/27.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        563,
+        294,
+        1485,
+        1934
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/8 Sem Título6_20260729235451.png",
+      "size": 826668,
+      "sha256": "c61b2c77c071e3e644f768a7783b7e8ff04554b92fd7837267d93c4228f93308",
+      "key": "ms1-39",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/framed-card-back.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        157,
+        14,
+        1378,
+        2048
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título6_20260116131531.png",
+      "size": 58249,
+      "sha256": "488f46d55b6fc128dd66059a05edba6bde0bba8e36d96b7b6664ec398c77ea62",
+      "key": "ms1-40",
+      "width": 414,
+      "height": 347,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/ability-star.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        0,
+        0,
+        414,
+        347
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104757.png",
+      "size": 524218,
+      "sha256": "42dbd9b1d2db390f7849a966337bbd7350f315ff1e42362f973fa2b08c2e359e",
+      "key": "ms1-41",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/13.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        449,
+        314,
+        2048,
+        1422
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104818.png",
+      "size": 99017,
+      "sha256": "7a6d4e1c201aa05b1b3f70570d62fb1e623d693f797bebe1f32c25e6fc68e410",
+      "key": "ms1-42",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-blue.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        620,
+        549,
+        2048,
+        1210
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104823.png",
+      "size": 97300,
+      "sha256": "d0f57403aecb32bcb6fc8f72d05df65d8031c6f6cd768715e6d2e638a2fb4971",
+      "key": "ms1-43",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-green.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        620,
+        549,
+        2048,
+        1210
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104838.png",
+      "size": 97901,
+      "sha256": "82ab599f8fe5856de23881031c2ccbfb2f1345453aca4ff016e22e5cda42e18c",
+      "key": "ms1-44",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-purple.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        620,
+        549,
+        2048,
+        1210
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104843.png",
+      "size": 95907,
+      "sha256": "48df08c65ae7348b77734ff08aea7d58d8a610f2d8376bd415adbfedcfe4eeeb",
+      "key": "ms1-45",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-red.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        620,
+        549,
+        2048,
+        1210
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104848.png",
+      "size": 207192,
+      "sha256": "8e5e15f3d1d14a112389d326e003c7e1dd58e53e95227cd78094a29896e4c988",
+      "key": "ms1-46",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-holographic.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        605,
+        542,
+        2048,
+        1217
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/83 Sem Título7_20260117104853.png",
+      "size": 118086,
+      "sha256": "1f391124f5b7a8faa147cbfdbd3caf33bebff0bfe482be4b0726dc5beb68b760",
+      "key": "ms1-47",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/rarity-light.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        620,
+        549,
+        2048,
+        1210
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/84 Sem Título_20250831150130.png",
+      "size": 371950,
+      "sha256": "24f7b60c4c3974b5dea23380525e799219c7e243040cb53d500461f189067905",
+      "key": "ms1-48",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/arena-banner.png",
+      "action": "import-original",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        189,
+        1333,
+        1859,
+        1887
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/84 Sem Título_20260225120110.png",
+      "size": 762002,
+      "sha256": "5dc0dd464795f7d7ee8dfd047406b709a6eae922611c39729f81aae1e0e74f36",
+      "key": "ms1-49",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/42.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        189,
+        1303,
+        1859,
+        1887
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/89 Sem Título3_20260129005216.png",
+      "size": 62782,
+      "sha256": "2690b39792a21f38e12640511fe6c3c1c2129f593c537b8e3f92f8df860708a2",
+      "key": "ms1-50",
+      "width": 575,
+      "height": 455,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/10.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        16,
+        0,
+        575,
+        432
+      ]
+    },
+    {
+      "archive": "ms1",
+      "source": "Ms1/94 Sem Título_20251017001542.png",
+      "size": 521112,
+      "sha256": "3d8eb9ee829665987bf6a182b89dd34744630399e312adbd5d7eb89964d2bbf3",
+      "key": "ms1-51",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/concepts/kikiy/11.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms1.rar",
+      "alphaBounds": [
+        93,
+        59,
+        1955,
+        1848
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título11.png",
+      "size": 1834543,
+      "sha256": "ddf1b8e86a811e195b58e011d2ed3a20974cf2a64a8ca9f208b998c67d02671a",
+      "key": "ms2-01",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/fonior.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12(1).png",
+      "size": 2414707,
+      "sha256": "71fa36a34682a8569bd110aab74f453782fd872327f6e11a4852cfa022c5957f",
+      "key": "ms2-02",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/rayyb.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12.png",
+      "size": 2355193,
+      "sha256": "031440824670a237d74d1525c836a09cc041e9b34c75767f08763b73855dc56f",
+      "key": "ms2-03",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/daztirry-alt.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12_20260226194459.png",
+      "size": 18643,
+      "sha256": "f5868b6ffa0ce9607354ca196c6279247e0f6cc077ebf9e54725b669503dae9c",
+      "key": "ms2-04",
+      "width": 727,
+      "height": 115,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-hardcore.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        727,
+        115
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12_20260226194522.png",
+      "size": 17091,
+      "sha256": "516b21e9d7d55034058dda7323b91760be614a59c2a4b7d5f5dc0bd94b3ebf2e",
+      "key": "ms2-05",
+      "width": 662,
+      "height": 115,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-hard.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        662,
+        115
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12_20260226194540.png",
+      "size": 22329,
+      "sha256": "e75bf1bc6ac51ea4e440f9b88a6f05f94bd020421ed945ab6743288d8bda6ec0",
+      "key": "ms2-06",
+      "width": 738,
+      "height": 115,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-average.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        738,
+        115
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12_20260226194622.png",
+      "size": 17070,
+      "sha256": "de378991585586a26990a840e310b38c1fc386abd8654ff67bfe269e4bff68d5",
+      "key": "ms2-07",
+      "width": 655,
+      "height": 115,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-easy.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        655,
+        115
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título12_20260226194653.png",
+      "size": 23988,
+      "sha256": "78ef186a35ddf1ee52ef608c2ec4d410386fb1c38bbd747bcea2ccfbbd695e84",
+      "key": "ms2-08",
+      "width": 705,
+      "height": 122,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-very-easy.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        705,
+        122
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título13.png",
+      "size": 2398398,
+      "sha256": "51e9eac7478f2a52f0c0a8ab4680c83c6597605c31089a22f8ebad7af406e16b",
+      "key": "ms2-09",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/z_zus.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título14.png",
+      "size": 1939946,
+      "sha256": "1674092e0fc0ab1f1e7aefffecc4cd2876a8a2171a63a5669fd139269d8f7132",
+      "key": "ms2-10",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/zeenneriam-alt.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título5 (2).png",
+      "size": 2384140,
+      "sha256": "60908e29b3e7310293dc49544a6da0a2a3649ede3cd4e71b02865cf8cb900dcb",
+      "key": "ms2-11",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/elysh.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título5_20260203194328.png",
+      "size": 8328,
+      "sha256": "cd68ce73e3c8a20a12b015f1025f204e42833bf216f959e68a2979678b51f427",
+      "key": "ms2-12",
+      "width": 514,
+      "height": 115,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/difficulty-empty.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        514,
+        115
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título6.png",
+      "size": 2350020,
+      "sha256": "f2afb9cc912685b86faee991f57b8b0968d452442fe21840d8bc68796b02e40d",
+      "key": "ms2-13",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/daztirry.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título6_20260303104753.png",
+      "size": 2351399,
+      "sha256": "7b00e4ccbd7523c0661f6b3cfc7cc760b7887d7322f3cb0d0cd3ec621f16d02a",
+      "key": "ms2-14",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/daztirry-edition.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título7 (1).png",
+      "size": 2444374,
+      "sha256": "0f1f851f491566dbd125397be1c807e47c1165ff24334527efc82cdbfe56c889",
+      "key": "ms2-15",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/rayvilin.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título8 (1)(1).png",
+      "size": 2602699,
+      "sha256": "0250707013e6e0ca7f69b8b48dabd2f45fef588a09c77420cad0a6ff988d8272",
+      "key": "ms2-16",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/sarck.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título8 (1).png",
+      "size": 2255640,
+      "sha256": "9a20307429196d42dad341a65a8f5733e687637c1d65a0ed6944569bb819a13c",
+      "key": "ms2-17",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/zikssy.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título9 (1).png",
+      "size": 1842503,
+      "sha256": "5eddc3ae4fe7426fadd8bb20bd1bf4408c31d14f7786ae2531ea8ffc084ad32f",
+      "key": "ms2-18",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/zuri.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms2",
+      "source": "Ms2/149 Sem Título9_20260226115111.png",
+      "size": 1940976,
+      "sha256": "30c4bd5a86fabee8a5e664df9ecc79e5adfaa5e7c84cdaab51ed17e448533cd4",
+      "key": "ms2-19",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/zeenneriam.png",
+      "action": "import-original",
+      "sourceArchive": "Ms2.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título15.png",
+      "size": 2711515,
+      "sha256": "f9d1ab366a58e06c9bc3bb0fdbe0355c27a43338a5d59dc9f82eb60e3457d61d",
+      "key": "ms3-01",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/eletric.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título16(1).png",
+      "size": 2374489,
+      "sha256": "ed7e38019808865e3eedee9ca03006d6e019cd2b9f7e94269162196ac85fefd8",
+      "key": "ms3-02",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/sam.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título16.png",
+      "size": 2282366,
+      "sha256": "deed9a5a60e26eef7456dc3a85491b8e594af4ec9195d981c6fe38cf54473954",
+      "key": "ms3-03",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/endrik.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título17.png",
+      "size": 2448305,
+      "sha256": "56b08821e0914998c96e794de2bfabe61d04a07900295a4848997b2feb894402",
+      "key": "ms3-04",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/john.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título18.png",
+      "size": 2506126,
+      "sha256": "d3a2a701be1c9fd5947a07a3d962765b0416515d54c70d33c49dc39f51828c7a",
+      "key": "ms3-05",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/penxy.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título19.png",
+      "size": 2381054,
+      "sha256": "8347b1a49597d6fe52772ce73ff54fe6324ccab17207ef20e42ed88f979583ee",
+      "key": "ms3-06",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/barn.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título20.png",
+      "size": 2792179,
+      "sha256": "2a4902fe10de9f598d6bf036c61e90adf047212ee5e8e9ab337ae020f56a63e8",
+      "key": "ms3-07",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/nully.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título21(1).png",
+      "size": 2665534,
+      "sha256": "31b79bf300232b157a5674505c62dbdeca9eb8f18daeed517153fb1c8d31fb1d",
+      "key": "ms3-08",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/chama.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título21.png",
+      "size": 2565361,
+      "sha256": "81e364184cb33e90778a96d2e2d800bec2027f88228dedd6453871f2725bf75b",
+      "key": "ms3-09",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/stally.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título22.png",
+      "size": 2562340,
+      "sha256": "d70945a96acf9a3b9c3a01e248107a4a5b3d90c57aecc17636aaaa7d56bcbbaa",
+      "key": "ms3-10",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/petra.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título23.png",
+      "size": 2358636,
+      "sha256": "5b9d18139455e3355b9d75376771e3ec71c370a08c3380000e5f0e86c671b158",
+      "key": "ms3-11",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/ddx.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/149 Sem Título31.png",
+      "size": 2320785,
+      "sha256": "47b86a05b88c29cea16781ec07819f7e5dd7ed587a6bf46aed5b86c105e19f22",
+      "key": "ms3-12",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/p_ullys.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms3",
+      "source": "Ms3/153 Sem Título_20260123105733.png",
+      "size": 1583402,
+      "sha256": "c81410fd2ae856c752eeb25c974e3c964df9f381fcd43ce7981649cc7b3bc756",
+      "key": "ms3-13",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/unicorn.png",
+      "action": "import-original",
+      "sourceArchive": "Ms3.rar",
+      "alphaBounds": [
+        65,
+        36,
+        2048,
+        2048
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/154 Sem Título_20260123230832.png",
+      "size": 982860,
+      "sha256": "526780197f861c41710315c72e4e5dc2742e348a333186d64f09e3a96bbe6afc",
+      "key": "ms4-01",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/nully.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        480,
+        2048,
+        2048
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/159 Sem Título_20260126230857.png",
+      "size": 2204088,
+      "sha256": "3ac89fd00474a167ffc39681d0160451392accb07aa60eb1b6cb051ddddc0f3a",
+      "key": "ms4-02",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/sarck.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        83,
+        1837,
+        2048
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/166 Sem Título_20260130221700.png",
+      "size": 1276482,
+      "sha256": "f10dfa815398afc0920c4ac4aef59ea3150a52351791c714e51913a12c690808",
+      "key": "ms4-03",
+      "width": 1536,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/characters/petra.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        404,
+        1536,
+        2048
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/168 Sem Título_20260502120457.png",
+      "size": 35468,
+      "sha256": "643abd01e54e91a0d5ff38086394417fd69a1aba2c7fafd23a77b72a73d1645a",
+      "key": "ms4-04",
+      "width": 184,
+      "height": 299,
+      "mode": "RGBA",
+      "asset": "assets/arena/attack.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        0,
+        184,
+        299
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/202 Sem Título_20260502115512.png",
+      "size": 840786,
+      "sha256": "917ec40183ac030185e81b56aecaea5e3bd8cd45d159e00fd5cdde4a19e399c6",
+      "key": "ms4-05",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/chama-turn-banner.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/202 Sem Título_20260502115538.png",
+      "size": 995639,
+      "sha256": "3c63da738452460178a9b66a256c62d8894b81d52ea628f00641aedc6fd137cc",
+      "key": "ms4-06",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/characters/zenneriam_banner.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/202 Sem Título_20260502115905.png",
+      "size": 836186,
+      "sha256": "474db6ad0d530ccb3a1a7d9e12cf833d624038250a70f5cd97de93559e2b9790",
+      "key": "ms4-07",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/characters/sam.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/202 Sem Título_20260502132437.png",
+      "size": 100605,
+      "sha256": "8c4ff9c7678e283ed724b84ecabb849f92ba7d520bcb5e404530e3d3948a59d6",
+      "key": "ms4-08",
+      "width": 1945,
+      "height": 1357,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/ui/turn-banner-base.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        0,
+        1945,
+        1357
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/202 Sem Título_20260505113737.png",
+      "size": 201700,
+      "sha256": "36e4b7f47fc601df4ed7e97258bdcbcafb4285f8e4dbf376f4955328b3b7f2ca",
+      "key": "ms4-09",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/arena/unknown_portrait.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/2026-03-25-134129632.mp4",
+      "size": 9816913,
+      "sha256": "54faec572e5f967d35e69cc876094761a7c1027c74e0738ff5818f70ac8105d4",
+      "key": "ms4-10",
+      "asset": "assets/visual-v0.27/video/trio-reference.mp4",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar"
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/205 Sem Título_20260913162909.png",
+      "size": 1887460,
+      "sha256": "dd1587ec9a39e01f5e726c55570892cdb4e082f67ccae9e5eb8920f59821e0e7",
+      "key": "ms4-11",
+      "width": 2048,
+      "height": 1536,
+      "mode": "RGBA",
+      "asset": "assets/visual-v0.27/lore/nightmare-poster.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        0,
+        0,
+        2048,
+        1536
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/220 Sem Título_20261020032133.png",
+      "size": 1890054,
+      "sha256": "6acb12395fdb832e3c3cb205d95e0ba3b208e9858e5b4744d4b39947402b54ab",
+      "key": "ms4-12",
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "asset": "assets/logo/logo.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar",
+      "alphaBounds": [
+        193,
+        289,
+        1866,
+        1722
+      ]
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/264ddeeacae3d1146f61e6095f7d12e0.jpg",
+      "size": 16835,
+      "sha256": "2c68285a9fb7c768a058957135518e40c97ff694ece696adda9fcdab3a617054",
+      "key": "ms4-13",
+      "width": 554,
+      "height": 795,
+      "mode": "RGB",
+      "asset": "assets/visual-v0.27/ui/holographic-gradient.jpg",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar"
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/file_000000004460720ebd27a6342a0617a3.png",
+      "size": 1653810,
+      "sha256": "2bad0e3300be625ddc633c19d0130cacbc596efe50c89ff30b8425f6f34be0a8",
+      "key": "ms4-14",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "asset": "assets/visual-v0.27/backgrounds/cosmic-rift.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar"
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/file_00000000b1b071f586e081e8c7197309.png",
+      "size": 1350079,
+      "sha256": "312dfb3e7afce3e8cf2225a5cd51532351a11cb870083ebb2f52a67f10bbae4d",
+      "key": "ms4-15",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "asset": "assets/visual-v0.27/backgrounds/crystal-valley.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar"
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/file_00000000e830720e9b24ad1ead7bfbe3.png",
+      "size": 2106658,
+      "sha256": "027656001b500c12793926bfffa4e37c139f45afedad10937bf67214e9c3d08a",
+      "key": "ms4-16",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "asset": "assets/visual-v0.27/backgrounds/red-tree-field.png",
+      "action": "import-original",
+      "sourceArchive": "Ms4.rar"
+    },
+    {
+      "archive": "ms4",
+      "source": "Ms4/file_00000000e9b8720e9d6dc6217a3514cc.png",
+      "size": 209623,
+      "sha256": "9102c37c7eb6095d257cc983ceaa6c11a99db85798eac91f2b81b2722a91b9de",
+      "key": "ms4-17",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGB",
+      "asset": "assets/concepts/kikiy/46.png",
+      "action": "reuse-existing",
+      "sourceArchive": "Ms4.rar"
+    }
+  ]
+}

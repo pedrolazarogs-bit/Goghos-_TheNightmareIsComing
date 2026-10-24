@@ -1,0 +1,50 @@
+/* Event effects live outside #app and never capture a click or change card layout. */
+.presentation-fx-layer{position:fixed;inset:0;z-index:90;overflow:hidden;pointer-events:none!important;contain:strict;isolation:isolate}
+.presentation-fx-layer *{pointer-events:none!important;box-sizing:border-box}
+.presentation-fx-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.fx-construct{position:absolute;transform:translate(-50%,-50%);color:var(--fx-color,#e7c9ff);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--fx-color) 45%,transparent));animation:fx-impact-bloom .64s cubic-bezier(.12,.74,.22,1) both;z-index:1;will-change:transform,opacity}
+.fx-construct:after{content:'';position:absolute;inset:14%;border:2px solid currentColor;border-radius:50%;animation:fx-impact-ring .62s ease-out both}
+.fx-construct svg{width:100%;height:100%;overflow:visible}
+.fx-construct.is-critical{filter:drop-shadow(0 0 16px var(--fx-color));animation-duration:.8s}
+.fx-dimension,.fx-hypnosis{animation:fx-portal .95s ease-out both;filter:drop-shadow(0 0 20px var(--fx-color))}
+.fx-heal,.fx-star,.fx-support,.fx-soul{animation:fx-magic-rise .9s ease-out both}
+.fx-parry,.fx-guard,.fx-immune{animation:fx-shield .65s ease-out both}
+.fx-dodge,.fx-miss{width:90px!important;height:60px!important;opacity:.7;animation:fx-dodge .5s ease-out both}
+.fx-dodge:before,.fx-miss:before{content:'';position:absolute;inset:25% -15%;border-top:4px solid currentColor;border-bottom:2px solid currentColor;transform:skewX(-25deg);border-radius:30%}
+.fx-dodge>svg,.fx-miss>svg{display:none}
+.fx-flame{animation:fx-flame .7s ease-out both}
+.fx-book,.fx-petrify,.fx-oni{animation:fx-omen .8s cubic-bezier(.16,.82,.24,1) both}
+.fx-sleep{animation:fx-sleep .9s ease-out both}
+.fx-divine{animation:fx-divine 1.05s ease-out both}
+.fx-link{position:absolute;z-index:0;filter:drop-shadow(0 0 7px var(--fx-color))}
+.fx-link svg{display:block;width:100%;height:100%;overflow:visible;fill:none}
+.fx-link path{stroke:var(--fx-color);stroke-width:4;stroke-linejoin:bevel;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:fx-link-draw .42s ease-out both}
+.fx-link-beam path{stroke-width:6}
+.fx-link-hypnosis path{stroke-width:3;stroke-dasharray:.04 .025}
+.fx-projectile{position:absolute;width:48px;height:48px;color:var(--fx-color);z-index:3;animation:fx-projectile-flight .26s cubic-bezier(.2,.6,.4,1) both;filter:drop-shadow(0 0 8px currentColor);will-change:transform,opacity}
+.fx-projectile svg{width:100%;height:100%;transform:rotate(45deg)}
+.fx-projectile-shot{width:52px;height:34px}.fx-projectile-shot svg{transform:none}
+.fx-card-impact .card{animation:fx-card-tap .25s ease-out both!important}
+.fx-card-heal .card{animation:fx-card-heal .5s ease-out both!important}
+.fx-card-guard .card{animation:fx-card-guard .4s ease-out both!important}
+.fx-card-dodge .card{animation:fx-card-dodge .28s ease-out both!important}
+@keyframes fx-impact-bloom{0%{opacity:0;transform:translate(-50%,-50%) scale(.32) rotate(-12deg)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(3deg)}42%{opacity:.95;transform:translate(-50%,-50%) scale(.94)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.3) rotate(8deg)}}
+@keyframes fx-impact-ring{0%{opacity:.8;transform:scale(.2)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes fx-portal{0%{opacity:0;transform:translate(-50%,-50%) scaleX(.08) scaleY(.6) rotate(-35deg)}25%,60%{opacity:1;transform:translate(-50%,-50%) scaleX(1) scaleY(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scaleX(.08) scaleY(1.1) rotate(20deg)}}
+@keyframes fx-magic-rise{0%{opacity:0;transform:translate(-50%,-25%) scale(.6)}25%{opacity:1;transform:translate(-50%,-50%) scale(.9)}100%{opacity:0;transform:translate(-50%,-85%) scale(1.05)}}
+@keyframes fx-shield{0%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}20%,50%{opacity:.9;transform:translate(-50%,-50%) scale(.85)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}}
+@keyframes fx-dodge{0%{opacity:.7;transform:translate(-60%,-50%) skewX(-15deg)}100%{opacity:0;transform:translate(20%,-55%) skewX(-30deg)}}
+@keyframes fx-flame{0%{opacity:0;transform:translate(-50%,-32%) scale(.5)}30%{opacity:1;transform:translate(-50%,-55%) scale(1.05)}100%{opacity:0;transform:translate(-50%,-80%) scale(.8)}}
+@keyframes fx-omen{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-18deg)}25%,65%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.16) rotate(8deg)}}
+@keyframes fx-sleep{0%{opacity:0;transform:translate(-50%,-25%) rotate(-10deg) scale(.7)}35%{opacity:.9;transform:translate(-50%,-55%) rotate(5deg) scale(.8)}100%{opacity:0;transform:translate(-35%,-100%) rotate(-5deg) scale(1)}}
+@keyframes fx-divine{0%{opacity:0;transform:translate(-50%,-50%) scale(.1) rotate(-40deg)}35%{opacity:1;transform:translate(-50%,-50%) scale(1.3) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.7) rotate(30deg)}}
+@keyframes fx-link-draw{0%{opacity:0;stroke-dashoffset:1}25%{opacity:1;stroke-dashoffset:0}65%{opacity:.9}100%{opacity:0;stroke-dashoffset:-.1}}
+@keyframes fx-projectile-flight{0%{opacity:0;transform:translate(-50%,-50%) rotate(var(--flight-angle)) scale(.6)}12%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(calc(var(--travel-x) - 50%),calc(var(--travel-y) - 50%)) rotate(var(--flight-angle)) scale(.9)}}
+@keyframes fx-card-tap{0%,100%{transform:translateX(0)}35%{transform:translateX(-4px) rotate(-2deg)}65%{transform:translateX(3px) rotate(1deg)}}
+@keyframes fx-card-heal{0%,100%{filter:drop-shadow(0 0 0 #95f2c200)}35%{filter:drop-shadow(0 0 12px #95f2c2)}}
+@keyframes fx-card-guard{0%,100%{filter:drop-shadow(0 0 0 #9ad5ff00)}35%{filter:drop-shadow(0 0 14px #9ad5ff)}}
+@keyframes fx-card-dodge{0%,100%{transform:translateX(0)}45%{transform:translateX(10px) rotate(4deg);opacity:.45}}
+.fx-construct.is-reduced{animation:fx-reduced-mark .36s ease-out both;filter:none}.fx-construct.is-reduced:after{display:none}
+@keyframes fx-reduced-mark{0%,100%{opacity:0}25%,75%{opacity:.65}}
+.goghos-motion-reduced .fx-card-impact .card,.goghos-motion-reduced .fx-card-heal .card,.goghos-motion-reduced .fx-card-guard .card,.goghos-motion-reduced .fx-card-dodge .card{animation:none!important}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .presentation-fx-layer .fx-projectile,html:not(.goghos-motion-full) .presentation-fx-layer .fx-link{display:none}html:not(.goghos-motion-full) .fx-construct{animation:fx-reduced-mark .36s ease-out both!important;transform:translate(-50%,-50%)!important;filter:none}html:not(.goghos-motion-full) .fx-construct:after{display:none}}

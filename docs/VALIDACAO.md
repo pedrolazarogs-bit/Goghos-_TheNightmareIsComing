@@ -1,3 +1,31 @@
+# Validação — v0.27.0
+
+`npm test`: **334 testes aprovados**, incluindo **380 partidas completas simuladas**. As regras anteriores permanecem cobertas. Os novos testes verificam planejamento de efeitos/sons, eventos e reações em sequência, ausência de mutação da batalha, preferências, ciclo dos baús, recompensas idempotentes, armazenamento indisponível e crônicas.
+
+## Balanceamento preservado
+
+A suíte compara a versão final com o retrato anterior à renovação: os **dez arquivos do motor estão idênticos byte a byte**, as quatro fontes de dados permitem somente a identificação da versão, e o catálogo vivo/configuração/Apoios/montes são iguais. As **71 imagens anteriores de bases de cartas continuam com os mesmos hashes**. A fixture de invariantes é uma referência de comparação, nunca substitui os dados carregados pelo jogo.
+
+Os cinco RARs foram lidos e comparados com os arquivos importados: **106 mídias**, sendo 85 originais novos e 21 arquivos idênticos reutilizados. Origem, dimensões e SHA-256 estão no [manifesto](../assets/visual-v0.27/manifest.json). Números em referências antigas não foram aplicados ao combate.
+
+## Interface e efeitos no Chromium
+
+Passaram **109 cenários da interface integrada**, com HTTP local: 28 fluxos principais, 65 usos de Apoio/laboratórios, oito formações e oito fluxos de recuperação/formação/invocação. Além disso, passaram **14 cenários isolados dos novos módulos**. As resoluções cobrem 1440×1000, 1280×720, 390×844 e 360×740, conforme o fluxo.
+
+Foram exercitados abertura/pular/rever/Escape; menu; preferências persistentes e movimento reduzido; baú/equipar/crônicas; busca de 32 cartas; seleção e resultado com 50 moedas uma única vez; ausência de recompensa em laboratório/abandono; áudio Web Audio liberado por gesto real; mute; área/mana; DD-X45×4; seis socos de Sam; revide fatal de Sark; dimensão e proteção de Striker; cura traseira de 80; mão cheia; todos os 17 Apoios nas duas resoluções principais; e todos os 31 laboratórios no celular. Recuperar 2 Épicos ou 3 Raros, avançar um dos dois Suportes e invocar com três fragmentos preservaram ação, rodada e compras.
+
+As cartas mediram **155,5 px** no desktop principal, **124 px** no desktop baixo, **105,3 px** em 390 px e **100 px** em 360 px. Formações de 3+2 e Recruta não sobrepuseram cartas, Daly Mãe ou Suportes nem causaram transbordamento horizontal da página. A rolagem vertical foi preservada após inspeção; a fileira de quatro cartas também manteve o deslocamento horizontal de 95 px.
+
+Os efeitos não alteraram o estado da batalha. Reapresentar o mesmo evento não repetiu sons; pausa, aba oculta e destruição limparam efeitos pendentes. Nenhum erro JavaScript, recurso ausente ou transbordamento horizontal foi encontrado nos cenários aprovados. Os estados de laboratório e dados controlados servem apenas para reproduzir as verificações.
+
+## Compatibilidade local
+
+A auditoria estática conferiu 40 referências locais HTML/CSS, ausência de dependências remotas ou chamadas de rede nos novos módulos e resolução correta dos fundos para URLs `file://`. As transações e o armazenamento também foram exercitados em VM. A navegação real por `file://` foi bloqueada pela administração do Chromium deste ambiente (`ERR_BLOCKED_BY_ADMINISTRATOR`) antes de carregar o jogo; portanto, essa modalidade não foi validada no navegador aqui. Os fluxos de navegador acima foram executados via servidor HTTP local.
+
+[Menu](previews/menu-v0.27.0-desktop.png) · [No celular](previews/menu-v0.27.0-celular.png) · [Arena e golpe real](previews/arena-v0.27.0-desktop.png) · [Seleção](previews/selecao-v0.27.0-celular.png) · [Baús](previews/baus-v0.27.0-desktop.png) · [Crônicas](previews/cronicas-v0.27.0-celular.png) · [Abertura](previews/abertura-v0.27.0-desktop.png)
+
+---
+
 # Validação — v0.26.2
 
 `npm test`: **307 testes aprovados**, incluindo **380 partidas completas simuladas**. Os 12 testes novos usam o catálogo atual para conferir Penxy e Striker, com velocidade, proteção, fila e estado da dimensão reais.

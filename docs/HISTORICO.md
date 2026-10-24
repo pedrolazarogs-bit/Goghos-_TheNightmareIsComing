@@ -177,3 +177,14 @@ O criador esclareceu que Penxy não deve conseguir levar Striker para a dimensã
 Sem alvo permitido, a pré-batalha continua sem criar o duelo. Penxy conserva a oportunidade de escolher um futuro adversário, inclusive após resgate ou encerramento de outro duelo. A correção também preserva essa oportunidade quando outra habilidade de entrada remove os últimos alvos válidos. Velocidades iguais/menores e Striker sem sua habilidade continuam permitindo a dimensão. A regra de esquiva e todos os atributos e arquivos de arte foram mantidos.
 
 Validação: 307 testes, 380 partidas completas simuladas e 16 cenários no Chromium em computador e celular.
+
+
+## v0.27.0 — o mundo GOGHOS ganha vida
+
+Renova a apresentação com as artes de MasterKitUp e Ms1–Ms4: abertura, menu ilustrado, cenários, cartões maiores, nomes e atributos legíveis, ícones, estados de alvo e efeitos sonoros. Golpes característicos, defesas, revides e habilidades de entrada ganham animações que consultam os eventos existentes. Som, volume e movimento são configuráveis e persistentes.
+
+Adiciona Santuário local com moedas, baús cosméticos, ambientes, molduras, títulos e crônicas. Todos os personagens continuam disponíveis. Partidas normais concluídas dão uma recompensa fixa uma única vez; testes e abandonos não dão moedas.
+
+O motor, os valores, as probabilidades e os arquivos de cartas da v0.26.2 foram preservados. Os kits foram inventariados com hashes; números em referências antigas não foram aplicados como balanceamento.
+
+Validação: 334 testes, 380 partidas simuladas, 109 cenários integrados de interface e 14 cenários isolados dos módulos. Fontes do motor e balanceamento anterior comparados integralmente.

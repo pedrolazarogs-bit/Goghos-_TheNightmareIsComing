@@ -2,25 +2,25 @@
 (function(G){
 const app=document.getElementById('app');
 let dockObserver=null;
-const ui={mode:'menu',state:null,sel:null,timer:null,target:null,handIid:null,healTarget:null,mana:0,attackMode:'normal',abilityTarget:null,move:false,swapPick:null,msg:'',notice:'',busy:false,paused:false,actor:null,inspectUid:null,drawer:null,panels:{history:false,ability:false,order:false}};
+const ui={mode:'menu',state:null,sel:null,timer:null,target:null,handIid:null,healTarget:null,mana:0,attackMode:'normal',abilityTarget:null,move:false,swapPick:null,msg:'',notice:'',busy:false,paused:false,actor:null,inspectUid:null,drawer:null,panels:{history:false,ability:false,order:false},matchToken:null};
 const show=html=>{app.innerHTML=html;};
 const btn=(act,label,disabled=false,cls='')=>{
   const short={ 'mode-normal':'Normal','mode-pin':'Cravar','mode-heal':'Curar','mode-double':'Quatro braços','mode-stun':'Paralisar','mode-area':'Em área','mode-break':'Libertar aliado','power-sleepPowder':'Pó mágico','power-petrify':'Petrificar','power-hypnosis':'Trocar alvo','full-heal':'Cura total','hypnosis-keep':'Manter · 90','pin-keep':'Manter machado','pin-release':'Soltar machado','pinned-wait':'Passar vez','wait':'Passar vez','move':ui.move?'Concluir':'Mover','attack':ui.attackMode==='heal'?'Curar':ui.attackMode==='break'?'Libertar':label==='Confirmar ataque'?'Atacar':label};
   const text=ui.mode==='battle'?(short[act]||label):label;
-  return `<button class="${cls}${act.startsWith('mode-')?' mode-button':''}" data-act="${act}"${disabled?' disabled':''} title="${G.escapeUI(label)}">${text}</button>`;
+  return `<button class="${cls}${act.startsWith('mode-')?' mode-button':''}" data-act="${act}"${disabled?' disabled':''} title="${G.escapeUI(label)}">${G.VisualShell?.actionIcon(act)||''}<span>${text}</span></button>`;
 };
 const card=G.cardHTML;
 const toTop=()=>globalThis.scrollTo?.({top:0,behavior:'instant'});
 const clearPick=()=>{ui.target=null;ui.handIid=null;ui.healTarget=null;ui.mana=0;ui.attackMode='normal';ui.abilityTarget=null;ui.move=false;ui.swapPick=null;};
-function wipe(){clearTimeout(ui.timer);dockObserver?.disconnect();clearPick();Object.assign(ui,{state:null,sel:null,msg:'',notice:'',busy:false,paused:false,actor:null,inspectUid:null,drawer:null,panels:{history:false,ability:false,order:false}});}
+function wipe(){G.PresentationFX?.stop();clearTimeout(ui.timer);dockObserver?.disconnect();clearPick();Object.assign(ui,{state:null,sel:null,msg:'',notice:'',busy:false,paused:false,actor:null,inspectUid:null,drawer:null,panels:{history:false,ability:false,order:false},matchToken:null});}
 function syncDockHeight(){
   const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
   if(arena&&dock){const h=Math.ceil(dock.getBoundingClientRect().height+24)+'px';if(arena.style.getPropertyValue('--hand-height')!==h)arena.style.setProperty('--hand-height',h);}
 }
-function menu(){wipe();ui.mode='menu';show(`<section class="center home"><div class="home-spark" aria-hidden="true">✦</div><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming"></div><p class="menu-description">Escolha sua equipe.<br>Proteja sua Daly Mãe.</p><div class="home-actions">${btn('play','Jogar',false,'big primary')}${btn('characters','Personagens',false,'big')}</div><details class="training-menu"><summary>Treinar e testar <span>+</span></summary><div class="training-grid">${btn('new-abilities','Personagens')}${btn('support-test','Cartas de Apoio')}${btn('divine-test','Invocação de Zeenneriam')}${btn('sark-test','Sark')}${btn('ability-test','Elétrica e John')}${btn('shop','Loja')}</div></details><p class="ver">v${G.CONFIG.version} · The Nightmare Is Coming</p></section>`);toTop();}
-function characters(){ui.mode='characters';show(`<section class="collection"><h1>Personagens</h1><p>Confira as habilidades já implementadas e as bases recebidas para cada personagem.</p><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="collection-grid">${[...G.CHARACTERS,...G.GODS].filter(c=>c.illustrated).map(c=>`<article data-character-name="${c.name.toLowerCase()}">${card(c)}<h2>${c.name}</h2><p>${G.rarityLabel(c)} · ${G.CLASS_LABEL[c.class]}</p><p class="collection-ability">${G.getMainAbility(c)?.description||'Habilidade em desenvolvimento.'}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
+function menu(){wipe();ui.mode='menu';G.Sanctuary?.applyCosmetics();if(G.VisualShell){show(G.VisualShell.homeHTML());toTop();return;}show(`<section class="center home"><div class="home-spark" aria-hidden="true">✦</div><div class="logo"><img src="assets/logo/logo.png" alt="GOGHOS — The Nightmare Is Coming"></div><p class="menu-description">Escolha sua equipe.<br>Proteja sua Daly Mãe.</p><div class="home-actions">${btn('play','Jogar',false,'big primary')}${btn('characters','Personagens',false,'big')}</div><details class="training-menu"><summary>Treinar e testar <span>+</span></summary><div class="training-grid">${btn('new-abilities','Personagens')}${btn('support-test','Cartas de Apoio')}${btn('divine-test','Invocação de Zeenneriam')}${btn('sark-test','Sark')}${btn('ability-test','Elétrica e John')}${btn('shop','Loja')}</div></details><p class="ver">v${G.CONFIG.version} · The Nightmare Is Coming</p></section>`);toTop();}
+function characters(){ui.mode='characters';show(`<section class="collection"><header class="collection-header"><div><span class="eyebrow">Arquivo dos pesadelos</span><h1>Personagens</h1></div>${btn('menu','Voltar ao menu')}</header><p>Confira as habilidades já implementadas e as bases recebidas para cada personagem.</p><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="collection-grid">${[...G.CHARACTERS,...G.GODS].filter(c=>c.illustrated).map(c=>`<article data-character-name="${c.name.toLowerCase()}">${card(c).replace('class="frame"','class="frame" loading="lazy"')}<h2>${c.name}</h2><p>${G.rarityLabel(c)} · ${G.CLASS_LABEL[c.class]}</p><p class="collection-ability">${G.getMainAbility(c)?.description||'Habilidade em desenvolvimento.'}</p></article>`).join('')}</div>${btn('menu','Voltar')}</section>`);}
 function abilityTest(ids=['eletric','john']){
-  wipe();ui.mode='ability-test';show(`<section class="ability-tests">${btn('menu','Voltar ao menu')}<h1>Teste de habilidades</h1><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="ability-tests-grid">${ids.map(id=>{const c=G.getCharacterById(id);return `<article data-character-name="${c.name.toLowerCase()}">${card(c)}<h2>${c.name}</h2><p>${G.getMainAbility(c).description}</p>${id==='john'?'<p>Parry: dado de 6 lados, defende com 1 ou 2. Não funciona enquanto John mantém o machado cravado.</p>':''}${btn('lab-'+id,'Testar '+c.name)}</article>`;}).join('')}</div></section>`);toTop();
+  wipe();ui.mode='ability-test';show(`<section class="ability-tests">${btn('menu','Voltar ao menu')}<h1>Teste de habilidades</h1><label class="character-search">Buscar personagem <input data-character-search aria-label="Buscar personagem" placeholder="Nome do personagem"></label><div class="ability-tests-grid">${ids.map(id=>{const c=G.getCharacterById(id);return `<article data-character-name="${c.name.toLowerCase()}">${card(c).replace('class="frame"','class="frame" loading="lazy"')}<h2>${c.name}</h2><p>${G.getMainAbility(c).description}</p>${id==='john'?'<p>Parry: dado de 6 lados, defende com 1 ou 2. Não funciona enquanto John mantém o machado cravado.</p>':''}${btn('lab-'+id,'Testar '+c.name)}</article>`;}).join('')}</div></section>`);toTop();
 }
 function supportTest(){
   wipe();ui.mode='support-test';show(`<section class="support-tests">${btn('menu','Voltar ao menu')}<h1>Cartas de Apoio</h1><p>Escolha uma carta para testar. Apoios são usados da mão, inclusive durante impedimentos.</p><div class="support-tests-grid">${G.SUPPORT_CARDS.map(c=>`<article>${G.supportArtHTML(c)}<h2>${c.name}</h2><p>${c.description}</p>${btn('supportlab-'+c.id,'Testar '+c.name)}</article>`).join('')}</div></section>`);toTop();
@@ -69,7 +69,8 @@ function impactLabel(x,compact=false){
 function combatMessage(s){return G.eventFeedbackHTML(s,ui.busy);}
 function render(actor){
   dockObserver?.disconnect();
-  const scroll=app.querySelector('.arena')?.scrollTop||0;
+  const scroll=app.querySelector('.arena')?.scrollTop||0,boardScroll=app.querySelector('.battle-board')?.scrollTop||0;
+  const rowScroll={};app.querySelectorAll?.('[data-formation]')?.forEach(r=>{rowScroll[r.dataset.formation]=r.querySelector('.frow').scrollLeft;});
   app.querySelectorAll?.('[data-ui-panel]')?.forEach(p=>ui.panels[p.dataset.uiPanel]=p.open);
   const excludedOpen=app.querySelector('.elim')?.open||false;
   const logScroll=app.querySelector('.log-list')?.scrollTop||0;
@@ -87,14 +88,14 @@ function render(actor){
     const grouped=G.compactImpacts(e).filter(x=>x.targetUid===u.uid),badges=G.unitBadges(s,u);
     const fx=(e?.sequence?hits:grouped).map((x,i)=>`<span class="combat-float ${e?.sequence?'sequence-float ':''}${x.kind==='reaction'?'reaction ':''}${x.type}" style="${e?.sequence?'top:38%;--impact-delay:'+impacts.indexOf(x)*G.CONFIG.pacing.feedback*.4+'ms;--impact-time:'+Math.max(1,G.CONFIG.pacing.feedback*.4)+'ms':'top:'+(28+i*24)+'%'}">${G.impactText(x)}${x.strike?'<small>Golpe '+x.strike+'/'+x.strikeCount+'</small>':x.afterStrike?'<small>Revide</small>':x.count>1?'<small>'+x.count+' impactos</small>':''}</span>`).join('');
     const chosen=[ui.target,ui.healTarget].includes(u.uid),current=actor?.uid===u.uid&&!ui.busy;
-    return `<div class="cell ${status?'event-'+status.type:''} ${acting?'event-actor':''} ${current?'is-current':''} ${chosen?'is-target':''}" data-unit="${u.uid}" role="button" tabindex="0" aria-label="${G.escapeUI(u.name)} · Vida ${u.hp}/${u.maxHp}${chosen?' · alvo selecionado':''}" aria-pressed="${chosen}">${current?'<span class="unit-turn">VEZ</span>':chosen?'<span class="unit-turn selected">ALVO</span>':''}${card(u,cls)}${fx}<div class="unit-vitals"><span><b>${u.hp}</b><small>/${u.maxHp}</small></span><i class="hp-track" aria-hidden="true"><i style="--before:${(hits[0]?.beforeHp??u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></i></div>${badges.length?'<div class="unit-badges" title="'+G.escapeUI(badges.join(' · '))+'">'+badges.slice(0,2).map(b=>'<span>'+b+'</span>').join('')+(badges.length>2?'<span>+'+(badges.length-2)+'</span>':'')+'</div>':''}</div>`;
+    return `<div class="cell ${status?'event-'+status.type:''} ${acting?'event-actor':''} ${current?'is-current':''} ${chosen?'is-target':''}" data-unit="${u.uid}" role="button" tabindex="0" aria-label="${G.escapeUI(u.name)} · Vida ${u.hp}/${u.maxHp}${chosen?' · alvo selecionado':''}" aria-pressed="${chosen}">${current?'<span class="unit-turn">VEZ</span>':chosen?'<span class="unit-turn selected">ALVO</span>':''}${card(u,cls)}${fx}<div class="unit-nameplate"><span class="unit-class" title="${G.CLASS_LABEL[u.class]}" aria-label="${G.CLASS_LABEL[u.class]}">${G.VisualShell?.icon(({ASSASSIN:'assassin',FIGHTER:'sword',TANK:'bolt',SUPPORT:'plus',MAGO:'moon',DESTROYER:'target',DEUS:'star'})[u.class])||''}</span><strong>${G.escapeUI(u.name)}</strong><span class="unit-speed" title="Velocidade">» ${u.speed??'—'}</span></div><div class="unit-vitals"><span><b>${u.hp}</b><small>/${u.maxHp}</small></span><i class="hp-track" aria-hidden="true"><i style="--before:${(hits[0]?.beforeHp??u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></i></div>${badges.length?'<div class="unit-badges" title="'+G.escapeUI(badges.join(' · '))+'">'+badges.slice(0,2).map(b=>'<span>'+b+'</span>').join('')+(badges.length>2?'<span>+'+(badges.length-2)+'</span>':'')+'</div>':''}</div>`;
   };
   const row=(side,where)=>{
     const live=B[side][where],list=[...live],max=where==='front'?G.frontLimit(s,side):2;
     const ghosts=impacts.filter(x=>x.type==='defeat'&&x.targetTeam===side&&x.targetRow===where).map(x=>G.getUnit(s,x.targetUid)).filter(Boolean);
     const unique=[...new Set(ghosts)];if(unique.length){list.splice(0,list.length,...unique,...live.filter(u=>!unique.includes(u)).slice(0,max-unique.length));list.sort((a,b)=>a.slot-b.slot);}
     const caption=where==='front'?`Linha de frente · ${live.length}/${max}`:`Retaguarda · ${live.length}/2 · só Suportes`;
-    return `<div class="formation-row ${where}"><p class="lbl">${caption}</p><div class="frow">${list.map(cell).join('')}${Array.from({length:Math.max(0,max-list.length)},()=>G.emptyCardHTML('Vaga da '+(where==='front'?'linha de frente':'retaguarda'),where==='front'?'Defesa':'Suporte')).join('')}</div></div>`;
+    return `<div class="formation-row ${where}" data-formation="${side}-${where}"><p class="lbl">${caption}</p><div class="frow">${list.map(cell).join('')}${Array.from({length:Math.max(0,max-list.length)},()=>G.emptyCardHTML('Vaga da '+(where==='front'?'linha de frente':'retaguarda'),where==='front'?'Defesa':'Suporte')).join('')}</div></div>`;
   };
   const side=t=>{
     const hit=e?.targetUid===G.dalyTargetId(t);
@@ -150,23 +151,24 @@ function render(actor){
   const displayActor=ui.busy&&['support','summon'].includes(s.lastEvent?.type)?ui.actor:actor;
   const inspected=G.getUnit(s,ui.inspectUid)||displayActor;
   const eventBrief=G.eventBrief(s.lastEvent);
-  const inspectHTML=ui.drawer==='card'&&inspected?`<div class="inspect-content"><div class="inspect-card">${card(inspected)}</div>${G.actorInfoHTML(s,inspected).replace('data-ui-panel="ability"','')}</div>`:ui.drawer==='history'?`${combatMessage(s)}<div class="log-list full-history">${logs}</div>`:'';
-  const drawer=ui.drawer?`<div class="inspect-backdrop"><section class="inspect-sheet" role="dialog" aria-modal="true" aria-labelledby="inspect-title"><header><h3 id="inspect-title">${ui.drawer==='card'?'Ficha · '+G.escapeUI(inspected?.name||'Personagem'):'Registro da batalha'}</h3>${btn('close-drawer','Voltar à batalha')}</header>${inspectHTML}</section></div>`:'';
-  show(`<main class="arena"><header class="arena-header"><div class="arena-brand"><span>GOGHOS</span><small>The Nightmare Is Coming</small></div><div class="arena-round">${G.arenaArtHTML('trophy')}<span>Rodada <b>${s.round}</b></span></div><nav aria-label="Controles da batalha">${btn('card-info','Ficha',!!(choice||pd||s.recovery||s.formation||entry))}${btn('pause',ui.paused?'Continuar':'Pausar')}${btn('menu','Menu')}</nav></header><aside class="arena-left">${G.characterPilesHTML(s)}<div class="history-panel"><div class="event-feed">${combatMessage(s)}</div><details class="log-drawer" data-ui-panel="history"><summary>Registro da batalha <span>${s.log.length} ⌄</span></summary><div class="log-list">${logs||'<p>Os acontecimentos aparecerão aqui.</p>'}</div></details>${G.eliminatedHTML(s,!!e)}</div>${G.handPanelHTML(s,ui.handIid,handDetail(handUsable))}</aside><section class="battle-board" aria-label="Campo de batalha">${G.turnPanelHTML(s,displayActor,ui.busy)}${side('enemy')}<div class="arena-divider" aria-label="Última ação"><i></i><button class="event-brief" data-act="event-log"${choice||pd||s.recovery||s.formation||entry?' disabled':''} title="Ver o registro da batalha">${G.escapeUI(eventBrief)} <small>↗</small></button><i></i></div>${side('player')}<div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div></section><aside class="arena-right">${G.actorInfoHTML(s,inspected,ui.busy)}${G.mainPileHTML(s)}</aside>${modal}${entryModal}${drawer}</main>`);
+  const inspectHTML=ui.drawer==='settings'?G.VisualShell?.settingsHTML()||'':ui.drawer==='card'&&inspected?`<div class="inspect-content"><div class="inspect-card">${card(inspected)}</div>${G.actorInfoHTML(s,inspected).replace('data-ui-panel="ability"','')}</div>`:ui.drawer==='history'?`${combatMessage(s)}<div class="log-list full-history">${logs}</div>`:'';
+  const drawer=ui.drawer?`<div class="inspect-backdrop"><section class="inspect-sheet" role="dialog" aria-modal="true" aria-labelledby="inspect-title"><header><h3 id="inspect-title">${ui.drawer==='settings'?'Preferências':ui.drawer==='card'?'Ficha · '+G.escapeUI(inspected?.name||'Personagem'):'Registro da batalha'}</h3>${btn('close-drawer','Voltar à batalha')}</header>${inspectHTML}</section></div>`:'';
+  show(`<main class="arena"><header class="arena-header"><div class="arena-brand"><img src="assets/logo/logo.png" alt="GOGHOS"><small>The Nightmare Is Coming</small></div><div class="arena-round">${G.arenaArtHTML('trophy')}<span>Rodada <b>${s.round}</b></span></div><nav aria-label="Controles da batalha"><button data-act="sound-toggle" class="battle-sound${G.VisualShell?.prefs().muted?' is-muted':''}" title="${G.VisualShell?.prefs().muted?'Ativar som':'Silenciar'}" aria-label="${G.VisualShell?.prefs().muted?'Ativar som':'Silenciar'}" aria-pressed="${!G.VisualShell?.prefs().muted}">${G.VisualShell?.icon(G.VisualShell.prefs().muted?'mute':'sound')||'♪'}</button>${btn('settings','Som e efeitos')}${btn('card-info','Ficha',!!(choice||pd||s.recovery||s.formation||entry))}${btn('pause',ui.paused?'Continuar':'Pausar')}${btn('menu','Menu')}</nav></header><aside class="arena-left">${G.characterPilesHTML(s)}<div class="history-panel"><div class="event-feed">${combatMessage(s)}</div><details class="log-drawer" data-ui-panel="history"><summary>Registro da batalha <span>${s.log.length} ⌄</span></summary><div class="log-list">${logs||'<p>Os acontecimentos aparecerão aqui.</p>'}</div></details>${G.eliminatedHTML(s,!!e)}</div>${G.handPanelHTML(s,ui.handIid,handDetail(handUsable))}</aside><section class="battle-board" aria-label="Campo de batalha">${G.turnPanelHTML(s,displayActor,ui.busy)}${side('enemy')}<div class="arena-divider" aria-label="Última ação"><i></i><button class="event-brief" data-act="event-log"${choice||pd||s.recovery||s.formation||entry?' disabled':''} title="Ver o registro da batalha">${G.escapeUI(eventBrief)} <small>↗</small></button><i></i></div>${side('player')}<div class="turn-guide"><p class="info" role="status">${info}</p><div class="battle-actions">${actions}</div><p class="msg">${ui.msg}</p><p class="notice" role="status">${ui.notice}</p></div></section><aside class="arena-right">${G.actorInfoHTML(s,inspected,ui.busy)}${G.mainPileHTML(s)}</aside>${modal}${entryModal}${drawer}</main>`);
   app.querySelectorAll?.('[data-ui-panel]')?.forEach(p=>{p.open=!!ui.panels[p.dataset.uiPanel];});
   const expanded=app.querySelector('.inspect-sheet .ability-details');if(expanded)expanded.open=true;
   const arena=app.querySelector('.arena'),dock=app.querySelector('.mao');
   syncDockHeight();
-  if(arena)arena.scrollTop=scroll;
+  if(arena)arena.scrollTop=scroll;const board=app.querySelector('.battle-board');if(board)board.scrollTop=boardScroll;
+  app.querySelectorAll?.('[data-formation]')?.forEach(r=>{r.querySelector('.frow').scrollLeft=rowScroll[r.dataset.formation]||0;});
   if(dock&&typeof ResizeObserver!=='undefined'){dockObserver=new ResizeObserver(syncDockHeight);dockObserver.observe(dock);}
   const excluded=app.querySelector('.elim'),log=app.querySelector('.log-list');
   if(excluded)excluded.open=excludedOpen||impacts.some(x=>x.type==='defeat');
   if(log)log.scrollTop=logScroll;
 }
-function openDrawer(type){clearTimeout(ui.timer);ui.drawer=type;render(ui.busy?null:ui.actor);app.querySelector('[data-act=close-drawer]')?.focus();}
+function openDrawer(type){G.PresentationFX?.stop();clearTimeout(ui.timer);ui.drawer=type;render(ui.busy?null:ui.actor);app.querySelector('[data-act=close-drawer]')?.focus();}
 function closeDrawer(){ui.drawer=null;if(ui.paused){ui.busy=false;render(ui.actor);}else if(ui.busy)feedback();else step();app.querySelector('[data-act=card-info]')?.focus({preventScroll:true});}
 function feedback(){
-  clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);
+  clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);G.PresentationFX?.playEvent(ui.state,ui.state.lastEvent,{duration:G.feedbackDuration(ui.state.lastEvent)});
   ui.timer=setTimeout(()=>{ui.busy=false;step();},G.feedbackDuration(ui.state.lastEvent));
 }
 function step(){
@@ -180,7 +182,7 @@ function step(){
   if(s.formation){if(s.formation.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveFormation(s);step();},G.CONFIG.pacing.botThink);return;}
   if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},G.CONFIG.pacing.botThink);return;}
   if(s.support.pending)return;
-  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&(p.type==='fright'||r.free))feedback();else finishChoice(r);},G.CONFIG.pacing.botThink);return;}
+  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&(p.type==='fright'||r.free))feedback();else{finishChoice(r);if(r.ok&&p.type==='dimension'){const d=s.duels.filter(x=>x.sourceUid===p.actorUid&&x.active).at(-1);if(d)G.PresentationFX?.playAbility(s,{type:p.type,actorUid:p.actorUid,targetUid:d.targetUid});}}},G.CONFIG.pacing.botThink);return;}
   if(actor?.team==='enemy')ui.timer=setTimeout(()=>{
     const redeemed=G.AI.redeemMedals(s,'enemy');
     const attack=()=>{const r=G.AI.takeTurn(s,actor);if(r.pending){step();return;}if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}};
@@ -188,13 +190,24 @@ function step(){
     if(redeemed.length){ui.notice='O adversário resgatou '+redeemed.map(r=>r.name).join(', ')+'.';render(actor);ui.timer=setTimeout(attack,G.CONFIG.pacing.botThink);}else attack();
   },G.CONFIG.pacing.botThink);
 }
-function result(){ui.mode='result';const f=ui.state.final,draw=ui.state.result==='draw';show(`<section class="center"><h1>${draw?'EMPATE':f.winner==='player'?'VITÓRIA':'DERROTA'}</h1><p>${draw?'Não há personagens capazes de atacar, o monte principal acabou e nenhuma equipe tem medalhas utilizáveis.':(f.loser==='player'?'Sua Daly Mãe':'A Daly Mãe adversária')+' perdeu todas as vidas.'}</p><p>Você: ${f.daly.player}/3 · adversário: ${f.daly.enemy}/3</p>${btn('play','Nova partida')}${btn('menu','Voltar ao menu')}</section>`);}
+function result(){
+  G.PresentationFX?.stop();ui.mode='result';const f=ui.state.final,draw=ui.state.result==='draw',kind=draw?'draw':f.winner==='player'?'victory':'defeat';
+  const reward=G.Sanctuary?.awardMatch(ui.matchToken,ui.state.result);
+  show(`<section class="result-screen ${kind}"><img class="result-emblem" src="assets/visual-v0.27/ui/champion-emblem.png" alt=""><span class="eyebrow">Mais uma história no campo</span><h1>${draw?'EMPATE':f.winner==='player'?'VITÓRIA':'DERROTA'}</h1><p>${draw?'Nenhuma equipe pode continuar atacando com os recursos restantes.':(f.loser==='player'?'Sua Daly Mãe':'A Daly Mãe adversária')+' perdeu todas as vidas.'}</p><div class="result-score"><span><small>Você</small>${f.daly.player}<small>/3 vidas</small></span><span><small>Bot</small>${f.daly.enemy}<small>/3 vidas</small></span></div>${reward?.html?'<div class="result-reward">'+reward.html+'</div>':''}<div class="result-actions">${btn('play','Nova partida')}${btn('menu','Voltar ao menu')}</div></section>`);G.PresentationFX?.playResult(kind);toTop();
+}
+function settingsPage(){ui.mode='settings';show(`<section class="settings-page">${btn('menu','Voltar ao menu')}${G.VisualShell?.settingsHTML()||''}</section>`);toTop();}
+
 function cardOf(t){const c=t.closest('.card');if(c)return c;return t.closest('.slot')?.querySelector('.card')||t.closest('[data-unit]')?.querySelector('.card')||null;}
 function finishChoice(r){ui.msg=r.ok?'':r.error;ui.notice=r.ok?ui.state.log.at(-1):'';if(r.ok)clearPick();step();}
 app.addEventListener('click',event=>{
   const t=event.target,b=t.closest('[data-act]'),hand=t.closest('[data-hand]'),c=cardOf(t),daly=t.closest('[data-daly]');
   if(b){
-    if(b.disabled)return;const a=b.dataset.act;
+    if(b.disabled)return;const a=b.dataset.act;G.PresentationFX?.interaction(a==='attack'?'confirm':a==='pause'?'pause':a.startsWith('mode-')?'select':'click',b);
+    if(a==='shell-intro'){G.VisualShell?.boot(true);return;}
+    if(a==='settings'){if(ui.mode==='battle')openDrawer('settings');else settingsPage();return;}
+    if(a==='sound-toggle'){G.VisualShell?.handleSetting('fx-toggle-sound');render(ui.busy?null:ui.actor);return;}
+    if(a.startsWith('fx-')&&G.VisualShell?.handleSetting(a)){if(ui.mode==='battle')render(ui.busy?null:ui.actor);else settingsPage();app.querySelector('[data-act="'+a+'"]')?.focus?.({preventScroll:true});return;}
+    if(a.startsWith('sanctuary-')&&G.Sanctuary){if(ui.mode==='battle')return;G.PresentationFX?.stop();ui.mode='sanctuary';if(a==='sanctuary-open'||a==='sanctuary-lore'){show(G.Sanctuary.render(a==='sanctuary-lore'?'story':'vault'));toTop();return;}const r=G.Sanctuary.handle(a);if(r.handled){show(r.html);if(r.sound)G.PresentationFX?.interaction(r.sound);}return;}
     if(a==='menu'){if(ui.mode==='battle'&&!ui.state.result&&!confirm('Sair da batalha atual? O progresso será perdido.'))return;menu();return;}
     if(a==='play'){startMatch();return;}
     if(a==='divine-test'){wipe();ui.state=G.createDivineTestState();step();toTop();return;}
@@ -206,15 +219,15 @@ app.addEventListener('click',event=>{
     if(a.startsWith('lab-')&&G.getCharacterById(a.slice(4))){wipe();ui.state=G.createAbilityTestState(a.slice(4));step();toTop();return;}
     if(a==='sark-enemy'||a==='sark-player'){wipe();ui.state=G.createSarkTestState(a==='sark-player'?'player':'enemy');step();toTop();return;}
     if(a==='characters'){characters();return;}
-    if(a==='shop'){show(G.shopHTML());return;}
-    if(a==='fight'){const teams=G.selectionTeams(ui.sel);if(!teams)return;ui.state=G.createBattleState(teams.player,teams.enemy);clearPick();step();toTop();return;}
+    if(a==='shop'){if(G.Sanctuary){ui.mode='sanctuary';show(G.Sanctuary.render('vault'));}else show(G.shopHTML());return;}
+    if(a==='fight'){const teams=G.selectionTeams(ui.sel);if(!teams)return;ui.state=G.createBattleState(teams.player,teams.enemy);ui.matchToken=G.Sanctuary?.newMatchToken()||null;clearPick();step();toTop();return;}
     if(ui.mode!=='battle')return;const s=ui.state;
     if(a==='card-info'||a==='event-log'){openDrawer(a==='card-info'?'card':'history');return;}
     if(a==='close-drawer'){closeDrawer();return;}
-    if(a==='pause'){clearTimeout(ui.timer);ui.paused=!ui.paused;if(ui.paused)render(ui.busy?null:ui.actor);else if(ui.busy)feedback();else step();return;}
+    if(a==='pause'){G.PresentationFX?.stop();clearTimeout(ui.timer);ui.paused=!ui.paused;if(ui.paused)render(ui.busy?null:ui.actor);else if(ui.busy)feedback();else step();return;}
     if(ui.busy)return;
     if(a==='cancel-entry'){finishChoice(G.cancelCharacterAbility(s));return;}
-    if(a==='resolve-entry'){if(ui.paused)return;const p=G.pendingCharacterAbility(s);if(p?.side!=='player')return;const r=G.resolveCharacterAbility(s,p.actorUid,ui.abilityTarget);if(r.ok&&(p.type==='fright'||r.free))feedback();else{ui.abilityTarget=null;finishChoice(r);}return;}
+    if(a==='resolve-entry'){if(ui.paused)return;const p=G.pendingCharacterAbility(s);if(p?.side!=='player')return;const fxTarget=ui.abilityTarget,r=G.resolveCharacterAbility(s,p.actorUid,ui.abilityTarget);if(r.ok&&(p.type==='fright'||r.free))feedback();else{ui.abilityTarget=null;finishChoice(r);if(r.ok&&p.type==='dimension')G.PresentationFX?.playAbility(s,{type:p.type,actorUid:p.actorUid,targetUid:fxTarget});}return;}
     if(a==='keep-new'){finishChoice(G.resolveHandReplacement(s,null));return;}
     if(a.startsWith('recover-')){if(s.recovery?.side==='player')finishChoice(G.performRecovery(s,a.slice(8)));return;}
     if(a.startsWith('advance-')){if(s.formation?.side==='player')finishChoice(G.resolveFrontLine(s,a==='advance-all'?[...s.formation.candidates]:[a.slice(8)]));return;}
@@ -245,16 +258,16 @@ app.addEventListener('click',event=>{
     if(a==='mana+'||a==='mana-'){ui.mana=Math.max(0,Math.min(actor.mana,ui.mana+(a==='mana+'?1:-1)));render(actor);return;}
     return;
   }
-  if(ui.mode==='select'){if(c)pickCharacter(c.dataset.id);return;}
+  if(ui.mode==='select'){if(c){G.PresentationFX?.interaction('select');pickCharacter(c.dataset.id);}return;}
   if(ui.mode!=='battle')return;const s=ui.state;
   if(c){ui.inspectUid=c.dataset.id;if(ui.busy||ui.paused){openDrawer('card');return;}}
   if(ui.busy)return;
   const supportTarget=t.closest('[data-support-target]');if(supportTarget&&!ui.paused&&G.canUseHand(s,'player')){ui.healTarget=supportTarget.dataset.supportTarget;render(G.getNextActor(s));return;}
-  const abilityTarget=t.closest('[data-ability-target]');if(abilityTarget&&!ui.paused&&G.pendingCharacterAbility(s)?.side==='player'){ui.abilityTarget=abilityTarget.dataset.abilityTarget;render(null);return;}
+  const abilityTarget=t.closest('[data-ability-target]');if(abilityTarget&&!ui.paused&&G.pendingCharacterAbility(s)?.side==='player'){G.PresentationFX?.interaction('select');ui.abilityTarget=abilityTarget.dataset.abilityTarget;render(null);return;}
   if(!c&&!hand&&!daly)return;
   if(s.deck.pendingChoice){if(hand)finishChoice(G.resolveHandReplacement(s,hand.dataset.hand));return;}
   const actor=G.getNextActor(s),mine=!ui.paused&&G.canManageTeam(s,'player'),handUsable=!ui.paused&&G.canUseHand(s,'player');
-  if(hand){ui.handIid=ui.handIid===hand.dataset.hand?null:hand.dataset.hand;ui.healTarget=null;ui.move=false;ui.msg='';render(actor);return;}
+  if(hand){G.PresentationFX?.interaction('card');ui.handIid=ui.handIid===hand.dataset.hand?null:hand.dataset.hand;ui.healTarget=null;ui.move=false;ui.msg='';render(actor);return;}
   const u=c?G.getUnit(s,c.dataset.id):null;
   if(s.support.pending){if(u&&s.support.pending.candidates.includes(u.uid))finishChoice(G.resolveBrisa(s,u.uid));return;}
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
@@ -275,5 +288,5 @@ app.addEventListener('click',event=>{
 });
 app.addEventListener('keydown',event=>{if(ui.drawer&&event.key==='Escape'){event.preventDefault();closeDrawer();return;}if(ui.drawer&&event.key==='Tab'){const dialog=app.querySelector('.inspect-sheet'),items=dialog?.querySelectorAll('button:not(:disabled),summary');if(items?.length){const first=items[0],last=items[items.length-1];if(event.shiftKey&&event.target===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&event.target===last){event.preventDefault();first.focus();}}}if(ui.mode==='battle'&&(event.key==='Enter'||event.key===' ')){const u=event.target.closest('[data-unit]');if(u){event.preventDefault();u.click();if(!ui.drawer)app.querySelector(ui.handIid?'[data-act=usehand]:not(:disabled)':'[data-act=attack]:not(:disabled)')?.focus();return;}}if(ui.mode==='select'&&(event.key==='Enter'||event.key===' ')){const c=event.target.closest('[data-character]');if(c){event.preventDefault();pickCharacter(c.dataset.character);}}});
 app.addEventListener('input',event=>{if(event.target.matches?.('[data-character-search]')){const q=event.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');app.querySelectorAll('[data-character-name]').forEach(a=>{a.hidden=!a.dataset.characterName.normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(q);});}});
-menu();
+G.PresentationFX?.init();G.Sanctuary?.applyCosmetics();menu();G.VisualShell?.boot();
 })(globalThis.GOGHOS);

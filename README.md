@@ -1,12 +1,24 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.26.2** mantém as 29 cartas balanceadas e resolve multiplicadores como **golpes separados**: DD-X faz 2 de 45 ou 4 de 45 com sua habilidade; Draktar faz 2 de 90; Sam mantém até seis socos de 70. Cada golpe tem sua própria defesa, esquiva e reação. A proteção de Striker agora também impede a dimensão de Penxy quando Penxy é mais rápido; sem alvo permitido, a pré-batalha continua normalmente. Striker recebe o nome correto, Sam usa o ícone de Fighter e Linx entra com ataque de 30% da Vida máxima do alvo. [Tabela completa dos personagens atualizados](docs/BALANCEAMENTO_MANUAL.md).
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS — The Nightmare Is Coming**. A versão **0.27.0** dá vida ao projeto com cenário ilustrado, cartas maiores, animações de golpes, efeitos sonoros, abertura e um santuário de visuais.
 
-O jogo mantém os 17 Apoios oficiais, a invocação de Zeenneriam pelos três Fragmentos Primordiais e a interface cartoon. São **31 personagens de raridade e um Deus separado**; Petra aguarda sua mecânica. A seleção continua com dois Comuns por equipe, sem Raros automáticos. Elysh também cura da retaguarda na sua vez.
+**O balanceamento foi preservado.** Os dez arquivos do motor, os atributos e habilidades dos 31 personagens, Zeenneriam, os Apoios e as regras são os mesmos da v0.26.2. As cartas oficiais continuam intactas. O novo kit entra como arte e apresentação, sem substituir números por referências antigas.
+
+![O mundo GOGHOS](docs/previews/menu-v0.27.0-desktop.png)
+
+## Novidades visuais
+
+- **Menu e abertura:** ilustrações separadas de Sam e Chama, fundo recebido, pequenas animações e carregamento real das artes essenciais. A abertura pode ser pulada e revista.
+- **Arena:** cartas da frente com aproximadamente 156 px no computador e pelo menos 100 px no celular, nomes e atributos legíveis, cenário personalizável, alvos destacados e histórico por golpe. A quarta vaga de Recruta mantém o tamanho das cartas e pode ser vista deslizando a fileira no celular.
+- **Som e efeitos:** eletricidade, socos, fogo, mísseis, portais, cura, dados, bloqueios e revides com identidade própria. O botão de som e as preferências permitem silenciar, ajustar o volume ou reduzir o movimento.
+- **Santuário:** 180 moedas de boas-vindas, baús de 90 moedas e +50 por partida concluída. Os baús oferecem ambientes, molduras e títulos de perfil. Todos os personagens continuam disponíveis, e os visuais não alteram o combate.
+- **Crônicas:** seis cenas narrativas e um arquivo dos personagens com suas habilidades atuais. O progresso visual e as preferências ficam salvos neste navegador.
+
+[Menu no celular](docs/previews/menu-v0.27.0-celular.png) · [Arena](docs/previews/arena-v0.27.0-desktop.png) · [Baús](docs/previews/baus-v0.27.0-desktop.png) · [Guia da interface](docs/UI.md)
 
 ## Jogar e desenvolver
 
-Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
+Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. O som começa depois de uma interação; volume e movimento podem ser ajustados pelo ícone de preferências. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
 Em **Jogar**, aparecem Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
@@ -39,14 +51,8 @@ npm test
 
 A partida pode ser concluída contra a IA. Há seis montes de personagens, monte principal, mão de cinco cartas, cartas de Apoio, pré-batalha, habilidades individuais, recuperação sem reiniciar a velocidade e vitória ao eliminar a Daly Mãe adversária. Vida, dano e cura são arredondados para cima em múltiplos de 5, com a exceção confirmada de Morto Vivo voltando com 1 de Vida. O contador da Daly Mãe perde uma vida por ataque.
 
-Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 31 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
+Item e Habilidade Especial continuam em desenvolvimento. O Santuário oferece a loja de baús e visuais, separada das regras de combate. As habilidades dos 31 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-![Arena cartoon com turno, alvos e resultados em destaque](docs/previews/arena-v0.25.0-desktop.png)
+![Cartas maiores na arena](docs/previews/arena-v0.27.0-desktop.png)
 
-[Seleção no celular](docs/previews/selecao-v0.25.0-celular.png) · [Cura da retaguarda](docs/previews/cura-v0.25.0-desktop.png) · [Guia da interface](docs/UI.md)
-
-[Sam com ícone Fighter](docs/previews/sam-v0.26.0-desktop.png) · [Linx em batalha](docs/previews/linx-v0.26.0-desktop.png) · [Striker corrigido](docs/previews/striker-v0.26.0-celular.png)
-
-[DD-X com quatro golpes](docs/previews/ddx-v0.26.1-desktop.png) · [Seis socos de Sam](docs/previews/sam-v0.26.1-registro.png) · [Regra dos golpes separados](docs/REGRAS.md#golpes-em-sequência--v0261)
-
-[Penxy respeita a proteção de Striker](docs/previews/penxy-v0.26.2-desktop.png) · [Conferência no celular](docs/previews/penxy-v0.26.2-celular.png)
+[Seleção no celular](docs/previews/selecao-v0.27.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.27.0-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)

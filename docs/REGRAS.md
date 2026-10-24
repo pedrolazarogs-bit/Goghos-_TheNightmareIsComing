@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.26.2
+# Estrutura base do GOGHOS — v0.27.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -242,3 +242,10 @@ Com velocidade igual ou menor, Penxy pode escolher Striker. Enquanto Striker est
 Se só restar Striker protegido, a escolha obrigatória não é aberta e nenhum duelo é criado. Penxy aguarda uma oportunidade válida e tenta novamente na própria vez quando houver um alvo permitido. A entrada posterior de um personagem pode reabrir a escolha, sem compra, ação ou reset adicional. Isso também vale ao encerrar um duelo anterior ou se outra habilidade de entrada invalidar os alvos pendentes.
 
 A esquiva de Assassin permanece como estava. Não foi adotado limite de 1–5 no d6. Esta correção trata da proteção de Striker contra a dimensão de Penxy e não estende essa proteção a outros personagens.
+
+
+## Apresentação e progresso local — v0.27.0
+
+Esta versão mantém integralmente as regras e o balanceamento anteriores. Efeitos, sons, abertura e cenários apenas apresentam o estado do jogo; não mudam dano, dados, velocidades, ações, compras ou probabilidades. Os kits visuais não substituem atributos por números antigos.
+
+Moedas e baús ficam fora do combate. A visita inicial concede 180 moedas; um baú custa 90 e entrega um visual de perfil/ambiente. Cada partida normal concluída concede 50 uma única vez. Laboratórios, abandono e repetir a tela de resultado não dão moedas. Todos os personagens continuam disponíveis, e os cosméticos não mudam as cartas ou a formação. O progresso é local a este navegador. Veja o [guia da interface](UI.md).
