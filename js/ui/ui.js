@@ -38,7 +38,7 @@ function selectionScreen(){
     const label=side&&Object.values(sel.autoRares||{}).includes(id)?`${side==='player'?'Você':'Bot'} · Raro sorteado`:side?`${side==='player'?'Você':'Bot'} · ${sel.picks[side].indexOf(id)+1}ª escolha`:turn==='player'?'Sua vez · escolher':turn==='enemy'?'Bot escolhendo…':'Disponível';
     return `<div class="selection-pick ${side||''}" role="button" tabindex="${turn==='player'&&!side?0:-1}" data-character="${id}" aria-label="${G.getCharacterById(id).name}: ${label}" aria-disabled="${!!side||turn!=='player'}">${card(G.getCharacterById(id),side?'sel chosen-'+side:'',label)}</div>`;
   }).join('');
-  show(`<section class="selection" aria-label="Escolha um Comum; cada equipe recebe um Raro sorteado">${btn('menu','Voltar ao menu')}<div class="row">${cards}</div>${G.selectionDone(sel)?btn('fight','Play · começar batalha',false,'start-battle'):''}</section>`);
+  show(`<section class="selection" aria-label="${sel.rareAuto?'Escolha um Comum; cada equipe recebe um Raro sorteado':'Escolha dois Comuns por equipe, alternando com o bot'}">${btn('menu','Voltar ao menu')}<div class="row">${cards}</div>${G.selectionDone(sel)?btn('fight','Play · começar batalha',false,'start-battle'):''}</section>`);
 }
 function selectAdvance(){clearTimeout(ui.timer);selectionScreen();if(G.selectionTurn(ui.sel)==='enemy')ui.timer=setTimeout(()=>{G.selectionBotPick(ui.sel);selectAdvance();},1000);}
 function pickCharacter(id){if(!ui.sel||G.selectionTurn(ui.sel)!=='player')return;const r=G.selectionPick(ui.sel,'player',id);if(r.ok)selectAdvance();}
@@ -77,6 +77,8 @@ function render(actor){
   const entry=G.pendingCharacterAbility(s),free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!entry&&!ui.busy&&!ui.paused;
   const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',handUsable=free&&(playerTurn||idle),pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor&&G.hasClass(actor,'MAGO'),area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
+  const rearHealer=mine&&actor&&G.canHealFromRear(actor);
+  if(rearHealer&&ui.attackMode!=='heal'){ui.attackMode='heal';ui.target=null;}
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
   const e=ui.busy?s.lastEvent:null,B=G.getBoard(s),impacts=G.eventImpacts(e);
   const cell=u=>{
@@ -107,7 +109,7 @@ function render(actor){
   if(area){info=areaDaly?'A Daly Mãe está exposta: este ataque retira exatamente 1 vida, sem gastar mana.':'3000W atinge todos os adversários da linha de frente. Aliados e retaguarda ficam protegidos. Dano por alvo: '+G.previewDamage(s,actor,ui.mana,null,ui.attackMode)+'.';actions=btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Atacar em área · 3000W');}
   if(pinAttack){actions=btn('mode-normal','Ataque normal · 80',false,ui.attackMode==='normal'?'on':'')+btn('mode-pin','Cravar machado · 80 + 20 por ação',ui.target==='daly_enemy',ui.attackMode==='pin'?'on':'')+actions;info+=' Modo: '+(ui.attackMode==='pin'?'cravar o machado se o golpe acertar e ambos sobreviverem.':'ataque normal.');}
   if(mine&&actor&&G.getMainAbility(actor)?.trigger==='healingAttack'){
-    actions=btn('mode-normal','Atacar',false,ui.attackMode==='normal'?'on':'')+btn('mode-heal','Curar aliado · '+actor.damage,false,ui.attackMode==='heal'?'on':'')+actions;
+    actions=(rearHealer?'':btn('mode-normal','Atacar',false,ui.attackMode==='normal'?'on':''))+btn('mode-heal','Curar aliado · '+actor.damage,false,ui.attackMode==='heal'?'on':'')+actions;
     if(ui.attackMode==='heal')info='Escolha outro aliado ferido na mesma dimensão para curar até '+actor.damage+' de Vida. A cura usa a ação de Elysh.';
   }
   if(mine&&actor&&G.getMainAbility(actor)?.trigger==='doubleAttack'){
@@ -115,7 +117,7 @@ function render(actor){
     info+=' Quatro braços: '+(actor.doubleUsed?'já usados nesta partida.':'uma única ativação disponível.');
   }
   if(mine&&actor?.abilityOnly){const target=G.getUnit(s,actor.bookTarget);info='Livro marcado: '+(target?.name||'aguardando nome')+'. A habilidade elimina abaixo de Mítico; nas demais raridades, causa 200.';actions=btn('attack','Usar livro · '+(target?.name||'sem alvo'),!target);}
-  if(mine&&actor&&!G.hasActionTarget(s,actor)){info='Não há alvo acessível nesta dimensão. Passe a vez para continuar a hierarquia.';actions=btn('wait','Sem alvo · passar vez');}
+  if(mine&&actor&&!G.hasActionTarget(s,actor)){info='Não há alvo acessível nesta dimensão. Passe a vez para continuar a hierarquia.';actions=btn('wait','Sem alvo · passar vez')+(rearHealer?btn('move',ui.move?'Concluir posições':'Mover Suportes'): '');}
   if(mine&&actor&&G.officialStatus){
     const type=G.getMainAbility(actor)?.trigger;
     if(type==='paralyzingKick')actions=btn('mode-normal','Ataque normal',false,ui.attackMode==='normal'?'on':'')+btn('mode-stun','Golpe paralisante · +30% · d6 1–3',false,ui.attackMode==='stun'?'on':'')+actions;

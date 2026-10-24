@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const G=globalThis.GOGHOS,seeded=seed=>()=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296);
 const seen=new Set();
 for(let i=0;i<200;i++){
- const rng=seeded(i+7000),{sel}=G.createSelection({rng});G.selectionPick(sel,'player',G.selectionAvailable(sel)[Math.floor(rng()*3)]);G.selectionBotPick(sel);const teams=G.selectionTeams(sel),s=G.createBattleState(teams.player,teams.enemy,[],{rng});let steps=0;
+ const rng=seeded(i+7000),{sel}=G.createSelection({rng});while(!G.selectionDone(sel)){const available=G.selectionAvailable(sel);if(G.selectionTurn(sel)==='player')assert(G.selectionPick(sel,'player',available[Math.floor(rng()*available.length)]).ok);else assert(G.selectionBotPick(sel).ok);}const teams=G.selectionTeams(sel),s=G.createBattleState(teams.player,teams.enemy,[],{rng});let steps=0;
  while(!s.result&&steps++<2500){
   let r;
   if(s.deck.pendingChoice){r=G.resolveHandReplacement(s,null);}

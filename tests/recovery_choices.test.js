@@ -27,15 +27,15 @@ test('recuperação parcial entrega o que restar e opção vazia não encerra a 
 });
 test('Comuns restantes não abrem recuperação e a última vida nunca recupera personagens',()=>{
  const empty=hit('player',{RARE:0,EPIC:0});assert(empty.piles.COMMON.length>0);assert(!empty.recovery);assert(G.isDalyExposed(empty,'player'));assert(!G.performRecovery(empty,'A').ok);
- const ended=hit('player',null,1);assert.equal(ended.result,'defeat');assert.equal(ended.daly.player.hp,0);assert(!ended.recovery);assert.equal(ended.piles.EPIC.length,4);assert.equal(ended.piles.RARE.length,4);
+ const ended=hit('player',null,1);assert.equal(ended.result,'defeat');assert.equal(ended.daly.player.hp,0);assert(!ended.recovery);assert.equal(ended.piles.EPIC.length,3);assert.equal(ended.piles.RARE.length,4);
 });
 test('bot usa as mesmas duas opções e pode receber lotes completos ou parciais',()=>{
  for(const [rng,rarity,count] of [[()=>0,'EPIC',2],[()=>.999,'RARE',3]]){const s=hit('enemy');s.rng=rng;const r=G.AI.resolveRecovery(s);assert(r.ok);assert.equal(r.units.length,count);assert(r.units.every(uid=>{const u=G.getUnit(s,uid);return u.team==='enemy'&&u.rarity===rarity;}));}
  const s=hit('enemy',{EPIC:0,RARE:1}),r=G.AI.resolveRecovery(s);assert(r.ok);assert.equal(r.units.length,1);assert.equal(G.getUnit(s,r.units[0]).rarity,'RARE');
 });
 test('dois Épicos retomam a faixa de velocidade restante sem repetir o atacante ou comprar cartas',()=>{
- const s=G.createBattleState({front:['cavaleiro'],rear:[]},{front:['sam','ddx'],rear:[]},[],{rng:()=>.5,roll:()=>6}),attacker=s.units.find(u=>u.id==='sam');attacker.speed=5;G.buildTurnOrder(s);G.eliminateUnit(s,s.units.find(u=>u.id==='cavaleiro'));
- const pile=s.piles.EPIC,chosen=['fonior','elysh'].map(id=>pile.splice(pile.findIndex(c=>c.id===id),1)[0]);pile.push(...chosen);assert(G.performBasicAttack(s,attacker.uid,'daly_player').ok);const round=s.round,turn=s.turn,deck=JSON.stringify(s.deck);assert(G.performRecovery(s,'A').ok);
- const order=s.order.filter(uid=>!s.acted[uid]).map(uid=>G.getUnit(s,uid));assert.deepEqual(order.map(u=>[u.id,u.speed]),[['elysh',4],['ddx',4],['fonior',3]]);assert.equal(G.getNextActor(s).id,'elysh');assert(s.acted[attacker.uid]);assert.equal(s.round,round);assert.equal(s.turn,turn);assert.equal(JSON.stringify(s.deck),deck);
+ const s=G.createBattleState({front:['cavaleiro'],rear:[]},{front:['sam','ddx'],rear:[]},[],{rng:()=>.5,roll:()=>6}),attacker=s.units.find(u=>u.id==='sam');attacker.speed=9;G.buildTurnOrder(s);G.eliminateUnit(s,s.units.find(u=>u.id==='cavaleiro'));
+ const pile=s.piles.EPIC,chosen=['fonior','trucc'].map(id=>pile.splice(pile.findIndex(c=>c.id===id),1)[0]);pile.push(...chosen);assert(G.performBasicAttack(s,attacker.uid,'daly_player').ok);const round=s.round,turn=s.turn,deck=JSON.stringify(s.deck);assert(G.performRecovery(s,'A').ok);
+ const order=s.order.filter(uid=>!s.acted[uid]).map(uid=>G.getUnit(s,uid));assert.deepEqual(order.map(u=>[u.id,u.speed]),[['trucc',8],['ddx',4],['fonior',3]]);assert.equal(G.getNextActor(s).id,'trucc');assert(s.acted[attacker.uid]);assert.equal(s.round,round);assert.equal(s.turn,turn);assert.equal(JSON.stringify(s.deck),deck);
 });
 console.log(`${passed} testes das opções atuais de recuperação passaram`);

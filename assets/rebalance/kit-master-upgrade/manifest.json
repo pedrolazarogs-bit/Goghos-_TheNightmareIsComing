@@ -1,0 +1,874 @@
+{
+  "schemaVersion": 1,
+  "receivedOn": "2026-10-24",
+  "status": "partially_integrated",
+  "archiveFileCount": 30,
+  "uniqueImageCount": 29,
+  "confirmedCharacters": [
+    "elysh",
+    "stally",
+    "mike",
+    "alex",
+    "cavaleiro"
+  ],
+  "notes": [
+    "Números e nomes transcritos visualmente, aguardando reconfirmação das habilidades pelo criador.",
+    "Símbolos inferiores identificam classe; cores da moldura identificam raridade conforme a legenda atual.",
+    "Campos com multiplicação não são convertidos em dano básico sem explicar a mecânica.",
+    "Dois nomes impressos em cartas diferentes: Sheriff e Vaglar. Preservar variantes separadas.",
+    "Stally é a carta de Kick impressa como Vaglar: o criador corrigiu nome e raridade para Stally Comum.",
+    "Comuns reconfirmados: Elysh, Stally, Mike e Alex. Cavaleiro reconfirmado como Tank Lendário, sem resistência natural."
+  ],
+  "cards": [
+    {
+      "key": "fonior",
+      "printedName": "Fonior",
+      "candidateCharacterId": "fonior",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/fonior.png",
+      "sha256": "cfe8f9da1d4cb94beb89a7b137c7138f9f1a504c0d32345c86ae686a4bd4a33e",
+      "bytes": 971773,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023230628.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "hp": 260,
+        "attackPrinted": "220",
+        "speed": 4,
+        "stamina": 7,
+        "tributePrinted": "Mana 3"
+      }
+    },
+    {
+      "key": "zuri",
+      "printedName": "Zuri",
+      "candidateCharacterId": "zuri",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/zuri.png",
+      "sha256": "25e27d7e3a0269d47a96741815c5e847433442f238fe9692aafc8b78cfdfdbc4",
+      "bytes": 1072424,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023204636.png"
+        }
+      ],
+      "observed": {
+        "rarity": "SECRET",
+        "class": "SUPPORT",
+        "hp": 1050,
+        "attackPrinted": "160",
+        "speed": 1,
+        "stamina": 12,
+        "tributePrinted": "+ de Support"
+      }
+    },
+    {
+      "key": "trucc",
+      "printedName": "Trucc",
+      "candidateCharacterId": "trucc",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/trucc.png",
+      "sha256": "9398155f7142bd6975dc1293ad745a9fbb6fa4f8f7f2fa1c9b98c31431361ec9",
+      "bytes": 1274200,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023222344.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "ASSASSIN",
+        "hp": 430,
+        "attackPrinted": "120",
+        "speed": 9,
+        "stamina": 4,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "daztirry",
+      "printedName": "Daztirry",
+      "candidateCharacterId": "daztirry",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/daztirry.png",
+      "sha256": "89f3760f7fbd0cb976fdf56f1153442fff445f5df15c2c627a77a35ac6a85af7",
+      "bytes": 1028618,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base68_20261023202010.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "FIGHTER",
+        "hp": 1250,
+        "attackPrinted": "240",
+        "speed": 6,
+        "stamina": 10,
+        "tributePrinted": "Escudo 3"
+      }
+    },
+    {
+      "key": "eletric",
+      "printedName": "Eletric",
+      "candidateCharacterId": "eletric",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/eletric.png",
+      "sha256": "408fd19094a3544bfa0871585004360e78430f7df0d101f57751aa9ae47e1531",
+      "bytes": 1272848,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base66_20261024011640.png"
+        }
+      ],
+      "observed": {
+        "rarity": "RARE",
+        "class": "MAGO",
+        "hp": 220,
+        "attackPrinted": "100",
+        "speed": 3,
+        "stamina": 4,
+        "tributePrinted": "Mana 3"
+      }
+    },
+    {
+      "key": "chama",
+      "printedName": "Chama",
+      "candidateCharacterId": "chama",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/chama.png",
+      "sha256": "2f10039a6a1ca778d05524162e71ab9e3fdbbcffb4b219e12c8df5cdcd486667",
+      "bytes": 1138706,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base68_20261023200328.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "hp": 230,
+        "attackPrinted": "55 ×6",
+        "speed": 5,
+        "stamina": 7,
+        "tributePrinted": "Mira com coração"
+      }
+    },
+    {
+      "key": "sam",
+      "printedName": "Sam",
+      "candidateCharacterId": "sam",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/sam.png",
+      "sha256": "decf1811b696c515b63411da01587ec8bbbe0e9e9540312dac8ee3f275fd1ffa",
+      "bytes": 1212020,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base68_20261023101502.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "ASSASSIN",
+        "hp": 530,
+        "attackPrinted": "70 ×6",
+        "speed": 7,
+        "stamina": 7,
+        "tributePrinted": "Escudo 5"
+      }
+    },
+    {
+      "key": "barn",
+      "printedName": "Barn",
+      "candidateCharacterId": "barn",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/barn.png",
+      "sha256": "5ae417d64a16c211ab21f440ec489c885655b0a611b1e704cfea3d6e646d13fb",
+      "bytes": 1123019,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023225559.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "MAGO",
+        "hp": 330,
+        "attackPrinted": "120",
+        "speed": 3,
+        "stamina": 6,
+        "tributePrinted": "Mana 3"
+      }
+    },
+    {
+      "key": "elysh",
+      "printedName": "Elysh",
+      "candidateCharacterId": "elysh",
+      "status": "active_confirmed",
+      "asset": "assets/rebalance/kit-master-upgrade/elysh.png",
+      "sha256": "78066154f80e054f7886a76afd1eb97833d32e1af987bfd41f4b298d06b94e16",
+      "bytes": 1079764,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023231438.png"
+        },
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261023231438.png"
+        }
+      ],
+      "observed": {
+        "rarity": "COMMON",
+        "class": "SUPPORT",
+        "hp": 240,
+        "attackPrinted": "80",
+        "speed": 4,
+        "stamina": 3,
+        "tributePrinted": "+ de Support"
+      },
+      "confirmed": {
+        "id": "elysh",
+        "name": "Elysh",
+        "rarity": "COMMON",
+        "ability": "Ataca ou cura 80; pode curar da retaguarda, gastando sua vez na hierarquia."
+      }
+    },
+    {
+      "key": "unicorn",
+      "printedName": "Unicorn",
+      "candidateCharacterId": "unicorn",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/unicorn.png",
+      "sha256": "566dbda6fa2751b72cf7c7a0f8c54842e73588fa3d1a1c59e05c5f25ff761682",
+      "bytes": 1327420,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023223319.png"
+        }
+      ],
+      "observed": {
+        "rarity": "RARE",
+        "class": "SUPPORT",
+        "hp": 390,
+        "attackPrinted": "60",
+        "speed": 4,
+        "stamina": 6,
+        "tributePrinted": "+ de Support"
+      }
+    },
+    {
+      "key": "rayvlin",
+      "printedName": "Rayvlin",
+      "candidateCharacterId": "rayvilin",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/rayvlin.png",
+      "sha256": "168b7c7228e50dd1dd07ccfc6527400d19b1a27893f30c7749337265e4f5018d",
+      "bytes": 980782,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023224851.png"
+        }
+      ],
+      "observed": {
+        "rarity": "SECRET",
+        "class": "FIGHTER",
+        "hp": 860,
+        "attackPrinted": "180",
+        "speed": 6,
+        "stamina": 6,
+        "tributePrinted": "Escudo 2"
+      }
+    },
+    {
+      "key": "z_zus",
+      "printedName": "Z-Zus",
+      "candidateCharacterId": "z_zus",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/z_zus.png",
+      "sha256": "94434cc7421369a4faaad6eb4725cfc3b04b0f62d13cf23d7cf15160d5f70faa",
+      "bytes": 1429969,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base68_20261023182557.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "TANK",
+        "hp": 1200,
+        "attackPrinted": "300",
+        "speed": 3,
+        "stamina": 5,
+        "tributePrinted": "Escudo 20%"
+      }
+    },
+    {
+      "key": "mike",
+      "printedName": "Mike",
+      "candidateCharacterId": "mike",
+      "status": "active_confirmed",
+      "asset": "assets/rebalance/kit-master-upgrade/mike.png",
+      "sha256": "1ff5457f86f2eb6e25357f18887940cffe1e74773598401d0fcd31911a747b19",
+      "bytes": 1079638,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base68_20261023194147.png"
+        }
+      ],
+      "observed": {
+        "rarity": "COMMON",
+        "class": "DESTROYER",
+        "hp": 130,
+        "attackPrinted": "170",
+        "speed": 5,
+        "stamina": 6,
+        "tributePrinted": "Mira com coração"
+      },
+      "confirmed": {
+        "id": "mike",
+        "name": "Mike",
+        "rarity": "COMMON",
+        "ability": "Não pode ser atacado por Assassinos; crítico de Destroyer mantido."
+      }
+    },
+    {
+      "key": "nully",
+      "printedName": "Nully",
+      "candidateCharacterId": "nully",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/nully.png",
+      "sha256": "d23f243986dbb22b6b4ffe2c8139badc58c869bd2b2026063f1c01c3f8090ad9",
+      "bytes": 1311649,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit1.zip",
+          "filename": "Original-Base77_20261023224039.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "ASSASSIN",
+        "hp": 370,
+        "attackPrinted": "80",
+        "speed": 9,
+        "stamina": 5,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "alex",
+      "printedName": "Alex",
+      "candidateCharacterId": "alex",
+      "status": "active_confirmed",
+      "asset": "assets/rebalance/kit-master-upgrade/alex.png",
+      "sha256": "4b8ca4fe9a7043b1bb72bfc840c14eeab0ee68cd1e670d30abf7c07f1703ea10",
+      "bytes": 1001033,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024002928.png"
+        }
+      ],
+      "observed": {
+        "rarity": "COMMON",
+        "class": "FIGHTER",
+        "hp": 200,
+        "attackPrinted": "170",
+        "speed": 3,
+        "stamina": 2,
+        "tributePrinted": "Escudo 1"
+      },
+      "confirmed": {
+        "id": "alex",
+        "name": "Alex",
+        "rarity": "COMMON",
+        "parryThreshold": 1,
+        "ability": "170 concentrado ou dividido entre os adversários da frente, arredondando cada parcela para cima em múltiplos de 5."
+      }
+    },
+    {
+      "key": "endrik",
+      "printedName": "Endrik",
+      "candidateCharacterId": "endrik",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/endrik.png",
+      "sha256": "23c42b3c97ed6bc8e1f1177a1280ea9477cc324de81ad985c25b7b38511f5995",
+      "bytes": 1028272,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024002335.png"
+        }
+      ],
+      "observed": {
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "hp": 160,
+        "attackPrinted": "250",
+        "speed": 4,
+        "stamina": 6,
+        "tributePrinted": "Mira com coração"
+      }
+    },
+    {
+      "key": "p_ullys",
+      "printedName": "P. Ullys",
+      "candidateCharacterId": "p_ullys",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/p_ullys.png",
+      "sha256": "ea21e9453783d5deb20fc00521bc2fa41a872dabd5d9a47e3cdd10a52c65186a",
+      "bytes": 1008595,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024003723.png"
+        }
+      ],
+      "observed": {
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "hp": 150,
+        "attackPrinted": "300",
+        "speed": 6,
+        "stamina": 6,
+        "tributePrinted": "Mira com coração"
+      }
+    },
+    {
+      "key": "sheriff_epic",
+      "printedName": "Sheriff",
+      "candidateCharacterId": null,
+      "status": "awaiting_identity_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/sheriff_epic.png",
+      "sha256": "b5b899c06f8da54f366725402472e60dc834bceca7ab2e65613980dd74a7648b",
+      "bytes": 943051,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261023234212.png"
+        }
+      ],
+      "observed": {
+        "rarity": "EPIC",
+        "class": "DESTROYER",
+        "hp": 210,
+        "attackPrinted": "220",
+        "speed": 2,
+        "stamina": 4,
+        "tributePrinted": "Mira com coração"
+      }
+    },
+    {
+      "key": "vaglar_epic",
+      "printedName": "Vaglar",
+      "candidateCharacterId": "stally",
+      "status": "active_confirmed",
+      "asset": "assets/rebalance/kit-master-upgrade/vaglar_epic.png",
+      "sha256": "162e716b1dd09d6d1ebf01d59fb94741eed20afa4837efbdd049594491c0fadd",
+      "bytes": 1067541,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261023235926.png"
+        }
+      ],
+      "observed": {
+        "rarity": "EPIC",
+        "class": "FIGHTER",
+        "hp": 230,
+        "attackPrinted": "90",
+        "speed": 2,
+        "stamina": 4,
+        "tributePrinted": "Escudo 5"
+      },
+      "confirmed": {
+        "id": "stally",
+        "name": "Stally",
+        "rarity": "COMMON",
+        "parryThreshold": 5,
+        "ability": "Ataque normal ou +30% com d6 1–3 e paralisia de duas ações globais."
+      }
+    },
+    {
+      "key": "ddx",
+      "printedName": "DD-X",
+      "candidateCharacterId": "ddx",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/ddx.png",
+      "sha256": "9fef2f31ae6b48542cd017cb7e504a1b66e61db1ca6ff07e5b54942d24108a03",
+      "bytes": 1184917,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024000815.png"
+        }
+      ],
+      "observed": {
+        "rarity": "RARE",
+        "class": "FIGHTER",
+        "hp": 260,
+        "attackPrinted": "45 ×2",
+        "speed": 3,
+        "stamina": 6,
+        "tributePrinted": "Escudo 3"
+      }
+    },
+    {
+      "key": "sheriff_rare",
+      "printedName": "Sheriff",
+      "candidateCharacterId": "sheriff",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/sheriff_rare.png",
+      "sha256": "87ba29c2cf966d6ccd5d4a987415af2409e482fa86e4b9f96c5ef6852f2d8467",
+      "bytes": 1033462,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261023232441.png"
+        }
+      ],
+      "observed": {
+        "rarity": "RARE",
+        "class": "ASSASSIN",
+        "hp": 190,
+        "attackPrinted": "—",
+        "speed": 5,
+        "stamina": 3,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "zikssy",
+      "printedName": "Zikssy",
+      "candidateCharacterId": "zikssy",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/zikssy.png",
+      "sha256": "5392b26ea599f511f67a18f01e1b163337bb241c858b0c582fa5dc5370d4b669",
+      "bytes": 1102521,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024005349.png"
+        }
+      ],
+      "observed": {
+        "rarity": "RARE",
+        "class": "ASSASSIN",
+        "hp": 160,
+        "attackPrinted": "120",
+        "speed": 5,
+        "stamina": 1,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "linx",
+      "printedName": "Linx",
+      "candidateCharacterId": null,
+      "status": "awaiting_identity_and_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/linx.png",
+      "sha256": "24a82865dd1b529b837827b8c3e9911a3e7b07fb09a91e8aa6bc0f8a3e063fb5",
+      "bytes": 1189277,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024005943.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "FIGHTER",
+        "hp": 660,
+        "attackPrinted": "—",
+        "speed": 4,
+        "stamina": 3,
+        "tributePrinted": "Escudo 1"
+      }
+    },
+    {
+      "key": "vaglar_secret",
+      "printedName": "Vaglar",
+      "candidateCharacterId": "vaglar",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/vaglar_secret.png",
+      "sha256": "e3b541c81b96d8801cc1f04720da273a78e8fcd8d3453418f169f7d21d4b9aac",
+      "bytes": 1121513,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261023235058.png"
+        }
+      ],
+      "observed": {
+        "rarity": "SECRET",
+        "class": "MAGO",
+        "hp": 590,
+        "attackPrinted": "—",
+        "speed": 5,
+        "stamina": 12,
+        "tributePrinted": "Mana 3"
+      }
+    },
+    {
+      "key": "cavaleiro",
+      "printedName": "Cavaleiro",
+      "candidateCharacterId": "cavaleiro",
+      "status": "active_confirmed",
+      "asset": "assets/rebalance/kit-master-upgrade/cavaleiro.png",
+      "sha256": "5477391e823c03b2271d05ba9dbb781e799485973e17dbacc6ccb170a0e2bd0f",
+      "bytes": 1154975,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024004609.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "TANK",
+        "hp": 920,
+        "attackPrinted": "130",
+        "speed": 2,
+        "stamina": 8,
+        "tributePrinted": "Escudo com traço"
+      },
+      "confirmed": {
+        "id": "cavaleiro",
+        "name": "Cavaleiro",
+        "rarity": "LEGENDARY",
+        "tankResistance": 0,
+        "ability": "Armadura bloqueia 80% de todo dano numérico; sem tributo natural de Tank."
+      }
+    },
+    {
+      "key": "karma",
+      "printedName": "Karma",
+      "candidateCharacterId": "karma",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/karma.png",
+      "sha256": "0dfcdca221dbcba57806e59a6dc108ea1ccc93579d76dcbbc4b032e533dd8b84",
+      "bytes": 1226654,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024010549.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "DESTROYER",
+        "hp": 320,
+        "attackPrinted": "120",
+        "speed": 6,
+        "stamina": 7,
+        "tributePrinted": "Mira com coração"
+      }
+    },
+    {
+      "key": "penxy",
+      "printedName": "Penxy",
+      "candidateCharacterId": "penxy",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/penxy.png",
+      "sha256": "100bdd4f4c51e85fcf31828899a672ac9034e1eb09be3db5e2265970e261ec18",
+      "bytes": 1229476,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base68_20261023181416.png"
+        }
+      ],
+      "observed": {
+        "rarity": "LEGENDARY",
+        "class": "ASSASSIN",
+        "hp": 500,
+        "attackPrinted": "140",
+        "speed": 9,
+        "stamina": 7,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "draktar",
+      "printedName": "Draktar",
+      "candidateCharacterId": "draktar",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/draktar.png",
+      "sha256": "bc5c5c948fe7e1de397a340dd71b9d31bdcb3a40889e0b214e220b4f1fdcfdf4",
+      "bytes": 1249779,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024011138.png"
+        }
+      ],
+      "observed": {
+        "rarity": "MYTHIC",
+        "class": "ASSASSIN",
+        "hp": 310,
+        "attackPrinted": "90 ×2",
+        "speed": 7,
+        "stamina": 6,
+        "tributePrinted": "Olho de X"
+      }
+    },
+    {
+      "key": "rayyb",
+      "printedName": "Rayyb",
+      "candidateCharacterId": "rayyb",
+      "status": "awaiting_ability_confirmation",
+      "asset": "assets/rebalance/kit-master-upgrade/rayyb.png",
+      "sha256": "ffb266662f8e5393643ea19ae95bcbb37a7cf669e32e23a4a7bb9583b076849e",
+      "bytes": 1108513,
+      "size": [
+        1536,
+        2048
+      ],
+      "sources": [
+        {
+          "archive": "Kit2.zip",
+          "filename": "Original-Base77_20261024001601.png"
+        }
+      ],
+      "observed": {
+        "rarity": "EPIC",
+        "class": "SUPPORT",
+        "hp": 240,
+        "attackPrinted": "90",
+        "speed": 5,
+        "stamina": 4,
+        "tributePrinted": "+ de Support"
+      }
+    }
+  ],
+  "nextReview": "Sheriff Épico: confirmar identidade antes de substituir um personagem."
+}

@@ -167,3 +167,8 @@ A revisão de atributos atualiza somente os números sobrepostos pela interface.
 Os 18 PNGs de KitApoio foram incorporados sem modificar seus bytes: 17 Apoios em `assets/support/` e o Fragmento Primordial em `assets/reset/fragmento_01.png`. Bandeide, Brisa e Na Moloeira substituem os mesmos IDs anteriores. A origem e os SHA-256 constam de `assets/support/manifest.json`.
 
 KitZenneriam preserva a referência preenchida em `assets/references/characters/zenneriam.png`, a base sem números em `assets/cards/card_base_zenneriam.png` e o banner em `assets/characters/zenneriam_banner.png`. Apenas Vida, Dano e Velocidade são acrescentados por HTML/CSS à base original; os símbolos, nome impresso, fôlego 12 e ilustração permanecem na imagem. Os hashes estão em `assets/characters/zenneriam_manifest.json`.
+
+
+## KitMasterUpgrade — v0.25.0
+
+Kit1 e Kit2 trouxeram 30 arquivos PNG, 29 únicos, todos 1536×2048. A imagem repetida de Elysh foi deduplicada por SHA-256. Os originais estão em `assets/rebalance/kit-master-upgrade/`, com arquivo de origem e situação no manifesto. Cinco cartas foram reconfirmadas e passam a fornecer as bases integrais: Elysh, Stally, Mike, Alex e Cavaleiro. Campos variáveis recebem limpeza de exibição com recortes da base vazia, preservando os PNGs. Stally também recebe o nome corrigido por camada, pois o original imprime Vaglar. As demais imagens aguardam conferência e não substituem automaticamente o catálogo. Veja [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).

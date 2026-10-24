@@ -49,7 +49,7 @@ G.abilityTargets=(s,a,type)=>oldTargets(s,a,type).filter(t=>!G.isPresence(t));
 const oldHealing=G.healingTargets;
 G.healingTargets=(s,a)=>oldHealing(s,a).filter(t=>!G.isPresence(t));
 const oldAttackTargets=G.attackTargets;
-G.attackTargets=(s,a)=>G.isPresence(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&(t.row==='front'||t.duelId)):oldAttackTargets(s,a);
+G.attackTargets=(s,a)=>!G.canAttackFrom(a)?[]:G.isPresence(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&(t.row==='front'||t.duelId)):oldAttackTargets(s,a);
 const oldCanAttack=G.canAttackCharacter;
 G.canAttackCharacter=(s,a,t)=>G.isPresence(a)||oldCanAttack(s,a,t);
 const oldDamage=G.dealCharacterDamage;

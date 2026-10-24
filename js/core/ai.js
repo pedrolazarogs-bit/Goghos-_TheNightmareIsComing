@@ -35,8 +35,10 @@ function takeTurn(s,actor){
   const official=G.officialAITurn?.(s,actor);if(official)return official;
   if(G.getMainAbility(actor)?.trigger==='deathBook')return G.performBookAttack(s,actor.uid);
   if(G.getMainAbility(actor)?.trigger==='healingAttack'){
-    const ally=G.healingTargets(s,actor).filter(u=>u.hp<=u.maxHp/2).sort((a,b)=>a.hp-b.hp)[0];
+    const targets=G.healingTargets(s,actor).sort((a,b)=>a.hp-b.hp),rear=G.canHealFromRear(actor);
+    const ally=targets.find(u=>u.hp<=u.maxHp/2)||(rear&&G.getBoard(s)[actor.team].front.length>=G.frontLimit(s,actor.team)?targets[0]:null);
     if(ally)return G.performHealingAttack(s,actor.uid,ally.uid);
+    if(rear){const moved=G.performTransit(s,actor.uid);if(!moved.ok)return targets.length?G.performHealingAttack(s,actor.uid,targets[0].uid):G.performWait(s,actor.uid);}
   }
   if(!G.hasActionTarget(s,actor))return G.performWait(s,actor.uid);
   if(G.getMainAbility(actor)?.trigger==='areaAttack')return G.performAreaAttack(s,actor.uid,actor.mana>0?1:0);

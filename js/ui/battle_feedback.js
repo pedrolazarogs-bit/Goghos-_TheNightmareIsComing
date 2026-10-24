@@ -33,7 +33,7 @@ G.compactImpacts=e=>{
 G.impactText=h=>h.type==='heal'?'+'+(h.healed||0):h.instant?'ELIMINADO':h.type==='daly-hit'?'−1 VIDA':({parry:'DEFENDEU',dodge:'ESQUIVOU',miss:'ERROU','duel-miss':'DUELO PERDIDO',immune:h.ability==='Presence'?'IGNOROU':'INVENCÍVEL',oni:'ONI'})[h.type]||'−'+(h.total??h.amount??h.damage??0);
 G.eventTitle=e=>{
  if(!e)return 'A batalha vai começar';
- const titles={summon:'Invocação primordial',support:'Apoio · '+e.ability,ability:e.ability||'Habilidade',fright:'Susto de entrada','pin-keep':'Machado mantido','pin-skip':'Ação impedida','status-skip':'Ação impedida',wait:'Vez passada','full-heal':'Cura total','daly-hit':'Daly Mãe atingida'};
+ const titles={summon:'Invocação primordial',support:'Apoio · '+e.ability,ability:e.ability||'Habilidade',fright:'Susto de entrada',heal:(e.actorName||'Personagem')+' curou','pin-keep':'Machado mantido','pin-skip':'Ação impedida','status-skip':'Ação impedida',wait:'Vez passada','full-heal':'Cura total','daly-hit':'Daly Mãe atingida'};
  return titles[e.type]||e.ability||((e.actorName||'Personagem')+' atacou');
 };
 G.eventBrief=e=>{
@@ -65,6 +65,7 @@ G.actionPrompt=(s,a,o={})=>{
  if(a.pinning)return 'Mantenha ou solte o machado.';
  if(G.isActionLocked(a))return a.sleep?'Role o dado para tentar acordar.':'Impedido: passe esta vez. Suas cartas continuam disponíveis.';
  if(o.move)return 'Toque em um Suporte para mudar de linha.';
+ if(G.canHealFromRear(a))return G.healingTargets(s,a).length?(o.target?'Confirme a cura no aliado.':'Retaguarda: escolha um aliado ferido para curar.'):'Aliados com Vida cheia: passe esta vez ou mova um Suporte.';
  if(o.mode==='heal')return o.target?'Confirme a cura no aliado.':'Toque em um aliado ferido.';
  if(o.mode==='break')return o.target?'Confirme para libertar o aliado.':'Toque no aliado petrificado.';
  if(o.target==='daly_enemy')return 'Daly Mãe exposta: este ataque retira 1 vida.';

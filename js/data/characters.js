@@ -32,7 +32,7 @@ G.MAIN_ABILITIES={
  ghost_dimension:{name:'Ghost Claw',trigger:'dimension',description:'Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez.'},
  knight_armor:{name:'Armadura',trigger:'armor',reduction:.8,description:'Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5.'},
  fright:{name:'Claws',trigger:'fright',description:'Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação.'},
- healing_shot:{name:'Lazer Gun',trigger:'healingAttack',description:'Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. A cura usa a ação e respeita a Vida máxima.'},
+ healing_shot:{name:'Lazer Gun',trigger:'healingAttack',description:'Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima.'},
  four_arms:{name:'Fish',trigger:'doubleAttack',description:'Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar o dano do ataque.'},
  death_book:{name:'Charm',trigger:'deathBook',damage:200,description:'Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado abaixo de Mítico; contra Mítico, Lendário ou Secreto, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.'}
 };
@@ -60,13 +60,13 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.24.1',
+G.CONFIG={version:'0.25.0',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
   allowSummon:true,
   manaDamagePerPoint:10,dodgeDie:6, // PROVISÓRIOS: dano por ponto de mana, lados do dado da esquiva (d6)
-  selection:{min:2,rareAuto:true},   // Um Comum escolhido e um Raro sorteado automaticamente por equipe.
+  selection:{min:4,rareAuto:false}, // Duas escolhas de Comum por equipe, alternadas e sem Raros automáticos.
   pacing:{botThink:1800,feedback:2200}, // tempo para ler a ação e conferir o dano antes da próxima jogada
   dalyMaeLives:3,                // vidas de cada Daly Mãe
   // Recuperação quando a Daly Mãe perde uma vida e ainda tem vida: o participante escolhe UMA opção (sem misturar).
@@ -74,6 +74,12 @@ G.CONFIG={version:'0.24.1',
 const C=(id,name,cls,maxHp,damage,speed,x={})=>({id,name,class:cls,maxHp,damage,speed,art:x.illustrated?'assets/characters/'+id+'.png':null,
   description:'Provisório.',rarity:null,stamina:10,mainAbility:null,tribute:null,...x});
 const received=(id,name,cls,rarity,speed,stamina,abilityId)=>C(id,name,cls,0,0,speed,{rarity,stamina,abilityId,mainAbility:G.MAIN_ABILITIES[abilityId].name,illustrated:true,art:'assets/references/characters/'+id+'.png',portraitBanner:{src:'assets/cards/card_base_'+id+'.png',size:[1536,2048],bounds:[620,370,1220,1000]},cardBase:{src:'assets/cards/card_base_'+id+'.png',cleanup:{src:'assets/cards/number_cleanup_'+id+'.png',regions:[[690,95,855,255],[350,835,475,950],...(id==='vaglar'?[]:[[445,1170,685,1315]]),[505,1325,915,1585],...(id==='ddx'?[[630,1265,715,1320],[1060,1275,1155,1390]]:[])]},fields:{speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,835,475,950],s:80,a:'c'},...(id==='vaglar'?{}:{damage:{b:[460,1160,680,1310],s:145,a:'l'}}),hp:{b:[525,1340,890,1535],s:230,a:'l'}}},description:G.MAIN_ABILITIES[abilityId].description});
+// Novas cartas completas: o PNG recebido fica intacto; somente campos variáveis e o nome corrigido usam camadas.
+const upgraded=(id,name,cls,rarity,speed,stamina,abilityId,assetKey=id,extra={})=>({...received(id,name,cls,rarity,speed,stamina,abilityId),manualBalance:true,
+ art:'assets/rebalance/kit-master-upgrade/'+assetKey+'.png',
+ portraitBanner:{src:'assets/rebalance/kit-master-upgrade/'+assetKey+'.png',size:[1536,2048],bounds:[620,370,1220,1000]},
+ cardBase:{src:'assets/rebalance/kit-master-upgrade/'+assetKey+'.png',cleanup:{src:'assets/cards/card_base.png',regions:[[690,95,855,255],[440,1170,690,1325],[450,1330,840,1550],...(extra.rename?[[280,1030,800,1155]]:[])]},
+ fields:{speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},damage:{b:[440,1170,680,1325],s:150,a:'l'},hp:{b:[460,1330,840,1550],s:225,a:'l'}},...(extra.rename?{labels:{name:name.toUpperCase()}}:{})},...extra});
 G.CHARACTERS=[
  // A arte de Eletric informa 220 de Vida e 130 de Dano; ambos cabem na faixa Rara.
  C('eletric','Elétrica','MAGO',220,130,3,{rarity:'RARE',stamina:4,mainAbility:'3000W',abilityId:'electric_area',knownHp:220,knownDamage:130,illustrated:true,cardBase:{src:'assets/cards/card_base_eletric.png',fields:{hp:{b:[465,1320,885,1530],s:250,a:'l'},damage:{b:[440,1170,640,1310],s:145,a:'l'},speed:{b:[690,95,855,255],s:150,a:'c',c:'#57465e'},stamina:{b:[350,656,490,746],s:70,a:'c'},mana:{b:[352,828,492,968],s:110,a:'c'}}},portraitBanner:{src:'assets/characters/eletric_banner.png',size:[2048,2048],bounds:[21,159,1918,1458]},abilityArt:'assets/abilities/eletric.png',artLayout:{size:[2048,2048],focus:[500,715,1550,1778],target:[440,360,1220,1080]},description:G.MAIN_ABILITIES.electric_area.description}),
@@ -81,13 +87,13 @@ G.CHARACTERS=[
  // Sark: dados oficiais explicados pelo criador. id legado preservado para referências e partidas.
  C('sarck','Sark','ASSASSIN',530,0,null,{rarity:'LEGENDARY',stamina:5,mainAbility:'Steel Jaw',abilityId:'steel_jaw',passiveOnly:true,knownHp:530,knownDamage:0,illustrated:true,cardBase:{src:'assets/cards/card_base_sark.png',fields:{hp:{b:[470,1310,895,1530],s:265,a:'l'},stamina:{b:[350,656,490,746],s:70,a:'c'}}},portraitBanner:{src:'assets/characters/sark_banner.png',size:[2048,2048],bounds:[21,159,1918,1458]},abilityArt:'assets/abilities/sarck.png',artLayout:{size:[2048,2048],focus:[500,454,1549,1525],target:[440,300,1250,1165]},description:G.MAIN_ABILITIES.steel_jaw.description}),
  received('penxy','Penxy','ASSASSIN','LEGENDARY',7,20,'ghost_dimension'),
- received('cavaleiro','Cavaleiro','FIGHTER','COMMON',3,30,'knight_armor'),
+ upgraded('cavaleiro','Cavaleiro','TANK','LEGENDARY',2,8,'knight_armor','cavaleiro',{tankResistance:0}),
  received('zikssy','Zikssy','ASSASSIN','EPIC',7,20,'fright'),
- received('elysh','Elysh','SUPPORT','EPIC',4,30,'healing_shot'),
+ upgraded('elysh','Elysh','SUPPORT','COMMON',4,3,'healing_shot','elysh',{rearHealing:true}),
  received('ddx','DD-X','FIGHTER','RARE',4,10,'four_arms'),
 
  {...received("p_ullys","P. Ullys","DESTROYER","LEGENDARY",4,20,"missile"),official:true},
- {...received("stally","Stally","FIGHTER","MYTHIC",4,10,"paralyzingKick"),official:true},
+ upgraded('stally','Stally','FIGHTER','COMMON',2,4,'paralyzingKick','vaglar_epic',{parryThreshold:5,rename:true}),
  {...received("endrik","Endrik","DESTROYER","LEGENDARY",4,20,"deathShark"),official:true},
  {...received("striker","Striker","DESTROYER","MYTHIC",4,10,"speedWard"),official:true},
  {...received("sheriff","Xerife","ASSASSIN","MYTHIC",6,30,"duelist"),official:true,knownDamage:0},
@@ -98,13 +104,13 @@ G.CHARACTERS=[
  {...received("zuri","Zuri","SUPPORT","SECRET",3,30,"fullHeal"),official:true},
  {...received("draktar","Draktar","ASSASSIN","SECRET",6,20,"hunt"),official:true},
  {...received("daztirry","Daztirry","FIGHTER","SECRET",4,35,"oni"),official:true},
- {...received("mike","Mike","DESTROYER","COMMON",3,20,"assassinWard"),official:true,copies:1},
+ upgraded('mike','Mike','DESTROYER','COMMON',5,6,'assassinWard'),
  {...received("unicorn","Unicorn","SUPPORT","RARE",3,20,"starGift"),official:true},
  {...received("nully","Nully","ASSASSIN","MYTHIC",7,30,"diceExecution"),official:true,knownDamage:55},
  {...received("rayyb","Rayyb","SUPPORT","LEGENDARY",4,20,"sleepPowder"),official:true},
  {...received("rayvilin","Rayvilin","SUPPORT","LEGENDARY",5,20,"petrify"),official:true},
  {...received("z_zus","Z-Zus","TANK","LEGENDARY",1,10,"guardian"),official:true},
- {...received("alex","Alex","FIGHTER","COMMON",5,20,"swarm"),official:true,knownDamage:120,copies:1},
+ upgraded('alex','Alex','FIGHTER','COMMON',3,2,'swarm','alex',{parryThreshold:1}),
  {...received("karma","Karma","ASSASSIN","LEGENDARY",6,10,"friendship"),official:true},
  {...received("trucc","Trucc","ASSASSIN","EPIC",8,20,"fadingDodge"),official:true},
  {...received('vaglar','Vaglar','FIGHTER','MYTHIC',4,30,'death_book'),abilityOnly:true,knownDamage:0}
@@ -124,12 +130,12 @@ G.CHARACTER_BALANCE={
  "john":{"maxHp":250,"damage":80,"reason":"Parry e imobilização justificam reduzir a resistência; preservar 80 inicial e 20 periódico."},
  "sarck":{"maxHp":530,"damage":0,"reason":"Manter a exceção oficial: reativo, sem velocidade; precisa sobreviver para revidar."},
  "penxy":{"maxHp":875,"damage":360,"reason":"O duelo isola os dois lados e não multiplica dano; manter o perfil de Assassino."},
- "cavaleiro":{"maxHp":145,"damage":40,"reason":"80% de redução multiplicam por cinco sua resistência a dano; reduzir Vida e ataque."},
+ "cavaleiro":{"maxHp":920,"damage":130,"reason":"KitMasterUpgrade: Tank Lendário com Armadura de 80%, sem o tributo natural; valores manuais reconfirmados."},
  "zikssy":{"maxHp":390,"damage":110,"reason":"Reservar parte do poder básico para os bônus permanentes de susto."},
- "elysh":{"maxHp":480,"damage":60,"reason":"A cura substitui o ataque; manter Vida alta e dano muito baixo de Suporte."},
+ "elysh":{"maxHp":240,"damage":80,"reason":"KitMasterUpgrade e habilidade reconfirmada: Comum, ataque ou cura de 80, inclusive cura da retaguarda."},
  "ddx":{"maxHp":285,"damage":90,"reason":"O dano dobrado é único; o perfil atual de Fighter já o comporta."},
  "p_ullys":{"maxHp":585,"damage":450,"reason":"Reservar dano para a explosão: até 630 no conjunto, antes de defesas."},
- "stally":{"maxHp":550,"damage":230,"reason":"Reduzir o básico para compensar o golpe de 300 com paralisia."},
+ "stally":{"maxHp":230,"damage":90,"reason":"KitMasterUpgrade: corrigida de Vaglar para Stally Comum; golpe paralisante e Parry 1–5 reconfirmados."},
  "endrik":{"maxHp":585,"damage":560,"reason":"Dano alto de Destroyer, com desconto pela tentativa de execução após morrer."},
  "striker":{"maxHp":445,"damage":350,"reason":"A proteção contra rápidos pede menos dano que outro Destroyer da mesma faixa."},
  "sheriff":{"maxHp":450,"damage":0,"reason":"Execução ofensiva e defensiva exigem fragilidade; manter duelo e dano fixo de 200."},
@@ -140,13 +146,13 @@ G.CHARACTER_BALANCE={
  "zuri":{"maxHp":1000,"damage":165,"reason":"A cura coletiva total é forte mesmo sendo única; reduzir resistência e ataque."},
  "draktar":{"maxHp":850,"damage":265,"reason":"Contra a caça, o básico triplica para 795; reduzir os dois atributos."},
  "daztirry":{"maxHp":930,"damage":420,"reason":"Oni acrescenta uma janela imortal e +30; descontar parte dos atributos iniciais."},
- "mike":{"maxHp":135,"damage":120,"reason":"A imunidade é específica de classe; manter a Vida muito baixa e dano alto de Destroyer."},
+ "mike":{"maxHp":130,"damage":170,"reason":"KitMasterUpgrade: valores manuais, proteção contra Assassinos reconfirmada e crítico de Destroyer mantido."},
  "unicorn":{"maxHp":270,"damage":35,"reason":"A estrela já concede +150 de Vida, +50 de dano e +2 de velocidade; reduzir a base."},
  "nully":{"maxHp":480,"damage":55,"reason":"Multiplicação, execução e velocidade alta justificam menos Vida; preservar os 55 por dado."},
  "rayyb":{"maxHp":875,"damage":150,"reason":"Sono gratuito e potencialmente longo exige desconto na Vida e no dano básicos."},
  "rayvilin":{"maxHp":700,"damage":150,"reason":"Petrificar e executar na mesma vez é forte; reduzir resistência e dano, sem mudar o d6."},
  "z_zus":{"maxHp":1040,"damage":150,"reason":"Preservar 1040/150 até o balanceamento manual; Tank confirmado pelo raio da base."},
- "alex":{"maxHp":155,"damage":120,"reason":"220 era muito acima do teto Comum; manter divisão/concentração com total básico de 120."},
+ "alex":{"maxHp":200,"damage":170,"reason":"KitMasterUpgrade: valores manuais e Swarm de 170 reconfirmados, com Parry 1."},
  "karma":{"maxHp":650,"damage":230,"reason":"O ataque se repete como reação aos golpes no amigo; reduzir resistência e básico."},
  "trucc":{"maxHp":340,"damage":90,"reason":"Esquiva inicial de cinco faces e velocidade 8 exigem Vida e dano básicos menores."},
  "vaglar":{"maxHp":520,"damage":0,"reason":"O livro ignora esquiva e Parry, executa abaixo de Mítico e aplica 200 acima; reduzir Vida."}

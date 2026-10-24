@@ -1,11 +1,13 @@
 // Regras da batalha. O estado (createBattleState) é a única fonte de verdade; a UI só lê e chama estas funções.
-// Equipe: linha de frente (luta, pode ser atacada) + retaguarda (personagens vivos da equipe que esperam: não atacam nem são atacados).
+// Equipe: linha de frente (luta, pode ser atacada) + retaguarda (não ataca; Elysh pode receber sua vez para curar).
 // Cada lado começa com 2 na frente e a retaguarda vazia; a equipe cresce por Daly e pela recuperação da Daly Mãe (js/core/roster.js).
 // A batalha só termina quando uma Daly Mãe chega a 0 vida; quem tem a Daly Mãe viva vence.
 (function(G){
 const isCharacterDefeated=u=>!!u.eliminated||(u.hp<=0&&!u.oniActive);
 const getUnit=(s,uid)=>s.units.find(u=>u.uid===uid)||null;
-const canAct=u=>!isCharacterDefeated(u)&&(u.row==='front'||!!u.duelId)&&!u.passiveOnly&&!u.abilityDormant;
+const canAttackFrom=u=>!!u&&(u.row==='front'||!!u.duelId);
+const canHealFromRear=u=>!!u?.rearHealing&&u.row==='rear'&&!u.duelId&&G.getMainAbility(u)?.trigger==='healingAttack';
+const canAct=u=>!isCharacterDefeated(u)&&(canAttackFrom(u)||canHealFromRear(u))&&!u.passiveOnly&&!u.abilityDormant;
 const isTargetable=u=>!isCharacterDefeated(u)&&u.row==='front'; // retaguarda não pode ser atacada
 const canTransit=u=>G.hasClass(u,'SUPPORT');                        // troca voluntária (inalterada): somente Suportes
 const fail=error=>({ok:false,error});
@@ -26,7 +28,7 @@ const nextSlot=(s,side,row)=>1+Math.max(-1,...s.units.filter(u=>u.team===side&&u
 function makeUnit(s,side,inst,row){
   const c=G.getCharacterById(inst.id),k=s.uidSeq[side]++;
   const u={uid:side+'_'+k,iid:inst.iid,id:c.id,team:side,row,slot:nextSlot(s,side,row),name:c.name,class:c.class,rarity:c.rarity,maxHp:G.roundUpToFive(c.maxHp),hp:G.roundUpToFive(c.maxHp),damage:G.roundUpToFive(c.damage),speed:c.speed,stamina:c.stamina,mana:G.manaFor(c),maxMana:G.manaFor(c),art:c.art,abilityId:c.abilityId||null,passiveOnly:!!c.passiveOnly,parryThreshold:c.parryThreshold||0,pinnedBy:null,pinning:null,pinStartedTurn:null,eliminated:false};
-  s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
+  u.rearHealing=!!c.rearHealing;u.tankResistance=c.tankResistance;s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
 }
 function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   const rng=opts.rng||Math.random,teams={player:playerTeam,enemy:enemyTeam};
@@ -40,24 +42,20 @@ function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   G.prepareInitialAbilities?.(s);buildTurnOrder(s);if(G.CONFIG.resetDraw.onBattleStart)G.onSpeedReset(s);return s;
 }
 function createSarkTestState(side='enemy'){
-  const sark={front:['sarck'],rear:[]},attackers={front:['john','sam','cavaleiro'],rear:[]};
+  const sark={front:['sarck'],rear:[]},attackers={front:['john','sam','stally'],rear:[]};
   const s=createBattleState(side==='player'?sark:attackers,side==='player'?attackers:sark);
   s.log.push('Teste de Steel Jaw · ataque Sark com Raro, Lendário ou Comum para comparar a reação.');
   return s;
 }
 function createAbilityTestState(id){
-  if(G.CONFIG.selection.rareAuto){
-    if(!G.getCharacterById(id))throw new Error('Personagem indisponível.');
-    const allies=['starGift','guardian','friendship','fullHeal','healingAttack','souls'].includes(G.getMainAbility(G.getCharacterById(id))?.trigger)?[id,'mike']:[id];
-    const foes=(id==='mike'?['sheriff','cavaleiro','ddx']:id==='trucc'?['eletric','john','ddx']:['cavaleiro','john','ddx','mike']).filter(c=>!allies.includes(c)).slice(0,3);
-    const rear=id==='elysh'?[]:['elysh'];const s=createBattleState({front:allies,rear:[]},{front:foes,rear});
-    if(['zuri','elysh'].includes(id)){const target=s.units.find(u=>u.id==='mike');if(target)target.hp=35;}
-    return s;
-  }
-
-  throw new Error('Teste de habilidade indisponível.');
+  if(!G.getCharacterById(id))throw new Error('Personagem indisponível.');
+  const allies=['starGift','guardian','friendship','fullHeal','healingAttack','souls'].includes(G.getMainAbility(G.getCharacterById(id))?.trigger)?[id,'mike']:[id];
+  const foes=(id==='mike'?['sheriff','cavaleiro','ddx']:id==='trucc'?['eletric','john','ddx']:['cavaleiro','john','ddx','mike']).filter(c=>!allies.includes(c)).slice(0,3);
+  const rear=id==='elysh'?[]:['elysh'];const s=createBattleState({front:allies,rear:[]},{front:foes,rear});
+  if(['zuri','elysh'].includes(id)){const target=s.units.find(u=>u.id==='mike');if(target)target.hp=35;}
+  return s;
 }
-// Ordem: só quem pode agir (frente, vivo), por Velocidade (maior primeiro).
+// Ordem: personagens capazes de agir, incluindo a cura de Elysh na retaguarda, por Velocidade.
 // DESEMPATE: equipe do jogador antes da adversária; depois posição (slot).
 // Medalhas e avanços esperam a próxima rodada; recuperação da Daly pode entrar na faixa de velocidade restante.
 const compareSpeed=(a,b)=>b.speed-a.speed||(a.team===b.team?0:a.team==='player'?-1:1)||a.slot-b.slot;
@@ -376,6 +374,6 @@ function getBoard(s){
   const rows=(side,row)=>s.units.filter(u=>u.team===side&&u.row===row&&!isCharacterDefeated(u)).sort((a,b)=>a.slot-b.slot);
   return{player:{front:rows('player','front'),rear:rows('player','rear')},enemy:{front:rows('enemy','front'),rear:rows('enemy','rear')}};
 }
-Object.assign(G,{isCharacterDefeated,getUnit,canAct,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,canUseHand,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
+Object.assign(G,{isCharacterDefeated,getUnit,canAct,canAttackFrom,canHealFromRear,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,canUseHand,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
 Object.assign(G,{validateActor,completeAction,finishResolvedAction,recordBattleEvent:event,applyCharacterHit:applyHit,resolveNativeReaction:resolveReaction,attackDaly,regenerateMageMana});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

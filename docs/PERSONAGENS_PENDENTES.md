@@ -1,6 +1,6 @@
 # Personagens oficiais — habilidades e balanceamento da v0.22.0
 
-A implementação foi autorizada pelo criador após o registro das habilidades. **Todos os personagens descritos abaixo estão implementados, exceto Petra, adiada expressamente e ausente do catálogo jogável.** O jogo contém somente os 30 personagens oficiais, sem personagens provisórios. A [conferência de classes e tributos da v0.24.1](CLASSES.md) corrige Z-Zus para Tank e registra os limiares de Parry pendentes das novas cartas.
+A implementação foi autorizada pelo criador após o registro das habilidades. **Todos os personagens descritos abaixo estão implementados, exceto Petra, adiada expressamente e ausente do catálogo jogável.** O jogo contém somente os 30 personagens oficiais, sem personagens provisórios. O primeiro grupo de novas cartas reconfirmadas está em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md), com cinco personagens atualizados e a seleção atual de quatro Comuns. A [conferência de classes e tributos da v0.24.1](CLASSES.md) corrige Z-Zus para Tank e registra os limiares de Parry pendentes das novas cartas.
 
 A seleção inicial oferece os três Comuns oficiais (Cavaleiro, Mike e Alex). Jogador e bot escolhem um Comum cada, sem repetir; cada equipe recebe automaticamente um Raro diferente por sorteio. Os dois entram na linha de frente.
 

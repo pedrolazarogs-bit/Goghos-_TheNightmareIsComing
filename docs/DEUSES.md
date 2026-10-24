@@ -34,8 +34,8 @@ As novas regras de Tanque e Destroyer valem para **todos os personagens dessas c
 | --- | --- |
 | Mago | Mana inicial/máxima 3; recupera +1 por ação concluída. Cada ponto gasto soma 10 de dano, parâmetro ainda provisório. |
 | Assassino | Esquiva se for mais rápido: d6 até a diferença de velocidade. Mago ignora esse teste. |
-| Fighter | Parry; John e Zeenneriam defendem com 1 ou 2 no d6. Os oito demais Fighters aguardam os limiares das novas cartas, conforme confirmação do criador. |
-| Tanque | Resistência natural de 10% a dano de ataques, incluindo revides que sejam ataques. Não reduz queimadura periódica, livro, dano do machado, hipnose ou execução. Combina com outras reduções antes do arredondamento. |
+| Fighter | Parry; John e Zeenneriam defendem com 1 ou 2 no d6. Stally defende com 1–5 e Alex com 1. Os cinco Fighters ainda não revisados aguardam a reconfirmação das novas cartas. |
+| Tanque | Resistência natural de 10% a dano de ataques, incluindo revides que sejam ataques. Não reduz queimadura periódica, livro, dano do machado, hipnose ou execução. Combina com outras reduções antes do arredondamento. Cavaleiro foi confirmado sem esse tributo natural na v0.25.0; sua armadura própria continua em 80%. |
 | Destroyer | Um d6 por ataque: 1 ou 2 concede +25% de dano. Não multiplica execuções, dano fixo periódico nem vidas da Daly Mãe. No míssil, o crítico vale no alvo principal e o dano lateral deriva dos 20% desse impacto, sem nova rolagem. |
 | Suporte | Transita entre retaguarda e frente, respeitando vagas e mantendo pelo menos um defensor na frente. |
 

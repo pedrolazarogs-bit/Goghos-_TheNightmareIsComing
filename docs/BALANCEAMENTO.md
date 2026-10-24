@@ -1,5 +1,6 @@
 # Revisão de balanceamento — v0.22.0
 
+**Atualização:** esta tabela registra a revisão da v0.22.0. Os novos valores manuais reconfirmados na v0.25.0 estão em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md) e substituem os valores antigos somente dos cinco personagens já revisados.
 O criador autorizou ajustar Vida e dano considerando **classe, raridade e habilidade**. Foi reconfirmada a manutenção das seis raridades, com a transferência anterior das faixas. Os 30 oficiais foram revisados; **22 receberam ajustes**. As regras das habilidades, os resultados de d6, as durações, a velocidade e o fôlego foram preservados. Sam e Alex receberam novos danos básicos; os valores fixos de reação, cura, queimadura, hipnose e bônus permanecem.
 
 ## Faixas de referência

@@ -1,4 +1,4 @@
-// Seleção: um Comum por equipe e um Raro sorteado automaticamente. O catálogo de testes antigos usa a configuração anterior.
+// Seleção atual: duas escolhas de Comum por equipe, alternadas. O sorteio de Raros permanece apenas para configurações históricas.
 (function(G){
 const fail=error=>({ok:false,error});
 const order=sel=>sel.order||['player','enemy','player','enemy'];

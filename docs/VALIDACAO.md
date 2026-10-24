@@ -1,3 +1,17 @@
+# Validação — v0.25.0
+
+`npm test`: **261 testes aprovados**, incluindo **340 partidas completas simuladas** (100 históricas, 200 com o catálogo atual e 40 com invocação). Os 16 testes novos cobrem os cinco dados manuais reconfirmados, hashes das 29 imagens, duplicação de Elysh, seleção alternada sem Raros, cura de retaguarda na velocidade correta, consumo de ação, limite de Vida, alvos inválidos, bloqueio de ataque traseiro mesmo com a Daly exposta, silêncio/impedimentos, trânsito sem ação extra, IA, prevenção de empate prematuro, armadura sem tributo natural, Parry de Stally/Alex, laboratórios e Morto Vivo sem habilidade.
+
+As regressões atuais foram adaptadas aos novos valores, classes e raridades, mantendo seus cenários de regras. As formações das 200 e 40 partidas agora completam as quatro escolhas de Comuns. Os testes históricos mantêm o catálogo congelado separado. Nenhuma imagem antiga foi alterada; todos os novos PNGs têm SHA-256 conferido contra os kits.
+
+No Chromium em **1440×1000 e 390×844**, passaram **20 cenários com botões reais**: seleção completa com quatro Comuns, cinco bases e nome Stally corrigido, cura traseira, avanço para atacar, ataque/cura frontal, Parry 1–5 e Vida dinâmica, golpe paralisante de 120, Swarm de 170 dividido, crítico de Mike e armadura de Cavaleiro sem os 10% adicionais. Sem erro JavaScript, recurso ausente, texto indefinido ou transbordamento horizontal. Os números renderizados cabem nos próprios campos. A conferência visual também corrigiu o título da ação de cura para “Elysh curou”.
+
+[Seleção no computador](previews/selecao-v0.25.0-desktop.png) · [No celular](previews/selecao-v0.25.0-celular.png) · [Arena](previews/arena-v0.25.0-desktop.png) · [Cura da retaguarda](previews/cura-v0.25.0-desktop.png) · [Cura no celular](previews/cura-v0.25.0-celular.png) · [Stally](previews/stally-v0.25.0-celular.png) · [Cavaleiro](previews/cavaleiro-v0.25.0-celular.png)
+
+A [conferência dos kits](BALANCEAMENTO_MANUAL.md) separa as cinco cartas ativas das 24 imagens que ainda aguardam reconfirmação. Não foram inventadas habilidades para Linx nem identidade para Sheriff Épico.
+
+---
+
 # Validação — v0.24.1
 
 `npm test`: **245 testes aprovados**, incluindo **340 partidas completas simuladas**. São os 229 anteriores e 16 testes de classes/tributos: identificação visual dos 30, MAX, resistência de Z-Zus em ataques diretos/área/revides e redirecionamento, restrição de retaguarda, efeitos fixos, mana, esquiva com impedimentos/exceções, Parry confirmado e pendente, crítico dos cinco Destroyers e transição dos seis Supports.

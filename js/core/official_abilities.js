@@ -9,7 +9,7 @@ G.isReactionBlocked=u=>!u||!!(u.pinnedBy||u.pinning||u.hypnotizedBy||u.petrified
 G.isActionLocked=u=>!!(u?.hypnotizedBy||u?.petrifiedBy||u?.paralysis||u?.sleep);
 G.healingTargets=(s,a)=>oldHealing(s,a).filter(t=>!t.oniActive);
 G.canAttackCharacter=(s,a,t)=>!(ability(t)==='speedWard'&&a.speed>t.speed)&&!(ability(t)==='assassinWard'&&a.class==='ASSASSIN');
-G.attackTargets=(s,a)=>s.units.filter(t=>alive(t)&&t.team!==a.team&&same(a,t)&&(t.row==='front'||!!a.duelId)&&G.canAttackCharacter(s,a,t));
+G.attackTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&same(a,t)&&(t.row==='front'||!!a.duelId)&&G.canAttackCharacter(s,a,t)):[];
 G.abilityTargets=(s,a,type=ability(a))=>{
  if(['starGift','guardian','friendship'].includes(type))return s.units.filter(t=>alive(t)&&!t.oniActive&&t.team===a.team&&same(a,t)&&(type==='starGift'||t.uid!==a.uid));
  let targets=oldTargets(s,a,type);
@@ -180,11 +180,12 @@ G.hasMeaningfulAction=(s,a)=>{
  if(alive(unit(s,a.hypnosisTarget))&&same(a,unit(s,a.hypnosisTarget)))return true;
  if(G.breakCurseTargets(s,a).length)return true;
  if(['healingAttack','fullHeal'].includes(type)&&!a.fullHealUsed&&G.healingTargets(s,a).length)return true;
+ if(G.canHealFromRear(a)&&G.getBoard(s)[a.team].front.length<G.frontLimit(s,a.team))return G.hasHittableTarget(s,{...a,row:'front'})||G.isDalyExposed(s,a.team==='player'?'enemy':'player');
  if(type==='sleepPowder'&&!a.sleepUsed&&G.abilityTargets(s,a).length)return true;
  if(type==='petrify'&&a.petrifyPrecision>0&&!s.units.some(t=>alive(t)&&t.petrifiedBy===a.uid)&&G.abilityTargets(s,a).length)return true;
- return G.hasHittableTarget(s,a)||(!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'));
+ return G.hasHittableTarget(s,a)||(G.canAttackFrom(a)&&!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'));
 };
-G.breakCurseTargets=(s,a)=>s.units.filter(t=>alive(t)&&t.uid!==a.uid&&t.team===a.team&&t.petrifiedBy&&same(a,t));
+G.breakCurseTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.uid!==a.uid&&t.team===a.team&&t.petrifiedBy&&same(a,t)):[];
 G.hasActionTarget=(s,a)=>!!(alive(unit(s,a.hypnosisTarget))||oldHasTarget(s,a)||G.breakCurseTargets(s,a).length);
 G.performStatusTurn=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor;

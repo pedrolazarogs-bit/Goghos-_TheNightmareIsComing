@@ -5,8 +5,8 @@ const G=GOGHOS;let passed=0;const test=(name,run)=>{run();passed++;console.log('
 // Os pequenos símbolos próximos ao nome nas cartas antigas não substituem essa identificação.
 const reviewed={
  ASSASSIN:['sarck','penxy','zikssy','sheriff','draktar','nully','karma','trucc'],
- FIGHTER:['john','cavaleiro','ddx','stally','barn','sam','daztirry','alex','vaglar'],
- TANK:['z_zus'],SUPPORT:['elysh','fonior','zuri','unicorn','rayyb','rayvilin'],
+ FIGHTER:['john','ddx','stally','barn','sam','daztirry','alex','vaglar'],
+ TANK:['z_zus','cavaleiro'],SUPPORT:['elysh','fonior','zuri','unicorn','rayyb','rayvilin'],
  MAGO:['eletric'],DESTROYER:['p_ullys','endrik','striker','chama','mike']
 };
 const unit=(s,id)=>s.units.find(u=>u.id===id);
@@ -37,8 +37,8 @@ test('resistência de Z-Zus vale para ataque direto, área e revide, com arredon
 
 test('proteção recebe a mitigação do próprio Tank, e área continua no aliado original',()=>{
  const s=battle(['z_zus','mike'],['john']);assert(G.resolveCharacterAbility(s,unit(s,'z_zus').uid,unit(s,'mike').uid).ok);
- const a=unit(s,'john'),tank=unit(s,'z_zus'),friend=unit(s,'mike');let hit=G.applyCharacterHit(s,a,friend,100);assert.equal(hit.targetUid,tank.uid);assert.equal(hit.damage,90);assert.equal(friend.hp,135);
- hit=G.applyCharacterHit(s,a,friend,100,{area:true});assert.equal(hit.targetUid,friend.uid);assert.equal(hit.damage,100);assert.equal(friend.hp,35);
+ const a=unit(s,'john'),tank=unit(s,'z_zus'),friend=unit(s,'mike');let hit=G.applyCharacterHit(s,a,friend,100);assert.equal(hit.targetUid,tank.uid);assert.equal(hit.damage,90);assert.equal(friend.hp,130);
+ hit=G.applyCharacterHit(s,a,friend,100,{area:true});assert.equal(hit.targetUid,friend.uid);assert.equal(hit.damage,100);assert.equal(friend.hp,30);
 });
 
 test('silêncio, imobilização e ressurreição não removem a resistência natural de Tank',()=>{
@@ -86,9 +86,9 @@ test('duelo do Xerife substitui esquiva comum; Trucc mantém o teste próprio e 
  s=battle(['john','eletric'],['trucc']);const a=unit(s,'john'),t=unit(s,'trucc');s.roll=()=>2;assert(G.dodgeInfo(a,t).special);assert.equal(G.applyCharacterHit(s,a,t,50).type,'dodge');s.roll=()=>1;assert.equal(G.applyCharacterHit(s,a,t,50).type,'hit');assert.equal(t.hitWindow,2);assert.equal(t.speed,7);const mage=unit(s,'eletric');assert.equal(G.dodgeInfo(mage,t),null);assert.equal(G.applyCharacterHit(s,mage,t,50).type,'hit');
 });
 
-test('John defende com 1–2, falha com 3–6, e os outros oito Fighters aguardam as novas cartas',()=>{
+test('John mantém Parry 1–2 e os Fighters ainda não revisados aguardam as novas cartas',()=>{
  for(const roll of [1,2,3,4,5,6]){const s=battle(['eletric'],['john']);s.roll=()=>roll;const t=unit(s,'john'),hit=G.applyCharacterHit(s,unit(s,'eletric'),t,50);assert.equal(hit.type,roll<=2?'parry':'hit');assert.equal(hit.damage,roll<=2?0:50);}
- for(const id of reviewed.FIGHTER.filter(id=>id!=='john')){const s=battle(['eletric'],[id]);choices(s);assert.equal(unit(s,id).parryThreshold,0,id);assert.equal(G.parryInfo(unit(s,'eletric'),unit(s,id)),null);}
+ for(const id of reviewed.FIGHTER.filter(id=>!['john','alex','stally'].includes(id))){const s=battle(['eletric'],[id]);choices(s);assert.equal(unit(s,id).parryThreshold,0,id);assert.equal(G.parryInfo(unit(s,'eletric'),unit(s,id)),null);}
  const s=battle(['mike'],['john']),t=unit(s,'john');t.silenceRemaining=4;assert.equal(G.parryInfo(unit(s,'mike'),t).threshold,2);t.pinning='target';assert.equal(G.parryInfo(unit(s,'mike'),t),null);
 });
 

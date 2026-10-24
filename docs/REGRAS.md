@@ -1,10 +1,10 @@
-# Estrutura base do GOGHOS — v0.24.1
+# Estrutura base do GOGHOS — v0.25.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
 ## Seleção
 
-Ao clicar em **Jogar**, aparecem todos os personagens Comuns cadastrados, as marcações das escolhas e o botão **Voltar ao menu**. A ordem é jogador → bot: cada um escolhe um Comum, sem repetir personagens. Depois são sorteados automaticamente dois Raros diferentes, um para cada equipe. Cada equipe recebe dois personagens no total (um Comum e um Raro). Depois do sorteio, aparece **Play · começar batalha**, na mesma tela. Não há mão, cartas de Apoio ou montes na seleção.
+Ao clicar em **Jogar**, aparecem os quatro Comuns atuais (Elysh, Stally, Mike e Alex), suas marcações e **Voltar ao menu**. A escolha alterna jogador → bot → jogador → bot, sem repetir personagens. Cada equipe escolhe dois Comuns, ambos começando na frente. Após as quatro escolhas, aparece **Play · começar batalha**. Não há sorteio de Raros, mão, Apoios ou montes nessa tela.
 
 Os dois Comuns escolhidos e os dois Raros sorteados saem de seus montes. As duas equipes começam com os dois na linha de frente e a retaguarda vazia.
 
@@ -119,13 +119,13 @@ Antes de liberar a hierarquia, as habilidades de entrada pendentes são resolvid
 | Personagem | Classe / raridade | Vida / ataque básico | Velocidade / fôlego |
 | --- | --- | --- | --- |
 | Penxy | Assassino / Lendário | 875 / 360 | 7 / 20 |
-| Cavaleiro | Fighter / Comum | 145 / 40 | 3 / 30 |
+| Cavaleiro | Tank / Lendário | 920 / 130 | 2 / 8 |
 | Zikssy | Assassino / Épico | 390 / 110 | 7 / 20 |
-| Elysh | Suporte / Épico | 480 / 60 | 4 / 30 |
+| Elysh | Suporte / Comum | 240 / 80 | 4 / 3 |
 | DD-X | Fighter / Raro | 285 / 90 | 4 / 10 |
 | Vaglar | Fighter / Mítico | 520 / sem ataque básico | 4 / 30 |
 
-Vida e ataque foram recalculados pelas faixas e perfis atuais; velocidade, fôlego e ícones de classe seguem as cartas recebidas. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
+Os dados anteriores seguem as faixas e perfis da v0.22.0; Elysh e Cavaleiro já usam os valores manuais reconfirmados na v0.25.0. Velocidade, fôlego e classe acompanham a carta ativa. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
 
 **Penxy — Ghost Claw:** escolhe um adversário da frente ou retaguarda na entrada e leva os dois para um duelo. Só eles podem se atacar, seguindo suas posições na hierarquia de velocidade. Os demais continuam lutando normalmente, sem atingir o par; área e habilidades direcionadas respeitam a dimensão. Um Suporte puxado de trás pode atacar Penxy sem ocupar uma quarta vaga na frente. Os dois continuam contando como defensores da equipe, protegendo a Daly Mãe. Não podem trocar de linha durante o duelo. Um vínculo de machado com alguém de fora é encerrado ao mudar de dimensão.
 
@@ -135,7 +135,7 @@ Quando um dos dois é eliminado, o sobrevivente retorna ao campo, conservando su
 
 **Zikssy — Claws:** ao entrar, rola um d6 para cada adversário vivo, incluindo a retaguarda. 1 ou 2 assusta; 3 a 6 resiste. Cada assustado dá +20 ao ataque básico dela. Se todos os adversários presentes forem assustados, também recebe +1 de velocidade. Sem adversários não ganha velocidade. Os bônus não somem quando os alvos morrem e não são rolados de novo ao mover a carta ou reiniciar a hierarquia; duram até sua eliminação. O susto não inventa impedimento de ação nos oponentes. Um aumento de velocidade durante recuperação não permite voltar a uma faixa já passada.
 
-**Elysh — Lazer Gun:** na sua ação escolhe atacar ou curar outro aliado ferido com o valor atual do ataque básico. Pode curar a retaguarda, respeitando a dimensão e a Vida máxima. A cura gasta a ação, não é dano e não testa armadura, Parry, Esquiva ou Steel Jaw. Não cura mortos, a Daly Mãe ou a si própria. O bônus de Apoio para o próximo ataque não é gasto ao curar.
+**Elysh — Lazer Gun:** na sua ação escolhe atacar ou curar outro aliado ferido com o valor atual do ataque básico. Pode curar aliados na retaguarda e, desde a reconfirmação da v0.25.0, também realizar sua cura enquanto ela própria está atrás, respeitando a dimensão e a Vida máxima. A cura gasta a ação, não é dano e não testa armadura, Parry, Esquiva ou Steel Jaw. Não cura mortos, a Daly Mãe ou a si própria. O bônus de Apoio para o próximo ataque não é gasto ao curar.
 
 **DD-X — Fish:** ataque básico usa dois braços. O jogador pode ativar quatro braços uma única vez por vida para dobrar o total do ataque. A ativação é gasta numa ação válida, mesmo se for defendida ou esquivada; tentativa inválida não a gasta. Reset, cura e movimentação não restauram esse uso. Ataque à Daly Mãe continua tirando uma vida e não gasta o poder.
 
@@ -199,4 +199,11 @@ O [guia de Zeenneriam e MAX](DEUSES.md) define os três fragmentos únicos, a re
 
 A legenda do criador identifica os símbolos inferiores: olho de X = Assassin, espada = Fighter, raio = Tank, + = Support, lua = Mago e mira = Destroyer. A [conferência completa](CLASSES.md) relaciona os 30 personagens e as exceções dos tributos. Z-Zus foi corrigido de Support para Tank; a proteção pessoal continua, mas a transição de Suporte deixa de existir para ele. Nenhum atributo numérico foi rebalanceado nesta revisão.
 
-John e Zeenneriam mantêm Parry 1–2. O criador definirá nas novas cartas os oito limiares restantes; não há um valor padrão presumido para esses Fighters. A previsão de esquiva respeita os mesmos impedimentos e a substituição pelo duelo do Xerife usados na resolução. A hipnose causa seus 90 de efeito fixo, sem a redução de Tank reservada a ataques.
+John e Zeenneriam mantêm Parry 1–2. A v0.25.0 acrescenta Stally 1–5 e Alex 1; os cinco Fighters ainda não revisados aguardam confirmação individual, sem valor padrão presumido. A previsão de esquiva respeita os mesmos impedimentos e a substituição pelo duelo do Xerife usados na resolução. A hipnose causa seus 90 de efeito fixo, sem a redução de Tank reservada a ataques.
+
+
+## Cartas manuais reconfirmadas — v0.25.0
+
+A [conferência dos kits](BALANCEAMENTO_MANUAL.md) registra os cinco personagens atualizados e as 24 imagens ainda pendentes. Os números manuais aprovados têm prioridade sobre as faixas genéricas. Stally é a carta de Kick impressa como Vaglar e foi confirmada como Comum; tem Parry 1–5. Alex tem Parry 1. Cavaleiro é Tank Lendário, com Armadura de 80% e **sem tributo natural**; não soma os 10% padrão à redução.
+
+Elysh, Support Comum, pode curar 80 da retaguarda. Ela entra na hierarquia por velocidade e gasta a própria ação; a cura também conta para mana e efeitos em ações globais. Não ataca de lá. Na frente, escolhe atacar ou curar. A IA cura aliados que precisam e pode avançar para atacar quando houver vaga, evitando considerar uma Elysh capaz de avançar como empate sem atacantes. Impedimentos bloqueiam a cura e Morto Vivo não devolve essa habilidade. Os demais Supports da retaguarda seguem fora da fila de ações.

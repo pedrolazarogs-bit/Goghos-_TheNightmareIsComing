@@ -30,7 +30,7 @@ test('MAX permite invocar na retaguarda com a frente cheia e transitar sem esvaz
  const s=battle(['ddx','mike','alex']);const god=summon(s);assert.equal(god.row,'rear');assert(G.canTransit(god));G.eliminateUnit(s,u(s,'alex'));force(s,'ddx');assert(G.performTransit(s,god.uid).ok);assert.equal(god.row,'front');
 });
 test('formação completamente cheia mantém os fragmentos até existir uma vaga',()=>{
- const s=battle(['ddx','mike','alex']);while(s.abilityChoices.length)G.AI.resolveCharacterAbility(s);for(const id of ['elysh','fonior']){const p=s.piles.EPIC,inst=p.splice(p.findIndex(c=>c.id===id),1)[0];assert(G.addCharacterToTeam(s,'player',inst));}force(s,'ddx');for(let i=0;i<3;i++)give(s,'fragmento_01');assert(!G.performSummon(s).ok);assert.equal(G.fragmentCount(s,'player'),3);G.eliminateUnit(s,u(s,'fonior'));assert(G.performSummon(s).ok);
+ const s=battle(['ddx','mike','alex']);while(s.abilityChoices.length)G.AI.resolveCharacterAbility(s);for(const id of ['elysh','fonior']){const p=s.piles[G.getCharacterById(id).rarity],inst=p.splice(p.findIndex(c=>c.id===id),1)[0];assert(G.addCharacterToTeam(s,'player',inst));}force(s,'ddx');for(let i=0;i<3;i++)give(s,'fragmento_01');assert(!G.performSummon(s).ok);assert.equal(G.fragmentCount(s,'player'),3);G.eliminateUnit(s,u(s,'fonior'));assert(G.performSummon(s).ok);
 });
 test('fragmentos utilizáveis impedem empate prematuro sem atacantes e retomam o ciclo',()=>{
  const s=battle(['sarck'],['john']);G.eliminateUnit(s,u(s,'john'));for(let i=0;i<3;i++)give(s,'fragmento_01');s.deck.discard.push(...s.deck.pile);s.deck.pile=[];assert(G.isIdleBattle(s));assert.equal(G.checkIdleDraw(s),null);assert(G.performSummon(s).ok);assert(s.order.includes(u(s,'zenneriam').uid));assert.equal(G.getNextActor(s).id,'zenneriam');
@@ -77,13 +77,13 @@ test('Tanque reduz 10% de ataques; não reduz queimadura ou execução',()=>{
 });
 test('Destroyer testa 1–2 no d6, soma 25% e arredonda para múltiplos de cinco',()=>{
  for(const roll of [1,2,3,4,5,6]){const s=battle(['mike'],['ddx']);s.roll=()=>roll;const r=G.criticalDamage(s,u(s,'mike'),130);assert.equal(r.damage,roll<=2?165:130);assert.equal(r.critical,roll<=2);}
- const s=battle(['mike'],['ddx']);s.roll=()=>1;attack(s,'mike',u(s,'ddx'));assert.equal(u(s,'ddx').hp,135);assert(s.lastEvent.critical.critical);
+ const s=battle(['mike'],['ddx']);s.roll=()=>1;attack(s,'mike',u(s,'ddx'));assert.equal(u(s,'ddx').hp,70);assert(s.lastEvent.critical.critical);
 });
 test('crítico do míssil se aplica uma vez e o dano lateral continua sendo 20%',()=>{
- const s=battle(['p_ullys'],['alex','mike','ddx']);s.roll=()=>1;for(const t of s.units.filter(u=>u.team==='enemy'))t.hp=t.maxHp=2000;u(s,'ddx').parryThreshold=0;attack(s,'p_ullys',u(s,'mike'));assert.equal(u(s,'mike').hp,1435);assert.equal(u(s,'alex').hp,1885);assert.equal(u(s,'ddx').hp,1885);assert(s.lastEvent.critical.critical);
+ const s=battle(['p_ullys'],['alex','mike','ddx']);s.roll=()=>1;for(const t of s.units.filter(u=>u.team==='enemy'))t.hp=t.maxHp=2000;u(s,'ddx').parryThreshold=0;u(s,'alex').parryThreshold=0;attack(s,'p_ullys',u(s,'mike'));assert.equal(u(s,'mike').hp,1435);assert.equal(u(s,'alex').hp,1885);assert.equal(u(s,'ddx').hp,1885);assert(s.lastEvent.critical.critical);
 });
 test('Sortudo pode garantir crítico de Destroyer e se esgota nesse dado',()=>{
- const s=battle(['mike'],['ddx']);force(s,'mike');const c=give(s,'sortudo');assert(G.performHandSupport(s,c.iid).ok);attack(s,'mike',u(s,'ddx'));assert.equal(u(s,'ddx').hp,135);assert.equal(s.support.lucky,0);
+ const s=battle(['mike'],['ddx']);force(s,'mike');const c=give(s,'sortudo');assert(G.performHandSupport(s,c.iid).ok);attack(s,'mike',u(s,'ddx'));assert.equal(u(s,'ddx').hp,70);assert.equal(s.support.lucky,0);
 });
 test('a IA invoca com os três fragmentos antes de executar a própria ação',()=>{
  const s=battle();force(s,'john');for(let i=0;i<3;i++)give(s,'fragmento_01','enemy');const turn=s.turn,r=G.AI.takeTurn(s,u(s,'john'));assert(r.ok);assert.equal(u(s,'zenneriam').team,'enemy');assert.equal(s.turn,turn);assert.equal(G.fragmentCount(s,'enemy'),0);
@@ -105,7 +105,7 @@ test('nova partida restaura a reserva divina e três fragmentos, sem duplicar o 
 test('40 partidas com invocação garantida terminam conservando Deus, personagens e fragmentos',()=>{
  const seeded=seed=>()=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296);
  for(let i=0;i<40;i++){
-  const rng=seeded(23000+i),{sel}=G.createSelection({rng});G.selectionPick(sel,'player',sel.offered[i%3]);G.selectionBotPick(sel);const t=G.selectionTeams(sel),s=G.createBattleState(t.player,t.enemy,[],{rng}),side=i%2?'player':'enemy';for(let n=0;n<3;n++)give(s,'fragmento_01',side);let steps=0;
+  const rng=seeded(23000+i),{sel}=G.createSelection({rng});while(!G.selectionDone(sel)){const available=G.selectionAvailable(sel);if(G.selectionTurn(sel)==='player')assert(G.selectionPick(sel,'player',available[i%available.length]).ok);else assert(G.selectionBotPick(sel).ok);}const t=G.selectionTeams(sel),s=G.createBattleState(t.player,t.enemy,[],{rng}),side=i%2?'player':'enemy';for(let n=0;n<3;n++)give(s,'fragmento_01',side);let steps=0;
   while(!s.result&&steps++<2500){let r;
    if(s.deck.pendingChoice)r=G.resolveHandReplacement(s,null);else if(s.recovery)r=G.AI.resolveRecovery(s);else if(s.formation)r=G.AI.resolveFormation(s);else if(s.support.pending)r=G.resolveBrisa(s,null);else if(s.abilityChoices.length)r=G.AI.resolveCharacterAbility(s);
    else{const a=G.getNextActor(s);if(s.result)break;if(s.deck.pendingChoice||s.abilityChoices.length)continue;if(a)r=G.AI.takeTurn(s,a);else{for(const team of ['player','enemy']){if(G.canSummonFromHand(s,team)){r=G.performSummon(s,team);break;}if(G.hasIdleHandResources(s,team)){r=G.chooseAISupport(s,team);if(r)break;}}if(!r)r=G.advanceIdleCycle(s);}}

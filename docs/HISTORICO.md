@@ -137,3 +137,12 @@ Conferidos os símbolos inferiores das 30 bases oficiais com a legenda do criado
 A previsão de esquiva passa a respeitar impedimentos e a substituição pelo duelo do Xerife, como a resolução já fazia. Hipnose é identificada como efeito fixo, preservando os 90 contra Tanks em vez de aplicar a redução reservada a ataques. Nenhum valor de Vida, dano, velocidade, fôlego, raridade ou limiar já definido foi alterado.
 
 Os 16 testes novos verificam classes e interações por elenco. John e Zeenneriam mantêm Parry 1–2; os oito Fighters restantes aguardam valores nas novas cartas, conforme decisão do criador. Resultado completo em [CLASSES.md](CLASSES.md).
+
+
+## v0.25.0 — primeiro grupo do balanceamento manual
+
+Recebidas 29 imagens únicas em Kit1/Kit2, com originais e hashes preservados. Foram reconfirmados e aplicados Elysh (240/80), Stally (230/90), Mike (130/170), Alex (200/170) e Cavaleiro (920/130), com velocidades, fôlego, classes e raridades das novas cartas. Stally é a carta de Kick impressa como Vaglar; seu nome e sua raridade Comum seguem a correção do criador. Parry: Stally 1–5 e Alex 1. Cavaleiro passa a Tank Lendário com Armadura de 80%, sem tributo natural.
+
+Elysh recebe sua vez na retaguarda para curar, sem atacar dali. Impedimentos, silêncio, ressurreição sem habilidade, uso da mão, hierarquia e movimentação continuam validados. A IA pode curar de trás ou avançar se houver vaga. A seleção volta a quatro escolhas alternadas de Comuns, dois por equipe, sem Raros automáticos. O laboratório foi desacoplado dessa opção de seleção para continuar funcionando.
+
+As outras 24 imagens aguardam conferência. Sheriff Épico e Sheriff Raro continuam separados; Linx não entra sem habilidade definida. Detalhes em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).

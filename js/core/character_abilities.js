@@ -5,14 +5,15 @@ const alive=u=>u&&!G.isCharacterDefeated(u);
 const sameDimension=(a,t)=>(a.duelId||null)===(t.duelId||null);
 const entryTypes=['dimension','deathBook','fright'];
 G.sameDimension=sameDimension;
+G.tankResistanceFor=u=>G.CONFIG.classTributes&&G.hasClass(u,'TANK')?(u.tankResistance??.1):0;
 G.damageInfo=(target,raw,options={})=>{
   const incoming=G.roundUpToFive(raw),reduction=target?.armorReduction||0;
   // Multiplicar por 20/100 evita resíduos de ponto flutuante em 1 - 0.8.
-  const resistance=G.CONFIG.classTributes&&G.hasClass(target,'TANK')&&!['book','burn-damage','pin-damage','hypnosis','support'].includes(options.kind)?0.1:0;
+  const resistance=!['book','burn-damage','pin-damage','hypnosis','support'].includes(options.kind)?G.tankResistanceFor(target):0;
   const damage=G.roundUpToFive(incoming*(reduction?20:100)/100*(1-resistance));
   return{incoming,damage,blocked:incoming-damage};
 };
-G.attackTargets=(s,a)=>s.units.filter(t=>alive(t)&&t.team!==a.team&&sameDimension(a,t)&&(t.row==='front'||!!a.duelId));
+G.attackTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&sameDimension(a,t)&&(t.row==='front'||!!a.duelId)):[];
 G.abilityTargets=(s,a,type=G.getMainAbility(a)?.trigger)=>s.units.filter(t=>alive(t)&&t.team!==a.team&&(type==='dimension'?!a.duelId&&!t.duelId:sameDimension(a,t)));
 G.healingTargets=(s,a)=>s.units.filter(t=>alive(t)&&t.uid!==a.uid&&t.team===a.team&&t.hp<t.maxHp&&sameDimension(a,t));
 G.initializeCharacterAbility=(s,u,c)=>Object.assign(u,{abilityOnly:!!c.abilityOnly,armorReduction:G.getMainAbility(c)?.reduction||0,doubleUsed:false,duelId:null,bookTarget:null,entryQueued:false,frightResolved:false,needsDuel:false,abilityDormant:false});
@@ -94,11 +95,11 @@ G.onCharacterEliminated=(s,u)=>{
   s.abilityChoices=s.abilityChoices.filter(p=>p.actorUid!==u.uid);
   G.refreshAbilityAvailability(s);
 };
-G.hasActionTarget=(s,a)=>G.getMainAbility(a)?.trigger==='deathBook'?G.abilityTargets(s,a).length>0:G.attackTargets(s,a).length>0||(!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'))||G.getMainAbility(a)?.trigger==='healingAttack'&&G.healingTargets(s,a).length>0;
+G.hasActionTarget=(s,a)=>G.getMainAbility(a)?.trigger==='deathBook'?G.abilityTargets(s,a).length>0:G.attackTargets(s,a).length>0||(G.canAttackFrom(a)&&!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'))||G.getMainAbility(a)?.trigger==='healingAttack'&&G.healingTargets(s,a).length>0;
 G.performWait=(s,uid)=>{
   const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor;
   if(a.pinnedBy||a.pinning||G.hasActionTarget(s,a))return fail('Há uma ação disponível para este personagem.');
-  G.completeAction(s,a);G.recordBattleEvent(s,{type:'wait',actorUid:a.uid,actorName:a.name,hits:[]});s.log.push(a.name+' passou a vez · não há alvo acessível nesta dimensão');G.finishResolvedAction(s);return{ok:true};
+ G.completeAction(s,a);G.recordBattleEvent(s,{type:'wait',actorUid:a.uid,actorName:a.name,hits:[]});s.log.push(a.name+' passou a vez · sem alvo disponível para a ação');G.finishResolvedAction(s);return{ok:true};
 };
 G.performHealingAttack=(s,uid,targetUid)=>{
   const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,t=G.getUnit(s,targetUid);

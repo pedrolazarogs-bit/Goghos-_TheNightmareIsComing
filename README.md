@@ -1,12 +1,14 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.24.1** confere as classes pelos símbolos das 30 cartas e corrige Z-Zus para Tank, com resistência natural de 10%. Os oito limiares de Parry pendentes aguardam as novas cartas do criador. Vida e dano foram preservados para o balanceamento manual. A interface mantém o visual cartoon, turno em destaque, instruções diretas e resultados por alvo. Fichas, ordem e histórico ficam disponíveis sob demanda. A recuperação da Daly Mãe continua oferecendo **até 2 Épicos ou até 3 Raros**. O jogo inclui os **17 Apoios oficiais**, **Zeenneriam por invocação dos três Fragmentos Primordiais** e os tributos de Tanque/Destroyer. São 30 personagens de raridade e um Deus separado. Petra fica de fora por enquanto. As cartas preservam as artes recebidas e mostram os números atuais nos campos próprios.
+Protótipo jogável de cartas e batalha por turnos. A versão **0.25.0** aplica as cartas e habilidades reconfirmadas de **Elysh, Stally, Mike, Alex e Cavaleiro**. A seleção volta a **dois Comuns escolhidos por equipe**, sem Raros automáticos. Elysh também cura da retaguarda na sua vez. As outras cartas dos kits ficam organizadas para conferência por personagem, sem trocar habilidades ainda não confirmadas. [Valores e confirmações](docs/BALANCEAMENTO_MANUAL.md).
+
+O jogo mantém os 17 Apoios oficiais, a invocação de Zeenneriam pelos três Fragmentos Primordiais e a interface cartoon. São 30 personagens de raridade e um Deus separado; Petra aguarda sua mecânica.
 
 ## Jogar e desenvolver
 
 Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
-Em **Jogar**, escolha um Comum. O bot escolhe outro, e cada equipe recebe **um Raro sorteado automaticamente**, sem repetição. Confira as quatro cartas e clique em **Play · começar batalha**. Ambas as equipes começam com dois personagens na frente.
+Em **Jogar**, aparecem Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
 No menu **Treinar e testar**, **Personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. O menu **Testar cartas de Apoio** inclui os 17 efeitos; **Invocação de Zeenneriam** prepara os três fragmentos para a invocação manual. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
 
@@ -39,6 +41,6 @@ A partida pode ser concluída contra a IA. Há seis montes de personagens, monte
 
 Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 30 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-![Arena cartoon com turno, alvos e resultados em destaque](docs/previews/arena-v0.24.0-desktop.png)
+![Arena cartoon com turno, alvos e resultados em destaque](docs/previews/arena-v0.25.0-desktop.png)
 
-[Arena no celular](docs/previews/arena-v0.24.0-celular.png) · [Guia da interface](docs/UI.md) · [Resultado de combo](docs/previews/combo-v0.24.0-desktop.png)
+[Seleção no celular](docs/previews/selecao-v0.25.0-celular.png) · [Cura da retaguarda](docs/previews/cura-v0.25.0-desktop.png) · [Guia da interface](docs/UI.md)
