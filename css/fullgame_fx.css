@@ -1,0 +1,87 @@
+/* Efeitos de combate em linguagem cartoon. São camadas transitórias, sem ações ou dados. */
+.presentation-fx-layer .fx-comic{filter:drop-shadow(0 4px 0 #210b3d70);isolation:isolate}
+.fx-comic .fx-impact-halo,.fx-comic .fx-impact-art,.fx-comic .fx-impact-splinters{position:absolute;inset:0;display:block;pointer-events:none}
+.fx-comic .fx-impact-halo{inset:4%;z-index:0;opacity:.48;transform:rotate(-13deg);filter:drop-shadow(2px 0 0 #301043) drop-shadow(-2px 0 0 #301043) drop-shadow(0 2px 0 #301043)}
+.fx-comic .fx-impact-halo>svg{width:100%;height:100%}
+.fx-comic .fx-impact-art{inset:15%;z-index:2;filter:drop-shadow(2px 0 0 #2b0c3b) drop-shadow(-2px 0 0 #2b0c3b) drop-shadow(0 2px 0 #2b0c3b) drop-shadow(0 -2px 0 #2b0c3b) drop-shadow(0 4px 0 #2b0c3b55)}
+.fx-comic .fx-impact-art>svg{display:block;width:100%;height:100%;overflow:visible}
+.fx-comic:after{inset:18%;border:3px solid var(--fx-color);box-shadow:0 0 0 2px #2a103e,0 0 0 5px #ffffff4d;animation:fg-fx-wave .55s ease-out both;z-index:1}
+.fx-comic .fx-impact-splinters{z-index:1}
+.fx-impact-splinters>i{position:absolute;left:50%;top:50%;height:7px;width:23px;border:2px solid #2c0d40;border-radius:2px;background:var(--fx-color);transform:rotate(var(--spoke)) translateX(55px) skewX(-18deg);animation:fg-fx-splinter .52s ease-out both;transform-origin:0 0;box-shadow:inset 0 2px 0 #ffffff7a}
+.fx-comic:is(.fx-punch,.fx-slash,.fx-shot,.fx-missile,.fx-axe,.fx-teeth,.fx-shark,.fx-execution,.fx-dash){animation:fg-fx-comic-impact .64s cubic-bezier(.12,.8,.23,1) both}
+.fx-comic:is(.fx-punch,.fx-axe,.fx-teeth) .fx-impact-art{transform:rotate(-12deg)}
+.fx-comic.fx-punch .fx-impact-halo{color:#ffb86e;opacity:.7;transform:rotate(4deg)}
+.fx-comic.fx-slash .fx-impact-art,.fx-comic.fx-execution .fx-impact-art{inset:2%;filter:drop-shadow(3px 3px 0 #35134a) drop-shadow(-2px -2px 0 #35134a)}
+.fx-comic.fx-slash .fx-impact-halo,.fx-comic.fx-execution .fx-impact-halo{inset:19%;opacity:.3}
+.fx-comic.fx-missile .fx-impact-halo{color:#ff9a5a;opacity:.75}
+.fx-comic.fx-missile .fx-impact-art{inset:20%;transform:rotate(8deg)}
+.fx-comic:is(.fx-electric,.fx-beam){animation:fg-fx-zap .62s ease-out both}
+.fx-comic.fx-electric .fx-impact-halo{opacity:.65;transform:rotate(17deg);color:#a6f4ff}
+.fx-comic.fx-electric .fx-impact-art{inset:7%;filter:drop-shadow(0 0 12px #5cddff99) drop-shadow(2px 3px 0 #241140)}
+.fx-comic.fx-beam .fx-impact-art{inset:17%;filter:drop-shadow(2px 2px 0 #2d0d40) drop-shadow(0 0 9px #96f8e966)}
+.fx-comic.fx-beam .fx-impact-halo{opacity:.5;color:#d8ffb0}
+.fx-comic.fx-flame{animation:fg-fx-fire .7s ease-out both}
+.fx-comic.fx-flame .fx-impact-art{inset:2%;filter:drop-shadow(2px 0 0 #35113f) drop-shadow(-2px 0 0 #35113f) drop-shadow(0 4px 0 #35113f) drop-shadow(0 0 15px #ff915366)}
+.fx-comic.fx-flame .fx-impact-halo{inset:12%;opacity:.35;color:#ffa5df}
+.fx-comic.fx-flame .fx-impact-splinters>i{height:12px;width:8px;border-radius:0;clip-path:polygon(50% 0,100% 85%,40% 100%,0 70%)}
+.fx-comic:is(.fx-parry,.fx-guard,.fx-immune){animation:fg-fx-shield .68s ease-out both}
+.fx-comic:is(.fx-parry,.fx-guard,.fx-immune) .fx-impact-halo{inset:10%;opacity:.34;color:#c2f9ff}
+.fx-comic:is(.fx-parry,.fx-guard,.fx-immune) .fx-impact-art{inset:10%}
+.fx-comic:is(.fx-parry,.fx-guard,.fx-immune):after{border-radius:22%;border-color:#e4fff4}
+.fx-comic:is(.fx-heal,.fx-star,.fx-heart,.fx-support){animation:fg-fx-magic .9s ease-out both}
+.fx-comic:is(.fx-heal,.fx-star,.fx-heart,.fx-support) .fx-impact-halo{border-radius:50%;background:radial-gradient(ellipse,#d7ffe57d,transparent 70%);opacity:.55;transform:none}
+.fx-comic:is(.fx-heal,.fx-star,.fx-heart,.fx-support) .fx-impact-halo>svg{opacity:.25;transform:scale(.85)}
+.fx-comic:is(.fx-heal,.fx-star,.fx-heart,.fx-support) .fx-impact-art{inset:20%}
+.fx-comic:is(.fx-heal,.fx-star,.fx-heart,.fx-support) .fx-impact-splinters>i{width:11px;height:11px;clip-path:polygon(50% 0,62% 35%,100% 50%,62% 65%,50% 100%,38% 65%,0 50%,38% 35%);border:0;background:#ecffc7}
+.fx-comic:is(.fx-dimension,.fx-hypnosis){animation:fg-fx-portal .95s ease-out both}
+.fx-comic:is(.fx-dimension,.fx-hypnosis) .fx-impact-halo{border:4px dashed #e6b4ff;border-radius:50%;inset:13%;opacity:.6;filter:drop-shadow(0 0 10px #c88aff);animation:fg-fx-orbit .9s ease-out both}
+.fx-comic:is(.fx-dimension,.fx-hypnosis) .fx-impact-halo>svg{display:none}
+.fx-comic.fx-dimension .fx-impact-art{inset:2%;filter:drop-shadow(2px 2px 0 #260c3e) drop-shadow(0 0 14px #a463ff99)}
+.fx-comic:is(.fx-dimension,.fx-hypnosis) .fx-impact-splinters{display:none}
+.fx-comic.fx-divine{animation:fg-fx-divine 1.05s ease-out both}
+.fx-comic.fx-divine .fx-impact-halo{opacity:.7;color:#ffd273;filter:drop-shadow(3px 0 0 #6b3570) drop-shadow(-3px 0 0 #6b3570)}
+.fx-comic.fx-divine .fx-impact-art{inset:9%;filter:drop-shadow(2px 2px 0 #5c2c69) drop-shadow(0 0 20px #fff4bd)}
+.fx-comic.fx-divine .fx-impact-splinters>i{height:10px;width:10px;background:#fff7ca;border-color:#8b4ba3;transform:rotate(var(--spoke)) translateX(77px) rotate(45deg)}
+.fx-comic.fx-dodge,.fx-comic.fx-miss{animation:fx-dodge .5s ease-out both;filter:drop-shadow(0 2px 0 #220c37)}
+.fx-comic.fx-dodge .fx-impact-art,.fx-comic.fx-miss .fx-impact-art,.fx-comic.fx-dodge .fx-impact-halo,.fx-comic.fx-miss .fx-impact-halo,.fx-comic.fx-dodge .fx-impact-splinters,.fx-comic.fx-miss .fx-impact-splinters{display:none}
+.fx-comic.fx-dodge:after,.fx-comic.fx-miss:after{display:none}
+.fx-comic.fx-dodge:before,.fx-comic.fx-miss:before{border-color:#d2f7ff;border-width:5px 0 3px;box-shadow:0 -2px 0 #29113c,0 2px 0 #29113c;background:linear-gradient(90deg,transparent,#c4f7ff22,transparent)}
+.fx-comic.is-critical .fx-impact-halo{inset:-7%;opacity:.8}
+.fx-comic.is-critical:after{border-width:5px;box-shadow:0 0 0 3px #2a103e,0 0 0 7px #fff9c9cc}
+.fx-comic.is-critical .fx-impact-splinters>i{width:28px;height:9px}
+/* Saída do golpe: pequena concentração no atacante e uma direção inequívoca. */
+.fx-source-charge{position:absolute;width:58px;height:24px;border:3px solid var(--fx-color);border-radius:50%;box-shadow:0 0 0 2px #2d103f,inset 0 0 14px var(--fx-color);z-index:0;animation:fg-fx-charge .32s ease-out both}
+.fx-direction-streak{position:absolute;height:14px;transform:rotate(var(--flight-angle));transform-origin:0 50%;z-index:0;color:var(--fx-color);filter:drop-shadow(0 1px 0 #2d0d43)}
+.fx-direction-streak>i{display:block;position:absolute;left:0;right:0;height:3px;top:5px;background:linear-gradient(90deg,transparent,currentColor 35%,#fff9e8 95%,transparent);border-radius:50%;transform-origin:left center;animation:fg-fx-streak .33s ease-out both}
+.fx-direction-streak>i:nth-child(2){left:12%;right:15%;top:0;height:2px;animation-delay:.025s;opacity:.6}
+.fx-direction-streak>i:nth-child(3){left:22%;right:4%;top:11px;height:2px;animation-delay:.045s;opacity:.45}
+.fx-streak-flame>i{height:7px;background:linear-gradient(90deg,transparent,#e46f9f,#ffc87a 88%,transparent)}
+.fx-streak-dash>i,.fx-streak-slash>i{height:2px}
+.fx-link{filter:drop-shadow(0 2px 0 #290b40) drop-shadow(0 0 7px var(--fx-color))}
+.fx-link path{stroke-width:6}
+.fx-link path.fx-link-ink{stroke:#29103e;stroke-width:12}
+.fx-link path.fx-link-core{stroke:#f1ffec;stroke-width:2.3}
+.fx-link-beam path{stroke-width:9}.fx-link-beam path.fx-link-ink{stroke-width:15}.fx-link-beam path.fx-link-core{stroke-width:3.3}
+.fx-link-hypnosis path{stroke-width:4}.fx-link-hypnosis path.fx-link-ink{stroke-width:8}.fx-link-hypnosis path.fx-link-core{stroke-width:1.5}
+.fx-projectile{filter:drop-shadow(2px 0 0 #2c0f3e) drop-shadow(-2px 0 0 #2c0f3e) drop-shadow(0 2px 0 #2c0f3e);animation-duration:.26s}
+.fx-projectile-tail{position:absolute;right:64%;top:45%;width:70px;height:10px;background:linear-gradient(90deg,transparent,#fff3b04d,var(--fx-color));border-radius:50%;z-index:-1;opacity:.8}
+.fx-projectile-missile .fx-projectile-tail{height:19px;width:84px;background:linear-gradient(90deg,transparent,#ff8c64aa,#fff4bf);clip-path:polygon(0 30%,70% 0,100% 50%,70% 100%,0 70%,22% 50%)}
+.fx-projectile-axe{width:57px;height:57px}.fx-projectile-axe .fx-projectile-tail{height:5px;opacity:.45}
+.fx-projectile-swarm .fx-projectile-tail{opacity:.3;height:3px}
+.fx-comic.is-reduced{animation:fx-reduced-mark .36s ease-out both!important;filter:drop-shadow(0 2px 0 #28113f)}
+.fx-comic.is-reduced .fx-impact-halo,.fx-comic.is-reduced .fx-impact-splinters,.fx-comic.is-reduced:after{display:none}
+.fx-comic.is-reduced .fx-impact-art{inset:19%;transform:none!important}
+@keyframes fg-fx-comic-impact{0%{opacity:0;transform:translate(-50%,-50%) scale(.38) rotate(-13deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(4deg)}38%{opacity:1;transform:translate(-50%,-50%) scale(.96) rotate(-1deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.18) rotate(9deg)}}
+@keyframes fg-fx-wave{0%{opacity:.85;transform:scale(.24) rotate(-20deg)}100%{opacity:0;transform:scale(1.65) rotate(12deg)}}
+@keyframes fg-fx-splinter{0%{opacity:0;transform:rotate(var(--spoke)) translateX(24px) skewX(-18deg) scale(.5)}20%{opacity:1}100%{opacity:0;transform:rotate(var(--spoke)) translateX(88px) skewX(-18deg) scale(.6)}}
+@keyframes fg-fx-zap{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-7deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.13) rotate(4deg)}28%{transform:translate(-50%,-50%) scale(.95) rotate(-3deg)}45%{opacity:1;transform:translate(-50%,-50%) scale(1.04) rotate(2deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.15)}}
+@keyframes fg-fx-fire{0%{opacity:0;transform:translate(-50%,-30%) scale(.45) rotate(-8deg)}28%{opacity:1;transform:translate(-50%,-52%) scale(1.03) rotate(3deg)}60%{opacity:.85;transform:translate(-50%,-64%) scale(.94) rotate(-2deg)}100%{opacity:0;transform:translate(-50%,-82%) scale(.75) rotate(5deg)}}
+@keyframes fg-fx-shield{0%{opacity:0;transform:translate(-50%,-50%) scale(1.32) rotate(7deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(.91) rotate(-3deg)}40%,65%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}}
+@keyframes fg-fx-magic{0%{opacity:0;transform:translate(-50%,-35%) scale(.5) rotate(-6deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(.94) rotate(3deg)}65%{opacity:.9}100%{opacity:0;transform:translate(-50%,-78%) scale(1.08) rotate(-3deg)}}
+@keyframes fg-fx-portal{0%{opacity:0;transform:translate(-50%,-50%) scaleX(.1) scaleY(.65) rotate(-12deg)}25%,60%{opacity:1;transform:translate(-50%,-50%) scaleX(1) scaleY(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-50%) scaleX(.12) scaleY(1.16) rotate(12deg)}}
+@keyframes fg-fx-orbit{from{transform:rotate(-30deg) scale(.8)}to{transform:rotate(50deg) scale(1.2)}}
+@keyframes fg-fx-divine{0%{opacity:0;transform:translate(-50%,-50%) scale(.18) rotate(-25deg)}32%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(0)}65%{opacity:.95}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5) rotate(15deg)}}
+@keyframes fg-fx-charge{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}22%{opacity:.6;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
+@keyframes fg-fx-streak{0%{opacity:0;transform:scaleX(.04)}25%{opacity:.65;transform:scaleX(.65)}65%{opacity:.65;transform:scaleX(1)}100%{opacity:0;transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) :is(.fx-source-charge,.fx-direction-streak,.fx-impact-halo,.fx-impact-splinters){display:none!important}html:not(.goghos-motion-full) .fx-comic .fx-impact-art{transform:none!important}}
+.goghos-motion-reduced :is(.fx-source-charge,.fx-direction-streak,.fx-impact-halo,.fx-impact-splinters){display:none!important}

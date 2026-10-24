@@ -190,3 +190,10 @@ O HTML enviado fornece o logo Without Mercy e o selo Beta em WebP. Ambos foram e
 O vídeo cosmos_intro.mp4 orienta o ritmo da revelação, o brilho e a acomodação do logo. A abertura é uma composição própria em HTML/CSS, com cenário e partículas em canvas; o vídeo não é reproduzido nem necessário para jogar. A fonte Lilita One foi incluída em assets/fonts com sua licença SIL OFL para preservar o funcionamento offline.
 
 As bases de cartas e ilustrações anteriores continuam intactas. Nenhum número nas referências foi aplicado ao combate.
+
+
+## Interface completa — v0.29.0
+
+Dez SVGs originais para ações e leitura da partida foram acrescentados em assets/visual-v0.29: ataque, pausa, movimento, dado, cura, mana, histórico, mão, velocidade e escudo. O [manifesto](../assets/visual-v0.29/manifest.json) registra tamanhos e hashes. Esses ícones não substituem os símbolos de classe.
+
+As telas usam os mesmos logos, personagens, cartas, versos e cenários anteriores. Novos pedestais, painéis, palcos e formas dos efeitos são desenhados por HTML/CSS/SVG. Nenhuma base de carta ou referência recebida foi recomposta ou substituída.

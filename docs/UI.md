@@ -1,6 +1,16 @@
-# Interface viva — v0.28.0
+# Interface completa — v0.29.0
 
 A direção atual segue o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
+
+## Direção visual nas telas de jogo
+
+A seleção, a arena e os painéis de decisão usam superfícies de tabuleiro, contornos fortes, cores por equipe, peças com relevo e a fonte de títulos do menu. A seleção mantém somente Voltar, as quatro cartas com marcações e Play após as escolhas. A arena conserva o posicionamento das linhas, da Daly Mãe, dos montes e da mão; as cartas oficiais não recebem molduras ou números substitutos.
+
+Os montes aparecem como pilhas de cartas coloridas. O painel de velocidade distingue quem age e quem vem depois, e a ficha separa Vida, ataque, velocidade e fôlego em peças próprias. Os ícones das ações foram desenhados para essa interface; os símbolos de classe continuam seguindo o mapeamento oficial.
+
+A mão tem leque vertical, marca de compra recente e indicação de seleção. Mão cheia, recuperação da Daly Mãe e avanço de Suportes usam painéis próprios, com as mesmas opções e bloqueios do motor. As artes da mão conservam sua proporção vertical, inclusive nos botões.
+
+O catálogo e os treinos exibem cartas em pedestais. A habilidade do catálogo pode ser expandida, e a busca continua por nome. Loja, coleção e crônicas usam vitrine, peças equipadas, palco de descoberta e quadros narrativos. As preferências ficam em blocos, e vitória/derrota/empate apresentam um placar destacado.
 
 ## Entrada no mundo
 
@@ -28,7 +38,7 @@ A ficha ampliada mostra a carta e a descrição completa. Abrir ficha, históric
 
 ## Golpes, efeitos e som
 
-A apresentação lê os eventos que o motor já resolveu. Cada golpe mantém sua defesa e reação; DD-X 45×4 e os socos de Sam aparecem em sequência. Eletricidade, fogo, mísseis, machado, socos, cura, dimensão, sono, petrificação e invocação têm perfis visuais distintos. Defesas, esquivas, revides e dano periódico seguem a ordem registrada pela batalha.
+A apresentação lê os eventos que o motor já resolveu. Cada golpe mantém sua defesa e reação; DD-X 45×4 e os socos de Sam aparecem em sequência. Eletricidade, fogo, mísseis, machado, socos, cura, dimensão, sono, petrificação e invocação têm perfis visuais distintos. A v0.29 acrescenta contornos de quadrinhos, planos de cor, estilhaços, preparação na origem e trilhas de direção; o soco aparece como uma luva, o fogo é angular e os feixes diferem dos raios. Defesas, esquivas, revides e dano periódico seguem a ordem registrada pela batalha.
 
 Os efeitos não escolhem resultados nem aplicam dano: só apresentam o que ocorreu. Repetir uma renderização não repete sons ou concessões. Pausa, troca de tela e aba oculta limpam efeitos pendentes. Os efeitos não interceptam cliques nas cartas.
 

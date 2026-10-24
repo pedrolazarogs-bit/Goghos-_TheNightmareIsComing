@@ -1,23 +1,22 @@
 # GOGHOS — Without Mercy
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.28.0** aplica a direção visual do protótipo **Without Mercy** enviado pelo criador: logo em destaque, menu em diagonal, ícones coloridos, partículas, brilho e entradas em sequência. Loja, modos, coleção e controles da arena acompanham o estilo cartoon.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.29.0** leva a direção cartoon para a experiência de jogo: seleção, campo de batalha, mão, decisões, fichas, catálogo, laboratórios, loja, crônicas, preferências e resultados. As cartas oficiais permanecem intactas dentro dos novos painéis.
 
 **O balanceamento foi preservado.** Os dez arquivos do motor, os atributos e habilidades dos 31 personagens, Zeenneriam, os Apoios e as regras são os mesmos da v0.26.2. As cartas oficiais continuam intactas. O novo kit entra como arte e apresentação, sem substituir números por referências antigas.
 
-![Menu GOGHOS Without Mercy](docs/previews/menu-v0.28.0-desktop.png)
+![Arena cartoon GOGHOS Without Mercy](docs/previews/arena-v0.29.0-desktop.png)
 
 ## Novidades visuais
 
-- **Menu e abertura:** logo e selo Beta do HTML recebido, revelação com anel de energia e reflexo, botões com relevo e reação ao clique. O fundo usa camadas, estilhaços e partículas; a opção de movimento reduzido mantém uma cena estática.
-- **Ícones e painéis:** desenhos SVG próprios inspirados nos anexos, com contornos fortes e cores vivas. O visual acompanha menus, busca, loja, modos e ficha lateral, preservando as cartas oficiais.
-- **Modos:** Arena contra o bot, Treino de campeões, Mesa de Apoios e Invocação primordial mantêm os quatro acessos existentes, sem criar novas regras.
-- **Loja da noite:** baú em destaque, filtros de Ambientes, Molduras e Títulos, prévias e indicação do que já está na coleção.
-- **Arena:** cartas da frente com aproximadamente 156 px no computador e pelo menos 100 px no celular, nomes e atributos legíveis, cenário personalizável, alvos destacados e histórico por golpe. A quarta vaga de Recruta mantém o tamanho das cartas e pode ser vista deslizando a fileira no celular.
-- **Som e efeitos:** eletricidade, socos, fogo, mísseis, portais, cura, dados, bloqueios e revides com identidade própria. O botão de som e as preferências permitem silenciar, ajustar o volume ou reduzir o movimento.
-- **Santuário:** 180 moedas de boas-vindas, baús de 90 moedas e +50 por partida concluída. Os baús oferecem ambientes, molduras e títulos de perfil. Todos os personagens continuam disponíveis, e os visuais não alteram o combate.
-- **Crônicas:** seis cenas narrativas e um arquivo dos personagens com suas habilidades atuais. O progresso visual e as preferências ficam salvos neste navegador.
+- **Seleção:** quatro cartas oficiais em pedestais, marcações de equipe e Play após as escolhas. Mantém somente os controles e cartas necessários.
+- **Batalha:** campo dividido por cores de equipe, montes empilhados, painel de velocidade, atributos em peças próprias, alvos e comandos destacados. As cartas conservam arte, números e tamanho legível.
+- **Mão e decisões:** leque vertical de até cinco cartas, indicação de compra/seleção e painéis de recuperação, avanço de Suportes e substituição com hierarquia clara.
+- **Golpes:** impactos com contornos de quadrinhos, luva de soco, fogo angular, feixes, raios, escudos, portais e trilhas entre origem e alvo. Golpes múltiplos continuam separados e cada resultado vem do motor.
+- **Catálogo e treinos:** cartas em destaque, metadados por raridade/classe, busca e habilidades expansíveis no catálogo. Os 31 laboratórios e os 17 Apoios continuam disponíveis.
+- **Loja e crônicas:** baú sobre palco, cartões de cosméticos, faixa de visuais equipados, revelação animada e cenas em quadros com balões de texto. Economia e progresso anteriores preservados.
+- **Preferências e resultados:** controles em blocos e placar de fim de partida. Fonte e ícones locais, movimento reduzido e som configurável. Menu e abertura da v0.28 continuam disponíveis.
 
-[Vídeo das animações](docs/previews/interface-v0.28.0.mp4) · [Menu no celular](docs/previews/menu-v0.28.0-celular.png) · [Abertura](docs/previews/abertura-v0.28.0-desktop.png) · [Modos](docs/previews/modos-v0.28.0-desktop.png) · [Loja](docs/previews/loja-v0.28.0-desktop.png) · [Arena](docs/previews/arena-v0.28.0-desktop.png) · [Guia da interface](docs/UI.md)
+[Vídeo do jogo atualizado](docs/previews/jogo-v0.29.0.mp4) · [Arena no celular](docs/previews/arena-v0.29.0-celular.png) · [Seleção](docs/previews/selecao-v0.29.0-desktop.png) · [Mão cheia](docs/previews/mao-cheia-v0.29.0-celular.png) · [Loja](docs/previews/loja-v0.29.0-desktop.png) · [Guia da interface](docs/UI.md)
 
 ## Jogar e desenvolver
 
@@ -56,6 +55,6 @@ A partida pode ser concluída contra a IA. Há seis montes de personagens, monte
 
 Item e Habilidade Especial continuam em desenvolvimento. O Santuário oferece a loja de baús e visuais, separada das regras de combate. As habilidades dos 31 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
-![Arena com os controles atualizados](docs/previews/arena-v0.28.0-desktop.png)
+![Catálogo de personagens](docs/previews/catalogo-v0.29.0-desktop.png)
 
-[Seleção no celular](docs/previews/selecao-v0.27.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.27.0-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)
+[Seleção no celular](docs/previews/selecao-v0.29.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.29.0-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)

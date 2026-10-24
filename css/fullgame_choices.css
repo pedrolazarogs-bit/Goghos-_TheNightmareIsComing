@@ -1,0 +1,125 @@
+/* Cartas da mão e decisões: uma camada de apresentação, sem regras novas. */
+:is(.mao,.choice-dialog,.recov,.formation-choice,.elim,.daly){--fg-choice-ink:#210832;--fg-choice-mint:#a9f4d2;--fg-choice-pink:#ff84d6;--fg-choice-cyan:#8ce7ff;--fg-choice-paper:#fff3d5}
+.choice-icon{display:inline-block;width:25px;height:25px;object-fit:contain;vertical-align:middle;flex-shrink:0;pointer-events:none}
+
+/* A mão continua no próprio espaço da arena; somente sua superfície e leitura mudam. */
+.arena .mao{border:3px solid #220a35;border-radius:18px 9px 18px 9px;background:linear-gradient(145deg,#572783,#341658);box-shadow:0 6px 0 #130721,inset 0 2px 0 #ad7bce66;backdrop-filter:none;scrollbar-color:#ba78e4 #32164a}
+.arena .hand-header{gap:8px;position:relative;padding-bottom:7px;border-bottom:2px solid #a363ca50}
+.arena .hand-header h4{display:flex;align-items:center;gap:7px;font:400 17px/1.05 var(--toon-display,'German Beauty',Georgia,serif);color:#fff0c9;text-shadow:0 2px 0 #270b3c;margin:0;min-width:0}
+.arena .hand-header h4 .choice-icon{width:26px;height:26px;filter:drop-shadow(0 2px 0 #250a39)}
+.arena .hand-header>.hand-count{font:800 11px/1 system-ui,sans-serif;color:#193a35;padding:6px 8px;border:2px solid #230a36;border-radius:9px 5px 9px 5px;background:linear-gradient(#d2ffe4,#82e5bf);box-shadow:0 3px 0 #210a32;white-space:nowrap}
+.arena .hand-empty{display:flex;align-items:center;gap:9px;font:11px/1.7 system-ui,sans-serif;color:#e2c8f2;padding:11px 0 3px;margin:0}
+.arena .hand-empty .choice-icon{width:34px;height:34px;opacity:.65;transform:rotate(-9deg)}
+.arena .mo-info{color:#dfc5ef}
+.arena .mo-grid{isolation:isolate;position:relative}
+.arena .mo-grid:before{content:'';position:absolute;left:6%;right:6%;bottom:4px;height:14px;background:#19072d66;border-radius:50%;filter:blur(3px);z-index:-1;pointer-events:none}
+.arena .mo-grid .hcard:not(:first-child){margin-left:calc(-1 * clamp(12px,calc((var(--hw) * var(--hand-count) - 100% + 18px) / max(1,var(--hand-count) - 1)),46px))!important}
+.arena .hcard{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;background:linear-gradient(#763995,#3b1b5b);border:2px solid #1e082e!important;box-shadow:0 5px 0 #160721,0 0 0 1px #d49af144 inset;border-radius:10px 6px 10px 6px;filter:drop-shadow(0 2px 2px #15032155)}
+.arena .hcard .scard{border-radius:7px 4px 7px 4px}
+.arena .hcard em{display:flex;justify-content:center;align-items:center;gap:3px;background:#2e1049;color:#f3dfff;font:700 7px/1.3 system-ui,sans-serif;padding:4px 2px;border-top:1px solid #d9aaff52;border-radius:0 0 6px 5px;text-transform:uppercase;letter-spacing:.025em}
+.arena .hcard em>i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--tc,#d4aaff);box-shadow:0 0 0 1px #ffffff70;flex-shrink:0}
+.arena .hcard.selected,.arena .hcard:hover:not(:disabled),.arena .hcard:focus-visible{outline:3px solid #abf8e0;outline-offset:1px;box-shadow:0 6px 0 #1a0b2b,0 0 20px #a5ffde55;z-index:5}
+.arena .hcard.selected em{background:#b4f5dc;color:#20473a;border-top-color:#d6fff0}
+.arena .hcard.new{box-shadow:0 0 0 2px #ffdd87,0 5px 0 #160721}
+.arena .hcard-new-badge{position:absolute;right:-6px;top:-9px;z-index:3;padding:3px 5px;background:#ffe18c;border:1px solid #2c0a39;border-radius:5px 2px 5px 2px;color:#46283e;font:800 6px/1 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 2px 0 #210b32;transform:rotate(5deg);pointer-events:none}
+.arena .medal-card{position:relative;isolation:isolate;background:radial-gradient(circle at 50% 20%,color-mix(in srgb,var(--medal) 78%,#fff2c3),transparent 42%),linear-gradient(155deg,#6b3499,#321648);border:0;color:#fff5de}
+.arena .medal-card:before{content:'';position:absolute;inset:0;z-index:-1;opacity:.45;background:repeating-conic-gradient(from 6deg at 50% 25%,#fff2 0deg 10deg,transparent 10deg 27deg);pointer-events:none}
+.arena .medal-emblem{display:grid;place-items:center;width:34px;height:34px;border:2px solid #f8e5b386;border-radius:50%;background:color-mix(in srgb,var(--medal) 78%,#391154);box-shadow:0 3px 0 #210c38}
+.arena .medal-emblem .choice-icon{width:29px;height:29px;filter:drop-shadow(0 1px 0 #3a0d4a)}
+.arena .medal-card strong{font:800 8px/1.3 system-ui,sans-serif;text-shadow:0 1px 0 #260b3d}
+.arena .medal-card>span:last-child{font-size:7px;color:#fff7ec}
+.arena .medal-card.legendary{background:linear-gradient(135deg,#f2acdb,#d8d68d,#83dfd4,#ae9df0);color:#2d1548}
+.arena .medal-card.legendary strong,.arena .medal-card.legendary>span:last-child{color:#2d1548;text-shadow:none}
+.arena .medal-card.secret{background:radial-gradient(circle at 50% 15%,#785094,#181026 72%)}
+
+/* A carta escolhida abre uma ficha curta, com uma ação principal clara. */
+.arena .hand-detail{margin-top:5px;border-top:2px solid #a863c363;color:#f6e4ff;scrollbar-color:#bf7ddd #2c1343}
+.arena .hand-detail>strong{display:block;color:#ffefc7;font:400 17px/1.2 var(--toon-display,'German Beauty',Georgia,serif);margin:0 0 7px;text-shadow:0 2px 0 #260a3a}
+.arena .hand-detail p{color:#ead4f2;font-size:12px;line-height:1.7}
+.arena .hand-detail small{color:#d2b4e7}
+.arena .hand-detail button{display:flex;align-items:center;justify-content:center;border:2px solid #220a35;background:linear-gradient(#ceffe7,#8ee6be);color:#214238;border-radius:12px 6px 12px 6px;box-shadow:0 4px 0 #1d082c,inset 0 2px 0 #fff8;font:800 12px/1.4 system-ui,sans-serif}
+.arena .hand-detail button:hover:not(:disabled){background:linear-gradient(#e0fff0,#a7f4d1);color:#214238}
+.arena .hand-detail .support-targets{gap:5px}
+.arena .hand-detail .support-targets button{border:2px solid #2d0c42;border-radius:8px;background:#74429b;color:#fff0fd;padding:7px 8px;font:700 10px/1.4 system-ui,sans-serif;box-shadow:0 2px 0 #21092e;text-align:left;justify-content:flex-start}
+.arena .hand-detail .support-targets button.on{background:#a9f5d3!important;border-color:#dbffed;color:#1e4237!important;box-shadow:0 2px 0 #1a0a2b}
+
+/* Uma nova carta: decisão com destaque e controles visíveis. */
+.arena .mao.choose-replacement{border:3px solid #f4c7ff;background:linear-gradient(145deg,#67318d,#32164e);box-shadow:0 8px 0 #15071e,0 0 0 5px #2a0b3c,0 0 60px #d674e333}
+.arena .hand-choice{border-top:2px solid #c282df70;color:#f2dffb;text-align:center;gap:11px}
+.arena .hand-choice-kicker{display:flex;justify-content:center;align-items:center;gap:6px;color:#baf8df;text-transform:uppercase;letter-spacing:.12em;font:800 9px/1.3 system-ui,sans-serif}
+.arena .hand-choice-kicker .choice-icon{width:24px;height:24px}
+.arena .hand-choice>strong{font:400 24px/1.15 var(--toon-display,'German Beauty',Georgia,serif);color:#fff1bd;text-shadow:0 2px 0 #2d0b40}
+.arena .hand-choice>span:not(.hand-choice-kicker){font:12px/1.7 system-ui,sans-serif;color:#f1daf8}
+.arena .incoming-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:13px;margin:0 auto;width:100%;border-radius:14px;background:radial-gradient(ellipse at 50% 50%,#a252c057,transparent 67%),#2d154a;border:2px solid #8744a77d;isolation:isolate}
+.arena .incoming-label{font:800 8px/1.2 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#f9d2ff}
+.arena .incoming-card .hcard{--hw:78px;flex:none;box-shadow:0 6px 0 #1e0a30;pointer-events:none;filter:none}
+.arena .incoming-card .hcard-new-badge{display:none}
+.arena .hand-choice>[data-act=keep-new]{border:3px solid #2c0b3d;background:linear-gradient(#ffcfdf,#e990bc);box-shadow:0 4px 0 #1f092e,inset 0 2px 0 #fff7;color:#4d2045;border-radius:12px 6px 12px 6px;font:800 12px/1.45 system-ui,sans-serif;min-height:46px}
+.arena .hand-choice>[data-act=keep-new]:hover{background:linear-gradient(#ffe1e9,#f6afce);color:#4d2045}
+
+/* Daly Mãe: cristais e três vidas em suportes próprios, sem mover o alvo. */
+.arena .daly{position:relative;border-radius:12px;background:linear-gradient(145deg,#461d62c9,#281641c9)!important;box-shadow:0 3px 0 #1d0b2a!important;outline:1px solid #be7ac160;outline-offset:1px}
+.arena .daly-name{font:400 10px/1.25 var(--toon-display,'German Beauty',Georgia,serif);color:#ffe3f2;text-shadow:0 1px 0 #260c35}
+.arena .daly-emblem{gap:6px}
+.arena .daly-emblem>.asset-window{filter:drop-shadow(0 2px 0 #250c38) drop-shadow(0 0 8px #ff6dcd55)}
+.arena .daly-lives{gap:3px;align-items:center}
+.arena .daly-life-slot{display:grid;place-items:center;width:19px;height:19px;border:1px solid #39124c;border-radius:6px 3px 6px 3px;background:linear-gradient(#ca699e66,#482141);box-shadow:0 2px 0 #1d0c2c}
+.arena .daly-life-slot.empty{background:#201127;box-shadow:inset 0 1px 0 #ffffff0a}
+.arena .daly-heart{width:14px;height:13px;filter:drop-shadow(0 1px 0 #200b30)}
+.arena .daly-status{display:flex;justify-content:center;align-items:center;gap:4px;color:#e5bcd7;font:800 8px/1.3 system-ui,sans-serif;padding:2px 4px 3px;white-space:nowrap}
+.arena .daly-status b{font:700 8px/1 system-ui,sans-serif;margin:0;color:#aff1d2}
+.arena .daly-state-icon{width:10px;height:10px;color:#a4efd1;flex-shrink:0}
+.arena .daly.exposed{background:linear-gradient(#8b315ac9,#4f193fc9)!important;outline:2px solid #ff9acb;box-shadow:0 3px 0 #310a28!important}
+.arena .daly.exposed .daly-status b,.arena .daly.exposed .daly-state-icon{color:#ffc3dd}
+.arena .daly.pick{animation:fg-daly-alert 1.8s ease-in-out infinite}
+.arena .daly.target{outline:3px solid #ffe58c;outline-offset:3px;box-shadow:0 0 20px #ffcd6266,0 3px 0 #310a28!important}
+
+/* Fora dos montes: a lista de eliminados continua simples de consultar. */
+.arena .elim{border:2px solid #361049;border-radius:12px 6px 12px 6px;background:#36194e;box-shadow:0 3px 0 #1b092b;overflow:hidden}
+.arena .elim summary{display:flex;justify-content:flex-start;gap:6px;padding:8px;font:400 12px/1.2 var(--toon-display,'German Beauty',Georgia,serif);color:#edc8df}
+.arena .elim summary>.choice-icon{width:20px;height:20px;filter:grayscale(.35);opacity:.8}
+.arena .elim summary>span{flex:1;min-width:0}
+.arena .elim summary>b{padding:4px 6px;background:#1f0d31;border:1px solid #9c5ca057;color:#ffc7e5;border-radius:6px;font:800 10px/1 system-ui,sans-serif}
+.arena .elim>div{padding:0 9px 7px;font:11px/1.6 system-ui,sans-serif;color:#e4bddb;scrollbar-color:#a86cbd #2b133d}
+.arena .elim .chip{border:1px solid #a3578b6b;border-radius:7px 3px 7px 3px;background:#58284f;color:#ffe1ed;box-shadow:0 2px 0 #1e0a2b;font:700 10px/1.5 system-ui,sans-serif;padding:4px 6px}
+.arena .elim .chip small{color:#d9b4cf;font-size:8px}
+
+/* Decisões da batalha: contornos fortes e cartas legíveis. */
+.arena .choice-overlay,.arena .hand-backdrop{background:radial-gradient(ellipse at 50% 45%,#5f247580,#150721ed 80%);backdrop-filter:blur(5px)}
+.arena .choice-dialog{position:relative;isolation:isolate;border:4px solid #22082f;border-radius:25px 11px 25px 11px;background:linear-gradient(145deg,#7331a0,#3c1a61);box-shadow:0 9px 0 #160720,0 0 0 2px #b971db9c,inset 0 3px 0 #de9bf252;scrollbar-color:#c58de7 #37174c}
+.arena .choice-dialog:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;background:radial-gradient(circle,#ffffff14 0 1px,transparent 1.7px) 0 0/11px 11px;mask-image:linear-gradient(145deg,#000,transparent 45%);opacity:.65}
+.arena .choice-dialog h3{font:400 27px/1.2 var(--toon-display,'German Beauty',Georgia,serif);color:#fff2cd;text-shadow:0 3px 0 #310d45;margin:0 0 13px}
+.arena .choice-dialog p{color:#f2dafa;font:13px/1.75 system-ui,sans-serif}
+.arena .choice-dialog .choice-kicker{display:block;margin:0 0 9px;font:800 9px/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:#bdf8e4}
+.arena .choice-emblem{display:grid;place-items:center;margin:0 auto 10px;width:49px;height:49px;background:linear-gradient(#9c5bc0,#5d2b85);border:3px solid #290b3d;border-radius:16px 8px 16px 8px;box-shadow:0 4px 0 #210a31;transform:rotate(-4deg)}
+.arena .choice-emblem .choice-icon{width:35px;height:35px}
+.arena .choice-dialog button{border:3px solid #250b38;border-radius:13px 7px 13px 7px;background:linear-gradient(#b997e5,#7d51b1);color:#fff5fc;box-shadow:0 4px 0 #210a30,inset 0 2px 0 #ffffff52;font:400 15px/1.4 var(--toon-display,'German Beauty',Georgia,serif);text-shadow:0 1px 0 #351447}
+.arena .choice-dialog button:hover:not(:disabled){background:linear-gradient(#d1aff9,#9968c8);box-shadow:0 5px 0 #210a30,inset 0 2px 0 #fff7;transform:translateY(-2px)}
+.arena .choice-dialog button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #210a30}
+.arena .choice-dialog button:focus-visible,.arena .mao button:focus-visible,.arena .elim summary:focus-visible{outline:3px solid #a8f6ff;outline-offset:4px}
+.arena .choice-dialog button:disabled{opacity:.45;filter:saturate(.4);text-shadow:none}
+.arena .entry-choice>small{display:inline-block;margin-bottom:12px;padding:6px 9px;background:#2e124a;border:1px solid #af6bcb88;border-radius:8px;font:800 9px/1.4 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:#b8f4df}
+.arena .entry-targets>button{position:relative;background:linear-gradient(#58287c,#36184f);border-color:#260d36;box-shadow:0 5px 0 #20092e,inset 0 1px 0 #d19bef40}
+.arena .entry-targets>button:hover:not(:disabled){background:linear-gradient(#733899,#482061)}
+.arena .entry-targets>button.selected{background:linear-gradient(#75449b,#49256e);outline:3px solid #aeffdf;outline-offset:2px;box-shadow:0 5px 0 #20092e,0 0 20px #9dffd333}
+.arena .entry-targets strong{font:400 14px/1.2 var(--toon-display,'German Beauty',Georgia,serif);color:#ffefd5}
+.arena .entry-targets small{font:10px/1.5 system-ui,sans-serif;color:#e5c7f0}
+.arena .entry-choice>[data-act=resolve-entry]{background:linear-gradient(#d1ffe6,#86e1b8);color:#214233;text-shadow:none;border-color:#230d34;font-size:16px;min-height:48px}
+.arena .entry-choice>[data-act=resolve-entry]:hover:not(:disabled){background:linear-gradient(#e0fff0,#a9f1d0)}
+.arena .entry-choice>[data-act=cancel-entry]{background:#4b285e;color:#e9d1f1;text-shadow:none}
+.arena .recovery-options{gap:13px;margin-top:19px}
+.arena .recovery-options .recovery-option{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;flex:1 1 155px;padding:18px 13px;background:linear-gradient(140deg,color-mix(in srgb,var(--choice-rarity) 30%,#672a8b),#3e1b63);border-color:#290b3c;box-shadow:0 5px 0 #24092f,inset 0 3px 0 color-mix(in srgb,var(--choice-rarity) 65%,#fff2d0);color:#fff4dd;text-shadow:0 2px 0 #2f0b3e}
+.arena .recovery-option>.choice-icon{width:43px;height:43px;filter:drop-shadow(0 3px 0 #210b35);transform:rotate(-6deg)}
+.arena .recovery-options .recovery-label{font:400 21px/1.2 var(--toon-display,'German Beauty',Georgia,serif)}
+.arena .recovery-options small{display:block;font:11px/1.65 system-ui,sans-serif;color:#f0d9f9;text-shadow:none;margin:0}
+.arena .formation-choice>.formation-single{display:flex;align-items:center;justify-content:center;gap:13px;padding:11px 14px;color:#fff0d5;background:linear-gradient(#8658b2,#5c337e);text-align:left}
+.arena .formation-single>.formation-portrait{width:42px;height:42px;border:2px solid #cda0e5;box-shadow:0 3px 0 #2e103e;flex-shrink:0}
+.arena .formation-choice>.formation-all{background:linear-gradient(#d1ffe7,#7bdeb8);color:#214735;border-color:#280c3c;text-shadow:none;min-height:49px}
+.arena .formation-choice>.formation-all:hover{background:linear-gradient(#e1fff1,#a8f5d1)}
+
+@keyframes fg-daly-alert{0%,100%{filter:drop-shadow(0 0 0 #ffa1d6)}50%{filter:drop-shadow(0 0 8px #ff9dd878)}}
+@media(max-width:1180px) and (min-width:901px){.arena .hand-header h4{font-size:15px}.arena .hand-header h4 .choice-icon{width:22px;height:22px}.arena .hand-header>.hand-count{font-size:10px;padding:5px 6px}.arena .daly-life-slot{width:17px;height:17px}.arena .daly-heart{width:12px;height:12px}.arena .elim summary{font-size:11px}.arena .elim summary>.choice-icon{width:17px;height:17px}}
+@media(max-width:760px){.arena .hand-header h4{font-size:18px}.arena .hand-header h4 .choice-icon{width:27px;height:27px}.arena .hand-header>.hand-count{font-size:11px}.arena .mo-grid .hcard:not(:first-child){margin-left:calc(-1 * clamp(10px,calc((var(--hw) * var(--hand-count) - 100% + 18px) / max(1,var(--hand-count) - 1)),38px))!important}.arena .hcard em{font-size:8px;padding:4px 2px}.arena .hcard-new-badge{font-size:6px}.arena .hand-detail>strong{font-size:18px}.arena .hand-detail button{font-size:12px}.arena .mao.choose-replacement{padding:15px;border-width:3px}.arena .hand-choice>strong{font-size:24px}.arena .incoming-card .hcard{--hw:76px}.arena .daly-name{font-size:10px}.arena .daly-life-slot{width:17px;height:17px;border-radius:5px 3px 5px 3px}.arena .daly-heart{width:12px;height:12px}.arena .daly-status{font-size:8px}.arena .daly-status b{font-size:7px}.arena .daly-state-icon{width:9px;height:9px}.arena .elim summary{padding:10px;font-size:14px}.arena .elim summary>.choice-icon{width:22px;height:22px}.arena .choice-dialog{padding:21px 17px!important;border-width:3px;border-radius:21px 9px 21px 9px}.arena .choice-dialog h3{font-size:24px}.arena .choice-dialog p{font-size:12px;line-height:1.75}.arena .recovery-options{gap:10px}.arena .recovery-options .recovery-option{min-width:125px;padding:16px 10px}.arena .recovery-option>.choice-icon{width:35px;height:35px}.arena .recovery-options .recovery-label{font-size:19px}.arena .recovery-options small{font-size:10px}.arena .choice-emblem{width:44px;height:44px}.arena .choice-emblem .choice-icon{width:31px;height:31px}}
+@media(max-height:560px) and (min-width:761px){.arena .choice-dialog{padding:18px 20px!important}.arena .choice-emblem{width:36px;height:36px;margin-bottom:6px;border-radius:12px 6px 12px 6px}.arena .choice-emblem .choice-icon{width:27px;height:27px}.arena .choice-dialog h3{font-size:23px}.arena .choice-dialog p{font-size:12px;line-height:1.6}.arena .recovery-options .recovery-option{padding:13px 11px;gap:8px}.arena .recovery-option>.choice-icon{width:32px;height:32px}.arena .incoming-card{flex-direction:row;gap:18px;padding:9px}.arena .incoming-card .hcard{--hw:54px}.arena .hand-choice{gap:8px}.arena .hand-choice>strong{font-size:21px}}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) :is(.mao,.choice-dialog,.daly) *,html:not(.goghos-motion-full) :is(.mao,.choice-dialog,.daly){animation:none!important;transition:none!important}}
+.goghos-motion-reduced :is(.mao,.choice-dialog,.daly) *,.goghos-motion-reduced :is(.mao,.choice-dialog,.daly){animation:none!important;transition:none!important}

@@ -1,0 +1,28 @@
+/* Estados e leitura comuns às telas do jogo. As camadas das cartas são preservadas. */
+.fg-screen .toon-icon{width:27px;height:27px}
+.fg-screen .fg-screen-icon .toon-icon{width:45px;height:45px}
+.fg-screen .fg-test-button .toon-icon{width:23px;height:23px}
+.arena .toon-icon{width:23px;height:23px;flex-shrink:0;object-fit:contain}
+.arena .fg-arena-icon{width:24px;height:24px}
+.arena .battle-actions .toon-icon{width:24px;height:24px}
+.arena .combat-float{font-family:var(--toon-display);font-weight:400;font-size:25px;line-height:1.1;background:#fff1a5;color:#48203d;text-shadow:none;border:3px solid #230c35;border-radius:15px 5px 15px 5px;box-shadow:3px 4px 0 #210a33cc;padding:5px 10px;min-height:0;filter:drop-shadow(0 3px 0 #1d0a2e66);pointer-events:none}
+.arena .combat-float small{font:800 8px/1.4 system-ui,sans-serif;letter-spacing:.03em;color:inherit;display:block;margin-top:4px}
+.arena .combat-float:is(.heal,.parry){background:#b2ffe1;color:#164e4b}
+.arena .combat-float:is(.dodge,.immune,.miss,.duel-miss){background:#c0eaff;color:#29436d;font-size:19px}
+.arena .combat-float:is(.defeat,.reaction){background:#ffc1e3;color:#702047}
+.arena .combat-float.oni{background:#ddbdff;color:#482173}
+.arena .daly-float{font-family:var(--toon-display);background:#ffb9db;border:3px solid #39113e;border-radius:12px 4px;padding:7px 10px;color:#751d4e;text-shadow:none;box-shadow:3px 3px 0 #210c35;pointer-events:none}
+.arena .unit-speed{font-family:system-ui,sans-serif}
+.arena .event-brief small{font-family:system-ui,sans-serif}
+.fg-screen .fg-ability-copy>summary{cursor:pointer}
+.fg-screen .fg-ability-copy[open]>summary{color:#fff2b2}
+.fg-screen .fg-ability-copy p{overflow-wrap:anywhere}
+.arena[data-paused=true] .turn-panel{filter:saturate(.65)}
+.arena[data-paused=true] .turn-panel:after{animation-play-state:paused!important}
+@media(max-width:700px){.arena .toon-icon{width:20px;height:20px}.arena .combat-float{font-size:21px;padding:4px 7px;border-width:2px}.arena .combat-float:is(.dodge,.immune,.miss,.duel-miss){font-size:16px}.arena .combat-float small{font-size:7px}.fg-screen .fg-screen-icon .toon-icon{width:34px;height:34px}}
+@media(max-height:560px) and (min-width:761px){.arena .arena-header .toon-icon{width:18px;height:18px}.fg-screen .fg-screen-icon .toon-icon{width:34px;height:34px}}
+.goghos-motion-reduced :is(.fg-screen,.fg-arena) *{scroll-behavior:auto!important}
+
+.arena .event-brief small>.ui-icon{width:12px;height:12px;transform:rotate(135deg);vertical-align:middle}
+
+.result-screen .result-reward button .ui-icon{width:14px;height:14px;transform:rotate(135deg)}

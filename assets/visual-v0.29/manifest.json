@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "version": "0.29.0",
+  "description": "Ícones próprios para ações, turnos e decisões do jogo. Não substituem símbolos de classe ou cartas oficiais.",
+  "files": [
+    {
+      "path": "icons/attack.svg",
+      "sha256": "b99e8ed07a8de4744f3e24bee2e4e33aac5d73a07aca5d3970095a13a3f50e51",
+      "bytes": 658,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/pause.svg",
+      "sha256": "edadcb8928b99b88afd78ca4389d0954c7d4b0f3fb3670561867bfd73ab058dc",
+      "bytes": 714,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/move.svg",
+      "sha256": "6e3a20edcd3b2bc50fe78b9cde0a77dd949bec600bb3b00b682d4521a831c60a",
+      "bytes": 626,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/dice.svg",
+      "sha256": "0f9b63d0a983b26568c05f4bbfadb578e1e43f37acf59e8d38c19d43998aa498",
+      "bytes": 944,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/heal.svg",
+      "sha256": "d82ee8c13d60b36a64606dfd793ce33468b08028b55a8b50e5509bd92e56b855",
+      "bytes": 628,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/mana.svg",
+      "sha256": "11f67eb593f3d163fd9904a89b42c1e63760708724543c8e53768f03eafef514",
+      "bytes": 684,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/history.svg",
+      "sha256": "c5e480dcf071f1de961a61c25e192560c8a27ce02ef3af922de23c654734b8cc",
+      "bytes": 756,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/hand.svg",
+      "sha256": "d6bb17290bc45a670beb13b3032a74356429c8fa448d2e683eaa5020a88386c7",
+      "bytes": 742,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/speed.svg",
+      "sha256": "3510e42a1314695f3b2cbb2a9b8146fd03b169a45486f1245b5a93cacb240a1f",
+      "bytes": 698,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    },
+    {
+      "path": "icons/shield.svg",
+      "sha256": "d879458f3512ad44614381f9810a5374afa5221467a1f7853ff911153d52424a",
+      "bytes": 814,
+      "origin": "Vetor original de interface, inspirado na direção cartoon fornecida pelo criador."
+    }
+  ]
+}

@@ -210,3 +210,14 @@ A ambiência tem ciclo próprio, respeita movimento reduzido, pausa com a aba oc
 Preserva todos os atributos, habilidades, regras, preços, recompensas, progressos salvos e arquivos das cartas. As ações do menu apontam para os destinos reais do projeto; os laboratórios continuam sem recompensa de partida.
 
 Validação: 350 testes, 380 partidas completas simuladas e 123 verificações de navegador em cinco resoluções.
+
+
+## v0.29.0 — direção cartoon no restante do jogo
+
+Estende o trabalho visual ao campo de batalha, seleção, montes, turnos, alvos, mão, fichas, escolhas de recuperação/formação, catálogo, treinos, loja, crônicas, configurações e resultados. Painéis antes discretos dão lugar a tabuleiro por equipes, pilhas, peças de atributos, leque e pedestais. A proporção vertical das artes da mão também foi corrigida.
+
+Os golpes passam a usar formas e contornos de quadrinhos, com luva, fogo angular, raios e feixes próprios, escudos, portais, preparação e trilhas. A apresentação continua lendo os eventos já resolvidos; ordem, duração, dados e resultados não foram alterados. Dez ícones SVG novos são locais e têm manifesto de origem.
+
+Mantém seleção alternada de quatro Comuns, mão de cinco, recuperação parcial, velocidade, habilidades, economia, progresso e arquivos oficiais das cartas. O motor permanece idêntico à base anterior à renovação.
+
+Validação: 354 testes, 380 partidas completas simuladas e 131 cenários integrados de navegador, com revisão visual em cinco resoluções.

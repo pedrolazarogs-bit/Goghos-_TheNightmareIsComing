@@ -3,7 +3,7 @@
 'use strict';
 const PREF_KEY='goghos.presentation.v1';
 const DEFAULTS=Object.freeze({muted:false,volume:.38,motion:'auto'});
-const COLORS=Object.freeze({punch:'#ffd49c',slash:'#e7c9ff',electric:'#7ff2ff',beam:'#b5fbf2',axe:'#c6f5cb',flame:'#ff9566',missile:'#ffc27e',shot:'#ffe7ab',swarm:'#ffb7ee',dimension:'#b58bff',heal:'#90f4c2',guard:'#9acaff',parry:'#b6f3ff',dodge:'#c9c6ef',miss:'#bdb5cc',immune:'#bca1ff',execution:'#f9aad8',oni:'#d5a2ff',hypnosis:'#ff9de6',soul:'#7ae6d5',star:'#ffe8ac',dice:'#f5d2a8',sleep:'#bda8fa',petrify:'#a9cdbe',book:'#c99ae9',fright:'#e4d4ff',teeth:'#efe2ff',shark:'#9be7ee',heart:'#ffa9c7',dash:'#a2eee5',divine:'#fff3ba',crystal:'#ff91c7',support:'#d7beff'});
+const COLORS=Object.freeze({punch:'#ffe074',slash:'#e9b5ff',electric:'#66e6ff',beam:'#8cf5d9',axe:'#9df4c8',flame:'#ff875f',missile:'#ffc36a',shot:'#fff09a',swarm:'#ffb7ee',dimension:'#b58bff',heal:'#90f4c2',guard:'#9acaff',parry:'#b6f3ff',dodge:'#c9c6ef',miss:'#bdb5cc',immune:'#bca1ff',execution:'#f9aad8',oni:'#d5a2ff',hypnosis:'#ff9de6',soul:'#7ae6d5',star:'#ffe8ac',dice:'#f5d2a8',sleep:'#bda8fa',petrify:'#a9cdbe',book:'#c99ae9',fright:'#e4d4ff',teeth:'#efe2ff',shark:'#9be7ee',heart:'#ffa9c7',dash:'#a2eee5',divine:'#fff3ba',crystal:'#ff91c7',support:'#d7beff'});
 const CHARACTER_PROFILE=Object.freeze({eletric:'electric',john:'axe',sarck:'teeth',penxy:'dimension',cavaleiro:'guard',zikssy:'fright',elysh:'beam',ddx:'punch',p_ullys:'missile',stally:'punch',endrik:'shark',striker:'shot',sheriff:'shot',barn:'hypnosis',fonior:'soul',sam:'punch',chama:'flame',zuri:'heal',draktar:'slash',daztirry:'oni',mike:'shot',unicorn:'star',nully:'dice',rayyb:'sleep',rayvilin:'petrify',z_zus:'guard',alex:'swarm',karma:'heart',trucc:'dash',vaglar:'book',linx:'slash',zenneriam:'divine'});
 const BASIC_PROFILE=Object.freeze({penxy:'slash',cavaleiro:'slash',zikssy:'slash',zuri:'star',rayyb:'star',rayvilin:'slash',z_zus:'punch'});
 const ABILITY_PROFILE=Object.freeze({dimension:'dimension',fright:'fright',hypnosis:'hypnosis',starGift:'star',guardian:'guard',friendship:'heart',petrify:'petrify',sleepPowder:'sleep',hunt:'slash',deathBook:'book',fullHeal:'heal',healingAttack:'heal',presence:'divine'});
@@ -92,13 +92,13 @@ function centerPoint(){return{x:(globalThis.innerWidth||800)*.5,y:(globalThis.in
 function addNode(node,lifetime=900){if(!ensureLayer())return null;layer.appendChild(node);nodes.add(node);schedule(()=>{node.remove();nodes.delete(node);},lifetime);return node;}
 const svg=(body)=>'<svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+body+'</svg>';
 const SHAPES={
- punch:'<path d="m80 12 9 40 31-26-17 39 43 1-37 20 28 30-41-10-6 42-19-37-32 26 13-40-40-8 38-17-23-31 40 11Z" fill="currentColor"/><circle cx="80" cy="80" r="23" fill="#fff5d6"/><path d="m68 82 13-16 14 17-15 12Z" fill="#704245"/>',
+ punch:'<path d="M44 104C24 93 18 77 23 55c6-26 32-32 53-18 22-15 49-9 58 12 10 23-2 44-19 57l-5 34H56l-6-28-6-8Z" fill="currentColor" stroke="#2b0a40" stroke-width="7" stroke-linejoin="round"/><path d="M45 70c-11-14-25-12-28 2-4 15 9 27 30 34l18-15" fill="currentColor" stroke="#2b0a40" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="m54 113 59-1m-51 16h41M74 51v21m19-20v21m18-18v18" stroke="#9a5d58" stroke-width="5" stroke-linecap="round"/><path d="M44 45c10-10 23-10 31-5m14-1c12-4 24 1 30 12" stroke="#fff8ce" stroke-width="7" stroke-linecap="round"/>',
  slash:'<path d="M18 132C34 68 72 27 144 11 82 44 51 93 18 132Z" fill="currentColor"/><path d="M45 145C59 95 89 62 140 37 101 78 75 114 45 145Z" fill="#fff2dd"/>',
- electric:'<path d="m96 7-52 78 33-7-14 74 57-92-36 9 12-62Z" fill="currentColor" stroke="#f2ffff" stroke-width="4"/><path d="m25 23 8 27-14 16 17 20m88 14 14 12-13 17 11 18" stroke="currentColor" stroke-width="5"/>',
- parry:'<path d="m80 14 48 17-5 53c-3 26-19 46-43 62-24-16-40-36-43-62l-5-53 48-17Z" fill="#13333c" fill-opacity=".8" stroke="currentColor" stroke-width="7"/><path d="m52 78 19 20 39-43" stroke="#fff8df" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>',
+ electric:'<path d="m97 7-54 77 32-5-12 73 57-93-35 9L97 7Z" fill="currentColor" stroke="#25103e" stroke-width="7" stroke-linejoin="round"/><path d="m90 27-32 49 27-5-10 51" stroke="#f5ffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="m24 27 8 25-14 14 15 17m93 14 13 15-12 16 10 17" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>',
+ parry:'<path d="m80 12 50 18-5 54c-3 26-20 48-45 64-25-16-42-38-45-64l-5-54 50-18Z" fill="#9ef7d4" stroke="#26103d" stroke-width="7" stroke-linejoin="round"/><path d="m80 26 35 13-4 44c-2 20-14 37-31 49-18-12-29-29-31-49l-4-44 35-13Z" fill="#479a9f"/><path d="m54 77 17 21 37-42" stroke="#fff8c5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>',
  guard:'<path d="m80 14 48 17-5 53c-3 26-19 46-43 62-24-16-40-36-43-62l-5-53 48-17Z" fill="#243452" fill-opacity=".6" stroke="currentColor" stroke-width="5"/><path d="M80 34v83m-30-50h60" stroke="currentColor" stroke-width="6"/>',
  heal:'<path d="M65 30h30v35h35v30H95v35H65V95H30V65h35V30Z" fill="currentColor" stroke="#e7fff5" stroke-width="3"/><path d="m21 21 4 11 11 4-11 4-4 11-4-11-11-4 11-4Zm117 83 3 9 9 3-9 3-3 9-3-9-9-3 9-3Z" fill="#fff3cf"/>',
- flame:'<path d="M82 11c12 26-7 35 18 52 0-15 9-22 15-23 1 24 21 35 21 65 0 27-23 44-55 44s-57-18-57-44c0-30 21-39 27-65 11 7 12 15 12 27C75 50 65 30 82 11Z" fill="currentColor"/><path d="M84 73c4 19 25 30 20 48-3 12-12 19-24 19-22 0-28-20-19-34 9-12 18-16 23-33Z" fill="#ffe7a4"/>',
+ flame:'<path d="m87 6 9 33 17-12-2 31 24-8-9 35 21 22-31 39-67-6-31-34 25-29-11-20 26 6 5-30 14 12L87 6Z" fill="currentColor" stroke="#3c1045" stroke-width="6" stroke-linejoin="round"/><path d="m83 51 8 25 17-6-11 26 17 13-28 26-34-10-9-22 24-8-2-25 13 9 5-28Z" fill="#fff3a1"/><path d="m41 30-8 17-14-4 10-17Zm82-20 8 17-12 9-5-15Z" fill="#ffb5b7" stroke="#3c1045" stroke-width="4"/>',
  dimension:'<ellipse cx="80" cy="80" rx="40" ry="65" stroke="currentColor" stroke-width="8"/><ellipse cx="80" cy="80" rx="29" ry="53" stroke="#f5c3ff" stroke-width="3" stroke-dasharray="6 9"/><path d="M17 63c33-20 93-21 126 1M16 101c34 19 94 18 129-3" stroke="currentColor" stroke-width="3"/><ellipse cx="80" cy="80" rx="16" ry="43" fill="#201633" fill-opacity=".8"/>',
  axe:'<path d="m51 132 60-111" stroke="#fff0bf" stroke-width="12" stroke-linecap="round"/><path d="m83 24 45 2 19 34-36 24-27-19 13-17Z" fill="currentColor" stroke="#faffed" stroke-width="4"/><path d="m31 116 26 15-11 19-26-15Z" fill="#b8b18b"/>',
  missile:'<path d="m51 94 43-61 26-7 9 25-40 64-38-21Z" fill="#fff2d0" stroke="currentColor" stroke-width="5"/><path d="m50 96-23 1 8 23 20-4m29 0 6 19 15-18-9-18" fill="currentColor"/><path d="m46 119-23 26 35-17Z" fill="#ff9b6d"/>',
@@ -116,16 +116,19 @@ const SHAPES={
  fright:'<path d="M29 100c-4-76 105-76 102 0l-1 37-21-16-17 19-20-19-22 17-21-20V100Z" fill="currentColor" fill-opacity=".9"/><path d="m49 73 16 13m46-13L95 86M70 108l11-8 13 8" stroke="#3b2854" stroke-width="8" stroke-linecap="round"/>',
  divine:'<path d="m80 8 12 44 34-30-17 43 44 15-44 12 17 42-34-27-12 45-12-45-36 27 18-42L7 80l43-15-18-43 36 30L80 8Z" fill="currentColor"/><circle cx="80" cy="80" r="23" fill="#fff9dd" stroke="#dcb4e8" stroke-width="5"/>'
 };
-SHAPES.beam=SHAPES.electric;
+// Desenhos de impacto próprios: contorno e planos de cor seguem a interface cartoon.
+SHAPES.beam='<path d="m81 11 9 45 39-26-25 39 45 10-45 11 25 39-39-25-9 45-12-45-39 25 26-39-45-11 45-10-26-39 39 26 12-45Z" fill="currentColor" stroke="#26103d" stroke-width="5" stroke-linejoin="round"/><circle cx="80" cy="80" r="24" fill="#f6fff1" stroke="#429f9b" stroke-width="5"/><path d="M80 39v15m0 52v15M39 80h15m52 0h15" stroke="#fffef2" stroke-width="5" stroke-linecap="round"/>';
+
 SHAPES.swarm='<g stroke="currentColor" stroke-width="4" fill="#37283f"><path d="m44 18 15 9v18l-15 9-15-9V27Zm69 26 15 9v18l-15 9-15-9V53ZM69 91l15 9v18l-15 9-15-9v-18Z"/></g><g fill="#fff2cf"><ellipse cx="44" cy="34" rx="7" ry="11"/><ellipse cx="113" cy="60" rx="7" ry="11"/><ellipse cx="69" cy="107" rx="7" ry="11"/></g><path d="M22 70 9 91m112 8 21 17M75 37l7-18" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>';
 SHAPES.hypnosis='<path d="M10 81c32-49 105-48 140 0-35 49-108 49-140 0Z" stroke="currentColor" stroke-width="6" fill="#332345" fill-opacity=".7"/><path d="M91 54c-35-18-55 37-21 50 27 11 40-30 16-38-18-6-24 19-10 23" stroke="#f6c6ff" stroke-width="6" stroke-linecap="round"/>';
 SHAPES.soul=SHAPES.fright;SHAPES.support=SHAPES.star;SHAPES.execution=SHAPES.slash;SHAPES.immune=SHAPES.guard;SHAPES.dash=SHAPES.slash;
 function mark(point,profile,critical=false){
  if(!point||!ensureLayer())return;
  const node=document.createElement('div'),size=clamp(point.width*1.4,76,critical?220:180);
- node.className='fx-construct fx-'+profile+(critical?' is-critical':'')+(reduced()?' is-reduced':'');
+ node.className='fx-construct fx-comic fx-'+profile+(critical?' is-critical':'')+(reduced()?' is-reduced':'');
  node.style.cssText='left:'+point.x+'px;top:'+point.y+'px;width:'+size+'px;height:'+size+'px;--fx-color:'+(COLORS[profile]||COLORS.slash);
- node.innerHTML=svg(SHAPES[profile]||SHAPES.slash);addNode(node,reduced()?450:1100);
+ const halo='<path d="m80 8 11 37 28-24-4 36 37-4-29 24 28 23-38-2 6 38-29-25-12 39-11-38-30 25 7-38-37 3 28-25-29-23 37 3-5-37 30 25 11-38Z" fill="currentColor"/>';
+ node.innerHTML='<span class="fx-impact-halo">'+svg(halo)+'</span><span class="fx-impact-art">'+svg(SHAPES[profile]||SHAPES.slash)+'</span><span class="fx-impact-splinters">'+[-105,-30,35,115,175].map(a=>'<i style="--spoke:'+a+'deg"></i>').join('')+'</span>';addNode(node,reduced()?450:1100);
  if(!reduced())burst(point,profile,critical?22:14);
  pulse(point.element,profile);
 }
@@ -136,15 +139,19 @@ function pulse(element,profile){
 }
 function projectile(source,target,profile){
  if(reduced()||!source||!target||source===target||!ensureLayer())return;
- const dx=target.x-source.x,dy=target.y-source.y;if(Math.hypot(dx,dy)<30)return;
+ const dx=target.x-source.x,dy=target.y-source.y,distance=Math.hypot(dx,dy);if(distance<30)return;
+ const charge=document.createElement('div');charge.className='fx-source-charge fx-source-'+profile;charge.style.cssText='left:'+source.x+'px;top:'+source.y+'px;--fx-color:'+(COLORS[profile]||COLORS.slash);addNode(charge,420);
+ if(['punch','slash','dash','flame','teeth'].includes(profile)){
+  const streak=document.createElement('div');streak.className='fx-direction-streak fx-streak-'+profile;streak.style.cssText='left:'+source.x+'px;top:'+source.y+'px;width:'+Math.max(20,distance-22)+'px;--fx-color:'+(COLORS[profile]||COLORS.slash)+';--flight-angle:'+(Math.atan2(dy,dx)*180/Math.PI)+'deg';streak.innerHTML='<i></i><i></i><i></i>';addNode(streak,400);return;
+ }
  if(['electric','beam','hypnosis'].includes(profile)){
   const p=26,left=Math.min(source.x,target.x)-p,top=Math.min(source.y,target.y)-p,w=Math.abs(dx)+p*2,h=Math.abs(dy)+p*2,sx=source.x-left,sy=source.y-top,tx=target.x-left,ty=target.y-top;
   const path=document.createElement('div');path.className='fx-link fx-link-'+profile;path.style.cssText='left:'+left+'px;top:'+top+'px;width:'+w+'px;height:'+h+'px;--fx-color:'+COLORS[profile];
   const d=profile==='electric'?'M'+sx+' '+sy+' L'+(sx+dx*.3-12)+' '+(sy+dy*.3+9)+' L'+(sx+dx*.52+14)+' '+(sy+dy*.52-12)+' L'+(sx+dx*.74-9)+' '+(sy+dy*.74+8)+' L'+tx+' '+ty:'M'+sx+' '+sy+' Q'+(sx+dx*.5+30)+' '+(sy+dy*.5-30)+' '+tx+' '+ty;
-  path.innerHTML='<svg viewBox="0 0 '+w+' '+h+'"><path d="'+d+'" pathLength="1"/></svg>';addNode(path,550);return;
+  path.innerHTML='<svg viewBox="0 0 '+w+' '+h+'"><path class="fx-link-ink" d="'+d+'" pathLength="1"/><path d="'+d+'" pathLength="1"/><path class="fx-link-core" d="'+d+'" pathLength="1"/></svg>';addNode(path,550);return;
  }
  if(!['shot','missile','axe','swarm','heart','star','shark'].includes(profile))return;
- const node=document.createElement('div');node.className='fx-projectile fx-projectile-'+profile;node.style.cssText='left:'+source.x+'px;top:'+source.y+'px;--fx-color:'+COLORS[profile]+';--travel-x:'+dx+'px;--travel-y:'+dy+'px;--flight-angle:'+(Math.atan2(dy,dx)*180/Math.PI)+'deg';node.innerHTML=svg(SHAPES[profile]||SHAPES.star);addNode(node,520);
+ const node=document.createElement('div');node.className='fx-projectile fx-projectile-'+profile;node.style.cssText='left:'+source.x+'px;top:'+source.y+'px;--fx-color:'+COLORS[profile]+';--travel-x:'+dx+'px;--travel-y:'+dy+'px;--flight-angle:'+(Math.atan2(dy,dx)*180/Math.PI)+'deg';node.innerHTML='<span class="fx-projectile-tail"></span>'+svg(SHAPES[profile]||SHAPES.star);addNode(node,520);
 }
 function burst(point,profile,count){
  if(reduced()||!ctx2d)return;const color=COLORS[profile]||COLORS.slash;

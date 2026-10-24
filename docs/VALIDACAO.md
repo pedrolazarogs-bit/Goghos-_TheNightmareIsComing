@@ -1,3 +1,21 @@
+# Validação — v0.29.0
+
+`npm test`: **354 testes aprovados**, incluindo **380 partidas completas simuladas**. As quatro verificações novas cobrem redesenho da mão cheia, recuperação e avanço sem chamadas mutantes ou perda de estado, além da integridade dos dez SVGs de ações. Os testes existentes continuam conferindo motor, catálogo, atributos, regras e cartas anteriores.
+
+Passaram **131 cenários integrados de navegador** em 1440×900, 1280×720, 390×844, 360×740 e 844×390: 75 fluxos de navegação/catálogos/loja, dez geometrias de formação, 18 decisões e habilidades, oito efeitos com som, quatro resultados dez conferências finais de arte/enquadramento e seis verificações finais de ícones, navegação do resultado e preferências dentro da batalha. Também passaram 11 verificações isoladas de renderização e limpeza dos perfis de efeitos.
+
+A revisão visual abrange seleção sem controles extras, catálogo dos 32 personagens, treinos, Apoios, arena, mão, ficha, recuperação de 2 Épicos/3 Raros, avanço de Suportes, pré-batalha, preferências, loja, cosméticos, crônicas e resultados. A mão cheia foi resolvida tanto por troca quanto por descarte. Busca, acordeões, foco, Escape, botões e progresso após recarregar permaneceram funcionais. Preços e recompensas continuam iguais e não se repetem por redesenhar a tela.
+
+Os testes de formação verificaram 3+2 e a quarta vaga de Recruta, sem sobreposição entre personagens, Daly Mãe e Suportes, mantendo rolagem e tamanho das cartas. As larguras da frente ficaram em aproximadamente 133, 124, 105, 100 e 127 px nas cinco resoluções. Em telas baixas o campo continua rolável. A mão usa seu espaço reservado e as artes agora mantêm orientação vertical. O rótulo da frente adversária e a Daly Mãe ficaram separados na revisão final.
+
+Os efeitos apresentam somente eventos já resolvidos, sem alterar o estado. Planejamento, sequência, durações e probabilidades do motor foram preservados. Foram verificados golpe real, área, feixe, fogo, míssil, defesa, pausa, movimento reduzido e limpeza. Os cenários preparados e dados controlados são ferramentas de reprodução da QA e não fazem parte da partida normal.
+
+Nenhum erro JavaScript, recurso ausente ou transbordamento horizontal nos fluxos aprovados. Os dez arquivos do motor e as bases anteriores das cartas continuam íntegros; as fontes de dados só mudaram na identificação da versão. A navegação foi validada via HTTP local, com as limitações de `file://` já descritas abaixo.
+
+[Vídeo do jogo, sem áudio](previews/jogo-v0.29.0.mp4) · [Arena](previews/arena-v0.29.0-desktop.png) · [Celular](previews/arena-v0.29.0-celular.png) · [Seleção](previews/selecao-v0.29.0-desktop.png) · [Mão cheia](previews/mao-cheia-v0.29.0-celular.png) · [Recuperação](previews/recuperacao-v0.29.0-desktop.png) · [Loja](previews/loja-v0.29.0-desktop.png)
+
+---
+
 # Validação — v0.28.0
 
 `npm test`: **350 testes aprovados**, incluindo **380 partidas completas simuladas**. As regressões continuam comparando motor, atributos, Apoios, montes e configuração com a versão anterior à renovação. Os dez arquivos do motor permanecem idênticos; as fontes de dados permitem somente a identificação da versão. As 71 imagens de bases e limpezas anteriores também permanecem intactas.
