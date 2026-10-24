@@ -1,4 +1,4 @@
-# Interface viva — v0.27.0
+# Interface viva — v0.27.1
 
 A renovação usa as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
 
@@ -6,7 +6,11 @@ A renovação usa as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valo
 
 A primeira abertura prepara quatro artes essenciais e apresenta o portal GOGHOS. O progresso corresponde às imagens carregadas. **Pular abertura** e Escape levam ao menu; depois, **Rever abertura** permite retornar. O carregamento tem uma saída mesmo se um recurso falhar. As demais artes são carregadas conforme as telas são abertas.
 
-O menu usa as ilustrações separadas de Sam e Chama, o cenário cósmico, o verso de carta e a estrela recebidos. Jogar abre a seleção alternada dos quatro Comuns. Personagens abre o catálogo pesquisável, e Treinar e testar mantém os laboratórios existentes.
+O lobby deixa Sam em destaque, com perfil e moedas no topo, navegação lateral para Loja, Personagens e Crônicas e um botão Jogar junto do modo escolhido. O destaque é uma apresentação do personagem; não define a equipe inicial.
+
+O cartão de modo abre uma galeria: **Arena** entra na seleção alternada dos quatro Comuns; **Treino de campeões** abre os 31 laboratórios; **Mesa de Apoios** abre os 17 testes; **Invocação primordial** prepara o laboratório de Zeenneriam. A escolha permanece durante a sessão, voltando para Arena ao recarregar. Nova partida após um resultado sempre inicia a seleção normal. Escape fecha a galeria.
+
+A organização usa padrões gerais conhecidos de interfaces de jogos, conforme a referência solicitada de Brawl Stars. As páginas oficiais não puderam ser inspecionadas neste ambiente (HTTP 403/falha de conexão). Nenhum recurso ou tela desse jogo foi copiado; a arte, a linguagem visual e os destinos são próprios de GOGHOS.
 
 ## Arena e cartas
 
@@ -26,6 +30,8 @@ O áudio é produzido localmente por Web Audio; não depende de música ou servi
 
 ## Santuário, moedas e baús
 
+A **Loja da noite** apresenta o baú, categorias de Ambientes, Molduras e Títulos, prévias e o estado de cada visual. Conhecer um item só abre seus detalhes. Itens ainda não obtidos são descobertos nos baús; itens da coleção podem ser equipados.
+
 A primeira visita recebe 180 moedas. Cada baú custa 90 e oferece um ambiente, uma moldura ou um título de perfil. A abertura dá prioridade a um visual ainda não obtido; depois de completar a coleção, uma repetição devolve 30 moedas. A descoberta precisa ser guardada ou equipada antes de outra abertura.
 
 Cada partida normal concluída concede 50 moedas uma única vez, inclusive derrota ou empate. Laboratórios, abandono e novas renderizações do resultado não concedem moedas. O progresso fica salvo localmente. Se o navegador impedir o armazenamento, funciona durante a sessão.
@@ -38,6 +44,6 @@ As seis cenas usam os fundos e as ilustrações dos kits como ambientação narr
 
 ## Teclado e leitura
 
-Botões e cartas selecionáveis têm foco visível. Enter e Espaço selecionam cartas; Escape fecha a ficha ou pula a abertura. Diálogos de leitura e abertura mantêm o foco entre seus controles. Ícones têm nomes acessíveis e as mensagens mostram resultados mesmo com som ou movimento desligados.
+Botões e cartas selecionáveis têm foco visível. Enter e Espaço selecionam cartas; Escape fecha a ficha, o seletor de modos ou os detalhes da loja, e também pula a abertura. Os detalhes devolvem o foco ao cartão correspondente. Diálogos de leitura e abertura mantêm o foco entre seus controles. Ícones têm nomes acessíveis e as mensagens mostram resultados mesmo com som ou movimento desligados.
 
 [Validação](VALIDACAO.md) · [Regras preservadas](REGRAS.md) · [Artes recebidas](ARTES.md)

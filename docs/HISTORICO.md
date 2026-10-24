@@ -188,3 +188,14 @@ Adiciona Santuário local com moedas, baús cosméticos, ambientes, molduras, t�
 O motor, os valores, as probabilidades e os arquivos de cartas da v0.26.2 foram preservados. Os kits foram inventariados com hashes; números em referências antigas não foram aplicados como balanceamento.
 
 Validação: 334 testes, 380 partidas simuladas, 109 cenários integrados de interface e 14 cenários isolados dos módulos. Fontes do motor e balanceamento anterior comparados integralmente.
+
+
+## v0.27.1 — lobby, loja e escolha de modos
+
+Reorganiza o menu com campeão em destaque, perfil, carteira, atalhos laterais e modo ao lado de Jogar. A galeria apresenta Arena, Treino de campeões, Mesa de Apoios e Invocação primordial como acessos às telas existentes. A Loja da noite ganha baú em destaque, filtros e prévias dos 12 cosméticos, com indicação de posse e equipamento.
+
+A inspiração usa padrões gerais conhecidos de lobby/loja/seleção de modos solicitados pelo criador. O acesso às páginas oficiais de Brawl Stars foi bloqueado pelo ambiente; não houve inspeção da versão atual nem reutilização de recursos externos. A identidade e as ilustrações continuam sendo de GOGHOS.
+
+Nenhuma mudança no motor, balanceamento, preços ou recompensas. O progresso anterior continua carregando. As bases das cartas permanecem intactas.
+
+Validação: 340 testes, 380 partidas simuladas e 97 cenários de navegador em computador, celular e paisagem.

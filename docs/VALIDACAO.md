@@ -1,3 +1,17 @@
+# Validação — v0.27.1
+
+`npm test`: **340 testes aprovados**, incluindo **380 partidas completas simuladas**. Os seis testes novos comparam a economia e os cosméticos com o commit publicado da v0.27.0, conferem os quatro destinos de modo e a resolução das cenas em HTTP, subpastas e URLs locais. Os testes de invariantes confirmam que motor, balanceamento, cartas e artes anteriores permanecem intactos.
+
+No Chromium via HTTP local, passaram **97 cenários** em 1440×1000, 390×844 e 844×390. Cobrem lobby, quatro modos, seleção alternada de quatro Comuns, início normal com token sem recompensa antecipada, laboratórios sem moedas, 12 cosméticos, categorias e detalhes, baú de 90 sem cobrança duplicada, equipamento, progresso após recarregar e preferências. Sem erros JavaScript, recursos ausentes, controles sem nome ou transbordamento horizontal nesses fluxos. Os cenários adicionais exercitam os 31 laboratórios, os 17 Apoios e teclado/foco, incluindo Escape nos detalhes, retorno da loja à vitrine, resultado com recompensa única e Nova partida após escolher outro modo.
+
+A loja preserva a chave de armazenamento e os dados anteriores: 180 moedas iniciais, baú de 90 e 50 por partida concluída. Nenhum acesso a laboratório cria um token de recompensa. Os preços e metadados foram comparados com uma fixture extraída do commit publicado, sem usar a fixture para alimentar o jogo.
+
+As tentativas de consultar Supercell, loja oficial e páginas de aplicativos de Brawl Stars retornaram HTTP 403 ou falha de túnel no navegador. A referência aplicada é de padrões gerais conhecidos; não representa uma inspeção da interface atual. Nenhum arquivo externo foi incorporado.
+
+[Lobby](previews/menu-v0.27.1-desktop.png) · [Celular](previews/menu-v0.27.1-celular.png) · [Modos](previews/modos-v0.27.1-desktop.png) · [Loja](previews/loja-v0.27.1-desktop.png)
+
+---
+
 # Validação — v0.27.0
 
 `npm test`: **334 testes aprovados**, incluindo **380 partidas completas simuladas**. As regras anteriores permanecem cobertas. Os novos testes verificam planejamento de efeitos/sons, eventos e reações em sequência, ausência de mutação da batalha, preferências, ciclo dos baús, recompensas idempotentes, armazenamento indisponível e crônicas.

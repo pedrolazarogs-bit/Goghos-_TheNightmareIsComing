@@ -1,0 +1,229 @@
+{
+  "sourceRevision": "6978bf8",
+  "price": 90,
+  "matchReward": 50,
+  "storageKey": "goghos.sanctuary.v1",
+  "cosmetics": [
+    {
+      "id": "frame-ink",
+      "kind": "frame",
+      "name": "Tinta da noite",
+      "color": "#c7b7ed",
+      "base": true,
+      "glyph": "✦",
+      "desc": "Um traço de tinta entre as estrelas."
+    },
+    {
+      "id": "frame-moon",
+      "kind": "frame",
+      "name": "Prata lunar",
+      "color": "#a4e8ff",
+      "glyph": "☾",
+      "desc": "O brilho frio de uma lua distante."
+    },
+    {
+      "id": "frame-scarlet",
+      "kind": "frame",
+      "name": "Marca rubra",
+      "color": "#ff8caa",
+      "glyph": "✧",
+      "desc": "Uma assinatura que a noite reconhece."
+    },
+    {
+      "id": "frame-prism",
+      "kind": "frame",
+      "name": "Luz prismática",
+      "color": "#f2d89a",
+      "glyph": "◈",
+      "desc": "Todas as cores cabem nesta pequena luz."
+    },
+    {
+      "id": "mood-void",
+      "kind": "mood",
+      "name": "Fenda cósmica",
+      "color": "#b49cff",
+      "base": true,
+      "glyph": "◌",
+      "background": "cosmic-rift",
+      "desc": "Uma janela aberta para o impossível."
+    },
+    {
+      "id": "mood-grove",
+      "kind": "mood",
+      "name": "Vale de cristal",
+      "color": "#8be2d0",
+      "glyph": "♧",
+      "background": "crystal-valley",
+      "desc": "Até o silêncio tem cor neste lugar."
+    },
+    {
+      "id": "mood-ember",
+      "kind": "mood",
+      "name": "Árvore carmesim",
+      "color": "#ff9e9b",
+      "glyph": "❋",
+      "background": "red-tree-field",
+      "desc": "Folhas vermelhas sob um céu sem pressa."
+    },
+    {
+      "id": "mood-aurora",
+      "kind": "mood",
+      "name": "Aurora arcana",
+      "color": "#96caff",
+      "glyph": "✺",
+      "background": "cosmic-rift",
+      "desc": "A noite também sabe amanhecer."
+    },
+    {
+      "id": "title-watch",
+      "kind": "title",
+      "name": "Vigilante",
+      "color": "#c7b7ed",
+      "base": true,
+      "glyph": "◇",
+      "desc": "Há sempre mais uma história para descobrir."
+    },
+    {
+      "id": "title-crystal",
+      "kind": "title",
+      "name": "Guardião de cristais",
+      "color": "#8be2d0",
+      "glyph": "◈",
+      "desc": "Uma luz pequena. Uma promessa enorme."
+    },
+    {
+      "id": "title-star",
+      "kind": "title",
+      "name": "Dente de estrelas",
+      "color": "#f2d89a",
+      "glyph": "✦",
+      "desc": "Um sorriso que atravessa a escuridão."
+    },
+    {
+      "id": "title-rift",
+      "kind": "title",
+      "name": "Além da fenda",
+      "color": "#ff8caa",
+      "glyph": "◌",
+      "desc": "O horizonte é só o começo."
+    }
+  ],
+  "initial": {
+    "schema": 1,
+    "coins": 180,
+    "owned": [
+      "frame-ink",
+      "mood-void",
+      "title-watch"
+    ],
+    "equipped": {
+      "frame": "frame-ink",
+      "mood": "mood-void",
+      "title": "title-watch"
+    },
+    "issued": [],
+    "claimed": [],
+    "matches": 0,
+    "opened": 0
+  },
+  "firstChest": {
+    "ok": true,
+    "reward": {
+      "id": "frame-moon",
+      "kind": "frame",
+      "name": "Prata lunar",
+      "color": "#a4e8ff",
+      "glyph": "☾",
+      "desc": "O brilho frio de uma lua distante."
+    },
+    "state": {
+      "schema": 1,
+      "coins": 90,
+      "owned": [
+        "frame-ink",
+        "mood-void",
+        "title-watch",
+        "frame-moon"
+      ],
+      "equipped": {
+        "frame": "frame-ink",
+        "mood": "mood-void",
+        "title": "title-watch"
+      },
+      "issued": [],
+      "claimed": [],
+      "matches": 0,
+      "opened": 1
+    }
+  },
+  "reopenBlocked": true,
+  "afterEquip": {
+    "schema": 1,
+    "coins": 90,
+    "owned": [
+      "frame-ink",
+      "mood-void",
+      "title-watch",
+      "frame-moon"
+    ],
+    "equipped": {
+      "frame": "frame-moon",
+      "mood": "mood-void",
+      "title": "title-watch"
+    },
+    "issued": [],
+    "claimed": [],
+    "matches": 0,
+    "opened": 1
+  },
+  "reward": {
+    "awarded": true,
+    "coins": 50,
+    "balance": 140,
+    "state": {
+      "schema": 1,
+      "coins": 140,
+      "owned": [
+        "frame-ink",
+        "mood-void",
+        "title-watch",
+        "frame-moon"
+      ],
+      "equipped": {
+        "frame": "frame-moon",
+        "mood": "mood-void",
+        "title": "title-watch"
+      },
+      "issued": [],
+      "claimed": [
+        "token-1"
+      ],
+      "matches": 1,
+      "opened": 1
+    }
+  },
+  "replayedAfterReload": {
+    "awarded": false,
+    "state": {
+      "schema": 1,
+      "coins": 140,
+      "owned": [
+        "frame-ink",
+        "mood-void",
+        "title-watch",
+        "frame-moon"
+      ],
+      "equipped": {
+        "frame": "frame-moon",
+        "mood": "mood-void",
+        "title": "title-watch"
+      },
+      "issued": [],
+      "claimed": [
+        "token-1"
+      ],
+      "matches": 1,
+      "opened": 1
+    }
+  }
+}
