@@ -141,7 +141,7 @@ G.resolveAttackResponses=(s,a,t,hit,options={})=>{
  if(landed&&actual?.hp<=0&&!actual.oniActive){const response=shark(s,actual);if(response)responses.push(response);}
  for(const friend of s.units.filter(k=>alive(k)&&ability(k)==='friendship'&&k.friendUid===t.uid&&!G.isReactionBlocked(k)&&same(k,a))){
   if(!alive(a))break;
-  const response=G.officialApplyHit(s,friend,a,friend.damage,{ability:'Melhor amigo',kind:'reaction'});response.sourceName=friend.name;response.sourceUid=friend.uid;response.ability='Melhor amigo';responses.push(response,...(response.responses||[]));
+  const critical=G.criticalDamage(s,friend,friend.damage),response=G.officialApplyHit(s,friend,a,critical.damage,{ability:'Melhor amigo',kind:'reaction'});if(critical.roll)response.critical=critical;response.sourceName=friend.name;response.sourceUid=friend.uid;response.ability='Melhor amigo';responses.push(response,...(response.responses||[]));
   s.log.push(friend.name+' revidou pelo melhor amigo '+t.name);
  }
  return responses;
@@ -171,7 +171,8 @@ G.officialAfterAction=s=>{
  G.settleCasualties(s);G.regenerateMageMana(s);G.reorderCurrentOrder(s);
 };
 G.hasTimedEffects=s=>!!(s.burns?.length||s.units.some(t=>alive(t)&&(t.oniActive||t.paralysis)));
-G.hasHittableTarget=(s,a)=>G.attackTargets(s,a).some(t=>G.hasClass(a,'MAGO')||G.isReactionBlocked(t)||ability(t)!=='fadingDodge'&&!G.hasClass(t,'ASSASSIN')||ability(t)==='fadingDodge'||t.speed-a.speed<6||['duelist','diceExecution'].includes(ability(a))||ability(a)==='petrify'&&t.petrifiedBy===a.uid);
+G.hittableTargets=(s,a)=>G.attackTargets(s,a).filter(t=>G.hasClass(a,'MAGO')||G.isReactionBlocked(t)||ability(t)!=='fadingDodge'&&!G.hasClass(t,'ASSASSIN')||ability(t)==='fadingDodge'||t.speed-a.speed<6||['duelist','diceExecution'].includes(ability(a))||ability(a)==='petrify'&&t.petrifiedBy===a.uid);
+G.hasHittableTarget=(s,a)=>G.hittableTargets(s,a).length>0;
 G.hasMeaningfulAction=(s,a)=>{
  if(a.oniActive||a.sleep||a.paralysis||a.pinnedBy||a.pinning)return true;
  if(G.isActionLocked(a))return false;
@@ -190,7 +191,7 @@ G.hasActionTarget=(s,a)=>!!(alive(unit(s,a.hypnosisTarget))||oldHasTarget(s,a)||
 G.performStatusTurn=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor;
  if(!G.isActionLocked(a))return fail('O personagem pode agir normalmente.');
- if(a.sleep){if(a.sleepCheckRound===s.round)return fail('O teste de sono desta vez já foi feito.');a.sleepCheckRound=s.round;const roll=G.rollDie?G.rollDie(s,{side:a.team,best:1,reason:'Acordar'}):s.roll(6);s.log.push(a.name+' tentou acordar · d6='+roll);if(roll<=2){a.sleep=false;return{ok:true,awake:true,spent:false};}}
+ if(a.sleep){if(a.sleepCheckTurn===s.turn)return fail('O teste de sono desta vez já foi feito.');a.sleepCheckRound=s.round;a.sleepCheckTurn=s.turn;const roll=G.rollDie?G.rollDie(s,{side:a.team,best:1,reason:'Acordar'}):s.roll(6);s.log.push(a.name+' tentou acordar · d6='+roll);if(roll<=2){a.sleep=false;return{ok:true,awake:true,spent:false};}}
  G.completeAction(s,a);G.recordBattleEvent(s,{type:'status-skip',actorUid:a.uid,actorName:a.name,hits:[]});s.log.push(a.name+' perdeu a ação · '+G.officialStatus(s,a));G.finishResolvedAction(s);return{ok:true,spent:true};
 };
 G.performFullHeal=(s,uid)=>{
@@ -220,7 +221,7 @@ G.officialStatus=(s,u)=>{
  for(const b of s.burns.filter(b=>b.targetUid===u.uid))states.push('Fogo: '+b.damage+' × '+b.remaining);
  return states.join(' · ');
 };
-const activeAttacks=['missile','paralyzingKick','duelist','hypnosis','punchCombo','flames','hunt','diceExecution','petrify','swarm'];
+const activeAttacks=['missile','paralyzingKick','duelist','hypnosis','punchCombo','flames','hunt','diceExecution','petrify','swarm','maxHpStrike'];
 G.usesOfficialAttack=a=>activeAttacks.includes(ability(a));
 G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,type=ability(a),t=unit(s,targetUid),dSide=typeof targetUid==='string'&&targetUid.startsWith('daly_')?targetUid.slice(5):null;
@@ -263,9 +264,9 @@ G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  }else if(type==='petrify'&&t.petrifiedBy===a.uid){strike(t,0,{instant:true,direct:true,ability:'Execução da petrificação'});}
  else{
   const neighbors=type==='missile'?s.units.filter(x=>alive(x)&&x.team===t.team&&x.row===t.row&&same(a,x)).sort((a,b)=>a.slot-b.slot):[],index=neighbors.indexOf(t),adjacent=[neighbors[index-1],neighbors[index+1]].filter(Boolean);
-  const critical=G.criticalDamage(s,a,G.attackBaseDamage(a,t)*(type==='hunt'&&a.huntUid===t.uid&&!G.isPresence(t)?3:1)+extra);e.critical=critical;
+  const critical=G.criticalDamage(s,a,(type==='maxHpStrike'&&!G.isPresence(t)?t.maxHp*.3:0)+G.attackBaseDamage(a,t)*(type==='hunt'&&a.huntUid===t.uid&&!G.isPresence(t)?3:1)+extra);e.critical=critical;
   const hit=strike(t,critical.damage);
-  if(type==='flames'&&G.hitLanded(hit)&&alive(t))addBurn(s,a,t,65,5,'attack');
+  if(type==='flames'&&G.hitLanded(hit)&&alive(t))addBurn(s,a,t,a.burnDamage??65,5,'attack');
   if(type==='missile'&&G.hitLanded(hit)&&(hit.amount??hit.damage)>0){const splash=G.roundUpToFive((hit.amount??hit.damage)*.2);for(const target of adjacent)if(alive(target))strike(target,splash,{area:true,ability:'Explosão do míssil'});s.log.push('Míssil · dano recebido pelo principal '+(hit.amount??hit.damage)+' · vizinhos recebem '+splash+' antes das defesas');}
  }
  e.damage=e.hits.reduce((n,h)=>n+h.damage,0);if(e.reactions.length)e.reaction=e.reactions[0];G.finishResolvedAction(s);return{ok:true,damage:e.damage,hits:e.hits,reactions:e.reactions};
@@ -279,6 +280,7 @@ G.officialPreviewDamage=(s,a,mana,target,mode)=>{
  if(type==='hunt'&&target?.uid===a.huntUid&&!G.isPresence(target))raw+=a.damage*2;
  if(type==='duelist')raw=target&&rank(target)<=rank(a)?0:200;
  if(type==='hypnosis')raw=90;
+ if(type==='maxHpStrike'&&target&&!G.isPresence(target))raw+=target.maxHp*.3;
  raw=G.roundUpToFive(raw);return target?G.damageInfo(target,raw,{ignoreMainAbilities:G.isPresence(a),kind:type==='hypnosis'?'hypnosis':undefined}).damage:raw;
 };
 const oldImpacts=G.eventImpacts;

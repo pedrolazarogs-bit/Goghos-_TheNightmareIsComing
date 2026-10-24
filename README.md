@@ -1,8 +1,8 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.25.0** aplica as cartas e habilidades reconfirmadas de **Elysh, Stally, Mike, Alex e Cavaleiro**. A seleção volta a **dois Comuns escolhidos por equipe**, sem Raros automáticos. Elysh também cura da retaguarda na sua vez. As outras cartas dos kits ficam organizadas para conferência por personagem, sem trocar habilidades ainda não confirmadas. [Valores e confirmações](docs/BALANCEAMENTO_MANUAL.md).
+Protótipo jogável de cartas e batalha por turnos. A versão **0.26.0 aplica todas as 29 cartas únicas dos kits de balanceamento**, com os novos valores, classes, raridades e tributos. Striker recebe o nome correto, Sam usa o ícone de Fighter e Linx entra com ataque de 30% da Vida máxima do alvo. [Tabela completa dos personagens atualizados](docs/BALANCEAMENTO_MANUAL.md).
 
-O jogo mantém os 17 Apoios oficiais, a invocação de Zeenneriam pelos três Fragmentos Primordiais e a interface cartoon. São 30 personagens de raridade e um Deus separado; Petra aguarda sua mecânica.
+O jogo mantém os 17 Apoios oficiais, a invocação de Zeenneriam pelos três Fragmentos Primordiais e a interface cartoon. São **31 personagens de raridade e um Deus separado**; Petra aguarda sua mecânica. A seleção continua com dois Comuns por equipe, sem Raros automáticos. Elysh também cura da retaguarda na sua vez.
 
 ## Jogar e desenvolver
 
@@ -10,7 +10,7 @@ Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou i
 
 Em **Jogar**, aparecem Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
-No menu **Treinar e testar**, **Personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. O menu **Testar cartas de Apoio** inclui os 17 efeitos; **Invocação de Zeenneriam** prepara os três fragmentos para a invocação manual. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
+No menu **Treinar e testar**, **Personagens** oferece uma formação para cada um dos 31 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. O menu **Testar cartas de Apoio** inclui os 17 efeitos; **Invocação de Zeenneriam** prepara os três fragmentos para a invocação manual. Os atalhos **Testar Sark** e **Testar Elétrica e John** continuam disponíveis.
 
 Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md). A [revisão de balanceamento](docs/BALANCEAMENTO.md) lista todos os valores anteriores, atuais e justificativas.
 
@@ -39,8 +39,10 @@ npm test
 
 A partida pode ser concluída contra a IA. Há seis montes de personagens, monte principal, mão de cinco cartas, cartas de Apoio, pré-batalha, habilidades individuais, recuperação sem reiniciar a velocidade e vitória ao eliminar a Daly Mãe adversária. Vida, dano e cura são arredondados para cima em múltiplos de 5, com a exceção confirmada de Morto Vivo voltando com 1 de Vida. O contador da Daly Mãe perde uma vida por ataque.
 
-Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 30 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
+Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades dos 31 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
 
 ![Arena cartoon com turno, alvos e resultados em destaque](docs/previews/arena-v0.25.0-desktop.png)
 
 [Seleção no celular](docs/previews/selecao-v0.25.0-celular.png) · [Cura da retaguarda](docs/previews/cura-v0.25.0-desktop.png) · [Guia da interface](docs/UI.md)
+
+[Sam com ícone Fighter](docs/previews/sam-v0.26.0-desktop.png) · [Linx em batalha](docs/previews/linx-v0.26.0-desktop.png) · [Striker corrigido](docs/previews/striker-v0.26.0-celular.png)

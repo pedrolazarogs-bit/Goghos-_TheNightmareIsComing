@@ -1,6 +1,6 @@
-# Zeenneriam e a invocação primordial — v0.23.0
+# Zeenneriam e a invocação primordial — v0.26.0
 
-Zeenneriam é um **Deus sem raridade**. Seu cadastro fica separado dos 30 personagens dos seis montes. A arte imprime “ZENEERIAN”; ela foi preservada literalmente. A carta de referência, a base sem números e o banner do `KitZenneriam.zip` estão guardados com hashes em `assets/characters/zenneriam_manifest.json`.
+Zeenneriam é um **Deus sem raridade**. Seu cadastro fica separado dos 31 personagens dos seis montes. A arte imprime “ZENEERIAN”; ela foi preservada literalmente. A carta de referência, a base sem números e o banner do `KitZenneriam.zip` estão guardados com hashes em `assets/characters/zenneriam_manifest.json`.
 
 | Vida | Dano básico | Velocidade | Fôlego | Habilidade | Tributos |
 | ---: | ---: | ---: | ---: | --- | --- |
@@ -34,11 +34,11 @@ As novas regras de Tanque e Destroyer valem para **todos os personagens dessas c
 | --- | --- |
 | Mago | Mana inicial/máxima 3; recupera +1 por ação concluída. Cada ponto gasto soma 10 de dano, parâmetro ainda provisório. |
 | Assassino | Esquiva se for mais rápido: d6 até a diferença de velocidade. Mago ignora esse teste. |
-| Fighter | Parry; John e Zeenneriam defendem com 1 ou 2 no d6. Stally defende com 1–5 e Alex com 1. Os cinco Fighters ainda não revisados aguardam a reconfirmação das novas cartas. |
-| Tanque | Resistência natural de 10% a dano de ataques, incluindo revides que sejam ataques. Não reduz queimadura periódica, livro, dano do machado, hipnose ou execução. Combina com outras reduções antes do arredondamento. Cavaleiro foi confirmado sem esse tributo natural na v0.25.0; sua armadura própria continua em 80%. |
+| Fighter | Parry individual: John e MAX 1–2; Stally/Sam 1–5; DD-X/Daztirry 1–3; Rayvilin 1–2; Alex/Linx 1. |
+| Tanque | MAX tem resistência natural de 10% a dano de ataques. Z-Zus usa 20% na carta atual; Cavaleiro não tem esse tributo, mantendo sua armadura própria de 80%. Não reduz queimadura periódica, livro, dano do machado, hipnose ou execução. |
 | Destroyer | Um d6 por ataque: 1 ou 2 concede +25% de dano. Não multiplica execuções, dano fixo periódico nem vidas da Daly Mãe. No míssil, o crítico vale no alvo principal e o dano lateral deriva dos 20% desse impacto, sem nova rolagem. |
 | Suporte | Transita entre retaguarda e frente, respeitando vagas e mantendo pelo menos um defensor na frente. |
 
 Zeenneriam reúne todos os seis. Seus números iniciais vêm da arte e não usam as faixas de raridade. O menu **Invocação de Zeenneriam** prepara os três fragmentos na mão para testar a invocação manualmente; o Deus começa fora da arena.
 
-A [conferência de classes da v0.24.1](CLASSES.md) corrige Z-Zus para Tank e registra os valores de Parry pendentes, sem rebalancear atributos.
+A [conferência atual de classes](CLASSES.md) registra as 29 cartas aplicadas, as mudanças de classe e todos os Parrys. Presence também ignora o componente percentual de Prototype de Linx; seu ataque básico impresso é um traço.

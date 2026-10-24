@@ -1,7 +1,7 @@
 // IA simples (não usa a troca voluntária de Suportes nesta versão): ataca o adversário vivo da linha de frente com menor Vida atual (empate: menor slot); se não houver, a Daly Mãe exposta. Usa as mesmas regras do jogador.
 (function(G){
 function chooseTarget(s,actor){
-  return G.attackTargets(s,actor).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0]||null;
+  const allowed=G.attackTargets(s,actor),hittable=G.hittableTargets?.(s,actor)||allowed;return (hittable.length?hittable:allowed).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0]||null;
 }
 // Mago: gasta o mínimo de mana que elimina o alvo; se não der, gasta 1 (se tiver).
 function manaPlan(s,a,t){if(!G.hasClass(a,'MAGO')||a.mana<=0)return 0;const per=G.CONFIG.manaDamagePerPoint,need=Math.max(0,Math.ceil((t.hp-a.damage)/per));return need<=a.mana?need:1;}
@@ -25,6 +25,7 @@ function takeTurn(s,actor){
     // Acordar pode liberar uma escolha de habilidade antes do ataque, como uma nova hipnose.
     const ready=G.getNextActor(s);if(s.result)return{ok:true};
     if(s.abilityChoices.length||ready?.uid!==actor.uid)return{ok:true,pending:true};
+    if(G.isActionLocked(actor))return G.performStatusTurn(s,actor.uid);
   }
   if(actor.pinnedBy)return G.performPinnedTurn(s,actor.uid);
   if(actor.pinning){

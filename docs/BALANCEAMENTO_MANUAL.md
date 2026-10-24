@@ -1,71 +1,63 @@
-# KitMasterUpgrade — balanceamento manual da v0.25.0
+# KitMasterUpgrade — balanceamento manual da v0.26.0
 
-Os kits `Kit1.zip` e `Kit2.zip` contêm **30 PNGs, com 29 imagens únicas**. A carta de Elysh veio idêntica nos dois e é guardada uma única vez. Todos os PNGs foram preservados byte a byte. O [manifesto](../assets/rebalance/kit-master-upgrade/manifest.json) registra arquivo de origem, dimensões, SHA-256, leitura dos campos e situação da confirmação.
+**Todas as 29 cartas únicas de Kit1 e Kit2 estão aplicadas ao jogo**, incluindo classe, raridade, Vida, dano, velocidade, fôlego e os tributos impressos. Elysh veio idêntica nos dois kits: são 30 entradas, sem duplicar o personagem. Os valores manuais substituem o balanceamento automático anterior, inclusive quando saem das faixas genéricas.
 
-O criador pediu uma conferência por personagem: ler a nova carta, explicar a mecânica atual, reconfirmar a habilidade e aplicar somente o que foi confirmado. As faixas automáticas antigas não limitam os valores manuais aprovados.
+Os PNGs recebidos continuam intactos, com origem e SHA-256 no [manifesto](../assets/rebalance/kit-master-upgrade/manifest.json). A apresentação limpa os campos numéricos antigos e sobrepõe valores atuais, sem trocar a ilustração. Nome corrigido e ícone de Sam usam remendos locais. O catálogo contém **31 personagens de raridade e Zeenneriam separado**, totalizando 32 cartas físicas. John e Sark permanecem com seus dados anteriores porque não vieram novas cartas deles; Petra continua de fora.
 
-## Cinco personagens já atualizados
+## Valores ativos
 
-| Personagem | Classe / raridade | Vida | Ataque | Vel. | Fôlego | Tributo |
-| --- | --- | ---: | ---: | ---: | ---: | --- |
-| Elysh | Support / Comum | 240 | 80 | 4 | 3 | Transição; cura também da retaguarda |
-| Stally | Fighter / Comum | 230 | 90 | 2 | 4 | Parry 1–5 no d6 |
-| Mike | Destroyer / Comum | 130 | 170 | 5 | 6 | Crítico +25% com 1–2 no d6 |
-| Alex | Fighter / Comum | 200 | 170 | 3 | 2 | Parry 1 no d6 |
-| Cavaleiro | Tank / Lendário | 920 | 130 | 2 | 8 | Sem resistência natural; mantém a armadura própria |
+| Personagem | Classe / raridade | Vida | Ataque básico | Vel. | Fôlego | Tributo |
+| --- | --- | ---: | --- | ---: | ---: | --- |
+| Elétrica | Mago / Raro | 220 | 100 | 3 | 4 | Mana 3/3 |
+| Penxy | Assassin / Lendário | 500 | 140 | 9 | 7 | Esquiva |
+| Cavaleiro | Tank / Lendário | 920 | 130 | 2 | 8 | Sem tributo natural |
+| Zikssy | Assassin / Raro | 160 | 120 | 5 | 1 | Esquiva |
+| Elysh | Support / Comum | 240 | 80 | 4 | 3 | Transição |
+| DD-X | Fighter / Raro | 260 | 45 × 2 = 90 | 3 | 6 | Parry 1–3 |
+| P. Ullys | Destroyer / Épico | 150 | 300 | 6 | 6 | Crítico 1–2 |
+| Stally | Fighter / Comum | 230 | 90 | 2 | 4 | Parry 1–5 |
+| Endrik | Destroyer / Épico | 160 | 250 | 4 | 6 | Crítico 1–2 |
+| Striker | Destroyer / Épico | 210 | 220 | 2 | 4 | Crítico 1–2 |
+| Xerife | Assassin / Raro | 190 | — (duelo) | 5 | 3 | Esquiva |
+| Burn | Mago / Mítico | 330 | 120 | 3 | 6 | Mana 3/3 |
+| Fonior | Mago / Mítico | 260 | 220 | 4 | 7 | Mana 3/3 |
+| Sam | Fighter / Lendário | 530 | 70 por soco | 7 | 7 | Parry 1–5 |
+| Chama | Mago / Mítico | 230 | 55 + queimaduras | 5 | 7 | Mana 3/3 |
+| Zuri | Support / Secreto | 1050 | 160 | 1 | 12 | Transição |
+| Draktar | Assassin / Mítico | 310 | 90 × 2 = 180 | 7 | 6 | Esquiva |
+| Daztirry | Fighter / Secreto | 1250 | 240 | 6 | 10 | Parry 1–3 |
+| Mike | Destroyer / Comum | 130 | 170 | 5 | 6 | Crítico 1–2 |
+| Unicorn | Support / Raro | 390 | 60 | 4 | 6 | Transição |
+| Nully | Assassin / Lendário | 370 | 80 | 9 | 5 | Esquiva |
+| Rayyb | Support / Épico | 240 | 90 | 5 | 4 | Transição |
+| Rayvilin | Fighter / Secreto | 860 | 180 | 6 | 6 | Parry 1–2 |
+| Z-Zus | Tank / Lendário | 1200 | 300 | 3 | 5 | Resistência 20% |
+| Alex | Fighter / Comum | 200 | 170 | 3 | 2 | Parry 1 |
+| Karma | Destroyer / Mítico | 320 | 120 | 6 | 7 | Crítico 1–2 |
+| Trucc | Assassin / Mítico | 430 | 120 | 9 | 4 | Esquiva |
+| Vaglar | Mago / Secreto | 590 | — (livro) | 5 | 12 | Mana 3/3 |
+| Linx | Fighter / Lendário | 660 | 30% da Vida máxima do alvo | 4 | 3 | Parry 1 |
 
-**Elysh:** escolhe atacar por 80 ou curar outro aliado por até 80, respeitando a Vida máxima. O criador acrescentou que pode curar da retaguarda. Ela recebe sua vez por velocidade mesmo atrás; a cura gasta essa ação. Da retaguarda não pode atacar personagens, a Daly Mãe ou um aliado petrificado para libertá-lo. Sem feridos, pode passar a vez ou avançar se houver vaga. Outros Suportes não ganham uma ação traseira. Impedimentos continuam bloqueando a cura; silêncio e Morto Vivo sem habilidade desativam essa exceção. O duelo dimensional mantém suas regras de isolamento.
+A coluna de ataque distingue o dano de um soco dos multiplicadores impressos. **Sam usa até seis golpes separados de 70**, encerrando no primeiro número repetido; não usa 420 em cada soco. **Chama causa 55 inicialmente e 55 em cada uma das cinco ações seguintes**. Seu revide permanece em três queimaduras de 35. DD-X usa 90 com os dois braços e pode dobrar uma vez para 180. Draktar usa 180 normalmente e 540 contra a caça, antes das defesas.
 
-**Stally:** a carta de Kick veio com o nome `VAGLAR`. O criador identificou-a como **Stally Comum** e reconfirmou ataque normal ou +30%, com acerto em 1–3 no d6 e paralisia por duas ações globais. O golpe causa 120 antes de defesas. O escudo 5 significa Parry com 1, 2, 3, 4 ou 5; 6 falha. O jogo corrige o nome por camada sobre a base; o arquivo original conserva o texto e a moldura roxa recebidos, enquanto a raridade efetiva é Comum, conforme a correção expressa.
+## Identidades e habilidades
 
-**Mike:** a proteção contra ataques de Assassinos continua. O crítico usa o novo básico: 170 vira 215 com resultado 1–2, antes das defesas.
+- **Stally:** a carta de Kick veio escrita VAGLAR; é Stally Comum, conforme a correção do criador. O nome é corrigido na apresentação, mantendo a moldura recebida. Continua escolhendo ataque normal ou +30% com d6 1–3 e paralisia por duas ações globais. Seu Parry é 1–5.
+- **Striker:** a carta Épica/Destroyer de AWM escrita SHERIFF é Striker. Nome corrigido na apresentação; continua protegido de ataques de adversários mais rápidos. Não se confunde com o Xerife Raro/Assassin de Magnum, que mantém o duelo.
+- **Sam:** é Fighter, conforme a correção expressa. Somente o símbolo inferior de classe foi trocado por uma espada na apresentação; arte, pose, moldura e estrela continuam as recebidas. O escudo 5 define Parry 1–5.
+- **Linx — Prototype:** novo Fighter Lendário. Seu ataque causa **30% da Vida máxima do alvo**, arredondado para cima em múltiplos de 5, antes das defesas. Com máximo 1.010, o golpe é 305 mesmo se o alvo estiver ferido. Respeita Parry, esquiva, armadura e proteção de Z-Zus. Não recebe ataque básico fixo inventado. Contra Daly Mãe exposta tira uma vida. Silêncio desativa a habilidade e Presence ignora seu componente percentual.
+- **Elysh:** pode atacar por 80 ou gastar a ação para curar outro aliado por até 80, respeitando o máximo. Recebe a vez por velocidade e pode curar da retaguarda, sem atacar dali. Os demais Supports não recebem uma ação traseira. Impedimentos, silêncio e ressurreição sem habilidade bloqueiam essa exceção.
+- **Cavaleiro:** a armadura própria bloqueia 80% do dano numérico. Não tem resistência natural de Tank, como confirmado; 500 vira 100, sem redução adicional.
+- **Z-Zus:** o novo escudo indica resistência de 20% a ataques. Continua transferindo dano direcionado e execuções do protegido, nunca área.
 
-**Alex:** Swarm continua concentrando 170 num adversário ou dividindo igualmente entre adversários da frente. Cada parcela sobe ao próximo múltiplo de 5; três alvos recebem 60 cada antes das defesas. Retaguarda e aliados ficam protegidos.
+As habilidades já combinadas dos demais personagens foram mantidas e passaram a usar seus novos atributos e raridades. Limites de execução acompanham a raridade atual: o livro de Vaglar elimina inferiores a ele; o duelo do Xerife elimina até a própria raridade. Efeitos anteriormente definidos como fixos continuam fixos, incluindo hipnose de Burn em 90 e livro em 200. Não houve criação de novas mecânicas para substituir as existentes.
 
-**Cavaleiro:** mantém a habilidade que bloqueia 80% de todo dano numérico. O traço no escudo foi confirmado como ausência de tributo natural. Portanto, não soma a resistência padrão de Tank à armadura: 500 vira 100, não 90. Silenciar a habilidade remove a armadura, deixando o dano inteiro. Execuções continuam seguindo a regra de eliminação.
+Fonior, Burn, Chama e Vaglar agora são Magos e recebem Mana inicial/máxima 3, recuperando +1 por ação global, assim como Elétrica. Livro e hipnose são efeitos fixos, sem gasto de mana ou bônus inventado. Chama usa mana no golpe inicial; a queimadura mantém 55. Karma agora é Destroyer e testa crítico no revide antes da defesa do atacante. Rayvilin agora é Fighter, com Parry 1–2, e não ocupa a retaguarda.
 
-## Seleção inicial
+## Seleção e conferência
 
-Os quatro Comuns são **Elysh, Stally, Mike e Alex**. A escolha alterna **jogador → bot → jogador → bot**, sem repetir personagens. Cada equipe começa com dois na frente; não há mais Raros automáticos. O Cavaleiro sai dessa seleção porque passa a Lendário. Os laboratórios continuam disponíveis e os Raros permanecem no monte próprio para obtenção durante a partida.
+Os quatro Comuns continuam **Elysh, Stally, Mike e Alex**. A escolha alterna jogador → bot → jogador → bot, sem repetição e sem Raros automáticos. Todas as 31 formações de laboratório estão disponíveis em **Treinar e testar → Personagens**; a coleção mostra todas as bases ativas.
 
-## Recebidos e aguardando conferência
-
-Somente as cinco cartas acima alteram o jogo nesta versão. As demais imagens ficam guardadas para as próximas confirmações; os personagens ainda não revisados mantêm os dados anteriores no catálogo jogável. Linx não é ativado antes de explicar sua habilidade. Nenhum personagem provisório foi criado.
-
-| Carta recebida | Raridade lida | Classe lida | Situação |
-| --- | --- | --- | --- |
-| Fonior | Mítico | Mago | Habilidade a reconfirmar |
-| Zuri | Secreto | Support | Habilidade a reconfirmar |
-| Trucc | Mítico | Assassin | Habilidade a reconfirmar |
-| Daztirry | Lendário | Fighter | Habilidade a reconfirmar |
-| Eletric | Raro | Mago | Habilidade a reconfirmar |
-| Chama | Mítico | Mago | Habilidade a reconfirmar |
-| Sam | Lendário | Assassin | Habilidade a reconfirmar |
-| Barn | Mítico | Mago | Habilidade a reconfirmar |
-| Elysh | Comum | Support | Atualizado e confirmado |
-| Unicorn | Raro | Support | Habilidade a reconfirmar |
-| Rayvlin | Secreto | Fighter | Habilidade a reconfirmar |
-| Z-Zus | Lendário | Tank | Habilidade a reconfirmar |
-| Mike | Comum | Destroyer | Atualizado e confirmado |
-| Nully | Lendário | Assassin | Habilidade a reconfirmar |
-| Alex | Comum | Fighter | Atualizado e confirmado |
-| Endrik | Épico | Destroyer | Habilidade a reconfirmar |
-| P. Ullys | Épico | Destroyer | Habilidade a reconfirmar |
-| Sheriff | Épico | Destroyer | Identidade a confirmar |
-| Stally | Comum | Fighter | Atualizado e confirmado |
-| DD-X | Raro | Fighter | Habilidade a reconfirmar |
-| Sheriff | Raro | Assassin | Habilidade a reconfirmar |
-| Zikssy | Raro | Assassin | Habilidade a reconfirmar |
-| Linx | Lendário | Fighter | Identidade e habilidade a confirmar |
-| Vaglar | Secreto | Mago | Habilidade a reconfirmar |
-| Cavaleiro | Lendário | Tank | Atualizado e confirmado |
-| Karma | Mítico | Destroyer | Habilidade a reconfirmar |
-| Penxy | Lendário | Assassin | Habilidade a reconfirmar |
-| Draktar | Mítico | Assassin | Habilidade a reconfirmar |
-| Rayyb | Épico | Support | Habilidade a reconfirmar |
-
-A carta de `Sheriff` Épico/Destroyer (AWM) e a de `Sheriff` Raro/Assassin (Magnum) são imagens diferentes e permanecem separadas. A identidade da versão Épica precisa ser esclarecida antes de substituir Striker ou criar outro personagem. A versão de Vaglar Secreto/Mago continua separada de Stally. A grafia `Rayvlin` recebida é registrada como referência de Rayvilin, sem substituir a regra antes da revisão.
-
-Não vieram cartas identificadas como Sark ou John nestes kits. O catálogo mantém ambos. As bases atuais também mantêm Striker até esclarecer a carta de AWM.
+A IA evita alvos com esquiva garantida quando outro adversário pode ser atingido. Ao acordar, ainda respeita outros impedimentos. Ações extras permitem novo teste de sono na mesma rodada. Estas correções foram encontradas ao simular partidas com o catálogo atualizado.
 
 [Validação](VALIDACAO.md) · [Classes e tributos](CLASSES.md)

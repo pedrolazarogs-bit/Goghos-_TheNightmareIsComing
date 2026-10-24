@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.25.0
+# Estrutura base do GOGHOS — v0.26.0
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -6,7 +6,7 @@ Estas são as regras atuais, conforme a estrutura descrita pelo criador. As dife
 
 Ao clicar em **Jogar**, aparecem os quatro Comuns atuais (Elysh, Stally, Mike e Alex), suas marcações e **Voltar ao menu**. A escolha alterna jogador → bot → jogador → bot, sem repetir personagens. Cada equipe escolhe dois Comuns, ambos começando na frente. Após as quatro escolhas, aparece **Play · começar batalha**. Não há sorteio de Raros, mão, Apoios ou montes nessa tela.
 
-Os dois Comuns escolhidos e os dois Raros sorteados saem de seus montes. As duas equipes começam com os dois na linha de frente e a retaguarda vazia.
+Os quatro Comuns escolhidos saem de seus montes. As duas equipes começam com os dois na linha de frente e a retaguarda vazia.
 
 ## Equipes e Suportes
 
@@ -43,7 +43,7 @@ O monte principal tem **57 cartas**: 34 Apoios (17 tipos × 2), 4 Itens, 4 Habil
 
 Toda compra vai para a mão, inclusive as medalhas. Na vez da equipe, selecione uma medalha e use **Resgatar personagem**. Ela obtém exatamente a carta do topo do monte indicado pela cor, sem sorteio adicional de raridade e sem ataque extra. A medalha vai para o descarte somente quando o personagem entra na equipe. Com o monte vazio ou sem vaga para o topo, permanece na mão. A IA usa as mesmas regras.
 
-O catálogo tem **30 personagens oficiais**: 3 Comuns, 4 Raros, 4 Épicos, 6 Míticos, 10 Lendários e 3 Secretos. Os únicos Comuns são Cavaleiro, Mike e Alex. Os quatro Raros são DD-X, Elétrica, John e Unicorn. Zuri, Draktar e Daztirry ocupam o monte Secreto. Cada personagem corresponde a uma única carta física; personagens provisórios e Petra não entram nos montes.
+O catálogo tem **31 personagens oficiais**: 4 Comuns, 6 Raros, 4 Épicos, 6 Míticos, 7 Lendários e 4 Secretos. Os Comuns são Elysh, Stally, Mike e Alex. Zeenneriam fica na reserva divina. Cada personagem corresponde a uma única carta física; provisórios e Petra não entram nos montes. A [tabela manual atual](BALANCEAMENTO_MANUAL.md) lista todos os atributos, bases e correções.
 
 ## Mão e cartas de Apoio
 
@@ -86,7 +86,7 @@ O menu **Testar Sark** oferece formações prontas para atacar ou defender, sem 
 
 ## Elétrica — 3000W
 
-Elétrica é **Mago Raro**, com **3 de velocidade, 4 de fôlego, 3 de mana, 130 de ataque e 220 de Vida**. Sua ação causa dano a todos os adversários que estavam na linha de frente no início do golpe. Não há escolha de alvo individual. Aliados e retaguardas não recebem esse ataque; Suportes promovidos depois dele também não são atingidos pelo golpe já resolvido.
+Elétrica é **Mago Raro**, com **3 de velocidade, 4 de fôlego, 3 de mana, 100 de ataque e 220 de Vida**. Sua ação causa dano a todos os adversários que estavam na linha de frente no início do golpe. Não há escolha de alvo individual. Aliados e retaguardas não recebem esse ataque; Suportes promovidos depois dele também não são atingidos pelo golpe já resolvido.
 
 Mana e Na Moloeira são gastos uma única vez por ação e somam dano a cada alvo. Parry é testado individualmente; a regra existente de Magos impede Esquiva, mas não Parry. Todos os danos do ataque são aplicados antes das reações de sobreviventes, incluindo Steel Jaw. A regeneração de mana e o dano periódico de Sharp Guitar ocorrem uma vez por ação, independentemente da quantidade de alvos.
 
@@ -96,7 +96,7 @@ Com a Daly Mãe exposta, a confirmação ataca apenas ela e tira exatamente uma 
 
 John é **Fighter Raro**, com **2 de velocidade, 3 de fôlego, 80 de ataque e 250 de Vida**. Sua base está sem nome impresso; a interface preenche JOHN, conforme o nome indicado pelo criador. O rank ilustrado continua decorativo.
 
-**Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 está definido para John e Zeenneriam; outros Fighters ainda não receberam valores confirmados.
+**Parry:** ao receber um ataque adversário, rola um dado de seis lados. Resultado 1 ou 2 defende todo o dano; de 3 a 6 recebe normalmente. O resultado aparece no registro e no feedback. Não há contra-ataque automático. O limiar 2 está definido para John e Zeenneriam; os demais limiares individuais constam em [CLASSES.md](CLASSES.md).
 
 **Sharp Guitar:** John escolhe entre um ataque normal de 80 ou causar 80 e cravar o machado. O vínculo só é criado se o golpe acertar e ambos sobreviverem. Parry, Esquiva, dano fatal e a reação fatal de Sark impedem o vínculo. Não é possível cravar na Daly Mãe nem em um personagem já envolvido em outro vínculo.
 
@@ -118,14 +118,14 @@ Antes de liberar a hierarquia, as habilidades de entrada pendentes são resolvid
 
 | Personagem | Classe / raridade | Vida / ataque básico | Velocidade / fôlego |
 | --- | --- | --- | --- |
-| Penxy | Assassino / Lendário | 875 / 360 | 7 / 20 |
+| Penxy | Assassino / Lendário | 500 / 140 | 9 / 7 |
 | Cavaleiro | Tank / Lendário | 920 / 130 | 2 / 8 |
-| Zikssy | Assassino / Épico | 390 / 110 | 7 / 20 |
+| Zikssy | Assassino / Raro | 160 / 120 | 5 / 1 |
 | Elysh | Suporte / Comum | 240 / 80 | 4 / 3 |
-| DD-X | Fighter / Raro | 285 / 90 | 4 / 10 |
-| Vaglar | Fighter / Mítico | 520 / sem ataque básico | 4 / 30 |
+| DD-X | Fighter / Raro | 260 / 90 (45 × 2) | 3 / 6 |
+| Vaglar | Mago / Secreto | 590 / sem ataque básico | 5 / 12 |
 
-Os dados anteriores seguem as faixas e perfis da v0.22.0; Elysh e Cavaleiro já usam os valores manuais reconfirmados na v0.25.0. Velocidade, fôlego e classe acompanham a carta ativa. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
+Os seis usam as bases manuais atuais da v0.26.0. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
 
 **Penxy — Ghost Claw:** escolhe um adversário da frente ou retaguarda na entrada e leva os dois para um duelo. Só eles podem se atacar, seguindo suas posições na hierarquia de velocidade. Os demais continuam lutando normalmente, sem atingir o par; área e habilidades direcionadas respeitam a dimensão. Um Suporte puxado de trás pode atacar Penxy sem ocupar uma quarta vaga na frente. Os dois continuam contando como defensores da equipe, protegendo a Daly Mãe. Não podem trocar de linha durante o duelo. Um vínculo de machado com alguém de fora é encerrado ao mudar de dimensão.
 
@@ -139,13 +139,13 @@ Quando um dos dois é eliminado, o sobrevivente retorna ao campo, conservando su
 
 **DD-X — Fish:** ataque básico usa dois braços. O jogador pode ativar quatro braços uma única vez por vida para dobrar o total do ataque. A ativação é gasta numa ação válida, mesmo se for defendida ou esquivada; tentativa inválida não a gasta. Reset, cura e movimentação não restauram esse uso. Ataque à Daly Mãe continua tirando uma vida e não gasta o poder.
 
-**Vaglar — Charm:** marca um personagem adversário da frente ou retaguarda na entrada. Na velocidade dele, o livro elimina instantaneamente Comum, Raro ou Épico. Contra Mítico, Lendário ou Secreto causa 200, reduzidos por armadura quando houver. É uma habilidade de livro, sem teste de Parry/Esquiva e sem reação de ataque de Sark. Se o marcado sobreviver, seu nome permanece para a próxima vez. Se morrer, Vaglar pode marcar outro imediatamente, sem executar duas vezes na mesma ação. Se outro personagem eliminar o marcado, a substituição é feita antes da próxima ação de Vaglar. O livro não alcança outra dimensão.
+**Vaglar — Charm:** marca um personagem adversário da frente ou retaguarda na entrada. Na velocidade dele, o livro elimina instantaneamente personagens de raridade inferior à sua (até Lendário). Contra Secreto causa 200, reduzidos por armadura quando houver. É uma habilidade de livro, sem teste de Parry/Esquiva e sem reação de ataque de Sark. Se o marcado sobreviver, seu nome permanece para a próxima vez. Se morrer, Vaglar pode marcar outro imediatamente, sem executar duas vezes na mesma ação. Se outro personagem eliminar o marcado, a substituição é feita antes da próxima ação de Vaglar. O livro não alcança outra dimensão.
 
 Vaglar não ataca a Daly Mãe. Se só restarem personagens sem ação utilizável, como um Vaglar sem personagens adversários para marcar, o jogo usa o ciclo de compra e o empate sem recursos já existentes. A IA retira o machado de John quando as curas anulam continuamente o progresso, evitando uma repetição infinita de manter/curar.
 
 ## Elenco completo da v0.21.0
 
-O menu **Testar novos personagens** oferece uma formação para cada um dos 30 oficiais, com busca por nome. O [guia dos personagens](PERSONAGENS_PENDENTES.md) registra as 21 habilidades adicionadas nesta versão, suas confirmações e interações. Petra foi adiada e não aparece na seleção, nos montes ou nos testes jogáveis.
+O menu **Testar novos personagens** oferece uma formação para cada um dos 31 oficiais, com busca por nome. O [guia dos personagens](PERSONAGENS_PENDENTES.md) registra as 21 habilidades adicionadas nesta versão, suas confirmações e interações. Petra foi adiada e não aparece na seleção, nos montes ou nos testes jogáveis.
 
 Pré-batalha inclui hipnose de Burn, estrela de Unicorn, petrificação de Rayvilin, protegido de Z-Zus e melhor amigo de Karma. Draktar recebe sua caça por sorteio. Na própria vez, aparecem escolhas de ataque, cura total, sono e novas tentativas de petrificar. A IA utiliza essas mesmas operações. Sono, paralisia, petrificação e hipnose impedem ações e reações enquanto estiverem ativos, conforme cada habilidade.
 
@@ -174,11 +174,11 @@ A Daly Mãe mantém suas três vidas e perde uma por ataque; esse contador não 
 | Lendário | 550–1200 | 150–670 |
 | Secreto | 605–1320 | 165–740 |
 
-A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Na v0.22.0, os atributos iniciais foram revistos por habilidade, conforme autorização do criador. A [tabela de balanceamento](BALANCEAMENTO.md) registra todas as alterações e exceções, incluindo Sam com 100 por soco e Alex com Swarm total de 120; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
+A faixa antiga de Lendário foi transferida para Mítico, e a antiga de Secreto para Lendário. Secreto fica aproximadamente 10% acima, arredondado em múltiplos de 5. Cores e molduras não mudam. O perfil da classe posiciona os atributos nessas faixas. Na v0.22.0, os atributos iniciais foram revistos por habilidade, conforme autorização do criador. A [tabela de balanceamento](BALANCEAMENTO.md) registra todas as alterações e exceções, com os valores históricos; a [tabela manual atual](BALANCEAMENTO_MANUAL.md) substitui esses dados, incluindo Sam com 70 por soco e Alex com Swarm total de 170; Sark continua com 530 de Vida, mesmo abaixo do novo mínimo genérico de Lendário. Magos começam com 3/3 de mana, cada ponto gasto soma 10 de dano (provisório), e recuperam 1 por ação resolvida. Um Assassin mais rápido que o atacante pode esquivar: num d6, precisa tirar até a diferença de velocidade; Magos sempre acertam. A esquiva consome a ação do atacante.
 
 Bases completas de personagem devem ser usadas inteiras, com sobreposição somente dos números correspondentes ao estado atual. Sark, Elétrica e John usam esse formato; John também recebe o nome no espaço vazio da base. Sam usa a carta completa mais recente recebida, com seus números atualizados. Sark é a exceção explícita à faixa de Dano básico: tem zero internamente e a base exibe um traço; o valor 390 pertence à reação. Todos os nomes e retratos do catálogo atual são oficiais. Veja [ARTES.md](ARTES.md) para os arquivos e a apresentação atual.
 
-Continuam provisórios os efeitos de Item/Habilidade Especial, a Loja e os atributos derivados das faixas enquanto não receberem valores individuais do criador. As 30 habilidades presentes estão implementadas. Não há criação automática de personagens.
+Continuam provisórios os efeitos de Item/Habilidade Especial, a Loja e os atributos derivados das faixas enquanto não receberem valores individuais do criador. As 31 habilidades presentes estão implementadas. Não há criação automática de personagens.
 
 ## Apresentação da v0.17.0
 
@@ -192,18 +192,25 @@ No celular, os painéis se reorganizam e a arena rola acima do espaço reservado
 
 O [guia dos 17 Apoios](APOIOS.md) registra todos os alvos, limites e interações. Eu Denovo concede uma ação extra; Combokill concede outro ataque após uma eliminação por golpe. Essas ações continuam a mesma rodada e retomam a faixa de velocidade anterior, sem compras extras.
 
-O [guia de Zeenneriam e MAX](DEUSES.md) define os três fragmentos únicos, a reserva fora dos montes, Presence e os tributos de todas as classes. Tanque reduz 10% de ataques; Destroyer causa +25% de dano com 1 ou 2 no d6. O MAX reúne esses tributos com mana, esquiva, Parry e transição. Presence ignora habilidades de personagens; Apoios continuam válidos.
+O [guia de Zeenneriam e MAX](DEUSES.md) define os três fragmentos únicos, a reserva fora dos montes, Presence e os tributos de todas as classes. MAX tem resistência de 10%; Z-Zus usa 20% e Cavaleiro não tem resistência natural. Destroyer causa +25% de dano com 1 ou 2 no d6. O MAX reúne esses tributos com mana, esquiva, Parry e transição. Presence ignora habilidades de personagens; Apoios continuam válidos.
 
 
 ## Conferência das classes — v0.24.1
 
-A legenda do criador identifica os símbolos inferiores: olho de X = Assassin, espada = Fighter, raio = Tank, + = Support, lua = Mago e mira = Destroyer. A [conferência completa](CLASSES.md) relaciona os 30 personagens e as exceções dos tributos. Z-Zus foi corrigido de Support para Tank; a proteção pessoal continua, mas a transição de Suporte deixa de existir para ele. Nenhum atributo numérico foi rebalanceado nesta revisão.
+A legenda do criador identifica os símbolos inferiores: olho de X = Assassin, espada = Fighter, raio = Tank, + = Support, lua = Mago e mira = Destroyer. A [conferência completa](CLASSES.md) relaciona os 31 personagens atuais e as exceções dos tributos. Z-Zus foi corrigido de Support para Tank; a proteção pessoal continua, mas a transição de Suporte deixa de existir para ele. Nenhum atributo numérico foi rebalanceado nesta revisão.
 
-John e Zeenneriam mantêm Parry 1–2. A v0.25.0 acrescenta Stally 1–5 e Alex 1; os cinco Fighters ainda não revisados aguardam confirmação individual, sem valor padrão presumido. A previsão de esquiva respeita os mesmos impedimentos e a substituição pelo duelo do Xerife usados na resolução. A hipnose causa seus 90 de efeito fixo, sem a redução de Tank reservada a ataques.
+John e Zeenneriam mantêm Parry 1–2. As cartas atuais definem Stally/Sam 1–5, DD-X/Daztirry 1–3, Rayvilin 1–2 e Alex/Linx 1. A previsão de esquiva respeita os mesmos impedimentos e a substituição pelo duelo do Xerife usados na resolução. A hipnose causa seus 90 de efeito fixo, sem a redução de Tank reservada a ataques.
 
 
-## Cartas manuais reconfirmadas — v0.25.0
+## Cartas manuais aplicadas — v0.26.0
 
-A [conferência dos kits](BALANCEAMENTO_MANUAL.md) registra os cinco personagens atualizados e as 24 imagens ainda pendentes. Os números manuais aprovados têm prioridade sobre as faixas genéricas. Stally é a carta de Kick impressa como Vaglar e foi confirmada como Comum; tem Parry 1–5. Alex tem Parry 1. Cavaleiro é Tank Lendário, com Armadura de 80% e **sem tributo natural**; não soma os 10% padrão à redução.
+A [conferência dos kits](BALANCEAMENTO_MANUAL.md) registra todas as 29 cartas únicas aplicadas; nenhuma dessas imagens continua pendente. Os números manuais aprovados têm prioridade sobre as faixas genéricas. Stally é a carta de Kick impressa como Vaglar e foi confirmada como Comum; tem Parry 1–5. Alex tem Parry 1. Cavaleiro é Tank Lendário, com Armadura de 80% e **sem tributo natural**; não soma os 10% padrão à redução.
 
 Elysh, Support Comum, pode curar 80 da retaguarda. Ela entra na hierarquia por velocidade e gasta a própria ação; a cura também conta para mana e efeitos em ações globais. Não ataca de lá. Na frente, escolhe atacar ou curar. A IA cura aliados que precisam e pode avançar para atacar quando houver vaga, evitando considerar uma Elysh capaz de avançar como empate sem atacantes. Impedimentos bloqueiam a cura e Morto Vivo não devolve essa habilidade. Os demais Supports da retaguarda seguem fora da fila de ações.
+
+
+## Linx — Prototype
+
+Fighter Lendário com 660 de Vida, velocidade 4, fôlego 3 e Parry 1. Seu ataque causa **30% da Vida máxima do adversário**, arredondado para cima em múltiplos de 5, antes das defesas. Não usa a Vida restante como base. A habilidade respeita Parry, esquiva, armadura e transferência ao protetor; Presence ignora o percentual. Silêncio impede atacar enquanto a habilidade estiver desativada. Contra a Daly Mãe exposta, tira uma vida.
+
+Todas as 29 cartas únicas de Kit1 e Kit2 estão ativas. John e Sark não receberam novas cartas e conservam seus dados. Sam é Fighter, com ícone corrigido e Parry 1–5. A carta SHERIFF Épica/AWM é Striker; o Xerife Raro/Magnum permanece outro personagem. Os valores completos e os multiplicadores impressos estão em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).

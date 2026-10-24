@@ -1,4 +1,4 @@
-// Catálogo oficial: 30 personagens. Petra fica reservada para uma atualização futura.
+// Catálogo oficial: 31 personagens. Petra fica reservada para uma atualização futura.
 // Atributos seguem as faixas atuais; os valores oficiais já confirmados são preservados.
 // Campos null = ainda sem dado: não são desenhados. Edite somente este arquivo.
 (function(G){
@@ -27,31 +27,31 @@ G.MAGE_MAX_MANA=3; // Todo Mago começa com 3 de mana e nunca ultrapassa 3.
 G.manaFor=c=>c.class==='MAGO'?G.MAGE_MAX_MANA:0;
 G.MAIN_ABILITIES={
  steel_jaw:{name:'Steel Jaw',trigger:'onAttacked',damage:390,instantRarities:['COMMON','RARE','EPIC','MYTHIC'],description:'Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante abaixo de Lendário; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar.'},
- electric_area:{name:'3000W',trigger:'areaAttack',description:'Causa 130 de dano a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente.'},
+ electric_area:{name:'3000W',trigger:'areaAttack',description:'Causa o dano básico a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente.'},
  sharp_guitar:{name:'Sharp Guitar',trigger:'pinAttack',damage:20,description:'Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry.'},
  ghost_dimension:{name:'Ghost Claw',trigger:'dimension',description:'Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez.'},
  knight_armor:{name:'Armadura',trigger:'armor',reduction:.8,description:'Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5.'},
  fright:{name:'Claws',trigger:'fright',description:'Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação.'},
  healing_shot:{name:'Lazer Gun',trigger:'healingAttack',description:'Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima.'},
  four_arms:{name:'Fish',trigger:'doubleAttack',description:'Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar o dano do ataque.'},
- death_book:{name:'Charm',trigger:'deathBook',damage:200,description:'Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado abaixo de Mítico; contra Mítico, Lendário ou Secreto, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.'}
+ death_book:{name:'Charm',trigger:'deathBook',damage:200,description:'Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado de raridade inferior à sua; nas demais, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.'}
 };
 Object.assign(G.MAIN_ABILITIES,{
  "missile":{"name":"Míssil","description":"Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha.","trigger":"missile"},
  "paralyzingKick":{"name":"Paralisia","description":"Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem.","trigger":"paralyzingKick"},
  "deathShark":{"name":"Tubarão","description":"Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior.","trigger":"deathShark"},
  "speedWard":{"name":"Proteção de velocidade","description":"Adversários mais rápidos que Striker não podem atacá-lo.","trigger":"speedWard"},
- "duelist":{"name":"Duelo","description":"Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até Mítico, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.","trigger":"duelist"},
+ "duelist":{"name":"Duelo","description":"Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até a raridade do Xerife, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.","trigger":"duelist"},
  "hypnosis":{"name":"Hipnose","description":"Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.","trigger":"hypnosis"},
  "souls":{"name":"Almas","description":"Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.","trigger":"souls"},
  "punchCombo":{"name":"Combo de socos","description":"Até seis socos individuais com o dano básico no mesmo alvo, em uma ação. Rola um d6 por tentativa: o primeiro número repetido encerra o combo. Cada soco tem sua própria defesa e reação.","trigger":"punchCombo"},
- "flames":{"name":"Fogo persistente","description":"Ataca por 65 e queima o alvo por mais 65 nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.","trigger":"flames"},
+ "flames":{"name":"Fogo persistente","description":"Ataca pelo dano básico e queima o alvo por esse mesmo valor nas cinco ações seguintes. Quem o ataca recebe 35 nas três ações seguintes, mesmo que o golpe mate Chama.","trigger":"flames"},
  "fullHeal":{"name":"Cura total","description":"Uma única vez na própria vez, gasta sua ação para curar todos os outros aliados em campo até 100% da Vida máxima.","trigger":"fullHeal"},
  "hunt":{"name":"Caça","description":"Recebe uma caça sorteada na entrada. Sempre que ataca essa caça, causa dano básico +200% (triplo). Pode atacar outros alvos normalmente.","trigger":"hunt"},
  "oni":{"name":"Estado Oni","description":"Ao zerar a Vida, fica imortal por três ações de qualquer personagem, com +30 de dano. Depois é eliminado.","trigger":"oni"},
  "assassinWard":{"name":"Proteção contra Assassinos","description":"Nenhum adversário da classe Assassino pode atacar Mike.","trigger":"assassinWard"},
  "starGift":{"name":"Estrela","description":"Na entrada, fortalece um aliado ou a si mesma: +150 de Vida máxima e atual, +50 de dano e +2 de velocidade. Uso único em um personagem; dura enquanto o beneficiado viver.","trigger":"starGift"},
- "diceExecution":{"name":"Decapitação","description":"Rola d6 ao atacar. 1–5 multiplica o dano básico de 55. 6 elimina raridade igual ou inferior; contra superior, causa 330.","trigger":"diceExecution"},
+ "diceExecution":{"name":"Decapitação","description":"Rola d6 ao atacar. 1–5 multiplica o dano básico atual. 6 elimina raridade igual ou inferior; contra superior, causa seis vezes o básico.","trigger":"diceExecution"},
  "sleepPowder":{"name":"Pó mágico","description":"Uma única vez na própria vez, sem gastar ação, faz um adversário dormir. Na vez do alvo, d6 1–2 acorda e permite agir; 3–6 perde a ação e tenta na próxima vez.","trigger":"sleepPowder"},
  "petrify":{"name":"Petrificação","description":"Na entrada e na própria vez, tenta petrificar raridade igual ou inferior: d6 1–3. Cada erro reduz para 1–2, depois 1, depois esgota. Aliado liberta o petrificado com um ataque de 30. Rayvilin executa o petrificado, inclusive na mesma vez.","trigger":"petrify"},
  "guardian":{"name":"Sacrifício","description":"Na entrada, escolhe um aliado fixo. Recebe o dano direcionado e as eliminações instantâneas em seu lugar até morrer. Dano em área atinge o protegido normalmente.","trigger":"guardian"},
@@ -60,7 +60,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.25.0',
+G.CONFIG={version:'0.26.0',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
@@ -161,4 +161,52 @@ G.CHARACTERS=G.CHARACTERS.map(c=>Object.freeze({...c,...G.getCharacterStats(c),
   ...(Number.isFinite(c.knownHp)?{maxHp:G.roundUpToFive(c.knownHp)}:{}),
   ...(Number.isFinite(c.knownDamage)?{damage:G.roundUpToFive(c.knownDamage)}:{}),
   ...G.CHARACTER_BALANCE[c.id]}));
+
+// Aplicação integral dos kits: números manuais prevalecem; mecânicas existentes são preservadas.
+G.MASTER_UPGRADE=[
+ {"id":"fonior","assetKey":"fonior","rarity":"MYTHIC","class":"MAGO","maxHp":260,"damage":220,"speed":4,"stamina":7},
+ {"id":"zuri","assetKey":"zuri","rarity":"SECRET","class":"SUPPORT","maxHp":1050,"damage":160,"speed":1,"stamina":12},
+ {"id":"trucc","assetKey":"trucc","rarity":"MYTHIC","class":"ASSASSIN","maxHp":430,"damage":120,"speed":9,"stamina":4},
+ {"id":"daztirry","assetKey":"daztirry","rarity":"SECRET","class":"FIGHTER","maxHp":1250,"damage":240,"speed":6,"stamina":10,"parryThreshold":3},
+ {"id":"eletric","assetKey":"eletric","rarity":"RARE","class":"MAGO","maxHp":220,"damage":100,"speed":3,"stamina":4},
+ {"id":"chama","assetKey":"chama","rarity":"MYTHIC","class":"MAGO","maxHp":230,"damage":55,"speed":5,"stamina":7,"damageDisplaySuffix":"×6","burnDamage":55},
+ {"id":"sam","assetKey":"sam","rarity":"LEGENDARY","class":"FIGHTER","maxHp":530,"damage":70,"speed":7,"stamina":7,"parryThreshold":5,"damageDisplaySuffix":"×6","classPatch":{"src":"assets/cards/card_base_sam.png","bounds":[695,1700,845,1895]}},
+ {"id":"barn","assetKey":"barn","rarity":"MYTHIC","class":"MAGO","maxHp":330,"damage":120,"speed":3,"stamina":6},
+ {"id":"elysh","assetKey":"elysh","rarity":"COMMON","class":"SUPPORT","maxHp":240,"damage":80,"speed":4,"stamina":3,"rearHealing":true},
+ {"id":"unicorn","assetKey":"unicorn","rarity":"RARE","class":"SUPPORT","maxHp":390,"damage":60,"speed":4,"stamina":6},
+ {"id":"rayvilin","assetKey":"rayvlin","rarity":"SECRET","class":"FIGHTER","maxHp":860,"damage":180,"speed":6,"stamina":6,"parryThreshold":2},
+ {"id":"z_zus","assetKey":"z_zus","rarity":"LEGENDARY","class":"TANK","maxHp":1200,"damage":300,"speed":3,"stamina":5,"tankResistance":0.2},
+ {"id":"mike","assetKey":"mike","rarity":"COMMON","class":"DESTROYER","maxHp":130,"damage":170,"speed":5,"stamina":6},
+ {"id":"nully","assetKey":"nully","rarity":"LEGENDARY","class":"ASSASSIN","maxHp":370,"damage":80,"speed":9,"stamina":5},
+ {"id":"alex","assetKey":"alex","rarity":"COMMON","class":"FIGHTER","maxHp":200,"damage":170,"speed":3,"stamina":2,"parryThreshold":1},
+ {"id":"endrik","assetKey":"endrik","rarity":"EPIC","class":"DESTROYER","maxHp":160,"damage":250,"speed":4,"stamina":6},
+ {"id":"p_ullys","assetKey":"p_ullys","rarity":"EPIC","class":"DESTROYER","maxHp":150,"damage":300,"speed":6,"stamina":6},
+ {"id":"stally","assetKey":"vaglar_epic","rarity":"COMMON","class":"FIGHTER","maxHp":230,"damage":90,"speed":2,"stamina":4,"parryThreshold":5,"rename":true},
+ {"id":"ddx","assetKey":"ddx","rarity":"RARE","class":"FIGHTER","maxHp":260,"damage":90,"speed":3,"stamina":6,"parryThreshold":3,"damageDisplayDivisor":2,"damageDisplaySuffix":"×2"},
+ {"id":"sheriff","assetKey":"sheriff_rare","rarity":"RARE","class":"ASSASSIN","maxHp":190,"damage":0,"speed":5,"stamina":3,"damageDash":true},
+ {"id":"zikssy","assetKey":"zikssy","rarity":"RARE","class":"ASSASSIN","maxHp":160,"damage":120,"speed":5,"stamina":1},
+ {"id":"vaglar","assetKey":"vaglar_secret","rarity":"SECRET","class":"MAGO","maxHp":590,"damage":0,"speed":5,"stamina":12,"damageDash":true},
+ {"id":"cavaleiro","assetKey":"cavaleiro","rarity":"LEGENDARY","class":"TANK","maxHp":920,"damage":130,"speed":2,"stamina":8,"tankResistance":0},
+ {"id":"karma","assetKey":"karma","rarity":"MYTHIC","class":"DESTROYER","maxHp":320,"damage":120,"speed":6,"stamina":7},
+ {"id":"penxy","assetKey":"penxy","rarity":"LEGENDARY","class":"ASSASSIN","maxHp":500,"damage":140,"speed":9,"stamina":7},
+ {"id":"draktar","assetKey":"draktar","rarity":"MYTHIC","class":"ASSASSIN","maxHp":310,"damage":180,"speed":7,"stamina":6,"damageDisplayDivisor":2,"damageDisplaySuffix":"×2"},
+ {"id":"rayyb","assetKey":"rayyb","rarity":"EPIC","class":"SUPPORT","maxHp":240,"damage":90,"speed":5,"stamina":4},
+ {"id":"striker","assetKey":"sheriff_epic","rarity":"EPIC","class":"DESTROYER","maxHp":210,"damage":220,"speed":2,"stamina":4,"rename":true},
+ {"id":"linx","assetKey":"linx","rarity":"LEGENDARY","class":"FIGHTER","maxHp":660,"damage":0,"speed":4,"stamina":3,"parryThreshold":1,"damageDash":true}
+];
+G.MAIN_ABILITIES.max_hp_strike={name:'Prototype',trigger:'maxHpStrike',description:'Ataca um adversário por 30% da Vida máxima dele, arredondando para cima em múltiplos de 5. O ataque respeita defesa, esquiva e proteção.'};
+G.CHARACTERS.push(received('linx','Linx','FIGHTER','LEGENDARY',4,3,'max_hp_strike'));
+G.CHARACTERS=G.CHARACTERS.map(c=>{
+ const spec=G.MASTER_UPGRADE.find(x=>x.id===c.id);if(!spec)return c;
+ const {id,assetKey,maxHp,damage,...extra}=spec;
+ const next=upgraded(id,c.name,spec.class,spec.rarity,spec.speed,spec.stamina,c.abilityId,assetKey,{...extra,abilityOnly:!!c.abilityOnly,passiveOnly:!!c.passiveOnly});
+ next.official=true;next.copies=1;next.maxHp=maxHp;next.damage=damage;next.reason='Balanceamento manual do KitMasterUpgrade; habilidade atual preservada até revisão.';
+ next.cardBase.outline=true;next.cardBase.cleanup.src='assets/cards/card_base_eletric.png';
+ if(spec.rename){next.cardBase.cleanup.regions=next.cardBase.cleanup.regions.filter(b=>b[1]!==1030);(next.cardBase.patches??=[]).push({src:'assets/cards/card_base.png',bounds:[280,1030,800,1155],role:'name'});}
+ next.cardBase.damageDisplayDivisor=spec.damageDisplayDivisor||1;next.cardBase.damageDisplaySuffix=spec.damageDisplaySuffix||'';next.cardBase.damageDash=!!spec.damageDash;
+ if(maxHp>=1000){next.cardBase.cleanup.regions=next.cardBase.cleanup.regions.filter(b=>b[1]!==1330);next.cardBase.cleanup.regions.push([420,1330,870,1545]);next.cardBase.fields.hp={b:[430,1330,870,1545],s:225,a:'l'};}
+ if(spec.classPatch)next.cardBase.patches=[{...spec.classPatch,role:'class'}];
+ if(spec.class==='MAGO'&&id!=='chama'){next.cardBase.fields.mana={b:[365,840,475,950],s:90,a:'c'};(next.cardBase.patches??=[]).push({src:'assets/cards/card_base_eletric.png',bounds:[378,855,460,935],role:'mana'});}
+ G.CHARACTER_BALANCE[id]={maxHp,damage,reason:next.reason};return Object.freeze(next);
+});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

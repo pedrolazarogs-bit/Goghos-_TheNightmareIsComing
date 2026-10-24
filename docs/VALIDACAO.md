@@ -1,3 +1,19 @@
+# Validação — v0.26.0
+
+`npm test`: **274 testes aprovados**, incluindo **380 partidas completas simuladas**. São 200 partidas com o catálogo atual, 40 atuais com invocação garantida de MAX, 100 históricas e 40 regressões históricas com invocação. As partidas verificam conclusão, conservação de cartas físicas, limite de mão, formação legal e ações válidas.
+
+Os 13 testes específicos da integração completa conferem as 29 bases/atributos/classes/raridades, SHA-256 dos PNGs, Sam Fighter e multiplicadores, Linx contra Vida máxima/Parry/armadura/protetor/Daly/silêncio, limiares de Parry, Mana dos cinco Magos, resistência individual, crítico de Karma no revide, novos danos de Chama/Nully/Elétrica, alvos viáveis da IA e os 31 laboratórios. Também reproduzem sono com outro impedimento e um novo teste de sono na ação extra da mesma rodada.
+
+As regressões numéricas anteriores usam um catálogo explícito da v0.25.0 em `tests/fixtures/v0_25_catalog.js`; isso preserva cenários históricos de regras. O jogo não carrega essa fixture. Catálogo, integração de 200 partidas e a nova suíte usam os dados atuais da v0.26.0. Nenhum teste de regra foi removido.
+
+No Chromium em **1440×1000 e 390×844**, passaram **72 cenários**: coleção com 32 cartas e todas as 29 bases novas, cada um dos 31 laboratórios, ataque de Linx por 30% com arredondamento, combo de três socos separados de 70 de Sam, dano/mana dinâmica de Elétrica e seleção completa de dois Comuns por equipe. As entradas de laboratório foram preparadas com suas escolhas de pré-batalha resolvidas; navegação, alvos e confirmações usaram os controles da interface. Sem exceção JavaScript, recurso ausente, texto indefinido ou transbordamento horizontal. Números couberam nos campos conferidos.
+
+A inspeção visual confirmou a espada de Sam, nome de Striker, quatro dígitos de Vida de Daztirry e campos limpos sem reapresentar os números antigos. Os arquivos originais das cartas continuam idênticos aos recebidos; as correções são camadas de apresentação.
+
+[Sam no computador](previews/sam-v0.26.0-desktop.png) · [No celular](previews/sam-v0.26.0-celular.png) · [Linx em batalha](previews/linx-v0.26.0-desktop.png) · [Striker](previews/striker-v0.26.0-celular.png) · [Daztirry](previews/daztirry-v0.26.0-celular.png) · [Tabela manual completa](BALANCEAMENTO_MANUAL.md)
+
+---
+
 # Validação — v0.25.0
 
 `npm test`: **261 testes aprovados**, incluindo **340 partidas completas simuladas** (100 históricas, 200 com o catálogo atual e 40 com invocação). Os 16 testes novos cobrem os cinco dados manuais reconfirmados, hashes das 29 imagens, duplicação de Elysh, seleção alternada sem Raros, cura de retaguarda na velocidade correta, consumo de ação, limite de Vida, alvos inválidos, bloqueio de ataque traseiro mesmo com a Daly exposta, silêncio/impedimentos, trânsito sem ação extra, IA, prevenção de empate prematuro, armadura sem tributo natural, Parry de Stally/Alex, laboratórios e Morto Vivo sem habilidade.

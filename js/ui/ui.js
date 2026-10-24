@@ -75,7 +75,7 @@ function render(actor){
   const logScroll=app.querySelector('.log-list')?.scrollTop||0;
   ui.mode='battle';const s=ui.state,choice=s.deck.pendingChoice,pd=s.support.pending;
   const entry=G.pendingCharacterAbility(s),free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!entry&&!ui.busy&&!ui.paused;
-  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',handUsable=free&&(playerTurn||idle),pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor&&G.hasClass(actor,'MAGO'),area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
+  const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',handUsable=free&&(playerTurn||idle),pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor&&G.hasClass(actor,'MAGO')&&!actor.abilityOnly&&G.getMainAbility(actor)?.trigger!=='hypnosis',area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
   const rearHealer=mine&&actor&&G.canHealFromRear(actor);
   if(rearHealer&&ui.attackMode!=='heal'){ui.attackMode='heal';ui.target=null;}

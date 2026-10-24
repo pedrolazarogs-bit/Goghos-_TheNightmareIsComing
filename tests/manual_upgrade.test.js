@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),crypto=require('node:crypto');
 ['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card','ui/arena_ui','ui/battle_feedback'].forEach(f=>require('../js/'+f+'.js'));
+require('./fixtures/v0_25_catalog.js'); // Regressão das regras e atributos da v0.25.0.
 const G=GOGHOS;let passed=0;const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 const unit=(s,id)=>s.units.find(u=>u.id===id);
 const battle=(front=['sarck'],enemy=['john'],rear=['elysh'])=>G.createBattleState({front,rear},{front:enemy,rear:[]},[],{rng:()=>.5,roll:()=>6});
@@ -17,8 +18,8 @@ test('cinco personagens usam exatamente os dados manuais reconfirmados',()=>{
 test('29 imagens preservam os hashes e Elysh duplicada tem uma única referência ativa',()=>{
  const m=JSON.parse(fs.readFileSync('assets/rebalance/kit-master-upgrade/manifest.json'));assert.equal(m.archiveFileCount,30);assert.equal(m.cards.length,29);assert.equal(new Set(m.cards.map(c=>c.sha256)).size,29);
  for(const c of m.cards)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(c.asset)).digest('hex'),c.sha256,c.key);
- assert.equal(m.cards.find(c=>c.key==='elysh').sources.length,2);assert.equal(m.confirmedCharacters.length,5);
- assert.equal(G.getCharacterById('linx'),null);assert.equal(m.cards.find(c=>c.key==='sheriff_epic').status,'awaiting_identity_confirmation');
+ assert.equal(m.cards.find(c=>c.key==='elysh').sources.length,2);assert.equal(m.updatedCharacters.length,29);
+ assert.equal(m.cards.find(c=>c.key==='linx').candidateCharacterId,'linx');assert.equal(m.cards.find(c=>c.key==='sheriff_epic').candidateCharacterId,'striker');
 });
 
 test('a seleção exige quatro Comuns e somente eles entram, em escolhas alternadas sem Raros',()=>{

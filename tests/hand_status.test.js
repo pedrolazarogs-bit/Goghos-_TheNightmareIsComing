@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict');
 ['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card'].forEach(f=>require('../js/'+f+'.js'));
+require('./fixtures/v0_25_catalog.js'); // Regressão das regras e atributos da v0.25.0.
 const G=GOGHOS;let passed=0;const test=(name,f)=>{f();passed++;console.log('OK  '+name);};
 const battle=(p=['elysh','mike'],e=['john'])=>G.createBattleState({front:p,rear:[]},{front:e,rear:[]},[],{rng:()=>.5,roll:()=>6});
 const u=(s,id)=>s.units.find(c=>c.id===id);

@@ -146,3 +146,14 @@ Recebidas 29 imagens únicas em Kit1/Kit2, com originais e hashes preservados. F
 Elysh recebe sua vez na retaguarda para curar, sem atacar dali. Impedimentos, silêncio, ressurreição sem habilidade, uso da mão, hierarquia e movimentação continuam validados. A IA pode curar de trás ou avançar se houver vaga. A seleção volta a quatro escolhas alternadas de Comuns, dois por equipe, sem Raros automáticos. O laboratório foi desacoplado dessa opção de seleção para continuar funcionando.
 
 As outras 24 imagens aguardam conferência. Sheriff Épico e Sheriff Raro continuam separados; Linx não entra sem habilidade definida. Detalhes em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).
+
+
+## v0.26.0 — todas as cartas balanceadas aplicadas
+
+Conclui a aplicação das 29 cartas únicas de Kit1 e Kit2, além dos cinco primeiros personagens da v0.25.0. Atualiza Vida, dano, classe, raridade, velocidade, fôlego, Parry e resistências conforme as cartas; valores manuais prevalecem sobre as faixas antigas. O catálogo passa a 31 personagens de raridade mais Zeenneriam, sem Petra ou provisórios. John e Sark mantêm as cartas anteriores.
+
+O criador confirmou que SHERIFF Épico/AWM é Striker e que Prototype de Linx causa 30% da Vida máxima do alvo. Ambos entram corretamente no jogo. Sam é Fighter: recebe apenas a correção local do ícone inferior. O combo mantém 70 por soco, Chama usa 55 por aplicação, DD-X mostra 45 × 2 e Draktar 90 × 2. As habilidades anteriores permanecem, usando novos atributos e limites de raridade.
+
+Magos atualizados recebem Mana 3/3 com regeneração; Karma Destroyer testa crítico no revide; Rayvilin Fighter tem Parry; Z-Zus usa 20% de resistência e Cavaleiro continua sem tributo natural. A IA evita alvos com esquiva garantida quando há alternativa, respeita impedimentos restantes depois de acordar e pode testar sono de novo numa ação extra da mesma rodada.
+
+Validação: 274 testes, 380 partidas simuladas e 72 cenários no Chromium em computador e celular. As 29 imagens originais conservam seus hashes. A [tabela manual](BALANCEAMENTO_MANUAL.md) reúne todos os valores ativos.
