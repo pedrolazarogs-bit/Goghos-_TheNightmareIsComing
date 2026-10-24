@@ -199,3 +199,14 @@ A inspiração usa padrões gerais conhecidos de lobby/loja/seleção de modos s
 Nenhuma mudança no motor, balanceamento, preços ou recompensas. O progresso anterior continua carregando. As bases das cartas permanecem intactas.
 
 Validação: 340 testes, 380 partidas simuladas e 97 cenários de navegador em computador, celular e paisagem.
+
+
+## v0.28.0 — GOGHOS Without Mercy e interface cartoon
+
+Aplica a direção visual do protótipo HTML recebido: logo e Beta originais, menu de botões inclinados com relevo, ícones coloridos, fundo com profundidade e entradas em sequência. A abertura reinterpreta o ritmo do vídeo cosmos_intro com anel, partículas e reflexo. Loja, modos, coleção, preferências, resultados e controles da arena acompanham os contornos e cores dos anexos.
+
+A ambiência tem ciclo próprio, respeita movimento reduzido, pausa com a aba oculta e limpa seus recursos ao trocar de tela. Os ícones e ornamentos SVG são próprios; logo, Beta e três JPGs de referência têm origem e hashes registrados. A fonte de títulos é distribuída localmente com sua licença.
+
+Preserva todos os atributos, habilidades, regras, preços, recompensas, progressos salvos e arquivos das cartas. As ações do menu apontam para os destinos reais do projeto; os laboratórios continuam sem recompensa de partida.
+
+Validação: 350 testes, 380 partidas completas simuladas e 123 verificações de navegador em cinco resoluções.

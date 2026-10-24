@@ -1,6 +1,6 @@
-# Estrutura base do GOGHOS — v0.27.0
+# Estrutura base do GOGHOS — v0.28.0
 
-Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
+Estas são as regras atuais, conforme a estrutura descrita pelo criador. A v0.28.0 altera somente a apresentação: menu, abertura, ícones e painéis. Mantém integralmente as regras e o balanceamento anteriores. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
 ## Seleção
 

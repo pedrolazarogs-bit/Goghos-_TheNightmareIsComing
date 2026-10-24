@@ -1,3 +1,21 @@
+# Validação — v0.28.0
+
+`npm test`: **350 testes aprovados**, incluindo **380 partidas completas simuladas**. As regressões continuam comparando motor, atributos, Apoios, montes e configuração com a versão anterior à renovação. Os dez arquivos do motor permanecem idênticos; as fontes de dados permitem somente a identificação da versão. As 71 imagens de bases e limpezas anteriores também permanecem intactas.
+
+Os dez testes novos verificam o ciclo de vida da ambiência e os recursos locais: modo estático sem RAF, redução de movimento aplicada ao vivo, pausa e retomada da aba sem duplicar loops, limite de partículas, remoção do host, desmontagem dos listeners/observador, preferência do dispositivo, logo e Beta idênticos ao HTML recebido, JPGs de referência intactos e SVGs/HTML/CSS sem dependências remotas.
+
+No Chromium via HTTP local passaram **123 verificações**, nas resoluções 1440×900, 1280×720, 390×844, 360×740 e 844×390. Os cenários cobrem os seis acessos reais do menu, quatro modos, loja e categorias, baú de 90 sem duplicação, progresso após recarregar, seleção alternada, recompensa de 50 uma única vez e início de nova partida. Foram conferidos Enter/Espaço/↑/↓/Home/End, foco, rótulos sem cortes, alcance dos botões, título longo e carteira máxima.
+
+A abertura foi exercitada com carregar, entrar, pular, Escape, rever, Tab e Shift+Tab; movimento reduzido e aba oculta foram conferidos no diagnóstico do ciclo de vida e no CSS. Ao mudar de tela, a ambiência fica inativa e não mantém quadros/listeners/observador. Uma partida normal chegou ao ataque real de Mike, com a animação existente e a Vida resultante conferidas. As ilustrações e os valores das cartas continuam os mesmos. Os estados preparados pelos testes só servem para reproduzir as verificações e não são carregados pelo jogo normal.
+
+Sem erros JavaScript, recursos locais ausentes ou transbordamento horizontal nos fluxos aprovados. A moldura angular foi aplicada ao retrato do destaque do menu; a ficha lateral conserva a área de texto livre de ornamentos. O nome Without Mercy e os dois WebPs vêm do protótipo recebido; o vídeo orientou a criação da abertura, sem virar uma dependência de reprodução. A fonte Lilita One é local e acompanha sua licença.
+
+A navegação do navegador foi testada via servidor HTTP local. A limitação administrativa anterior para abrir `file://` continua documentada abaixo; a resolução local das cenas e a ausência de recursos de rede são cobertas pelos testes estáticos/VM.
+
+[Vídeo real da interface, sem áudio](previews/interface-v0.28.0.mp4) · [Menu](previews/menu-v0.28.0-desktop.png) · [Celular](previews/menu-v0.28.0-celular.png) · [Abertura](previews/abertura-v0.28.0-desktop.png) · [Modos](previews/modos-v0.28.0-desktop.png) · [Loja](previews/loja-v0.28.0-desktop.png) · [Arena](previews/arena-v0.28.0-desktop.png)
+
+---
+
 # Validação — v0.27.1
 
 `npm test`: **340 testes aprovados**, incluindo **380 partidas completas simuladas**. Os seis testes novos comparam a economia e os cosméticos com o commit publicado da v0.27.0, conferem os quatro destinos de modo e a resolução das cenas em HTTP, subpastas e URLs locais. Os testes de invariantes confirmam que motor, balanceamento, cartas e artes anteriores permanecem intactos.

@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "version": "0.28.0",
+  "description": "Artes fornecidas e vetores originais da renovação cartoon. Referências não alteram números, cartas ou regras.",
+  "sources": [
+    {
+      "id": "html-prototype",
+      "fileName": "GOGHOS Without Mercy.html",
+      "bytes": 300454,
+      "sha256": "0d3870e3a707c18111f0ef67b4367f99f4be301aedf4162bca7b804bf988ce80"
+    },
+    {
+      "id": "animation-reference",
+      "fileName": "cosmos_intro.mp4",
+      "bytes": 7734322,
+      "sha256": "0a59453197fe9b6f6bd4abcdf17297a8a46875a36551c8a42112d60d8450204f"
+    },
+    {
+      "id": "ui-icons-reference",
+      "fileName": "1000156566.jpg",
+      "bytes": 46115,
+      "sha256": "8d5fc2e1ad019c945fc04c64511dcab2a83a0b977fc95d62917e056fca7f7c1b"
+    },
+    {
+      "id": "energy-flame-reference",
+      "fileName": "1000156556.jpg",
+      "bytes": 43182,
+      "sha256": "02d8cbc4cd47dd79079f05d46625bc11c8d1f10cae5357c16e0936f708fc0ba2"
+    },
+    {
+      "id": "panel-reference",
+      "fileName": "1000156555.jpg",
+      "bytes": 73774,
+      "sha256": "bcb944662b3001250a8f507f120c4ff868ff183d867cc2c6127a4b58980dd266"
+    }
+  ],
+  "assets": [
+    {
+      "path": "beta.webp",
+      "bytes": 23796,
+      "sha256": "58ed69eb80714cffb4b21c6cc54167e11dd240001cf215aaea85efae5c6daf0f",
+      "width": 320,
+      "height": 247,
+      "kind": "embedded-art-original",
+      "source": "html-prototype",
+      "embeddedIndex": 1,
+      "notes": "Bytes WEBP extraídos diretamente do data URI recebido, sem alteração da arte."
+    },
+    {
+      "path": "icons/back.svg",
+      "bytes": 518,
+      "sha256": "d22e50c715dce072bdfa5f32305f405c37dd60a973ca09471694001aecb52499",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/book.svg",
+      "bytes": 653,
+      "sha256": "2ee0b49ae0fca65e03945806457501856ba74e38d6f202ac8e821357fea4d2b3",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/cards.svg",
+      "bytes": 676,
+      "sha256": "f8800f3a8b64b0bf8f8e62628494b9934dc116cc191482b35e230d7751592628",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/credit.svg",
+      "bytes": 650,
+      "sha256": "609a0b77e64d6ceb7a0eb0067a94589486c5d190002f8e83ccc380a04daa10dc",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/heart.svg",
+      "bytes": 568,
+      "sha256": "c2306f7f11c1bca251f75ad4a91fb976b5be5f3484b57bed61296030b70df39b",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/mode.svg",
+      "bytes": 640,
+      "sha256": "e08379bae18748e60cafa27ad34aa38428c5a948e53a159a4d13c9ad8a82fd46",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/play.svg",
+      "bytes": 513,
+      "sha256": "f45c2df7160083becdccfc218a251ac1e878032c5d997496303efe62689d3dda",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/search.svg",
+      "bytes": 794,
+      "sha256": "f73446bffa8dfe6c5de7120a7db29febfb2ec5a15925681efb7a987415b98b98",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/settings.svg",
+      "bytes": 781,
+      "sha256": "dcf5f3124aa1602f89cbadd47fa28541fdee56e1f302d06039a4ce5c63849cdd",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/sound.svg",
+      "bytes": 631,
+      "sha256": "a246ec516d18a8490dd5aec3cf46d1d823585110e023429e30d2cd8d8edf9cb1",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/star.svg",
+      "bytes": 586,
+      "sha256": "c3675b77e49218aed28662740576fc7bc798174d91c99e3c47e553dead2acfd9",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "icons/store.svg",
+      "bytes": 735,
+      "sha256": "f23ac873efde8af1895e080f50c96971e6df9ceda40873240241d1f32a1ddbb6",
+      "kind": "original-svg",
+      "sourceReference": "ui-icons-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "logo-without-mercy.webp",
+      "bytes": 181472,
+      "sha256": "bfcf8b1f2eecf2c99584debf1d639a31f73e11789da2dfe90b602762d8745843",
+      "width": 1200,
+      "height": 780,
+      "kind": "embedded-art-original",
+      "source": "html-prototype",
+      "embeddedIndex": 0,
+      "notes": "Bytes WEBP extraídos diretamente do data URI recebido, sem alteração da arte."
+    },
+    {
+      "path": "ornaments/angular-frame.svg",
+      "bytes": 1195,
+      "sha256": "054be8699b6fb16a1651d4202abc8f16c09c13e3a18aad2933bdc43961691621",
+      "kind": "original-svg",
+      "sourceReference": "panel-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "ornaments/energy-flame.svg",
+      "bytes": 979,
+      "sha256": "02c4335c3c49156a57f0ec549c63293f7b864d4ffa7cd0f78bc91c3451832b79",
+      "kind": "original-svg",
+      "sourceReference": "energy-flame-reference",
+      "notes": "Vetor original implementado em código; não é recorte, conversão nem edição da referência recebida."
+    },
+    {
+      "path": "references/energy-flame-reference.jpg",
+      "bytes": 43182,
+      "sha256": "02d8cbc4cd47dd79079f05d46625bc11c8d1f10cae5357c16e0936f708fc0ba2",
+      "width": 960,
+      "height": 1280,
+      "kind": "reference-original",
+      "source": "energy-flame-reference",
+      "notes": "Cópia integral da referência recebida; não usada como ícone ou moldura de carta."
+    },
+    {
+      "path": "references/panel-reference.jpg",
+      "bytes": 73774,
+      "sha256": "bcb944662b3001250a8f507f120c4ff868ff183d867cc2c6127a4b58980dd266",
+      "width": 997,
+      "height": 1280,
+      "kind": "reference-original",
+      "source": "panel-reference",
+      "notes": "Cópia integral da referência recebida; não usada como ícone ou moldura de carta."
+    },
+    {
+      "path": "references/ui-icons-reference.jpg",
+      "bytes": 46115,
+      "sha256": "8d5fc2e1ad019c945fc04c64511dcab2a83a0b977fc95d62917e056fca7f7c1b",
+      "width": 1280,
+      "height": 960,
+      "kind": "reference-original",
+      "source": "ui-icons-reference",
+      "notes": "Cópia integral da referência recebida; não usada como ícone ou moldura de carta."
+    }
+  ]
+}

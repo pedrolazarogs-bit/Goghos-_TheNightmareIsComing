@@ -1,1 +1,6 @@
 Fonte oficial do jogo (German Beauty). Usada em todo o texto via css/style.css.
+
+Lilita One (Juan Pablo del Peral): fonte de títulos e botões da interface cartoon v0.28.0.
+Arquivo local: LilitaOne-Regular.ttf, licença SIL Open Font License 1.1 em LilitaOne-OFL.txt.
+Origem: https://github.com/google/fonts/tree/main/ofl/lilitaone
+As cartas oficiais continuam usando a fonte e as bases anteriores.

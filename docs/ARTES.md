@@ -181,3 +181,12 @@ Os cinco RARs contêm 106 mídias, com 85 originais novos importados e 21 arquiv
 Os novos fundos aparecem no mundo, na arena personalizável e nas crônicas. Sam e Chama usam suas ilustrações separadas no menu; outros personagens ilustram as cenas narrativas. Estrela, verso, faixas, ícones e moeda mantêm a identidade recebida. As cartas oficiais e as 71 imagens anteriores de bases/limpeza permanecem intactas.
 
 As folhas antigas de personagem são referências organizadas. Nenhum número delas foi aplicado ao combate. Os dois vídeos foram preservados como referências e não são baixados ou reproduzidos automaticamente pela interface.
+
+
+## Without Mercy e referências cartoon — v0.28.0
+
+O HTML enviado fornece o logo Without Mercy e o selo Beta em WebP. Ambos foram extraídos sem alterar os bytes. As três imagens JPG de ícones, chama e painel permanecem como referências intactas. Foram desenhados 12 ícones SVG e dois ornamentos próprios para a interface, sem recortar ou modificar as referências. Os 19 arquivos e suas origens estão no [manifesto v0.28](../assets/visual-v0.28/manifest.json).
+
+O vídeo cosmos_intro.mp4 orienta o ritmo da revelação, o brilho e a acomodação do logo. A abertura é uma composição própria em HTML/CSS, com cenário e partículas em canvas; o vídeo não é reproduzido nem necessário para jogar. A fonte Lilita One foi incluída em assets/fonts com sua licença SIL OFL para preservar o funcionamento offline.
+
+As bases de cartas e ilustrações anteriores continuam intactas. Nenhum número nas referências foi aplicado ao combate.

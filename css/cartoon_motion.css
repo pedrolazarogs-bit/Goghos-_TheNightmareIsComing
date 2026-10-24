@@ -1,0 +1,20 @@
+/* Decoração independente do campo de batalha. Cada tela pode ajustar o centro luminoso. */
+.toon-backdrop{--toon-light-x:32%;--toon-light-y:46%;position:absolute;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0}
+.ct-motion-scene{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#170a31}
+.ct-motion-wash{position:absolute;inset:0;background:radial-gradient(ellipse 65% 76% at var(--toon-light-x) var(--toon-light-y),#c127b43b,transparent 70%),radial-gradient(ellipse 80% 70% at 93% 100%,#2480a92c,transparent 68%),radial-gradient(ellipse 95% 75% at 2% 0,#6733bb55,transparent 70%),linear-gradient(160deg,#2d1052,#170a31 62%,#100623)}
+.ct-motion-depth{position:absolute;inset:-24px;will-change:transform}
+.ct-motion-rays{position:absolute;left:var(--toon-light-x);top:var(--toon-light-y);width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;background:repeating-conic-gradient(from 0deg,#db48d51d 0deg 4deg,transparent 4deg 15deg),repeating-conic-gradient(from 7deg,#65cbf018 0deg 1deg,transparent 1deg 15deg);mask-image:radial-gradient(circle closest-side,#000a,transparent 63%);animation:ct-rays-turn 160s linear infinite}
+.ct-motion-halftone{position:absolute;inset:0;background-image:radial-gradient(circle,#eacfff22 0 1px,transparent 1.8px);background-size:15px 15px;mask-image:linear-gradient(150deg,transparent 4%,#0008 43%,transparent 92%);opacity:.55}
+.ct-motion-shard{position:absolute;left:var(--shard-x);top:var(--shard-y);width:var(--shard-size);height:var(--shard-size);background:linear-gradient(133deg,var(--shard-a) 0 49.5%,var(--shard-b) 50% 100%);clip-path:polygon(var(--shard-shape));opacity:var(--shard-opacity);transform:rotate(var(--shard-angle));animation:ct-shard-sway var(--shard-time) ease-in-out var(--shard-delay) infinite alternate}
+.ct-motion-shard:after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,#ffffff26,transparent 48%);clip-path:polygon(0 0,55% 0,0 100%)}
+.ct-motion-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:.85}
+.ct-motion-shade{position:absolute;inset:0;background:radial-gradient(ellipse at var(--toon-light-x) var(--toon-light-y),transparent 28%,#0b041b3d 100%),linear-gradient(0deg,#10062088,transparent 28%,transparent 75%,#12062242)}
+.ct-motion-intro .ct-motion-wash{background:radial-gradient(ellipse 76% 70% at var(--toon-light-x) var(--toon-light-y),#a947ce45,transparent 64%),radial-gradient(ellipse 80% 80% at 85% 10%,#268ac441,transparent 65%),linear-gradient(150deg,#21134c,#190a34 65%,#110622)}
+.ct-motion-intro .ct-motion-rays{opacity:.85}
+.ct-motion-soft-burst{position:absolute;width:70px;height:40px;margin:-20px 0 0 -35px;border-radius:50%;background:radial-gradient(ellipse,#ffdcfd 0,#ac86ff66 35%,transparent 70%);opacity:0;pointer-events:none}
+.toon-backdrop[data-toon-motion=paused] *,.toon-backdrop[data-toon-motion=paused] *:after{animation-play-state:paused!important}
+.toon-backdrop[data-toon-motion=reduced] *,.toon-backdrop[data-toon-motion=reduced] *:after{animation:none!important;transition:none!important;will-change:auto}
+@keyframes ct-rays-turn{to{transform:rotate(360deg)}}
+@keyframes ct-shard-sway{from{transform:translate3d(0,-5px,0) rotate(var(--shard-angle))}to{transform:translate3d(0,8px,0) rotate(calc(var(--shard-angle) + 9deg))}}
+@media(max-width:760px){.toon-backdrop{--toon-light-x:50%;--toon-light-y:25%}.ct-motion-halftone{background-size:13px 13px;opacity:.4}.ct-motion-near .ct-motion-shard{opacity:.65}}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .ct-motion-scene *{animation:none!important;will-change:auto}}

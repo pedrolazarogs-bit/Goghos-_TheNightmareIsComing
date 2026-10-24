@@ -1,16 +1,22 @@
-# Interface viva — v0.27.1
+# Interface viva — v0.28.0
 
-A renovação usa as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
+A direção atual segue o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
 
 ## Entrada no mundo
 
-A primeira abertura prepara quatro artes essenciais e apresenta o portal GOGHOS. O progresso corresponde às imagens carregadas. **Pular abertura** e Escape levam ao menu; depois, **Rever abertura** permite retornar. O carregamento tem uma saída mesmo se um recurso falhar. As demais artes são carregadas conforme as telas são abertas.
+A primeira abertura prepara quatro artes essenciais e apresenta o logo Without Mercy com entrada elástica, anel de energia, partículas e reflexo. A animação foi construída para o jogo a partir da referência em vídeo; não é uma reprodução do MP4. O progresso corresponde às imagens carregadas. **Pular abertura** e Escape levam ao menu; depois, **Rever abertura** permite retornar. O carregamento tem uma saída mesmo se um recurso falhar. As demais artes são carregadas conforme as telas são abertas.
 
-O lobby deixa Sam em destaque, com perfil e moedas no topo, navegação lateral para Loja, Personagens e Crônicas e um botão Jogar junto do modo escolhido. O destaque é uma apresentação do personagem; não define a equipe inicial.
+O menu mostra o logo recebido e uma pilha de botões inclinados para Jogar, Personagens, Loja, Coleção, Crônicas e Configurações. No computador, logo e menu ficam lado a lado; no celular, o logo fica acima. Perfil e moedas continuam no topo. O cartão de modo permanece junto de Jogar. O pequeno destaque de Sam abre sua ficha narrativa e não define a equipe inicial.
 
 O cartão de modo abre uma galeria: **Arena** entra na seleção alternada dos quatro Comuns; **Treino de campeões** abre os 31 laboratórios; **Mesa de Apoios** abre os 17 testes; **Invocação primordial** prepara o laboratório de Zeenneriam. A escolha permanece durante a sessão, voltando para Arena ao recarregar. Nova partida após um resultado sempre inicia a seleção normal. Escape fecha a galeria.
 
-A organização usa padrões gerais conhecidos de interfaces de jogos, conforme a referência solicitada de Brawl Stars. As páginas oficiais não puderam ser inspecionadas neste ambiente (HTTP 403/falha de conexão). Nenhum recurso ou tela desse jogo foi copiado; a arte, a linguagem visual e os destinos são próprios de GOGHOS.
+O HTML recebido funciona como referência visual. Seus botões demonstrativos foram conectados aos acessos reais do projeto; a interface não cria uma ação de Continuar ou promete salvar batalhas. O novo nome e o logo são apresentados no menu, na abertura e na marca da arena, enquanto as ilustrações originais das cartas permanecem intactas.
+
+## Camadas, ícones e painéis
+
+O fundo combina raios, retícula, estilhaços e estrelas em camadas com parallax suave. A cena é independente do combate: há somente uma instância ativa, que é desmontada ao trocar de tela. Ocultar a aba pausa o ciclo; movimento reduzido interrompe os quadros e mantém uma composição estática. As preferências também são aplicadas ao mudar durante a sessão.
+
+Os ícones SVG foram desenhados para o projeto, seguindo contornos roxos, volume e cores dos anexos. A chama e a moldura angular do retrato no menu são elementos próprios inspirados nas referências. Os JPGs originais permanecem catalogados, sem uso de recortes com fundo branco na interface. Logo e Beta são os WebPs extraídos do HTML sem alteração. A fonte Lilita One é local e acompanha a licença SIL OFL; as cartas conservam suas fontes anteriores.
 
 ## Arena e cartas
 
@@ -44,6 +50,6 @@ As seis cenas usam os fundos e as ilustrações dos kits como ambientação narr
 
 ## Teclado e leitura
 
-Botões e cartas selecionáveis têm foco visível. Enter e Espaço selecionam cartas; Escape fecha a ficha, o seletor de modos ou os detalhes da loja, e também pula a abertura. Os detalhes devolvem o foco ao cartão correspondente. Diálogos de leitura e abertura mantêm o foco entre seus controles. Ícones têm nomes acessíveis e as mensagens mostram resultados mesmo com som ou movimento desligados.
+Botões e cartas selecionáveis têm foco visível. No menu principal, ↑/↓ percorrem as opções e Home/End levam à primeira/última; Enter ou Espaço ativam a opção focada. Enter e Espaço selecionam cartas; Escape fecha a ficha, o seletor de modos ou os detalhes da loja, e também pula a abertura. Os detalhes devolvem o foco ao cartão correspondente. Diálogos de leitura e abertura mantêm o foco entre seus controles. Ícones têm nomes acessíveis e as mensagens mostram resultados mesmo com som ou movimento desligados.
 
 [Validação](VALIDACAO.md) · [Regras preservadas](REGRAS.md) · [Artes recebidas](ARTES.md)

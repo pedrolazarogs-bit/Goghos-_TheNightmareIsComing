@@ -1,0 +1,166 @@
+/* GOGHOS cartoon skin: presentation only. Formation, card art and sizes stay in arena_reborn.css. */
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen){
+  --toon-ink:#210733;--toon-plum:#481471;--toon-violet:#7a32d5;--toon-pink:#ff53cf;
+  --toon-cyan:#65dbff;--toon-mint:#a2f3d0;--toon-yellow:#ffe783;
+  color:#fff4e9;
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) :is(h1,h2,h3,h4){
+  font-family:var(--toon-display,'German Beauty',Georgia,serif);color:#fff4df;
+  letter-spacing:0;text-shadow:0 2px 0 #250735;
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) button{
+  border-color:#240737;border-width:2px;border-radius:13px 8px 13px 8px;
+  background:linear-gradient(180deg,#684491,#48256d);color:#fff9f0;
+  box-shadow:0 4px 0 #190626,inset 0 2px 0 #ffffff32,inset 0 -3px 0 #29084055;
+  transition:transform .18s cubic-bezier(.2,1.35,.4,1),background .18s,box-shadow .18s;
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) button:hover:not(:disabled){
+  background:linear-gradient(180deg,#8756b5,#66349b);color:#fffaf1;
+  box-shadow:0 5px 0 #190626,inset 0 2px 0 #ffffff4d,0 0 0 1px #dfb5fa68;
+  transform:translateY(-2px);
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) button:active:not(:disabled){
+  transform:translateY(2px) scale(.98);box-shadow:0 1px 0 #190626,inset 0 1px 0 #ffffff40;
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) :is(button,input,summary):focus-visible{
+  outline:3px solid #8ceaff;outline-offset:4px;
+}
+:is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) :is(.eyebrow,.sanctuary-eyebrow){
+  color:#bfefff;
+}
+
+/* The mode gallery keeps its established destinations and proportions. */
+.mode-screen{background:radial-gradient(ellipse at 15% 0,#8a2bc844,transparent 55%),linear-gradient(#240c47e0,#180a2aee),url('../assets/visual-v0.27/backgrounds/crystal-valley.png') center/cover}
+.mode-header{border-bottom:2px solid #74419c70;padding-bottom:19px}
+.mode-header h1{text-shadow:0 3px 0 #210632,2px 0 0 #210632,-2px 0 0 #210632}
+.mode-screen .mode-tile{--mode-trim:#f5c4ff;background:linear-gradient(95deg,#30213df0,#39274866),var(--mode-scene) center/cover;border:3px solid #260937;border-radius:22px 10px 22px 10px;box-shadow:0 7px 0 #15051f,0 0 0 1px #da9aff42 inset;isolation:isolate}
+.mode-screen .mode-tile:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle,#ffffff21 0 1px,transparent 1.5px) 0 0/10px 10px;mask-image:linear-gradient(135deg,#000,transparent 48%);opacity:.55}
+.mode-screen .mode-tile:after{background:linear-gradient(0deg,#240b3bf5,#36104c55 76%,transparent)}
+.mode-screen .mode-tile-arena{--mode-trim:#ffce67}
+.mode-screen .mode-tile-champions{--mode-trim:#7be6ff}
+.mode-screen .mode-tile-support{--mode-trim:#ff7cdd}
+.mode-screen .mode-tile-divine{--mode-trim:#a4ffd6}
+.mode-screen .mode-tile:hover{background:linear-gradient(95deg,#4a2362ec,#39274866),var(--mode-scene) center/cover;box-shadow:0 9px 0 #15051f,inset 0 0 0 2px var(--mode-trim);transform:translateY(-4px)}
+.mode-screen .mode-tile.is-selected{border-color:#210632;box-shadow:0 7px 0 #15051f,inset 0 0 0 3px #a2f3d0,0 0 0 2px #a2f3d0}
+.mode-tile-label>small{background:#250a3dd9;color:var(--mode-trim);border:1px solid #ffffff28;align-self:flex-start;padding:6px 8px;border-radius:7px;font-weight:750;letter-spacing:.1em}
+.mode-tile-label>strong{font-family:var(--toon-display,'German Beauty',Georgia,serif);text-shadow:0 3px 0 #260733}
+.mode-tile-label>span{color:#f1dcf4;text-shadow:0 1px 2px #160725}
+.mode-tile-check{color:#f2d8ff}
+.mode-tile.is-selected .mode-tile-check{color:#bbffdb;font-weight:700}
+.mode-footnote{color:#dec9e9}
+
+/* Store: graphic bursts, beveled controls and a clear owned state. */
+.shop-hub .sanctuary-header{border-bottom-color:#ae63d252}
+.shop-hub .sanctuary-heading h1{text-shadow:0 3px 0 #230633,2px 0 0 #230633,-2px 0 0 #230633}
+.shop-hub .sanctuary-wallet{border-color:#612482;background:linear-gradient(145deg,#361449,#200b32);box-shadow:0 4px 0 #14051f,inset 0 2px 0 #ffffff1c}
+.shop-hub .sanctuary-tabs button{border:2px solid #230733;background:linear-gradient(#613587,#3d1c5c);color:#f5e3ff;box-shadow:0 4px 0 #160521,inset 0 2px 0 #ffffff22}
+.shop-hub .sanctuary-tabs button[aria-current]{border-color:#240737;background:linear-gradient(#b6ffde,#56d7ba);color:#173b36;box-shadow:0 4px 0 #220b30,inset 0 2px 0 #ffffff80}
+.shop-hub .sanctuary-tabs button[aria-current]:hover{background:linear-gradient(#cdffe9,#76e8ca);color:#173b36}
+.shop-hub .shop-featured{border:3px solid #270738;border-radius:26px 12px 26px 12px;background:linear-gradient(115deg,#6b2fb1,#9f3ed0 57%,#362373);box-shadow:0 7px 0 #160423,inset 0 2px 0 #ffc5ff51}
+.shop-hub .shop-featured:before{opacity:.22;background:repeating-conic-gradient(from 5deg at 79% 53%,transparent 0deg 13deg,#ffc8fb 13deg 20deg,transparent 20deg 35deg)}
+.shop-hub .shop-featured:after{color:#ffea8ba3;text-shadow:0 2px 0 #602166}
+.shop-hub .shop-featured h2{color:#fff1b3;text-shadow:0 4px 0 #3b1156,2px 0 0 #3b1156,-2px 0 0 #3b1156}
+.shop-hub .shop-featured-label{border-color:#edaaff75;background:#40115d8c;color:#f9eaff;box-shadow:0 2px 0 #2d0c42}
+.shop-hub .shop-featured-copy>p{color:#fff1fc}
+.shop-hub .shop-featured-tags>span{background:#4d175f99;color:#ffe4ff;border-color:#ffc2f259}
+.shop-hub button.shop-chest-buy{border:3px solid #250836;background:linear-gradient(#fff1a0,#ffc64f);color:#352047;box-shadow:0 5px 0 #250836,inset 0 3px 0 #ffffff9c,inset 0 -4px 0 #d88b293d}
+.shop-hub button.shop-chest-buy:hover:not(:disabled){background:linear-gradient(#fff8c2,#ffdc68);color:#352047;box-shadow:0 7px 0 #250836,inset 0 3px 0 #ffffff9c}
+.shop-hub button.shop-chest-buy .shop-button-price{border-color:#805e4d40}
+.shop-hub .shop-featured-seal{background:linear-gradient(#fff4ad,#ffd467);border-color:#340c45;color:#4b285d;box-shadow:0 4px 0 #250738}
+.shop-hub .shop-featured .sanctuary-price-note{color:#f2d3ff}
+.shop-hub .shop-categories button{border:2px solid #2b0b3d;background:#3a1858;color:#f1d9ff;box-shadow:0 3px 0 #1c072a,inset 0 1px 0 #ffffff1a}
+.shop-hub .shop-categories button[aria-pressed=true]{border-color:#2b0b3d;background:linear-gradient(#ffdda7,#ffb75f);color:#3a2048;box-shadow:0 3px 0 #1c072a,inset 0 2px 0 #fff6db9c}
+.shop-hub .shop-categories button[aria-pressed=true]:hover:not(:disabled){background:linear-gradient(#ffe9bc,#ffd180);color:#3a2048;box-shadow:0 3px 0 #1c072a}
+.shop-hub .shop-section-heading h3{color:#fff1dc}
+.shop-hub .shop-section-heading p{color:#d2b6e4}
+.shop-hub .shop-section-heading>span{background:#361348;border-color:#9e5dc263;color:#eac7ff}
+.shop-hub .shop-card{border-color:#280a3d;background:linear-gradient(145deg,#51206e,#2e164b);box-shadow:0 5px 0 #170621}
+.shop-hub .shop-card.is-equipped{border-color:#9af5d0;box-shadow:0 5px 0 #16382e}
+.shop-hub .shop-card.is-selected{border-color:var(--shop-accent);box-shadow:0 5px 0 #170621,0 0 0 1px var(--shop-accent)}
+.shop-hub .shop-card-copy h4{font-family:var(--toon-display,'German Beauty',Georgia,serif);color:#fff5df;text-shadow:0 2px 0 #2c0b3d}
+.shop-hub .shop-card-kind{color:#e7bcf3}
+.shop-hub .shop-card-copy .shop-discover{background:linear-gradient(#7c419b,#592f80);border-color:#270b3a;color:#fff0ff;box-shadow:0 3px 0 #190728,inset 0 2px 0 #ffffff26}
+.shop-hub .shop-card-copy .shop-equip{background:linear-gradient(#bfffe2,#75dfb8);border-color:#230c32;color:#193f32}
+.shop-hub .shop-card-copy .shop-equip.is-equipped{background:#204b42;border-color:#5c997c;color:#c9ffe3;box-shadow:inset 0 2px 0 #ffffff0d}
+.shop-hub .shop-item-state{background:#370f4c;border-color:#cc93ed6e;color:#fff0ff}
+.shop-hub .shop-item-state.active{background:#baf5d6;border-color:#74c99f;color:#173e31}
+.shop-hub .shop-detail{background:linear-gradient(120deg,#5d2a7a,#32144f);border-color:var(--shop-accent);box-shadow:0 5px 0 #1d072a}
+.shop-hub button.shop-detail-close{border:2px solid #270b3a;background:linear-gradient(#f487c9,#c44b9f);color:#fff5f9;box-shadow:0 3px 0 #260b35}
+.shop-hub .shop-collection-heading{border-color:#2a0b40;background:radial-gradient(circle at 15% 15%,#a65dd33d,transparent 65%),linear-gradient(110deg,#512376,#2f164d);box-shadow:0 5px 0 #1d072b}
+.shop-hub .shop-collection-total b{color:#b7ffe0}
+.shop-hub .shop-store-note{border-top-color:#a65ac344;color:#d9b8ec}
+.shop-hub .shop-store-note>span:last-child{color:#c6f9db}
+.shop-hub .sanctuary-reveal{border:3px solid #341045;background:radial-gradient(ellipse at 50% 35%,#b953e661,transparent 70%),#301348;box-shadow:0 7px 0 #1b072c}
+.shop-hub .sanctuary-footer{color:#c3a0d7}
+.shop-hub[data-shop-tab=story] .sanctuary-content{border-color:#42145c;box-shadow:0 6px 0 #180525}
+
+/* Archives and preferences borrow the angular card-panel language. */
+:is(.collection,.ability-tests,.support-tests,.ability-lab) :is(.collection-header,.character-search){position:relative}
+.collection .collection-header{border-bottom:2px solid #c555e54a}
+:is(.collection,.ability-tests) .character-search input{border:2px solid #321146;background:linear-gradient(130deg,#43205c,#2b1643);color:#fff5fd;box-shadow:0 4px 0 #1e0a2e,inset 0 2px 0 #ffffff1b}
+:is(.collection,.ability-tests) .character-search input::placeholder{color:#c6a7dc}
+:is(.collection,.ability-tests,.support-tests) :is(.collection-grid,.ability-tests-grid,.support-tests-grid) article{border:2px solid #351044;border-radius:20px 9px 20px 9px;background:radial-gradient(circle at 20% 0,#ac69c82e,transparent 54%),linear-gradient(145deg,#4e2464,#2d163f);box-shadow:0 5px 0 #1b0829,inset 0 2px 0 #ffffff15}
+.collection .collection-grid article:hover{border-color:#a86fc4;box-shadow:0 7px 0 #1b0829}
+:is(.collection,.ability-tests,.support-tests) :is(.collection-ability,.collection-grid p,.ability-tests-grid p,.support-tests-grid p){color:#e4cde9}
+:is(.ability-tests,.support-tests) :is(.ability-tests-grid,.support-tests-grid) button{background:linear-gradient(#c2ffe4,#72dcb9);border-color:#230b32;color:#1b4035;box-shadow:0 4px 0 #1a0828,inset 0 2px 0 #ffffff80}
+.settings-page .settings-content{position:relative;border:2px solid #57206e;border-radius:22px 10px 22px 10px;background:radial-gradient(circle at 0 0,#a454ce33,transparent 50%),linear-gradient(135deg,#44205a,#281339);box-shadow:0 6px 0 #160624;padding:22px!important}
+.settings-page .settings-heading>.ui-icon{color:#c09bff;filter:drop-shadow(0 2px 0 #200931)}
+.settings-page .settings-heading h2{color:#fff0d7}
+.settings-page .settings-content>p{color:#e0c4eb}
+.settings-page .setting-row{border-top-color:#c078dd36}
+.settings-page .setting-row small{color:#d6b7e3}
+.settings-page .setting-row button[aria-pressed=true]{background:linear-gradient(#c1ffe4,#77ddbd);color:#213c33;border-color:#230a32;box-shadow:0 3px 0 #1a0828,inset 0 2px 0 #ffffff70}
+.settings-page .volume-meter{box-shadow:0 0 0 2px #210b31,0 3px 0 #190724}
+.result-screen{background:radial-gradient(ellipse at 50% 35%,#a34ed135,transparent 59%),linear-gradient(#29123da8,#210f36ef),url('../assets/visual-v0.27/backgrounds/cosmic-rift.png') center/cover}
+.result-screen h1{color:#c1ffdf;text-shadow:0 5px 0 #260b37,2px 0 0 #260b37,-2px 0 0 #260b37}
+.result-screen.defeat h1{color:#ffa5d0}
+.result-screen.draw h1{color:#e3c4ff}
+.result-screen .result-actions>button:first-child{background:linear-gradient(#fff3a3,#ffd16a);border-color:#2a0b3b;color:#3f2451;box-shadow:0 5px 0 #220830,inset 0 2px 0 #ffffff9c}
+
+/* Battle chrome: vivid accents around the established, legible field. */
+.arena{--panel-surface:linear-gradient(145deg,#382347f7,#21172ef7)}
+.arena .arena-header{border-bottom-color:#bb62d553}
+.arena .arena-round{background:linear-gradient(145deg,#613074,#331744);border-color:#cb8de65e;box-shadow:0 3px 0 #190b27,inset 0 1px 0 #f8c7ff2e}
+.arena .arena-round b{color:#ffeb9d;text-shadow:0 2px 0 #291036}
+.arena .arena-header button{border-color:#240b35;background:linear-gradient(#69477c,#422956);box-shadow:0 3px 0 #170a22,inset 0 2px 0 #ffffff25}
+.arena .arena-header [data-act=menu]{background:linear-gradient(#ed8bc5,#aa4d93);color:#fff2fa}
+.arena :is(.rarity-piles,.event-feed,.actor-info,.main-deck,.mao){border-color:#ad6bc068;box-shadow:0 5px 0 #130a2099,inset 0 1px 0 #eac0ff26}
+.arena .rarity-piles h3,.arena .hand-header h4,.arena .main-deck h3{color:#f4d9ff;text-shadow:0 2px 0 #230f32}
+.arena .turn-panel{background:linear-gradient(120deg,#5b3473f7,#2d1c42fa);border-color:#c997e679;box-shadow:0 5px 0 #160a255e,inset 0 1px 0 #e1aef634}
+.arena .turn-panel.player{border-left-color:#a6f9d7}
+.arena .turn-panel.enemy{border-left-color:#ff91c2}
+.arena .turn-guide{background:linear-gradient(135deg,#442851fc,#23192ffc);border-color:#b776d376;box-shadow:0 -5px 20px #160a2733,0 4px 0 #13082280,inset 0 1px 0 #f0b8ff26}
+.arena .battle-actions .mode-button{border-color:#ab70bf6b;background:#321d45;color:#f5ddff;box-shadow:0 2px 0 #170c25}
+.arena .battle-actions .mode-button.on{background:linear-gradient(#e7c1ff,#bf8ce7);border-color:#3c1b52;color:#341044;box-shadow:0 3px 0 #200e30,inset 0 2px 0 #ffffff4a}
+.arena .battle-actions [data-act=attack],.arena .battle-actions [data-act=hypnosis-keep],.arena .battle-actions [data-act=status-turn],.arena .battle-actions [data-act=pinned-wait]{background:linear-gradient(#c5ffe3,#7fdfbc);border-color:#1c2c2b;color:#18392e;box-shadow:0 4px 0 #132a28,inset 0 2px 0 #ffffff89}
+.arena .battle-actions [data-act=attack]:hover:not(:disabled){background:linear-gradient(#d9ffec,#a3f5d0);box-shadow:0 5px 0 #132a28,inset 0 2px 0 #ffffffa0}
+.arena .moment-eyebrow{color:#e8b3fb}
+.arena .combat-message h4{color:#fff0ce;text-shadow:0 2px 0 #281039}
+.arena .die{background:linear-gradient(#fff6be,#ffcf7f);border-color:#34113f;color:#411846;box-shadow:0 3px 0 #1b0b29}
+.arena .deck-pile:not(.main-pile){background:#24172fd9;border-color:#b78bc13f}
+.arena .deck-pile:not(.main-pile):hover{background:#503055;border-color:var(--pile)}
+.arena .main-deck-copy>strong{color:#ffedb0}
+.arena .actor-identity strong{color:#fff1dc;text-shadow:0 2px 0 #291035}
+.arena .actor-stats b{color:#f5e8ff}
+.arena .hand-header>span{background:#382044;color:#caffdf;border:1px solid #b482c74d}
+.arena :is(.choice-dialog,.inspect-sheet){background:linear-gradient(140deg,#523162,#291c3c);border-color:#c291d59c;box-shadow:0 9px 0 #14091e99,0 0 45px #d987f321}
+.arena .choice-dialog h3,.arena .inspect-sheet h3{color:#fff0d0;text-shadow:0 2px 0 #25102f}
+.arena .recovery-options button{background:linear-gradient(#9966b1,#593773);border-color:#260d39;box-shadow:0 4px 0 #1a0a29,inset 0 2px 0 #ffffff26}
+.arena .inspect-sheet>header{background:#432951;border-bottom-color:#b27ec24d}
+
+@media(max-width:650px){
+  .mode-header{padding-bottom:15px}
+  .mode-tile-label>small{padding:5px 7px;font-size:8px}
+  .settings-page .settings-content{padding:18px!important}
+  .settings-page .settings-heading h2{font-size:31px}
+  .shop-hub .shop-featured-label{box-shadow:none}
+  .shop-hub .shop-categories button{border-width:1px}
+}
+@media(max-height:560px) and (min-width:761px){
+  .mode-header{padding-bottom:13px}
+  .mode-screen .mode-tile{box-shadow:0 5px 0 #15051f}
+}
+@media(prefers-reduced-motion:reduce){
+  html:not(.goghos-motion-full) :is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) button{transition:none}
+}
+.goghos-motion-reduced :is(.mode-screen,.shop-hub,.settings-page,.collection,.ability-tests,.support-tests,.ability-lab,.result-screen) button{transition:none}
