@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.26.0
+# Estrutura base do GOGHOS — v0.26.1
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -122,7 +122,7 @@ Antes de liberar a hierarquia, as habilidades de entrada pendentes são resolvid
 | Cavaleiro | Tank / Lendário | 920 / 130 | 2 / 8 |
 | Zikssy | Assassino / Raro | 160 / 120 | 5 / 1 |
 | Elysh | Suporte / Comum | 240 / 80 | 4 / 3 |
-| DD-X | Fighter / Raro | 260 / 90 (45 × 2) | 3 / 6 |
+| DD-X | Fighter / Raro | 260 / 45 × 2 | 3 / 6 |
 | Vaglar | Mago / Secreto | 590 / sem ataque básico | 5 / 12 |
 
 Os seis usam as bases manuais atuais da v0.26.0. Vaglar tem velocidade para usar o livro, embora não tenha ataque básico.
@@ -137,7 +137,7 @@ Quando um dos dois é eliminado, o sobrevivente retorna ao campo, conservando su
 
 **Elysh — Lazer Gun:** na sua ação escolhe atacar ou curar outro aliado ferido com o valor atual do ataque básico. Pode curar aliados na retaguarda e, desde a reconfirmação da v0.25.0, também realizar sua cura enquanto ela própria está atrás, respeitando a dimensão e a Vida máxima. A cura gasta a ação, não é dano e não testa armadura, Parry, Esquiva ou Steel Jaw. Não cura mortos, a Daly Mãe ou a si própria. O bônus de Apoio para o próximo ataque não é gasto ao curar.
 
-**DD-X — Fish:** ataque básico usa dois braços. O jogador pode ativar quatro braços uma única vez por vida para dobrar o total do ataque. A ativação é gasta numa ação válida, mesmo se for defendida ou esquivada; tentativa inválida não a gasta. Reset, cura e movimentação não restauram esse uso. Ataque à Daly Mãe continua tirando uma vida e não gasta o poder.
+**DD-X — Fish:** ataque básico usa dois braços. O jogador pode ativar quatro braços uma única vez por vida: passa de dois golpes de 45 para quatro golpes de 45, com defesa e reação a cada golpe. A ativação é gasta numa ação válida, mesmo se for defendida ou esquivada; tentativa inválida não a gasta. Reset, cura e movimentação não restauram esse uso. Ataque à Daly Mãe continua tirando uma vida e não gasta o poder.
 
 **Vaglar — Charm:** marca um personagem adversário da frente ou retaguarda na entrada. Na velocidade dele, o livro elimina instantaneamente personagens de raridade inferior à sua (até Lendário). Contra Secreto causa 200, reduzidos por armadura quando houver. É uma habilidade de livro, sem teste de Parry/Esquiva e sem reação de ataque de Sark. Se o marcado sobreviver, seu nome permanece para a próxima vez. Se morrer, Vaglar pode marcar outro imediatamente, sem executar duas vezes na mesma ação. Se outro personagem eliminar o marcado, a substituição é feita antes da próxima ação de Vaglar. O livro não alcança outra dimensão.
 
@@ -214,3 +214,20 @@ Elysh, Support Comum, pode curar 80 da retaguarda. Ela entra na hierarquia por v
 Fighter Lendário com 660 de Vida, velocidade 4, fôlego 3 e Parry 1. Seu ataque causa **30% da Vida máxima do adversário**, arredondado para cima em múltiplos de 5, antes das defesas. Não usa a Vida restante como base. A habilidade respeita Parry, esquiva, armadura e transferência ao protetor; Presence ignora o percentual. Silêncio impede atacar enquanto a habilidade estiver desativada. Contra a Daly Mãe exposta, tira uma vida.
 
 Todas as 29 cartas únicas de Kit1 e Kit2 estão ativas. John e Sark não receberam novas cartas e conservam seus dados. Sam é Fighter, com ícone corrigido e Parry 1–5. A carta SHERIFF Épica/AWM é Striker; o Xerife Raro/Magnum permanece outro personagem. Os valores completos e os multiplicadores impressos estão em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md).
+
+
+## Golpes em sequência — v0.26.1
+
+O multiplicador impresso indica quantos golpes devem ser resolvidos, não um único dano somado. **45×2 = dois golpes seguidos de 45**. Cada golpe testa bloqueio/Parry e esquiva novamente, aplica suas reduções e arredondamento e resolve as reações antes do próximo. Mesmo que o primeiro seja defendido, os seguintes ainda podem acertar. Todos miram o mesmo adversário. A sequência termina se atacante ou alvo morrer; golpes restantes não passam para outro personagem ou para a Daly Mãe.
+
+- **DD-X:** dois golpes de 45 normalmente. Quatro braços dá **quatro golpes de 45**, uma única ativação enquanto estiver vivo. Defesas não cancelam os próximos golpes. Silêncio preserva os dois básicos, mas impede ativar quatro braços.
+- **Draktar:** dois golpes de 90. O bônus contra a caça é aplicado em cada um: dois de 270, antes das defesas.
+- **Sam:** até seis socos individuais de 70. Continua rolando um d6 antes de cada tentativa e para ao repetir um número. Cada soco realizado permite outra defesa e reação, inclusive quando o soco anterior foi defendido. O registro mostra cada soco.
+
+A sequência inteira usa **uma única ação** na hierarquia. Mana regenera uma vez; queimaduras, paralisia, machado e duração de Oni avançam uma vez após a ação completa. Quatro braços é gasto uma vez na tentativa válida. Bônus de próximo ataque, como Na Moloeira, vale no primeiro golpe e é consumido uma vez; bônus permanentes ao ataque valem em cada golpe.
+
+Escudo Volátil protege apenas o próximo impacto; Fôlego pode ativar entre golpes. Z-Zus verifica sua proteção a cada golpe; morto o protetor, os próximos podem atingir o protegido. Presence ignora o acréscimo de golpes de quatro braços e o bônus da caça, mantendo os golpes básicos impressos; os socos adicionais da habilidade de Sam continuam sujeitos a Presence. Contra a Daly Mãe exposta, a ação retira uma vida e não consome quatro braços.
+
+Queimaduras de Chama continuam como definidas: 55 inicial e cinco aplicações de 55 ao longo das ações seguintes. Multiplicadores de dano de uma habilidade que não são a contagem de golpes impressa, como o dado de Nully, conservam suas regras próprias. As cartas recebidas e seus números impressos foram preservados.
+
+A prévia informa a quantidade e o dano de cada golpe. Números flutuantes aparecem em sequência, e o registro lista golpe, defesa, Vida antes/depois e revide na ordem da resolução.

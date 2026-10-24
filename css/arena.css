@@ -81,3 +81,5 @@ body:has(.arena){background:#191525}
  .battle-board:has(.speed-order[open],.rear .cell) .side{min-height:min-content}
  .arena:has(.rear .cell){--battle-card:clamp(62px,min(8vw,(100dvh - 410px)/7),108px)}
 }
+.combat-float.sequence-float{opacity:0;animation:sequence-impact var(--impact-time) ease-out var(--impact-delay) both}
+@keyframes sequence-impact{0%{opacity:0;transform:translate(-50%,12px)}15%,75%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-14px)}}

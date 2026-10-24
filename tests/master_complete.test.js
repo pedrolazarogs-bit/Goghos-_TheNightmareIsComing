@@ -14,7 +14,7 @@ test('as 29 cartas únicas estão ativas com todos os atributos manuais e corre�
 });
 
 test('dano impresso com multiplicação mantém seu significado e Sam recebe apenas o remendo do ícone',()=>{
- for(const [id,damage,display] of [['sam',70,'70×6'],['chama',55,'55×6'],['ddx',90,'45×2'],['draktar',180,'90×2']]){const c=G.getCharacterById(id);assert.equal(c.damage,damage);assert(G.cardHTML(c).includes('>'+display+'</div>'));}
+ for(const [id,damage,display] of [['sam',70,'70×6'],['chama',55,'55×6'],['ddx',45,'45×2'],['draktar',90,'90×2']]){const c=G.getCharacterById(id);assert.equal(c.damage,damage);assert(G.cardHTML(c).includes('>'+display+'</div>'));}
  const sam=G.getCharacterById('sam');assert.equal(sam.class,'FIGHTER');assert.equal(sam.parryThreshold,5);assert(G.cardHTML(sam).includes('class-correction'));assert.equal(sam.cardBase.patches[0].src,'assets/cards/card_base_sam.png');
 });
 
@@ -40,7 +40,7 @@ test('classes atualizadas fornecem mana, Parry e resistência individual correto
 });
 
 test('Karma Destroyer testa crítico no revide, antes da defesa do atacante',()=>{
- const s=battle(['karma','mike'],['ddx']);assert(G.resolveCharacterAbility(s,u(s,'karma').uid,u(s,'mike').uid).ok);let rolls=[1,6];s.roll=()=>rolls.shift();attack(s,'ddx',u(s,'mike'));assert.equal(s.lastEvent.reactions[0].amount,150);assert(s.lastEvent.reactions[0].critical.critical);assert.equal(u(s,'ddx').hp,110);
+ const s=battle(['karma','mike'],['ddx']);assert(G.resolveCharacterAbility(s,u(s,'karma').uid,u(s,'mike').uid).ok);let rolls=[1,6,1,6];s.roll=()=>rolls.shift();attack(s,'ddx',u(s,'mike'));assert.deepEqual(s.lastEvent.reactions.map(h=>h.amount),[150,150]);assert(s.lastEvent.reactions.every(h=>h.critical.critical));assert.equal(u(s,'ddx').hp,0);
 });
 
 test('Chama usa 55 inicial e cinco queimaduras de 55; Nully multiplica 80 e Elétrica usa 100',()=>{

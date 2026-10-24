@@ -85,7 +85,7 @@ function render(actor){
     const hits=impacts.filter(x=>x.targetUid===u.uid),supportPick=handUsable&&support&&G.supportTargets(s,'player',support).includes(u),status=hits.at(-1),acting=e?.actorUid===u.uid,heal=u.team==='player'&&u.hp>0&&u.hp<u.maxHp&&((handUsable&&support?.effect==='heal')||(mine&&ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u))||pd?.candidates.includes(u.uid));
     const cls=(actor?.uid===u.uid&&!ui.busy?'active ':'')+([ui.target,ui.healTarget,ui.swapPick].includes(u.uid)?'target ':'')+(mine&&actor&&!area&&ui.attackMode!=='heal'&&!actor.abilityOnly&&G.attackTargets(s,actor).includes(u)?'pick ':'')+(area&&G.attackTargets(s,actor).includes(u)?'area-target ':'')+(supportPick?'support-pick ':'')+(heal?'heal ':'')+(mine&&ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)?'pick ':'')+(mine&&ui.move&&u.team==='player'&&G.canTransit(u)?'swp':'');
     const grouped=G.compactImpacts(e).filter(x=>x.targetUid===u.uid),badges=G.unitBadges(s,u);
-    const fx=grouped.map((x,i)=>`<span class="combat-float ${x.kind==='reaction'?'reaction ':''}${x.type}" style="top:${28+i*24}%">${G.impactText(x)}${x.count>1?'<small>'+x.count+' impactos</small>':''}</span>`).join('');
+    const fx=(e?.sequence?hits:grouped).map((x,i)=>`<span class="combat-float ${e?.sequence?'sequence-float ':''}${x.kind==='reaction'?'reaction ':''}${x.type}" style="${e?.sequence?'top:38%;--impact-delay:'+impacts.indexOf(x)*G.CONFIG.pacing.feedback*.4+'ms;--impact-time:'+Math.max(1,G.CONFIG.pacing.feedback*.4)+'ms':'top:'+(28+i*24)+'%'}">${G.impactText(x)}${x.strike?'<small>Golpe '+x.strike+'/'+x.strikeCount+'</small>':x.afterStrike?'<small>Revide</small>':x.count>1?'<small>'+x.count+' impactos</small>':''}</span>`).join('');
     const chosen=[ui.target,ui.healTarget].includes(u.uid),current=actor?.uid===u.uid&&!ui.busy;
     return `<div class="cell ${status?'event-'+status.type:''} ${acting?'event-actor':''} ${current?'is-current':''} ${chosen?'is-target':''}" data-unit="${u.uid}" role="button" tabindex="0" aria-label="${G.escapeUI(u.name)} · Vida ${u.hp}/${u.maxHp}${chosen?' · alvo selecionado':''}" aria-pressed="${chosen}">${current?'<span class="unit-turn">VEZ</span>':chosen?'<span class="unit-turn selected">ALVO</span>':''}${card(u,cls)}${fx}<div class="unit-vitals"><span><b>${u.hp}</b><small>/${u.maxHp}</small></span><i class="hp-track" aria-hidden="true"><i style="--before:${(hits[0]?.beforeHp??u.hp)/u.maxHp*100}%;width:${Math.max(0,u.hp/u.maxHp*100)}%"></i></i></div>${badges.length?'<div class="unit-badges" title="'+G.escapeUI(badges.join(' · '))+'">'+badges.slice(0,2).map(b=>'<span>'+b+'</span>').join('')+(badges.length>2?'<span>+'+(badges.length-2)+'</span>':'')+'</div>':''}</div>`;
   };
@@ -113,7 +113,7 @@ function render(actor){
     if(ui.attackMode==='heal')info='Escolha outro aliado ferido na mesma dimensão para curar até '+actor.damage+' de Vida. A cura usa a ação de Elysh.';
   }
   if(mine&&actor&&G.getMainAbility(actor)?.trigger==='doubleAttack'){
-    actions=btn('mode-normal','Dois braços',false,ui.attackMode==='normal'?'on':'')+btn('mode-double',actor.doubleUsed?'Quatro braços · já usados':'Quatro braços · dano dobrado',actor.doubleUsed||ui.target==='daly_enemy',ui.attackMode==='double'?'on':'')+actions;
+    actions=btn('mode-normal','Dois braços · '+(G.baseAttackCount(actor)>1?'2 golpes de '+actor.damage:actor.damage),false,ui.attackMode==='normal'?'on':'')+btn('mode-double',actor.doubleUsed?'Quatro braços · já usados':'Quatro braços · '+(G.baseAttackCount(actor)>1?'4 golpes de '+actor.damage:'dano dobrado'),actor.doubleUsed||ui.target==='daly_enemy',ui.attackMode==='double'?'on':'')+actions;
     info+=' Quatro braços: '+(actor.doubleUsed?'já usados nesta partida.':'uma única ativação disponível.');
   }
   if(mine&&actor?.abilityOnly){const target=G.getUnit(s,actor.bookTarget);info='Livro marcado: '+(target?.name||'aguardando nome')+'. A habilidade elimina abaixo de Mítico; nas demais raridades, causa 200.';actions=btn('attack','Usar livro · '+(target?.name||'sem alvo'),!target);}
@@ -167,7 +167,7 @@ function openDrawer(type){clearTimeout(ui.timer);ui.drawer=type;render(ui.busy?n
 function closeDrawer(){ui.drawer=null;if(ui.paused){ui.busy=false;render(ui.actor);}else if(ui.busy)feedback();else step();app.querySelector('[data-act=card-info]')?.focus({preventScroll:true});}
 function feedback(){
   clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);
-  ui.timer=setTimeout(()=>{ui.busy=false;step();},G.CONFIG.pacing.feedback*(G.eventImpacts(ui.state.lastEvent).length>1?2:1));
+  ui.timer=setTimeout(()=>{ui.busy=false;step();},G.feedbackDuration(ui.state.lastEvent));
 }
 function step(){
   clearTimeout(ui.timer);const s=ui.state;if(!s)return;

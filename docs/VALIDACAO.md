@@ -1,3 +1,19 @@
+# Validação — v0.26.1
+
+`npm test`: **295 testes aprovados**, incluindo **380 partidas completas simuladas**. A nova suíte tem 21 testes para golpes separados; as partidas atuais continuam verificando conclusão, conservação de cartas, mão e formações legais com os novos padrões de ataque.
+
+Os cenários cobrem DD-X com 2×45 e 4×45, Draktar com 2×90 e 2×270 contra a caça, Sam com até seis socos de 70 e encerramento por dado repetido. Conferem Parry e esquiva por golpe, revides entre golpes, interrupção por morte, proteção que termina quando Z-Zus morre, escudo de um impacto, resistência/arredondamento individuais, silêncio, Presence, Oni, IA, bônus de ataque e ausência de turnos/compras/regeneração/queimaduras extras. A prévia e o registro também são verificados sem alterar a batalha.
+
+A enumeração dos 36 pares possíveis de d6 contra Parry 1–2 e contra esquiva de diferença 2 confirma **32/36 sequências com ao menos um acerto**, em vez de 24/36 para um único golpe. Cada teste de defesa é independente, inclusive após o primeiro golpe ser defendido.
+
+No Chromium em **1440×1000 e 390×844**, passaram **26 cenários com os controles da interface**: bloqueio e esquiva entre golpes, quatro braços, os dois modos de Draktar, combo misto/seis socos de Sam, revide fatal de Sark interrompendo DD-X e Sam, números flutuantes aparecendo em momentos diferentes, seleção normal e catálogo. Os laboratórios usam estados preparados e dados controlados para reproduzir os casos. Os golpes foram confirmados por botão, com Vida e eventos conferidos após a resolução.
+
+Sem exceções JavaScript, recursos ausentes, valores indefinidos ou transbordamento horizontal nesses cenários. As cartas originais foram preservadas; DD-X continua imprimindo 45×2, Draktar 90×2 e Sam 70×6. O feedback agora lista cada golpe e cada revide em ordem, além do total resumido.
+
+[Quatro golpes de DD-X](previews/ddx-v0.26.1-desktop.png) · [No celular](previews/ddx-v0.26.1-celular.png) · [Seis socos de Sam](previews/sam-v0.26.1-registro.png) · [Regra dos golpes separados](REGRAS.md#golpes-em-sequência--v0261)
+
+---
+
 # Validação — v0.26.0
 
 `npm test`: **274 testes aprovados**, incluindo **380 partidas completas simuladas**. São 200 partidas com o catálogo atual, 40 atuais com invocação garantida de MAX, 100 históricas e 40 regressões históricas com invocação. As partidas verificam conclusão, conservação de cartas físicas, limite de mão, formação legal e ações válidas.

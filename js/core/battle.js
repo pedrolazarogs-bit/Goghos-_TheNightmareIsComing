@@ -28,7 +28,7 @@ const nextSlot=(s,side,row)=>1+Math.max(-1,...s.units.filter(u=>u.team===side&&u
 function makeUnit(s,side,inst,row){
   const c=G.getCharacterById(inst.id),k=s.uidSeq[side]++;
   const u={uid:side+'_'+k,iid:inst.iid,id:c.id,team:side,row,slot:nextSlot(s,side,row),name:c.name,class:c.class,rarity:c.rarity,maxHp:G.roundUpToFive(c.maxHp),hp:G.roundUpToFive(c.maxHp),damage:G.roundUpToFive(c.damage),speed:c.speed,stamina:c.stamina,mana:G.manaFor(c),maxMana:G.manaFor(c),art:c.art,abilityId:c.abilityId||null,passiveOnly:!!c.passiveOnly,parryThreshold:c.parryThreshold||0,pinnedBy:null,pinning:null,pinStartedTurn:null,eliminated:false};
-  u.burnDamage=c.burnDamage;u.rearHealing=!!c.rearHealing;u.tankResistance=c.tankResistance;s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
+  u.attackCount=c.attackCount||1;u.burnDamage=c.burnDamage;u.rearHealing=!!c.rearHealing;u.tankResistance=c.tankResistance;s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
 }
 function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   const rng=opts.rng||Math.random,teams={player:playerTeam,enemy:enemyTeam};

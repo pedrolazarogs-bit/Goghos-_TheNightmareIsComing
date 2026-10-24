@@ -222,12 +222,25 @@ G.officialStatus=(s,u)=>{
  return states.join(' · ');
 };
 const activeAttacks=['missile','paralyzingKick','duelist','hypnosis','punchCombo','flames','hunt','diceExecution','petrify','swarm','maxHpStrike'];
-G.usesOfficialAttack=a=>activeAttacks.includes(ability(a));
+// attackCount descreve os golpes básicos da carta, não um multiplicador de dano.
+G.baseAttackCount=a=>a?.attackCount||1;
+G.sequenceHitDamage=(a,t,extra=0)=>G.attackBaseDamage(a,t)*(ability(a)==='hunt'&&a.huntUid===t?.uid&&!G.isPresence(t)?3:1)+extra;
+G.previewAttackSequence=(s,a,mana=0,target=null,mode='normal')=>{
+ const count=G.baseAttackCount(a)*(mode==='double'&&!G.isPresence(target)?2:1),extra=(G.attackBonusFor?G.attackBonusFor(s,a.team):0)+mana*G.CONFIG.manaDamagePerPoint;
+ // Escudo Volátil só protege um impacto. A prévia não consome o estado real.
+ const defender=target?{...target}:null,hits=Array.from({length:count},(_,i)=>{
+  const raw=G.roundUpToFive(G.sequenceHitDamage(a,target,i===0?extra:0)),damage=defender?G.damageInfo(defender,raw,{ignoreMainAbilities:G.isPresence(a)}).damage:raw;
+  if(defender?.shield&&G.damageInfo({...defender,shield:0},raw).damage>0)defender.shield=0;
+  return{raw,damage};
+ });
+ return{count,hits,total:hits.reduce((n,h)=>n+h.damage,0)};
+};
+G.usesOfficialAttack=a=>G.baseAttackCount(a)>1||activeAttacks.includes(ability(a));
 G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,type=ability(a),t=unit(s,targetUid),dSide=typeof targetUid==='string'&&targetUid.startsWith('daly_')?targetUid.slice(5):null;
  if(G.isActionLocked(a)||a.pinnedBy||a.pinning)return fail('O personagem está impedido de atacar.');
  if(type==='hypnosis'&&alive(unit(s,a.hypnosisTarget)))return G.performHypnosisTurn(s,uid);
- const modes=type==='paralyzingKick'?['normal','stun']:type==='swarm'?['normal','area']:['normal'];if(!modes.includes(mode))return fail('Modo de ataque indisponível.');
+ const modes=type==='paralyzingKick'?['normal','stun']:type==='swarm'?['normal','area']:type==='doubleAttack'&&!a.doubleUsed?['normal','double']:['normal'];if(!modes.includes(mode))return fail('Modo de ataque indisponível.');
  if(!Number.isInteger(mana)||mana<0||mana>a.mana||mana>0&&!G.hasClass(a,'MAGO'))return fail('Mana inválida.');
  if(type==='swarm'&&mode==='area'&&!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'))return G.attackDaly(s,a,a.team==='player'?'enemy':'player');
  if(dSide){if(a.duelId||dSide===a.team||!s.daly[dSide]||!G.isDalyExposed(s,dSide))return fail('A Daly Mãe está protegida.');return G.attackDaly(s,a,dSide);}
@@ -236,17 +249,30 @@ G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  if(!area&&(!t||!targets.includes(t)))return fail('Escolha um adversário acessível para o ataque.');
  if(area&&!targets.length)return fail('Não há adversários acessíveis para o Swarm.');
  const bonus=G.takeAttackBonus(s,a.team),extra=bonus+mana*G.CONFIG.manaDamagePerPoint;a.mana-=mana;G.completeAction(s,a);
- const event={type:area?'area':type==='punchCombo'?'combo':'attack',actorUid:a.uid,actorName:a.name,ability:G.getMainAbility(a).name,hits:[],reactions:[],timeline:[],rolls:[],damage:0,manaSpent:mana,bonus};G.recordBattleEvent(s,event);
+ const sequential=G.baseAttackCount(a)>1;
+ const event={type:area?'area':sequential||type==='punchCombo'?'combo':'attack',actorUid:a.uid,actorName:a.name,ability:G.getMainAbility(a)?.name||'Ataques em sequência',hits:[],reactions:[],timeline:[],rolls:[],damage:0,manaSpent:mana,bonus};G.recordBattleEvent(s,event);
  const e=s.lastEvent;
  const strike=(target,damage,options={})=>{
   const hit=options.direct?G.dealCharacterDamage(s,a,target,damage,options):G.applyCharacterHit(s,a,target,damage,options);
-  e.hits.push(hit);e.timeline.push(hit);const responses=G.resolveAttackResponses(s,a,target,hit,options);e.reactions.push(...responses);e.timeline.push(...responses);return hit;
+  if(options.strikeIndex){hit.strike=options.strikeIndex;hit.strikeCount=options.strikeCount;}
+  e.hits.push(hit);e.timeline.push(hit);const responses=G.resolveAttackResponses(s,a,target,hit,options);if(options.strikeIndex)responses.forEach(r=>r.afterStrike=options.strikeIndex);e.reactions.push(...responses);e.timeline.push(...responses);return hit;
  };
- if(type==='punchCombo'){
+ if(sequential){
+  const count=G.baseAttackCount(a)*(mode==='double'&&!G.isPresence(t)?2:1);e.sequence={planned:count};
+  if(mode==='double'){a.doubleUsed=true;e.doubleAttack=true;}
+  for(let i=0;i<count&&alive(a)&&alive(t)&&!G.isActionLocked(a)&&!a.pinnedBy&&!a.pinning;i++){
+   s.log.push(a.name+' · golpe '+(i+1)+'/'+count+' · defesa e reação independentes');
+   const critical=G.criticalDamage(s,a,G.sequenceHitDamage(a,t,i===0?extra:0)),hit=strike(t,critical.damage,{strikeIndex:i+1,strikeCount:count});if(critical.roll)hit.critical=critical;
+   G.settleCasualties(s);
+  }
+  e.sequence.resolved=e.hits.length;if(e.hits.length<count)s.log.push(a.name+' · sequência encerrada após '+e.hits.length+' de '+count+' golpes');
+ }else if(type==='punchCombo'){
+  e.sequence={planned:6};
   const seen=new Set();for(let i=0;i<6&&alive(a)&&alive(t);i++){
    const roll=G.rollDie?G.rollDie(s,{side:a.team,best:[1,2,3,4,5,6].filter(n=>!seen.has(n)).at(-1),reason:'Combo de Sam'}):s.roll(6),repeated=seen.has(roll);e.rolls.push({roll,repeated});s.log.push(a.name+' · combo, dado '+roll+(repeated?' repetido: combo encerrado':' · soco '+(i+1)));
-   if(repeated)break;seen.add(roll);const hit=strike(t,G.attackBaseDamage(a,t)+(i===0?extra:0),{followup:i>0});hit.punch=i+1;G.settleCasualties(s);
+   if(repeated)break;seen.add(roll);const hit=strike(t,G.attackBaseDamage(a,t)+(i===0?extra:0),{followup:i>0,strikeIndex:i+1,strikeCount:6});hit.punch=i+1;G.settleCasualties(s);
   }
+  e.sequence.resolved=e.hits.length;
  }else if(type==='diceExecution'){
   const roll=G.rollDie?G.rollDie(s,{side:a.team,best:6,reason:'Decapitação'}):s.roll(6);e.rolls.push({roll});s.log.push(a.name+' · d6='+roll+' · '+(roll===6&&rank(t)<=rank(a)?'decapitação':a.damage*roll+' de dano básico'));
   strike(t,G.attackBaseDamage(a,t)*(G.isPresence(t)?1:roll)+extra,{instant:!G.isPresence(t)&&roll===6&&rank(t)<=rank(a),direct:!G.isPresence(t)&&roll===6,ability:'Decapitação'});
@@ -272,6 +298,7 @@ G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  e.damage=e.hits.reduce((n,h)=>n+h.damage,0);if(e.reactions.length)e.reaction=e.reactions[0];G.finishResolvedAction(s);return{ok:true,damage:e.damage,hits:e.hits,reactions:e.reactions};
 };
 G.officialPreviewDamage=(s,a,mana,target,mode)=>{
+ if(G.baseAttackCount(a)>1)return G.previewAttackSequence(s,a,mana,target,mode).total;
  const type=ability(a);if(!activeAttacks.includes(type))return null;
  if(G.isPresence(target)&&(type==='swarm'&&mode==='area'||['duelist','hypnosis','deathBook'].includes(type)))return 0;
  let raw=G.attackBaseDamage(a,target)+(G.attackBonusFor?G.attackBonusFor(s,a.team):a.team==='player'?s.support.nextAttackBonus:0)+mana*G.CONFIG.manaDamagePerPoint;

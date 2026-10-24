@@ -17,13 +17,14 @@
   "notes": [
     "Dados aplicados integralmente na v0.26.0; habilidades anteriores preservadas e correções expressas registradas por personagem.",
     "Símbolos inferiores identificam classe; cores da moldura identificam raridade conforme a legenda atual.",
-    "Multiplicadores interpretados conforme as habilidades já existentes: Sam e Chama por aplicação; DD-X e Draktar como soma dos dois golpes básicos.",
+    "Multiplicadores representam golpes separados: DD-X faz 2×45 (4×45 com quatro braços); Draktar faz 2×90. Sam mantém até seis socos individuais; Chama mantém dano periódico.",
     "Dois nomes impressos em cartas diferentes: Sheriff e Vaglar. Preservar variantes separadas.",
     "Stally é a carta de Kick impressa como Vaglar: o criador corrigiu nome e raridade para Stally Comum.",
     "Comuns reconfirmados: Elysh, Stally, Mike e Alex. Cavaleiro reconfirmado como Tank Lendário, sem resistência natural.",
     "v0.26.0: todas as 29 cartas foram aplicadas. Habilidades anteriores mantidas, salvo confirmações expressas.",
     "Linx: Prototype causa 30% da Vida máxima do alvo; Sheriff Épico é Striker; Sam permanece Fighter.",
-    "confirmedCharacters registra personagens com reconfirmação ou correção expressa nesta rodada; updatedCharacters registra todas as 29 cartas aplicadas."
+    "confirmedCharacters registra personagens com reconfirmação ou correção expressa nesta rodada; updatedCharacters registra todas as 29 cartas aplicadas.",
+    "v0.26.1: bloqueio, esquiva, resistência e reação são resolvidos por golpe, com interrupção se atacante ou alvo morrer."
   ],
   "cards": [
     {

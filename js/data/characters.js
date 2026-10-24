@@ -33,7 +33,7 @@ G.MAIN_ABILITIES={
  knight_armor:{name:'Armadura',trigger:'armor',reduction:.8,description:'Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5.'},
  fright:{name:'Claws',trigger:'fright',description:'Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação.'},
  healing_shot:{name:'Lazer Gun',trigger:'healingAttack',description:'Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima.'},
- four_arms:{name:'Fish',trigger:'doubleAttack',description:'Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar o dano do ataque.'},
+ four_arms:{name:'Fish',trigger:'doubleAttack',description:'Ataca normalmente com dois braços. Uma única vez enquanto estiver vivo, pode ativar os quatro braços e dobrar a quantidade de golpes. Cada golpe tem sua própria defesa e reação.'},
  death_book:{name:'Charm',trigger:'deathBook',damage:200,description:'Ao entrar, marca um adversário no livro. Na sua vez, elimina o marcado de raridade inferior à sua; nas demais, causa 200 de dano. Após eliminar, escolhe um novo nome. Não tem ataque básico.'}
 };
 Object.assign(G.MAIN_ABILITIES,{
@@ -60,7 +60,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.26.0',
+G.CONFIG={version:'0.26.1',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
@@ -182,14 +182,14 @@ G.MASTER_UPGRADE=[
  {"id":"endrik","assetKey":"endrik","rarity":"EPIC","class":"DESTROYER","maxHp":160,"damage":250,"speed":4,"stamina":6},
  {"id":"p_ullys","assetKey":"p_ullys","rarity":"EPIC","class":"DESTROYER","maxHp":150,"damage":300,"speed":6,"stamina":6},
  {"id":"stally","assetKey":"vaglar_epic","rarity":"COMMON","class":"FIGHTER","maxHp":230,"damage":90,"speed":2,"stamina":4,"parryThreshold":5,"rename":true},
- {"id":"ddx","assetKey":"ddx","rarity":"RARE","class":"FIGHTER","maxHp":260,"damage":90,"speed":3,"stamina":6,"parryThreshold":3,"damageDisplayDivisor":2,"damageDisplaySuffix":"×2"},
+ {"id":"ddx","assetKey":"ddx","rarity":"RARE","class":"FIGHTER","maxHp":260,"damage":45,"speed":3,"stamina":6,"parryThreshold":3,"attackCount":2,"damageDisplaySuffix":"×2"},
  {"id":"sheriff","assetKey":"sheriff_rare","rarity":"RARE","class":"ASSASSIN","maxHp":190,"damage":0,"speed":5,"stamina":3,"damageDash":true},
  {"id":"zikssy","assetKey":"zikssy","rarity":"RARE","class":"ASSASSIN","maxHp":160,"damage":120,"speed":5,"stamina":1},
  {"id":"vaglar","assetKey":"vaglar_secret","rarity":"SECRET","class":"MAGO","maxHp":590,"damage":0,"speed":5,"stamina":12,"damageDash":true},
  {"id":"cavaleiro","assetKey":"cavaleiro","rarity":"LEGENDARY","class":"TANK","maxHp":920,"damage":130,"speed":2,"stamina":8,"tankResistance":0},
  {"id":"karma","assetKey":"karma","rarity":"MYTHIC","class":"DESTROYER","maxHp":320,"damage":120,"speed":6,"stamina":7},
  {"id":"penxy","assetKey":"penxy","rarity":"LEGENDARY","class":"ASSASSIN","maxHp":500,"damage":140,"speed":9,"stamina":7},
- {"id":"draktar","assetKey":"draktar","rarity":"MYTHIC","class":"ASSASSIN","maxHp":310,"damage":180,"speed":7,"stamina":6,"damageDisplayDivisor":2,"damageDisplaySuffix":"×2"},
+ {"id":"draktar","assetKey":"draktar","rarity":"MYTHIC","class":"ASSASSIN","maxHp":310,"damage":90,"speed":7,"stamina":6,"attackCount":2,"damageDisplaySuffix":"×2"},
  {"id":"rayyb","assetKey":"rayyb","rarity":"EPIC","class":"SUPPORT","maxHp":240,"damage":90,"speed":5,"stamina":4},
  {"id":"striker","assetKey":"sheriff_epic","rarity":"EPIC","class":"DESTROYER","maxHp":210,"damage":220,"speed":2,"stamina":4,"rename":true},
  {"id":"linx","assetKey":"linx","rarity":"LEGENDARY","class":"FIGHTER","maxHp":660,"damage":0,"speed":4,"stamina":3,"parryThreshold":1,"damageDash":true}

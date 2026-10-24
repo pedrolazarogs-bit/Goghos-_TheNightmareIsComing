@@ -157,3 +157,14 @@ O criador confirmou que SHERIFF Épico/AWM é Striker e que Prototype de Linx ca
 Magos atualizados recebem Mana 3/3 com regeneração; Karma Destroyer testa crítico no revide; Rayvilin Fighter tem Parry; Z-Zus usa 20% de resistência e Cavaleiro continua sem tributo natural. A IA evita alvos com esquiva garantida quando há alternativa, respeita impedimentos restantes depois de acordar e pode testar sono de novo numa ação extra da mesma rodada.
 
 Validação: 274 testes, 380 partidas simuladas e 72 cenários no Chromium em computador e celular. As 29 imagens originais conservam seus hashes. A [tabela manual](BALANCEAMENTO_MANUAL.md) reúne todos os valores ativos.
+
+
+## v0.26.1 — multiplicadores são golpes separados
+
+Conforme a nova regra do criador, DD-X deixa de aplicar um único golpe de 90: faz dois de 45. Sua habilidade de quatro braços faz quatro de 45, com uma única ativação enquanto viver. Draktar faz dois golpes de 90 e aplica o bônus da caça em cada um. Sam mantém até seis socos de 70, encerrados pelo dado repetido, e passa a mostrar cada soco no registro.
+
+Parry, esquiva, resistência, arredondamento, escudos, proteção e reações são resolvidos a cada golpe. A sequência para se atacante ou alvo morrer. Continua sendo uma ação na hierarquia, sem regeneração ou dano periódico extra. O sistema usa a quantidade de golpes como atributo, separado do dano individual.
+
+A interface informa o padrão antes do ataque, anima os impactos em sequência e lista os golpes e seus revides em ordem. As imagens originais e os limiares de defesa não mudaram.
+
+Validação: 295 testes, 380 partidas completas simuladas e 26 cenários no Chromium em computador e celular.

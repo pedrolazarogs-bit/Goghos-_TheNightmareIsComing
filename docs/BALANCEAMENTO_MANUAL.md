@@ -1,4 +1,4 @@
-# KitMasterUpgrade — balanceamento manual da v0.26.0
+# KitMasterUpgrade — balanceamento manual da v0.26.1
 
 **Todas as 29 cartas únicas de Kit1 e Kit2 estão aplicadas ao jogo**, incluindo classe, raridade, Vida, dano, velocidade, fôlego e os tributos impressos. Elysh veio idêntica nos dois kits: são 30 entradas, sem duplicar o personagem. Os valores manuais substituem o balanceamento automático anterior, inclusive quando saem das faixas genéricas.
 
@@ -13,7 +13,7 @@ Os PNGs recebidos continuam intactos, com origem e SHA-256 no [manifesto](../ass
 | Cavaleiro | Tank / Lendário | 920 | 130 | 2 | 8 | Sem tributo natural |
 | Zikssy | Assassin / Raro | 160 | 120 | 5 | 1 | Esquiva |
 | Elysh | Support / Comum | 240 | 80 | 4 | 3 | Transição |
-| DD-X | Fighter / Raro | 260 | 45 × 2 = 90 | 3 | 6 | Parry 1–3 |
+| DD-X | Fighter / Raro | 260 | 45 por golpe (2 golpes) | 3 | 6 | Parry 1–3 |
 | P. Ullys | Destroyer / Épico | 150 | 300 | 6 | 6 | Crítico 1–2 |
 | Stally | Fighter / Comum | 230 | 90 | 2 | 4 | Parry 1–5 |
 | Endrik | Destroyer / Épico | 160 | 250 | 4 | 6 | Crítico 1–2 |
@@ -24,7 +24,7 @@ Os PNGs recebidos continuam intactos, com origem e SHA-256 no [manifesto](../ass
 | Sam | Fighter / Lendário | 530 | 70 por soco | 7 | 7 | Parry 1–5 |
 | Chama | Mago / Mítico | 230 | 55 + queimaduras | 5 | 7 | Mana 3/3 |
 | Zuri | Support / Secreto | 1050 | 160 | 1 | 12 | Transição |
-| Draktar | Assassin / Mítico | 310 | 90 × 2 = 180 | 7 | 6 | Esquiva |
+| Draktar | Assassin / Mítico | 310 | 90 por golpe (2 golpes) | 7 | 6 | Esquiva |
 | Daztirry | Fighter / Secreto | 1250 | 240 | 6 | 10 | Parry 1–3 |
 | Mike | Destroyer / Comum | 130 | 170 | 5 | 6 | Crítico 1–2 |
 | Unicorn | Support / Raro | 390 | 60 | 4 | 6 | Transição |
@@ -38,7 +38,7 @@ Os PNGs recebidos continuam intactos, com origem e SHA-256 no [manifesto](../ass
 | Vaglar | Mago / Secreto | 590 | — (livro) | 5 | 12 | Mana 3/3 |
 | Linx | Fighter / Lendário | 660 | 30% da Vida máxima do alvo | 4 | 3 | Parry 1 |
 
-A coluna de ataque distingue o dano de um soco dos multiplicadores impressos. **Sam usa até seis golpes separados de 70**, encerrando no primeiro número repetido; não usa 420 em cada soco. **Chama causa 55 inicialmente e 55 em cada uma das cinco ações seguintes**. Seu revide permanece em três queimaduras de 35. DD-X usa 90 com os dois braços e pode dobrar uma vez para 180. Draktar usa 180 normalmente e 540 contra a caça, antes das defesas.
+A coluna de ataque informa o dano por golpe dos multiplicadores impressos. **Sam usa até seis golpes separados de 70**, encerrando no primeiro número repetido; não usa 420 em cada soco. **Chama causa 55 inicialmente e 55 em cada uma das cinco ações seguintes**. Seu revide permanece em três queimaduras de 35. **DD-X faz dois golpes de 45**, ou **quatro golpes de 45** ao ativar os quatro braços uma vez. **Draktar faz dois golpes de 90**; contra a caça, são dois de 270, antes das defesas. Cada golpe resolve bloqueio, esquiva, resistência e reação separadamente. Não é aplicado um único dano somado. A morte do atacante ou alvo interrompe os golpes restantes.
 
 ## Identidades e habilidades
 

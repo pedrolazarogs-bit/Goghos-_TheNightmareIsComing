@@ -6,9 +6,9 @@ const battle=(p,e)=>G.createBattleState({front:p,rear:[]},{front:e,rear:[]},[],{
 const u=(s,id)=>s.units.find(c=>c.id===id);
 function force(s,id){const a=u(s,id);s.order=[a.uid,...s.order.filter(x=>x!==a.uid)];s.acted={};return a;}
 
-test('combo real continua com socos separados no motor, mas exibe o total de impactos por alvo',()=>{
+test('combo real mantém socos separados no motor e no registro da batalha',()=>{
  const s=battle(['sam'],['mike']),a=force(s,'sam'),t=u(s,'mike');t.hp=t.maxHp=1000;let rolls=[2,6,5,5];s.roll=()=>rolls.shift();assert(G.performBasicAttack(s,a.uid,t.uid).ok);
- assert.equal(s.lastEvent.hits.length,3);const before=JSON.stringify(s),groups=G.compactImpacts(s.lastEvent);assert.equal(groups.length,1);assert.equal(groups[0].count,3);assert.equal(groups[0].total,300);assert.equal(groups[0].beforeHp,1000);assert.equal(groups[0].afterHp,700);assert(G.eventFeedbackHTML(s).includes('3 impactos'));assert(G.eventFeedbackHTML(s).includes('−300'));assert.equal(JSON.stringify(s),before);
+ assert.equal(s.lastEvent.hits.length,3);const before=JSON.stringify(s),groups=G.compactImpacts(s.lastEvent);assert.equal(groups.length,1);assert.equal(groups[0].count,3);assert.equal(groups[0].total,300);assert.equal(groups[0].beforeHp,1000);assert.equal(groups[0].afterHp,700);assert(G.eventFeedbackHTML(s).includes('Golpe 1/6'));assert(G.eventFeedbackHTML(s).includes('Golpe 3/6'));assert(!G.eventFeedbackHTML(s).includes('−300'));assert(G.eventFeedbackHTML(s).includes('−100'));assert.equal(JSON.stringify(s),before);
 });
 test('o revide fatal de Sark permanece separado e aparece no resumo direto',()=>{
  const s=battle(['ddx'],['sarck']),a=force(s,'ddx');assert(G.performBasicAttack(s,a.uid,u(s,'sarck').uid).ok);const groups=G.compactImpacts(s.lastEvent);assert.equal(groups.length,2);assert.equal(groups[0].targetName,'Sark');assert.equal(groups[1].targetName,'DD-X');assert(groups[1].instant);assert(G.eventBrief(s.lastEvent).includes('Revide: DD-X ELIMINADO'));assert(G.eventFeedbackHTML(s).includes('Revide de Sark'));
