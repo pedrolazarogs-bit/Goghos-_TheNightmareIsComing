@@ -1,4 +1,4 @@
-# KitMasterUpgrade — balanceamento manual da v0.26.1
+# KitMasterUpgrade — balanceamento manual da v0.26.2
 
 **Todas as 29 cartas únicas de Kit1 e Kit2 estão aplicadas ao jogo**, incluindo classe, raridade, Vida, dano, velocidade, fôlego e os tributos impressos. Elysh veio idêntica nos dois kits: são 30 entradas, sem duplicar o personagem. Os valores manuais substituem o balanceamento automático anterior, inclusive quando saem das faixas genéricas.
 
@@ -43,7 +43,7 @@ A coluna de ataque informa o dano por golpe dos multiplicadores impressos. **Sam
 ## Identidades e habilidades
 
 - **Stally:** a carta de Kick veio escrita VAGLAR; é Stally Comum, conforme a correção do criador. O nome é corrigido na apresentação, mantendo a moldura recebida. Continua escolhendo ataque normal ou +30% com d6 1–3 e paralisia por duas ações globais. Seu Parry é 1–5.
-- **Striker:** a carta Épica/Destroyer de AWM escrita SHERIFF é Striker. Nome corrigido na apresentação; continua protegido de ataques de adversários mais rápidos. Não se confunde com o Xerife Raro/Assassin de Magnum, que mantém o duelo.
+- **Striker:** a carta Épica/Destroyer de AWM escrita SHERIFF é Striker. Nome corrigido na apresentação; continua protegido de ataques de adversários mais rápidos. A proteção também impede que Penxy mais rápido o escolha para a dimensão, conforme a correção do criador. Não se confunde com o Xerife Raro/Assassin de Magnum, que mantém o duelo.
 - **Sam:** é Fighter, conforme a correção expressa. Somente o símbolo inferior de classe foi trocado por uma espada na apresentação; arte, pose, moldura e estrela continuam as recebidas. O escudo 5 define Parry 1–5.
 - **Linx — Prototype:** novo Fighter Lendário. Seu ataque causa **30% da Vida máxima do alvo**, arredondado para cima em múltiplos de 5, antes das defesas. Com máximo 1.010, o golpe é 305 mesmo se o alvo estiver ferido. Respeita Parry, esquiva, armadura e proteção de Z-Zus. Não recebe ataque básico fixo inventado. Contra Daly Mãe exposta tira uma vida. Silêncio desativa a habilidade e Presence ignora seu componente percentual.
 - **Elysh:** pode atacar por 80 ou gastar a ação para curar outro aliado por até 80, respeitando o máximo. Recebe a vez por velocidade e pode curar da retaguarda, sem atacar dali. Os demais Supports não recebem uma ação traseira. Impedimentos, silêncio e ressurreição sem habilidade bloqueiam essa exceção.

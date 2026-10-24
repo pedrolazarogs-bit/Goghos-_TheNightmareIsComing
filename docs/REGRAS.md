@@ -1,4 +1,4 @@
-# Estrutura base do GOGHOS — v0.26.1
+# Estrutura base do GOGHOS — v0.26.2
 
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
@@ -231,3 +231,14 @@ Escudo Volátil protege apenas o próximo impacto; Fôlego pode ativar entre gol
 Queimaduras de Chama continuam como definidas: 55 inicial e cinco aplicações de 55 ao longo das ações seguintes. Multiplicadores de dano de uma habilidade que não são a contagem de golpes impressa, como o dado de Nully, conservam suas regras próprias. As cartas recebidas e seus números impressos foram preservados.
 
 A prévia informa a quantidade e o dano de cada golpe. Números flutuantes aparecem em sequência, e o registro lista golpe, defesa, Vida antes/depois e revide na ordem da resolução.
+
+
+## Penxy e a proteção de Striker — v0.26.2
+
+A proteção de velocidade de Striker também impede que **Penxy mais rápido o escolha para Ghost Claw**. Essa condição é aplicada na lista de alvos da pré-batalha, nas escolhas seguintes, na IA e na confirmação da habilidade. A verificação usa as velocidades atuais; um alvo que se tornou protegido depois da abertura da escolha também é rejeitado, sem criar dimensão ou gastar ação.
+
+Com velocidade igual ou menor, Penxy pode escolher Striker. Enquanto Striker estiver silenciado ou ressuscitado sem a habilidade principal, essa proteção não está ativa e a escolha também é permitida. Outros adversários válidos, inclusive Suportes na retaguarda, continuam disponíveis.
+
+Se só restar Striker protegido, a escolha obrigatória não é aberta e nenhum duelo é criado. Penxy aguarda uma oportunidade válida e tenta novamente na própria vez quando houver um alvo permitido. A entrada posterior de um personagem pode reabrir a escolha, sem compra, ação ou reset adicional. Isso também vale ao encerrar um duelo anterior ou se outra habilidade de entrada invalidar os alvos pendentes.
+
+A esquiva de Assassin permanece como estava. Não foi adotado limite de 1–5 no d6. Esta correção trata da proteção de Striker contra a dimensão de Penxy e não estende essa proteção a outros personagens.

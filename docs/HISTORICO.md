@@ -168,3 +168,12 @@ Parry, esquiva, resistência, arredondamento, escudos, proteção e reações s�
 A interface informa o padrão antes do ataque, anima os impactos em sequência e lista os golpes e seus revides em ordem. As imagens originais e os limiares de defesa não mudaram.
 
 Validação: 295 testes, 380 partidas completas simuladas e 26 cenários no Chromium em computador e celular.
+
+
+## v0.26.2 — Penxy respeita a proteção de Striker
+
+O criador esclareceu que Penxy não deve conseguir levar Striker para a dimensão quando a proteção de velocidade impedir essa interação. A escolha agora exclui Striker se Penxy for mais rápido e a habilidade de Striker estiver ativa. O bot e a validação final usam a mesma condição, inclusive se a velocidade mudar com a escolha aberta.
+
+Sem alvo permitido, a pré-batalha continua sem criar o duelo. Penxy conserva a oportunidade de escolher um futuro adversário, inclusive após resgate ou encerramento de outro duelo. A correção também preserva essa oportunidade quando outra habilidade de entrada remove os últimos alvos válidos. Velocidades iguais/menores e Striker sem sua habilidade continuam permitindo a dimensão. A regra de esquiva e todos os atributos e arquivos de arte foram mantidos.
+
+Validação: 307 testes, 380 partidas completas simuladas e 16 cenários no Chromium em computador e celular.

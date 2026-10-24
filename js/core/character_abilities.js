@@ -27,7 +27,10 @@ function reorder(s){
 }
 function queue(s,u,type,reason){
   if(!alive(u)||s.abilityChoices.some(p=>p.actorUid===u.uid))return;
-  if(type!=='fright'&&!G.abilityTargets(s,u,type).length)return;
+  if(type!=='fright'&&!G.abilityTargets(s,u,type).length){
+    if(type==='dimension'){u.needsDuel=true;if(reason==='entry')s.log.push('Ghost Claw · '+u.name+' aguarda um adversário permitido para o duelo dimensional');}
+    return;
+  }
   s.abilityChoices.push({type,actorUid:u.uid,side:u.team,reason});
   if(!s.recovery)s.phase='prebattle';
 }
@@ -69,7 +72,7 @@ G.resolveCharacterAbility=(s,actorUid,targetUid=null)=>{
     s.log.push(u.name+' ganhou +'+bonus+' de ataque'+(speedBonus?' e +1 de velocidade':'')+' até ser eliminado');
     G.recordBattleEvent(s,{type:'fright',actorUid:u.uid,actorName:u.name,results,bonus,speedBonus,hits:[]});
   }else{
-    const t=G.getUnit(s,targetUid);if(!G.abilityTargets(s,u,p.type).includes(t))return fail('Escolha um personagem adversário disponível.');
+    const t=G.getUnit(s,targetUid);if(!G.abilityTargets(s,u,p.type).includes(t))return fail(p.type==='dimension'&&t&&G.isSpeedProtected?.(u,t)?t.name+' está protegido contra Penxy mais rápido e não pode ser levado para a dimensão.':'Escolha um personagem adversário disponível.');
     if(p.type==='dimension'){
       // O machado não mantém um vínculo atravessando dimensões.
       for(const unit of [u,t])if(unit.pinning||unit.pinnedBy)G.releasePinLink(s,unit);

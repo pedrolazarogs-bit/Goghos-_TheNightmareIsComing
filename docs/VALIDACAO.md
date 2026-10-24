@@ -1,3 +1,17 @@
+# Validação — v0.26.2
+
+`npm test`: **307 testes aprovados**, incluindo **380 partidas completas simuladas**. Os 12 testes novos usam o catálogo atual para conferir Penxy e Striker, com velocidade, proteção, fila e estado da dimensão reais.
+
+Os cenários verificam bloqueio para ambas as equipes; confirmação inválida sem mudar o estado; velocidades iguais/menores; silêncio e ressurreição sem habilidade; mudança de velocidade com a escolha aberta; ausência de alvo sem prender a pré-batalha; combate dos aliados fora da dimensão; retomada com novo adversário sem ação ou compra adicional; fim de duelo anterior; alvo traseiro; IA; e perda de alvos por bônus de outra habilidade de entrada. A regressão confirma que a regra de esquiva permaneceu intacta.
+
+No Chromium em **1440×1000 e 390×844**, passaram **16 cenários** com os controles do jogo. Striker protegido não aparece como alvo, o bot escolhe outro adversário mesmo quando Striker tem menos Vida, John consegue atacá-lo fora da dimensão e uma medalha resgatando John reabre a escolha do bot sem avançar ação, rodada ou compra. Também passaram as exceções de velocidade/proteção e a entrada sem alvo válido. Estados de laboratório e dados foram preparados para reproduzir os casos; escolhas, resgate e ataques foram feitos pelos botões da interface.
+
+Sem exceções JavaScript, recursos ausentes, valores indefinidos ou transbordamento horizontal nesses cenários. Nenhum atributo numérico, arte ou regra de esquiva foi alterado.
+
+[Escolha no computador](previews/penxy-v0.26.2-desktop.png) · [No celular](previews/penxy-v0.26.2-celular.png) · [Combate fora da dimensão](previews/striker-v0.26.2-desktop.png) · [Regra confirmada](REGRAS.md#penxy-e-a-proteção-de-striker--v0262)
+
+---
+
 # Validação — v0.26.1
 
 `npm test`: **295 testes aprovados**, incluindo **380 partidas completas simuladas**. A nova suíte tem 21 testes para golpes separados; as partidas atuais continuam verificando conclusão, conservação de cartas, mão e formações legais com os novos padrões de ataque.

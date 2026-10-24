@@ -8,11 +8,13 @@ G.initializeCharacterAbility=(s,u,c)=>{oldInit(s,u,c);s.burns??=[];Object.assign
 G.isReactionBlocked=u=>!u||!!(u.pinnedBy||u.pinning||u.hypnotizedBy||u.petrifiedBy||u.paralysis||u.sleep);
 G.isActionLocked=u=>!!(u?.hypnotizedBy||u?.petrifiedBy||u?.paralysis||u?.sleep);
 G.healingTargets=(s,a)=>oldHealing(s,a).filter(t=>!t.oniActive);
-G.canAttackCharacter=(s,a,t)=>!(ability(t)==='speedWard'&&a.speed>t.speed)&&!(ability(t)==='assassinWard'&&a.class==='ASSASSIN');
+G.isSpeedProtected=(a,t)=>ability(t)==='speedWard'&&a.speed>t.speed;
+G.canAttackCharacter=(s,a,t)=>!G.isSpeedProtected(a,t)&&!(ability(t)==='assassinWard'&&a.class==='ASSASSIN');
 G.attackTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&same(a,t)&&(t.row==='front'||!!a.duelId)&&G.canAttackCharacter(s,a,t)):[];
 G.abilityTargets=(s,a,type=ability(a))=>{
  if(['starGift','guardian','friendship'].includes(type))return s.units.filter(t=>alive(t)&&!t.oniActive&&t.team===a.team&&same(a,t)&&(type==='starGift'||t.uid!==a.uid));
  let targets=oldTargets(s,a,type);
+ if(type==='dimension')targets=targets.filter(t=>!G.isSpeedProtected(a,t));
  if(type==='petrify')targets=targets.filter(t=>rank(t)<=rank(a)&&!t.petrifiedBy);
  if(type==='hypnosis')targets=targets.filter(t=>!t.hypnotizedBy||t.hypnotizedBy===a.uid);
  return targets;
@@ -44,7 +46,12 @@ G.requestOfficialChoice=(s,uid,type)=>{
  return G.queueOfficialChoice(s,a,type)?{ok:true}:fail('Não há alvo disponível para essa habilidade.');
 };
 function finishChoice(s){
- s.abilityChoices=s.abilityChoices.filter(p=>alive(unit(s,p.actorUid))&&(p.type==='fright'||G.abilityTargets(s,unit(s,p.actorUid),p.type).length));
+ s.abilityChoices=s.abilityChoices.filter(p=>{
+  const a=unit(s,p.actorUid);if(!alive(a))return false;
+  if(p.type==='fright'||G.abilityTargets(s,a,p.type).length)return true;
+  if(p.type==='dimension')a.needsDuel=true;
+  return false;
+ });
  G.refreshAbilityAvailability(s);G.reorderCurrentOrder(s);
  if(!s.abilityChoices.length){s.phase=s.recovery?'recovery':'battle';if(s.openingAbilities){s.openingAbilities=false;s.log.push('Pré-batalha concluída · começa a hierarquia de velocidade');}}
 }

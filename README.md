@@ -1,6 +1,6 @@
 # GOGHOS TCG
 
-Protótipo jogável de cartas e batalha por turnos. A versão **0.26.1** mantém as 29 cartas balanceadas e resolve multiplicadores como **golpes separados**: DD-X faz 2 de 45 ou 4 de 45 com sua habilidade; Draktar faz 2 de 90; Sam mantém até seis socos de 70. Cada golpe tem sua própria defesa, esquiva e reação. Striker recebe o nome correto, Sam usa o ícone de Fighter e Linx entra com ataque de 30% da Vida máxima do alvo. [Tabela completa dos personagens atualizados](docs/BALANCEAMENTO_MANUAL.md).
+Protótipo jogável de cartas e batalha por turnos. A versão **0.26.2** mantém as 29 cartas balanceadas e resolve multiplicadores como **golpes separados**: DD-X faz 2 de 45 ou 4 de 45 com sua habilidade; Draktar faz 2 de 90; Sam mantém até seis socos de 70. Cada golpe tem sua própria defesa, esquiva e reação. A proteção de Striker agora também impede a dimensão de Penxy quando Penxy é mais rápido; sem alvo permitido, a pré-batalha continua normalmente. Striker recebe o nome correto, Sam usa o ícone de Fighter e Linx entra com ataque de 30% da Vida máxima do alvo. [Tabela completa dos personagens atualizados](docs/BALANCEAMENTO_MANUAL.md).
 
 O jogo mantém os 17 Apoios oficiais, a invocação de Zeenneriam pelos três Fragmentos Primordiais e a interface cartoon. São **31 personagens de raridade e um Deus separado**; Petra aguarda sua mecânica. A seleção continua com dois Comuns por equipe, sem Raros automáticos. Elysh também cura da retaguarda na sua vez.
 
@@ -48,3 +48,5 @@ Item, Habilidade Especial e Loja continuam em desenvolvimento. As habilidades do
 [Sam com ícone Fighter](docs/previews/sam-v0.26.0-desktop.png) · [Linx em batalha](docs/previews/linx-v0.26.0-desktop.png) · [Striker corrigido](docs/previews/striker-v0.26.0-celular.png)
 
 [DD-X com quatro golpes](docs/previews/ddx-v0.26.1-desktop.png) · [Seis socos de Sam](docs/previews/sam-v0.26.1-registro.png) · [Regra dos golpes separados](docs/REGRAS.md#golpes-em-sequência--v0261)
+
+[Penxy respeita a proteção de Striker](docs/previews/penxy-v0.26.2-desktop.png) · [Conferência no celular](docs/previews/penxy-v0.26.2-celular.png)

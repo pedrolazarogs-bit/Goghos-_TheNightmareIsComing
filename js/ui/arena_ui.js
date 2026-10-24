@@ -55,7 +55,7 @@ G.actorInfoHTML=(s,actor,busy=false)=>{
 G.characterAbilityChoiceHTML=(s,selectedUid)=>{
   const p=G.pendingCharacterAbility(s);if(!p||p.side!=='player')return '';
   const u=G.getUnit(s,p.actorUid),copy={
-    dimension:['Duelo dimensional','Escolha um adversário da frente ou retaguarda. Só ele e Penxy poderão se atacar até um morrer.'],
+    dimension:['Duelo dimensional','Escolha um adversário da frente ou retaguarda. Striker não pode ser escolhido enquanto sua proteção estiver ativa e Penxy for mais rápido. Só o alvo escolhido e Penxy poderão se atacar até um morrer.'],
     deathBook:['Marcar nome no livro','Escolha um adversário. O livro será usado apenas na vez de Vaglar.'],
     fright:['Susto de entrada','Um d6 por adversário. 1 e 2 assustam: +20 de ataque por alvo; todos assustados dão +1 de velocidade.'],
     hypnosis:['Hipnose','Escolha quem ficará sem atacar e sem reações. Burn também não ataca. Na vez de Burn, confirme manter a hipnose para causar 90 ao alvo atual.'],

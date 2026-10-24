@@ -29,7 +29,7 @@ G.MAIN_ABILITIES={
  steel_jaw:{name:'Steel Jaw',trigger:'onAttacked',damage:390,instantRarities:['COMMON','RARE','EPIC','MYTHIC'],description:'Recebe o dano primeiro e só reage se continuar vivo: elimina o atacante abaixo de Lendário; contra Lendário ou Secreto, causa 390 de dano. Se o ataque zerar sua Vida, Sark é eliminado sem revidar.'},
  electric_area:{name:'3000W',trigger:'areaAttack',description:'Causa o dano básico a todos os adversários da linha de frente, sem escolher um alvo individual. Aliados e retaguarda ficam protegidos. Mana e bônus somam dano a cada alvo; Parry é resolvido individualmente.'},
  sharp_guitar:{name:'Sharp Guitar',trigger:'pinAttack',damage:20,description:'Escolha atacar normalmente ou causar 80 e cravar o machado. O alvo fica imobilizado e sofre 20 de dano após cada ação, a partir da próxima. Na vez de John, manter encerra sua ação; retirar libera os dois e permite escolher um novo ataque. Enquanto mantém o machado, John fica vulnerável e não ataca nem usa Parry.'},
- ghost_dimension:{name:'Ghost Claw',trigger:'dimension',description:'Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez.'},
+ ghost_dimension:{name:'Ghost Claw',trigger:'dimension',description:'Na entrada, escolhe um adversário da frente ou retaguarda para um duelo dimensional. Só os dois podem se atacar até um morrer. Striker não pode ser escolhido enquanto sua proteção estiver ativa e Penxy for mais rápido. Sem alvo permitido, aguarda a próxima oportunidade sem travar a pré-batalha. Se Penxy sobreviver, poderá escolher outro duelo na sua próxima vez.'},
  knight_armor:{name:'Armadura',trigger:'armor',reduction:.8,description:'Habilidade permanente: bloqueia 80% de todo dano numérico recebido. Recebe apenas 20%, arredondados para cima em múltiplos de 5.'},
  fright:{name:'Claws',trigger:'fright',description:'Ao entrar, rola um d6 por adversário: 1 ou 2 assusta. Ganha +20 de ataque por assustado; se assustar todos, também ganha +1 de velocidade. Os bônus duram até sua eliminação.'},
  healing_shot:{name:'Lazer Gun',trigger:'healingAttack',description:'Na sua vez, escolhe atacar um adversário ou curar um aliado com o valor de seu ataque. Elysh também pode curar da retaguarda, sem atacar de lá. A cura usa a ação e respeita a Vida máxima.'},
@@ -40,7 +40,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "missile":{"name":"Míssil","description":"Escolhe um adversário: dano inteiro no alvo e 20% do dano recebido em cada vizinho da mesma linha.","trigger":"missile"},
  "paralyzingKick":{"name":"Paralisia","description":"Escolhe ataque normal ou +30% de dano com d6: 1–3 acerta e paralisa por duas ações de qualquer personagem.","trigger":"paralyzingKick"},
  "deathShark":{"name":"Tubarão","description":"Ao morrer, tenta eliminar quem o matou: d6 1–2, somente se o atacante tiver raridade inferior.","trigger":"deathShark"},
- "speedWard":{"name":"Proteção de velocidade","description":"Adversários mais rápidos que Striker não podem atacá-lo.","trigger":"speedWard"},
+ "speedWard":{"name":"Proteção de velocidade","description":"Adversários mais rápidos que Striker não podem atacá-lo. Essa proteção também impede que Penxy mais rápido o leve para o duelo dimensional.","trigger":"speedWard"},
  "duelist":{"name":"Duelo","description":"Ao atacar ou ser atacado, duela no d6: 1–3 acerta. O perdedor recebe a resposta: eliminação até a raridade do Xerife, 200 contra raridade superior. Ao errar seu ataque, Xerife recebe o dano do alvo.","trigger":"duelist"},
  "hypnosis":{"name":"Hipnose","description":"Na entrada, hipnotiza um adversário: os dois não atacam, o alvo fica sem reações. Na vez de Burn, mantém ou troca o alvo e causa 90. Sua morte libera o hipnotizado.","trigger":"hypnosis"},
  "souls":{"name":"Almas","description":"Cada aliado ou adversário eliminado dá uma alma: +20 somente à Vida máxima, sem limite.","trigger":"souls"},
@@ -60,7 +60,7 @@ Object.assign(G.MAIN_ABILITIES,{
  "fadingDodge":{"name":"Esquiva veloz","description":"Começa exigindo 1 no d6 para acertá-lo. Cada acerto sofrido amplia a faixa em 1 e reduz sua Velocidade em 1. Até 1–6. Magos ignoram esse teste.","trigger":"fadingDodge"}
 });
 G.getMainAbility=u=>G.MAIN_ABILITIES[u.abilityId]||null;
-G.CONFIG={version:'0.26.1',
+G.CONFIG={version:'0.26.2',
   handLimit:5,
   aiSupport:true,
   classTributes:true,
