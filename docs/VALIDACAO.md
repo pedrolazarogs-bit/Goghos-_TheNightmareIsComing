@@ -383,3 +383,11 @@ A formação abaixo foi montada para revisar Sam, Eletric e Sarck nas posições
 Troféu, verso, cristal, retrato provisório e ícones foram movidos para `assets/arena/`. Os seis arquivos foram comparados por SHA-256 com os originais da versão anterior: nenhum pixel foi alterado. O enquadramento acontece apenas na apresentação. A imagem enviada pelo criador serviu como referência de posições e estilo.
 
 As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em [ARTES.md](ARTES.md).
+
+
+## v0.29.1
+
+- `npm test`: regressões do motor, preservação das artes, consultas sem mutação e ciclo de vida do ajuste da arena.
+- Chromium local: 1440×900, 1280×720, 1024×768, 390×844, 360×740, 844×390 e 1280×600, incluindo 12 personagens com Recruta e mão de cinco cartas. Sem personagens ou comandos fora do viewport; todas as cinco cartas têm área de clique própria. O retângulo transparente da imagem do Sark pode exceder a fileira, sem criar área rolável na arena.
+- Consultas de ficha, histórico, ordem, eliminados, preferências e mão; navegação mantém estado, montes e hierarquia. Mão cheia e recuperação verificadas em desktop, retrato e paisagem.
+- Fonte computada nos controles: German Beauty.

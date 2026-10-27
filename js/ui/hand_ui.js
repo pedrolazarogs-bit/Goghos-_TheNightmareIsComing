@@ -10,6 +10,7 @@ const art=c=>{
   if(c.supportCard||c.type==='PRIMORDIAL')return G.supportArtHTML(c);
   return `<div class="scard placeholder-card"><b>${c.type==='ITEM'?'◇':'✧'}</b><span>${c.name}</span></div>`;
 };
+G.handArtHTML=art;
 const mini=(h,isNew,opts={})=>{
   const c=h.card||G.getResetCard(h.id),t=G.CARD_TYPES[c.type];
   return `<button type="button" class="hcard${isNew?' new':''}${opts.pickable?' pickable':''}${opts.selected?' selected':''}" ${opts.incoming?'data-incoming="1" disabled':`data-hand="${h.iid}"`} data-card-type="${c.type.toLowerCase()}" style="--tc:${c.type==='DALY'?c.color:t.color}" title="${esc(c.name+' · '+t.label)}" aria-label="${esc(c.name)}" aria-pressed="${!!opts.selected}">${art(c)}<em><i aria-hidden="true"></i>${t.label}</em>${isNew?'<span class="hcard-new-badge" aria-hidden="true">Nova</span>':''}</button>`;

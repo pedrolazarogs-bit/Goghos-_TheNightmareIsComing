@@ -221,3 +221,8 @@ Os golpes passam a usar formas e contornos de quadrinhos, com luva, fogo angular
 Mantém seleção alternada de quatro Comuns, mão de cinco, recuperação parcial, velocidade, habilidades, economia, progresso e arquivos oficiais das cartas. O motor permanece idêntico à base anterior à renovação.
 
 Validação: 354 testes, 380 partidas completas simuladas e 131 cenários integrados de navegador, com revisão visual em cinco resoluções.
+
+
+## v0.29.1 — Arena sem roda do mouse e fonte original
+
+A arena se ajusta à altura e largura disponíveis. Frente, Suportes, Daly Mães, montes, mão e comandos permanecem na tela. Em celulares ou janelas baixas, as cartas ficam proporcionais ao espaço; a Ficha apresenta arte ampliada e páginas de habilidades e tributos. Registro, ordem, eliminados, preferências e alvos de Apoio também usam navegação por botões. Mão cheia e recuperação têm decisões compactas. A fonte German Beauty original volta às telas e botões. Nenhuma regra, atributo, habilidade ou arte oficial foi alterada.

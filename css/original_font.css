@@ -1,0 +1,3 @@
+/* A tipografia original acompanha o tema cartoon em todas as telas. */
+:root{--toon-display:'German Beauty',Georgia,serif}
+body,button,input,select,textarea,#app :is(h1,h2,h3,h4,p,small,strong,b,span,summary,label,em,button,input,select,textarea){font-family:'German Beauty',Georgia,serif!important}

@@ -63,3 +63,8 @@ As seis cenas usam os fundos e as ilustrações dos kits como ambientação narr
 Botões e cartas selecionáveis têm foco visível. No menu principal, ↑/↓ percorrem as opções e Home/End levam à primeira/última; Enter ou Espaço ativam a opção focada. Enter e Espaço selecionam cartas; Escape fecha a ficha, o seletor de modos ou os detalhes da loja, e também pula a abertura. Os detalhes devolvem o foco ao cartão correspondente. Diálogos de leitura e abertura mantêm o foco entre seus controles. Ícones têm nomes acessíveis e as mensagens mostram resultados mesmo com som ou movimento desligados.
 
 [Validação](VALIDACAO.md) · [Regras preservadas](REGRAS.md) · [Artes recebidas](ARTES.md)
+
+
+## v0.29.1 — Arena sem roda do mouse e fonte original
+
+A arena se ajusta à altura e largura disponíveis. Frente, Suportes, Daly Mães, montes, mão e comandos permanecem na tela. Em celulares ou janelas baixas, as cartas ficam proporcionais ao espaço; a Ficha apresenta arte ampliada e páginas de habilidades e tributos. Registro, ordem, eliminados, preferências e alvos de Apoio também usam navegação por botões. Mão cheia e recuperação têm decisões compactas. A fonte German Beauty original volta às telas e botões. Nenhuma regra, atributo, habilidade ou arte oficial foi alterada.
