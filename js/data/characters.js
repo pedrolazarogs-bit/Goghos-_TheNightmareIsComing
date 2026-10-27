@@ -191,7 +191,7 @@ G.MASTER_UPGRADE=[
  {"id":"penxy","assetKey":"penxy","rarity":"LEGENDARY","class":"ASSASSIN","maxHp":500,"damage":140,"speed":9,"stamina":7},
  {"id":"draktar","assetKey":"draktar","rarity":"MYTHIC","class":"ASSASSIN","maxHp":310,"damage":90,"speed":7,"stamina":6,"attackCount":2,"damageDisplaySuffix":"×2"},
  {"id":"rayyb","assetKey":"rayyb","rarity":"EPIC","class":"SUPPORT","maxHp":240,"damage":90,"speed":5,"stamina":4},
- {"id":"striker","assetKey":"sheriff_epic","rarity":"EPIC","class":"DESTROYER","maxHp":210,"damage":220,"speed":2,"stamina":4,"rename":true},
+ {"id":"striker","assetKey":"sheriff_epic","rarity":"EPIC","class":"DESTROYER","maxHp":210,"damage":220,"speed":3,"stamina":4,"rename":true},
  {"id":"linx","assetKey":"linx","rarity":"LEGENDARY","class":"FIGHTER","maxHp":660,"damage":0,"speed":4,"stamina":3,"parryThreshold":1,"damageDash":true}
 ];
 G.MAIN_ABILITIES.max_hp_strike={name:'Prototype',trigger:'maxHpStrike',description:'Ataca um adversário por 30% da Vida máxima dele, arredondando para cima em múltiplos de 5. O ataque respeita defesa, esquiva e proteção.'};

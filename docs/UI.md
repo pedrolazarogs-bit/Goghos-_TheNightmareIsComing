@@ -89,3 +89,8 @@ Quatro composições instrumentais originais acompanham menu/navegação, combat
 A mudança de tela faz transição suave. Redesenhar a batalha não reinicia a música. Pausar a partida abaixa a trilha; ocultar a aba interrompe e voltar retoma a faixa atual. O áudio começa após o primeiro clique ou tecla. Configurações oferecem som geral, volume geral, música, volume da música e movimento, com preferências persistentes e cinco páginas na arena. A música pode ser desligada sem desligar os golpes.
 
 Ataques de Destruidores ignoram Parry de Fighters em cada golpe, conforme a nova regra do criador. Estatísticas, bases e demais regras permanecem. Os créditos dos timbres, licença, composições e script de reconstrução acompanham `assets/music/` e `scripts/build-soundtrack.py`.
+
+
+### Striker — ajuste da v0.31.0
+
+Velocidade alterada de **2 para 3**, conforme o criador. A ordem de ação, os atributos exibidos e o número sobre a carta usam esse novo valor. A proteção continua impedindo ataques de oponentes mais rápidos: velocidade 3 pode atacá-lo; velocidade 4 é impedida enquanto a habilidade estiver ativa. Nenhum outro atributo ou arte original foi modificado.

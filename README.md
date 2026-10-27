@@ -2,7 +2,7 @@
 
 Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.31.0** acrescenta quatro músicas instrumentais originais de inspiração medieval: menu, combate, vitória e derrota. Harpa, cordas dedilhadas, flauta e cordas suaves acompanham o clima épico e tranquilo da interface.
 
-**Nova regra:** ataques de Destruidores ignoram o Parry dos Fighters, inclusive em golpes separados, áreas e revides. Os outros atributos e as artes oficiais permanecem iguais. A fonte German Beauty, a seleção de dois Comuns por equipe e a arena sem rolagem continuam disponíveis.
+**Nova regra:** ataques de Destruidores ignoram o Parry dos Fighters, inclusive em golpes separados, áreas e revides. Striker passa de velocidade 2 para **3**. Os demais atributos e as artes oficiais permanecem iguais. A fonte German Beauty, a seleção de dois Comuns por equipe e a arena sem rolagem continuam disponíveis.
 
 [Ouvir a prévia das quatro trilhas](docs/previews/trilha-v0.31.0.mp3) · [Créditos e gravações](assets/music/README.md)
 

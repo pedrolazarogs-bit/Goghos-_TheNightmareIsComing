@@ -1,4 +1,4 @@
-# KitMasterUpgrade — balanceamento manual da v0.26.2
+# KitMasterUpgrade — balanceamento manual e ajustes confirmados
 
 **Todas as 29 cartas únicas de Kit1 e Kit2 estão aplicadas ao jogo**, incluindo classe, raridade, Vida, dano, velocidade, fôlego e os tributos impressos. Elysh veio idêntica nos dois kits: são 30 entradas, sem duplicar o personagem. Os valores manuais substituem o balanceamento automático anterior, inclusive quando saem das faixas genéricas.
 
@@ -17,7 +17,7 @@ Os PNGs recebidos continuam intactos, com origem e SHA-256 no [manifesto](../ass
 | P. Ullys | Destroyer / Épico | 150 | 300 | 6 | 6 | Crítico 1–2 |
 | Stally | Fighter / Comum | 230 | 90 | 2 | 4 | Parry 1–5 |
 | Endrik | Destroyer / Épico | 160 | 250 | 4 | 6 | Crítico 1–2 |
-| Striker | Destroyer / Épico | 210 | 220 | 2 | 4 | Crítico 1–2 |
+| Striker | Destroyer / Épico | 210 | 220 | 3 | 4 | Crítico 1–2 |
 | Xerife | Assassin / Raro | 190 | — (duelo) | 5 | 3 | Esquiva |
 | Burn | Mago / Mítico | 330 | 120 | 3 | 6 | Mana 3/3 |
 | Fonior | Mago / Mítico | 260 | 220 | 4 | 7 | Mana 3/3 |
@@ -61,3 +61,8 @@ Os quatro Comuns continuam **Elysh, Stally, Mike e Alex**. A escolha alterna jog
 A IA evita alvos com esquiva garantida quando outro adversário pode ser atingido. Ao acordar, ainda respeita outros impedimentos. Ações extras permitem novo teste de sono na mesma rodada. Estas correções foram encontradas ao simular partidas com o catálogo atualizado.
 
 [Validação](VALIDACAO.md) · [Classes e tributos](CLASSES.md)
+
+
+## Ajuste confirmado na v0.31.0
+
+Striker: **Velocidade 2 → 3**. A versão atual usa 3 em batalha e na camada numérica da carta; a tabela de valores ativos acima já incorpora a alteração; o PNG e o manifesto da importação original permanecem intactos. Vida, ataque, fôlego, classe, raridade e habilidade não mudaram.

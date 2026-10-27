@@ -9,8 +9,8 @@ function give(s,id,side='player'){const i=s.deck.pile.findIndex(c=>c.id===id);as
 
 test('as 29 cartas únicas estão ativas com todos os atributos manuais e correções explícitas',()=>{
  const m=JSON.parse(fs.readFileSync('assets/rebalance/kit-master-upgrade/manifest.json'));assert.equal(m.cards.length,29);assert.equal(new Set(m.updatedCharacters).size,29);assert.equal(G.MASTER_UPGRADE.length,29);assert.equal(G.CHARACTERS.length,31);
- for(const x of m.cards){const c=G.getCharacterById(x.candidateCharacterId),o=x.observed;assert(c,x.key);assert.equal(c.cardBase.src,x.asset);assert.equal(c.maxHp,o.hp);assert.equal(c.speed,o.speed);assert.equal(c.stamina,o.stamina);assert.equal(c.rarity,x.key==='vaglar_epic'?'COMMON':o.rarity);assert.equal(c.class,x.key==='sam'?'FIGHTER':o.class);assert.equal(x.status,'active');assert.equal(crypto.createHash('sha256').update(fs.readFileSync(x.asset)).digest('hex'),x.sha256);}
- assert.equal(G.getCharacterById('striker').name,'Striker');assert(G.cardHTML(G.getCharacterById('striker')).includes('STRIKER'));assert.equal(G.getCharacterById('john').maxHp,250);assert.equal(G.getCharacterById('sarck').maxHp,530);
+ for(const x of m.cards){const c=G.getCharacterById(x.candidateCharacterId),o=x.observed;assert(c,x.key);assert.equal(c.cardBase.src,x.asset);assert.equal(c.maxHp,o.hp);assert.equal(c.speed,c.id==='striker'?3:o.speed);assert.equal(c.stamina,o.stamina);assert.equal(c.rarity,x.key==='vaglar_epic'?'COMMON':o.rarity);assert.equal(c.class,x.key==='sam'?'FIGHTER':o.class);assert.equal(x.status,'active');assert.equal(crypto.createHash('sha256').update(fs.readFileSync(x.asset)).digest('hex'),x.sha256);}
+ assert.equal(G.getCharacterById('striker').name,'Striker');assert(G.cardHTML(G.getCharacterById('striker')).includes('STRIKER'));assert.match(G.cardHTML(G.getCharacterById('striker')),/data-value="speed"[^>]*>3<\/div>/);assert.equal(G.getCharacterById('john').maxHp,250);assert.equal(G.getCharacterById('sarck').maxHp,530);
 });
 
 test('dano impresso com multiplicação mantém seu significado e Sam recebe apenas o remendo do ícone',()=>{
@@ -50,7 +50,7 @@ test('Chama usa 55 inicial e cinco queimaduras de 55; Nully multiplica 80 e Elé
 });
 
 test('IA evita escolher um Assassino com esquiva garantida quando pode atingir outro alvo',()=>{
- const s=battle(['striker'],['nully','zuri']);choices(s);const a=u(s,'striker');assert.equal(a.speed,2);assert.equal(u(s,'nully').speed,9);assert.equal(G.AI.chooseTarget(s,a).id,'zuri');attack(s,'striker',u(s,'zuri'));assert.equal(u(s,'zuri').hp,830);
+ const s=battle(['striker'],['nully','zuri']);choices(s);const a=u(s,'striker');assert.equal(a.speed,3);assert.equal(u(s,'nully').speed,9);assert.equal(G.AI.chooseTarget(s,a).id,'zuri');attack(s,'striker',u(s,'zuri'));assert.equal(u(s,'zuri').hp,830);
 });
 
 test('todos os 31 laboratórios montam formações válidas sem personagens provisórios',()=>{

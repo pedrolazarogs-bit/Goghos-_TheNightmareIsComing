@@ -409,7 +409,9 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 
 ## v0.31.0
 
-- `npm test` passou com 8 novos testes do ciclo de áudio e 9 testes de Destruidor contra Parry. A fixture histórica permanece intacta; a guarda de invariantes aceita somente a linha autorizada que desativa Parry contra Destruidores. Dados e artes preservados.
+- `npm test` passou com 8 novos testes do ciclo de áudio e 9 testes de Destruidor contra Parry. A fixture histórica permanece intacta; a guarda de invariantes aceita somente a linha autorizada que desativa Parry contra Destruidores e a velocidade 3 de Striker. Os demais dados e as artes permanecem preservados.
 - Reprodução nativa no Chromium: áudio aguarda gesto real; quatro MP3s avançam, transições descartam faixas antigas, cinco redesenhos não reiniciam a música. Pausa reduz volume, mute geral/música são independentes, volumes se multiplicam, aba oculta pausa e retorna à posição atual. Preferências persistem após recarregar. Sem erros JavaScript/HTTP.
 - Cinco páginas de áudio/movimento conferidas em 390×844 e 844×390, sem rolagem ou controles fora da tela.
 - Quatro MP3s estéreo a 44,1 kHz foram decodificados e medidos: aproximadamente −17 LUFS, picos abaixo de −3,4 dBTP e sem clipping. Laços de menu/combate e finais suaves conferidos. Manifesto registra tamanhos, SHA-256, duração e instrumentos.
+
+- Striker conferido no Chromium: catálogo, unidade, número da carta e ficha mostram velocidade 3, sem alterar o PNG. Testes confirmam o novo limite da proteção (3 permitido, 4 impedido), a ordem de ação e a interação com Penxy. `npm test` completo passou após esse ajuste.

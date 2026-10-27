@@ -254,3 +254,8 @@ Moedas e baús ficam fora do combate. A visita inicial concede 180 moedas; um ba
 ## Parry contra Destruidores — v0.31.0
 
 Fighters não podem dar Parry em ataques de personagens da classe Destruidor. A defesa não é rolada, inclusive em cada golpe de uma sequência, áreas e revides. O crítico do Destruidor continua com sua própria rolagem. Uma carga de Sortudo do defensor não é gasta por um Parry que não pode acontecer. MAX também reúne esse tributo. Os demais escudos, habilidades e regras de defesa mantêm seus efeitos.
+
+
+### Striker — ajuste da v0.31.0
+
+Velocidade alterada de **2 para 3**, conforme o criador. A ordem de ação, os atributos exibidos e o número sobre a carta usam esse novo valor. A proteção continua impedindo ataques de oponentes mais rápidos: velocidade 3 pode atacá-lo; velocidade 4 é impedida enquanto a habilidade estiver ativa. Nenhum outro atributo ou arte original foi modificado.

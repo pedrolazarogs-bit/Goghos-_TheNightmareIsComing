@@ -19,13 +19,25 @@ test('o motor preserva a referência visual, exceto o bloqueio de Parry contra D
  }
 
 });
-test('fontes de dados preservam números, efeitos e funções, permitindo somente a identificação da versão',()=>{
- for(const [file,expected]of Object.entries(baseline.dataSource))assert.equal(sha(normalizeVersion(fs.readFileSync(path.join(root,file),'utf8'))),expected,file+' alterou dados além da versão');
+test('dados preservam a referência, exceto a versão e a Velocidade 3 de Striker autorizada pelo criador',()=>{
+ for(const [file,expected]of Object.entries(baseline.dataSource)){
+  let source=normalizeVersion(fs.readFileSync(path.join(root,file),'utf8'));
+  if(file==='js/data/characters.js'){
+   const approved='{"id":"striker","assetKey":"sheriff_epic","rarity":"EPIC","class":"DESTROYER","maxHp":210,"damage":220,"speed":3,"stamina":4,"rename":true}';
+   assert.equal(source.split(approved).length-1,1,'A exceção de Striker deve alterar somente seu registro oficial.');
+   source=source.replace(approved,approved.replace('"speed":3','"speed":2'));
+  }
+  assert.equal(sha(source),expected,file+' alterou dados além da versão e do ajuste autorizado de Striker');
+ }
 });
 
-test('catálogo vivo, tributos, Apoios, montes e configuração mantêm exatamente o balanceamento anterior',()=>{
+test('catálogo, tributos, Apoios e montes preservam o balanceamento, exceto Striker de Velocidade 2 para 3',()=>{
  for(const name of ['characters','gods','support_cards','reset_cards'])require(path.join(root,'js/data/'+name+'.js'));
  const current=JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(globalThis.GOGHOS).filter(([,value])=>typeof value!=='function'))));delete current.CONFIG.version;
+ // O snapshot original permanece intacto; somente os dois registros vivos aprovados são normalizados.
+ for(const records of [current.CHARACTERS,current.MASTER_UPGRADE]){
+  const striker=records.find(c=>c.id==='striker');assert.equal(striker.speed,3);striker.speed=2;
+ }
  assert.deepEqual(current,baseline.data);
  assert.equal(current.CHARACTERS.length,31);assert.equal(current.GODS.length,1);assert.equal(current.SUPPORT_CARDS.length,17);
 });
