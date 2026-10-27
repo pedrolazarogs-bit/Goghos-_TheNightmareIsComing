@@ -13,7 +13,7 @@
 .toon-brand-logo{width:min(100%,80dvh,820px);aspect-ratio:1200/780;position:relative;animation:toon-logo-in .85s cubic-bezier(.2,1.25,.35,1) both;isolation:isolate;filter:drop-shadow(0 10px 0 #10041b4d)}
 .toon-logo{width:100%;height:100%;object-fit:contain;display:block;animation:toon-logo-float 6s ease-in-out infinite alternate}
 .toon-beta{position:absolute;right:3%;bottom:-4%;width:16%;height:auto;object-fit:contain;transform:rotate(-7deg);animation:toon-beta-pop .5s 1s cubic-bezier(.2,1.5,.4,1) both;filter:drop-shadow(0 3px 0 #24052e55)}
-.toon-logo-glint{position:absolute;inset:0;mask:url('../assets/visual-v0.28/logo-without-mercy.webp') center/contain no-repeat;overflow:hidden;mix-blend-mode:screen;pointer-events:none;animation:toon-logo-float 6s ease-in-out infinite alternate}
+.toon-logo-glint{position:absolute;inset:0;mask:url('../assets/logo/logo.png') center/contain no-repeat;overflow:hidden;mix-blend-mode:screen;pointer-events:none;animation:toon-logo-float 6s ease-in-out infinite alternate}
 .toon-logo-glint:before{content:'';position:absolute;top:-15%;bottom:-15%;left:-45%;width:24%;background:linear-gradient(105deg,transparent,#f4fffdbf,transparent);transform:skewX(-18deg);animation:toon-logo-sheen 6.5s 1.2s ease-in-out infinite}
 .toon-brand>p{margin:25px 0 0;position:relative;z-index:1;font:700 10px/1.7 system-ui,sans-serif;letter-spacing:.17em;text-transform:uppercase;color:#e4d2f1;text-shadow:0 2px 0 #1a072e;text-align:center}
 .toon-feature{position:relative;display:flex;gap:10px;align-items:center;min-height:56px;margin-top:36px!important;padding:6px 15px 6px 72px;background:#351649cc;border:2px solid #a56db556;box-shadow:0 4px 0 #1c092d;border-radius:14px;transform:rotate(-2deg)}

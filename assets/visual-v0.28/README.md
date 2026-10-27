@@ -1,6 +1,6 @@
 # Direção cartoon — v0.28.0
 
-O logotipo **GOGHOS Without Mercy** e a etiqueta Beta vieram incorporados no HTML enviado pelo criador. Os dois WEBPs foram extraídos do arquivo original sem recompressão ou alteração. Os JPEGs de referência permanecem completos em `references/`.
+O logotipo **GOGHOS Without Mercy** e a etiqueta Beta vieram incorporados no HTML enviado pelo criador. Essa marca é somente referência visual e não representa o nome do jogo. Desde a v0.29.2 a interface utiliza a logo oficial em `assets/logo/logo.png`: **GOGHOS — The Nightmare Is Coming**. Os dois WEBPs foram extraídos do arquivo original sem recompressão ou alteração. Os JPEGs de referência permanecem completos em `references/`.
 
 Os 12 ícones e os dois ornamentos SVG foram desenhados em código para a interface: contorno ameixa, extrusão curta e cores ciano, rosa, amarelo e menta. São elementos novos inspirados no estilo das referências, sem recortar ou reaproveitar os JPEGs. Os símbolos de classe e as cartas dos personagens permanecem na fonte anterior.
 

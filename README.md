@@ -1,10 +1,10 @@
-# GOGHOS — Without Mercy
+# GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.29.1** mantém a batalha inteira na tela, com consultas paginadas e a fonte original German Beauty restaurada. A direção visual leva a direção cartoon para a experiência de jogo: seleção, campo de batalha, mão, decisões, fichas, catálogo, laboratórios, loja, crônicas, preferências e resultados. As cartas oficiais permanecem intactas dentro dos novos painéis.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.29.2** mantém a batalha inteira na tela, com consultas paginadas e a fonte original German Beauty restaurada. A direção visual leva a direção cartoon para a experiência de jogo: seleção, campo de batalha, mão, decisões, fichas, catálogo, laboratórios, loja, crônicas, preferências e resultados. As cartas oficiais permanecem intactas dentro dos novos painéis.
 
 **O balanceamento foi preservado.** Os dez arquivos do motor, os atributos e habilidades dos 31 personagens, Zeenneriam, os Apoios e as regras são os mesmos da v0.26.2. As cartas oficiais continuam intactas. O novo kit entra como arte e apresentação, sem substituir números por referências antigas.
 
-![Arena cartoon GOGHOS Without Mercy](docs/previews/arena-v0.29.1-desktop.png)
+![Arena cartoon GOGHOS — The Nightmare Is Coming](docs/previews/arena-v0.29.2-desktop.png)
 
 ## Novidades visuais
 

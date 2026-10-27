@@ -391,3 +391,8 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Chromium local: 1440×900, 1280×720, 1024×768, 390×844, 360×740, 844×390 e 1280×600, incluindo 12 personagens com Recruta e mão de cinco cartas. Sem personagens ou comandos fora do viewport; todas as cinco cartas têm área de clique própria. O retângulo transparente da imagem do Sark pode exceder a fileira, sem criar área rolável na arena.
 - Consultas de ficha, histórico, ordem, eliminados, preferências e mão; navegação mantém estado, montes e hierarquia. Mão cheia e recuperação verificadas em desktop, retrato e paisagem.
 - Fonte computada nos controles: German Beauty.
+
+
+## v0.29.2
+
+`npm test` passou. No Chromium, conferidos título da aba, logo na abertura, menu em 1280×720 e 390×844, modos e arena nos sete tamanhos anteriores. Os recursos ativos usam `assets/logo/logo.png`; a referência Without Mercy não é carregada pela interface. Nenhum erro JavaScript observado.
