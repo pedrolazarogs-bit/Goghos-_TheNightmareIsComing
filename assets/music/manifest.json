@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "source": "Composições originais determinísticas de GOGHOS, scripts/build-soundtrack.py; instrumentos GM locais TimGM6mb renderizados por FluidSynth.",
+  "tracks": {
+    "menu": {
+      "file": "menu.mp3",
+      "title": "O Portal da Noite",
+      "durationSeconds": 80.039,
+      "musicalDurationSeconds": 80.0,
+      "bpmEighthNote": 144,
+      "meter": "6/8",
+      "loop": true,
+      "bytes": 1601512,
+      "sha256": "9c5540f5ddf94698e956a30d721e469bdb6cf5c17bf5fd1b5e4201f057916f0d",
+      "instruments": [
+        "harpa",
+        "alaúde estilizado em cordas de nylon",
+        "flauta",
+        "cordas",
+        "violoncelo"
+      ],
+      "vocals": false,
+      "analysis": {
+        "durationDecoded": 80.0,
+        "samplePeakDb": -3.47,
+        "rmsDb": -19.16,
+        "integratedLufs": -17.06,
+        "truePeakDb": -3.47,
+        "loudnessRangeLU": 1.1,
+        "nonFinite": 0,
+        "firstHalfSecondRms": 0.12096,
+        "lastHalfSecondRms": 0.11671
+      }
+    },
+    "combat": {
+      "file": "combat.mp3",
+      "title": "Guardas da Daly Mãe",
+      "durationSeconds": 80.039,
+      "musicalDurationSeconds": 80.0,
+      "bpmEighthNote": 180,
+      "meter": "6/8",
+      "loop": true,
+      "bytes": 1601515,
+      "sha256": "2d2d132b1cb2b27461b46f4b32d2513032b5ce5153e0c1ae05a4897ad5e4e423",
+      "instruments": [
+        "harpa",
+        "alaúde estilizado em cordas de nylon",
+        "flauta",
+        "cordas",
+        "violoncelo",
+        "trompa",
+        "tímpano e tom grave suave"
+      ],
+      "vocals": false,
+      "analysis": {
+        "durationDecoded": 80.0,
+        "samplePeakDb": -4.59,
+        "rmsDb": -19.07,
+        "integratedLufs": -16.91,
+        "truePeakDb": -4.59,
+        "loudnessRangeLU": 1.9,
+        "nonFinite": 0,
+        "firstHalfSecondRms": 0.12214,
+        "lastHalfSecondRms": 0.09232
+      }
+    },
+    "victory": {
+      "file": "victory.mp3",
+      "title": "Uma Luz no Santuário",
+      "durationSeconds": 24.033,
+      "musicalDurationSeconds": 24.0,
+      "bpmEighthNote": 144,
+      "meter": "6/8",
+      "loop": false,
+      "bytes": 481385,
+      "sha256": "810985b0d918aeeb62647437e12f09382f14933f04e995990a4a5050caaa1689",
+      "instruments": [
+        "harpa",
+        "alaúde estilizado em cordas de nylon",
+        "flauta",
+        "cordas",
+        "violoncelo",
+        "trompa suave"
+      ],
+      "vocals": false,
+      "analysis": {
+        "durationDecoded": 24.0,
+        "samplePeakDb": -5.6,
+        "rmsDb": -20.42,
+        "integratedLufs": -17.75,
+        "truePeakDb": -5.6,
+        "loudnessRangeLU": 16.6,
+        "nonFinite": 0,
+        "firstHalfSecondRms": 0.09969,
+        "lastHalfSecondRms": 0.0
+      }
+    },
+    "defeat": {
+      "file": "defeat.mp3",
+      "title": "Ecos Depois da Batalha",
+      "durationSeconds": 28.029,
+      "musicalDurationSeconds": 28.0,
+      "bpmEighthNote": 128.5714285714,
+      "meter": "6/8",
+      "loop": false,
+      "bytes": 561321,
+      "sha256": "4f33166f419afaf964cab3e770541ba9c1742f540596a2c4f7b81932fbc3e9a5",
+      "instruments": [
+        "harpa",
+        "alaúde estilizado em cordas de nylon",
+        "flauta",
+        "cordas",
+        "violoncelo"
+      ],
+      "vocals": false,
+      "analysis": {
+        "durationDecoded": 28.0,
+        "samplePeakDb": -5.59,
+        "rmsDb": -20.35,
+        "integratedLufs": -17.55,
+        "truePeakDb": -5.58,
+        "loudnessRangeLU": 3.7,
+        "nonFinite": 0,
+        "firstHalfSecondRms": 0.13143,
+        "lastHalfSecondRms": 0.0
+      }
+    }
+  },
+  "compositionOriginal": true,
+  "soundfont": {
+    "name": "TimGM6mb",
+    "credits": "Tim Brechbill (2004), David Bolton (2010)",
+    "license": "GPL-2",
+    "creditsFile": "TimGM6mb-CREDITS.txt",
+    "licenseFile": "TimGM6mb-GPL-2.txt",
+    "distributed": false
+  }
+}

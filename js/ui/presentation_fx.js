@@ -2,7 +2,7 @@
 (function(G){
 'use strict';
 const PREF_KEY='goghos.presentation.v1';
-const DEFAULTS=Object.freeze({muted:false,volume:.38,motion:'auto'});
+const DEFAULTS=Object.freeze({muted:false,volume:.38,musicMuted:false,musicVolume:.55,motion:'auto'});
 const COLORS=Object.freeze({punch:'#ffe074',slash:'#e9b5ff',electric:'#66e6ff',beam:'#8cf5d9',axe:'#9df4c8',flame:'#ff875f',missile:'#ffc36a',shot:'#fff09a',swarm:'#ffb7ee',dimension:'#b58bff',heal:'#90f4c2',guard:'#9acaff',parry:'#b6f3ff',dodge:'#c9c6ef',miss:'#bdb5cc',immune:'#bca1ff',execution:'#f9aad8',oni:'#d5a2ff',hypnosis:'#ff9de6',soul:'#7ae6d5',star:'#ffe8ac',dice:'#f5d2a8',sleep:'#bda8fa',petrify:'#a9cdbe',book:'#c99ae9',fright:'#e4d4ff',teeth:'#efe2ff',shark:'#9be7ee',heart:'#ffa9c7',dash:'#a2eee5',divine:'#fff3ba',crystal:'#ff91c7',support:'#d7beff'});
 const CHARACTER_PROFILE=Object.freeze({eletric:'electric',john:'axe',sarck:'teeth',penxy:'dimension',cavaleiro:'guard',zikssy:'fright',elysh:'beam',ddx:'punch',p_ullys:'missile',stally:'punch',endrik:'shark',striker:'shot',sheriff:'shot',barn:'hypnosis',fonior:'soul',sam:'punch',chama:'flame',zuri:'heal',draktar:'slash',daztirry:'oni',mike:'shot',unicorn:'star',nully:'dice',rayyb:'sleep',rayvilin:'petrify',z_zus:'guard',alex:'swarm',karma:'heart',trucc:'dash',vaglar:'book',linx:'slash',zenneriam:'divine'});
 const BASIC_PROFILE=Object.freeze({penxy:'slash',cavaleiro:'slash',zikssy:'slash',zuri:'star',rayyb:'star',rayvilin:'slash',z_zus:'punch'});
@@ -11,8 +11,8 @@ const own=(obj,key)=>Object.prototype.hasOwnProperty.call(obj,key),clamp=(n,min,
 function normalizePreferences(value={}){
  const source=value&&typeof value==='object'?value:{};
  const motion=typeof source.motion==='boolean'?(source.motion?'full':'reduced'):['auto','full','reduced'].includes(source.motion)?source.motion:DEFAULTS.motion;
- const volume=Number(source.volume);
- return{muted:typeof source.muted==='boolean'?source.muted:DEFAULTS.muted,volume:Number.isFinite(volume)?clamp(volume,0,1):DEFAULTS.volume,motion};
+ const volume=Number(source.volume),musicVolume=Number(source.musicVolume);
+ return{muted:typeof source.muted==='boolean'?source.muted:DEFAULTS.muted,volume:Number.isFinite(volume)?clamp(volume,0,1):DEFAULTS.volume,musicMuted:typeof source.musicMuted==='boolean'?source.musicMuted:DEFAULTS.musicMuted,musicVolume:Number.isFinite(musicVolume)?clamp(musicVolume,0,1):DEFAULTS.musicVolume,motion};
 }
 function readPreferences(){try{return normalizePreferences(JSON.parse(globalThis.localStorage?.getItem(PREF_KEY)||'{}'));}catch{return{...DEFAULTS};}}
 let prefs=readPreferences(),media=null,initialized=false,layer=null,canvas=null,ctx2d=null,raf=0,lastFrame=0,syntheticSeq=0;

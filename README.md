@@ -1,13 +1,16 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.30.0** equilibra o cartoon estilizado das cartas com uma interface de inspiração gótica medieval: ferro escuro, marfim, latão envelhecido, arcos discretos e magia em tons suaves, seguindo a logo oficial **The Nightmare Is Coming**.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.31.0** acrescenta quatro músicas instrumentais originais de inspiração medieval: menu, combate, vitória e derrota. Harpa, cordas dedilhadas, flauta e cordas suaves acompanham o clima épico e tranquilo da interface.
 
-**Regras, balanceamento e artes oficiais preservados.** A fonte original German Beauty, a seleção alternada de dois Comuns por equipe, a arena sem rolagem e as consultas paginadas continuam disponíveis.
+**Nova regra:** ataques de Destruidores ignoram o Parry dos Fighters, inclusive em golpes separados, áreas e revides. Os outros atributos e as artes oficiais permanecem iguais. A fonte German Beauty, a seleção de dois Comuns por equipe e a arena sem rolagem continuam disponíveis.
+
+[Ouvir a prévia das quatro trilhas](docs/previews/trilha-v0.31.0.mp3) · [Créditos e gravações](assets/music/README.md)
 
 ![Menu GOGHOS — The Nightmare Is Coming](docs/previews/menu-v0.30.0-desktop.png)
 
-## Novidades visuais
+## Som e apresentação
 
+- **Música:** menu e combate em repetição; vitória e derrota com finais próprios, sem vozes. Transições suaves, volume musical independente e som interrompido ao ocultar a aba. O primeiro clique/toque libera o áudio.
 - **Menu e abertura:** painéis com acabamento de metal, ação principal em latão, ornamentos de arcos e iluminação suave. Os detalhes ilustrados conservam o aspecto estilizado.
 - **Ícones:** 22 vetores locais com o mesmo acabamento de marfim, ferro, latão e cores espectrais discretas.
 - **Batalha:** equipes em verde espectral e ameixa, superfícies mais sóbrias, ações e alvos destacados. Frente, retaguarda, Daly Mães, montes, mão e comandos continuam na tela.

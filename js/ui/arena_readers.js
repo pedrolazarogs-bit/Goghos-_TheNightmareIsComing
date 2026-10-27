@@ -61,7 +61,7 @@
       case 'history':title='Registro da batalha';content=historyPages(o,size);break;
       case 'order':title='Ordem de velocidade';content=orderPages(o,size);break;
       case 'eliminated':title='Personagens eliminados';content=eliminatedPages(o);break;
-      case 'settings':title='Som e efeitos';content=Array.from({length:3},(_,page)=>`<div class="reader-settings" data-reader-page="${page}">${o.settingsHTML||empty('Preferências indisponíveis.')}</div>`);break;
+      case 'settings':title='Som e música';content=Array.from({length:5},(_,page)=>`<div class="reader-settings" data-reader-page="${page}">${o.settingsHTML||empty('Preferências indisponíveis.')}</div>`);break;
       case 'hand':title='Carta da sua mão';content=Array.from({length:Math.max(1,Math.trunc(Number(o.handPages)||1))},()=>`<div class="reader-hand"><div class="reader-hand-art">${o.handArtHTML||''}</div><div class="reader-hand-detail">${o.handDetailHTML||empty('Selecione uma carta da mão.')}</div></div>`);break;
       default:title=o.unit?`Ficha · ${o.unit.name}`:'Ficha da carta';content=cardPages(o,size);break;
     }

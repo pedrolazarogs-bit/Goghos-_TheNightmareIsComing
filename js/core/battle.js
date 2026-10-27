@@ -191,7 +191,7 @@ function releasePinLink(s,u){
   source.pinning=null;source.pinStartedTurn=null;source.pinLastKeptHp=null;return true;
 }
 function parryInfo(a,t){
-  if(G.isReactionBlocked?.(t))return null;
+  if(G.hasClass(a,'DESTROYER')||G.isReactionBlocked?.(t))return null;
   return t&&t.team!==a.team&&G.hasClass(t,'FIGHTER')&&t.parryThreshold>0&&!t.pinnedBy&&!t.pinning?{threshold:t.parryThreshold,sides:6}:null;
 }
 function applyHit(s,a,t,damage,options={}){

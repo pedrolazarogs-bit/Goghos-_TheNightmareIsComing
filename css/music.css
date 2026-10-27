@@ -1,0 +1,10 @@
+/* Music has its own controls; battle preferences stay paged and never grow the arena. */
+.arena .fit-reader .reader-settings[data-reader-page]:not([data-reader-page="4"]) .motion-setting{display:none}
+.arena .fit-reader .reader-settings[data-reader-page="2"] .music-setting,
+.arena .fit-reader .reader-settings[data-reader-page="3"] .music-volume-setting,
+.arena .fit-reader .reader-settings[data-reader-page="4"] .motion-setting{display:flex}
+@media(max-height:519px){
+ .arena .fit-reader .reader-settings[data-reader-page="4"] .motion-setting{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+.arena.fit-arena .fit-reader .reader-settings .settings-content{background:#25212b;border-color:#655764;border-radius:8px 2px;box-shadow:inset 0 1px 0 #eee2c814}
+.arena.fit-arena .fit-reader .volume-meter{background:linear-gradient(to right,#91b8b2 var(--volume),#25212b var(--volume));border-color:#655764}

@@ -90,7 +90,7 @@ test('duelo do Xerife substitui esquiva comum; Trucc mantém o teste próprio e 
 test('John mantém Parry 1–2 e os Fighters ainda não revisados aguardam as novas cartas',()=>{
  for(const roll of [1,2,3,4,5,6]){const s=battle(['eletric'],['john']);s.roll=()=>roll;const t=unit(s,'john'),hit=G.applyCharacterHit(s,unit(s,'eletric'),t,50);assert.equal(hit.type,roll<=2?'parry':'hit');assert.equal(hit.damage,roll<=2?0:50);}
  for(const id of reviewed.FIGHTER.filter(id=>!['john','alex','stally'].includes(id))){const s=battle(['eletric'],[id]);choices(s);assert.equal(unit(s,id).parryThreshold,0,id);assert.equal(G.parryInfo(unit(s,'eletric'),unit(s,id)),null);}
- const s=battle(['mike'],['john']),t=unit(s,'john');t.silenceRemaining=4;assert.equal(G.parryInfo(unit(s,'mike'),t).threshold,2);t.pinning='target';assert.equal(G.parryInfo(unit(s,'mike'),t),null);
+ const s=battle(['eletric'],['john']),t=unit(s,'john');t.silenceRemaining=4;assert.equal(G.parryInfo(unit(s,'eletric'),t).threshold,2);t.pinning='target';assert.equal(G.parryInfo(unit(s,'eletric'),t),null);
 });
 
 test('todos os cinco Destroyers testam crítico de 25% em 1–2, em ataques reais',()=>{

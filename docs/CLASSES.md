@@ -29,7 +29,7 @@ As mudanças de classe em relação ao catálogo anterior são Cavaleiro para Ta
 ## Regras dos tributos
 
 - **Assassin:** d6 até a diferença de velocidade evita o golpe; precisa ser mais rápido que o atacante. Magos ignoram esse teste. Sark, sem velocidade, não recebe esquiva. Xerife usa o duelo defensivo em lugar de outra esquiva; Trucc mantém a esquiva progressiva. Impedimentos de reação bloqueiam o teste.
-- **Fighter:** Parry em cada ataque recebido, com o limiar individual abaixo. Continua durante silêncio, mas não durante impedimentos de reação. John também fica sem Parry enquanto mantém o machado. Magos não ignoram Parry.
+- **Fighter:** Parry em cada ataque recebido de classes que não sejam Destruidor, com o limiar individual abaixo. Continua durante silêncio, mas não durante impedimentos de reação. John também fica sem Parry enquanto mantém o machado. Magos não ignoram Parry.
 - **Tank:** a resistência reduz dano de ataques, inclusive área e revides. Z-Zus tem **20%** na nova carta; Cavaleiro tem **zero**, mantendo somente a armadura própria de 80%. O padrão de 10% vale para MAX. Livro, queimadura, machado periódico, hipnose e execução não recebem essa redução de ataque. Silêncio não desliga tributos de classe.
 - **Support:** Elysh, Zuri, Unicorn e Rayyb podem transitar na vez da equipe, sem gastar ação, respeitando vagas, impedimentos e um defensor na frente. Apenas Elysh recebe uma ação de cura enquanto está atrás.
 - **Mago:** os cinco começam com 3/3 e recuperam +1 após cada ação global concluída, até 3. Operações gratuitas não regeneram mana. O gasto soma 10 de dano por ponto ao ataque; livro e hipnose continuam efeitos fixos. O dano periódico de Chama não recebe bônus de mana.
@@ -50,3 +50,8 @@ As mudanças de classe em relação ao catálogo anterior são Cavaleiro para Ta
 ## Verificação
 
 Os testes atuais de [integração dos kits](../tests/master_complete.test.js) conferem os 29 cadastros, todos os limiares de Parry recebidos, Mana, resistência individual e crítico de Karma, além das habilidades e partidas com o catálogo completo. A auditoria anterior de classes permanece como regressão histórica com dados da v0.25.0; ela não define o catálogo carregado pelo jogo. Resultados e ensaios no navegador estão em [VALIDACAO.md](VALIDACAO.md).
+
+
+## Parry contra Destruidores — v0.31.0
+
+Fighters não podem dar Parry em ataques de personagens da classe Destruidor. A defesa não é rolada, inclusive em cada golpe de uma sequência, áreas e revides. O crítico do Destruidor continua com sua própria rolagem. Uma carga de Sortudo do defensor não é gasta por um Parry que não pode acontecer. MAX também reúne esse tributo. Os demais escudos, habilidades e regras de defesa mantêm seus efeitos.

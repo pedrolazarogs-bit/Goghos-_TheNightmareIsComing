@@ -238,3 +238,12 @@ Logo original GOGHOS — The Nightmare Is Coming restaurada no menu, abertura, m
 A logo oficial guia a nova interface: ferro e pedra escuros, marfim, latão envelhecido e detalhes discretos de rosa, verde espectral e lavanda. Botões têm menos extrusão, contornos e brilho; arcos e pequenos losangos substituem o excesso de confete. O estilo ilustrado permanece nas cartas, nos ícones e nas animações, sem virar uma interface realista ou excessivamente sombria.
 
 Menu, abertura, modos, seleção, arena, decisões, consultas, catálogo, treinos, preferências, loja, coleção, crônicas, baús e resultados recebem o acabamento. Fonte German Beauty, logo The Nightmare Is Coming, enquadramento sem rolagem, regras e balanceamento permanecem os mesmos. As artes e os números das cartas não recebem filtros nem alterações.
+
+
+## v0.31.0 — Trilha instrumental e Destruidores contra Parry
+
+Quatro composições instrumentais originais acompanham menu/navegação, combate, vitória e derrota. Harpa, cordas de nylon em estilo de alaúde, flauta, cordas suaves e violoncelo; o combate acrescenta trompa e percussão discreta. Sem vozes ou coros. Menu e combate repetem ciclos de 80 segundos; os finais de vitória (24 s) e derrota (28 s) tocam uma vez. Empates usam a trilha neutra de navegação.
+
+A mudança de tela faz transição suave. Redesenhar a batalha não reinicia a música. Pausar a partida abaixa a trilha; ocultar a aba interrompe e voltar retoma a faixa atual. O áudio começa após o primeiro clique ou tecla. Configurações oferecem som geral, volume geral, música, volume da música e movimento, com preferências persistentes e cinco páginas na arena. A música pode ser desligada sem desligar os golpes.
+
+Ataques de Destruidores ignoram Parry de Fighters em cada golpe, conforme a nova regra do criador. Estatísticas, bases e demais regras permanecem. Os créditos dos timbres, licença, composições e script de reconstrução acompanham `assets/music/` e `scripts/build-soundtrack.py`.

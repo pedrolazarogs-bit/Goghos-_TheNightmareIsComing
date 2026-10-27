@@ -93,8 +93,8 @@ test('Presence atravessa o isolamento de Penxy sem liberar o duelo dos outros pe
  const s=battle(['ddx'],['penxy','john']),god=summon(s),p=u(s,'penxy'),a=u(s,'ddx');
  assert(p.duelId);assert.equal(p.duelId,a.duelId);assert(G.attackTargets(s,god).includes(p));p.hp=p.maxHp=2000;attack(s,'zenneriam',p);assert.equal(p.hp,1300);assert(p.duelId);
 });
-test('Presence respeita os tributos adversários e o Escudo Volátil da carta de Apoio',()=>{
- const s=battle(),god=summon(s),t=u(s,'john');s.roll=()=>1;assert.equal(G.applyCharacterHit(s,god,t,700).type,'parry');assert.equal(t.hp,t.maxHp);
+test('MAX ignora Parry por incluir Destroyer, preservando o Escudo Volátil da carta de Apoio',()=>{
+ const s=battle(),god=summon(s),t=u(s,'john');t.hp=t.maxHp=2000;s.roll=()=>{throw Error('O Parry não deve rolar contra MAX/Destroyer.');};assert.equal(G.applyCharacterHit(s,god,t,700).type,'hit');assert.equal(t.hp,1300);
  s.roll=()=>6;t.hp=t.maxHp=2000;t.shield=80;assert.equal(G.applyCharacterHit(s,god,t,700).damage,620);assert.equal(t.shield,0);
 });
 test('MAX testa crítico também nos ataques de Zeenneriam',()=>{

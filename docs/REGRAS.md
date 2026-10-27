@@ -249,3 +249,8 @@ A esquiva de Assassin permanece como estava. Não foi adotado limite de 1–5 no
 Esta versão mantém integralmente as regras e o balanceamento anteriores. Efeitos, sons, abertura e cenários apenas apresentam o estado do jogo; não mudam dano, dados, velocidades, ações, compras ou probabilidades. Os kits visuais não substituem atributos por números antigos.
 
 Moedas e baús ficam fora do combate. A visita inicial concede 180 moedas; um baú custa 90 e entrega um visual de perfil/ambiente. Cada partida normal concluída concede 50 uma única vez. Laboratórios, abandono e repetir a tela de resultado não dão moedas. Todos os personagens continuam disponíveis, e os cosméticos não mudam as cartas ou a formação. O progresso é local a este navegador. Veja o [guia da interface](UI.md).
+
+
+## Parry contra Destruidores — v0.31.0
+
+Fighters não podem dar Parry em ataques de personagens da classe Destruidor. A defesa não é rolada, inclusive em cada golpe de uma sequência, áreas e revides. O crítico do Destruidor continua com sua própria rolagem. Uma carga de Sortudo do defensor não é gasta por um Parry que não pode acontecer. MAX também reúne esse tributo. Os demais escudos, habilidades e regras de defesa mantêm seus efeitos.

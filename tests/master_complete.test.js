@@ -39,8 +39,8 @@ test('classes atualizadas fornecem mana, Parry e resistência individual correto
  const s=battle(['z_zus'],['john']);assert.equal(G.damageInfo(u(s,'z_zus'),100).damage,80);assert.equal(G.damageInfo({...u(s,'z_zus'),tankResistance:0},100).damage,100);
 });
 
-test('Karma Destroyer testa crítico no revide, antes da defesa do atacante',()=>{
- const s=battle(['karma','mike'],['ddx']);assert(G.resolveCharacterAbility(s,u(s,'karma').uid,u(s,'mike').uid).ok);let rolls=[1,6,1,6];s.roll=()=>rolls.shift();attack(s,'ddx',u(s,'mike'));assert.deepEqual(s.lastEvent.reactions.map(h=>h.amount),[150,150]);assert(s.lastEvent.reactions.every(h=>h.critical.critical));assert.equal(u(s,'ddx').hp,0);
+test('Karma Destroyer testa crítico em cada revide e o Fighter não rola Parry',()=>{
+ const s=battle(['karma','mike'],['ddx']);assert(G.resolveCharacterAbility(s,u(s,'karma').uid,u(s,'mike').uid).ok);let rolls=[1,1];s.roll=()=>{assert(rolls.length,'Somente o crítico de cada revide deve rolar.');return rolls.shift();};attack(s,'ddx',u(s,'mike'));assert.deepEqual(s.lastEvent.reactions.map(h=>h.amount),[150,150]);assert(s.lastEvent.reactions.every(h=>h.critical.critical));assert.equal(u(s,'ddx').hp,0);
 });
 
 test('Chama usa 55 inicial e cinco queimaduras de 55; Nully multiplica 80 e Elétrica usa 100',()=>{

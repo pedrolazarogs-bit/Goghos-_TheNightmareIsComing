@@ -405,3 +405,11 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Arena: formação completa de 12 personagens com Recruta, mão de cinco cartas e controles conferidos em sete tamanhos (1440×900, 1280×720, 1024×768, 390×844, 360×740, 844×390 e 1280×600). Sem elementos de jogo fora da tela e com as cinco cartas clicáveis.
 - Consultas e escolhas de mão cheia/recuperação verificadas também em paisagem, preservando a fila e os montes. Parry e dano de ataque em área continuam com resultados separados e texto legível.
 - Menu: a área da logo pode encolher em telas desktop baixas, evitando que o link do Sam se sobreponha ao rodapé. Ícones e ornamentos novos validados como SVGs locais, sem scripts ou recursos externos.
+
+
+## v0.31.0
+
+- `npm test` passou com 8 novos testes do ciclo de áudio e 9 testes de Destruidor contra Parry. A fixture histórica permanece intacta; a guarda de invariantes aceita somente a linha autorizada que desativa Parry contra Destruidores. Dados e artes preservados.
+- Reprodução nativa no Chromium: áudio aguarda gesto real; quatro MP3s avançam, transições descartam faixas antigas, cinco redesenhos não reiniciam a música. Pausa reduz volume, mute geral/música são independentes, volumes se multiplicam, aba oculta pausa e retorna à posição atual. Preferências persistem após recarregar. Sem erros JavaScript/HTTP.
+- Cinco páginas de áudio/movimento conferidas em 390×844 e 844×390, sem rolagem ou controles fora da tela.
+- Quatro MP3s estéreo a 44,1 kHz foram decodificados e medidos: aproximadamente −17 LUFS, picos abaixo de −3,4 dBTP e sem clipping. Laços de menu/combate e finais suaves conferidos. Manifesto registra tamanhos, SHA-256, duração e instrumentos.
