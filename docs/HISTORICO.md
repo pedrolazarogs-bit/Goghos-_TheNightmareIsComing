@@ -231,3 +231,10 @@ A arena se ajusta à altura e largura disponíveis. Frente, Suportes, Daly Mães
 ## v0.29.2 — Identidade oficial
 
 Logo original GOGHOS — The Nightmare Is Coming restaurada no menu, abertura, modos, arena e brilho da marca. Without Mercy permanece somente como arquivo de referência do material recebido. Fonte original e arena sem rolagem preservadas.
+
+
+## v0.30.0 — Gótico medieval com cartoon contido
+
+A logo oficial guia a nova interface: ferro e pedra escuros, marfim, latão envelhecido e detalhes discretos de rosa, verde espectral e lavanda. Botões têm menos extrusão, contornos e brilho; arcos e pequenos losangos substituem o excesso de confete. O estilo ilustrado permanece nas cartas, nos ícones e nas animações, sem virar uma interface realista ou excessivamente sombria.
+
+Menu, abertura, modos, seleção, arena, decisões, consultas, catálogo, treinos, preferências, loja, coleção, crônicas, baús e resultados recebem o acabamento. Fonte German Beauty, logo The Nightmare Is Coming, enquadramento sem rolagem, regras e balanceamento permanecem os mesmos. As artes e os números das cartas não recebem filtros nem alterações.

@@ -1,0 +1,85 @@
+/* GOGHOS: ferro, marfim e magia discreta. A arte oficial mantém suas cores. */
+:root{
+ --night-ink:#100e14;--night-bg:#17141d;--night-panel:#25212b;--night-raised:#312b36;
+ --night-line:#655764;--night-brass:#b59a68;--night-ivory:#eee2c8;--night-muted:#b8acbb;
+ --night-rose:#b8819b;--night-teal:#91b8b2;--night-lilac:#b0a3c3;
+ --bg:#17141d;--panel:#25212b;--line:#655764;--gold:#c4ab7e;--txt:#eee2c8;
+ --toon-ink:#141019;--toon-plum:#302633;--toon-pink:#b8819b;--toon-cyan:#91b8b2;--toon-sun:#d4bf91;--toon-mint:#91b8b2;
+}
+body{background:#17141d;color:var(--night-ivory)}
+::selection{background:#735563;color:#fff5df}
+button:focus-visible,summary:focus-visible,input:focus-visible,[role=button]:focus-visible{outline:2px solid var(--night-teal);outline-offset:4px}
+/* The moving scene keeps its depth, with drifting embers instead of confetti. */
+.toon-home.home,.world-intro.toon-intro{background:#17141d;color:var(--night-ivory)}
+.toon-backdrop .ct-motion-scene{background:#17141d}
+.toon-backdrop .ct-motion-wash,.ct-motion-intro .ct-motion-wash{
+ background:radial-gradient(ellipse 55% 80% at var(--toon-light-x) var(--toon-light-y),#72546b27,transparent 70%),radial-gradient(ellipse at 95% 95%,#4e797c1c,transparent 65%),linear-gradient(140deg,#26212d,#18151e 65%,#100f15);
+}
+.toon-backdrop .ct-motion-rays{background:repeating-conic-gradient(from 0deg,#c4ab7e09 0deg 1deg,transparent 1deg 30deg);opacity:.25;animation-duration:240s}
+.toon-backdrop .ct-motion-halftone{background-image:radial-gradient(circle,#ded2bc15 0 .6px,transparent 1px);background-size:39px 39px;opacity:.2}
+.toon-backdrop .ct-motion-shard{filter:saturate(.12);opacity:.1;animation-duration:20s}
+.toon-backdrop .ct-motion-canvas{filter:saturate(.2);opacity:.25}
+.toon-backdrop .ct-motion-shade{background:radial-gradient(ellipse at var(--toon-light-x) var(--toon-light-y),transparent 18%,#08070b66 100%)}
+.toon-home .toon-backdrop:before,.toon-intro .toon-backdrop:before{content:'';position:absolute;inset:2% 2% 0;background:url('../assets/night-ui/arch.svg') center/auto 98% no-repeat;opacity:.24;pointer-events:none;z-index:1}
+.toon-home .toon-backdrop:after{content:'';position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#b59a6866,transparent);pointer-events:none}
+.toon-home .toon-profile,.toon-home .toon-resources .sanctuary-wallet-value{
+ background:linear-gradient(140deg,#342d38,#211d27);border-color:#73616a;border-width:1px;border-radius:8px 2px;
+ box-shadow:0 3px 8px #08070c55,inset 0 1px 0 #ece0bf14;transform:none;
+}
+.toon-home .toon-profile b,.toon-home .toon-resources .sanctuary-wallet-value b{color:#eee2c8}
+.toon-home .toon-profile small,.toon-home .toon-resources .sanctuary-wallet-value small{color:#b8acbb}
+.toon-home .toon-main{z-index:2}
+.toon-home .toon-brand-logo{filter:drop-shadow(0 12px 24px #08070d99)}
+.toon-home .toon-logo{animation:night-logo-drift 9s ease-in-out infinite alternate}
+.toon-home .toon-logo-glint{animation:night-logo-drift 9s ease-in-out infinite alternate;opacity:.5}
+.toon-home .toon-logo-glint:before{background:linear-gradient(105deg,transparent,#eee2c855,transparent);animation-duration:12s}
+.toon-home .toon-beta{width:12%;opacity:.6;filter:saturate(.4);right:8%;bottom:0;transform:rotate(-3deg)}
+.toon-home .toon-brand>p{color:#c5b8c4;letter-spacing:.09em;text-shadow:none}
+.toon-home .toon-feature{border:1px solid #665766;background:linear-gradient(120deg,#302633d9,#211d27);box-shadow:0 3px 12px #08070b66;border-radius:8px 2px;transform:none}
+.toon-home .toon-feature b{color:#eee2c8}.toon-home .toon-feature small{color:#b8acbb}.toon-home .toon-feature>.ui-icon{color:#b59a68}
+.toon-home .toon-mode{border:1px solid #77636b;border-radius:8px 2px;box-shadow:0 3px 10px #08070c66,inset 0 1px 0 #ece0bf14;background:linear-gradient(95deg,#322a35f2,#211e29f2),var(--mode-scene) center/cover;transform:none}
+.toon-home .toon-mode small{color:#ad9da9;letter-spacing:.07em}.toon-home .toon-mode strong{color:#e9decb}.toon-home .toon-mode>.ui-icon{color:#b59a68}
+/* Slim metal plates retain a gentle angle and a clear primary action. */
+.toon-home .toon-button{--face-top:#37313d;--face-bottom:#27232e;--menu-metal:#75636c;transform:skewX(-3deg);animation-name:night-menu-enter}
+.toon-home .toon-button-sun{--face-top:#bdac85;--face-bottom:#9b825a;--menu-metal:#e0d2ad}
+.toon-home .toon-button-pink{--menu-metal:#987185}.toon-home .toon-button-cyan{--menu-metal:#688c91}
+.toon-home .toon-button-mint{--menu-metal:#78958a}.toon-home .toon-button-peach{--menu-metal:#a38479}.toon-home .toon-button-violet{--menu-metal:#8e7b9e}
+.toon-home .toon-button-shadow,.toon-home .toon-button-face{border:1px solid var(--menu-metal);border-radius:8px 2px}
+.toon-home .toon-button-shadow{background:#100e14;transform:translate(2px,3px);border-color:#0d0b12}
+.toon-home .toon-button-face{box-shadow:inset 0 1px 0 #f3e7d226,inset 3px 0 0 var(--menu-metal);background:linear-gradient(150deg,var(--face-top),var(--face-bottom))}
+.toon-home .toon-button-face:before{left:auto;right:9px;top:calc(50% - 3px);height:6px;width:6px;border:1px solid var(--menu-metal);background:#b59a6820;transform:rotate(45deg)}
+.toon-home .toon-button-face:after{inset:4px;border:1px solid #eee2c80b;background:none;mask-image:none;border-radius:5px 1px}
+.toon-home .toon-button-face>.toon-icon,.toon-home .toon-button-copy{transform:skewX(3deg)}
+.toon-home .toon-button-face>.toon-icon{filter:drop-shadow(0 1px 1px #08060d66)}
+.toon-home .toon-button-copy>strong{color:#eee2c8;-webkit-text-stroke:0;text-shadow:0 1px 1px #08060d88;text-transform:none;letter-spacing:.02em}
+.toon-home .toon-button-copy>small{color:#bbafbd;font-weight:400;letter-spacing:.02em}
+.toon-home .toon-button-sun .toon-button-copy>strong{color:#211b24;text-shadow:0 1px 0 #f1e3b938}
+.toon-home .toon-button-sun .toon-button-copy>small{color:#352a33}
+.toon-home .toon-button-arrow{color:#c7b48d;transform:translateX(-3px) skewX(3deg)}
+.toon-home .toon-button-sun .toon-button-arrow{color:#32252e}
+.toon-home .toon-button:hover:not(:disabled),.toon-home .toon-button:focus-visible{transform:translateX(3px) skewX(-3deg);outline:2px solid #a7c7c2;outline-offset:4px}
+.toon-home .toon-button:hover:not(:disabled) .toon-button-face,.toon-home .toon-button:focus-visible .toon-button-face{box-shadow:inset 0 1px 0 #f3e7d236,inset 3px 0 0 var(--menu-metal),0 0 18px #b59a6817}
+.toon-home .toon-button:hover .toon-button-arrow,.toon-home .toon-button:focus-visible .toon-button-arrow{transform:translateX(0) skewX(3deg)}
+.toon-home .toon-button:active:not(:disabled){transform:translate(2px,2px) skewX(-3deg)}
+.toon-home .toon-footer{border-color:#b59a682d}
+.toon-home .toon-footer>button,.toon-home .training-menu summary,.toon-home .toon-footer>small{color:#b7a8ba}
+.toon-home .training-grid{background:linear-gradient(#312935,#1d1922);border:1px solid #77636b;border-radius:8px 2px;box-shadow:0 6px 22px #0008}
+.toon-home .training-grid button{background:#2d2633;border:1px solid #675765;border-radius:6px 2px;box-shadow:inset 0 1px 0 #eee2c812;color:#eee2c8}
+/* The opening feels like the same gateway as the menu. */
+.toon-intro .toon-intro-logo{filter:drop-shadow(0 12px 24px #08070d99)}
+.toon-intro .intro-skip{background:#25212be8;border:1px solid #77636b;box-shadow:0 3px 9px #08070d66;border-radius:8px 2px;color:#e9decb}
+.toon-intro .toon-intro-eyebrow{color:#c6b89e;letter-spacing:.18em}
+.toon-intro .toon-intro-content>p{color:#d0c2cc}
+.toon-intro .intro-loading{color:#b8acbb}
+.toon-intro .intro-loading progress::-webkit-progress-bar{background:#302933}
+.toon-intro .intro-loading progress::-webkit-progress-value{background:linear-gradient(90deg,#8b7496,#c2ad83)}
+.toon-intro .intro-enter{background:linear-gradient(#c6b48c,#9b825a);border:1px solid #e0d2ad;box-shadow:0 3px 10px #08070d88,inset 0 1px 0 #fff3d538;border-radius:8px 2px;color:#221b24;transform:none}
+.toon-intro .toon-intro-ring{border-width:1px;border-color:#d2c3a2;box-shadow:0 0 0 3px #b59a6820,0 0 50px #a891b329}
+.toon-intro .toon-intro-impact{opacity:.3;filter:saturate(.2)}
+.toon-intro .toon-intro-streaks{opacity:.25;filter:saturate(.15)}
+@keyframes night-menu-enter{from{opacity:0;transform:translateX(18px) skewX(-3deg)}to{opacity:1;transform:skewX(-3deg)}}
+@keyframes night-logo-drift{from{transform:translateY(-2px)}to{transform:translateY(3px)}}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .toon-home .toon-logo,html:not(.goghos-motion-full) .toon-home .toon-logo-glint,html:not(.goghos-motion-full) .toon-home .toon-button{animation:none!important}}
+.goghos-motion-reduced .toon-home .toon-logo,.goghos-motion-reduced .toon-home .toon-logo-glint,.goghos-motion-reduced .toon-home .toon-button{animation:none!important}
+/* Let the logo's flex area yield to the caption and champion link on desktop. */
+@media(min-width:761px){.toon-home .toon-brand-logo{min-height:0}}

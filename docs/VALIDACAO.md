@@ -396,3 +396,12 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 ## v0.29.2
 
 `npm test` passou. No Chromium, conferidos título da aba, logo na abertura, menu em 1280×720 e 390×844, modos e arena nos sete tamanhos anteriores. Os recursos ativos usam `assets/logo/logo.png`; a referência Without Mercy não é carregada pela interface. Nenhum erro JavaScript observado.
+
+
+## v0.30.0
+
+- `npm test`: suíte completa passou, incluindo preservação dos dez módulos do motor, dados de balanceamento, 71 imagens oficiais e recursos recebidos. Os únicos ajustes em JavaScript são caminhos dos ícones e identificação da versão.
+- Chromium: menu, abertura/modos, seleção, catálogo, treinos, Apoios, loja, crônicas, configurações, resultado, arena e ficha ampliada em 1280×720 e 390×844. Sem erros JavaScript/HTTP ou imagens visíveis quebradas. Fonte German Beauty e logo oficial confirmadas.
+- Arena: formação completa de 12 personagens com Recruta, mão de cinco cartas e controles conferidos em sete tamanhos (1440×900, 1280×720, 1024×768, 390×844, 360×740, 844×390 e 1280×600). Sem elementos de jogo fora da tela e com as cinco cartas clicáveis.
+- Consultas e escolhas de mão cheia/recuperação verificadas também em paisagem, preservando a fila e os montes. Parry e dano de ataque em área continuam com resultados separados e texto legível.
+- Menu: a área da logo pode encolher em telas desktop baixas, evitando que o link do Sam se sobreponha ao rodapé. Ícones e ornamentos novos validados como SVGs locais, sem scripts ou recursos externos.

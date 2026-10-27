@@ -7,8 +7,7 @@ paths.assassin='M3 5l6 10M9 5 3 15M15 5l6 10M21 5l-6 10M7 20q5 3 10 0';
 const icon=name=>`<svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.star}"/></svg>`;
 const actionIcons={play:'play',characters:'cards',menu:'back',settings:'settings','sound-toggle':'sound','card-info':'eye',pause:'pause',attack:'sword',move:'move',fight:'sword',redeem:'cards',summon:'star','close-drawer':'back','new-abilities':'sword','support-test':'cards','divine-test':'star','sark-test':'eye','ability-test':'bolt','sanctuary-open':'chest','sanctuary-lore':'book','mode-normal':'sword','mode-double':'sword','mode-heal':'heart','mode-area':'bolt','mode-stun':'bolt','full-heal':'heart'};
 const T='assets/visual-v0.28/',BRAND='GOGHOS — The Nightmare Is Coming',LOGO='assets/logo/logo.png';
-const gameIcons=new Set(['attack','pause','move','dice','heal','mana','history','hand','speed','shield']);
-const artIcon=name=>`<img class="toon-icon" src="${gameIcons.has(name)?'assets/visual-v0.29/':T}icons/${name}.svg" alt="" aria-hidden="true">`;
+const artIcon=name=>`<img class="toon-icon" src="assets/night-ui/icons/${name}.svg" alt="" aria-hidden="true">`;
 let overlay=null,preloadToken=0,previousFocus=null,introTimers=new Set();
 const boundMenus=new WeakSet();
 const introLater=(fn,ms)=>{const id=setTimeout(()=>{introTimers.delete(id);fn();},ms);introTimers.add(id);return id;};
@@ -43,7 +42,7 @@ function boot(force=false){
  overlay.querySelector('[data-act="shell-skip"]').focus();
  overlay.addEventListener('click',e=>{if(e.target.closest('[data-act="shell-skip"],[data-act="shell-enter"]'))closeIntro();});
  overlay.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeIntro();}if(e.key==='Tab'){const bs=Array.from(overlay.querySelectorAll('button')).filter(b=>!b.hidden),first=bs[0],last=bs.at(-1);if(e.shiftKey&&e.target===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&e.target===last){e.preventDefault();first.focus();}}});
- const sources=[LOGO,T+'beta.webp',T+'icons/play.svg',T+'icons/store.svg'];let done=0,loaded=false,settled=false;
+ const sources=[LOGO,T+'beta.webp','assets/night-ui/icons/play.svg','assets/night-ui/icons/store.svg'];let done=0,loaded=false,settled=false;
  const ready=()=>{if(token!==preloadToken||!overlay||!loaded||!settled)return;overlay.classList.add('is-ready');overlay.querySelector('.intro-loading').hidden=true;overlay.querySelector('.intro-enter').hidden=false;};
  const jobs=sources.map(src=>new Promise(resolve=>{const im=new Image();let finished=false;const finish=()=>{if(finished)return;finished=true;if(token===preloadToken&&overlay)overlay.querySelector('progress').value=++done;resolve();};im.onload=finish;im.onerror=finish;im.src=src;}));
  Promise.all(jobs).then(()=>{loaded=true;ready();});

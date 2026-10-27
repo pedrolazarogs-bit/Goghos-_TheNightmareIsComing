@@ -1,0 +1,227 @@
+/* Nightmare chambers: presentation-only surfaces around the original cards. */
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen){
+  --screen-ink:#0e0c13;--screen-deep:#17141d;--screen-accent:#b59a68;
+  --screen-paper:#eee2c8;--screen-muted:#b9b0bd;
+  --toon-ink:#100e15;--toon-plum:#332c3d;--toon-violet:#7b6d8c;
+  --toon-pink:#b8819b;--toon-cyan:#91b8b2;--toon-mint:#91b8b2;--toon-yellow:#b59a68;
+  color:#eee2c8;
+  background:radial-gradient(ellipse at 14% 0,#76617c22,transparent 52%),radial-gradient(ellipse at 94% 90%,#67958f0e,transparent 48%),linear-gradient(150deg,#26212d,#17141d 68%,#131118);
+}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen):before{
+  background:linear-gradient(90deg,transparent 9.8%,#b59a6809 10%,transparent 10.2%,transparent 89.8%,#b59a6809 90%,transparent 90.2%),linear-gradient(0deg,transparent,#a18bb20b);
+  mask-image:linear-gradient(#000,transparent 85%);
+}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) :is(h1,h2,h3,h4){color:#eee2c8;text-shadow:0 2px 3px #09080b66}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) :is(button,input,summary,[role=button]):focus-visible{outline-color:#d8c49c}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) button{
+  border-color:#100e15;border-radius:8px 2px 8px 2px;
+  background:linear-gradient(#403746,#2a2530);color:#eee2c8;
+  box-shadow:0 3px 0 #0c0a10,inset 0 0 0 1px #a08d674b,inset 0 2px 0 #f5e8d30d;
+}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) button:hover:not(:disabled){
+  background:linear-gradient(#504454,#352c3d);color:#fff0d3;
+  box-shadow:0 3px 0 #0c0a10,inset 0 0 0 1px #c1ac7c99;transform:translateY(-1px);
+}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) button:active:not(:disabled){transform:translateY(1px);box-shadow:0 1px 0 #0c0a10,inset 0 0 0 1px #c1ac7c99}
+:is(.collection,.ability-tests,.support-tests,.ability-lab,.selection,.mode-screen,.settings-page,.result-screen) button:disabled{box-shadow:0 2px 0 #0c0a10;filter:none;opacity:.5}
+
+/* Title plaques: worn brass over dark stone, with a quiet engraved rule. */
+.fg-screen .fg-screen-header,.mode-screen .mode-header{
+  border-color:#100d15;border-radius:12px 3px 12px 3px;
+  background:linear-gradient(110deg,#39313f,#26222d 72%);
+  box-shadow:0 4px 0 #0d0b11,inset 0 0 0 1px #b59a6866,inset 0 3px 0 #eee2c80b;
+}
+.fg-screen-header:after{height:1px;background:linear-gradient(90deg,transparent,#b59a688c 18%,#b59a688c 82%,transparent);clip-path:none}
+.fg-screen .fg-screen-header>button,.mode-screen .mode-header .mode-back{background:linear-gradient(#424344,#2a3032);color:#dddcc8;box-shadow:0 2px 0 #111015,inset 0 0 0 1px #9dafa34d}
+.fg-screen .fg-screen-header>button:hover:not(:disabled),.mode-screen .mode-header .mode-back:hover:not(:disabled){background:linear-gradient(#535753,#353e3d);color:#f7eed7}
+.fg-screen .fg-screen-icon{border-color:#100f16;border-radius:10px 2px 10px 2px;background:linear-gradient(#554858,#312b39);box-shadow:0 3px 0 #121016,inset 0 0 0 1px #bdac8166;transform:none}
+.fg-screen .fg-screen-count{border-color:#18131d;border-radius:7px 2px 7px 2px;background:linear-gradient(#c1ab7d,#95805d);color:#211d25;box-shadow:0 3px 0 #111016,inset 0 1px 0 #eee2c866;transform:none}
+.fg-screen .fg-screen-count small{color:#322c32}
+.fg-screen-heading>small,.fg-screen-heading>.eyebrow,.mode-screen .mode-header .eyebrow{color:#b7afa8}
+.fg-screen .fg-archive-toolbar>p{color:#c6bccb;text-shadow:none}
+.fg-screen .fg-archive-toolbar .character-search,.fg-screen .character-search{border-color:#131018;border-radius:8px 2px 8px 2px;background:#27222d;color:#bfb3c9;box-shadow:0 3px 0 #0d0b12,inset 0 0 0 1px #7d6d8744}
+.fg-screen .character-search input{background-color:#d9cfb9;color:#26212b;border-color:#514552;border-radius:5px 1px 5px 1px;box-shadow:inset 0 2px 4px #40333d22;background-image:url('../assets/night-ui/icons/search.svg')}
+.fg-screen .character-search input::placeholder{color:#625b63}
+
+/* Archive pedestals retain the colour of the actual character and rarity. */
+.collection .collection-grid article,.fg-screen :is(.ability-tests-grid,.support-tests-grid) article{
+  border-color:#100e16;border-radius:12px 3px 12px 3px;
+  background:radial-gradient(ellipse at 50% 20%,#6a5c7433,transparent 52%),linear-gradient(#3b3443 0,#2c2734 52%,#211d27 52%);
+  box-shadow:0 4px 0 #0d0b11,inset 0 0 0 1px #b59a6840,inset 0 2px 0 #eee2c80a;
+}
+.collection .collection-grid article:before,.fg-screen :is(.ability-tests-grid,.support-tests-grid) article:before{opacity:.09}
+.collection .collection-grid article:hover{border-color:#998975;box-shadow:0 5px 0 #0d0b11;transform:translateY(-2px)}
+.fg-screen .fg-card-stage:after{border-color:#0f0e14;background:#b6a47b24;box-shadow:0 2px 0 #0f0d1466}
+.fg-screen .fg-item-copy{border-top-color:#8e795448}
+.fg-screen .fg-item-copy h2,.fg-screen :is(.collection-grid,.ability-tests-grid,.support-tests-grid) h2{color:#eee2c8;text-shadow:0 2px 2px #0d0b11}
+.fg-screen .fg-item-copy p,.fg-screen .collection-grid .collection-ability{color:#c7bdce!important}
+.fg-screen .fg-item-meta,.fg-screen .fg-rarity-tag{background:#18161e;border-color:#82728c55;color:#c0b4cb;border-radius:4px 1px 4px 1px}
+.fg-screen .fg-ability-copy{border-color:#100f16;border-radius:6px 1px 6px 1px;background:#211d29}
+.fg-screen .fg-ability-copy>summary{background:linear-gradient(#403546,#2d2634);color:#ded0df}
+.fg-screen .fg-ability-copy>summary:after{color:#bda778}
+.fg-screen .fg-ability-copy[open]>summary{color:#e5d1a9}
+.fg-screen .fg-item-copy>.fg-test-button,.fg-screen :is(.ability-tests-grid,.support-tests-grid) article>button{
+  border-color:#15151c;border-radius:7px 2px 7px 2px;background:linear-gradient(#566c64,#344e49);color:#e6e7d6;
+  box-shadow:0 3px 0 #0e1116,inset 0 0 0 1px #91b8b255;
+}
+.fg-screen .fg-item-copy>.fg-test-button:hover:not(:disabled),.fg-screen :is(.ability-tests-grid,.support-tests-grid) article>button:hover:not(:disabled){background:linear-gradient(#687d73,#405e55);color:#fff0d4}
+.fg-screen .ability-lab-content{border-color:#100e16;border-radius:12px 3px 12px 3px;background:linear-gradient(120deg,#423748,#26212e);box-shadow:0 5px 0 #0e0c13,inset 0 0 0 1px #ae956044}
+.fg-screen .ability-lab-content>div:first-child:before{background:radial-gradient(ellipse,#aea3bf18,transparent 70%)}
+.fg-screen .ability-lab-content article>p{color:#c7bdce}
+.fg-screen .ability-lab-content article>button{background:linear-gradient(#49575a,#303b40);color:#e3e0cf}
+
+/* The draft remains cards, the back button and Play: the trims carry the theme. */
+.selection.fg-selection{background:radial-gradient(ellipse at 50% 48%,#514456 0,#2c2736 43%,#18151e 78%)}
+.selection.fg-selection:before{background:radial-gradient(ellipse at 50% 80%,transparent 52%,#b59a6812 52.3%,transparent 52.8%);mask-image:none}
+.selection.fg-selection .selection-pick{border-color:#16121b;border-radius:12px 3px 12px 3px;background:linear-gradient(#4a3e50,#2b2534);box-shadow:0 4px 0 #100d17,inset 0 0 0 1px #b29c6d55}
+.selection.fg-selection .selection-pick:before{background:radial-gradient(ellipse,#a69ab333,transparent 70%)}
+.selection.fg-selection .selection-pick:after{border-color:#19131d;background:#b59a6826;box-shadow:0 2px 0 #0f0d1455}
+.selection.fg-selection .selection-pick[aria-disabled=false]:hover{border-color:#c8b483;background:linear-gradient(#5a4b5d,#392e40);box-shadow:0 5px 0 #100d17;transform:translateY(-3px)}
+.selection.fg-selection .selection-pick.player{border-color:#91b8b2;background:linear-gradient(#3c5859,#263e44);box-shadow:0 4px 0 #101c23,inset 0 0 0 1px #91b8b244}
+.selection.fg-selection .selection-pick.enemy{border-color:#b8819b;background:linear-gradient(#5c3e55,#3b2a42);box-shadow:0 4px 0 #261721,inset 0 0 0 1px #b8819b44}
+.selection.fg-selection .selection-pick.player .slot>small{color:#c0d9d0}
+.selection.fg-selection .selection-pick.enemy .slot>small{color:#e0bdca}
+.selection.fg-selection>button[data-act=menu]{background:linear-gradient(#48474a,#2c3035);color:#e7dfca}
+.selection.fg-selection .start-battle{background:linear-gradient(#c5b083,#98805a);color:#231e26;border-color:#17121c;border-radius:8px 2px 8px 2px;box-shadow:0 3px 0 #121016,inset 0 0 0 1px #eadbb26b;transform:none}
+.selection.fg-selection .start-battle:hover:not(:disabled){background:linear-gradient(#ddc89a,#b49a6b);color:#211c25;transform:translateY(-1px)}
+
+/* Mode windows retain their scenes, framed like carved memorial plaques. */
+.mode-screen .mode-tile{--mode-trim:#b59a68;border-color:#141019;border-radius:12px 3px 12px 3px;background:linear-gradient(95deg,#1d1a25ee,#2c273655),var(--mode-scene) center/cover;box-shadow:0 4px 0 #0d0b11,inset 0 0 0 1px #9c855455}
+.mode-screen .mode-tile:before{opacity:.17;background:linear-gradient(135deg,#eee2c81a,transparent 48%);mask-image:none}
+.mode-screen .mode-tile:after{background:linear-gradient(0deg,#19151ef5,#241c2ccc 45%,transparent)}
+.mode-screen .mode-tile:hover:not(:disabled){background:linear-gradient(95deg,#3c3041e8,#2e293455),var(--mode-scene) center/cover;border-color:#a48e64;box-shadow:0 5px 0 #0d0b11,inset 0 0 0 1px #d2bb8a;transform:translateY(-2px)}
+.mode-screen .mode-tile.is-selected{border-color:#b9a57a;box-shadow:0 4px 0 #0d0b11,inset 0 0 0 1px #ddc99a}
+.mode-screen .mode-tile-art{transform:rotate(2deg)}
+.mode-screen .mode-tile-label>small{border-color:#1c1723;border-radius:4px 1px 4px 1px;background:#b7a17b;color:#231c2d;box-shadow:0 2px 0 #111016}
+.mode-screen .mode-tile-label>strong{color:#eee2c8;text-shadow:0 2px 3px #0c0911}
+.mode-screen .mode-tile-label>span{color:#d0c3d5}
+.mode-screen .mode-tile-check{background:#28232e;border-color:#9e895559;color:#bfb2ca;border-radius:4px 1px 4px 1px}
+.mode-screen .mode-tile.is-selected .mode-tile-check{background:#38504a;color:#d4e0ce;border-color:#6f8b7d}
+.mode-screen .mode-footnote{background:#211d29;border-color:#15101e;border-radius:6px 2px 6px 2px;color:#bfb1c9}
+
+/* Preferences outside the arena. Reader geometry is owned by the arena layer. */
+.settings-page.fg-screen .settings-content{border-color:#100e16;border-radius:12px 3px 12px 3px;background:linear-gradient(#39313f,#24202c);box-shadow:0 4px 0 #0d0b12,inset 0 0 0 1px #a9926455}
+.settings-page.fg-screen .settings-heading{border-bottom-color:#8d795448}
+.settings-page.fg-screen .settings-heading>.toon-icon{border-color:#15101e;border-radius:8px 2px 8px 2px;background:#504159;box-shadow:0 2px 0 #0d0b12;transform:none}
+.settings-page.fg-screen .settings-heading small{color:#b9afa9}
+.settings-page.fg-screen .setting-row{border-color:#16121d;border-radius:8px 2px 8px 2px;background:linear-gradient(120deg,#2b2532,#211b29);box-shadow:0 2px 0 #100d17,inset 0 0 0 1px #6c5c7544}
+.settings-page.fg-screen .setting-row small,.settings-page.fg-screen .settings-content>p{color:#c5b9cc}
+.settings-page.fg-screen .setting-row button[aria-pressed=true]{background:linear-gradient(#526d60,#344d45);color:#e5e5d3;border-color:#15191d;box-shadow:0 2px 0 #0e1216,inset 0 0 0 1px #91b8b277}
+.settings-page.fg-screen .volume-meter{background:linear-gradient(to right,#b59a68 var(--volume),#3c3547 var(--volume));border-color:#17121f;box-shadow:0 2px 0 #121018}
+.settings-page.fg-screen .settings-footnote{color:#a99bb5}
+
+/* A victory seal rather than a candy-coloured podium. */
+.result-screen.fg-screen{--result-accent:#c3cfb3;background:radial-gradient(ellipse at 50% 36%,#4b4357 0,#292432 43%,#17141e 78%)}
+.result-screen.fg-screen.defeat{--result-accent:#c697aa;background:radial-gradient(ellipse at 50% 36%,#51394c 0,#2c2331 43%,#18131d 78%)}
+.result-screen.fg-screen.draw{--result-accent:#c1afce}
+.result-screen.fg-screen:before{opacity:.2;background:repeating-conic-gradient(from 8deg at 50% 50%,#b59a6822 0deg 1deg,transparent 1deg 30deg);animation:none}
+.result-screen.fg-screen .fg-result-card{border-color:#14101b;border-radius:14px 3px 14px 3px;background:linear-gradient(#413447,#27222f);box-shadow:0 5px 0 #0d0b12,inset 0 0 0 1px #b59a6866}
+.result-screen.fg-screen h1{-webkit-text-stroke:0;text-shadow:0 3px 4px #100d16;color:var(--result-accent);transform:none}
+.result-screen.fg-screen .result-score>span{border-color:#1c1525;border-radius:8px 2px 8px 2px;background:linear-gradient(#53435c,#352a41);color:#e1d4e6;box-shadow:0 3px 0 #100d17,inset 0 0 0 1px #9c80ac33}
+.result-screen.fg-screen .result-score>span:first-child{background:linear-gradient(#405b58,#2c3e41);color:#d4e3d6}
+.result-screen.fg-screen .result-score small{color:#beb0c6}
+.result-screen.fg-screen .result-reward{border-color:#221a26;border-radius:8px 2px 8px 2px;background:linear-gradient(#d3c199,#ad966b);color:#302632;box-shadow:0 3px 0 #130f1a,inset 0 0 0 1px #eee2c866}
+.result-screen.fg-screen .sanctuary-match-reward strong{color:#302632}
+.result-screen.fg-screen .sanctuary-match-reward span{color:#50434f}
+.result-screen.fg-screen .sanctuary-match-reward button span{color:#e0d5e7}
+.result-screen.fg-screen .result-actions>button:first-child{background:linear-gradient(#baa174,#8d7553);color:#201b25}
+.result-screen.fg-screen .result-actions>button:last-child{background:linear-gradient(#654855,#432f42);color:#e8d9dd}
+
+/* Night bazaar: restrained illumination, brass plaques, leather-bound pages. */
+.sanctuary.shop-hub.fg-sanctuary{--fg-store-ink:#100e16;--fg-store-paper:#eee2c8;--toon-ink:#100e16;--toon-pink:#b8819b;--toon-cyan:#91b8b2;--toon-mint:#91b8b2;--toon-yellow:#b59a68;color:#eee2c8}
+.sanctuary.shop-hub.fg-sanctuary:before{background:radial-gradient(ellipse at 8% 0,#6b526e2b,transparent 56%),radial-gradient(ellipse at 100% 70%,#4c777222,transparent 60%),linear-gradient(145deg,#24202c,#141219)}
+.fg-sanctuary .sanctuary-header{border-color:#100d15;border-radius:12px 3px 12px 3px;background:linear-gradient(110deg,#3f3345,#29222f);box-shadow:0 4px 0 #0d0b12,inset 0 0 0 1px #b59a6866}
+.fg-sanctuary .sanctuary-heading h1{color:#eee2c8;text-shadow:0 2px 3px #0d0b12}
+.fg-sanctuary .sanctuary-heading .sanctuary-eyebrow{color:#b7aaa5}
+.fg-sanctuary .fg-masthead-icon{border-color:#9c855455;border-radius:10px 2px 10px 2px;background:#b59a6812;box-shadow:0 2px 0 #151019;transform:none}
+.fg-sanctuary .sanctuary-back{border-color:#151019;border-radius:7px 2px 7px 2px;background:linear-gradient(#474546,#2c3033);color:#e5dec9;box-shadow:0 2px 0 #0e0b13,inset 0 0 0 1px #9ba59a4d;transform:none}
+.fg-sanctuary .sanctuary-wallet{border-color:#151019;border-radius:8px 2px 8px 2px;background:linear-gradient(#302735,#211b29);box-shadow:0 3px 0 #0e0b13,inset 0 0 0 1px #b59a6855}
+.fg-sanctuary .sanctuary-wallet strong{color:#d7c399}.fg-sanctuary .sanctuary-wallet small{color:#b6a9c1}
+.fg-sanctuary .sanctuary-tabs button{border-color:#151019;border-radius:8px 2px 8px 2px;background:linear-gradient(#423548,#2d2535);color:#d6c7de;box-shadow:0 3px 0 #0d0b12,inset 0 0 0 1px #8c795344;transform:none}
+.fg-sanctuary .sanctuary-tabs button>span,.fg-sanctuary .sanctuary-tabs .toon-icon,.fg-sanctuary .sanctuary-tabs .fg-tab-marker{transform:none}
+.fg-sanctuary .sanctuary-tabs button[aria-current]{border-color:#1f1821;background:linear-gradient(#b5a079,#85714f);color:#241e29;box-shadow:0 3px 0 #0d0b12,inset 0 0 0 1px #dfcca066}
+.fg-sanctuary .sanctuary-tabs button[aria-current]:hover{background:linear-gradient(#c8b38c,#a18a61);color:#241e29}
+.fg-sanctuary .shop-featured{border-color:#17111e;border-radius:14px 3px 14px 3px;background:radial-gradient(ellipse at 80% 30%,#557d792e,transparent 66%),linear-gradient(125deg,#393740,#2c3039 52%,#302638);box-shadow:0 5px 0 #0d0b12,inset 0 0 0 1px #a78f5e66}
+.fg-sanctuary .shop-featured:before{background:linear-gradient(135deg,transparent,#c5baa81a,transparent);opacity:.3}
+.fg-sanctuary .shop-featured:after{background:none;opacity:0}
+.fg-sanctuary .shop-featured-label{border-color:#15121e;border-radius:4px 1px 4px 1px;background:#302435;color:#ccb8cf;box-shadow:0 2px 0 #15101c;transform:none}
+.fg-sanctuary .shop-featured h2{color:#e7d5ad;-webkit-text-stroke:0;text-shadow:0 3px 3px #15101c}
+.fg-sanctuary .shop-featured-copy>p{color:#c6c0c9}
+.fg-sanctuary .shop-featured-tags>span{background:#1c2027aa;border-color:#83978e4d;color:#c2cabe;border-radius:4px 1px 4px 1px}
+.fg-sanctuary button.shop-chest-buy{border-color:#18121e;border-radius:8px 2px 8px 2px;background:linear-gradient(#c2ac80,#99815a);color:#26202b;box-shadow:0 3px 0 #131019,inset 0 0 0 1px #eee2c866;transform:none}
+.fg-sanctuary button.shop-chest-buy:hover:not(:disabled){background:linear-gradient(#d2bd91,#b19970);color:#26202b;transform:translateY(-1px)}
+.fg-sanctuary .shop-featured .sanctuary-price-note{color:#b9afc3}
+.fg-sanctuary .shop-featured-art:before{background:radial-gradient(ellipse,#b5c6b42b,transparent 66%)}
+.fg-sanctuary .fg-chest-stage:after{background:linear-gradient(#6c5e74,#3b3048);border-color:#3d3148;box-shadow:0 3px 0 #302639,0 6px 0 #1c1b282e;transform:none}
+.fg-sanctuary .shop-featured-seal{background:linear-gradient(#cdbd95,#aa926b);border-color:#2a2030;border-radius:6px 2px 6px 2px;color:#302438;box-shadow:0 2px 0 #17111f;transform:rotate(2deg)}
+.fg-sanctuary .fg-catalog-intro{color:#d8ccdf}.fg-sanctuary .fg-catalog-intro>b{color:#b7c8b5}.fg-sanctuary .fg-catalog-intro small{color:#aea0b8}
+.fg-sanctuary .shop-categories button{background:linear-gradient(#403246,#2a2233);color:#d9cce0;border-color:#15101e;border-radius:6px 2px 6px 2px;box-shadow:0 2px 0 #100c18,inset 0 0 0 1px #8e795244}
+.fg-sanctuary .shop-categories button[aria-pressed=true]{background:linear-gradient(#4f6e62,#354d47);color:#dce6d3;border-color:#15181e;box-shadow:0 2px 0 #11131b,inset 0 0 0 1px #9ab9a877}
+.fg-sanctuary .shop-categories button[aria-pressed=true]:hover{background:linear-gradient(#647f71,#436253);color:#e6edd8}
+.fg-sanctuary .shop-section-heading{border-bottom-color:#8c76534d}
+.fg-sanctuary .shop-section-heading h3{color:#e3d0ab}.fg-sanctuary .shop-section-heading p{color:#bcb0c6}
+.fg-sanctuary .shop-section-heading>span{background:#34283e;border-color:#17101f;border-radius:5px 1px 5px 1px;color:#c3cfbc;box-shadow:0 2px 0 #15101c}
+.fg-sanctuary .shop-card{border-color:#1b1322;border-radius:10px 3px 10px 3px;background:#d3c6ab;box-shadow:0 4px 0 #100c17}
+.fg-sanctuary .shop-card:hover{transform:translateY(-2px);box-shadow:0 5px 0 #100c17}
+.fg-sanctuary .shop-card.is-equipped{border-color:#859e86;box-shadow:0 4px 0 #1a2826}
+.fg-sanctuary .shop-card.is-selected{border-color:#b59a68;box-shadow:0 4px 0 #100c17,inset 0 0 0 1px #d8c49c}
+.fg-sanctuary button.shop-card-art{background:#27202f;border-bottom-color:#1b1322}
+.fg-sanctuary .shop-card-art .sanctuary-cosmetic-preview:after{background:linear-gradient(135deg,#eee2c80a,transparent);mask-image:none}
+.fg-sanctuary .shop-item-state{border-color:#1b1322;border-radius:4px 1px 4px 1px;background:#413048;color:#e8dce7;box-shadow:0 2px 0 #1b1322;transform:none}
+.fg-sanctuary .shop-item-state.active{border-color:#354c42;background:#91ae95;color:#17251e}
+.fg-sanctuary .shop-art-hint{border-color:#2e2336;border-radius:5px 1px 5px 1px;background:#cfc1d4;color:#35253f;box-shadow:0 2px 0 #211629}
+.fg-sanctuary .shop-card-copy{background:linear-gradient(#ded3bb,#c9b99a)}
+.fg-sanctuary .shop-card-kind{color:#665567}.fg-sanctuary .shop-card-copy h4{color:#38293c}
+.fg-sanctuary .shop-card-copy button{border-color:#33263b;border-radius:6px 2px 6px 2px;box-shadow:0 2px 0 #33263b;background:linear-gradient(#6b5a79,#4b3d59);color:#eee1e8}
+.fg-sanctuary .shop-card-copy .shop-discover{background:linear-gradient(#756284,#524360);color:#eee1e8;border-color:#4f3c5e}
+.fg-sanctuary .shop-card-copy .shop-discover:hover{background:linear-gradient(#8c7999,#675276);color:#fff1eb}
+.fg-sanctuary .shop-card-copy .shop-use{background:linear-gradient(#506e62,#354e47);color:#dce6d4;border-color:#2b453d}
+.fg-sanctuary .shop-card-copy .shop-use:hover{background:linear-gradient(#668376,#476459);color:#edf0df}
+.fg-sanctuary .shop-card-copy .shop-equipped{background:#536657;color:#e2e7d9}
+.fg-sanctuary .shop-detail{border-color:#b59a6859;border-radius:12px 3px 12px 3px;background:linear-gradient(125deg,#423348,#292230);box-shadow:0 4px 0 #100c17,inset 0 0 0 1px #93805a33}
+.fg-sanctuary .shop-detail h3{color:#e5d3ac}.fg-sanctuary .shop-detail-copy p{color:#c3b5cb}.fg-sanctuary .shop-detail-copy .sanctuary-eyebrow{color:#ad9db8}
+.fg-sanctuary button.shop-detail-close{border-color:#44344b;background:#312439;color:#e4d5e7;border-radius:5px 1px 5px 1px;box-shadow:0 2px 0 #160d1d}
+.fg-sanctuary .shop-collection-heading{border-color:#1c1425;border-radius:12px 3px 12px 3px;background:linear-gradient(120deg,#423649,#2c2336);box-shadow:0 4px 0 #100c17,inset 0 0 0 1px #a38c5c55}
+.fg-sanctuary .shop-collection-heading h2{color:#e2d1ad}.fg-sanctuary .shop-collection-heading p{color:#bfb1c9}
+.fg-sanctuary .shop-collection-total{color:#b9aa85}.fg-sanctuary .shop-collection-total b{color:#ddd0ae}
+.fg-sanctuary .fg-equipped-item{border-color:#241b2d;border-radius:8px 2px 8px 2px;background:linear-gradient(#3c2f43,#292131);box-shadow:0 3px 0 #100c17,inset 0 0 0 1px #8c765344}
+.fg-sanctuary .fg-equipped-item strong{color:#e0d4c0}.fg-sanctuary .fg-equipped-item small{color:#afa0bb}.fg-sanctuary .fg-equipped-item>i{color:#a9c1aa}
+.fg-sanctuary .sanctuary-story-heading h2{color:#e5d3ac}.fg-sanctuary .sanctuary-story-heading>p{color:#bdb0c6}
+.fg-sanctuary .sanctuary-story-scene{background:radial-gradient(ellipse at 25% 30%,#78608030,transparent 65%),linear-gradient(120deg,#39303f,#211c2a);border-color:#18121f;border-radius:14px 3px 14px 3px;box-shadow:0 5px 0 #0e0b16,inset 0 0 0 1px #aa906355}
+.fg-sanctuary .sanctuary-story-scene>article{border-color:#57475c;border-radius:10px 3px 10px 3px;background:linear-gradient(#e0d5bd,#cab99a);box-shadow:0 3px 0 #2d2234;color:#35283c}
+.fg-sanctuary .sanctuary-story-scene>article:before{background:#d9cbb0;border-color:#57475c}
+.fg-sanctuary .sanctuary-story-scene h3{color:#36273d;text-shadow:none}.fg-sanctuary .sanctuary-story-scene article>p{color:#4a3a50}
+.fg-sanctuary .sanctuary-chapter-label{background:#33253d;border-color:#191020;border-radius:4px 1px 4px 1px;color:#d0bed8;box-shadow:0 2px 0 #1c1326}
+.fg-sanctuary .sanctuary-story-controls button{background:linear-gradient(#5d496a,#3f304e);color:#eee1e8;border-color:#372541;border-radius:6px 2px 6px 2px;box-shadow:0 2px 0 #2d2037}
+.fg-sanctuary .sanctuary-lore-ability{background:#c3b18e;border-color:#9d8764;border-radius:6px 2px 6px 2px}.fg-sanctuary .sanctuary-lore-ability strong{color:#4b3453}.fg-sanctuary .sanctuary-lore-ability p{color:#584261}
+.fg-sanctuary .sanctuary-chapter-dots button{background:#33263d;border-color:#1b1422;box-shadow:0 2px 0 #130c1d;color:#bcb0c8}
+.fg-sanctuary .sanctuary-chapter-dots button[aria-current=true]{background:#aa946b;color:#241c2d;border-color:#d5c096}
+.fg-sanctuary .sanctuary-roster{border-color:#1a1322;border-radius:10px 3px 10px 3px;background:linear-gradient(#342b3f,#241d2d);box-shadow:0 4px 0 #100c17,inset 0 0 0 1px #9b83584d}
+.fg-sanctuary .sanctuary-roster h3{color:#e0ccaa}.fg-sanctuary .sanctuary-roster>p{color:#b8a9c3}
+.fg-sanctuary .sanctuary-roster button{background:linear-gradient(#493950,#302739);color:#dfd0e6;border-color:#21172c;box-shadow:0 2px 0 #160e20;border-radius:5px 1px 5px 1px}
+.fg-sanctuary .sanctuary-roster button[aria-pressed=true]{background:linear-gradient(#68716a,#414e49);border-color:#91a08a;color:#e1e6d3}
+.fg-sanctuary .fg-roster-initial{border-color:#2d2237;background:#73617c;color:#e5d6e8}
+.fg-sanctuary .sanctuary-reveal{border-color:#1a1322;border-radius:14px 3px 14px 3px;background:radial-gradient(ellipse at 50% 38%,#70637b44,transparent 64%),linear-gradient(#3a3046,#241c2e);box-shadow:0 5px 0 #100c17,inset 0 0 0 1px #aa906366}
+.fg-sanctuary .fg-reveal-burst{opacity:.16;background:repeating-conic-gradient(from 0deg,#c3b48533 0deg 2deg,transparent 2deg 30deg)}
+.fg-sanctuary .fg-reveal-ticket{border-color:#22172b;border-radius:4px 1px 4px 1px;background:#b9a27b;color:#2b2034;box-shadow:0 2px 0 #130c1d;transform:none}
+.fg-sanctuary .sanctuary-reveal h2{color:#e1d0a9;text-shadow:0 2px 3px #160f20;-webkit-text-stroke:0;transform:none}
+.fg-sanctuary .sanctuary-reveal h3{color:#d8c7df}.fg-sanctuary .sanctuary-reveal>p{color:#beb0c8}
+.fg-sanctuary .sanctuary-reveal-actions button,.fg-sanctuary button.sanctuary-primary{border-color:#281a33;border-radius:7px 2px 7px 2px;background:linear-gradient(#a9946d,#7c684d);color:#241c2b;box-shadow:0 3px 0 #160d20,inset 0 0 0 1px #d7c49b55}
+.fg-sanctuary .sanctuary-reveal-actions button:hover:not(:disabled),.fg-sanctuary button.sanctuary-primary:hover:not(:disabled){background:linear-gradient(#c0ad86,#97825e);color:#211a28;transform:translateY(-1px)}
+.fg-sanctuary .sanctuary-notice{background:#302c34;border-color:#93826066;color:#e0d3b9;border-radius:6px 2px 6px 2px}
+.fg-sanctuary .sanctuary-footer{color:#a89bad;border-top-color:#8a765233}
+.fg-sanctuary :is(button,summary):focus-visible{outline-color:#d8c49c}
+.fg-sanctuary .fg-equipped-item:hover{background:linear-gradient(#4a3b51,#352a3f);transform:translateY(-1px)}
+.fg-sanctuary .sanctuary-story-scene:before{background-image:linear-gradient(100deg,#1c17224d,#20182588 60%,#15121fb3),var(--story-background)}
+.fg-sanctuary .sanctuary-story-figure:before{background:radial-gradient(ellipse,#c5b79526,transparent 65%)}
+.fg-sanctuary .shop-detail-copy p.shop-detail-note{color:#b9aac3}
+
+/* The legacy primary class used !important: keep its accessible brass state here. */
+.fg-sanctuary button.sanctuary-primary{background:linear-gradient(#a9946d,#7c684d)!important;color:#241c2b!important}
+.fg-sanctuary button.sanctuary-primary:hover:not(:disabled){background:linear-gradient(#c0ad86,#97825e)!important;color:#211a28!important}
+
+/* Contextual primaries also override the older three-class important rules. */
+.sanctuary.fg-sanctuary .sanctuary-story-controls button.sanctuary-primary,
+.sanctuary.fg-sanctuary .sanctuary-reveal-actions button.sanctuary-primary{background:linear-gradient(#a9946d,#7c684d)!important;color:#241c2b!important}
+.sanctuary.fg-sanctuary .sanctuary-story-controls button.sanctuary-primary:hover:not(:disabled),
+.sanctuary.fg-sanctuary .sanctuary-reveal-actions button.sanctuary-primary:hover:not(:disabled){background:linear-gradient(#c0ad86,#97825e)!important;color:#211a28!important}

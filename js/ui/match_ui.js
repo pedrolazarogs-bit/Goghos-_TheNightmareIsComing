@@ -1,7 +1,7 @@
 // Painéis da partida: Daly Mãe (esmeralda), Personagens Eliminados, escolha de recuperação e contagem dos 5 montes de personagens.
 (function(G){
 const lbl=r=>G.RARITY_LABEL[r];
-const icon=name=>`<img class="choice-icon" src="assets/visual-v0.28/icons/${name}.svg" alt="" aria-hidden="true">`;
+const icon=name=>`<img class="choice-icon" src="assets/night-ui/icons/${name}.svg" alt="" aria-hidden="true">`;
 const shield=exposed=>`<svg class="daly-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${exposed?'<path d="M12 3 2 21h20L12 3Z"/><path d="M12 9v5m0 3v.1"/>':'<path d="m12 2 8 3-1 8c-1 4-4 7-7 9-3-2-6-5-7-9L4 5l8-3Z"/><path d="m8 12 3 3 5-6"/>'}</svg>`;
 // Daly Mãe de um lado. Exposta e do adversário na vez do jogador → clicável como alvo (data-daly).
 G.dalyHTML=(s,side,o={})=>{
@@ -33,6 +33,6 @@ G.pilesLineHTML=s=>s.piles?`Personagens: ${G.RARITIES.map(r=>lbl(r)+' '+s.piles[
 G.formationHTML=s=>{
   const p=s.formation;if(!p||p.side!=='player')return '';
   const singles=p.candidates.map(uid=>{const u=G.getUnit(s,uid);return `<button data-act="advance-${uid}" class="formation-single">${G.actorPortraitHTML?.(u,'formation-portrait')||''}<span>Avançar só ${u.name}</span></button>`;}).join('');
-  return `<div class="formation-choice"><div class="choice-emblem"><img class="choice-icon" src="assets/visual-v0.28/icons/mode.svg" alt="" aria-hidden="true"></div><span class="choice-kicker">Proteja sua Daly Mãe</span><h3 id="formation-title">A linha de frente precisa de defesa</h3><p>Um Suporte avançou automaticamente. Escolha qual deles ficará na frente, ou avance os dois. A batalha aguarda sua escolha.</p>${singles}<button data-act="advance-all" class="formation-all"><span>Avançar os dois Suportes</span></button></div>`;
+  return `<div class="formation-choice"><div class="choice-emblem"><img class="choice-icon" src="assets/night-ui/icons/mode.svg" alt="" aria-hidden="true"></div><span class="choice-kicker">Proteja sua Daly Mãe</span><h3 id="formation-title">A linha de frente precisa de defesa</h3><p>Um Suporte avançou automaticamente. Escolha qual deles ficará na frente, ou avance os dois. A batalha aguarda sua escolha.</p>${singles}<button data-act="advance-all" class="formation-all"><span>Avançar os dois Suportes</span></button></div>`;
 };
 })(globalThis.GOGHOS);

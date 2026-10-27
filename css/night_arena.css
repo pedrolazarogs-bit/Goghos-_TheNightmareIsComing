@@ -1,0 +1,251 @@
+/* The arena keeps its viewport geometry; only its materials, light and trim change. */
+.arena.fit-arena{
+  --fg-ink:#100e14;--fg-plum:#302733;--fg-paper:#eee2c8;--fg-mint:#91b8b2;--fg-pink:#b8819b;
+  --panel-surface:linear-gradient(145deg,#302a35,#211d26);
+  --night-rim:#786a61;--night-edge:#51474e;--night-copy:#eee2c8;--night-muted:#c2b8be;
+  color:var(--night-copy);background:#17141d;
+}
+.arena.fit-arena:before{
+  background-image:radial-gradient(ellipse at 50% 50%,#49404a38,transparent 72%),linear-gradient(145deg,#19161fe8,#15141be8),var(--cosmetic-background,url('../assets/visual-v0.27/backgrounds/red-tree-field.png'));
+  background-blend-mode:normal;opacity:1;
+}
+.arena.fit-arena:after{
+  background:linear-gradient(90deg,#8b76670b 1px,transparent 1px) 0 0/62px 100%,radial-gradient(ellipse at 50% 50%,transparent 30%,#07060a60);
+  mask-image:none;
+}
+.arena.fit-arena .arena-header{border-bottom-color:#9c886d42}
+.arena.fit-arena .arena-brand>small{color:#c2b8be}
+.arena.fit-arena .arena-brand>img{filter:drop-shadow(0 2px 2px #05040799)}
+.arena.fit-arena :is(.rarity-piles,.event-feed,.actor-info,.main-deck,.turn-guide,.turn-panel){
+  background:linear-gradient(145deg,#302a35,#211d26);border-color:var(--night-edge);border-radius:8px 2px 8px 2px;
+  box-shadow:0 2px 5px #07060a66,inset 0 1px 0 #cdb79816;
+}
+.arena.fit-arena .arena-round{
+  background:linear-gradient(#393239,#28232b);border-color:#9e8966;border-radius:7px 2px 7px 2px;
+  color:#e0c99c;transform:none;box-shadow:0 2px 4px #08060c88,inset 0 1px 0 #d6c19b24;
+}
+.arena.fit-arena .arena-round>span,.arena.fit-arena .arena-round b{color:#eee2c8;text-shadow:none}
+.arena.fit-arena .arena-header button{
+  border-color:#72636d;border-radius:6px 2px 6px 2px;background:linear-gradient(#403744,#2b2530);color:#eee2c8;
+  box-shadow:0 2px 3px #08070b88,inset 0 1px 0 #dbced51a;text-shadow:none;
+}
+.arena.fit-arena .arena-header button:hover:not(:disabled){background:linear-gradient(#514551,#39313d);border-color:#b49c7d;box-shadow:0 2px 3px #08070b88,inset 0 1px 0 #e3cdad29}
+.arena.fit-arena .arena-header [data-act=menu]{background:linear-gradient(#46333c,#32262e);color:#ead9dc}
+.arena.fit-arena .arena-header [data-act=pause],.arena.fit-arena .arena-header [data-act=card-info]{background:linear-gradient(#354246,#263238);color:#d4e1df}
+.arena.fit-arena .arena-header [data-act=sound-toggle],.arena.fit-arena .arena-header [data-act=settings]{background:linear-gradient(#403947,#2d2734);color:#e0d8e7}
+.arena.fit-arena .fg-panel-heading,.arena.fit-arena .rarity-piles h3,.arena.fit-arena .main-deck h3{color:#e2d1b1;text-shadow:none}
+.arena.fit-arena .fg-panel-heading small{color:#bdb2bb}
+.arena.fit-arena .deck-pile:not(.main-pile){
+  background:linear-gradient(#302b34,#211e27);border-color:color-mix(in srgb,var(--pile) 22%,#54484f);border-radius:5px 1px 5px 1px;
+  box-shadow:0 2px 2px #08070d66,inset 0 1px 0 #c4b5a517;
+}
+.arena.fit-arena .deck-pile:not(.main-pile):before{background:#28232d;border-color:#65565f;border-radius:5px 1px 5px 1px;box-shadow:0 1px 2px #08070b66}
+.arena.fit-arena .deck-pile:not(.main-pile):hover{border-color:color-mix(in srgb,var(--pile) 55%,#b8a78a);filter:none}
+.arena.fit-arena .deck-pile strong{color:#d8ced3}
+.arena.fit-arena .deck-pile b{color:#e6d6b6;text-shadow:none}
+.arena.fit-arena .rarity-dot{border-color:#211b26;box-shadow:inset 0 1px 0 #fff5,0 1px 1px #05040766;transform:none;border-radius:2px}
+.arena.fit-arena .event-feed:before{background:url('../assets/night-ui/sigil.svg') center/110px no-repeat;opacity:.10;mask-image:none}
+.arena.fit-arena .moment-icon{color:#c9ad7b;filter:none}
+.arena.fit-arena .combat-message.idle>strong,.arena.fit-arena .combat-message h4{color:#e0caa5;text-shadow:none}
+.arena.fit-arena .moment-eyebrow{background:#26232e;border-color:#6b5f77;color:#c4d9d5;border-radius:3px}
+.arena.fit-arena .combat-message>p{color:#d8ced3}
+.arena.fit-arena .impact-message{border-top-color:#81727966;border-top-style:solid}
+.arena.fit-arena .impact-message strong{color:#e1a7b5;text-shadow:none}
+.arena.fit-arena .impact-message:is(.heal,.parry) strong{color:#add7c3}
+.arena.fit-arena .impact-message.reaction-message strong{color:#c5acd7}
+.arena.fit-arena .impact-message b{color:#eee2c8}
+.arena.fit-arena .impact-message small{color:#c2b8be}
+.arena.fit-arena .die{background:linear-gradient(#e6d8bc,#baaa8f);color:#28222c;border-color:#8d7c69;border-radius:5px 1px 5px 1px;box-shadow:0 2px 2px #08070b88,inset 0 1px 0 #fff5;transform:none}
+.arena.fit-arena .fit-read-button{
+  border-color:#75676a;border-radius:5px 1px 5px 1px;background:linear-gradient(#403641,#29242e);color:#e5d6be;
+  box-shadow:0 2px 2px #08060d66,inset 0 1px 0 #d6c19b14;
+}
+.arena.fit-arena .fit-read-button:hover:not(:disabled){border-color:#b29d7b;background:linear-gradient(#4b404a,#342c36)}
+/* Team surfaces remain distinguishable without filling the table with candy colours. */
+.arena.fit-arena .side:before{
+  border-color:#546b6b;border-radius:10px 3px 10px 3px;
+  background:radial-gradient(ellipse at 50% 65%,#668b8120,transparent 66%),linear-gradient(145deg,#28373aee,#202a2fee);
+  box-shadow:0 2px 5px #08080c77,inset 0 1px 0 #c3e3db17;
+}
+.arena.fit-arena .side.enemy:before{
+  border-color:#775b70;background:radial-gradient(ellipse at 50% 28%,#a67a9020,transparent 66%),linear-gradient(145deg,#3b2d3dee,#2c2532ee);
+  box-shadow:0 2px 5px #09070d77,inset 0 1px 0 #e1c3d717;
+}
+.arena.fit-arena .team-label{background:linear-gradient(#3b5150,#2c3d40);border-color:#91b8b2;color:#d6e8e2;border-radius:4px 1px 4px 1px;box-shadow:0 1px 2px #101619;transform:none}
+.arena.fit-arena .enemy .team-label{background:linear-gradient(#5b4053,#3d2d3b);border-color:#b8819b;color:#f0dce4;box-shadow:0 1px 2px #1c111c;transform:none}
+.arena.fit-arena .side .lbl{color:#c5d2cf;text-shadow:0 1px 1px #0b1013}
+.arena.fit-arena .enemy .lbl{color:#d9c5d1}
+.arena.fit-arena .empty-frame{border-color:#8daaa149;border-radius:7px 2px 7px 2px;background:linear-gradient(145deg,#526e6d0a,#17202a1f);box-shadow:inset 0 0 0 2px #b7d1ca08}
+.arena.fit-arena .enemy .empty-frame{border-color:#b295aa49;background:linear-gradient(145deg,#91647e0a,#251c2b22)}
+.arena.fit-arena .empty-frame:after{color:#b7c1ce44;text-shadow:none}
+.arena.fit-arena .empty>span{color:#a1b5b5}
+.arena.fit-arena .enemy .empty>span{color:#b6a0b1}
+.arena.fit-arena .cell .slot{border-radius:5px}
+.arena.fit-arena .cell.is-current .slot{outline-color:#b8d8c7;box-shadow:0 0 0 3px #131e22a6,0 0 14px #b4d6c51c}
+.arena.fit-arena .enemy .cell.is-current .slot{outline-color:#d4a3bc;box-shadow:0 0 0 3px #251a28a6,0 0 14px #c298b61c}
+.arena.fit-arena .cell.is-target .slot{outline-color:#dfc38a;box-shadow:0 0 0 3px #322a20a6,0 0 14px #d5b97d26}
+.arena.fit-arena .unit-turn{border-color:#9abbb3;border-radius:4px 1px 4px 1px;background:#304d49;color:#e4eee0;box-shadow:0 1px 2px #080e11;text-shadow:none}
+.arena.fit-arena .enemy .unit-turn:not(.selected){background:#593a4d;border-color:#bd92a6;color:#f5e0e5;box-shadow:0 1px 2px #170f18}
+.arena.fit-arena .unit-turn.selected{background:#806b45;color:#fff0cb;border-color:#ddc292}
+.arena.fit-arena .unit-nameplate{background:#1a242ae8;border-color:#90b6aa4d;border-radius:4px 1px 4px 1px;text-shadow:none}
+.arena.fit-arena .enemy .unit-nameplate{background:#302330e8;border-color:#c39bb24d}
+.arena.fit-arena .unit-nameplate strong,.arena.fit-arena .unit-vitals b{color:#eee2c8;text-shadow:0 1px 1px #111016}
+.arena.fit-arena .unit-nameplate>span{color:#b6d1c8}
+.arena.fit-arena .enemy .unit-nameplate>span{color:#d7b9cb}
+.arena.fit-arena .unit-nameplate .ui-icon{color:#b6a7c1}
+.arena.fit-arena .unit-vitals small{color:#c2cbc9}
+.arena.fit-arena .hp-track{border-color:#11151d;background:#121820;box-shadow:0 1px 0 #ffffff0b;border-radius:3px}
+.arena.fit-arena .hp-track>i{background:linear-gradient(#bdd2ad,#77988c);box-shadow:inset 0 1px 0 #e7f3c936}
+.arena.fit-arena .enemy .hp-track>i{background:linear-gradient(#d0a5b9,#a26e8c)}
+.arena.fit-arena .unit-badges>span{border-color:#786a7f;border-radius:3px 1px 3px 1px;background:#423647;color:#e7dfe9;box-shadow:0 1px 2px #0c0a10}
+.arena.fit-arena .daly{
+  background:linear-gradient(145deg,#302a35ed,#211d28ed)!important;
+  box-shadow:0 1px 3px #09070d88,inset 0 1px 0 #d6c19b16!important;
+  outline-color:#9b887061;border-radius:6px 2px 6px 2px;
+}
+.arena.fit-arena .daly-emblem>.asset-window{filter:drop-shadow(0 1px 2px #0d081380)}
+.arena.fit-arena .daly-life-slot{background:linear-gradient(#6c495657,#352734);border-color:#705061;box-shadow:0 1px 1px #100a17}
+.arena.fit-arena .daly-life-slot.empty{background:#211a28;box-shadow:inset 0 1px 0 #ffffff08}
+.arena.fit-arena .daly-state-icon{color:#a4bca0}
+.arena.fit-arena .daly.exposed .daly-state-icon{color:#ddb0bd}
+.arena.fit-arena .daly-name{color:#e2d5db;text-shadow:none}
+.arena.fit-arena .daly-status{color:#c9bcc6}
+.arena.fit-arena .daly-status b{color:#bfd1bc}
+.arena.fit-arena .daly.exposed .daly-status b{color:#e7b0bc}
+.arena.fit-arena .daly.exposed{outline-color:#d19aa9;background:linear-gradient(145deg,#563342ed,#352535ed)!important;box-shadow:0 1px 3px #170b2188,inset 0 1px 0 #d19aa91c!important}
+.arena.fit-arena .daly.target{outline-color:#dfc38a;box-shadow:0 0 10px #cfad6e33,inset 0 1px 0 #e4c99036!important}
+.arena.fit-arena .arena-divider>i{background:linear-gradient(90deg,transparent,#a18a6680,transparent)}
+.arena.fit-arena .event-brief{border-color:#74616f!important;border-radius:4px 1px 4px 1px;background:#302735!important;box-shadow:0 1px 2px #09060e66;color:#e6d8c8!important}
+.arena.fit-arena .turn-panel{background:linear-gradient(#35303d,#25212c);border-color:#7b6c7f;border-radius:7px 2px 7px 2px}
+.arena.fit-arena .turn-preview{background:#24202c;border-color:#5a4c61;border-radius:5px 1px 5px 1px;box-shadow:0 1px 2px #100c16}
+.arena.fit-arena .turn-preview.now{background:linear-gradient(135deg,#3c5653,#2c403f);border-color:#91b8b2;box-shadow:0 1px 2px #11191c}
+.arena.fit-arena .turn-panel.enemy .turn-preview.now{background:linear-gradient(135deg,#62465a,#453244);border-color:#b8819b;box-shadow:0 1px 2px #1b111c}
+.arena.fit-arena .now .turn-preview-copy>span{color:#bed5c7!important}
+.arena.fit-arena .now .turn-preview-copy>strong{color:#f0ead6;text-shadow:none}
+.arena.fit-arena .now .turn-preview-copy>small{color:#c1d2ca}
+.arena.fit-arena .turn-panel.enemy .now .turn-preview-copy>span{color:#ddbdcc!important}
+.arena.fit-arena .turn-panel.enemy .now .turn-preview-copy>strong{color:#f1dce2;text-shadow:none}
+.arena.fit-arena .turn-panel.enemy .now .turn-preview-copy>small{color:#d1b6c7}
+.arena.fit-arena .upcoming .turn-preview-copy>span{color:#b9a8c3}
+.arena.fit-arena .upcoming .turn-preview-copy>strong{color:#e4d6be}
+.arena.fit-arena .upcoming .turn-preview-copy>small{color:#baacbf}
+.arena.fit-arena .turn-arrow .fg-arena-icon{filter:none}
+.arena.fit-arena .turn-guide{box-shadow:0 2px 4px #08070c66,inset 0 1px 0 #d4c3a01c}
+.arena.fit-arena .info{color:#e8dfd1;text-shadow:none}
+.arena.fit-arena .battle-actions button,.arena.fit-arena .fit-reader button,.arena.fit-arena .choice-dialog button{
+  border-color:#796b70;border-radius:6px 2px 6px 2px;background:linear-gradient(#443a45,#2f2834);color:#eee2c8;
+  box-shadow:0 2px 3px #09070e77,inset 0 1px 0 #d9c8a521;text-shadow:none;
+}
+.arena.fit-arena .battle-actions button:hover:not(:disabled),.arena.fit-arena .fit-reader button:hover:not(:disabled),.arena.fit-arena .choice-dialog button:hover:not(:disabled){background:linear-gradient(#554955,#3d3341);border-color:#c5ab83;box-shadow:0 2px 3px #09070e77,inset 0 1px 0 #eee2c829}
+.arena.fit-arena .battle-actions .mode-button{background:linear-gradient(#39313f,#28232f);color:#d6c5da;border-color:#79657c}
+.arena.fit-arena .battle-actions .mode-button.on{background:linear-gradient(#485f55,#31483f);color:#e7efdd;border-color:#b2c8a9;box-shadow:0 2px 3px #090e0d77,inset 0 1px 0 #c5dfb336}
+.arena.fit-arena .battle-actions :is([data-act=attack],[data-act=hypnosis-keep],[data-act=status-turn],[data-act=pinned-wait]){background:linear-gradient(#c5ab7c,#a3895f);border-color:#dfcda3;color:#251f27;box-shadow:0 2px 4px #100c1599,inset 0 1px 0 #f6e5bd77}
+.arena.fit-arena .battle-actions [data-act=attack]:hover:not(:disabled){background:linear-gradient(#dec497,#b9a071);border-color:#f0dfb6;box-shadow:0 2px 4px #100c1599,inset 0 1px 0 #f6e5bd88}
+.arena.fit-arena .battle-actions [data-act=move]{background:linear-gradient(#3d5159,#2a3c45);color:#d7e4e4}
+.arena.fit-arena .battle-actions :is([data-act=full-heal],[data-act=mode-heal]){background:linear-gradient(#40594e,#2d4039);color:#d7e8d7}
+.arena.fit-arena .battle-actions>span{color:#c2b8be}
+.arena.fit-arena .msg{color:#e8b7bc}
+.arena.fit-arena .notice{color:#d5e3c5}
+.arena.fit-arena .actor-info h3{color:#c8b8d0;text-shadow:none}
+.arena.fit-arena .actor-identity strong{color:#e6d2ab;text-shadow:none}
+.arena.fit-arena .actor-identity small{color:#c4b7c9}
+.arena.fit-arena .actor-identity>.actor-portrait{border-color:var(--cosmetic-trim,#a58b6c);border-radius:6px 2px 6px 2px;background:linear-gradient(#4b4050,#302735);box-shadow:0 1px 3px #0d081288}
+.arena.fit-arena .fg-statboard>div{background:#211c29;border-color:#51434f;border-radius:5px 1px 5px 1px;box-shadow:0 1px 2px #100b16}
+.arena.fit-arena .fg-statboard b{color:#eee2c8;text-shadow:none}
+.arena.fit-arena .fg-statboard b small,.arena.fit-arena .fg-statboard>div>span{color:#c2b5c6}
+.arena.fit-arena .fg-stat-hp{border-bottom-color:#ac788b!important}
+.arena.fit-arena .fg-stat-attack{border-bottom-color:#b59a68!important}
+.arena.fit-arena .fg-stat-speed{border-bottom-color:#85aeb0!important}
+.arena.fit-arena .fg-stat-stamina{border-bottom-color:#a495b9!important}
+.arena.fit-arena .actor-mana{background:#262838;border-color:#5d607d;color:#bfcde3;border-radius:5px 1px 5px 1px}
+.arena.fit-arena .ability-details{border-top-color:#7b677b55}
+.arena.fit-arena .actor-ability{color:#e0d4df}
+.arena.fit-arena .actor-tribute{color:#c2ced1}
+.arena.fit-arena .actor-status{color:#e0b9ce;background:#51354a66;border-radius:3px}
+.arena.fit-arena .main-deck-copy>strong{color:#d4bb8b;text-shadow:none}
+.arena.fit-arena .main-deck-copy>strong small,.arena.fit-arena .main-deck-copy>p,.arena.fit-arena .deck-meta{color:#c2b5c6}
+.arena.fit-arena .deck-meta{border-top-color:#7b687b55}
+.arena.fit-arena .main-pile .pile-card{filter:drop-shadow(2px 2px 0 #756774) drop-shadow(2px 2px 0 #221a2b)}
+.arena.fit-arena .main-pile .pile-card-face{border-color:#79667b;background:#18131e;border-radius:3px}
+/* Hand and decisions: worn leather panels, without touching the printed card faces. */
+.arena.fit-arena .mao{
+  border-color:#8c7768;background:linear-gradient(145deg,#352a32,#251e29);border-radius:7px 2px 7px 2px;
+  box-shadow:0 2px 5px #07060b88,inset 0 1px 0 #d8c4a521;
+}
+.arena.fit-arena .hand-header{border-bottom-color:#9d806741}
+.arena.fit-arena .hand-header h4{color:#e0ccaa;text-shadow:none}
+.arena.fit-arena .hand-header>.hand-count{background:#241c2b;color:#d9c9ad;border-color:#796471;border-radius:4px 1px 4px 1px;box-shadow:none}
+.arena.fit-arena .mo-grid:before{background:#08050d55;filter:blur(2px)}
+.arena.fit-arena .hcard{border-color:#544253!important;box-shadow:0 2px 3px #09050e88;border-radius:4px 1px 4px 1px}
+.arena.fit-arena .hcard em{background:#241d2b;color:#e0d4df;border-top-color:#75627c;text-shadow:none}
+.arena.fit-arena .hcard.selected,.arena.fit-arena .hcard:hover:not(:disabled){outline-color:#d5bc8f}
+.arena.fit-arena .hcard-new-badge{background:#bda97e;color:#27202a;border-color:#e3cda5;border-radius:3px;box-shadow:0 1px 2px #100b18}
+.arena.fit-arena .mao.choose-replacement{border-color:#b5a184;background:linear-gradient(145deg,#3d303d,#251f2e);box-shadow:0 6px 24px #08050dbb,inset 0 1px 0 #e4cfac24}
+.arena.fit-arena .hand-choice{border-top-color:#8b737a66;color:#d8cbd7}
+.arena.fit-arena .hand-choice>strong{color:#e9d4ad;text-shadow:none}
+.arena.fit-arena .hand-choice-kicker{color:#c7b0ce}
+.arena.fit-arena .incoming-card{background:#1d1726;border-color:#6e576d;border-radius:5px 1px 5px 1px;box-shadow:inset 0 1px 3px #08050d66}
+.arena.fit-arena .incoming-label{color:#b9c8c3}
+.arena.fit-arena [data-act=keep-new]{background:linear-gradient(#4a3d4a,#302635);color:#e0d3d4;border-color:#9e837e;box-shadow:0 2px 3px #0b071088}
+.arena.fit-arena .hand-backdrop,.arena.fit-arena .choice-overlay,.arena.fit-arena .inspect-backdrop{background:#0b0812dd}
+.arena.fit-arena .choice-dialog{
+  border-color:#9b866e;border-radius:9px 2px 9px 2px;background:radial-gradient(ellipse at 50% 0,#69515f30,transparent 65%),linear-gradient(140deg,#342a37,#211c2a);
+  box-shadow:0 8px 35px #07040dcc,inset 0 1px 0 #d7c5a82b;
+}
+.arena.fit-arena .choice-dialog h3{color:#e3cfaa;text-shadow:none}
+.arena.fit-arena .choice-dialog p{color:#d6cbd6}
+.arena.fit-arena .choice-kicker,.arena.fit-arena .entry-choice>small{background:#2a2332;color:#b9cbc7;border-color:#766a7b;border-radius:3px}
+.arena.fit-arena .choice-emblem{background:linear-gradient(#51414f,#332638);border-color:#b79a80;border-radius:7px 2px 7px 2px;box-shadow:0 2px 3px #140d1c}
+.arena.fit-arena .entry-targets>button{background:linear-gradient(#392f42,#292132);border-color:#786380;box-shadow:0 2px 3px #100817}
+.arena.fit-arena .entry-targets>button.selected{background:linear-gradient(#46564c,#2d4139);border-color:#a9c1a6;outline-color:#c5d5ae;box-shadow:0 2px 3px #0a110d}
+.arena.fit-arena .entry-targets strong{color:#eee2c8}
+.arena.fit-arena .entry-targets small{color:#c5b6cc}
+.arena.fit-arena .entry-choice>[data-act=resolve-entry],.arena.fit-arena .formation-choice>.formation-all{background:linear-gradient(#455b4d,#304235);color:#e0e9ce;border-color:#a0b493}
+.arena.fit-arena .entry-choice>[data-act=resolve-entry]:hover:not(:disabled),.arena.fit-arena .formation-choice>.formation-all:hover{background:linear-gradient(#536e5b,#3c5342)}
+.arena.fit-arena .entry-choice>[data-act=cancel-entry]{background:#332a3a;color:#d9c5d4;border-color:#7b637d}
+.arena.fit-arena .recovery-options .recovery-option{
+  background:linear-gradient(140deg,color-mix(in srgb,var(--choice-rarity) 12%,#38303e),#251f2d);border-color:color-mix(in srgb,var(--choice-rarity) 35%,#79647b);
+  box-shadow:0 2px 4px #100817,inset 0 1px 0 #e2d4c426;color:#eee2c8;text-shadow:none;
+}
+.arena.fit-arena .recovery-option>.choice-icon{filter:none;transform:none}
+.arena.fit-arena .recovery-options small{color:#ccbacd}
+.arena.fit-arena .formation-choice>.formation-single{background:linear-gradient(#44384b,#2d2535);color:#e4d5db}
+.arena.fit-arena .formation-single>.formation-portrait{border-color:#b09a7f;box-shadow:0 1px 3px #100817}
+/* Paged inspection shares the arena's metal and vellum palette. */
+.arena.fit-arena .inspect-sheet.fit-reader{border-color:#9b866e;border-radius:9px 2px 9px 2px;background:linear-gradient(135deg,#342b3a,#211c2a);box-shadow:0 8px 30px #08050dcc,inset 0 1px 0 #d7c5a82b}
+.arena.fit-arena .fit-reader>header,.arena.fit-arena .fit-reader-nav{border-color:#907b6755}
+.arena.fit-arena .fit-reader>header h3{color:#e6d2ac}
+.arena.fit-arena .fit-reader-nav>span{color:#bdaec2}
+.arena.fit-arena .fit-reader-body,.arena.fit-arena .reader-empty{color:#e4d9ce}
+.arena.fit-arena .fit-reader .actor-info{background:none;box-shadow:none;border-color:transparent}
+.arena.fit-arena .fit-reader .reader-note{border-color:#685470;border-radius:5px 1px 5px 1px;background:#211a2d88;box-shadow:0 1px 3px #0d061655}
+.arena.fit-arena .fit-reader .reader-note h4{color:#b8cfbd}
+.arena.fit-arena .fit-reader .reader-note.status h4{color:#d8bd87}
+.arena.fit-arena .fit-reader .reader-note p{color:#ded0df}
+.arena.fit-arena .fit-reader .reader-log-entry{background:#211a2dcc;border-left-color:#8ca99d;border-radius:4px 1px 4px 1px}
+.arena.fit-arena .fit-reader .reader-log-entry small{color:#b5a4bb}
+.arena.fit-arena .fit-reader .reader-log-entry p{color:#e9ddcf}
+.arena.fit-arena .fit-reader .reader-order li,.arena.fit-arena .fit-reader .reader-eliminated article{border-color:#685470;border-radius:5px 1px 5px 1px;background:#2b2234}
+.arena.fit-arena .fit-reader .reader-speed{background:#594761;color:#e3d0ad;border-radius:4px 1px 4px 1px}
+.arena.fit-arena .fit-reader .reader-order small,.arena.fit-arena .fit-reader .reader-eliminated small{color:#bdacc4}
+.arena.fit-arena .fit-reader .reader-order li.current{border-color:#a4bb9f;background:#34463e}
+.arena.fit-arena .fit-reader .reader-order li.current small{color:#d2e0c6}
+.arena.fit-arena .fit-reader .reader-eliminated span{color:#d1bcd8}
+.arena.fit-arena .fit-reader .reader-settings .setting-row{background:#2a2232;border-color:#75617c;border-radius:6px 2px 6px 2px;box-shadow:0 1px 3px #11091a66}
+.arena.fit-arena .fit-reader .reader-settings .setting-row b{color:#e2cfac}
+.arena.fit-arena .fit-reader .reader-settings .setting-row small{color:#c5b5cb}
+.arena.fit-arena .fit-reader .reader-settings button[aria-pressed=true],.arena.fit-arena .fit-reader .hand-detail .support-targets button.on{background:linear-gradient(#4a5d50,#324137);color:#e0ead2;border-color:#a6bc98}
+.arena.fit-arena .fit-reader .volume-meter{background:#1d1726;border-color:#796080}
+.arena.fit-arena .fit-reader .volume-meter:before{background:linear-gradient(90deg,#667d77,#b0c8af)}
+.arena.fit-arena .fit-reader .hand-detail>strong{color:#e6d2ac}
+.arena.fit-arena .fit-reader .hand-detail p{color:#ded0df}
+.arena.fit-arena .fit-reader .hand-detail small{color:#c3b0c8}
+/* Result callouts remain readable and energetic, with less plastic extrusion. */
+.arena.fit-arena .combat-float{background:#decba5;color:#30242e;border-color:#7c655d;border-radius:6px 1px 6px 1px;box-shadow:1px 2px 3px #100817aa;filter:none;text-shadow:none}
+.arena.fit-arena .combat-float:is(.heal,.parry){background:#bfd2b6;color:#243b32;border-color:#657c6a}
+.arena.fit-arena .combat-float:is(.dodge,.immune,.miss,.duel-miss){background:#b9c8d6;color:#2d344c;border-color:#66738b}
+.arena.fit-arena .combat-float:is(.defeat,.reaction){background:#d4adbe;color:#512c43;border-color:#8b5e79}
+.arena.fit-arena .combat-float.oni{background:#c5b0d4;color:#44314f;border-color:#80638f}
+.arena.fit-arena .daly-float{background:#d4a4b4;border-color:#87586f;color:#4e253e;border-radius:5px 1px 5px 1px;box-shadow:1px 2px 3px #170b21aa;text-shadow:none}
+.arena.fit-arena button:focus-visible,.arena.fit-arena [data-unit]:focus-visible{outline-color:#e1c995}
+.arena.fit-arena button:disabled:not(.daly):not(.hcard){background:linear-gradient(#2e2733,#241f2b);border-color:#5e5363;color:#b7a9bd;box-shadow:inset 0 1px 0 #c8b7cc0a;text-shadow:none}

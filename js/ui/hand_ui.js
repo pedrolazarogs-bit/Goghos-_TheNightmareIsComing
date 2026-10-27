@@ -1,7 +1,7 @@
 // A mão contém todas as cartas compradas, inclusive as medalhas. Apenas o jogador vê suas cartas.
 (function(G){
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const icon=name=>`<img class="choice-icon" src="assets/visual-v0.28/icons/${name}.svg" alt="" aria-hidden="true">`;
+const icon=name=>`<img class="choice-icon" src="assets/night-ui/icons/${name}.svg" alt="" aria-hidden="true">`;
 const art=c=>{
   if(c.type==='DALY'){
     const m=G.MEDAL_COLORS[c.rarity];

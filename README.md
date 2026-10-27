@@ -1,26 +1,24 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.29.2** mantém a batalha inteira na tela, com consultas paginadas e a fonte original German Beauty restaurada. A direção visual leva a direção cartoon para a experiência de jogo: seleção, campo de batalha, mão, decisões, fichas, catálogo, laboratórios, loja, crônicas, preferências e resultados. As cartas oficiais permanecem intactas dentro dos novos painéis.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.30.0** equilibra o cartoon estilizado das cartas com uma interface de inspiração gótica medieval: ferro escuro, marfim, latão envelhecido, arcos discretos e magia em tons suaves, seguindo a logo oficial **The Nightmare Is Coming**.
 
-**O balanceamento foi preservado.** Os dez arquivos do motor, os atributos e habilidades dos 31 personagens, Zeenneriam, os Apoios e as regras são os mesmos da v0.26.2. As cartas oficiais continuam intactas. O novo kit entra como arte e apresentação, sem substituir números por referências antigas.
+**Regras, balanceamento e artes oficiais preservados.** A fonte original German Beauty, a seleção alternada de dois Comuns por equipe, a arena sem rolagem e as consultas paginadas continuam disponíveis.
 
-![Arena cartoon GOGHOS — The Nightmare Is Coming](docs/previews/arena-v0.29.2-desktop.png)
+![Menu GOGHOS — The Nightmare Is Coming](docs/previews/menu-v0.30.0-desktop.png)
 
 ## Novidades visuais
 
-- **Seleção:** quatro cartas oficiais em pedestais, marcações de equipe e Play após as escolhas. Mantém somente os controles e cartas necessários.
-- **Batalha:** campo dividido por cores de equipe, montes empilhados, painel de velocidade, atributos em peças próprias, alvos e comandos destacados. As cartas conservam arte, números e tamanho legível.
-- **Mão e decisões:** leque vertical de até cinco cartas, indicação de compra/seleção e painéis de recuperação, avanço de Suportes e substituição com hierarquia clara.
-- **Golpes:** impactos com contornos de quadrinhos, luva de soco, fogo angular, feixes, raios, escudos, portais e trilhas entre origem e alvo. Golpes múltiplos continuam separados e cada resultado vem do motor.
-- **Catálogo e treinos:** cartas em destaque, metadados por raridade/classe, busca e habilidades expansíveis no catálogo. Os 31 laboratórios e os 17 Apoios continuam disponíveis.
-- **Loja e crônicas:** baú sobre palco, cartões de cosméticos, faixa de visuais equipados, revelação animada e cenas em quadros com balões de texto. Economia e progresso anteriores preservados.
-- **Preferências e resultados:** controles em blocos e placar de fim de partida. Fonte e ícones locais, movimento reduzido e som configurável. Menu e abertura da v0.28 continuam disponíveis.
+- **Menu e abertura:** painéis com acabamento de metal, ação principal em latão, ornamentos de arcos e iluminação suave. Os detalhes ilustrados conservam o aspecto estilizado.
+- **Ícones:** 22 vetores locais com o mesmo acabamento de marfim, ferro, latão e cores espectrais discretas.
+- **Batalha:** equipes em verde espectral e ameixa, superfícies mais sóbrias, ações e alvos destacados. Frente, retaguarda, Daly Mães, montes, mão e comandos continuam na tela.
+- **Decisões e consultas:** mão cheia, recuperação, fichas, preferências e registro acompanham o tema e mantêm os controles por botões.
+- **Catálogo, loja e crônicas:** molduras mais discretas, placas de título e painéis escuros. Cartas, personagens, produtos e suas cores originais continuam intactos.
 
-[Vídeo do jogo atualizado](docs/previews/jogo-v0.29.0.mp4) · [Arena no celular](docs/previews/arena-v0.29.0-celular.png) · [Seleção](docs/previews/selecao-v0.29.0-desktop.png) · [Mão cheia](docs/previews/mao-cheia-v0.29.0-celular.png) · [Loja](docs/previews/loja-v0.29.0-desktop.png) · [Guia da interface](docs/UI.md)
+[Arena no computador](docs/previews/arena-v0.30.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.30.0-celular.png) · [Menu no celular](docs/previews/menu-v0.30.0-celular.png) · [Loja](docs/previews/loja-v0.30.0-desktop.png) · [Guia da interface](docs/UI.md)
 
 ## Jogar e desenvolver
 
-Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte Lilita One é distribuída localmente com sua licença livre. O som começa depois de uma interação; volume e movimento podem ser ajustados pelo ícone de preferências. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
+Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte original German Beauty é carregada dos arquivos locais do projeto. O som começa depois de uma interação; volume e movimento podem ser ajustados pelo ícone de preferências. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
 Com **Arena** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
