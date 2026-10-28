@@ -24,11 +24,10 @@ test('a seleção mostra todos os Comuns, somente menu, cartas e Play após quat
   assert.deepEqual([...html.matchAll(/data-act="([^"]+)"/g)].map(m=>m[1]),['menu','fight']);
   action('menu');
 });
-test('a batalha mantém mão e formações, com registro e montes acessíveis sob demanda',()=>{
-  selectAndFight();assert(html.includes('class="mao'));assert(html.includes('command-focus'));assert(!html.includes('class="apoio"'));assert.equal((html.match(/class="formation-row /g)||[]).length,4);
-  assert(!html.includes('reader-rarity-pile'));action('event-log');assert(html.includes('Registro da batalha'));action('close-drawer');
-  action('piles-info');assert(html.includes('Monte principal'));assert(html.includes('reader-main-pile'));action('reader-next');
-  assert.equal((html.match(/class="reader-rarity-pile"/g)||[]).length,G.RARITIES.length);action('close-drawer');
+test('a batalha mantém o campo existente, mão, montes e registro sem uma segunda área de cartas',()=>{
+  selectAndFight();assert(html.includes('class="mao'));assert(html.includes('inplace-arena'));assert(!html.includes('command-focus'));assert(!html.includes('command-stage'));assert(!html.includes('class="apoio"'));
+  assert.equal((html.match(/class="formation-row /g)||[]).length,4);assert.equal((html.match(/class="deck-pile /g)||[]).length,G.RARITIES.length+1);
+  assert(html.includes('class="event-feed"'));action('event-log');assert(html.includes('Registro da batalha'));action('close-drawer');
 });
 test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',()=>{
   // Recomeça uma luta e faz o primeiro reset comprar uma Na Moloeira para o jogador.

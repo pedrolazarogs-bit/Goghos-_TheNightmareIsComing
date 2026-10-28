@@ -1,6 +1,6 @@
-# Interface — v0.33.0
+# Interface — v0.33.1
 
-As seções iniciais registram a direção da v0.29; a interface atual está descrita na seção v0.33.0 ao final. A direção original seguiu o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
+As seções iniciais registram a direção da v0.29; a interface atual está descrita na seção v0.33.1 ao final. A direção original seguiu o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
 
 ## Direção visual nas telas de jogo
 
@@ -127,3 +127,10 @@ Os timbres de soco, chute, lâmina, guitarra-machado, raio, feixe, míssil, AK-4
 Menu, seleção, arquivo, treinos e loja usam o mesmo acabamento sóbrio, ícones maiores e informações expansíveis. Tocar na carta do arquivo ou usar Enter/Espaço abre sua habilidade e a prévia da raridade. Sons e partículas são acionados por interações reais. Som desligado e movimento reduzido preservam as informações essenciais.
 
 A loja apresenta os quatro baús Comum, Pro, Plus e Plus+ com ilustrações locais originais. Selecionar uma prévia não gasta moedas nem sorteia conteúdo. A abertura está desativada até o criador definir suas regras. Cosméticos e Baú da noite anteriores ficam em uma área recolhida e mantêm sua economia.
+
+
+## v0.33.1 — Aprimorar a arena, sem criar outra área
+
+A referência mostra relações e interações junto das cartas. A versão anterior foi corrigida: não há painel extra com cópias de cartas, abas Ataque/Habilidade/Apoio nem vistas separadas Campo/Ações. A arena original conserva equipes, frente, retaguarda, Daly Mães, montes, mão e área de ações.
+
+A estrela da carta ativa permite revelar as escolhas de habilidade nos controles que já existiam. Vida, alvo e estado ficam associados à carta do campo; vínculos relevantes identificam sua origem. A ficha mantém descrições completas, sem repetir todos os atributos permanentemente na tela. Sons e deslocamentos usam as cartas da formação, respeitando resultados e ordem dos golpes existentes.

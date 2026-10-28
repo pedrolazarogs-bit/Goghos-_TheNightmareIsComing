@@ -28,14 +28,14 @@ test('o tamanho respeita a área disponível e nunca cresce ao acrescentar uma q
 test('medidas ausentes ou inválidas têm saída finita, sem NaN ou tamanho negativo',()=>{
  const F=load();for(const options of [undefined,null,false,{}, {sideWidth:NaN,sideHeight:Infinity,frontCap:-2},{sideWidth:-300,sideHeight:'inválido',frontCap:'x'},{sideWidth:Symbol('w'),sideHeight:Symbol('h'),frontCap:Symbol('c')}]){const size=F.computeSizing(options);for(const value of Object.values(size))assert(Number.isFinite(value)&&value>0&&value<=156);}
 });
-test('a mesa de comandos reserva Suportes maiores sem sobrepor a frente nem sair do quadro',()=>{
+test('o enquadramento mantém cartas de frente e retaguarda proporcionais na arena existente',()=>{
  const F=load();
  for(const o of [{sideWidth:670,sideHeight:230,frontCap:4,hasRear:true},{sideWidth:374,sideHeight:135,frontCap:4,hasRear:true,portrait:true},{sideWidth:280,sideHeight:260,frontCap:3,hasRear:true}]){
-  const result=F.computeSizing({...o,command:true}),legacy=F.computeSizing(o),gap=o.portrait?4:6;
-  assert(result.frontSize*1.67+68<=o.sideHeight+.1);
+  const before={...o},result=F.computeSizing(o),gap=o.portrait?4:6;
+  assert(result.frontSize*1.67+80<=o.sideHeight+.1);
   assert(result.frontSize*o.frontCap+result.rearSize*2+(o.frontCap-1)*gap+24<=o.sideWidth+.3);
-  assert(Math.abs(result.rearSize/result.frontSize-.72)<.02);
-  assert(result.rearSize/result.frontSize>legacy.rearSize/legacy.frontSize);
+  assert(Math.abs(result.rearSize/result.frontSize-.6)<.02);
+  assert.deepEqual(o,before);
  }
 });
 test('carregar sem DOM e encerrar uma montagem inválida não acessa ou altera o estado da partida',()=>{

@@ -1,23 +1,19 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.33.0** reorganiza a interface a partir da referência do criador: a carta da vez, o alvo e as ações ficam em destaque; as consultas completas abrem somente quando necessárias. O balanceamento da v0.32.0 permanece intacto, incluindo Burn e as quatro ações globais do Oni.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.33.1** corrige a interpretação da referência de UI: mantém o campo de batalha existente e melhora as interações nas próprias cartas. O painel extra com cópias das cartas, as novas abas e a divisão Campo/Ações foram retirados.
 
-## Uma ação de cada vez
+## Interações no campo existente
 
-- **Campo:** formações proporcionais, identificação de equipe, Vida e personagem da vez. A carta em foco e o alvo ganham uma apresentação ampliada.
-- **No celular:** alterne entre **Ações**, com cartas ampliadas, e **Campo**, com as formações completas. A escolha de alvo tem cartas grandes e páginas; as vidas das duas Daly Mães continuam visíveis.
-- **Comandos:** Ataque, Habilidade e Apoio separam as opções. Fichas, ordem, montes e registro ficam em consultas próprias, com navegação por botões. A batalha continua sem depender da roda do mouse.
-- **Movimento e som:** golpes movimentam as cartas e usam timbres conforme a arma ou o poder. Defesas, esquivas, impactos individuais, entrada por raridade e eliminações recebem apresentações próprias.
-- **Outras telas:** menu, seleção, catálogo, treinos e loja seguem o mesmo acabamento de ferro, marfim e magia discreta, com ícones maiores e detalhes sob demanda. A fonte original German Beauty, a logo oficial e as artes das cartas são preservadas.
-- **Loja:** os novos baús **Comum, Pro, Plus e Plus+** têm artes e prévias próprias. Conteúdo, preço e abertura aguardam definição do criador; as atividades cosméticas anteriores continuam separadas.
+- **Uma carta por personagem:** equipes, frente, retaguarda e Daly Mães continuam juntas na arena. Vida, vez atual, alvo e vínculos são apresentados diretamente no campo.
+- **Habilidades:** a estrela da carta ativa abre os comandos relevantes na área de ações que já existia. A ficha continua disponível para explicações completas.
+- **Menos ruído:** ícones e barras mais claros, informações repetidas reduzidas e detalhes completos sob demanda. Montes, mão e consultas mantêm seus lugares.
+- **Movimento e som:** golpes movimentam as cartas reais, com sons por arma ou poder, entrada por raridade e eliminações próprias. Fonte, logo e artes oficiais preservadas.
 
-Som, volume, música e movimento podem ser ajustados nas preferências. O áudio começa após uma interação. Com movimento reduzido, números, textos e identificação das ações continuam disponíveis.
+O balanceamento da v0.32.0 permanece intacto. Os baús **Comum, Pro, Plus e Plus+** continuam como prévias na loja, aguardando suas regras de conteúdo e abertura. Som e movimento podem ser ajustados nas preferências.
 
-![Arena com ações em foco](docs/previews/acoes-v0.33.0-desktop.png)
+![Arena existente com interações nas cartas](docs/previews/arena-v0.33.1-desktop.png)
 
-[Ver no celular](docs/previews/acoes-v0.33.0-celular.png) · [Campo completo](docs/previews/campo-v0.33.0-celular.png) · [Novos baús](docs/previews/baus-v0.33.0-desktop.png)
-
-[Guia da interface](docs/UI.md) · [Balanceamento preservado](docs/BALANCEAMENTO_MANUAL.md) · [Validação](docs/VALIDACAO.md)
+[Ver no celular](docs/previews/arena-v0.33.1-celular.png) · [Guia da interface](docs/UI.md) · [Regras](docs/REGRAS.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 

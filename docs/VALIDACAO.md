@@ -436,3 +436,15 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Menu, arquivo, treinos e loja conferidos em desktop e celular. Fonte German Beauty e marca oficial preservadas. Nenhuma exceção JavaScript, erro HTTP ou recurso remoto observado. O botão Como funciona abre a página da habilidade do personagem correto.
 
 [Comandos no computador](previews/acoes-v0.33.0-desktop.png) · [Comandos no celular](previews/acoes-v0.33.0-celular.png) · [Campo completo](previews/campo-v0.33.0-celular.png) · [Novos baús](previews/baus-v0.33.0-desktop.png)
+
+
+## v0.33.1
+
+- `npm test`: **444 testes aprovados**. Casos da arena verificam que as formações e as laterais existentes foram mantidas, sem painel extra, abas novas ou cartas duplicadas. Clicar na estrela e consultar a ficha não avança ações, compra cartas ou rola dados. A guarda de invariantes preserva o motor, o balanceamento e as artes oficiais.
+- Chromium: seleção nativa até a batalha, estrela impressa abrindo as opções na faixa de ações original, DD-X em quatro golpes separados, Apoio durante paralisia e consultas paginadas. Enter ativa a estrela uma vez; instruções e fonte German Beauty foram conferidas.
+- Formação completa de 12 personagens com Recruta e mão de cinco cartas em 1280×720, 1024×768, 844×390, 768×1024, 390×844 e 360×640. As equipes continuam no mesmo campo; sem cartas repetidas, controles cortados ou rolagem exigida. O enquadramento foi conferido com opções de habilidade fechadas e abertas.
+- As vidas dos personagens não encostam nas Daly Mães. Indicadores de caça em aliados e adversários foram conferidos em desktop e celular, sem obstruir cartas vizinhas ou as vidas da Daly Mãe. A origem aparece na ficha existente e no nome acessível do indicador.
+- Vinte e quatro decisões de recuperação, formação, mão cheia, habilidades e Apoios passaram em quatro tamanhos. Sons por arma, movimentos e morte com brasas de Chama continuam nas cartas reais do tabuleiro; som desligado, movimento reduzido e encerramento foram verificados.
+- Nenhum erro JavaScript ou HTTP observado nos fluxos revisados. Os quatro baús de prévia e sua ausência de transações permanecem preservados.
+
+[Arena corrigida no computador](previews/arena-v0.33.1-desktop.png) · [Arena corrigida no celular](previews/arena-v0.33.1-celular.png)

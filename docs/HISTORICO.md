@@ -275,3 +275,8 @@ Striker continua em velocidade 3 e Destruidores continuam ignorando Parry. Sam, 
 Campo reorganizado a partir da nova referência: interação ampliada entre personagem e alvo, Vida em barras, vínculos identificados e comandos Ataque/Habilidade/Apoio. Consultas completas ficam em painéis paginados. A atualização alcança menu, arquivo, treinos e loja, mantendo fonte, logo e cartas oficiais.
 
 Movimentos das cartas, timbres por arma e habilidade, entradas progressivas das seis raridades e de Deus e eliminações personalizadas apresentam os resultados existentes do motor. Seleção usa realce discreto. Novos baús Comum, Pro, Plus e Plus+ são prévias sem regras de compra ou conteúdo; economia cosmética anterior preservada. Nenhum módulo do motor ou atributo de balanceamento foi alterado.
+
+
+## v0.33.1 — Correção da interpretação da referência
+
+O criador esclareceu que a melhoria deve acontecer na arena existente. Retirados o painel adicional com cartas repetidas, os novos grupos de abas e a divisão Campo/Ações. A formação permanece visível; habilidades e vínculos interagem diretamente com as cartas do campo e com os controles existentes. Mantidos o áudio, os movimentos, os efeitos de raridade, a loja e o balanceamento.

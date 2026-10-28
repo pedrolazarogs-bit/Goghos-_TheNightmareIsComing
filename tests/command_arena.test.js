@@ -1,51 +1,54 @@
-// Progressive commands must not spend actions or alter the approved balance.
+// The existing table is the only battle surface; optional controls stay in its action row.
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 ['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card','ui/support_ui','ui/hand_ui','ui/match_ui','ui/arena_ui','ui/battle_feedback','ui/shop'].forEach(name=>require('../js/'+name+'.js'));
 const G=GOGHOS;let html='',passed=0;const events={};
 const app={set innerHTML(v){html=v},get innerHTML(){return html},addEventListener(name,handler){events[name]=handler},querySelector(){return null},querySelectorAll(){return[]}};
 globalThis.document={getElementById:()=>app};
-vm.runInThisContext(fs.readFileSync(require.resolve('../js/ui/ui.js'),'utf8').replace('G.PresentationFX?.init();','G.__commandUITest={ui,render};G.PresentationFX?.init();'));
-const {ui,render}=G.__commandUITest;
-const test=(name,fn)=>{fn();passed++;console.log('OK  '+name)};
-function battle(front=['ddx','mike'],enemy=['john'],rear=[]){const s=G.createBattleState({front,rear},{front:enemy,rear:[]},[],{rng:()=>.5,roll:()=>6});s.abilityChoices=[];s.openingAbilities=false;s.phase='battle';return s;}
+vm.runInThisContext(fs.readFileSync(require.resolve('../js/ui/ui.js'),'utf8').replace('G.PresentationFX?.init();','G.__arenaUITest={ui,render};G.PresentationFX?.init();'));
+const {ui,render}=G.__arenaUITest,test=(name,fn)=>{fn();passed++;console.log('OK  '+name)};
+function battle(front=['ddx','mike'],enemy=['john'],rear=[]){const s=G.createBattleState({front,rear},{front:enemy,rear:[]},[],{rng:()=>.5,roll:()=>6});s.abilityChoices=[];s.openingAbilities=false;return s}
 const unit=(s,id)=>s.units.find(u=>u.id===id);
-function mount(s,a){s.order=[a.uid,...s.order.filter(uid=>uid!==a.uid)];s.acted={};Object.assign(ui,{mode:'battle',state:s,actor:a,target:null,healTarget:null,busy:false,paused:false,drawer:null,handIid:null,attackMode:'normal',commandTab:'attack',commandActor:null,fieldExpanded:false,inspectUid:null,msg:'',notice:'',move:false});render(a)}
+function mount(s,a){s.order=[a.uid,...s.order.filter(uid=>uid!==a.uid)];s.acted={};Object.assign(ui,{mode:'battle',state:s,actor:a,target:null,healTarget:null,busy:false,paused:false,drawer:null,handIid:null,attackMode:'normal',abilityOptions:false,abilityActor:null,inspectUid:null,msg:'',notice:'',move:false});render(a)}
 function click(act,extra={}){const b={dataset:{act,...extra},disabled:false};events.click({target:{closest:selector=>selector==='[data-act]'?b:null}})}
 
-test('focus cards preserve live stats and never advance the battle',()=>{
- const s=battle(),a=unit(s,'ddx'),t=unit(s,'john');a.hp=105;t.hp=45;const before=JSON.stringify(s);const markup=G.commandFocusHTML(s,a,t);
- assert.equal(JSON.stringify(s),before);assert(markup.includes('data-focus-unit="'+a.uid+'"'));assert(!markup.includes('data-unit='));assert(markup.includes('>105<'));assert(markup.includes('55×2'));assert(markup.includes('>45<'));assert.equal((markup.match(/command-vitals/g)||[]).length,2);
+test('a arena conserva as formações e laterais originais sem painel novo, vistas ou cartas duplicadas',()=>{
+ const s=battle(['ddx','mike'],['john'],['zuri']),a=unit(s,'ddx');mount(s,a);
+ for(const cls of ['arena-left','battle-board','arena-right','turn-guide','mao'])assert(html.includes('class="'+cls));
+ for(const token of ['command-stage','command-focus','command-tabs','data-field-expanded','command-view','command-deck'])assert(!html.includes(token),token);
+ assert.equal((html.match(/class="formation-row /g)||[]).length,4);
+ for(const u of s.units){assert.equal((html.match(new RegExp('data-unit="'+u.uid+'"','g'))||[]).length,1);assert.equal((html.match(new RegExp('data-id="'+u.uid+'"','g'))||[]).length,1)}
 });
-test('relationship labels identify the source of a hunt and protection',()=>{
- const s=battle(['draktar','z_zus'],['john']),a=unit(s,'draktar'),p=unit(s,'z_zus'),t=unit(s,'john');a.huntUid=t.uid;t.guardianUid=p.uid;const before=JSON.stringify(s),r=G.commandRelations(s,t);
- assert(r.some(x=>x.type==='hunt'&&x.text==='Caça de Draktar · dano ×3'));assert(r.some(x=>x.type==='guardian'&&x.text.includes(p.name)));assert.equal(JSON.stringify(s),before);
+test('a estrela do personagem mostra opções na linha de ações existente sem consumir a vez',()=>{
+ const s=battle(),a=unit(s,'ddx');mount(s,a);const before=JSON.stringify(s);
+ assert(html.includes('data-act="unit-ability" data-unit-ability="'+a.uid+'"'));assert.equal(ui.abilityOptions,false);
+ const next=G.getNextActor;G.getNextActor=()=>{throw Error('A estrela não pode avançar a hierarquia')};try{click('unit-ability',{unitAbility:a.uid})}finally{G.getNextActor=next}assert.equal(ui.abilityOptions,true);assert(html.includes('data-ability-options="true"'));assert(html.includes('data-ability-option="true" class=" mode-button" data-act="mode-double"'));assert.equal(JSON.stringify(s),before);
+ ui.attackMode='double';ui.target=unit(s,'john').uid;click('unit-ability',{unitAbility:a.uid});assert.equal(ui.abilityOptions,false);assert.equal(ui.attackMode,'double');assert.equal(ui.target,unit(s,'john').uid);assert.equal(JSON.stringify(s),before);
 });
-test('command categorization keeps support-independent status and movement controls accessible',()=>{
- const markup=G.commandActionsHTML('<button data-act="mode-double" disabled>Quatro</button><button data-act="attack">Atacar</button><button data-act="status-turn">Estado</button><button data-act="move">Mover</button>');
- assert(markup.includes('data-command-kind="ability" data-act="mode-double" disabled'));for(const a of ['attack','status-turn','move'])assert(markup.includes('data-command-kind="shared" data-act="'+a+'"'));
+test('a ação principal, passar e mover não são escondidos junto das opções da habilidade',()=>{
+ const html=G.arenaActionsHTML('<button data-act="mode-double">Quatro</button><button data-act="attack">Atacar</button><button data-act="status-turn">Estado</button><button data-act="move">Mover</button>');
+ assert(html.includes('data-ability-option="true" data-act="mode-double"'));for(const act of ['attack','status-turn','move'])assert(html.includes('<button data-act="'+act+'"'));
 });
-test('tabs expose three distinct choices and accessible keyboard targets',()=>{
- const tabs=G.commandTabsHTML('ability',5);assert.equal((tabs.match(/role="tab"/g)||[]).length,3);assert.equal((tabs.match(/tabindex="0"/g)||[]).length,1);assert(tabs.includes('command-tab-ability"'));assert(tabs.includes('aria-controls="command-action-panel"'));assert(tabs.includes('<b>5</b>'));
+test('um personagem com habilidade inerente abre sua própria ficha ao tocar na estrela',()=>{
+ const s=battle(['sam'],['john']),a=unit(s,'sam');mount(s,a);const before=JSON.stringify(s);assert.equal(ui.hasAbilityOptions,false);
+ click('unit-ability',{unitAbility:a.uid});assert.equal(ui.drawer,'card');assert.equal(ui.readerPage,1);assert.equal(ui.inspectUid,a.uid);assert.equal(JSON.stringify(s),before);
 });
-test('switching tabs never rolls dice, spends an action, changes the hand or resets the character',()=>{
- const s=battle(),a=unit(s,'ddx');mount(s,a);const before=JSON.stringify(s);click('command-tab-ability');assert.equal(ui.commandTab,'ability');render(a);assert.equal(ui.commandTab,'ability');click('command-tab-support');assert.equal(ui.commandTab,'support');assert.equal(JSON.stringify(s),before);assert(html.includes('data-command-tab="support"'));assert(html.includes('data-act="mode-double"'));ui.inspectUid=unit(s,'john').uid;click('command-ability-info',{abilityOwner:a.uid});assert.equal(ui.inspectUid,a.uid);assert.equal(ui.drawer,'card');assert.equal(ui.readerPage,1);assert.equal(JSON.stringify(s),before);
+test('trocar o personagem fecha opções anteriores e preserva a cura necessária da retaguarda',()=>{
+ const s=battle(['ddx','mike'],['john'],['elysh']),d=unit(s,'ddx'),m=unit(s,'mike'),e=unit(s,'elysh');mount(s,d);click('unit-ability',{unitAbility:d.uid});assert(ui.abilityOptions);
+ ui.actor=m;render(m);assert.equal(ui.abilityOptions,false);m.hp=35;ui.actor=e;render(e);assert.equal(ui.abilityOptions,true);assert.equal(ui.attackMode,'heal');assert(html.includes('data-act="attack"'));
 });
-test('a new actor returns to attack, while a rear healer opens the appropriate ability panel',()=>{
- const s=battle(['ddx','mike'],['john'],['zuri']),a=unit(s,'ddx'),m=unit(s,'mike'),z=unit(s,'zuri');mount(s,a);click('command-tab-ability');ui.actor=m;render(m);assert.equal(ui.commandTab,'attack');m.hp=35;ui.actor=z;render(z);assert.equal(ui.commandTab,'ability');assert(/data-command-kind="ability"[^>]*data-act="full-heal"/.test(html));assert(!/<div class="battle-actions">[^]*data-act="attack"[^]*<\/div><p class="msg">/.test(html));
+test('o Apoio permanece no leque durante impedimentos e a resolução do estado continua acessível',()=>{
+ const s=battle(['mike'],['john']),a=unit(s,'mike');a.paralysis=2;G.drawCard(s,'player');mount(s,a);const before=JSON.stringify(s);
+ assert(html.includes('data-hand='));assert(html.includes('data-act="status-turn"'));assert(!html.includes('data-act="attack"'));assert.equal(JSON.stringify(s),before);
 });
-test('immobilized actor retains support tab, hand and a valid status-turn control',()=>{
- const s=battle(['mike'],['john']),a=unit(s,'mike');a.paralysis=2;G.drawCard(s,'player');mount(s,a);const before=JSON.stringify(s);click('command-tab-support');assert(html.includes('data-hand='));assert(html.includes('command-tab-support'));assert(/data-command-kind="shared"[^>]*data-act="status-turn"/.test(html));assert.equal(JSON.stringify(s),before);
+test('os vínculos identificam a origem real sem repetir estados genéricos ou alterar a partida',()=>{
+ const s=battle(['draktar','z_zus'],['john']),a=unit(s,'draktar'),p=unit(s,'z_zus'),t=unit(s,'john');a.huntUid=t.uid;t.guardianUid=p.uid;const before=JSON.stringify(s),r=G.unitRelations(s,t);
+ assert(r.some(x=>x.type==='hunt'&&x.text==='Caça de Draktar'));assert(r.some(x=>x.type==='guardian'&&x.text.includes(p.name)));assert.equal(JSON.stringify(s),before);
+ const info=G.actorInfoHTML(s,t);assert(info.includes('actor-relation'));assert(info.includes('Caça de Draktar'));assert.equal(JSON.stringify(s),before);
 });
-test('Daly focus states the one-life hit rule rather than claiming its remaining life',()=>{
- const s=battle(),a=unit(s,'ddx'),markup=G.commandFocusHTML(s,a,null,{daly:true});assert(markup.includes('Daly Mãe exposta'));assert(markup.includes('Cada golpe retira 1 vida'));assert(!markup.includes('Daly Mãe · 1 vida'));
+test('redesenhar a arena e consultar habilidades não avança ações, compra cartas nem rola dados',()=>{
+ const s=battle(),a=unit(s,'ddx');mount(s,a);const before=JSON.stringify(s);for(let i=0;i<4;i++){render(a);G.unitRelations(s,a);G.unitPowerButtonHTML(a)}assert.equal(JSON.stringify(s),before);assert.equal(ui.abilityOptions,false);
 });
-test('the action focus does not reveal any enemy hand card',()=>{
- const s=battle(),a=unit(s,'ddx');for(let i=0;i<5;i++)G.drawCard(s,'enemy');mount(s,a);for(const h of s.deck.hands.enemy)assert(!html.includes('data-hand="'+h.iid+'"'));assert(html.includes('data-act="piles-info"'));assert(html.includes('command-focus'));
+test('nenhum identificador de carta da mão adversária é exposto na arena',()=>{
+ const s=battle(),a=unit(s,'ddx');for(let i=0;i<5;i++)G.drawCard(s,'enemy');mount(s,a);for(const h of s.deck.hands.enemy)assert(!html.includes('data-hand="'+h.iid+'"'));assert(html.includes('class="rarity-piles"'));
 });
-test('field/focus switching changes only the view and completing movement returns to commands',()=>{
- const s=battle(['mike'],['john'],['elysh']),a=unit(s,'mike');mount(s,a);const before=JSON.stringify(s);click('command-view');assert.equal(ui.fieldExpanded,true);assert(html.includes('data-field-expanded="true"'));click('command-view');assert.equal(ui.fieldExpanded,false);click('move');assert.equal(ui.fieldExpanded,true);assert.equal(ui.move,true);click('command-view');assert.equal(ui.fieldExpanded,false);assert.equal(ui.move,false);assert.equal(JSON.stringify(s),before);
-});
-test('the compact score shows current Daly lives for both sides',()=>{
- const s=battle();s.daly.player.hp=1;s.daly.enemy.hp=2;const markup=G.commandScoreHTML(s);assert(markup.includes('Sua Daly Mãe: 1/3 vidas'));assert(markup.includes('Daly Mãe adversária: 2/3 vidas'));assert.equal((markup.match(/class="lost"/g)||[]).length,3);
-});
-delete G.__commandUITest;console.log(`${passed} testes da arena de comandos passaram`);
+delete G.__arenaUITest;console.log(`${passed} testes da arena original com interações locais passaram`);
