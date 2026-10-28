@@ -100,9 +100,9 @@ test('todos os cinco Destroyers testam crítico de 25% em 1–2, em ataques reai
  }
 });
 
-test('crítico de Chama só multiplica o golpe inicial; a queimadura mantém os 65 fixos',()=>{
- const s=battle(['chama'],['z_zus']);s.roll=()=>1;attack(s,'chama','z_zus');assert.equal(s.lastEvent.critical.damage,85);assert.equal(unit(s,'z_zus').hp,960);assert.equal(s.burns[0].damage,65);assert.equal(s.burns[0].remaining,5);
- attack(s,'z_zus','chama');assert.equal(s.lastEvent.ticks.find(t=>t.targetUid===unit(s,'z_zus').uid).damage,65);assert.equal(unit(s,'z_zus').hp,895);
+test('crítico de Chama só multiplica o golpe inicial; a queimadura mantém os 40 fixos',()=>{
+ const s=battle(['chama'],['z_zus']);s.roll=()=>1;attack(s,'chama','z_zus');assert.equal(s.lastEvent.critical.damage,85);assert.equal(unit(s,'z_zus').hp,960);assert.equal(s.burns[0].damage,40);assert.equal(s.burns[0].remaining,5);
+ attack(s,'z_zus','chama');assert.equal(s.lastEvent.ticks.find(t=>t.targetUid===unit(s,'z_zus').uid).damage,40);assert.equal(unit(s,'z_zus').hp,920);
 });
 
 test('os seis Supports transitam sem ação extra e preservam um defensor na frente',()=>{

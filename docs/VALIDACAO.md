@@ -415,3 +415,12 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Quatro MP3s estéreo a 44,1 kHz foram decodificados e medidos: aproximadamente −17 LUFS, picos abaixo de −3,4 dBTP e sem clipping. Laços de menu/combate e finais suaves conferidos. Manifesto registra tamanhos, SHA-256, duração e instrumentos.
 
 - Striker conferido no Chromium: catálogo, unidade, número da carta e ficha mostram velocidade 3, sem alterar o PNG. Testes confirmam o novo limite da proteção (3 permitido, 4 impedido), a ordem de ação e a interação com Penxy. `npm test` completo passou após esse ajuste.
+
+
+## v0.32.0
+
+- `npm test`: **411 testes aprovados**, incluindo 31 novos casos funcionais/de UI do balanceamento, regressões históricas e partidas completas com o catálogo atual.
+- As alterações da rodada foram conferidas em motor, dados, cartas, prévias e IA. Burn, atributos fora da revisão, Deus, Apoios e montes são comparados com a referência anterior; 71 PNGs de cartas e 106 recursos recebidos permanecem byte a byte iguais. O snapshot antigo não foi modificado; a nova referência registra somente o balanceamento aprovado.
+- Chromium em 1280×720 e 390×844: Zuri usa a cura da retaguarda pelo botão, consome uma ação, preserva a própria Vida e não ganha ataque traseiro. Rayvilin causa dano normal no turno da petrificação e executa na próxima vez; a petrificação de entrada permite execução na primeira vez. DD-X produz quatro golpes separados de 55 em uma ação.
+- Carta/ficha exibem DD-X55×2, Fonior320 e Linx35%. Chama mostra 55 sem o antigo ×6; a habilidade informa 40×5. Unicorn aplica +1 de velocidade, Oni inicia com quatro ações globais, e Burn mantém hipnose e números originais. O dado 6 acerta a esquiva natural mesmo com grande diferença de velocidade, preservando a proteção própria de Striker.
+- Formação de 12 personagens, cinco cartas e consultas paginadas continuam cabendo em sete tamanhos de janela, incluindo paisagem curta. Fonte original, tema gótico e música preservados. Sem erros JavaScript/HTTP observados.

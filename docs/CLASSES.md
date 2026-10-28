@@ -1,4 +1,4 @@
-# Classes e tributos — v0.26.0
+# Classes e tributos — v0.32.0
 
 As classes seguem o símbolo inferior das novas cartas e as correções expressas do criador. Sam é Fighter; apenas seu ícone de classe foi corrigido na apresentação. Todas as 29 cartas dos kits agora estão ativas. Os PNGs originais ficam preservados.
 
@@ -28,10 +28,10 @@ As mudanças de classe em relação ao catálogo anterior são Cavaleiro para Ta
 
 ## Regras dos tributos
 
-- **Assassin:** d6 até a diferença de velocidade evita o golpe; precisa ser mais rápido que o atacante. Magos ignoram esse teste. Sark, sem velocidade, não recebe esquiva. Xerife usa o duelo defensivo em lugar de outra esquiva; Trucc mantém a esquiva progressiva. Impedimentos de reação bloqueiam o teste.
+- **Assassin:** d6 até a diferença de velocidade evita o golpe, limitado a cinco resultados (6 permite o acerto); precisa ser mais rápido que o atacante. Magos ignoram esse teste. Sark, sem velocidade, não recebe esquiva. Xerife usa o duelo defensivo em lugar de outra esquiva; Trucc mantém a esquiva progressiva. Impedimentos de reação bloqueiam o teste.
 - **Fighter:** Parry em cada ataque recebido de classes que não sejam Destruidor, com o limiar individual abaixo. Continua durante silêncio, mas não durante impedimentos de reação. John também fica sem Parry enquanto mantém o machado. Magos não ignoram Parry.
 - **Tank:** a resistência reduz dano de ataques, inclusive área e revides. Z-Zus tem **20%** na nova carta; Cavaleiro tem **zero**, mantendo somente a armadura própria de 80%. O padrão de 10% vale para MAX. Livro, queimadura, machado periódico, hipnose e execução não recebem essa redução de ataque. Silêncio não desliga tributos de classe.
-- **Support:** Elysh, Zuri, Unicorn e Rayyb podem transitar na vez da equipe, sem gastar ação, respeitando vagas, impedimentos e um defensor na frente. Apenas Elysh recebe uma ação de cura enquanto está atrás.
+- **Support:** Elysh, Zuri, Unicorn e Rayyb podem transitar na vez da equipe, sem gastar ação, respeitando vagas, impedimentos e um defensor na frente. Elysh pode curar atrás; Zuri também pode usar sua cura total única da retaguarda, gastando a ação e sem atacar dali.
 - **Mago:** os cinco começam com 3/3 e recuperam +1 após cada ação global concluída, até 3. Operações gratuitas não regeneram mana. O gasto soma 10 de dano por ponto ao ataque; livro e hipnose continuam efeitos fixos. O dano periódico de Chama não recebe bônus de mana.
 - **Destroyer:** os cinco testam d6 nos ataques: 1–2 concede +25%, com arredondamento; 3–6 mantém o dano. Karma também testa no revide. No míssil, os vizinhos recebem 20% do impacto principal, sem outro crítico. Execuções, dano periódico fixo e vidas da Daly Mãe não são multiplicados.
 

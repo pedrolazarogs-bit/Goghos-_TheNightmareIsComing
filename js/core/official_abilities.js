@@ -4,10 +4,12 @@ const fail=error=>({ok:false,error}),alive=u=>u&&!G.isCharacterDefeated(u),abili
 const unit=(s,id)=>G.getUnit(s,id),rank=u=>G.isGod(u)?Infinity:G.RARITIES.indexOf(u.rarity),same=(a,b)=>G.sameDimension(a,b);
 const entryTypes=['hypnosis','starGift','petrify','guardian','friendship'];
 const oldInit=G.initializeCharacterAbility,oldTargets=G.abilityTargets,oldEntry=G.queueEntryAbility,oldResolve=G.resolveCharacterAbility,oldPrepare=G.prepareActorAbility,oldEliminated=G.onCharacterEliminated,oldHealing=G.healingTargets,oldHasTarget=G.hasActionTarget;
-G.initializeCharacterAbility=(s,u,c)=>{oldInit(s,u,c);s.burns??=[];Object.assign(u,{hypnosisTarget:null,hypnotizedBy:null,petrifiedBy:null,petrifyPrecision:3,petrifyAttemptRound:0,paralysis:0,paralysisStarted:0,sleep:false,sleepUsed:false,sleepCheckRound:0,fullHealUsed:false,entryAbilityUsed:false,guardianUid:null,protectedUid:null,friendUid:null,huntUid:null,souls:0,oniUsed:false,oniActive:false,oniRemaining:0,hitWindow:1});};
+G.initializeCharacterAbility=(s,u,c)=>{oldInit(s,u,c);s.burns??=[];Object.assign(u,{hypnosisTarget:null,hypnotizedBy:null,petrifiedBy:null,petrifiedAtActionCount:null,petrifyPrecision:3,petrifyAttemptRound:0,paralysis:0,paralysisStarted:0,sleep:false,sleepUsed:false,sleepCheckRound:0,fullHealUsed:false,entryAbilityUsed:false,guardianUid:null,protectedUid:null,friendUid:null,huntUid:null,souls:0,oniUsed:false,oniActive:false,oniRemaining:0,hitWindow:1});};
 G.isReactionBlocked=u=>!u||!!(u.pinnedBy||u.pinning||u.hypnotizedBy||u.petrifiedBy||u.paralysis||u.sleep);
 G.isActionLocked=u=>!!(u?.hypnotizedBy||u?.petrifiedBy||u?.paralysis||u?.sleep);
 G.healingTargets=(s,a)=>oldHealing(s,a).filter(t=>!t.oniActive);
+// Entry petrification allows the first own turn; a free attempt during a turn waits for another own action.
+G.canExecutePetrified=(s,a,t)=>!!(alive(a)&&alive(t)&&ability(a)==='petrify'&&t.petrifiedBy===a.uid&&same(a,t)&&(a.actionsTaken||0)>(t.petrifiedAtActionCount??-1));
 G.isSpeedProtected=(a,t)=>ability(t)==='speedWard'&&a.speed>t.speed;
 G.canAttackCharacter=(s,a,t)=>!G.isSpeedProtected(a,t)&&!(ability(t)==='assassinWard'&&a.class==='ASSASSIN');
 G.attackTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.team!==a.team&&same(a,t)&&(t.row==='front'||!!a.duelId)&&G.canAttackCharacter(s,a,t)):[];
@@ -68,8 +70,8 @@ G.resolveCharacterAbility=(s,uid,targetUid=null)=>{
   s.log.push(a.name+' hipnotizou '+t.name+' · ambos sem atacar; o alvo não pode reagir');
  }else if(p.type==='starGift'){
   if(a.entryAbilityUsed)return fail('A estrela já foi concedida.');
-  t.maxHp+=150;t.hp+=150;t.damage+=50;t.speed+=2;t.starFrom=a.uid;a.entryAbilityUsed=true;
-  s.log.push(a.name+' concedeu a estrela a '+t.name+' · +150 de Vida máxima e atual, +50 de dano, +2 de velocidade');
+  t.maxHp+=150;t.hp+=150;t.damage+=50;t.speed+=(G.getMainAbility(a)?.speedBonus??1);t.starFrom=a.uid;a.entryAbilityUsed=true;
+  s.log.push(a.name+' concedeu a estrela a '+t.name+' · +150 de Vida máxima e atual, +50 de dano, +1 de velocidade');
  }else if(p.type==='guardian'){
   if(a.entryAbilityUsed||a.uid===t.uid)return fail('Proteção indisponível.');a.protectedUid=t.uid;t.guardianUid=a.uid;a.entryAbilityUsed=true;
   s.log.push(a.name+' protege '+t.name+' · dano direcionado e eliminações são transferidos; área não é transferida');
@@ -80,7 +82,7 @@ G.resolveCharacterAbility=(s,uid,targetUid=null)=>{
  }else if(p.type==='petrify'){
   if(a.petrifyPrecision<=0)return fail('A precisão de petrificação acabou.');
   const roll=G.rollDie?G.rollDie(s,{side:a.team,best:1,reason:'Petrificação'}):s.roll(6),threshold=a.petrifyPrecision;a.petrifyAttemptRound=p.reason==='entry'?0:s.round;
-  if(roll<=threshold){t.petrifiedBy=a.uid;if(t.pinnedBy||t.pinning)G.releasePinLink(s,t);s.log.push(a.name+' petrificou '+t.name+' · d6='+roll+' (1–'+threshold+') · um aliado pode quebrar a maldição por 30');}
+  if(roll<=threshold){t.petrifiedBy=a.uid;t.petrifiedAtActionCount=(a.actionsTaken||0)-(p.reason==='entry'?1:0);if(t.pinnedBy||t.pinning)G.releasePinLink(s,t);s.log.push(a.name+' petrificou '+t.name+' · d6='+roll+' (1–'+threshold+') · execução na próxima vez de '+a.name+'; um aliado pode quebrar a maldição por 30');}
   else {a.petrifyPrecision--;s.log.push(a.name+' falhou ao petrificar '+t.name+' · d6='+roll+' · '+(a.petrifyPrecision?'próximo acerto: 1–'+a.petrifyPrecision:'não consegue mais petrificar'));}
  }
  G.recordBattleEvent(s,{type:'ability',actorUid:a.uid,actorName:a.name,targetName:t.name,ability:G.getMainAbility(a).name,hits:[]});
@@ -98,7 +100,7 @@ G.dealCharacterDamage=(s,source,intended,raw,options={})=>{
  if(!target.oniActive||options.ignoreMainAbilities)target.hp=instant?0:armor.damage>0?G.roundUpToFive(target.hp-armor.damage):target.hp;
  if(options.ignoreMainAbilities&&target.oniActive){target.oniActive=false;target.oniRemaining=0;}
  let becameOni=false;
- if(target.hp<=0&&!target.oniActive&&ability(target)==='oni'&&!target.oniUsed&&!options.ignoreMainAbilities){target.oniUsed=true;target.oniActive=true;target.oniRemaining=3;target.oniStarted=s.turn;target.damage+=30;becameOni=true;s.log.push(target.name+' entrou em Oni · imortal por três ações · +30 de dano');}
+ if(target.hp<=0&&!target.oniActive&&ability(target)==='oni'&&!target.oniUsed&&!options.ignoreMainAbilities){target.oniUsed=true;target.oniActive=true;target.oniRemaining=G.getMainAbility(target)?.duration??4;target.oniStarted=s.turn;target.damage+=30;becameOni=true;s.log.push(target.name+' entrou em Oni · imortal por '+target.oniRemaining+' ações globais · +30 de dano');}
  const impact={type:target.oniActive?(becameOni?'oni':'immune'):target.hp<=0?'defeat':'hit',actorUid:source?.uid,actorName:source?.name||options.ability||'Efeito',targetUid:target.uid,targetName:target.name,targetTeam:target.team,targetRow:target.row,targetSlot:target.slot,beforeHp,afterHp:target.hp,damage:Math.max(0,beforeHp-target.hp),amount:instant?null:target.oniActive&&!becameOni?0:armor.damage,instant:instant&&!target.oniActive,ability:options.ability,kind:options.kind};
  if(armor.blocked&&!instant)impact.armor=armor;
  if(target!==intended){impact.redirectedFrom=intended.uid;impact.protectedName=intended.name;s.log.push(target.name+' recebeu no lugar de '+intended.name+(impact.instant?' uma eliminação instantânea':' · '+impact.damage+' de dano'));}
@@ -118,8 +120,8 @@ G.officialApplyHit=(s,a,t,damage,options={})=>{
   }
   const parry=targetAbility==='duelist'?null:G.parryInfo(a,t);if(parry){const roll=G.rollDie?G.rollDie(s,{side:t.team,best:1,reason:'Parry'}):s.roll(6);parryResult={roll,threshold:parry.threshold,sides:6,blocked:roll<=parry.threshold};if(roll<=parry.threshold){s.log.push(t.name+' defendeu com Parry · dado '+roll+'/6');return noHit(a,t,'parry',{parry:{roll,threshold:parry.threshold,sides:6,blocked:true}});}}
   if(!G.hasClass(a,'MAGO')&&targetAbility!=='duelist'){
-   const special=targetAbility==='fadingDodge',diff=G.hasClass(t,'ASSASSIN')?t.speed-a.speed:0;
-   if(special||diff>0){const roll=G.rollDie?G.rollDie(s,{side:special?a.team:t.team,best:1,reason:special?'Acertar Trucc':'Esquiva'}):s.roll(6),dodged=special?roll>(t.hitWindow||1):roll<=diff;dodgeResult={roll,dodged,special,diff,hitWindow:t.hitWindow};if(dodged){s.log.push(t.name+' esquivou de '+a.name+' · dado '+roll+(special?' · precisa 1–'+t.hitWindow:' ≤ '+diff));return noHit(a,t,'dodge',{roll});}}
+   const special=targetAbility==='fadingDodge',diff=G.hasClass(t,'ASSASSIN')?t.speed-a.speed:0,threshold=Math.min(G.CONFIG.dodgeMaxFaces??5,Math.max(0,diff));
+   if(special||diff>0){const roll=G.rollDie?G.rollDie(s,{side:special?a.team:t.team,best:1,reason:special?'Acertar Trucc':'Esquiva'}):s.roll(6),dodged=special?roll>(t.hitWindow||1):roll<=threshold;dodgeResult={roll,dodged,special,diff,threshold,hitWindow:t.hitWindow};if(dodged){s.log.push(t.name+' esquivou de '+a.name+' · dado '+roll+(special?' · precisa 1–'+t.hitWindow:' ≤ '+threshold+' (diferença '+diff+')'));return noHit(a,t,'dodge',{roll,dodge:dodgeResult});}}
   }
  }
  const hit=G.dealCharacterDamage(s,a,t,damage,options);if(parryResult)hit.parry=parryResult;if(dodgeResult){hit.roll=dodgeResult.roll;hit.dodge=dodgeResult;}
@@ -156,6 +158,7 @@ G.resolveAttackResponses=(s,a,t,hit,options={})=>{
 G.onCharacterEliminated=(s,u)=>{
  oldEliminated(s,u);
  if(u.hypnosisTarget)G.releaseHypnosis(s,u);
+ u.petrifiedBy=null;u.petrifiedAtActionCount=null;
  s.units.forEach(t=>{if(t.hypnotizedBy===u.uid)t.hypnotizedBy=null;if(t.hypnosisTarget===u.uid)G.releaseHypnosis(s,t);if(t.guardianUid===u.uid)t.guardianUid=null;});
  for(const collector of s.units.filter(t=>alive(t)&&ability(t)==='souls')){collector.souls++;collector.maxHp+=20;s.log.push(collector.name+' recolheu a alma de '+u.name+' · '+collector.souls+' almas · Vida máxima '+collector.maxHp+'; Vida atual '+collector.hp);}
  const response=shark(s,u);if(response){s.lastEvent??={type:'ability',hits:[]};(s.lastEvent.reactions??=[]).push(response);if(s.lastEvent.timeline)s.lastEvent.timeline.push(response);}
@@ -172,13 +175,14 @@ G.officialAfterAction=s=>{
  s.burns=s.burns.filter(b=>b.remaining>0&&alive(unit(s,b.targetUid)));
  for(const target of s.units.filter(alive)){
   if(target.paralysis>0&&target.paralysisStarted<s.turn){target.paralysis--;if(!target.paralysis)s.log.push(target.name+' recuperou os movimentos');}
-  if(target.oniActive&&target.oniStarted<s.turn){target.oniRemaining--;if(!target.oniRemaining&&target.oniExtraUses>0){target.oniExtraUses--;target.oniRemaining=3;s.log.push('Poder Adicional · '+target.name+' iniciou mais três ações em Oni');}
+  if(target.oniActive&&target.oniStarted<s.turn){target.oniRemaining--;if(!target.oniRemaining&&target.oniExtraUses>0){target.oniExtraUses--;target.oniRemaining=G.getMainAbility(target)?.duration??4;s.log.push('Poder Adicional · '+target.name+' iniciou mais '+target.oniRemaining+' ações globais em Oni');}
    if(!target.oniRemaining){target.oniActive=false;target.hp=0;const impact={...noHit(target,target,'defeat'),afterHp:0,ability:'Fim do Oni'};(s.lastEvent.ticks??=[]).push(impact);s.log.push(target.name+' terminou o estado Oni e foi eliminado');}}
  }
  G.settleCasualties(s);G.regenerateMageMana(s);G.reorderCurrentOrder(s);
 };
 G.hasTimedEffects=s=>!!(s.burns?.length||s.units.some(t=>alive(t)&&(t.oniActive||t.paralysis)));
-G.hittableTargets=(s,a)=>G.attackTargets(s,a).filter(t=>G.hasClass(a,'MAGO')||G.isReactionBlocked(t)||ability(t)!=='fadingDodge'&&!G.hasClass(t,'ASSASSIN')||ability(t)==='fadingDodge'||t.speed-a.speed<6||['duelist','diceExecution'].includes(ability(a))||ability(a)==='petrify'&&t.petrifiedBy===a.uid);
+// Natural evasion always leaves a possible roll of 6; target wards still filter attackTargets.
+G.hittableTargets=(s,a)=>G.attackTargets(s,a);
 G.hasHittableTarget=(s,a)=>G.hittableTargets(s,a).length>0;
 G.hasMeaningfulAction=(s,a)=>{
  if(a.oniActive||a.sleep||a.paralysis||a.pinnedBy||a.pinning)return true;
@@ -188,13 +192,13 @@ G.hasMeaningfulAction=(s,a)=>{
  if(alive(unit(s,a.hypnosisTarget))&&same(a,unit(s,a.hypnosisTarget)))return true;
  if(G.breakCurseTargets(s,a).length)return true;
  if(['healingAttack','fullHeal'].includes(type)&&!a.fullHealUsed&&G.healingTargets(s,a).length)return true;
- if(G.canHealFromRear(a)&&G.getBoard(s)[a.team].front.length<G.frontLimit(s,a.team))return G.hasHittableTarget(s,{...a,row:'front'})||G.isDalyExposed(s,a.team==='player'?'enemy':'player');
+ if((G.canHealFromRear(a)||G.canUseRearAbility?.(a))&&G.getBoard(s)[a.team].front.length<G.frontLimit(s,a.team))return G.hasHittableTarget(s,{...a,row:'front'})||G.isDalyExposed(s,a.team==='player'?'enemy':'player');
  if(type==='sleepPowder'&&!a.sleepUsed&&G.abilityTargets(s,a).length)return true;
  if(type==='petrify'&&a.petrifyPrecision>0&&!s.units.some(t=>alive(t)&&t.petrifiedBy===a.uid)&&G.abilityTargets(s,a).length)return true;
  return G.hasHittableTarget(s,a)||(G.canAttackFrom(a)&&!a.duelId&&G.isDalyExposed(s,a.team==='player'?'enemy':'player'));
 };
 G.breakCurseTargets=(s,a)=>G.canAttackFrom(a)?s.units.filter(t=>alive(t)&&t.uid!==a.uid&&t.team===a.team&&t.petrifiedBy&&same(a,t)):[];
-G.hasActionTarget=(s,a)=>!!(alive(unit(s,a.hypnosisTarget))||oldHasTarget(s,a)||G.breakCurseTargets(s,a).length);
+G.hasActionTarget=(s,a)=>!!(alive(unit(s,a.hypnosisTarget))||oldHasTarget(s,a)||G.breakCurseTargets(s,a).length||ability(a)==='fullHeal'&&!a.fullHealUsed&&G.healingTargets(s,a).length);
 G.performStatusTurn=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor;
  if(!G.isActionLocked(a))return fail('O personagem pode agir normalmente.');
@@ -203,7 +207,7 @@ G.performStatusTurn=(s,uid)=>{
 };
 G.performFullHeal=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor;
- if(ability(a)!=='fullHeal'||a.fullHealUsed||G.isActionLocked(a)||a.pinnedBy)return fail('A cura total está indisponível.');
+ if(ability(a)!=='fullHeal'||a.fullHealUsed||G.isActionLocked(a)||a.pinnedBy||a.pinning)return fail('A cura total está indisponível.');
  const targets=G.healingTargets(s,a);if(!targets.length)return fail('Não há outro aliado ferido para curar.');
  a.fullHealUsed=true;G.completeAction(s,a);const hits=targets.map(t=>{const beforeHp=t.hp;t.hp=t.maxHp;return{...noHit(a,t,'heal'),beforeHp,afterHp:t.hp,healed:t.hp-beforeHp};});
  G.recordBattleEvent(s,{type:'full-heal',actorUid:a.uid,actorName:a.name,hits});s.log.push(a.name+' usou sua única cura total · '+targets.map(t=>t.name).join(', '));G.finishResolvedAction(s);return{ok:true};
@@ -211,7 +215,7 @@ G.performFullHeal=(s,uid)=>{
 G.performBreakCurse=(s,uid,targetUid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,t=unit(s,targetUid);
  if(G.isActionLocked(a)||a.pinnedBy||a.pinning||alive(unit(s,a.hypnosisTarget))||!G.breakCurseTargets(s,a).includes(t))return fail('Escolha outro aliado petrificado na mesma dimensão.');
- t.petrifiedBy=null;G.completeAction(s,a);const hit=G.dealCharacterDamage(s,a,t,30,{ability:'Quebrar maldição'});G.recordBattleEvent(s,{...hit});s.log.push(a.name+' quebrou a maldição de '+t.name+' · ataque substituído por 30 de dano');G.finishResolvedAction(s);return{ok:true};
+ t.petrifiedBy=null;t.petrifiedAtActionCount=null;G.completeAction(s,a);const hit=G.dealCharacterDamage(s,a,t,30,{ability:'Quebrar maldição'});G.recordBattleEvent(s,{...hit});s.log.push(a.name+' quebrou a maldição de '+t.name+' · ataque substituído por 30 de dano');G.finishResolvedAction(s);return{ok:true};
 };
 G.performHypnosisTurn=(s,uid)=>{
  const v=G.validateActor(s,uid);if(!v.ok)return v;const a=v.actor,t=unit(s,a.hypnosisTarget);
@@ -224,7 +228,7 @@ G.officialStatus=(s,u)=>{
  const friend=s.units.find(k=>alive(k)&&k.friendUid===u.uid);if(friend)states.push('Melhor amigo de '+friend.name);
  if(ability(u)==='fullHeal')states.push(u.fullHealUsed?'Cura total já usada':'Cura total disponível');if(ability(u)==='sleepPowder')states.push(u.sleepUsed?'Pó mágico já usado':'Pó mágico disponível');
  if(u.oniActive)states.push('Oni imortal · '+u.oniRemaining+' ações');if(u.paralysis)states.push('Paralisia · '+u.paralysis+' ações');if(u.sleep)states.push('Dormindo · acorda com 1–2');if(u.petrifiedBy)states.push('Petrificado · aliado pode libertar por 30');if(u.hypnotizedBy)states.push('Hipnotizado · sem reações');if(u.hypnosisTarget&&alive(unit(s,u.hypnosisTarget)))states.push('Hipnotiza '+unit(s,u.hypnosisTarget).name);
- if(u.souls)states.push(u.souls+' almas · +'+u.souls*20+' Vida máxima');if(u.starFrom)states.push('Estrela · +150 Vida / +50 dano / +2 velocidade');if(u.huntUid&&alive(unit(s,u.huntUid)))states.push('Caça: '+unit(s,u.huntUid).name+' · triplo');if(u.guardianUid&&alive(unit(s,u.guardianUid)))states.push('Protegido por '+unit(s,u.guardianUid).name);if(u.protectedUid)states.push('Protege '+unit(s,u.protectedUid)?.name+' · exceto área');if(u.friendUid)states.push('Melhor amigo: '+unit(s,u.friendUid)?.name);if(ability(u)==='fadingDodge')states.push('Acerta com 1–'+u.hitWindow+' · Magos acertam');if(ability(u)==='petrify')states.push(u.petrifyPrecision?'Petrificação: 1–'+u.petrifyPrecision:'Petrificação esgotada');
+ if(u.souls)states.push(u.souls+' almas · +'+u.souls*20+' Vida máxima');if(u.starFrom)states.push('Estrela · +150 Vida / +50 dano / +1 velocidade');if(u.huntUid&&alive(unit(s,u.huntUid)))states.push('Caça: '+unit(s,u.huntUid).name+' · triplo');if(u.guardianUid&&alive(unit(s,u.guardianUid)))states.push('Protegido por '+unit(s,u.guardianUid).name);if(u.protectedUid)states.push('Protege '+unit(s,u.protectedUid)?.name+' · exceto área');if(u.friendUid)states.push('Melhor amigo: '+unit(s,u.friendUid)?.name);if(ability(u)==='fadingDodge')states.push('Acerta com 1–'+u.hitWindow+' · Magos acertam');if(ability(u)==='petrify')states.push(u.petrifyPrecision?'Petrificação: 1–'+u.petrifyPrecision:'Petrificação esgotada');
  for(const b of s.burns.filter(b=>b.targetUid===u.uid))states.push('Fogo: '+b.damage+' × '+b.remaining);
  return states.join(' · ');
 };
@@ -255,6 +259,7 @@ G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  const area=type==='swarm'&&mode==='area';
  if(!area&&(!t||!targets.includes(t)))return fail('Escolha um adversário acessível para o ataque.');
  if(area&&!targets.length)return fail('Não há adversários acessíveis para o Swarm.');
+ const executePetrified=G.canExecutePetrified(s,a,t);
  const bonus=G.takeAttackBonus(s,a.team),extra=bonus+mana*G.CONFIG.manaDamagePerPoint;a.mana-=mana;G.completeAction(s,a);
  const sequential=G.baseAttackCount(a)>1;
  const event={type:area?'area':sequential||type==='punchCombo'?'combo':'attack',actorUid:a.uid,actorName:a.name,ability:G.getMainAbility(a)?.name||'Ataques em sequência',hits:[],reactions:[],timeline:[],rolls:[],damage:0,manaSpent:mana,bonus};G.recordBattleEvent(s,event);
@@ -294,12 +299,12 @@ G.performOfficialAttack=(s,uid,targetUid,mana=0,mode='normal')=>{
  }else if(area){
   const damage=G.roundUpToFive((a.damage+extra)/targets.length),hits=targets.map(target=>G.applyCharacterHit(s,a,target,damage,{area:true,ability:'Swarm'}));
   e.hits.push(...hits);e.timeline.push(...hits);targets.forEach((target,i)=>{const r=G.resolveAttackResponses(s,a,target,hits[i],{area:true});e.reactions.push(...r);e.timeline.push(...r);});s.log.push('Swarm · '+(a.damage+extra)+' dividido entre '+targets.length+' · '+damage+' por alvo antes das defesas');
- }else if(type==='petrify'&&t.petrifiedBy===a.uid){strike(t,0,{instant:true,direct:true,ability:'Execução da petrificação'});}
+ }else if(type==='petrify'&&executePetrified){strike(t,0,{instant:true,direct:true,ability:'Execução da petrificação'});}
  else{
   const neighbors=type==='missile'?s.units.filter(x=>alive(x)&&x.team===t.team&&x.row===t.row&&same(a,x)).sort((a,b)=>a.slot-b.slot):[],index=neighbors.indexOf(t),adjacent=[neighbors[index-1],neighbors[index+1]].filter(Boolean);
-  const critical=G.criticalDamage(s,a,(type==='maxHpStrike'&&!G.isPresence(t)?t.maxHp*.3:0)+G.attackBaseDamage(a,t)*(type==='hunt'&&a.huntUid===t.uid&&!G.isPresence(t)?3:1)+extra);e.critical=critical;
+  const critical=G.criticalDamage(s,a,(type==='maxHpStrike'&&!G.isPresence(t)?t.maxHp*(G.getMainAbility(a)?.ratio??.35):0)+G.attackBaseDamage(a,t)*(type==='hunt'&&a.huntUid===t.uid&&!G.isPresence(t)?3:1)+extra);e.critical=critical;
   const hit=strike(t,critical.damage);
-  if(type==='flames'&&G.hitLanded(hit)&&alive(t))addBurn(s,a,t,a.burnDamage??65,5,'attack');
+  if(type==='flames'&&G.hitLanded(hit)&&alive(t))addBurn(s,a,t,a.burnDamage??40,5,'attack');
   if(type==='missile'&&G.hitLanded(hit)&&(hit.amount??hit.damage)>0){const splash=G.roundUpToFive((hit.amount??hit.damage)*.2);for(const target of adjacent)if(alive(target))strike(target,splash,{area:true,ability:'Explosão do míssil'});s.log.push('Míssil · dano recebido pelo principal '+(hit.amount??hit.damage)+' · vizinhos recebem '+splash+' antes das defesas');}
  }
  e.damage=e.hits.reduce((n,h)=>n+h.damage,0);if(e.reactions.length)e.reaction=e.reactions[0];G.finishResolvedAction(s);return{ok:true,damage:e.damage,hits:e.hits,reactions:e.reactions};
@@ -314,7 +319,7 @@ G.officialPreviewDamage=(s,a,mana,target,mode)=>{
  if(type==='hunt'&&target?.uid===a.huntUid&&!G.isPresence(target))raw+=a.damage*2;
  if(type==='duelist')raw=target&&rank(target)<=rank(a)?0:200;
  if(type==='hypnosis')raw=90;
- if(type==='maxHpStrike'&&target&&!G.isPresence(target))raw+=target.maxHp*.3;
+ if(type==='maxHpStrike'&&target&&!G.isPresence(target))raw+=target.maxHp*(G.getMainAbility(a)?.ratio??.35);
  raw=G.roundUpToFive(raw);return target?G.damageInfo(target,raw,{ignoreMainAbilities:G.isPresence(a),kind:type==='hypnosis'?'hypnosis':undefined}).damage:raw;
 };
 const oldImpacts=G.eventImpacts;
@@ -333,6 +338,8 @@ G.officialAITurn=(s,a)=>{
  const cursed=G.breakCurseTargets(s,a).sort((x,y)=>y.damage-x.damage)[0];if(cursed&&cursed.hp>30&&!alive(unit(s,a.hypnosisTarget)))return G.performBreakCurse(s,a.uid,cursed.uid);
  if(type==='healingAttack'&&!G.hasHittableTarget(s,a)&&G.healingTargets(s,a).length)return G.performHealingAttack(s,a.uid,G.healingTargets(s,a)[0].uid);
  if(type==='fullHeal'&&!a.fullHealUsed&&G.healingTargets(s,a).some(t=>t.hp<=t.maxHp*.65||!G.hasHittableTarget(s,a)))return G.performFullHeal(s,a.uid);
+ // A rear healer with no wounded allies can advance when no other front unit can act, avoiding a passive-only deadlock.
+ if(type==='fullHeal'&&G.canUseRearAbility?.(a)&&!G.healingTargets(s,a).length&&G.getBoard(s)[a.team].front.length<G.frontLimit(s,a.team)&&!G.getBoard(s)[a.team].front.some(G.canAct))G.performTransit(s,a.uid);
  if(type==='hypnosis'&&alive(unit(s,a.hypnosisTarget)))return G.performHypnosisTurn(s,a.uid);
  if(type==='swarm'&&G.attackTargets(s,a).length>1)return G.performOfficialAttack(s,a.uid,null,0,'area');
  if(type==='paralyzingKick'){const t=G.AI.chooseTarget(s,a);if(t)return G.performOfficialAttack(s,a.uid,t.uid,0,t.paralysis?'normal':'stun');}

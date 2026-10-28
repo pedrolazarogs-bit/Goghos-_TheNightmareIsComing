@@ -1,5 +1,5 @@
 // Regras da batalha. O estado (createBattleState) é a única fonte de verdade; a UI só lê e chama estas funções.
-// Equipe: linha de frente (luta, pode ser atacada) + retaguarda (não ataca; Elysh pode receber sua vez para curar).
+// Equipe: linha de frente (luta, pode ser atacada) + retaguarda (não ataca; Elysh cura e Zuri pode usar sua cura única).
 // Cada lado começa com 2 na frente e a retaguarda vazia; a equipe cresce por Daly e pela recuperação da Daly Mãe (js/core/roster.js).
 // A batalha só termina quando uma Daly Mãe chega a 0 vida; quem tem a Daly Mãe viva vence.
 (function(G){
@@ -7,7 +7,8 @@ const isCharacterDefeated=u=>!!u.eliminated||(u.hp<=0&&!u.oniActive);
 const getUnit=(s,uid)=>s.units.find(u=>u.uid===uid)||null;
 const canAttackFrom=u=>!!u&&(u.row==='front'||!!u.duelId);
 const canHealFromRear=u=>!!u?.rearHealing&&u.row==='rear'&&!u.duelId&&G.getMainAbility(u)?.trigger==='healingAttack';
-const canAct=u=>!isCharacterDefeated(u)&&(canAttackFrom(u)||canHealFromRear(u))&&!u.passiveOnly&&!u.abilityDormant;
+const canUseRearAbility=u=>!!u&&u.row==='rear'&&!u.duelId&&!u.fullHealUsed&&!u.abilityDormant&&G.getMainAbility(u)?.trigger==='fullHeal';
+const canAct=u=>!isCharacterDefeated(u)&&(canAttackFrom(u)||canHealFromRear(u)||canUseRearAbility(u))&&!u.passiveOnly&&!u.abilityDormant;
 const isTargetable=u=>!isCharacterDefeated(u)&&u.row==='front'; // retaguarda não pode ser atacada
 const canTransit=u=>G.hasClass(u,'SUPPORT');                        // troca voluntária (inalterada): somente Suportes
 const fail=error=>({ok:false,error});
@@ -28,7 +29,7 @@ const nextSlot=(s,side,row)=>1+Math.max(-1,...s.units.filter(u=>u.team===side&&u
 function makeUnit(s,side,inst,row){
   const c=G.getCharacterById(inst.id),k=s.uidSeq[side]++;
   const u={uid:side+'_'+k,iid:inst.iid,id:c.id,team:side,row,slot:nextSlot(s,side,row),name:c.name,class:c.class,rarity:c.rarity,maxHp:G.roundUpToFive(c.maxHp),hp:G.roundUpToFive(c.maxHp),damage:G.roundUpToFive(c.damage),speed:c.speed,stamina:c.stamina,mana:G.manaFor(c),maxMana:G.manaFor(c),art:c.art,abilityId:c.abilityId||null,passiveOnly:!!c.passiveOnly,parryThreshold:c.parryThreshold||0,pinnedBy:null,pinning:null,pinStartedTurn:null,eliminated:false};
-  u.attackCount=c.attackCount||1;u.burnDamage=c.burnDamage;u.rearHealing=!!c.rearHealing;u.tankResistance=c.tankResistance;s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
+  u.actionsTaken=0;u.attackCount=c.attackCount||1;u.burnDamage=c.burnDamage;u.rearHealing=!!c.rearHealing;u.tankResistance=c.tankResistance;s.units.push(u);G.initializeCharacterAbility?.(s,u,c);return u;
 }
 function createBattleState(playerTeam,enemyTeam,supportIds=[],opts={}){
   const rng=opts.rng||Math.random,teams={player:playerTeam,enemy:enemyTeam};
@@ -162,10 +163,17 @@ function checkBattleResult(s){
   if(p<=0&&e>0)finishMatch(s,'player');else if(e<=0&&p>0)finishMatch(s,'enemy');
   return s.result;
 }
-// Esquivar (Tributo do Assassin): só esquiva quem é MAIS rápido que o atacante; tira-se um dado e esquiva se sair de 1 até a diferença
-// de velocidade (ex.: 5 − 3 = 2 → 1 ou 2). Velocidade igual ou maior do atacante: não esquiva. Magos sempre acertam. Esquivar = nenhum dano.
-function dodgeInfo(a,t){if(!t||G.isReactionBlocked?.(t)||G.getMainAbility(t)?.trigger==='duelist')return null;if(G.getMainAbility(t)?.trigger==='fadingDodge')return G.hasClass(a,'MAGO')?null:{diff:6-(t.hitWindow||1),sides:6,special:true};if(t.pinnedBy||t.pinning||!G.hasClass(t,'ASSASSIN')||G.hasClass(a,'MAGO'))return null;const diff=t.speed-a.speed;return diff>0?{diff,sides:G.CONFIG.dodgeDie}:null;}
-function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{diff:i.diff,sides:i.sides,roll,dodged:roll<=i.diff};}
+// Esquiva natural do Assassin: diferença de velocidade, limitada a cinco faces do d6.
+// A velocidade continua influenciando o teste, mas um 6 permite acertar; Magos ignoram o teste.
+function dodgeInfo(a,t){
+  if(!t||G.isReactionBlocked?.(t)||G.getMainAbility(t)?.trigger==='duelist')return null;
+  if(G.getMainAbility(t)?.trigger==='fadingDodge')return G.hasClass(a,'MAGO')?null:{diff:6-(t.hitWindow||1),sides:6,special:true};
+  if(t.pinnedBy||t.pinning||!G.hasClass(t,'ASSASSIN')||G.hasClass(a,'MAGO'))return null;
+  const speedDifference=t.speed-a.speed,sides=G.CONFIG.dodgeDie;
+  const threshold=Math.min(speedDifference,G.CONFIG.dodgeMaxFaces??5,sides-1);
+  return threshold>0?{diff:threshold,threshold,speedDifference,sides}:null;
+}
+function rollDodge(s,a,t){const i=dodgeInfo(a,t);if(!i)return null;const roll=s.roll(i.sides);return{...i,roll,dodged:roll<=i.diff};}
 // Ataque à Daly Mãe exposta: retira EXATAMENTE 1 vida, qualquer que seja o Dano do atacante (sem excedente, sem esquiva).
 // Bônus de apoio e mana não são gastos (não teriam efeito). Cada ataque é processado uma vez (o atacante só age uma vez por rodada).
 function regenerateMageMana(s){
@@ -173,7 +181,7 @@ function regenerateMageMana(s){
   if(recovered.length)s.log.push('Mana · '+recovered.join(', '));
 }
 function event(s,data){s.eventSeq=(s.eventSeq||0)+1;s.lastEvent={id:s.eventSeq,...data};}
-function completeAction(s,a){const resume=s.speedCursor;s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;G.supportActionCompleted?.(s,a,resume);}
+function completeAction(s,a){const resume=s.speedCursor;a.actionsTaken=(a.actionsTaken||0)+1;s.acted[a.uid]=true;s.speedCursor=a.speed;s.turn++;G.supportActionCompleted?.(s,a,resume);}
 function validateActor(s,uid){
   if(s.result)return fail('Batalha encerrada.');
   if(s.recovery||s.formation||s.support.pending||s.deck.pendingChoice||s.abilityChoices?.length)return fail('Resolva a escolha pendente antes de continuar.');
@@ -374,6 +382,6 @@ function getBoard(s){
   const rows=(side,row)=>s.units.filter(u=>u.team===side&&u.row===row&&!isCharacterDefeated(u)).sort((a,b)=>a.slot-b.slot);
   return{player:{front:rows('player','front'),rear:rows('player','rear')},enemy:{front:rows('enemy','front'),rear:rows('enemy','rear')}};
 }
-Object.assign(G,{isCharacterDefeated,getUnit,canAct,canAttackFrom,canHealFromRear,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,canUseHand,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
+Object.assign(G,{isCharacterDefeated,getUnit,canAct,canAttackFrom,canHealFromRear,canUseRearAbility,isTargetable,canTransit,validateTeam,makeUnit,createBattleState,createSarkTestState,createAbilityTestState,buildTurnOrder,resumeRecoveryOrder,getNextActor,isIdleBattle,checkIdleDraw,canManageTeam,canUseHand,advanceIdleCycle,enforceFrontLine,resolveFrontLine,performTransit,checkBattleResult,finishMatch,performBasicAttack,performAreaAttack,performPinnedTurn,keepPin,withdrawPin,releasePinLink,parryInfo,eventImpacts,performSwap,getSwapPairs,previewDamage,dodgeInfo,reactionPreview,resetBattle,getBoard});
 Object.assign(G,{validateActor,completeAction,finishResolvedAction,recordBattleEvent:event,applyCharacterHit:applyHit,resolveNativeReaction:resolveReaction,attackDaly,regenerateMageMana});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

@@ -86,7 +86,7 @@ function render(actor){
   const entry=G.pendingCharacterAbility(s),free=!s.result&&!s.recovery&&!s.formation&&!choice&&!pd&&!entry&&!ui.busy&&!ui.paused;
   const idle=G.isIdleBattle(s),playerTurn=free&&actor?.team==='player',handUsable=free&&(playerTurn||idle),pinned=playerTurn&&actor.pinnedBy,holding=playerTurn&&actor.pinning,locked=playerTurn&&G.isActionLocked?.(actor),mine=free&&((actor?.team==='player'&&!pinned&&!holding&&!locked)||idle),mage=mine&&actor&&G.hasClass(actor,'MAGO')&&!actor.abilityOnly&&G.getMainAbility(actor)?.trigger!=='hypnosis',area=mine&&(G.getMainAbility(actor||{})?.trigger==='areaAttack'||G.getMainAbility(actor||{})?.trigger==='swarm'&&ui.attackMode==='area'),pinAttack=mine&&G.getMainAbility(actor||{})?.trigger==='pinAttack';
   ui.mana=mage?Math.min(ui.mana,actor.mana):0;
-  const rearHealer=mine&&actor&&G.canHealFromRear(actor);
+  const rearHealer=mine&&actor&&G.canHealFromRear(actor),rearAbility=mine&&actor&&G.canUseRearAbility?.(actor);
   if(rearHealer&&ui.attackMode!=='heal'){ui.attackMode='heal';ui.target=null;}
   const inst=selectedHand(),support=inst&&G.getResetCard(inst.id).type==='SUPPORT'?G.getSupportCard(inst.id):null;
   const e=ui.busy?s.lastEvent:null,B=G.getBoard(s),impacts=G.eventImpacts(e);
@@ -107,10 +107,11 @@ function render(actor){
   };
   const side=t=>{
     const hit=e?.targetUid===G.dalyTargetId(t);
-    return `<div class="side ${t}${G.frontLimit(s,t)>3?' recruited':''}"><h3 class="team-label">${t==='player'?'Sua equipe':'Adversário'}</h3>${row(t,'front')}${row(t,'rear')}<div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&!actor?.duelId&&!actor?.abilityOnly&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}<p class="rear-count">Retaguarda ${B[t].rear.length}/2</p></div></div>`;
+    return `<div class="side ${t}${G.frontLimit(s,t)>3?' recruited':''}"><h3 class="team-label">${t==='player'?'Sua equipe':'Adversário'}</h3>${row(t,'front')}${row(t,'rear')}<div class="daly-feedback ${hit?'event-daly-hit':''}">${G.dalyHTML(s,t,{pick:mine&&G.canAttackFrom(actor)&&!actor?.duelId&&!actor?.abilityOnly&&t==='enemy'&&G.isDalyExposed(s,t),target:ui.target===G.dalyTargetId(t)})}${hit?'<span class="daly-float">−1 VIDA</span>':''}<p class="rear-count">Retaguarda ${B[t].rear.length}/2</p></div></div>`;
   };
+  const selectedTarget=G.getUnit(s,ui.target),executionReady=mine&&actor&&G.getMainAbility(actor)?.trigger==='petrify'&&selectedTarget?.petrifiedBy===actor.uid&&G.canExecutePetrified?.(s,actor,selectedTarget);
   let info=ui.busy?'Confira o resultado da ação e as reações no registro da batalha. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:idle?'Não há personagens capazes de atacar. Use suas medalhas ou avance o ciclo para ambas as equipes comprarem uma carta.':mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
-  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)&&!G.hasIdleHandResources?.(s,'player')&&!G.hasIdleHandResources?.(s,'enemy')):btn('attack','Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
+  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)&&!G.hasIdleHandResources?.(s,'player')&&!G.hasIdleHandResources?.(s,'enemy')):btn('attack',executionReady?'Executar petrificado':'Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
   if(idle&&s.deck.pile.length===0)info+=' O monte principal acabou; as medalhas na mão ainda podem ser resgatadas.';
   if(pinned){info=actor.name+' está cravado e não pode atacar ou se mover. Passe a vez para continuar a batalha.';actions=btn('pinned-wait','Passar vez · imobilizado');}
   if(holding){info='John mantém o machado em '+G.getUnit(s,actor.pinning)?.name+'. Manter encerra sua ação; retirar libera os dois e permite atacar novamente.';actions=btn('pin-keep','Manter machado')+btn('pin-release','Retirar e escolher ataque');}
@@ -125,7 +126,7 @@ function render(actor){
     actions=btn('mode-normal','Dois braços · '+(G.baseAttackCount(actor)>1?'2 golpes de '+actor.damage:actor.damage),false,ui.attackMode==='normal'?'on':'')+btn('mode-double',actor.doubleUsed?'Quatro braços · já usados':'Quatro braços · '+(G.baseAttackCount(actor)>1?'4 golpes de '+actor.damage:'dano dobrado'),actor.doubleUsed||ui.target==='daly_enemy',ui.attackMode==='double'?'on':'')+actions;
     info+=' Quatro braços: '+(actor.doubleUsed?'já usados nesta partida.':'uma única ativação disponível.');
   }
-  if(mine&&actor?.abilityOnly){const target=G.getUnit(s,actor.bookTarget);info='Livro marcado: '+(target?.name||'aguardando nome')+'. A habilidade elimina abaixo de Mítico; nas demais raridades, causa 200.';actions=btn('attack','Usar livro · '+(target?.name||'sem alvo'),!target);}
+  if(mine&&actor?.abilityOnly){const target=G.getUnit(s,actor.bookTarget);info='Livro marcado: '+(target?.name||'aguardando nome')+'. A habilidade elimina abaixo de '+G.RARITY_LABEL[actor.rarity]+'; nas demais raridades, causa '+G.getMainAbility(actor).damage+'.';actions=btn('attack','Usar livro · '+(target?.name||'sem alvo'),!target);}
   if(mine&&actor&&!G.hasActionTarget(s,actor)){info='Não há alvo acessível nesta dimensão. Passe a vez para continuar a hierarquia.';actions=btn('wait','Sem alvo · passar vez')+(rearHealer?btn('move',ui.move?'Concluir posições':'Mover Suportes'): '');}
   if(mine&&actor&&G.officialStatus){
     const type=G.getMainAbility(actor)?.trigger;
@@ -139,8 +140,12 @@ function render(actor){
     if(G.breakCurseTargets(s,actor).length&&type!=='hypnosis')actions=btn('mode-break','Libertar aliado petrificado · dano 30',false,ui.attackMode==='break'?'on':'')+actions;
     if(ui.attackMode==='break'){info='Escolha um aliado petrificado. Libertá-lo usa sua ação e causa somente 30, substituindo o ataque normal.';actions=btn('mode-normal','Voltar ao ataque')+btn('attack','Quebrar maldição · dano 30',!G.breakCurseTargets(s,actor).some(t=>t.uid===ui.target));}
     if(type==='punchCombo')info+=' Combo: um d6 por soco, até seis. Repetir encerra. Cada soco tem defesa e reação.';
-    if(type==='diceExecution')info+=' D6 multiplica o básico de 55; 6 executa até a própria raridade e causa 330 nas superiores.';
+    if(type==='diceExecution')info+=' D6 multiplica o básico de '+actor.damage+'; 6 executa até a própria raridade e causa '+(actor.damage*6)+' nas superiores.';
     if(type==='duelist')info='Duelo: d6 1–3 elimina até a própria raridade ou causa 200 nas superiores. 4–6 falha e você recebe o dano do alvo.';
+  }
+  if(rearAbility){
+    info=G.healingTargets(s,actor).length?'Retaguarda: Zuri pode curar todos os outros aliados uma única vez. A cura usa a ação.':'Aliados com Vida cheia: passe esta vez ou mova um Suporte.';
+    actions=btn('full-heal','Cura total dos outros aliados · usa ação',actor.fullHealUsed||!G.healingTargets(s,actor).length)+btn('wait','Passar vez')+btn('move',ui.move?'Concluir posições':'Mover Suportes');
   }
   if(locked){info=G.officialStatus(s,actor)+'. Resolva o impedimento para continuar a hierarquia.';actions=btn('status-turn',actor.sleep?'Rolar d6 para acordar · 1–2':'Passar vez · impedimento');}
   if(handUsable&&!mine)info+=' As cartas da mão continuam disponíveis.';
@@ -293,7 +298,7 @@ app.addEventListener('click',event=>{
     ui.healTarget=u.uid;ui.msg='';render(actor);return;
   }
   if(!mine){if(c)openDrawer('card');return;}
-  if(daly&&daly.dataset.daly==='enemy'&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.attackMode='normal';ui.move=false;render(actor);return;}
+  if(daly&&daly.dataset.daly==='enemy'&&G.canAttackFrom(actor)&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.attackMode='normal';ui.move=false;render(actor);return;}
   if(!u)return;
   if(ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
   if(ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}

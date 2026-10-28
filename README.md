@@ -1,12 +1,24 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.31.0** acrescenta quatro músicas instrumentais originais de inspiração medieval: menu, combate, vitória e derrota. Harpa, cordas dedilhadas, flauta e cordas suaves acompanham o clima épico e tranquilo da interface.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.32.0** aplica a rodada de balanceamento aprovada pelo criador. **Burn permanece igual**; o Oni de Daztirry dura **quatro ações globais**. As quatro músicas instrumentais, a direção gótica estilizada, a fonte original e a batalha sem rolagem continuam disponíveis.
 
-**Nova regra:** ataques de Destruidores ignoram o Parry dos Fighters, inclusive em golpes separados, áreas e revides. Striker passa de velocidade 2 para **3**. Os demais atributos e as artes oficiais permanecem iguais. A fonte German Beauty, a seleção de dois Comuns por equipe e a arena sem rolagem continuam disponíveis.
+| Personagem ou regra | Atualização |
+| --- | --- |
+| Rayvilin | Petrificar na própria vez permite executar somente a partir da próxima vez dela; na entrada, pode executar na primeira vez. |
+| Unicorn | Estrela mantém +150 de Vida e +50 de ataque; velocidade passa de +2 para +1. |
+| Chama | Mantém 55 iniciais; queimadura ofensiva passa a 40 por cinco aplicações; revide continua 35×3. |
+| DD-X | 55 por golpe: dois normalmente ou quatro na ativação única. |
+| Fonior | Vida passa de 260 para 320; almas continuam aumentando só o máximo. |
+| Linx | Ataque passa de 30% para 35% da Vida máxima do alvo. |
+| Zuri | Pode gastar sua ação para usar a cura única da retaguarda, sem curar a si mesma ou atacar dali. |
+| Assassin | Esquiva natural limitada a cinco resultados do d6; 6 permite o acerto. Trucc e Striker mantêm suas regras próprias. |
+| Daztirry | Oni passa de três para quatro ações de qualquer personagem; bônus de +30 e eliminação ao terminar mantidos. |
+
+Striker continua com velocidade 3. Destruidores continuam ignorando o Parry dos Fighters. Artes oficiais preservadas; o jogo atualiza os números sobre as bases recebidas. Fôlego não recebeu regra de consumo.
 
 [Ouvir a prévia das quatro trilhas](docs/previews/trilha-v0.31.0.mp3) · [Créditos e gravações](assets/music/README.md)
 
-![Menu GOGHOS — The Nightmare Is Coming](docs/previews/menu-v0.30.0-desktop.png)
+![Zuri usando a cura na retaguarda](docs/previews/zuri-retaguarda-v0.32.0-desktop.png)
 
 ## Som e apresentação
 

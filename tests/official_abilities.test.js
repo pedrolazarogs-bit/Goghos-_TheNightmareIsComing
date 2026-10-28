@@ -48,8 +48,8 @@ test('Sam faz 2,6,5,5 resultar em três golpes separados de 100 numa única aç�
 test('reação durante um soco encerra o combo se Sam morrer antes do próximo',()=>{
  const s=battle(['sam'],['sarck'],{roll:()=>2});u(s,'sam').hp=300;attack(s,'sam','sarck');assert(u(s,'sam').eliminated);assert.equal(u(s,'sarck').hp,430);assert.equal(s.lastEvent.hits.length,1);assert.equal(s.lastEvent.rolls.length,1);
 });
-test('Chama causa 65 e depois cinco aplicações de 65, começando na próxima ação',()=>{
- const s=battle(['chama'],['mike']);u(s,'mike').hp=u(s,'mike').maxHp=1000;attack(s,'chama','mike');assert.equal(u(s,'mike').hp,935);assert.equal(s.burns[0].remaining,5);for(let i=0;i<5;i++)tick(s);assert.equal(u(s,'mike').hp,610);assert.equal(s.burns.length,0);
+test('Chama causa 65 e depois cinco aplicações de 40, começando na próxima ação',()=>{
+ const s=battle(['chama'],['mike']);u(s,'mike').hp=u(s,'mike').maxHp=1000;attack(s,'chama','mike');assert.equal(u(s,'mike').hp,935);assert.equal(s.burns[0].remaining,5);for(let i=0;i<5;i++)tick(s);assert.equal(u(s,'mike').hp,735);assert.equal(s.burns.length,0);
 });
 test('quem mata Chama ainda sofre três queimaduras de 35 depois de sua morte',()=>{
  const s=battle(['chama'],['mike']);u(s,'chama').hp=50;u(s,'mike').hp=u(s,'mike').maxHp=1000;attack(s,'mike','chama');assert(u(s,'chama').eliminated);assert.equal(u(s,'mike').hp,1000);for(let i=0;i<3;i++)tick(s);assert.equal(u(s,'mike').hp,895);assert.equal(s.burns.length,0);
@@ -60,15 +60,15 @@ test('Zuri cura os outros aliados, incluindo retaguarda, consome ação e não r
 test('Draktar recebe caça sorteada e causa triplo nela em ataques repetidos',()=>{
  const s=battle(['draktar'],['cavaleiro','alex']);assert.equal(u(s,'draktar').huntUid,u(s,'alex').uid);u(s,'alex').hp=u(s,'alex').maxHp=4000;attack(s,'draktar','alex');assert.equal(u(s,'alex').hp,3205);attack(s,'draktar','alex');assert.equal(u(s,'alex').hp,2410);assert.equal(G.previewDamage(s,u(s,'draktar'),0,u(s,'cavaleiro')),55);
 });
-test('Oni mantém Daztirry vivo em zero por três ações, soma 30, bloqueia execução e termina em eliminação',()=>{
- const s=battle(['daztirry'],['mike']);u(s,'daztirry').hp=50;attack(s,'mike','daztirry');const d=u(s,'daztirry');assert(d.oniActive);assert.equal(d.oniRemaining,3);assert.equal(d.damage,450);assert(!G.isCharacterDefeated(d));assert(!G.isDalyExposed(s,'player'));G.dealCharacterDamage(s,u(s,'mike'),d,0,{instant:true});assert(d.oniActive);tick(s);tick(s);assert(!d.eliminated);tick(s);assert(d.eliminated);assert(G.isDalyExposed(s,'player'));
+test('Oni mantém Daztirry vivo em zero por quatro ações, soma 30, bloqueia execução e termina em eliminação',()=>{
+ const s=battle(['daztirry'],['mike']);u(s,'daztirry').hp=50;attack(s,'mike','daztirry');const d=u(s,'daztirry');assert(d.oniActive);assert.equal(d.oniRemaining,4);assert.equal(d.damage,450);assert(!G.isCharacterDefeated(d));assert(!G.isDalyExposed(s,'player'));G.dealCharacterDamage(s,u(s,'mike'),d,0,{instant:true});assert(d.oniActive);tick(s);tick(s);tick(s);assert(!d.eliminated);tick(s);assert(d.eliminated);assert(G.isDalyExposed(s,'player'));
 });
 test('Mike bloqueia toda a classe Assassino, preservando os outros alvos e classes',()=>{
  const s=battle(['trucc','eletric'],['mike','cavaleiro']);assert(!G.attackTargets(s,u(s,'trucc')).includes(u(s,'mike')));assert(G.attackTargets(s,u(s,'trucc')).includes(u(s,'cavaleiro')));assert(G.attackTargets(s,u(s,'eletric')).includes(u(s,'mike')));
 });
 test('estrela aumenta Vida atual e máxima e todos os atributos; permanece após Unicorn morrer',()=>{
- const s=battle(['unicorn','mike'],['alex']);u(s,'mike').hp=30;resolve(s,'unicorn','mike');const m=u(s,'mike');assert.deepEqual([m.hp,m.maxHp,m.damage,m.speed],[180,280,220,7]);assert(u(s,'unicorn').entryAbilityUsed);G.eliminateUnit(s,u(s,'unicorn'));assert.deepEqual([m.hp,m.maxHp,m.damage,m.speed],[180,280,220,7]);
- const other=battle(['unicorn'],['alex']);resolve(other,'unicorn','unicorn');assert.deepEqual([u(other,'unicorn').hp,u(other,'unicorn').damage,u(other,'unicorn').speed],[420,85,5]);
+ const s=battle(['unicorn','mike'],['alex']);u(s,'mike').hp=30;resolve(s,'unicorn','mike');const m=u(s,'mike');assert.deepEqual([m.hp,m.maxHp,m.damage,m.speed],[180,280,220,6]);assert(u(s,'unicorn').entryAbilityUsed);G.eliminateUnit(s,u(s,'unicorn'));assert.deepEqual([m.hp,m.maxHp,m.damage,m.speed],[180,280,220,6]);
+ const other=battle(['unicorn'],['alex']);resolve(other,'unicorn','unicorn');assert.deepEqual([u(other,'unicorn').hp,u(other,'unicorn').damage,u(other,'unicorn').speed],[420,85,4]);
 });
 test('Nully multiplica 55 com 1–5 e com 6 executa até Mítico ou causa 330 acima',()=>{
  for(let roll=1;roll<=6;roll++){const s=battle(['nully'],['alex'],{roll:()=>roll});u(s,'alex').hp=u(s,'alex').maxHp=1000;u(s,'alex').parryThreshold=0;attack(s,'nully','alex');assert.equal(u(s,'alex').hp,roll===6?0:1000-55*roll);}
@@ -77,9 +77,9 @@ test('Nully multiplica 55 com 1–5 e com 6 executa até Mítico ou causa 330 ac
 test('pó mágico é gratuito e único; falha perde ação, 1–2 acorda e permite agir na mesma vez',()=>{
  const s=battle(['rayyb'],['alex']);force(s,'rayyb');const before=s.turn;assert(G.requestOfficialChoice(s,u(s,'rayyb').uid,'sleepPowder').ok);resolve(s,'rayyb','alex');assert.equal(s.turn,before);force(s,'alex');assert(G.performStatusTurn(s,u(s,'alex').uid).spent);assert(u(s,'alex').sleep);G.buildTurnOrder(s);force(s,'alex');s.roll=()=>1;const r=G.performStatusTurn(s,u(s,'alex').uid);assert(r.awake&&!r.spent);assert(!u(s,'alex').sleep);assert(G.performBasicAttack(s,u(s,'alex').uid,u(s,'rayyb').uid).ok);force(s,'rayyb');assert(!G.requestOfficialChoice(s,u(s,'rayyb').uid,'sleepPowder').ok);
 });
-test('petrificação só aceita raridade até a própria e executa na mesma vez sem gastar tentativa',()=>{
+test('petrificação respeita raridade e a tentativa em turno espera outra ação própria para executar',()=>{
  const s=battle(['rayvilin'],['mike','draktar'],{roll:()=>1});assert(!G.abilityTargets(s,u(s,'rayvilin'),'petrify').includes(u(s,'draktar')));resolve(s,'rayvilin','mike');force(s,'rayvilin');attack(s,'rayvilin','mike');assert(u(s,'mike').eliminated);
- const t=battle(['rayvilin'],['alex']);resolve(t,'rayvilin','alex');assert.equal(u(t,'rayvilin').petrifyPrecision,2);force(t,'rayvilin');t.roll=()=>1;const before=t.turn;assert(G.requestOfficialChoice(t,u(t,'rayvilin').uid,'petrify').ok);resolve(t,'rayvilin','alex');assert.equal(t.turn,before);assert(G.performBasicAttack(t,u(t,'rayvilin').uid,u(t,'alex').uid).ok);assert(u(t,'alex').eliminated);
+ const t=battle(['rayvilin'],['alex']);resolve(t,'rayvilin','alex');assert.equal(u(t,'rayvilin').petrifyPrecision,2);force(t,'rayvilin');t.roll=()=>1;const before=t.turn;assert(G.requestOfficialChoice(t,u(t,'rayvilin').uid,'petrify').ok);resolve(t,'rayvilin','alex');assert.equal(t.turn,before);assert(!G.canExecutePetrified(t,u(t,'rayvilin'),u(t,'alex')));u(t,'alex').hp=u(t,'alex').maxHp=1000;assert(G.performBasicAttack(t,u(t,'rayvilin').uid,u(t,'alex').uid).ok);assert(!t.lastEvent.hits[0].instant);assert(!u(t,'alex').eliminated);force(t,'rayvilin');assert(G.canExecutePetrified(t,u(t,'rayvilin'),u(t,'alex')));assert(G.performBasicAttack(t,u(t,'rayvilin').uid,u(t,'alex').uid).ok);assert(u(t,'alex').eliminated);
 });
 test('cada falha permanente reduz petrificação até esgotar, sem repetir tentativa na mesma vez',()=>{
  const s=battle(['rayvilin'],['alex']);resolve(s,'rayvilin','alex');assert.equal(u(s,'rayvilin').petrifyPrecision,2);force(s,'rayvilin');assert(G.requestOfficialChoice(s,u(s,'rayvilin').uid,'petrify').ok);resolve(s,'rayvilin','alex');assert.equal(u(s,'rayvilin').petrifyPrecision,1);assert(!G.requestOfficialChoice(s,u(s,'rayvilin').uid,'petrify').ok);G.buildTurnOrder(s);force(s,'rayvilin');assert(G.requestOfficialChoice(s,u(s,'rayvilin').uid,'petrify').ok);resolve(s,'rayvilin','alex');assert.equal(u(s,'rayvilin').petrifyPrecision,0);G.buildTurnOrder(s);force(s,'rayvilin');assert(!G.requestOfficialChoice(s,u(s,'rayvilin').uid,'petrify').ok);
@@ -119,13 +119,13 @@ test('Burn sem alvo de hipnose ainda pode atacar a Daly Mãe após a morte do ú
  const s=battle(['barn'],['alex']);resolve(s,'barn','alex');G.eliminateUnit(s,u(s,'alex'));assert.equal(u(s,'barn').hypnosisTarget,null);force(s,'barn');assert(G.performBasicAttack(s,u(s,'barn').uid,'daly_enemy').ok);assert.equal(s.daly.enemy.hp,2);
 });
 test('combo de Sam conta como uma ação para queimaduras e não como uma ação por soco',()=>{
- const s=battle(['chama','sam'],['mike']);u(s,'mike').hp=u(s,'mike').maxHp=2000;attack(s,'chama','mike');const rolls=[2,6,5,5];s.roll=()=>rolls.shift();const turn=s.turn;attack(s,'sam','mike');assert.equal(s.turn,turn+1);assert.equal(u(s,'mike').hp,1570);assert.equal(s.burns[0].remaining,4);
+ const s=battle(['chama','sam'],['mike']);u(s,'mike').hp=u(s,'mike').maxHp=2000;attack(s,'chama','mike');const rolls=[2,6,5,5];s.roll=()=>rolls.shift();const turn=s.turn;attack(s,'sam','mike');assert.equal(s.turn,turn+1);assert.equal(u(s,'mike').hp,1595);assert.equal(s.burns[0].remaining,4);
 });
 test('estrela de recuperação não faz Unicorn saltar para uma velocidade que já passou',()=>{
- const s=battle(['cavaleiro'],['sam']);G.eliminateUnit(s,u(s,'cavaleiro'));s.piles.RARE=[{id:'john',iid:'recover-john'},{id:'unicorn',iid:'recover-unicorn'}];force(s,'sam');assert(G.performBasicAttack(s,u(s,'sam').uid,'daly_player').ok);assert(s.recovery);const round=s.round,deck=s.deck.pile.length;assert(G.performRecovery(s,'B').ok);resolve(s,'unicorn','unicorn');assert.equal(s.round,round);assert.equal(s.speedCursor,3);assert.equal(s.deck.pile.length,deck);assert.equal(u(s,'unicorn').speed,5);assert(!s.order.includes(u(s,'unicorn').uid));assert(s.order.includes(u(s,'john').uid));
+ const s=battle(['cavaleiro'],['sam']);G.eliminateUnit(s,u(s,'cavaleiro'));s.piles.RARE=[{id:'john',iid:'recover-john'},{id:'unicorn',iid:'recover-unicorn'}];force(s,'sam');assert(G.performBasicAttack(s,u(s,'sam').uid,'daly_player').ok);assert(s.recovery);const round=s.round,deck=s.deck.pile.length;assert(G.performRecovery(s,'B').ok);resolve(s,'unicorn','unicorn');assert.equal(s.round,round);assert.equal(s.speedCursor,3);assert.equal(s.deck.pile.length,deck);assert.equal(u(s,'unicorn').speed,4);assert(!s.order.includes(u(s,'unicorn').uid));assert(s.order.includes(u(s,'john').uid));
 });
-test('bloqueios sem ataque possível permitem empate após esgotar recursos, sem repetir ciclos infinitos',()=>{
- const s=battle(['penxy'],['mike']);resolve(s,'penxy','mike');u(s,'penxy').speed=11;assert(!G.hasMeaningfulAction(s,u(s,'penxy')));assert(!G.hasMeaningfulAction(s,u(s,'mike')));s.deck.pile=[];s.deck.hands.player=[];s.deck.hands.enemy=[];assert.equal(G.getNextActor(s),null);assert.equal(s.result,'draw');
+test('teto da esquiva evita empate por bloqueio mútuo contra Mike mesmo sem cartas',()=>{
+ const s=battle(['penxy'],['mike']);resolve(s,'penxy','mike');u(s,'penxy').speed=11;assert(!G.hasMeaningfulAction(s,u(s,'penxy')));assert(G.hasMeaningfulAction(s,u(s,'mike')));s.deck.pile=[];s.deck.hands.player=[];s.deck.hands.enemy=[];const p=u(s,'penxy'),hp=p.hp;s.roll=()=>6;attack(s,'mike','penxy');assert.equal(p.hp,hp-170);assert.equal(s.result,null);
 });
 
 test('petrificação e sono impedem movimentar ou trocar Suportes, sem consumir a ação',()=>{

@@ -67,6 +67,7 @@ G.actionPrompt=(s,a,o={})=>{
  if(a.pinning)return 'Mantenha ou solte o machado.';
  if(G.isActionLocked(a))return a.sleep?'Role o dado para tentar acordar.':'Impedido: passe esta vez. Suas cartas continuam disponíveis.';
  if(o.move)return 'Toque em um Suporte para mudar de linha.';
+ if(G.canUseRearAbility?.(a))return G.healingTargets(s,a).length?'Retaguarda: cura total dos outros aliados, uma única vez. Usa a ação de Zuri.':'Aliados com Vida cheia: passe esta vez ou mova um Suporte.';
  if(G.canHealFromRear(a))return G.healingTargets(s,a).length?(o.target?'Confirme a cura no aliado.':'Retaguarda: escolha um aliado ferido para curar.'):'Aliados com Vida cheia: passe esta vez ou mova um Suporte.';
  if(o.mode==='heal')return o.target?'Confirme a cura no aliado.':'Toque em um aliado ferido.';
  if(o.mode==='break')return o.target?'Confirme para libertar o aliado.':'Toque no aliado petrificado.';
@@ -77,6 +78,7 @@ G.actionPrompt=(s,a,o={})=>{
  if(type==='areaAttack'||type==='swarm'&&o.mode==='area')return (type==='swarm'?'Swarm':'3000W')+' · '+G.previewDamage(s,a,o.mana||0,null,o.mode)+' por alvo na frente.';
  const t=G.getUnit(s,o.target);
  if(!t)return 'Toque em um oponente para escolher o alvo.';
+ if(type==='petrify'&&t.petrifiedBy===a.uid)return G.canExecutePetrified?.(s,a,t)?'Petrificação pronta: confirme para executar o alvo.':'O alvo está petrificado. Você pode atacar por '+G.previewDamage(s,a,o.mana||0,t,o.mode)+', mas a execução só fica disponível na próxima vez de Rayvilin.';
  if(type==='punchCombo')return 'Combo: até 6 socos de '+a.damage+'. Dado repetido encerra. Cada soco tem sua própria defesa, esquiva e reação.';
  if(G.baseAttackCount(a)>1){
   const p=G.previewAttackSequence(s,a,o.mana||0,t,o.mode),same=p.hits.every(h=>h.raw===p.hits[0].raw),reply=G.reactionPreview(a,t,p.hits[0].damage);
