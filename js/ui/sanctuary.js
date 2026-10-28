@@ -16,6 +16,13 @@ const COSMETICS=Object.freeze([
  {id:'title-star',kind:'title',name:'Dente de estrelas',color:'#f2d89a',glyph:'✦',desc:'Um sorriso que atravessa a escuridão.'},
  {id:'title-rift',kind:'title',name:'Além da fenda',color:'#ff8caa',glyph:'◌',desc:'O horizonte é só o começo.'}
 ].map(c=>Object.freeze(c)));
+// Vitrine de baús: somente arte e nomes. Conteúdo, preços e abertura aguardam definição.
+const CHEST_SHOWCASE=Object.freeze([
+ {id:'common',name:'Comum',art:'assets/night-ui/chests/common.svg',accent:'#98c5d3',material:'Ferro e cristal'},
+ {id:'pro',name:'Pro',art:'assets/night-ui/chests/pro.svg',accent:'#a4b990',material:'Selo lunar'},
+ {id:'plus',name:'Plus',art:'assets/night-ui/chests/plus.svg',accent:'#bea2cc',material:'Estrela de ametista'},
+ {id:'plus-max',name:'Plus+',art:'assets/night-ui/chests/plus-max.svg',accent:'#d1ad77',material:'Coroa da noite'}
+].map(c=>Object.freeze(c)));
 const byId=id=>COSMETICS.find(c=>c.id===id),baseIds=COSMETICS.filter(c=>c.base).map(c=>c.id);
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=x=>JSON.parse(JSON.stringify(x));
@@ -26,7 +33,7 @@ function cssAsset(path){
  return 'url('+JSON.stringify(src)+')';
 }
 let cached=null,volatile=false,nonce=0;
-const ui={tab:'vault',chapter:0,loreId:null,reveal:null,notice:'',category:'all',detailId:null};
+const ui={tab:'vault',chapter:0,loreId:null,reveal:null,notice:'',category:'all',detailId:null,chestId:'common',cosmeticsOpen:false};
 const bounded=(n,max=10000000)=>Number.isFinite(n)?Math.max(0,Math.min(max,Math.trunc(n))):0;
 function defaults(){return{schema:1,coins:START_COINS,owned:[...baseIds],equipped:{frame:'frame-ink',mood:'mood-void',title:'title-watch'},issued:[],claimed:[],matches:0,opened:0};}
 function normalize(raw){
@@ -81,10 +88,14 @@ function shopDetail(c,s){
 function shopCatalog(s){
  return `${categoryNav()}${shopKinds.filter(([kind])=>ui.category==='all'||ui.category===kind).map(([kind,name,desc])=>{const items=COSMETICS.filter(c=>c.kind===kind),detail=items.find(c=>c.id===ui.detailId);return `<section class="shop-section" aria-labelledby="shop-section-${kind}"><div class="shop-section-heading"><div class="fg-section-title">${toonIcon(({frame:'cards',mood:'mode',title:'credit'})[kind],'✦')}<div><h3 id="shop-section-${kind}">${name}</h3><p>${desc}</p></div></div><span>${items.filter(c=>s.owned.includes(c.id)).length} / ${items.length}<span class="sr-only"> na coleção</span></span></div>${detail?shopDetail(detail,s):''}<div class="shop-catalog-grid">${items.map(c=>shopCard(c,s)).join('')}</div></section>`;}).join('')}`;
 }
+function chestShowcaseHTML(){
+ const current=CHEST_SHOWCASE.find(c=>c.id===ui.chestId)||CHEST_SHOWCASE[0];
+ return `<section class="shop-chest-showcase" aria-labelledby="chest-showcase-title"><div class="shop-chest-showcase-heading"><div><span class="sanctuary-eyebrow">A nova coleção de baús</span><h2 id="chest-showcase-title">Baús</h2></div><span class="shop-chest-preview-note">Prévia visual</span></div><div class="shop-chest-focus" style="--chest-accent:${current.accent}" data-chest-focus="${current.id}" aria-labelledby="chest-focus-title"><div class="shop-chest-focus-art"><span aria-hidden="true" class="shop-chest-orbit"></span><img src="${current.art}" alt="Baú ${current.name}" width="360" height="300"></div><div class="shop-chest-focus-copy"><span class="shop-chest-seal">${safe(current.material)}</span><h3 id="chest-focus-title">${safe(current.name)}</h3><p>Prévia da nova coleção.</p><button class="shop-chest-pending" disabled aria-describedby="chest-rules-note">Em breve</button><small id="chest-rules-note">Conteúdo e abertura serão definidos depois.</small></div></div><div class="shop-chest-options" role="group" aria-label="Conhecer os novos baús">${CHEST_SHOWCASE.map(c=>`<button class="shop-chest-option" data-act="sanctuary-chest-preview-${c.id}" data-chest="${c.id}" style="--chest-accent:${c.accent}" aria-pressed="${current.id===c.id}" aria-controls="chest-focus-title"><img src="${c.art}" alt="" width="360" height="300"><span>${safe(c.name)}</span><small>${current.id===c.id?'Selecionado':'Ver baú'}</small></button>`).join('')}</div></section>`;
+}
 function vault(s){
  if(ui.reveal){const c=ui.reveal.cosmetic;return `<div class="sanctuary-reveal fg-reveal" role="status" aria-live="polite"><div class="fg-reveal-burst" aria-hidden="true"></div><span class="fg-reveal-ticket">${toonIcon('star','✦')} Descoberta da noite</span><div class="sanctuary-eyebrow">O baú guardava uma surpresa</div><h2>${ui.reveal.duplicate?'Uma lembrança conhecida':'Você encontrou!'}</h2><div class="fg-reveal-stage">${ui.reveal.duplicate?`<div class="sanctuary-duplicate">${coinHTML()}<b>+30 moedas</b></div>`:preview(c,true)}</div><p class="sanctuary-reward-kind">${ui.reveal.duplicate?'Sua coleção já está completa':kindLabel[c.kind]}</p><h3>${ui.reveal.duplicate?'Uma noite de coleção completa':safe(c.name)}</h3><p>${ui.reveal.duplicate?'Os visuais repetidos se transformam em 30 moedas.':safe(c.desc)}</p><div class="sanctuary-reveal-actions">${ui.reveal.duplicate?'':button('equip-'+c.id,'Usar agora','sanctuary-primary')}${button('keep','Guardar e continuar',ui.reveal.duplicate?'sanctuary-primary':'')}</div></div>`;}
  const remaining=COSMETICS.filter(c=>!s.owned.includes(c.id)).length;
- return `<div class="shop-storefront">${ui.category==='all'?`<section class="shop-featured" aria-labelledby="shop-chest-title"><div class="shop-featured-copy"><span class="shop-featured-label">${toonIcon('star','✦')} Descobertas do santuário</span><h2 id="shop-chest-title">Baú da noite</h2><p>Abra uma surpresa.<br>Deixe a arena com a sua cara.</p><div class="shop-featured-tags"><span>${toonIcon('cards','◇')}Molduras</span><span>${toonIcon('mode','◌')}Ambientes</span><span>${toonIcon('credit','☾')}Títulos</span></div>${button('open-chest',`<span>Abrir baú</span><span class="shop-button-price">${coinHTML()}<b>${PRICE}</b></span>`,'shop-chest-buy',s.coins<PRICE)}<small class="sanctuary-price-note">${s.coins<PRICE?'Cada partida concluída rende '+MATCH_REWARD+' moedas.':remaining?'Um visual novo enquanto houver peças para descobrir.':'Coleção completa: novos baús devolvem 30 moedas.'}</small></div><div class="shop-featured-art"><div class="fg-chest-stage">${chestHTML()}</div><span class="shop-featured-seal">${remaining?'1 visual<br><b>para descobrir</b>':'+30 moedas<br><b>coleção completa</b>'}</span></div></section>`:''}<div class="fg-catalog-intro"><span>${toonIcon('cards','◇')} Sua próxima assinatura</span><b>${s.owned.length} / ${COSMETICS.length}<small> visuais na coleção</small></b></div>${shopCatalog(s)}<div class="shop-store-note"><span aria-hidden="true">✧</span><p>Visuais para a sua coleção. Todos os personagens continuam disponíveis para jogar.</p><span>${coinHTML()} +${MATCH_REWARD} por partida concluída</span></div></div>`;
+ return `<div class="shop-storefront">${chestShowcaseHTML()}<details class="shop-cosmetic-vault"${ui.cosmeticsOpen||ui.category!=='all'||ui.detailId?' open':''}><summary><span>${toonIcon('cards','◇')}Visuais da noite</span><small>Baú da noite e coleção de visuais</small><b aria-hidden="true">⌄</b></summary><div class="shop-cosmetic-vault-content">${ui.category==='all'?`<section class="shop-featured" aria-labelledby="shop-chest-title"><div class="shop-featured-copy"><span class="shop-featured-label">${toonIcon('star','✦')} Descobertas do santuário</span><h2 id="shop-chest-title">Baú da noite</h2><p>Abra uma surpresa.<br>Deixe a arena com a sua cara.</p><div class="shop-featured-tags"><span>${toonIcon('cards','◇')}Molduras</span><span>${toonIcon('mode','◌')}Ambientes</span><span>${toonIcon('credit','☾')}Títulos</span></div>${button('open-chest',`<span>Abrir baú</span><span class="shop-button-price">${coinHTML()}<b>${PRICE}</b></span>`,'shop-chest-buy',s.coins<PRICE)}<small class="sanctuary-price-note">${s.coins<PRICE?'Cada partida concluída rende '+MATCH_REWARD+' moedas.':remaining?'Um visual novo enquanto houver peças para descobrir.':'Coleção completa: novos baús devolvem 30 moedas.'}</small></div><div class="shop-featured-art"><div class="fg-chest-stage">${chestHTML()}</div><span class="shop-featured-seal">${remaining?'1 visual<br><b>para descobrir</b>':'+30 moedas<br><b>coleção completa</b>'}</span></div></section>`:''}<div class="fg-catalog-intro"><span>${toonIcon('cards','◇')} Sua próxima assinatura</span><b>${s.owned.length} / ${COSMETICS.length}<small> visuais na coleção</small></b></div>${shopCatalog(s)}<div class="shop-store-note"><span aria-hidden="true">✧</span><p>Visuais para a sua coleção. Todos os personagens continuam disponíveis para jogar.</p><span>${coinHTML()} +${MATCH_REWARD} por partida concluída</span></div></div></details></div>`;
 }
 function collection(s){return `<div class="shop-storefront shop-collection"><div class="shop-collection-heading"><div><span class="sanctuary-eyebrow">Do seu jeito</span><h2>Seu pedaço da noite.</h2><p>Escolha os detalhes do seu perfil e da sua arena.</p></div><span class="shop-collection-total"><b>${s.owned.length}</b> / ${COSMETICS.length}<small>na coleção</small></span></div><div class="fg-equipped-strip" aria-label="Seus visuais equipados">${['mood','frame','title'].map(kind=>{const c=byId(s.equipped[kind]);return `<button data-act="sanctuary-preview-${c.id}" class="fg-equipped-item" style="--equipped-color:${c.color}">${preview(c)}<span><small>${kindLabel[kind]} em uso</small><strong>${safe(c.name)}</strong></span><i aria-hidden="true">✓</i></button>`;}).join('')}</div>${shopCatalog(s)}</div>`;}
 
@@ -112,11 +123,12 @@ function render(tab){
 function handle(action){
  if(typeof action!=='string'||!action.startsWith('sanctuary-'))return{handled:false};
  const a=action.slice(10);let ok=true,sound='navigate',reward=null;ui.notice='';
+ if(a.startsWith('chest-preview-')){const chest=CHEST_SHOWCASE.find(c=>c.id===a.slice(14));if(chest){ui.chestId=chest.id;ui.tab='vault';}else ok=false;return{handled:true,ok,html:render(),notice:ui.notice,reward,sound};}
  if(['vault','collection','story'].includes(a))ui.tab=a;
- else if(a.startsWith('category-')){const category=a.slice(9);if(['all','mood','frame','title'].includes(category)){ui.category=category;ui.detailId=null;}else ok=false;}
+ else if(a.startsWith('category-')){const category=a.slice(9);if(['all','mood','frame','title'].includes(category)){ui.category=category;ui.detailId=null;ui.cosmeticsOpen=true;}else ok=false;}
  else if(a==='preview-close')ui.detailId=null;
- else if(a.startsWith('preview-')){const c=byId(a.slice(8));if(c){ui.detailId=c.id;if(ui.tab==='story')ui.tab='vault';ui.category=c.kind;}else ok=false;}
- else if(a==='featured'){ui.tab='vault';ui.category='all';ui.detailId=null;}
+ else if(a.startsWith('preview-')){const c=byId(a.slice(8));if(c){ui.detailId=c.id;ui.cosmeticsOpen=true;if(ui.tab==='story')ui.tab='vault';ui.category=c.kind;}else ok=false;}
+ else if(a==='featured'){ui.tab='vault';ui.category='all';ui.detailId=null;ui.cosmeticsOpen=true;}
  else if(a==='open-chest'){
   if(ui.reveal){ok=false;ui.notice='Guarde sua descoberta antes de abrir outro baú.';}
   else{const r=transact(s=>{if(s.coins<PRICE)return{ok:false};const pool=COSMETICS.filter(c=>!s.owned.includes(c.id)),c=pool.length?pool[Math.min(pool.length-1,Math.floor(Math.random()*pool.length))]:null;s.coins-=PRICE;s.opened++;if(c)s.owned.push(c.id);else s.coins+=30;return{ok:true,cosmetic:c,duplicate:!c};});ok=r.ok;if(ok){ui.reveal={cosmetic:r.cosmetic,duplicate:r.duplicate};reward=r.cosmetic;ui.tab='vault';sound='chest';}else ui.notice='Você precisa de '+PRICE+' moedas. Cada partida concluída dá '+MATCH_REWARD+'.';}
@@ -131,5 +143,5 @@ function handle(action){
  else return{handled:false};
  return{handled:true,ok,html:render(),notice:ui.notice,reward,sound};
 }
-G.Sanctuary=Object.freeze({read,render,handle,newMatchToken,awardMatch,homeBadgeHTML,applyCosmetics,cosmetics:COSMETICS,price:PRICE,matchReward:MATCH_REWARD,storageKey:KEY});
+G.Sanctuary=Object.freeze({read,render,handle,newMatchToken,awardMatch,homeBadgeHTML,applyCosmetics,cosmetics:COSMETICS,chestShowcase:CHEST_SHOWCASE,price:PRICE,matchReward:MATCH_REWARD,storageKey:KEY});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

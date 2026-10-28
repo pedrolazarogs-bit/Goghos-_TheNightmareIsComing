@@ -1,0 +1,181 @@
+/* Focused command surface. Printed cards and battle rules stay untouched. */
+.arena.command-arena .command-stage{min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px;padding:12px;border:1px solid #76606b;border-radius:14px 3px 14px 3px;background:radial-gradient(ellipse at 50% 30%,#5a46562a,transparent 72%),linear-gradient(145deg,#29232eeb,#1b1822f5);box-shadow:inset 0 1px #d3c2a517,0 6px 20px #09060f55;overflow:visible}
+.arena.command-arena .command-focus{min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);align-items:center;gap:5px;isolation:isolate;container-type:size}
+.arena.command-arena .command-card{min-height:0;min-width:0;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;--focus-accent:#9fbcb0}
+.arena.command-arena .command-card.enemy{--focus-accent:#cea1b5}
+.arena.command-arena .command-card.target{--focus-accent:#d6bb8a}
+.arena.command-arena .command-role{font-size:12px;line-height:1.1;letter-spacing:.015em;color:var(--focus-accent);margin:0;text-align:center}
+.arena.command-arena .command-focus-art{display:block;position:relative;width:min(var(--focus-card-width,164px),max(32px,calc((100cqh - 75px)*.599)));max-width:100%;padding:0;border:0;border-radius:0;background:none!important;box-shadow:none!important;overflow:visible;min-height:0;flex:0 0 auto;isolation:isolate}
+.arena.command-arena .command-focus-art:before{content:"";position:absolute;inset:20% 12% 6%;background:radial-gradient(ellipse,var(--focus-accent),transparent 70%);opacity:.12;z-index:-1;pointer-events:none}
+.arena.command-arena .command-focus-art .slot{width:100%;margin:0;max-width:none}
+.arena.command-arena .command-focus-art .card{width:100%!important;max-width:none;filter:drop-shadow(0 6px 6px #07040b88);transform:none;pointer-events:none}
+.arena.command-arena .command-focus-art:hover .card{filter:drop-shadow(0 6px 6px #07040b88) drop-shadow(0 0 4px #d8c2a44d)}
+.arena.command-arena .command-card-identity{display:none;flex-direction:column;align-items:center;gap:1px;width:100%;text-align:center}
+.arena.command-arena .command-card-identity>b{font-size:20px;line-height:1.1;color:#f0e3ce;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.arena.command-arena .command-card-identity>small{font-size:10px;color:#bfb3c3;line-height:1.2}
+.arena.command-arena .command-vitals{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:4px;width:100%;max-width:210px;min-height:20px}
+.arena.command-arena .command-vitals>img{width:20px;height:20px;object-fit:contain;filter:drop-shadow(0 1px #000)}
+.arena.command-arena .command-vitals>i{height:10px;background:#100e18;border:1px solid #70626b;border-radius:6px 1px 6px 1px;overflow:hidden;box-shadow:inset 0 1px 3px #0009}
+.arena.command-arena .command-vitals>i>span{display:block;height:100%;background:linear-gradient(#c1d9af,#7fa497);transition:width .4s ease;box-shadow:inset 0 1px #fff4}
+.arena.command-arena .command-card.enemy .command-vitals>i>span{background:linear-gradient(#dbaec3,#ac7896)}
+.arena.command-arena .command-vitals>strong{font-size:18px;line-height:1;color:#eee1cb;white-space:nowrap}
+.arena.command-arena .command-vitals>strong>small{font-size:10px;color:#b5a6b7;font-weight:400}
+.arena.command-arena .command-focus:has(.command-relations>span) .command-focus-art{width:min(var(--focus-card-width,164px),max(32px,calc((100cqh - 124px)*.599)))}
+.arena.command-arena .command-relations{display:flex;flex-direction:column;gap:3px;align-items:center;min-width:0;width:100%;font-size:10px;line-height:1.15}
+.arena.command-arena .command-relations>span{display:flex;align-items:center;justify-content:center;gap:3px;padding:3px 5px;max-width:100%;border:1px solid #826c7b66;border-radius:5px 1px 5px 1px;background:#372935bb;color:#e2c8d9;text-align:center}
+.arena.command-arena .command-relations>span[data-relation=hunt]{color:#ead1a0;border-color:#9b7b4566;background:#4b3b2766}
+.arena.command-arena .command-relations>span[data-relation=guardian]{color:#bfdbcd;border-color:#77989066;background:#273b3666}
+.arena.command-arena .command-relations .fg-arena-icon{width:19px;height:19px;flex:0 0 19px}
+.arena.command-arena .command-relations>button{font:inherit;font-size:10px;padding:2px 5px;border:0;background:none;color:#d1b8c9;text-decoration:underline;box-shadow:none}
+.arena.command-arena .command-versus{display:flex;justify-content:center;align-items:center;align-self:center;min-width:0;filter:drop-shadow(0 2px 4px #05030788)}
+.arena.command-arena .command-versus>.fg-arena-icon,.arena.command-arena .command-versus>.command-power-image{width:44px;height:44px;max-width:44px;flex:0 0 44px}
+.arena.command-arena .command-power-image{display:block;position:relative;aspect-ratio:1;overflow:hidden;clip-path:polygon(50% 0,65% 20%,95% 30%,82% 56%,85% 90%,50% 82%,15% 90%,18% 56%,5% 30%,35% 20%)}
+.arena.command-arena .command-power-image>.asset-window{width:100%;height:100%;display:block}
+.arena.command-arena .empty-focus>small{font-size:12px;text-align:center;color:#d2bfa0}
+.arena.command-arena .command-focus-placeholder{height:calc(100cqh - 30px);max-height:100%;width:var(--focus-card-width,164px);max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px;border:1px dashed #806b7855;border-radius:55px 55px 12px 12px;background:linear-gradient(#372c3b4d,#17131d33);color:#afa0b4;text-align:center}
+.arena.command-arena .command-focus-placeholder>.fg-arena-icon{width:50px;height:50px;opacity:.45}
+.arena.command-arena .command-focus-placeholder>.asset-window{height:80px}
+.arena.command-arena .command-focus-placeholder>p{font-size:13px;line-height:1.25;max-width:150px;margin:0}
+.arena.command-arena .command-controls{display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;border-top:1px solid #8d756044;padding-top:10px}
+.arena.command-arena .command-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;min-width:0}
+.arena.command-arena .command-tabs>.command-tab{display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:6px 9px;font:400 18px/1.1 'German Beauty',Georgia,serif;border:1px solid #75606f;border-radius:8px 2px 8px 2px;background:linear-gradient(#3d303f,#29222f);color:#cbbaca;box-shadow:0 2px 3px #09060c77}
+.arena.command-arena .command-tabs .fg-arena-icon{width:26px;height:26px;flex:0 0 26px}
+.arena.command-arena .command-tabs>.selected{color:#f0e4cd;border-color:#c3aa78;background:linear-gradient(#5b4a3f,#3d3331);box-shadow:inset 0 1px #ead5a633,0 2px 3px #09060c77}
+.arena.command-arena .command-tab[data-act=command-tab-attack].selected{border-color:#b88997;background:linear-gradient(#65454e,#432d38)}
+.arena.command-arena .command-tab[data-act=command-tab-ability].selected{border-color:#bdab79;background:linear-gradient(#63563b,#443a2e)}
+.arena.command-arena .command-tab[data-act=command-tab-support].selected{border-color:#91b8a6;background:linear-gradient(#42594e,#2f403b)}
+.arena.command-arena .command-tab>b{font-size:13px;background:#17121ecc;border-radius:4px;padding:2px 4px;color:#e2d7c5}
+.arena.command-arena .command-action-panel{display:contents}
+.arena.command-arena .command-ability,.arena.command-arena .command-support{display:none}
+.arena.command-arena[data-command-tab=ability] .command-ability,.arena.command-arena[data-command-tab=support] .command-support{display:block}
+.arena.command-arena .command-ability-copy{padding:0 2px}
+.arena.command-arena .command-ability-copy>strong{font-size:17px;color:#e4d2a9;line-height:1.15}
+.arena.command-arena .command-ability-copy>p{font-size:12px;line-height:1.25;color:#d1c1d1;margin:3px 0 0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.arena.command-arena .command-support-copy{display:flex;gap:12px;align-items:center;min-height:68px;padding:4px}
+.arena.command-arena .command-support-copy>.toon-icon{width:40px;height:40px;flex:0 0 40px}
+.arena.command-arena .command-support-copy strong{font-size:19px;color:#d1e4cf}
+.arena.command-arena .command-support-copy p{font-size:13px;line-height:1.3;color:#c4b8c8;margin:4px 0 0}
+.arena.command-arena .command-controls .battle-actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:0;margin:0}
+.arena.command-arena .command-controls .battle-actions button{min-height:40px!important;padding:7px 11px!important;font-size:15px!important;line-height:1.1!important;border-width:1px!important;border-radius:7px 2px 7px 2px!important;gap:5px;flex:1 1 auto;max-width:100%}
+.arena.command-arena .command-controls .battle-actions .toon-icon{width:24px;height:24px;flex:0 0 24px}
+.arena.command-arena .command-controls .battle-actions [data-act=attack]{font-size:21px!important;min-height:44px!important;flex:2 1 130px;order:8;background:linear-gradient(#c4ab7e,#9b8058);color:#241d27;border-color:#d6bd8e!important}
+.arena.command-arena .command-controls .battle-actions :is([data-act="mana+"],[data-act="mana-"]){flex:0 0 auto;min-width:40px;max-width:100px}
+.arena.command-arena .command-controls .battle-actions>span{font-size:11px;color:#c7bad0}
+.arena.command-arena[data-command-tab=attack] .battle-actions [data-command-kind=ability],.arena.command-arena[data-command-tab=attack] .battle-actions [data-act=mode-normal],.arena.command-arena[data-command-tab=ability] .battle-actions [data-command-kind=attack]{display:none!important}
+.arena.command-arena[data-command-tab=support] .battle-actions{display:none!important}
+.arena.command-arena .command-prompt{border-left:3px solid #a89068;padding:5px 8px;background:#17131c77;border-radius:0 5px 5px 0;min-height:35px;display:flex;align-items:center;gap:5px}
+.arena.command-arena .command-prompt .info{font-size:13px!important;line-height:1.25!important;margin:0;min-height:0;color:#e3d8c8}
+.arena.command-arena .command-prompt>.command-event-detail{flex:0 0 auto;font:400 12px/1.1 'German Beauty',Georgia,serif;padding:5px 7px;color:#dec7a3;border:1px solid #76616e;border-radius:4px;background:#302534}
+.arena.command-arena .command-controls>.msg,.arena.command-arena .command-controls>.notice{font-size:12px!important;line-height:1.2;margin:0}
+.arena.command-arena .command-controls>:is(.msg,.notice):empty{display:none}
+.arena.command-arena[data-busy=true] .command-prompt{border-left-color:#b37d9e}
+.arena.command-arena .command-tabs button:focus-visible,.arena.command-arena .command-focus-art:focus-visible{outline:2px solid #efd4a2;outline-offset:3px}
+@media(max-width:760px){
+ .arena.command-arena .command-stage{gap:5px;padding:7px;border-radius:9px 2px 9px 2px}
+ .arena.command-arena .command-focus{grid-template-columns:minmax(0,1fr) 27px minmax(0,1fr);gap:3px}
+ .arena.command-arena .command-card{gap:2px}
+ .arena.command-arena .command-role{font-size:10px}
+ .arena.command-arena .command-vitals{grid-template-columns:16px minmax(0,1fr) auto;gap:3px;min-height:17px;max-width:160px}
+ .arena.command-arena .command-vitals>img{width:16px;height:16px}
+ .arena.command-arena .command-vitals>strong{font-size:14px}
+ .arena.command-arena .command-vitals>strong>small{font-size:9px}
+ .arena.command-arena .command-vitals>i{height:7px}
+ .arena.command-arena .command-card-identity>b{font-size:16px}
+ .arena.command-arena .command-card-identity>small{font-size:9px}
+ .arena.command-arena .command-relations{font-size:9px;gap:2px}
+ .arena.command-arena .command-relations>span{padding:2px 4px;min-height:19px;line-height:1.1}
+ .arena.command-arena .command-relations .fg-arena-icon{width:15px;height:15px;flex-basis:15px}
+ .arena.command-arena .command-versus>.fg-arena-icon,.arena.command-arena .command-versus>.command-power-image{width:34px;height:34px;max-width:34px;flex-basis:34px}
+ .arena.command-arena .command-controls{gap:5px;padding-top:5px}
+ .arena.command-arena .command-tabs>.command-tab{min-height:36px;padding:5px 6px;font-size:16px;gap:4px}
+ .arena.command-arena .command-tabs .fg-arena-icon{width:22px;height:22px;flex-basis:22px}
+ .arena.command-arena .command-controls .battle-actions{gap:4px}
+ .arena.command-arena .command-controls .battle-actions button{min-height:34px!important;padding:5px 7px!important;font-size:13px!important;gap:4px}
+ .arena.command-arena .command-controls .battle-actions [data-act=attack]{font-size:18px!important;min-height:36px!important}
+ .arena.command-arena .command-controls .battle-actions .toon-icon{width:21px;height:21px;flex-basis:21px}
+ .arena.command-arena .command-prompt{min-height:27px;padding:4px 6px}
+ .arena.command-arena .command-prompt .info{font-size:11px!important;line-height:1.2!important}
+ .arena.command-arena .command-ability-copy>strong{font-size:15px}
+ .arena.command-arena .command-ability-copy>p{font-size:10px;line-height:1.2;-webkit-line-clamp:2;margin-top:1px}
+ .arena.command-arena .command-focus-placeholder{gap:6px;padding:7px}
+ .arena.command-arena .command-focus-placeholder>.fg-arena-icon{width:32px;height:32px}
+ .arena.command-arena .command-focus-placeholder>p{font-size:11px}
+ .arena.command-arena .command-support-copy{min-height:45px;gap:8px;padding:2px}
+ .arena.command-arena .command-support-copy strong{font-size:16px}
+ .arena.command-arena .command-support-copy p{font-size:11px;line-height:1.2;margin-top:2px}
+ .arena.command-arena .command-prompt>.command-event-detail{font-size:10px;max-width:74px;padding:4px}
+}
+@media(prefers-reduced-motion:reduce){.arena.command-arena .command-vitals>i>span{transition:none}}
+/* On a shallow landscape display, commands sit beside the previews. */
+@media(min-width:761px) and (max-height:540px){
+ .arena.command-arena .command-stage{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);grid-template-rows:minmax(0,1fr);padding:7px;gap:7px}
+ .arena.command-arena .command-controls{border-top:0;border-left:1px solid #80677844;padding-top:0;padding-left:7px;justify-content:center;gap:5px}
+ .arena.command-arena .command-focus{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px}
+ .arena.command-arena .command-versus{display:none}
+ .arena.command-arena .command-role{font-size:9px}
+ .arena.command-arena .command-vitals{grid-template-columns:14px minmax(0,1fr) auto;gap:2px;min-height:16px}
+ .arena.command-arena .command-vitals>img{width:14px;height:14px}
+ .arena.command-arena .command-vitals>strong{font-size:12px}
+ .arena.command-arena .command-vitals>strong>small{display:none}
+ .arena.command-arena .command-vitals>i{height:6px}
+ .arena.command-arena .command-relations{font-size:8px}
+ .arena.command-arena .command-relations>span{padding:2px}
+ .arena.command-arena .command-relations .fg-arena-icon{width:12px;height:12px;flex-basis:12px}
+ .arena.command-arena .command-tabs{gap:3px}
+ .arena.command-arena .command-tabs>.command-tab{min-height:32px;font-size:12px;padding:4px;gap:3px;flex-wrap:wrap}
+ .arena.command-arena .command-tabs .fg-arena-icon{width:18px;height:18px;flex-basis:18px}
+ .arena.command-arena .command-controls .battle-actions button{font-size:12px!important;min-height:30px!important;padding:4px 6px!important}
+ .arena.command-arena .command-controls .battle-actions .toon-icon{width:18px;height:18px;flex-basis:18px}
+ .arena.command-arena .command-controls .battle-actions [data-act=attack]{min-height:32px!important;font-size:16px!important}
+ .arena.command-arena .command-prompt{padding:4px 5px;min-height:28px}
+ .arena.command-arena .command-prompt .info{font-size:10px!important;line-height:1.15!important}
+ .arena.command-arena .command-ability-copy>strong{font-size:13px}
+ .arena.command-arena .command-ability-copy>p{font-size:9px;line-height:1.2;-webkit-line-clamp:2}
+ .arena.command-arena .command-focus-placeholder{padding:5px;gap:5px;max-height:145px}
+ .arena.command-arena .command-focus-placeholder>.fg-arena-icon{width:25px;height:25px}
+ .arena.command-arena .command-focus-placeholder>p{font-size:10px}
+ .arena.command-arena .command-support-copy{gap:5px;padding:0;min-height:0}
+ .arena.command-arena .command-support-copy>.toon-icon{width:24px;height:24px;flex-basis:24px}
+ .arena.command-arena .command-support-copy strong{font-size:14px}
+ .arena.command-arena .command-support-copy p{font-size:10px;line-height:1.2}
+}
+/* Attack is the normal mode tab; repeating that choice inside abilities adds noise. */
+.arena.command-arena .command-controls .battle-actions [data-act=mode-normal],.arena.command-arena[data-command-tab=ability] .command-controls .battle-actions [data-act=move]{display:none!important}
+@media(max-width:760px){
+ .arena.command-arena .command-controls .battle-actions [data-act=attack]{flex:1 1 100px;min-width:90px}
+ .arena.command-arena .command-controls .battle-actions .mode-button{flex:1 1 95px}
+}
+.arena.command-arena .command-view-toggle{display:none}
+.arena.command-arena .command-score{display:none}
+.arena.command-arena .command-target-open{font:400 13px/1.1 'German Beauty',Georgia,serif;min-height:29px;padding:5px 10px;border:1px solid #a38b68;border-radius:6px 1px 6px 1px;background:linear-gradient(#4c3c38,#302630);color:#f0ddbc;box-shadow:0 2px 3px #0a060c55;flex:0 0 auto}
+.arena.command-arena .command-focus-placeholder>.command-target-open{min-height:36px;font-size:15px;margin-top:5px}
+@media(max-width:760px){
+ .arena.command-arena .command-view-toggle{display:flex!important;font-size:13px!important;min-width:49px!important}
+ .arena.command-arena .command-stage{grid-template-rows:auto minmax(0,1fr) auto}
+ .arena.command-arena .command-score{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 3px 5px;border-bottom:1px solid #7e695f33}
+ .arena.command-arena .command-score>span{display:flex;align-items:center;gap:6px;color:#c7dace}
+ .arena.command-arena .command-score>span.enemy{color:#d9bdce}
+ .arena.command-arena .command-score small{font-size:11px;line-height:1.1}
+ .arena.command-arena .command-score strong{display:flex;gap:2px}
+ .arena.command-arena .command-score img{width:16px;height:16px;object-fit:contain}
+ .arena.command-arena .command-score img.lost{opacity:.18;filter:grayscale(1)}
+ .arena.command-arena .command-score b{font-size:11px;font-weight:400;color:#bdaeae}
+ .arena.command-arena .command-target-open{font-size:12px;min-height:27px;padding:4px 7px}
+ .arena.command-arena .command-focus-placeholder>.command-target-open{font-size:14px;min-height:35px}
+ .arena.command-arena[data-field-expanded=true] .command-view-toggle{background:linear-gradient(#bfa373,#9b8057);color:#241e24;border-color:#dfc592}
+}
+.arena.command-arena .command-focus-art>.command-focus-impact{top:48%;left:50%;font-family:'German Beauty',Georgia,serif;font-size:26px!important;line-height:1.1;padding:6px 10px;z-index:40;max-width:calc(100% + 48px);white-space:normal;text-align:center;-webkit-text-stroke:0;pointer-events:none}
+.arena.command-arena .command-focus-art>.command-focus-impact>small{font:400 11px/1.1 'German Beauty',Georgia,serif;margin-top:2px}
+@media(max-width:760px){.arena.command-arena .arena-header .command-view-toggle>span{display:inline!important}.arena.command-arena .command-focus-art>.command-focus-impact{font-size:23px!important;padding:5px 8px}}
+/* Equal header and status reservations keep the two cards on one baseline. */
+.arena.command-arena .command-role{min-height:29px;display:flex;align-items:center;justify-content:center;flex:0 0 29px}
+.arena.command-arena .command-focus:has(.command-relations>span) .command-relations{min-height:48px;justify-content:flex-start}
+.arena.command-arena .command-focus-placeholder{height:min(calc(var(--focus-card-width,164px)*1.67),max(54px,calc(100cqh - 75px)));width:min(var(--focus-card-width,164px),max(32px,calc((100cqh - 75px)*.599)));max-height:none;flex:0 0 auto;box-sizing:border-box}
+.arena.command-arena .placeholder-vitals{height:20px;min-height:20px}
+@media(max-width:760px){.arena.command-arena .command-role{min-height:27px;flex-basis:27px}.arena.command-arena .placeholder-vitals{height:17px;min-height:17px}}
+.arena.command-arena .command-focus-placeholder{position:relative}
+.arena.command-arena .command-focus-placeholder>.command-daly-impact{top:40%;left:50%;font:400 25px/1.1 'German Beauty',Georgia,serif;padding:6px 10px;-webkit-text-stroke:0;z-index:40}
+/* Explanations open on demand so the active cards keep the available space. */
+.arena.command-arena .command-ability-copy{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:28px}
+.arena.command-arena .command-ability-copy>strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arena.command-arena .command-ability-copy>[data-act=command-ability-info]{flex:0 0 auto;font:400 12px/1.1 'German Beauty',Georgia,serif;min-height:28px;padding:4px 8px;border:1px solid #796571;border-radius:5px 1px 5px 1px;background:#302535;color:#d4c1a3;box-shadow:none}

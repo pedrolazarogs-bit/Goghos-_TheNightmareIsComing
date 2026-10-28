@@ -4,7 +4,8 @@
 (function(G){
 'use strict';
 let active=null,serial=0;
-const COLORS=['#ff6adc','#83dcff','#ffe994','#9df2d1','#ece2ff'];
+const COLORS=['#b8819b','#91b8b2','#c4ab7e','#b0a3c3','#eee2c8'];
+const boundInterfaces=new WeakSet();
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 function random(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function hidden(){return typeof document==='undefined'||document.hidden===true;}
@@ -103,5 +104,75 @@ function burst(element){
 }
 function refresh(){active?.sync();}
 function getDebugState(){return{active:!!active,raf:!!active?.raf,reducedMotion:!!active?.reduced,hidden:hidden(),particles:active?.stars.length||0,bursts:active?.bursts.length||0,listeners:active?.listeners.length||0,observer:!!active?.observer};}
-G.CartoonMotion=Object.freeze({attach,detach,burst,refresh,getDebugState});
+// Screen interactions share the card's rarity signature, but only after a deliberate
+// tap, click or keyboard selection. Rendering or searching never replays an entry.
+function characterOf(element){
+ const card=element?.matches?.('.card')?element:element?.querySelector?.('.card');
+ const id=card?.dataset?.id;
+ return id?G.getCharacterById?.(id)||G.GODS?.find(u=>u.id===id):null;
+}
+function reveal(element,unit){
+ if(!element||element.isConnected===false||hidden())return false;
+ if(unit)G.PresentationFX?.playEntry?.(unit,element,{kind:'preview'});
+ else G.PresentationFX?.interaction?.('select',element);
+ return true;
+}
+function expandCard(stage){
+ const article=stage?.closest?.('.fg-archive-item');
+ const detail=article?.querySelector?.('.fg-ability-copy');
+ if(!detail)return false;
+ detail.open=!detail.open;
+ stage.setAttribute('aria-expanded',String(detail.open));
+ if(detail.open)reveal(stage,characterOf(stage));
+ return true;
+}
+function mountInterface(host){
+ if(!host?.querySelectorAll||!host.addEventListener)return;
+ // Long laboratory descriptions use the same explicit disclosure as the archive.
+ for(const copy of host.querySelectorAll('.ability-tests .fg-item-copy,.support-tests .fg-item-copy')){
+  if(copy.querySelector('.fg-ability-copy'))continue;
+  const paragraphs=Array.from(copy.querySelectorAll(':scope > p'));
+  if(!paragraphs.length)continue;
+  const detail=document.createElement('details'),summary=document.createElement('summary');
+  detail.className='fg-ability-copy fg-progressive-copy';
+  summary.textContent='Habilidade';detail.appendChild(summary);
+  copy.insertBefore(detail,paragraphs[0]);
+  paragraphs.forEach(p=>detail.appendChild(p));
+ }
+ for(const stage of host.querySelectorAll('.fg-archive-item .fg-card-stage')){
+  const article=stage.closest('.fg-archive-item'),detail=article?.querySelector('.fg-ability-copy');
+  if(!detail)continue;
+  const unit=characterOf(stage),name=unit?.name||article.querySelector('h2')?.textContent||'carta';
+  stage.setAttribute('role','button');stage.setAttribute('tabindex','0');
+  stage.setAttribute('aria-label','Ver habilidade de '+name);
+  stage.setAttribute('aria-expanded',String(detail.open));
+  if(unit?.rarity)article.dataset.rarity=unit.rarity;
+ }
+ if(boundInterfaces.has(host))return;
+ boundInterfaces.add(host);
+ host.addEventListener('click',event=>{
+  if(host.querySelector('.arena'))return;
+  const stage=event.target.closest?.('.fg-card-stage');
+  if(stage&&expandCard(stage))return;
+  const summary=event.target.closest?.('.fg-ability-copy > summary');
+  if(summary){
+   const article=summary.closest('.fg-archive-item'),card=article?.querySelector('.fg-card-stage');
+   if(!summary.parentNode.open)reveal(card,characterOf(card));
+   // The browser toggles details after click dispatch, so reflect its next state.
+   card?.setAttribute('aria-expanded',String(!summary.parentNode.open));return;
+  }
+  const pick=event.target.closest?.('[data-character]');
+  if(pick){
+   const id=pick.dataset.character,unit=G.getCharacterById?.(id);
+   const current=Array.from(host.querySelectorAll('[data-character]')).find(el=>el.dataset.character===id);
+   if(current?.classList?.contains('player'))reveal(current,unit);
+  }
+ });
+ host.addEventListener('keydown',event=>{
+  if(event.key!=='Enter'&&event.key!==' ')return;
+  const stage=event.target.closest?.('.fg-card-stage');
+  if(stage&&!host.querySelector('.arena')){event.preventDefault();expandCard(stage);}
+ });
+}
+G.CartoonMotion=Object.freeze({attach,detach,burst,refresh,getDebugState,mountInterface,reveal});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

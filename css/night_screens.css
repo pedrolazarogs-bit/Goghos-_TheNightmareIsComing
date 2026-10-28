@@ -225,3 +225,58 @@
 .sanctuary.fg-sanctuary .sanctuary-reveal-actions button.sanctuary-primary{background:linear-gradient(#a9946d,#7c684d)!important;color:#241c2b!important}
 .sanctuary.fg-sanctuary .sanctuary-story-controls button.sanctuary-primary:hover:not(:disabled),
 .sanctuary.fg-sanctuary .sanctuary-reveal-actions button.sanctuary-primary:hover:not(:disabled){background:linear-gradient(#c0ad86,#97825e)!important;color:#211a28!important}
+
+/* v0.33: card, name, then one intentional disclosure — shared by every archive. */
+.fg-screen :is(.fg-screen-back,.fg-test-button),.fg-screen .fg-ability-copy>summary{min-height:44px}
+.fg-screen :is(.fg-screen-back,.fg-test-button)>.ui-icon{width:26px;height:26px;flex-shrink:0}
+.fg-screen :is(.collection-grid,.ability-tests-grid,.support-tests-grid){gap:24px;align-items:start}
+.collection .collection-grid article,.fg-screen :is(.ability-tests-grid,.support-tests-grid) article{border-width:1px;border-color:#71616c80;box-shadow:0 4px 12px #07060b55;overflow:visible;background:linear-gradient(155deg,#302a36,#211d27)}
+.collection .collection-grid article:before,.fg-screen :is(.ability-tests-grid,.support-tests-grid) article:before{display:none}
+.fg-screen .fg-archive-item .fg-card-stage{min-height:320px;cursor:pointer;border-radius:9px 3px;transition:background .18s ease}
+.fg-screen .fg-archive-item .fg-card-stage[role=button]:focus-visible{outline:2px solid #91b8b2;outline-offset:4px}
+.fg-screen .fg-archive-item .fg-card-stage:hover{background:#b59a6808}
+.fg-screen .fg-archive-item .fg-card-stage:after{height:5px;border-width:1px;opacity:.65}
+.fg-screen .fg-archive-item .fg-card-stage .card{width:190px;max-width:100%;margin-bottom:0;filter:drop-shadow(0 8px 8px #09070e66)}
+.fg-screen .fg-item-copy{border-top-width:1px;padding-top:15px}
+.fg-screen .fg-item-meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:6px 8px;font-size:12px;line-height:1.3;border:0;background:none;color:#beb4c5}
+.fg-screen .fg-item-copy h2{margin-block:9px 15px;font-size:29px;line-height:1.15}
+.fg-screen .fg-ability-copy{border:1px solid #75627566;box-shadow:none}
+.fg-screen .fg-ability-copy>summary{display:flex;align-items:center;gap:12px;padding:11px 14px;font-size:15px;line-height:1.4;background:#2d2634;color:#ded0dd;cursor:pointer}
+.fg-screen .fg-ability-copy>summary:after{margin-left:auto;font-size:19px}
+.fg-screen .fg-ability-copy p{padding:4px 14px 13px!important;margin:0!important;font-size:14px!important;line-height:1.7!important;text-align:left;overflow-wrap:anywhere}
+.fg-screen .fg-ability-copy[open]>summary{background:#3b303f;color:#e8d7ae}
+.fg-screen .fg-item-copy>.fg-test-button{min-height:46px;margin-top:13px;font-size:17px;gap:11px;line-height:1.3;border-width:1px;box-shadow:0 2px 0 #0e1116}
+.fg-screen .fg-archive-toolbar{max-width:1360px;gap:24px}
+.fg-screen .character-search{font-size:13px;letter-spacing:.02em}
+.fg-screen .character-search input{min-height:46px;font-size:16px!important}
+.mode-screen .mode-tile{border-width:1px;border-color:#756675;box-shadow:0 3px 10px #08060c77;border-radius:11px 3px}
+.mode-screen .mode-tile-label>small{font-size:11px;letter-spacing:.04em;border-width:1px;box-shadow:none}
+.mode-screen .mode-tile-label>span{font-size:14px;line-height:1.65}
+.mode-screen .mode-tile-check{font-size:13px;min-height:36px;gap:9px}
+.mode-screen .mode-tile-check .ui-icon{width:23px;height:23px}
+.mode-screen .mode-back{min-height:44px}.mode-screen .mode-back .toon-icon{width:27px;height:27px}
+.settings-page .setting-row button{min-height:44px;font-size:15px}
+.settings-page .setting-row .ui-icon{width:25px;height:25px}
+.result-screen .result-actions .ui-icon{width:26px;height:26px}
+@media(max-width:760px){
+ .fg-screen :is(.collection-grid,.ability-tests-grid,.support-tests-grid){gap:16px 12px}
+ .fg-screen .fg-archive-item .fg-card-stage{min-height:228px;padding-bottom:10px}
+ .fg-screen .fg-archive-item .fg-card-stage .card{width:135px}
+ .fg-screen .fg-item-meta{font-size:11px;gap:4px 8px;padding:5px 1px}
+ .fg-screen .fg-item-copy{padding-inline:0}
+ .fg-screen .fg-item-copy h2{font-size:25px;margin-block:7px 11px}
+ .fg-screen .fg-ability-copy>summary{padding:10px 8px;font-size:13px;gap:5px;min-height:44px}
+ .fg-screen .fg-ability-copy p{padding:1px 9px 10px!important;font-size:13px!important;line-height:1.65!important}
+ .fg-screen .fg-item-copy>.fg-test-button{padding:9px 5px;font-size:14px;min-height:46px;gap:5px}
+ .fg-screen .fg-test-button>.ui-icon{width:22px;height:22px}
+ .fg-screen .fg-screen-back>.ui-icon{width:25px;height:25px}
+ .mode-screen .mode-tile{min-height:235px;padding:23px 20px}
+ .mode-screen .mode-tile-label>span{font-size:14px;max-width:250px}
+ .mode-screen .mode-tile-label>small{font-size:11px}
+ .mode-screen .mode-tile-check{font-size:12px}
+}
+@media(max-width:370px){
+ .fg-screen .fg-archive-item .fg-card-stage{min-height:210px}
+ .fg-screen .fg-archive-item .fg-card-stage .card{width:123px}
+ .fg-screen .fg-item-copy h2{font-size:23px}
+}

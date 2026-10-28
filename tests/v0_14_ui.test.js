@@ -4,7 +4,7 @@ globalThis.document = { getElementById: () => ({ set innerHTML(v){html=v;}, get 
 globalThis.confirm = () => true; globalThis.alert = m => { throw new Error('unexpected alert: '+m); };
 globalThis.setTimeout = f => {timers.push(f);return timers.length;}; globalThis.clearTimeout = () => {timers=[];};
 let seed=1701; Math.random=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let x=Math.imul(seed^seed>>>15,1|seed);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296;};
-['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card','ui/support_ui','ui/hand_ui','ui/match_ui','ui/arena_ui','ui/battle_feedback','ui/shop','ui/ui'].forEach(f=>require('../js/'+f+'.js'));
+['data/characters','data/gods','data/support_cards','data/reset_cards','core/battle','core/character_abilities','core/deck','core/support','core/roster','core/official_abilities','core/support_effects','core/divine','core/selection','core/ai','ui/card','ui/support_ui','ui/hand_ui','ui/match_ui','ui/arena_ui','ui/arena_readers','ui/battle_feedback','ui/shop','ui/ui'].forEach(f=>require('../js/'+f+'.js'));
 require('./fixtures/legacy_catalog.js');
 const G=globalThis.GOGHOS; let passed=0;
 function test(n,f){f();passed++;console.log('OK  '+n);}
@@ -24,19 +24,23 @@ test('a seleção mostra todos os Comuns, somente menu, cartas e Play após quat
   assert.deepEqual([...html.matchAll(/data-act="([^"]+)"/g)].map(m=>m[1]),['menu','fight']);
   action('menu');
 });
-test('a tela de batalha tem leque da mão e registro de eventos, sem painel lateral de Apoio',()=>{
-  selectAndFight(); assert(html.includes('class="mao')); assert(html.includes('class="event-feed"')); assert(!html.includes('class="apoio"')); assert(html.includes('Registro da batalha'));assert.equal((html.match(/class="deck-pile /g)||[]).length,G.RARITIES.length+1);assert.equal((html.match(/class="formation-row /g)||[]).length,4);
+test('a batalha mantém mão e formações, com registro e montes acessíveis sob demanda',()=>{
+  selectAndFight();assert(html.includes('class="mao'));assert(html.includes('command-focus'));assert(!html.includes('class="apoio"'));assert.equal((html.match(/class="formation-row /g)||[]).length,4);
+  assert(!html.includes('reader-rarity-pile'));action('event-log');assert(html.includes('Registro da batalha'));action('close-drawer');
+  action('piles-info');assert(html.includes('Monte principal'));assert(html.includes('reader-main-pile'));action('reader-next');
+  assert.equal((html.match(/class="reader-rarity-pile"/g)||[]).length,G.RARITIES.length);action('close-drawer');
 });
 test('uma carta de Apoio comprada entra no leque, pode ser selecionada e usada',()=>{
   // Recomeça uma luta e faz o primeiro reset comprar uma Na Moloeira para o jogador.
   action('menu'); G.CONFIG.resetDraw.onBattleStart=true;
-  const create=G.createDeckState;
+  const create=G.createDeckState,createBattle=G.createBattleState;let supportState;
+  G.createBattleState=(...args)=>(supportState=createBattle(...args));
   G.createDeckState=(rng)=>{const d=create(rng);const incoming=d.pile.findIndex(c=>c.id==='na_moloeira');const c=d.pile.splice(incoming,1)[0];d.pile.push(c);return d;};
   try{
     action('play');let ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);pick(ids[0]);runTimers();ids=[...html.matchAll(/class="card ([^"]*)" data-id="([^"]+)"/g)].filter(m=>!m[1].includes('sel')).map(m=>m[2]);pick(ids[0]);runTimers();action('fight');let wait=0;while(!html.includes('data-act="attack"')&&wait++<10)runTimers();
     assert(html.includes('Na Moloeira'));const m=html.match(/class="hcard[^\"]*" data-hand="([^"]+)"[^>]*title="Na Moloeira/);assert(m,'support card in hand');
-    click('[data-hand]',{hand:m[1]});assert(html.includes('data-act="usehand"'));action('usehand');assert(html.includes('BÔNUS')||html.includes('próximo ataque causa +20'));
-  } finally {G.createDeckState=create;G.CONFIG.resetDraw.onBattleStart=false;}
+    click('[data-hand]',{hand:m[1]});assert(html.includes('data-act="usehand"'));action('usehand');assert.equal(G.teamSupport(supportState,'player').nextAttackBonus,20);assert(!supportState.deck.hands.player.some(c=>c.iid===m[1]));
+  } finally {G.createDeckState=create;G.createBattleState=createBattle;G.CONFIG.resetDraw.onBattleStart=false;}
 });
 test('a coleção mostra todos os personagens ilustrados',()=>{
   action('menu');action('characters');

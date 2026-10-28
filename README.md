@@ -1,35 +1,23 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A versão **0.32.0** aplica a rodada de balanceamento aprovada pelo criador. **Burn permanece igual**; o Oni de Daztirry dura **quatro ações globais**. As quatro músicas instrumentais, a direção gótica estilizada, a fonte original e a batalha sem rolagem continuam disponíveis.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.33.0** reorganiza a interface a partir da referência do criador: a carta da vez, o alvo e as ações ficam em destaque; as consultas completas abrem somente quando necessárias. O balanceamento da v0.32.0 permanece intacto, incluindo Burn e as quatro ações globais do Oni.
 
-| Personagem ou regra | Atualização |
-| --- | --- |
-| Rayvilin | Petrificar na própria vez permite executar somente a partir da próxima vez dela; na entrada, pode executar na primeira vez. |
-| Unicorn | Estrela mantém +150 de Vida e +50 de ataque; velocidade passa de +2 para +1. |
-| Chama | Mantém 55 iniciais; queimadura ofensiva passa a 40 por cinco aplicações; revide continua 35×3. |
-| DD-X | 55 por golpe: dois normalmente ou quatro na ativação única. |
-| Fonior | Vida passa de 260 para 320; almas continuam aumentando só o máximo. |
-| Linx | Ataque passa de 30% para 35% da Vida máxima do alvo. |
-| Zuri | Pode gastar sua ação para usar a cura única da retaguarda, sem curar a si mesma ou atacar dali. |
-| Assassin | Esquiva natural limitada a cinco resultados do d6; 6 permite o acerto. Trucc e Striker mantêm suas regras próprias. |
-| Daztirry | Oni passa de três para quatro ações de qualquer personagem; bônus de +30 e eliminação ao terminar mantidos. |
+## Uma ação de cada vez
 
-Striker continua com velocidade 3. Destruidores continuam ignorando o Parry dos Fighters. Artes oficiais preservadas; o jogo atualiza os números sobre as bases recebidas. Fôlego não recebeu regra de consumo.
+- **Campo:** formações proporcionais, identificação de equipe, Vida e personagem da vez. A carta em foco e o alvo ganham uma apresentação ampliada.
+- **No celular:** alterne entre **Ações**, com cartas ampliadas, e **Campo**, com as formações completas. A escolha de alvo tem cartas grandes e páginas; as vidas das duas Daly Mães continuam visíveis.
+- **Comandos:** Ataque, Habilidade e Apoio separam as opções. Fichas, ordem, montes e registro ficam em consultas próprias, com navegação por botões. A batalha continua sem depender da roda do mouse.
+- **Movimento e som:** golpes movimentam as cartas e usam timbres conforme a arma ou o poder. Defesas, esquivas, impactos individuais, entrada por raridade e eliminações recebem apresentações próprias.
+- **Outras telas:** menu, seleção, catálogo, treinos e loja seguem o mesmo acabamento de ferro, marfim e magia discreta, com ícones maiores e detalhes sob demanda. A fonte original German Beauty, a logo oficial e as artes das cartas são preservadas.
+- **Loja:** os novos baús **Comum, Pro, Plus e Plus+** têm artes e prévias próprias. Conteúdo, preço e abertura aguardam definição do criador; as atividades cosméticas anteriores continuam separadas.
 
-[Ouvir a prévia das quatro trilhas](docs/previews/trilha-v0.31.0.mp3) · [Créditos e gravações](assets/music/README.md)
+Som, volume, música e movimento podem ser ajustados nas preferências. O áudio começa após uma interação. Com movimento reduzido, números, textos e identificação das ações continuam disponíveis.
 
-![Zuri usando a cura na retaguarda](docs/previews/zuri-retaguarda-v0.32.0-desktop.png)
+![Arena com ações em foco](docs/previews/acoes-v0.33.0-desktop.png)
 
-## Som e apresentação
+[Ver no celular](docs/previews/acoes-v0.33.0-celular.png) · [Campo completo](docs/previews/campo-v0.33.0-celular.png) · [Novos baús](docs/previews/baus-v0.33.0-desktop.png)
 
-- **Música:** menu e combate em repetição; vitória e derrota com finais próprios, sem vozes. Transições suaves, volume musical independente e som interrompido ao ocultar a aba. O primeiro clique/toque libera o áudio.
-- **Menu e abertura:** painéis com acabamento de metal, ação principal em latão, ornamentos de arcos e iluminação suave. Os detalhes ilustrados conservam o aspecto estilizado.
-- **Ícones:** 22 vetores locais com o mesmo acabamento de marfim, ferro, latão e cores espectrais discretas.
-- **Batalha:** equipes em verde espectral e ameixa, superfícies mais sóbrias, ações e alvos destacados. Frente, retaguarda, Daly Mães, montes, mão e comandos continuam na tela.
-- **Decisões e consultas:** mão cheia, recuperação, fichas, preferências e registro acompanham o tema e mantêm os controles por botões.
-- **Catálogo, loja e crônicas:** molduras mais discretas, placas de título e painéis escuros. Cartas, personagens, produtos e suas cores originais continuam intactos.
-
-[Arena no computador](docs/previews/arena-v0.30.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.30.0-celular.png) · [Menu no celular](docs/previews/menu-v0.30.0-celular.png) · [Loja](docs/previews/loja-v0.30.0-desktop.png) · [Guia da interface](docs/UI.md)
+[Guia da interface](docs/UI.md) · [Balanceamento preservado](docs/BALANCEAMENTO_MANUAL.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 

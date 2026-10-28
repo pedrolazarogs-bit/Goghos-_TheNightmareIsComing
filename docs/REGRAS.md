@@ -1,6 +1,6 @@
 # Estrutura base do GOGHOS — v0.29.0
 
-**Versão atual: v0.32.0.** Os ajustes aprovados estão na seção final deste documento e os atributos ativos em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md). As seções versionadas anteriores registram a evolução das regras.
+**Versão atual: v0.33.0.** Os ajustes aprovados estão na seção final deste documento e os atributos ativos em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md). As seções versionadas anteriores registram a evolução das regras.
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. A v0.29.0 estende a apresentação cartoon à seleção, arena, mão, decisões e demais telas. Mantém integralmente as regras e o balanceamento anteriores. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
 ## Seleção
@@ -276,3 +276,12 @@ Velocidade alterada de **2 para 3**, conforme o criador. A ordem de ação, os a
 - **Daztirry:** Oni de **quatro ações globais**, inclusive em nova ativação por Poder Adicional. Continua com +30 de dano e é eliminado ao terminar. O prazo não representa quatro ações próprias e não garante uma ação adicional antes de expirar.
 
 Striker continua em velocidade 3 e Destruidores continuam ignorando Parry. Sam, Stally, Mike, Alex, Elysh, Sark e Cavaleiro preservam seus atributos. Nenhuma regra de gasto de Fôlego foi criada. As imagens e os manifestos dos kits originais permanecem intactos; números e textos ativos são atualizados na apresentação.
+
+
+## v0.33.0 — Apresentação e prévias de baús
+
+Atualização de interface, movimento e áudio. Não altera atributos, classes, raridades, probabilidades, habilidades, consumo de ações, montes, recuperação ou IA. A referência enviada orienta proporções e organização; os valores impressos nela não substituem o catálogo aprovado.
+
+Ataque, Habilidade e Apoio organizam os comandos sem alterar suas permissões. Cartas da mão continuam disponíveis na vez da equipe durante impedimentos, conforme a regra existente. Efeitos consomem os resultados já resolvidos pelo motor e não rolam dados nem aplicam dano.
+
+Os baús Comum, Pro, Plus e Plus+ são somente prévias na loja: sem preços, compras, conteúdo, probabilidades ou abertura definidos. O Baú da noite e a coleção cosmética anteriores preservam suas regras.

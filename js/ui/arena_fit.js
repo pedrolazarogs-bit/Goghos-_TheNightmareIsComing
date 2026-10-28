@@ -11,11 +11,12 @@ function computeSizing(options={}){
  options=options&&typeof options==='object'?options:{};
  const width=Math.max(0,finite(options.sideWidth,0)),height=Math.max(0,finite(options.sideHeight,0));
  const cap=Math.max(1,Math.floor(finite(options.frontCap,3))||3),gap=options.portrait?4:6;
- const heightLimit=(height-80)/1.67;
- const widthLimit=(width-24-(cap-1)*gap)/(cap+(options.hasRear?1.04:0));
+ const command=!!options.command;
+ const heightLimit=(height-(command?68:80))/1.67;
+ const widthLimit=(width-24-(cap-1)*gap)/(cap+(options.hasRear?(command?1.44:1.04):0));
  // Não impõe um mínimo que pudesse empurrar unidades para fora de uma janela pequena.
  const frontSize=Math.max(1,tenth(Math.min(156,heightLimit,widthLimit)));
- return{frontSize,rearSize:Math.max(1,tenth(frontSize*.52))};
+ return{frontSize,rearSize:Math.max(1,tenth(frontSize*(command ? .72 : .52)))};
 }
 
 function detach(){active?.cleanup();}
@@ -31,7 +32,8 @@ function mount(arena){
   const viewportWidth=finite(globalThis.innerWidth,0)||arena.getBoundingClientRect?.()?.width||0;
   const size=computeSizing({
    sideWidth:Math.min(...sides.map(box=>box.width)),sideHeight:Math.min(...sides.map(box=>box.height)),
-   frontCap:arena.dataset?.frontcap,hasRear:!!arena.querySelector?.('.rear .cell'),portrait:viewportWidth<=760
+   frontCap:arena.dataset?.frontcap,hasRear:!!arena.querySelector?.('.rear .cell'),portrait:viewportWidth<=760,
+   command:arena.classList?.contains('command-arena')
   });
   s.measurements++;
   if(Math.abs(s.frontSize-size.frontSize)<.05&&Math.abs(s.rearSize-size.rearSize)<.05)return;
@@ -65,7 +67,7 @@ function mount(arena){
  measure();
  if(typeof globalThis.ResizeObserver==='function'){
   s.resizeObserver=new globalThis.ResizeObserver(schedule);
-  const targets=new Set([arena,...arena.querySelectorAll('.side,.turn-panel,.turn-guide,.arena-header,.mao')]);
+  const targets=new Set([arena,...arena.querySelectorAll('.side,.turn-panel,.turn-guide,.arena-header,.mao,.command-stage,.command-deck')]);
   for(const target of targets)s.resizeObserver.observe(target);
  }
  listen(globalThis,'resize',schedule);listen(globalThis.visualViewport,'resize',schedule);

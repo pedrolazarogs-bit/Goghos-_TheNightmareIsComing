@@ -83,3 +83,49 @@ button:focus-visible,summary:focus-visible,input:focus-visible,[role=button]:foc
 .goghos-motion-reduced .toon-home .toon-logo,.goghos-motion-reduced .toon-home .toon-logo-glint,.goghos-motion-reduced .toon-home .toon-button{animation:none!important}
 /* Let the logo's flex area yield to the caption and champion link on desktop. */
 @media(min-width:761px){.toon-home .toon-brand-logo{min-height:0}}
+
+/* v0.33: one rhythm for the gateway, with a single clear primary action. */
+.toon-home .toon-menu-wrap{padding-inline:12px;max-width:440px}
+.toon-home .toon-menu{padding-left:0;align-items:stretch}
+.toon-home .toon-button{width:100%;margin-left:0!important;transform:none;animation-name:night-command-enter;transition:transform .16s ease}
+.toon-home .toon-mode{width:100%;margin-left:0!important;min-height:52px}
+.toon-home .toon-button-face>.toon-icon,.toon-home .toon-button-copy{transform:none}
+.toon-home .toon-button-face{padding-inline:15px;gap:15px}
+.toon-home .toon-button-face>.toon-icon{width:32px;height:32px;animation:none}
+.toon-home .toon-button-arrow{transform:none;opacity:.65}
+.toon-home .toon-button:hover:not(:disabled),.toon-home .toon-button:focus-visible{transform:translateY(-1px)}
+.toon-home .toon-button:hover .toon-button-arrow,.toon-home .toon-button:focus-visible .toon-button-arrow{transform:none;opacity:1}
+.toon-home .toon-button:active:not(:disabled){transform:translateY(1px)}
+.toon-home .toon-button-copy>strong{font-size:21px;line-height:1.15}
+.toon-home .toon-button-sun .toon-button-copy>strong{font-size:29px}
+.toon-home .toon-button-copy>small{font-size:10px;line-height:1.3}
+.toon-home .toon-button-sun{box-shadow:0 0 18px #b59a6810!important}
+.toon-home .toon-mode>.toon-icon{width:30px;height:30px}
+.toon-home .toon-mode strong{font-size:20px}
+.toon-home .toon-mode small{font-size:10px;letter-spacing:.04em}
+.toon-home .toon-footer>button,.toon-home .training-menu summary{min-height:44px;font-size:11px}
+.toon-home .toon-footer .toon-icon{width:24px;height:24px}
+.toon-home .training-grid button{min-height:44px;font-size:14px}
+.toon-home .training-grid .ui-icon{width:24px;height:24px}
+@keyframes night-command-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:760px){
+ .toon-home .toon-menu-wrap{max-width:365px;padding-inline:8px}
+ .toon-home .toon-menu{--menu-h:44px;--menu-gap:8px}
+ .toon-home .toon-button-face{gap:13px;padding-inline:13px}
+ .toon-home .toon-button-copy>strong{font-size:20px}
+ .toon-home .toon-button-sun .toon-button-copy>strong{font-size:27px}
+ .toon-home .toon-button-face>.toon-icon{width:29px;height:29px}
+ .toon-home .toon-mode strong{font-size:18px}
+ .toon-home .toon-mode small{font-size:9px}
+ .toon-home .toon-footer>button,.toon-home .training-menu summary{font-size:10px}
+}
+@media(max-height:560px) and (min-width:761px){
+ .toon-home .toon-menu{--menu-h:34px;--menu-gap:6px}
+ .toon-home .toon-button-face>.toon-icon{width:24px;height:24px}
+ .toon-home .toon-button-copy>strong{font-size:16px}
+ .toon-home .toon-button-sun .toon-button-copy>strong{font-size:22px}
+ .toon-home .toon-mode{min-height:38px}
+ .toon-home .toon-mode strong{font-size:16px}
+ .toon-home .toon-mode>.toon-icon{width:26px;height:26px}
+ .toon-home .toon-footer>button,.toon-home .training-menu summary{min-height:30px}
+}

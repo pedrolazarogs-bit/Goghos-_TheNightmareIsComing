@@ -48,3 +48,63 @@
 @keyframes fx-reduced-mark{0%,100%{opacity:0}25%,75%{opacity:.65}}
 .goghos-motion-reduced .fx-card-impact .card,.goghos-motion-reduced .fx-card-heal .card,.goghos-motion-reduced .fx-card-guard .card,.goghos-motion-reduced .fx-card-dodge .card{animation:none!important}
 @media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .presentation-fx-layer .fx-projectile,html:not(.goghos-motion-full) .presentation-fx-layer .fx-link{display:none}html:not(.goghos-motion-full) .fx-construct{animation:fx-reduced-mark .36s ease-out both!important;transform:translate(-50%,-50%)!important;filter:none}html:not(.goghos-motion-full) .fx-construct:after{display:none}}
+
+/* Uma chegada por transição real de entrada. Os ornamentos nunca interceptam o campo. */
+.fx-entry{position:absolute;transform:translate(-50%,-50%);color:var(--entry-color);z-index:3;isolation:isolate;animation:fx-entry-reveal var(--entry-time,700ms) ease-out both;filter:drop-shadow(0 0 8px color-mix(in srgb,currentColor 38%,transparent))}
+.fx-entry-seal{position:absolute;inset:5% 10%;display:block;border:2px solid currentColor;clip-path:polygon(50% 0,94% 15%,100% 80%,50% 100%,0 80%,6% 15%);background:linear-gradient(180deg,transparent 10%,color-mix(in srgb,currentColor 14%,transparent) 75%,transparent);animation:fx-entry-seal var(--entry-time) ease-out both}
+.fx-entry-seal:before,.fx-entry-seal:after{content:'';position:absolute;inset:2px;border:1px solid currentColor;opacity:.55;clip-path:inherit}
+.fx-entry-seal:after{inset:12px;opacity:.24}
+.fx-entry-orbit{position:absolute;display:block;inset:35% 0 15%;border:1px solid currentColor;border-radius:50%;transform:rotate(-18deg);animation:fx-entry-orbit var(--entry-time) ease-out both}
+.fx-entry-crown{position:absolute;left:36%;top:-10%;width:28%;aspect-ratio:1;display:block;filter:drop-shadow(0 0 5px currentColor)}
+.fx-entry-crown svg{width:100%;height:100%}
+.fx-entry-runes{position:absolute;top:76%;left:0;right:0;text-align:center;letter-spacing:.45em;font:18px Georgia,serif;color:currentColor;opacity:.85}
+.fx-entry-eclipse{position:absolute;inset:5% 10%;border:1px solid currentColor;border-radius:50%;box-shadow:0 0 0 8px #15111e1a,0 0 0 10px color-mix(in srgb,currentColor 20%,transparent);animation:fx-entry-eclipse var(--entry-time) ease-out both;z-index:-1}
+.fx-entry-common .fx-entry-seal{border-width:1px;inset:12% 18%;background:none}
+.fx-entry-rare .fx-entry-orbit{border-style:dashed}
+.fx-entry-epic .fx-entry-seal{box-shadow:inset 0 0 22px #aa82ce33}
+.fx-entry-mythic .fx-entry-orbit{border-radius:20%;transform:rotate(25deg)}
+.fx-entry-legendary .fx-entry-seal{border-width:3px;background:linear-gradient(150deg,transparent 20%,#ddbb6533,transparent 70%)}
+.fx-entry-legendary .fx-entry-orbit{box-shadow:0 0 0 4px #d8bf8026}
+.fx-entry-secret .fx-entry-seal{background:linear-gradient(160deg,#17131e00,#9d83c52b,#17131e00);border-style:dashed}
+.fx-entry-secret .fx-entry-crown{transform:rotate(45deg)}
+.fx-entry-god .fx-entry-seal{border-width:3px;background:radial-gradient(ellipse at 50% 100%,#eee0b04d,transparent 70%)}
+.fx-entry-god .fx-entry-eclipse{border-style:double;border-width:4px;box-shadow:0 0 0 7px #eee0b018,0 0 0 12px #eee0b03b}
+.fx-entry.is-preview{filter:none}.fx-entry.is-preview .fx-entry-eclipse{box-shadow:none}
+.fx-control-glint{position:absolute;border:1px solid #d8c7a8;border-radius:6px;box-shadow:inset 0 0 7px #eadbb02b;animation:fx-reduced-mark .22s ease-out both}
+.fx-entry-announcement{position:absolute;right:12px;top:calc(72px + var(--entry-slot,0)*44px);display:flex;align-items:center;gap:8px;width:min(188px,calc(100vw - 24px));min-height:38px;padding:5px 9px;background:#211d29f0;border:1px solid color-mix(in srgb,var(--entry-color) 60%,#62596a);border-left:3px solid var(--entry-color);border-radius:3px;box-shadow:0 3px 9px #0005;color:#eee2c8;animation:fx-reduced-mark .76s ease-out both}
+.fx-entry-announcement>i{color:var(--entry-color);font:23px Georgia,serif;font-style:normal}.fx-entry-announcement>span{display:grid;gap:2px}.fx-entry-announcement strong{font-size:14px;font-weight:400}.fx-entry-announcement small{color:var(--entry-color);font-size:10px}
+@keyframes fx-entry-reveal{0%{opacity:0;transform:translate(-50%,-43%) scale(.8)}25%,55%{opacity:.9;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-54%) scale(1.08)}}
+@keyframes fx-entry-seal{0%{opacity:0;transform:scaleY(.65)}30%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1.05)}}
+@keyframes fx-entry-orbit{0%{opacity:0;transform:rotate(-30deg) scale(.6)}35%{opacity:.8}100%{opacity:0;transform:rotate(30deg) scale(1.3)}}
+@keyframes fx-entry-eclipse{0%{opacity:0;transform:scale(.1) rotate(-20deg)}35%{opacity:.75;transform:scale(.9) rotate(0)}100%{opacity:0;transform:scale(1.35) rotate(20deg)}}
+
+/* Despedidas por identidade: pedra, páginas, brasas, armadura, alma ou estrela. */
+.fx-death{position:absolute;transform:translate(-50%,-50%);color:var(--death-color,#a693c2);z-index:4;animation:fx-death-dissolve var(--death-time,640ms) ease-out both}
+.fx-death-sigil{position:absolute;inset:20%;display:block;opacity:.8;filter:drop-shadow(0 0 5px currentColor)}
+.fx-death-sigil svg{width:100%;height:100%}
+.fx-death-fragment{position:absolute;left:50%;top:48%;display:block;width:7px;height:15px;background:currentColor;clip-path:polygon(50% 0,100% 45%,60% 100%,0 55%);animation:fx-death-scatter var(--death-time,640ms) ease-out both;animation-delay:calc(var(--fragment)*9ms)}
+.fx-death:is(.fx-death-rift,.fx-death-spiral,.fx-death-souls) .fx-death-sigil{animation:fx-death-portal var(--death-time) ease-in both}
+.fx-death:is(.fx-death-rift,.fx-death-shadows,.fx-death-souls) .fx-death-fragment{border-radius:50%;background:radial-gradient(ellipse,currentColor,transparent);width:15px;height:22px;clip-path:none}
+.fx-death:is(.fx-death-armor,.fx-death-stone,.fx-death-shards) .fx-death-fragment{width:13px;height:17px;border:1px solid #eee2c8aa;filter:saturate(.25)}
+.fx-death-pages .fx-death-fragment{width:13px;height:19px;clip-path:polygon(0 0,100% 5%,95% 100%,0 90%);background:repeating-linear-gradient(0deg,#d8c7ad 0 3px,#827075 4px 5px)}
+.fx-death-strings .fx-death-fragment{height:2px;width:25px;clip-path:none}
+.fx-death-cartridge .fx-death-fragment{width:4px;height:13px;background:#c2a773;clip-path:none;border-radius:1px}
+.fx-death-embers .fx-death-fragment{background:linear-gradient(#fff4b4,#e88e56,#803b64);width:6px;height:16px;clip-path:polygon(50% 0,100% 75%,50% 100%,0 75%);animation-name:fx-death-ember}
+.fx-death-sparks .fx-death-fragment{width:3px;height:25px;clip-path:polygon(70% 0,20% 45%,80% 40%,0 100%,100% 35%,45% 40%)}
+.fx-death:is(.fx-death-starfall,.fx-death-constellation,.fx-death-petals) .fx-death-fragment{width:12px;height:12px;clip-path:polygon(50% 0,64% 36%,100% 50%,64% 64%,50% 100%,36% 64%,0 50%,36% 36%)}
+.fx-death-dust .fx-death-fragment{width:5px;height:5px;border-radius:50%;clip-path:none}
+.fx-death-swarm .fx-death-fragment{width:7px;height:7px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.fx-death-afterimage .fx-death-sigil{inset:30% -4%;filter:blur(2px);transform:skewX(-30deg);opacity:.4}
+.fx-death:is(.fx-death-impact,.fx-death-gloves) .fx-death-fragment{width:3px;height:23px;clip-path:none}
+.fx-death-oni .fx-death-sigil{filter:drop-shadow(0 0 13px #d5a2ff);animation:fx-death-portal var(--death-time) ease-in both}
+.fx-death-jaws .fx-death-sigil{animation:fx-death-bite var(--death-time) ease-out both}
+.fx-death-heart .fx-death-sigil{clip-path:polygon(0 0,49% 0,42% 50%,57% 40%,51% 100%,0 100%,0 0,100% 0,100% 100%,53% 100%,60% 38%,46% 48%,52% 0)}
+@keyframes fx-death-dissolve{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}20%{opacity:.9;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-61%) scale(1.12)}}
+@keyframes fx-death-scatter{0%{opacity:0;transform:rotate(var(--fragment-angle)) translateX(8px) rotate(0)}22%{opacity:.85}100%{opacity:0;transform:rotate(var(--fragment-angle)) translateX(65px) rotate(calc(var(--fragment)*32deg))}}
+@keyframes fx-death-ember{0%{opacity:.8;transform:translate(0,12px)}100%{opacity:0;transform:translate(calc((var(--fragment) - 3)*14px),-85px) rotate(20deg)}}
+@keyframes fx-death-portal{0%{opacity:.8;transform:scale(1) rotate(0)}100%{opacity:0;transform:scaleX(.08) scaleY(1.2) rotate(20deg)}}
+@keyframes fx-death-bite{0%{opacity:.8;transform:scaleY(1)}55%{transform:scaleY(.25)}100%{opacity:0;transform:scale(.2)}}
+.fx-entry.is-reduced,.fx-death.is-reduced{animation:fx-reduced-mark .32s ease-out both!important;transform:translate(-50%,-50%)!important;filter:none}
+.fx-entry.is-reduced :is(.fx-entry-orbit,.fx-entry-eclipse,.fx-entry-runes),.fx-death.is-reduced .fx-death-fragment{display:none}
+.fx-entry.is-reduced *,.fx-death.is-reduced *{animation:none!important}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) :is(.fx-entry,.fx-death){animation:fx-reduced-mark .32s ease-out both!important;transform:translate(-50%,-50%)!important;filter:none}html:not(.goghos-motion-full) :is(.fx-entry,.fx-death) *{animation:none!important}html:not(.goghos-motion-full) :is(.fx-entry-orbit,.fx-entry-eclipse,.fx-entry-runes,.fx-death-fragment){display:none}}

@@ -110,3 +110,53 @@
 @media(max-width:440px){.shop-featured{grid-template-columns:1fr .65fr}.shop-featured h2{font-size:36px;white-space:normal;max-width:160px}.shop-featured-copy>p{max-width:150px}.shop-featured-art{padding:0 0 20px;align-self:stretch}.shop-featured-art .sanctuary-chest{width:144px;margin:0}.shop-featured-seal{right:7px;bottom:74px;max-width:85px}.shop-featured .sanctuary-price-note{max-width:245px;width:155%}}
 html.goghos-motion-reduced .shop-card-art .sanctuary-cosmetic-preview{transition:none}
 @media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .shop-card-art .sanctuary-cosmetic-preview{transition:none}}
+
+/* Vitrine v0.33: a escolha de baú primeiro, os visuais antigos por consulta. */
+.sanctuary.shop-hub .shop-chest-showcase{max-width:1040px;margin:0 auto 25px;position:relative}
+.sanctuary.shop-hub .shop-chest-showcase-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 14px;padding:0 2px}
+.sanctuary.shop-hub .shop-chest-showcase-heading h2{font-size:39px;line-height:1.05;margin:5px 0;color:#eee2c8}
+.sanctuary.shop-hub .shop-chest-showcase-heading .sanctuary-eyebrow{font-size:12px;color:#aa9fba;letter-spacing:.04em}
+.sanctuary.shop-hub .shop-chest-preview-note{font-size:14px;line-height:1.2;color:#c9b797;border:1px solid #b59a6844;border-radius:5px 1px 5px 1px;padding:8px 11px;background:#17141d55}
+.sanctuary.shop-hub .shop-chest-focus{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);min-height:240px;background:radial-gradient(ellipse at 25% 45%,color-mix(in srgb,var(--chest-accent) 12%,transparent),transparent 63%),linear-gradient(120deg,#292631,#1b1922);border:1px solid #8e785755;border-radius:16px 3px 16px 3px;box-shadow:0 5px 0 #0f0d14,inset 0 0 0 3px #17141d;isolation:isolate;overflow:hidden}
+.sanctuary.shop-hub .shop-chest-focus-art{display:flex;align-items:center;justify-content:center;min-width:0;position:relative;isolation:isolate}
+.sanctuary.shop-hub .shop-chest-focus-art>img{width:300px;height:240px;max-width:95%;object-fit:contain;filter:drop-shadow(0 10px 12px #08070e66);animation:shop-chest-arrive .45s ease both}
+.sanctuary.shop-hub .shop-chest-orbit{position:absolute;left:50%;top:50%;width:210px;height:210px;border:1px solid color-mix(in srgb,var(--chest-accent) 18%,transparent);transform:translate(-50%,-50%) rotate(45deg);border-radius:16px;z-index:-1}
+.sanctuary.shop-hub .shop-chest-orbit:after{content:'';position:absolute;inset:12px;border:1px solid color-mix(in srgb,var(--chest-accent) 12%,transparent);border-radius:10px}
+.sanctuary.shop-hub .shop-chest-focus-copy{align-self:center;padding:28px 35px 28px 10px;min-width:0}
+.sanctuary.shop-hub .shop-chest-seal{font-size:15px;color:var(--chest-accent);letter-spacing:.04em}
+.sanctuary.shop-hub .shop-chest-focus-copy h3{font-size:46px;line-height:1;margin:10px 0 13px;color:#eee2c8;text-shadow:0 2px 0 #100d17}
+.sanctuary.shop-hub .shop-chest-focus-copy p{font-size:19px;line-height:1.35;color:#bfb4c8;margin:0 0 20px}
+.sanctuary.shop-hub button.shop-chest-pending{display:block;min-height:44px;min-width:155px;padding:10px 24px;margin:0 0 11px;border:1px solid #635868;border-radius:6px 2px 6px 2px;background:#39343d;color:#b8afbb;opacity:1;box-shadow:0 3px 0 #0d0b12;cursor:default;font-size:20px}
+.sanctuary.shop-hub .shop-chest-focus-copy>small{display:block;font-size:13px;line-height:1.4;color:#a89eaf;max-width:270px}
+.sanctuary.shop-hub .shop-chest-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 0}
+.sanctuary.shop-hub button.shop-chest-option{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:0;padding:5px 13px 14px;margin:0;border:1px solid #4b4054;border-radius:10px 3px 10px 3px;background:linear-gradient(140deg,#302936,#211d28);color:#d9cedd;box-shadow:0 3px 0 #100d17;transition:background .18s,border-color .18s,transform .18s;overflow:hidden}
+.sanctuary.shop-hub button.shop-chest-option:hover:not(:disabled){background:linear-gradient(140deg,#3e3445,#2a2433);border-color:var(--chest-accent);box-shadow:0 4px 0 #100d17;transform:translateY(-2px);color:#eee2c8}
+.sanctuary.shop-hub button.shop-chest-option[aria-pressed=true]{background:linear-gradient(140deg,color-mix(in srgb,var(--chest-accent) 18%,#302936),#292430);border-color:var(--chest-accent);box-shadow:0 3px 0 #100d17,inset 0 0 0 1px color-mix(in srgb,var(--chest-accent) 22%,transparent)}
+.sanctuary.shop-hub .shop-chest-option img{width:170px;height:112px;max-width:100%;object-fit:contain;pointer-events:none;transition:transform .2s}
+.sanctuary.shop-hub .shop-chest-option:hover img{transform:translateY(-2px)}
+.sanctuary.shop-hub .shop-chest-option>span{font-size:26px;line-height:1.1;color:#eee2c8}
+.sanctuary.shop-hub .shop-chest-option>small{font-size:12px;line-height:1.2;color:#a99eaf;margin-top:5px}
+.sanctuary.shop-hub .shop-chest-option[aria-pressed=true]>small{color:var(--chest-accent)}
+.sanctuary.shop-hub .shop-chest-option:focus-visible{outline:3px solid var(--chest-accent);outline-offset:3px}
+.sanctuary.shop-hub .shop-cosmetic-vault{margin-top:30px;padding:0;background:none;border:0;max-width:none}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary{display:flex;align-items:center;gap:15px;list-style:none;border:1px solid #8e785744;border-radius:9px 2px 9px 2px;padding:16px 20px;background:linear-gradient(120deg,#302936,#24202c);color:#dfd2bf;box-shadow:0 3px 0 #100d17;cursor:pointer;min-height:60px}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary::-webkit-details-marker{display:none}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary>span{display:flex;align-items:center;gap:11px;font-size:23px}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary .toon-icon{width:30px;height:30px}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary>small{font-size:14px;color:#a99eaf;margin-left:auto}
+.sanctuary.shop-hub .shop-cosmetic-vault>summary>b{font-size:23px;color:#b59a68;transition:transform .2s}
+.sanctuary.shop-hub .shop-cosmetic-vault[open]>summary>b{transform:rotate(180deg)}
+.sanctuary.shop-hub .shop-cosmetic-vault-content{padding-top:22px}
+@keyframes shop-chest-arrive{from{opacity:0;transform:translateY(7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:650px){
+ .sanctuary.shop-hub .shop-chest-showcase-heading h2{font-size:32px}.sanctuary.shop-hub .shop-chest-showcase-heading .sanctuary-eyebrow{font-size:10px}.sanctuary.shop-hub .shop-chest-preview-note{font-size:12px;padding:7px 9px}
+ .sanctuary.shop-hub .shop-chest-focus{grid-template-columns:minmax(0,1fr) minmax(0,.9fr);min-height:230px}.sanctuary.shop-hub .shop-chest-focus-art>img{width:230px;height:225px;max-width:112%}.sanctuary.shop-hub .shop-chest-focus-copy{padding:22px 15px 22px 5px}.sanctuary.shop-hub .shop-chest-seal{font-size:12px}.sanctuary.shop-hub .shop-chest-focus-copy h3{font-size:39px;margin:10px 0 11px}.sanctuary.shop-hub .shop-chest-focus-copy p{font-size:15px;margin-bottom:17px}.sanctuary.shop-hub button.shop-chest-pending{min-width:0;width:100%;padding:9px 15px;font-size:17px;min-height:42px}.sanctuary.shop-hub .shop-chest-focus-copy>small{font-size:11px}.sanctuary.shop-hub .shop-chest-orbit{width:145px;height:145px}
+ .sanctuary.shop-hub .shop-chest-options{gap:8px;margin-top:13px}.sanctuary.shop-hub button.shop-chest-option{padding:3px 5px 12px}.sanctuary.shop-hub .shop-chest-option img{height:94px}.sanctuary.shop-hub .shop-chest-option>span{font-size:23px}.sanctuary.shop-hub .shop-chest-option>small{font-size:10px}
+ .sanctuary.shop-hub .shop-cosmetic-vault>summary{padding:14px;gap:8px;flex-wrap:wrap}.sanctuary.shop-hub .shop-cosmetic-vault>summary>span{font-size:21px}.sanctuary.shop-hub .shop-cosmetic-vault>summary>small{flex-basis:100%;order:3;padding-left:38px;font-size:12px}.sanctuary.shop-hub .shop-cosmetic-vault>summary>b{margin-left:auto}.sanctuary.shop-hub .shop-cosmetic-vault>summary .toon-icon{width:26px;height:26px}
+}
+@media(max-width:440px){
+ .sanctuary.shop-hub .shop-chest-showcase{margin-bottom:20px}.sanctuary.shop-hub .shop-chest-focus{min-height:214px}.sanctuary.shop-hub .shop-chest-focus-art>img{width:200px;height:205px;max-width:116%;margin-left:-3px}.sanctuary.shop-hub .shop-chest-focus-copy h3{font-size:35px}.sanctuary.shop-hub .shop-chest-focus-copy p{font-size:14px}.sanctuary.shop-hub .shop-chest-seal{font-size:11px}.sanctuary.shop-hub .shop-chest-focus-copy>small{font-size:10px}.sanctuary.shop-hub .shop-chest-orbit{width:122px;height:122px}.sanctuary.shop-hub .shop-chest-options{gap:7px}.sanctuary.shop-hub .shop-chest-option img{height:76px}.sanctuary.shop-hub .shop-chest-option>span{font-size:20px}.sanctuary.shop-hub .shop-chest-option>small{font-size:9px}.sanctuary.shop-hub button.shop-chest-option{padding-bottom:10px}
+}
+html.goghos-motion-reduced .shop-chest-focus-art>img{animation:none}
+html.goghos-motion-reduced .shop-chest-option,html.goghos-motion-reduced .shop-chest-option img{transition:none}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .shop-chest-focus-art>img{animation:none}html:not(.goghos-motion-full) .shop-chest-option,html:not(.goghos-motion-full) .shop-chest-option img{transition:none}}

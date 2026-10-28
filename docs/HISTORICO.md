@@ -268,3 +268,10 @@ Velocidade alterada de **2 para 3**, conforme o criador. A ordem de ação, os a
 - **Daztirry:** Oni de **quatro ações globais**, inclusive em nova ativação por Poder Adicional. Continua com +30 de dano e é eliminado ao terminar. O prazo não representa quatro ações próprias e não garante uma ação adicional antes de expirar.
 
 Striker continua em velocidade 3 e Destruidores continuam ignorando Parry. Sam, Stally, Mike, Alex, Elysh, Sark e Cavaleiro preservam seus atributos. Nenhuma regra de gasto de Fôlego foi criada. As imagens e os manifestos dos kits originais permanecem intactos; números e textos ativos são atualizados na apresentação.
+
+
+## v0.33.0 — Interface em foco e identidade audiovisual
+
+Campo reorganizado a partir da nova referência: interação ampliada entre personagem e alvo, Vida em barras, vínculos identificados e comandos Ataque/Habilidade/Apoio. Consultas completas ficam em painéis paginados. A atualização alcança menu, arquivo, treinos e loja, mantendo fonte, logo e cartas oficiais.
+
+Movimentos das cartas, timbres por arma e habilidade, entradas progressivas das seis raridades e de Deus e eliminações personalizadas apresentam os resultados existentes do motor. Seleção usa realce discreto. Novos baús Comum, Pro, Plus e Plus+ são prévias sem regras de compra ou conteúdo; economia cosmética anterior preservada. Nenhum módulo do motor ou atributo de balanceamento foi alterado.

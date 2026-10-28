@@ -424,3 +424,15 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Chromium em 1280×720 e 390×844: Zuri usa a cura da retaguarda pelo botão, consome uma ação, preserva a própria Vida e não ganha ataque traseiro. Rayvilin causa dano normal no turno da petrificação e executa na próxima vez; a petrificação de entrada permite execução na primeira vez. DD-X produz quatro golpes separados de 55 em uma ação.
 - Carta/ficha exibem DD-X55×2, Fonior320 e Linx35%. Chama mostra 55 sem o antigo ×6; a habilidade informa 40×5. Unicorn aplica +1 de velocidade, Oni inicia com quatro ações globais, e Burn mantém hipnose e números originais. O dado 6 acerta a esquiva natural mesmo com grande diferença de velocidade, preservando a proteção própria de Striker.
 - Formação de 12 personagens, cinco cartas e consultas paginadas continuam cabendo em sete tamanhos de janela, incluindo paisagem curta. Fonte original, tema gótico e música preservados. Sem erros JavaScript/HTTP observados.
+
+
+## v0.33.0
+
+- `npm test`: **446 testes aprovados**, incluindo comandos progressivos, identidade audiovisual, prévias de baús e identidade das demais telas. A guarda de invariantes confirma que os módulos do motor, dados aprovados e 71 imagens de cartas permanecem intactos; a identificação de versão é a única mudança no arquivo de personagens.
+- Chromium: seleção alternada nativa até a batalha, escolha de alvo, DD-X em quatro golpes separados, Apoio durante paralisia, consultas paginadas, alternância Campo/Ações e seleção dos quatro baús sem alterar moedas. Reapresentar a UI não altera estado, compra cartas ou rola dados.
+- Formação completa de 12 personagens com Recruta e mão de cinco cartas conferida em 1280×720, 1024×768, 844×390, 768×1024, 390×844 e 360×640. Sem rolagem necessária, controles fora do viewport ou cartas de foco sobre os comandos. O cabeçalho estreito reserva colunas próprias para personagem atual, próximo e consulta de ordem.
+- Vinte e quatro cenários de decisões em quatro tamanhos: recuperação, avanço de Suportes, mão cheia, cinco alvos de petrificação, escolha de protegido e alvos de Apoio. Sem controles cortados ou rolagem nos diálogos.
+- Web Audio liberado por gesto real: sete assinaturas de entrada, sons por arma, deslocamento real da carta ampliada mesmo com o campo recolhido e eliminação de Chama com brasas. Efeitos desligados/reduzidos e encerramento limpam sons, animações e tarefas; trocar de alvo ou abrir Campo não repete entradas.
+- Menu, arquivo, treinos e loja conferidos em desktop e celular. Fonte German Beauty e marca oficial preservadas. Nenhuma exceção JavaScript, erro HTTP ou recurso remoto observado. O botão Como funciona abre a página da habilidade do personagem correto.
+
+[Comandos no computador](previews/acoes-v0.33.0-desktop.png) · [Comandos no celular](previews/acoes-v0.33.0-celular.png) · [Campo completo](previews/campo-v0.33.0-celular.png) · [Novos baús](previews/baus-v0.33.0-desktop.png)

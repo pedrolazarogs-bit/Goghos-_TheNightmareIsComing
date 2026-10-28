@@ -1,6 +1,6 @@
-# Interface completa — v0.29.0
+# Interface — v0.33.0
 
-A direção atual segue o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
+As seções iniciais registram a direção da v0.29; a interface atual está descrita na seção v0.33.0 ao final. A direção original seguiu o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
 
 ## Direção visual nas telas de jogo
 
@@ -110,3 +110,20 @@ Velocidade alterada de **2 para 3**, conforme o criador. A ordem de ação, os a
 - **Daztirry:** Oni de **quatro ações globais**, inclusive em nova ativação por Poder Adicional. Continua com +30 de dano e é eliminado ao terminar. O prazo não representa quatro ações próprias e não garante uma ação adicional antes de expirar.
 
 Striker continua em velocidade 3 e Destruidores continuam ignorando Parry. Sam, Stally, Mike, Alex, Elysh, Sark e Cavaleiro preservam seus atributos. Nenhuma regra de gasto de Fôlego foi criada. As imagens e os manifestos dos kits originais permanecem intactos; números e textos ativos são atualizados na apresentação.
+
+
+## v0.33.0 — Campo e comando em foco
+
+A [referência do criador](references/ui-batalha-v0.33.png) orienta a interação: carta da vez e alvo em destaque, barras de Vida separadas da ilustração, estrela da habilidade e indicação de vínculos como caça de Draktar, proteção de Z-Zus e amizade de Karma. O campo conserva a formação; a área de comando concentra a decisão atual.
+
+No computador, campo e comando aparecem lado a lado. No celular, **Ações** prioriza as cartas ampliadas e **Campo** abre as formações completas. As vidas de ambas as Daly Mães permanecem visíveis na vista de ações. **Escolher alvo** abre cartas grandes, com páginas por botões; somente alvos permitidos pelo motor são oferecidos, incluindo cura, quebra de maldição e Daly Mãe exposta. Escolher um alvo não gasta a ação. Mover Suportes abre o campo, e Concluir retorna aos comandos.
+
+Os comandos são divididos em Ataque, Habilidade e Apoio. A habilidade apresenta somente seu resumo e seus controles; a ficha contém a explicação completa. Montes, histórico, ordem, eliminados e preferências abrem consultas paginadas. Os Apoios continuam utilizáveis na vez da equipe durante impedimentos.
+
+As cartas se deslocam em golpes, recuos, esquivas e mudanças de linha. O espelho ampliado acompanha a ação sem duplicar som, dano ou defesa. As entradas têm sete assinaturas crescentes: Comum (selo), Raro (órbita verde), Épico (runa), Mítico (chama), Lendário (coroa), Secreto (eclipse) e Deus (cosmos). Cada assinatura tem timbre próprio; trocar de alvo ou redesenhar a tela não repete a entrada.
+
+Os timbres de soco, chute, lâmina, guitarra-machado, raio, feixe, míssil, AK-47, rifle de precisão e revólver acompanham o perfil de ataque ou habilidade. Eliminações têm motivos associados ao personagem, como brasas de Chama, fenda de Penxy, páginas de Vaglar e estilhaços de pedra de Rayvilin. Oni permanece uma transformação, sem apresentação de morte antes de sua eliminação efetiva. Efeitos periódicos continuam visíveis quando uma ação é passada ou impedida.
+
+Menu, seleção, arquivo, treinos e loja usam o mesmo acabamento sóbrio, ícones maiores e informações expansíveis. Tocar na carta do arquivo ou usar Enter/Espaço abre sua habilidade e a prévia da raridade. Sons e partículas são acionados por interações reais. Som desligado e movimento reduzido preservam as informações essenciais.
+
+A loja apresenta os quatro baús Comum, Pro, Plus e Plus+ com ilustrações locais originais. Selecionar uma prévia não gasta moedas nem sorteia conteúdo. A abertura está desativada até o criador definir suas regras. Cosméticos e Baú da noite anteriores ficam em uma área recolhida e mantêm sua economia.

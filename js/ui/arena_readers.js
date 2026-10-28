@@ -55,12 +55,26 @@
   function eliminatedPages(o){
     return paginate([...(o.state?.eliminated||[])],6).map(page=>page.length?`<div class="reader-eliminated">${page.map(e=>`<article><strong>${escape(e.name)}</strong><span>${escape(G.CLASS_LABEL?.[e.class]||e.class||'Personagem')}</span><small>${e.team==='player'?'Sua equipe':'Adversário'} · Rodada ${escape(e.round??'—')}</small></article>`).join('')}</div>`:empty('Nenhum personagem foi eliminado.'));
   }
+  function pilePages(o,size){
+    const s=o.state||{},deck=s.deck||{},rarities=G.RARITIES||[];
+    const main=`<article class="reader-main-pile"><span class="reader-pile-art" aria-hidden="true">${G.arenaArtHTML?.('back')||''}</span><div><small>Monte principal</small><strong>${escape(deck.pile?.length||0)} <span>cartas</span></strong><p>Cada equipe compra uma carta ao reiniciar a hierarquia de velocidade.</p></div></article><div class="reader-deck-totals"><span>Mão adversária <b>${escape(deck.hands?.enemy?.length||0)}/5</b></span><span>Descarte <b>${escape(deck.discard?.length||0)}</b></span><span>Excluídos <b>${escape(s.eliminated?.length||0)}</b></span></div>`;
+    const piles=rarities.map(r=>`<article class="reader-rarity-pile" style="--pile:${escape(G.MEDAL_COLORS?.[r]?.color||'#b59a68')}"><i aria-hidden="true"></i><span>${escape(G.RARITY_LABEL?.[r]||r)}</span><b>${escape(s.piles?.[r]?.length||0)}</b></article>`);
+    return [main,...paginate(piles,size.short?3:6).map(page=>`<div class="reader-rarity-grid">${page.join('')}</div><p class="reader-pile-note">Uma medalha resgata a primeira carta do monte da mesma raridade. Personagens eliminados ficam excluídos da partida.</p>`)];
+  }
+  function targetPages(o,size){
+    const targets=Array.isArray(o.targets)?o.targets:[];
+    const items=targets.map(u=>`<button type="button" class="reader-target-choice${u.uid===o.selectedUid?' selected':''}" data-command-target="${escape(u.uid)}" aria-pressed="${u.uid===o.selectedUid}">${G.cardHTML?.(u)||''}<strong>${escape(u.name)}</strong><small>${escape(G.CLASS_LABEL?.[u.class]||u.class||'Personagem')} · ${u.row==='rear'?'Retaguarda':'Frente'}</small><span><b>${escape(u.hp)}</b> / ${escape(u.maxHp)} de Vida</span></button>`);
+    if(o.dalyTarget){const d=o.state?.daly?.enemy||{};items.push(`<button type="button" class="reader-target-choice reader-target-daly" data-command-target="daly_enemy" aria-pressed="${o.selectedUid==='daly_enemy'}"><span class="reader-daly-art">${G.arenaArtHTML?.('daly')||''}</span><strong>Daly Mãe</strong><small>Adversária · Exposta</small><span><b>${escape(d.hp??0)}</b> / ${escape(d.max??3)} vidas</span></button>`);}
+    return paginate(items,size.narrow&&!size.short?2:4).map(page=>page.length?`<div class="reader-target-grid">${page.join('')}</div>`:empty(o.targetEmptyMessage||'Nenhum alvo disponível para esta ação.'));
+  }
   G.ArenaReaders={render(options={}){
     const o=options,size=viewport(),type=o.type||'card';let title,content;
     switch(type){
       case 'history':title='Registro da batalha';content=historyPages(o,size);break;
       case 'order':title='Ordem de velocidade';content=orderPages(o,size);break;
       case 'eliminated':title='Personagens eliminados';content=eliminatedPages(o);break;
+      case 'piles':title='Montes da partida';content=pilePages(o,size);break;
+      case 'targets':title=o.targetTitle||'Escolher alvo';content=targetPages(o,size);break;
       case 'settings':title='Som e música';content=Array.from({length:5},(_,page)=>`<div class="reader-settings" data-reader-page="${page}">${o.settingsHTML||empty('Preferências indisponíveis.')}</div>`);break;
       case 'hand':title='Carta da sua mão';content=Array.from({length:Math.max(1,Math.trunc(Number(o.handPages)||1))},()=>`<div class="reader-hand"><div class="reader-hand-art">${o.handArtHTML||''}</div><div class="reader-hand-detail">${o.handDetailHTML||empty('Selecione uma carta da mão.')}</div></div>`);break;
       default:title=o.unit?`Ficha · ${o.unit.name}`:'Ficha da carta';content=cardPages(o,size);break;

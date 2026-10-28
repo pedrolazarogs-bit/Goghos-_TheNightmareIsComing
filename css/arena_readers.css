@@ -1,4 +1,37 @@
 /* Fichas e consultas em páginas: os controles ficam visíveis sem roda do mouse. */
+.arena .fit-reader .reader-target-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;align-content:start;min-width:0}
+.arena .fit-reader .reader-target-choice{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;min-width:0;min-height:0;padding:10px 6px;margin:0;border:1px solid #7c6878;border-radius:9px 2px;background:linear-gradient(145deg,#382e3e,#251f2d);color:#eee2c8}
+.arena .fit-reader .reader-target-choice>.slot{width:min(136px,calc((100dvh - 240px)*.599));max-width:100%}
+.arena .fit-reader .reader-target-choice .card{width:100%;max-width:100%}
+.arena .fit-reader .reader-target-choice strong{font-size:22px;line-height:1.1;max-width:100%;overflow-wrap:anywhere;margin-top:5px}
+.arena .fit-reader .reader-target-choice small{font-size:12px;line-height:1.2;color:#c4b1ca}
+.arena .fit-reader .reader-target-choice>span{font-size:12px;color:#c8b9bf}
+.arena .fit-reader .reader-target-choice>span b{font-size:17px;color:#eadbc3}
+.arena .fit-reader .reader-target-choice.selected{border-color:#c2d5b2;background:linear-gradient(#405345,#28392f);outline:2px solid #c4d5ae;outline-offset:2px}
+.arena .fit-reader .reader-daly-art{display:grid;place-items:center;block-size:225px;inline-size:100%}.arena .fit-reader .reader-daly-art>.asset-window{height:175px;max-width:85%}
+@media(max-width:620px){.arena .fit-reader .reader-target-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.arena .fit-reader .reader-target-choice strong{font-size:21px}}
+@media(max-height:519px){.arena .fit-reader .reader-target-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.arena .fit-reader .reader-target-choice{padding:6px 4px;gap:4px}.arena .fit-reader .reader-target-choice>.slot{width:min(104px,calc((100dvh - 212px)*.599))}.arena .fit-reader .reader-target-choice strong{font-size:17px;margin-top:1px}.arena .fit-reader .reader-target-choice small,.arena .fit-reader .reader-target-choice>span{font-size:10px}.arena .fit-reader .reader-target-choice>span b{font-size:14px}.arena .fit-reader .reader-daly-art{block-size:150px}.arena .fit-reader .reader-daly-art>.asset-window{height:135px}}
+.arena .fit-reader .reader-main-pile{display:grid;grid-template-columns:125px minmax(0,1fr);align-items:center;gap:28px;padding:20px;min-width:0}
+.arena .fit-reader .reader-pile-art{display:block;max-width:125px;filter:drop-shadow(4px 6px 4px #0a0610aa)}
+.arena .fit-reader .reader-main-pile small{font-size:17px;color:#cbb999;display:block}
+.arena .fit-reader .reader-main-pile strong{font:400 54px/1.2 var(--toon-display,'German Beauty',Georgia,serif);display:block;color:#eee2c8;margin-top:8px}
+.arena .fit-reader .reader-main-pile strong span{font-size:23px}
+.arena .fit-reader .reader-main-pile p,.arena .fit-reader .reader-pile-note{font-size:17px;line-height:1.45;color:#d5c7d7;margin:16px 0 0}
+.arena .fit-reader .reader-deck-totals{display:flex;justify-content:space-around;gap:12px;flex-wrap:wrap;padding:16px;border-top:1px solid #907b6755;font-size:16px;color:#cbbbbb}
+.arena .fit-reader .reader-deck-totals b{display:block;font-size:27px;color:#eee2c8;margin-top:7px}
+.arena .fit-reader .reader-rarity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;min-width:0}
+.arena .fit-reader .reader-rarity-pile{display:grid;grid-template-columns:19px minmax(0,1fr) auto;align-items:center;gap:14px;min-height:85px;padding:16px;border:1px solid color-mix(in srgb,var(--pile) 36%,#75617c);border-radius:8px 2px;background:linear-gradient(140deg,color-mix(in srgb,var(--pile) 10%,#332938),#211c2a)}
+.arena .fit-reader .reader-rarity-pile i{display:block;inline-size:19px;block-size:19px;background:var(--pile);border:2px solid #160d22;border-radius:3px;box-shadow:inset 0 1px 0 #fff5}
+.arena .fit-reader .reader-rarity-pile span{font-size:22px;color:#eee2c8}
+.arena .fit-reader .reader-rarity-pile b{font-size:32px;color:#eee2c8}
+@media(max-width:620px){
+ .arena .fit-reader .reader-main-pile{grid-template-columns:85px minmax(0,1fr);gap:16px;padding:10px 0}.arena .fit-reader .reader-pile-art{max-width:85px}.arena .fit-reader .reader-main-pile strong{font-size:43px}.arena .fit-reader .reader-main-pile p,.arena .fit-reader .reader-pile-note{font-size:15px}.arena .fit-reader .reader-deck-totals{justify-content:space-between;padding:14px 0;font-size:13px}.arena .fit-reader .reader-deck-totals b{font-size:25px}
+ .arena .fit-reader .reader-rarity-grid{gap:9px}.arena .fit-reader .reader-rarity-pile{grid-template-columns:13px minmax(0,1fr) auto;gap:7px;min-height:73px;padding:10px}.arena .fit-reader .reader-rarity-pile i{inline-size:13px;block-size:13px}.arena .fit-reader .reader-rarity-pile span{font-size:17px}.arena .fit-reader .reader-rarity-pile b{font-size:26px}
+}
+@media(max-height:519px){
+ .arena .fit-reader .reader-main-pile{grid-template-columns:85px minmax(0,1fr);gap:24px;padding:2px 12px}.arena .fit-reader .reader-pile-art{max-width:85px}.arena .fit-reader .reader-main-pile strong{font-size:38px;margin-top:2px}.arena .fit-reader .reader-main-pile p{font-size:15px;margin-top:7px}.arena .fit-reader .reader-deck-totals{padding:10px;font-size:13px}.arena .fit-reader .reader-deck-totals b{font-size:23px;margin-top:2px}
+ .arena .fit-reader .reader-rarity-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.arena .fit-reader .reader-rarity-pile{min-height:70px;padding:10px;gap:9px}.arena .fit-reader .reader-rarity-pile span{font-size:19px}.arena .fit-reader .reader-rarity-pile b{font-size:27px}.arena .fit-reader .reader-pile-note{font-size:14px;margin-top:12px}
+}
 .arena .inspect-backdrop:has(.fit-reader){padding:12px;align-items:center}
 .arena .inspect-sheet.fit-reader{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;inline-size:min(820px,100%);block-size:min(680px,calc(100dvh - 24px));max-block-size:calc(100dvh - 24px);min-block-size:0;overflow:visible;padding:18px!important;text-align:left;border:3px solid #1a102c;border-radius:22px;background:linear-gradient(135deg,#493067,#291d40);box-shadow:0 7px 0 #100b1c,0 0 0 2px #aa72cb}
 .arena .fit-reader>header{position:static;display:flex;align-items:center;justify-content:space-between;gap:10px;min-inline-size:0;min-block-size:42px;margin:0;padding:0 0 10px;background:none;border-bottom:1px solid #c6a0e244}
