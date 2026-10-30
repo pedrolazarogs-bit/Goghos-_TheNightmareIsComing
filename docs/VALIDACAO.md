@@ -475,3 +475,8 @@ As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`
 - `git diff --check` limpo. Prévias identificadas por `v0.35.0` em `docs/previews/`.
 
 [Ver o combate em movimento](previews/combate-v0.35.0.mp4) · [Batalha no celular](previews/arena-v0.35.0-celular.png) · [Menu](previews/menu-v0.35.0-desktop.png)
+
+
+## v0.35.1 — Fundo preto
+
+`npm test`: **447 testes aprovados**. Dez conferências visuais em 1280×720 e 390×844 confirmam fundo preto em abertura, menu, modos, seleção e batalha, sem textura ilustrada ativa. Cartas e ícones conservam exatamente as medidas e posições da v0.35.0; sem erros de JavaScript/HTTP ou overflow. Prévia atualizada em `docs/previews/arena-v0.35.1-desktop.png`.

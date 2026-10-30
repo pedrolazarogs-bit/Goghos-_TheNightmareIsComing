@@ -301,3 +301,8 @@ O criador esclareceu que a melhoria deve acontecer na arena existente. Retirados
 - Duas composições originais de mesa, para computador e celular, e doze ícones baseados no novo kit de referência, com acabamento menos cartoon.
 - Cartas maiores, montes físicos clicáveis, mão em leque e símbolos distintos para ações e habilidades.
 - Enquadramento e espaço dos comandos estabilizados; regras, artes oficiais, fonte e sons preservados.
+
+
+## v0.35.1 — Fundo preto
+
+Removida a ilustração de fundo de Jogar, seleção, modos, batalha e abertura. Mantidos os personagens, cartas, ícones e organização aprovados na v0.35.0.

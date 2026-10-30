@@ -302,3 +302,8 @@ Atualização visual de telas, ícones e baús a partir das referências enviada
 ## v0.35.0 — Reorganização visual de Jogar e batalha
 
 Nenhuma regra de combate, atributo, habilidade, tributo, sorteio, preço ou recompensa foi alterada. Os montes agora abrem sua consulta ao serem clicados; consultar não compra cartas. O controle de mana mantém os mesmos limites e consumo. O enquadramento usa a quantidade de personagens presentes somente para dimensionar a apresentação; a capacidade real da frente e a regra de Recruta permanecem intactas.
+
+
+## v0.35.1 — Fundo preto
+
+Somente apresentação: removido o cenário ilustrado. Nenhuma alteração de regra, balanceamento, posicionamento ou recurso da partida.

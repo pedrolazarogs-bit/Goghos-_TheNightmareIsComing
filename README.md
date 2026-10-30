@@ -1,6 +1,6 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.0** refaz Jogar, seleção e batalha com uma mesa ilustrada e emblemas facetados, seguindo o novo kit de referência do criador com um acabamento mais sóbrio.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.1** mantém Jogar, seleção, modos e batalha com os emblemas facetados e agora usa **fundo preto**, sem a ilustração do cenário.
 
 ## Cartas sobre a mesa
 
@@ -12,9 +12,9 @@ Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.0*
 
 O balanceamento, as artes oficiais, a fonte German Beauty, as músicas e os efeitos de combate permanecem preservados. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
 
-![Campo com cartas e controles ilustrados](docs/previews/arena-v0.35.0-desktop.png)
+![Campo com cartas e controles ilustrados](docs/previews/arena-v0.35.1-desktop.png)
 
-[Menu](docs/previews/menu-v0.35.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.35.0-celular.png) · [Seleção](docs/previews/selecao-v0.35.0-celular.png) · [Combate em movimento](docs/previews/combate-v0.35.0.mp4) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
+[Menu](docs/previews/menu-v0.35.1-desktop.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 

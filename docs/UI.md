@@ -162,3 +162,8 @@ Os ícones de habilidade e ataque são diferentes; ações obrigatórias como pa
 `ArenaFit` lê medidas da interface e usa a quantidade real de personagens da frente, reserva de espaço e proporção de Suportes definidas pelo cenário. As vagas vazias não obrigam cartas iniciais a encolher. A área dos comandos e o rodapé da mão permanecem estáveis entre as jogadas. A seleção de um alvo, as consultas e o redesenho continuam sem alterar estado, dados ou recursos da partida.
 
 As [artes locais](../assets/realms-v035/README.md) incluem mesa horizontal, composição vertical e duas folhas transparentes de seis ícones. O carregamento da abertura prepara os sete recursos essenciais, incluindo as novas artes. Nenhuma classe, carta ou logotipo oficial foi redesenhado.
+
+
+## v0.35.1 — Fundo preto
+
+A ilustração do cenário foi retirada de Jogar, seleção, modos e batalha. A abertura também usa fundo preto, preservando os personagens em primeiro plano. Cartas, emblemas, controles, enquadramento, sons e regras permanecem os mesmos. A abertura prepara seis recursos, sem carregar a imagem de cenário que deixou de ser usada.

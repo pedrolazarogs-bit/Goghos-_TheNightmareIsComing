@@ -2,11 +2,11 @@
 .toon-home.realm-home.home{
   display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:70px minmax(0,1fr) 42px;
   width:100%;height:100dvh;min-height:0;max-height:100dvh;padding:0 4vw;
-  overflow:hidden;background:#10151b;color:#f2e7d3;
+  overflow:hidden;background:#000;color:#f2e7d3;
 }
-.realm-home .toon-backdrop{background:radial-gradient(ellipse at 45% 45%,#10121b00 20%,#070a1099),url('../assets/realms-v035/nightmare-table.png') center/cover no-repeat}
+.realm-home .toon-backdrop{background:#000}
 .realm-home .toon-backdrop:before,.realm-home .toon-backdrop:after{display:none}
-.realm-home .ct-motion-scene{background:transparent}
+.realm-home .ct-motion-scene{display:none;background:transparent}
 .realm-home .ct-motion-wash,.realm-home .ct-motion-rays,.realm-home .ct-motion-shard,.realm-home .ct-motion-halftone{display:none}
 .realm-home .ct-motion-canvas{opacity:.25;filter:saturate(.55)}
 .realm-home .ct-motion-shade{background:radial-gradient(ellipse at 50% 40%,transparent 30%,#080a1155)}
@@ -71,7 +71,7 @@
 .realm-home .toon-footer>button .toon-icon{width:20px;height:20px}
 .realm-home .training-grid{bottom:30px;z-index:10}
 /* As escolhas são cartas reais; o chão recebe a seleção, sem caixas ao redor. */
-.selection.fg-selection.realm-selection{height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:66px 30px 96px;background:radial-gradient(ellipse,#171f2a22,#090f1aa6),url('../assets/realms-v035/nightmare-table.png') center/cover;color:#f0e3c8}
+.selection.fg-selection.realm-selection{height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:66px 30px 96px;background:#000;color:#f0e3c8}
 .selection.fg-selection.realm-selection:before{display:none}
 .realm-selection>.row.fg-selection-stage{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;align-items:center;width:min(100%,1080px);max-width:1080px;min-height:0;margin:0 auto;position:relative;z-index:2}
 .selection.realm-selection .selection-pick{position:relative;isolation:isolate;padding:0;border:0;border-radius:0;background:none!important;box-shadow:none!important;max-width:none;animation:none;transform:rotate(-2deg);transition:translate .2s ease,filter .2s ease,transform .2s ease}
@@ -172,7 +172,7 @@
  display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;
  width:100%;max-width:none;height:100dvh;min-height:0;max-height:100dvh;
  padding:18px 4vw 22px;overflow:hidden;
- background:radial-gradient(ellipse at 50% 43%,#121a2322,#070c15a8),url('../assets/realms-v035/nightmare-table.png') center/cover;
+ background:#000;
 }
 .mode-screen.realm-modes:before{display:none}
 .realm-modes .mode-header{
@@ -297,3 +297,14 @@
 }
 @media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .realm-modes :is(.mode-tile,.mode-tile-art:before){transition:none!important}}
 .goghos-motion-reduced .realm-modes :is(.mode-tile,.mode-tile-art:before){transition:none!important}
+
+/* v0.35.1 · Fundo preto, mantendo os personagens e os objetos da interface. */
+.realm-home .realm-gate-halo{display:none}
+.world-intro.toon-intro,.world-intro.toon-intro .toon-backdrop{background:#000}
+.world-intro.toon-intro .ct-motion-scene,
+.world-intro.toon-intro .toon-backdrop:before,
+.world-intro.toon-intro .toon-backdrop:after,
+.world-intro.toon-intro .toon-intro-streaks,
+.world-intro.toon-intro .signal-intro-cast:before,
+.world-intro.toon-intro .signal-intro-cast:after,
+.world-intro.toon-intro .signal-intro-cast>i{display:none}

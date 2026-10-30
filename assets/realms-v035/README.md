@@ -32,3 +32,5 @@ Exemplo de enquadramento: `background-size: 200% 300%`, coluna em `0%` ou `100%`
 Esses elementos são somente apresentação. Os selos de classe e as imagens oficiais das cartas continuam em seus arquivos originais. Nenhum atributo, poder, tributo ou regra de combate está embutido nestas artes.
 
 A interface aplica zoom óptico de 1,5× e centraliza os emblemas pelos limites visíveis, em `css/realms_icons.css`. O tamanho de fundo passa a `300% 450%`; os percentuais individuais compensam as margens transparentes sem ampliar os botões nem cortar seus símbolos.
+
+Na v0.35.1, as duas imagens de cenário deixam de ser usadas pela interface e pelo carregamento inicial. Permanecem arquivadas como material da v0.35.0; os emblemas continuam ativos sobre fundo preto.

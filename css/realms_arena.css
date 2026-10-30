@@ -7,16 +7,16 @@
  grid-template-columns:128px minmax(0,1fr) 112px!important;
  grid-template-rows:54px minmax(0,1fr)!important;
  padding:12px 22px 14px!important;gap:7px 12px!important;
- background:#16191d;color:var(--realm-ivory);
+ background:#000;color:var(--realm-ivory);
 }
 .arena.fit-arena.inplace-arena.realm-arena:before{
- content:'';display:block;position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:1;grid-column:auto!important;grid-row:auto!important;
- background:url('../assets/realms-v035/nightmare-table.png') center/100% 100% no-repeat;
+ content:'';display:none;position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:1;grid-column:auto!important;grid-row:auto!important;
+ background:none;
  border:0;box-shadow:none;filter:none;transform:none;
 }
 .arena.fit-arena.inplace-arena.realm-arena:after{
  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
- background:radial-gradient(ellipse at 50% 50%,transparent 25%,#05080e26 100%);
+ background:none;
  opacity:1;border:0;box-shadow:none;
 }
 /* Os objetos úteis ocupam as bordas; o meio pertence aos personagens. */
@@ -313,7 +313,7 @@
   grid-template-columns:minmax(0,1fr)!important;grid-template-rows:104px minmax(0,1fr) 94px!important;
   padding:8px 12px 9px!important;gap:0!important;
  }
- .arena.fit-arena.inplace-arena.realm-arena:before{background-image:url('../assets/realms-v035/nightmare-table-portrait.png');background-size:100% 100%;background-position:center}
+ .arena.fit-arena.inplace-arena.realm-arena:before{background-image:none}
  .arena.fit-arena.inplace-arena.realm-arena>.arena-header{grid-column:1;grid-row:1;align-self:start;height:48px;min-height:0;display:flex}
  .arena.fit-arena.inplace-arena.realm-arena .arena-brand{display:none}
  .arena.fit-arena.inplace-arena.realm-arena .arena-round{left:0;top:0;min-width:37px;height:43px;gap:1px}
