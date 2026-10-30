@@ -134,3 +134,16 @@ A loja apresenta os quatro baús Comum, Pro, Plus e Plus+ com ilustrações loca
 A referência mostra relações e interações junto das cartas. A versão anterior foi corrigida: não há painel extra com cópias de cartas, abas Ataque/Habilidade/Apoio nem vistas separadas Campo/Ações. A arena original conserva equipes, frente, retaguarda, Daly Mães, montes, mão e área de ações.
 
 A estrela da carta ativa permite revelar as escolhas de habilidade nos controles que já existiam. Vida, alvo e estado ficam associados à carta do campo; vínculos relevantes identificam sua origem. A ficha mantém descrições completas, sem repetir todos os atributos permanentemente na tela. Sons e deslocamentos usam as cartas da formação, respeitando resultados e ordem dos golpes existentes.
+
+
+## v0.34.0 — Uma identidade visual para o jogo inteiro
+
+As [referências de composição](references/style-v0.34-loading.jpg) e [iconografia](references/style-v0.34-icons.jpg) orientam os recortes angulares, contornos escuros, sombras deslocadas e acentos de cor. São referências visuais: seus nomes, logotipos e personagens não foram incorporados à interface.
+
+O acabamento alcança abertura, menu, modos, seleção, arquivo, treinos, batalha, consultas, configurações, resultado, loja, coleção e Crônicas. O cenário permanece escuro, equilibrando o recorte gráfico com a identidade da logo oficial. As cartas e a fonte German Beauty continuam originais. As habilidades e descrições permanecem em controles expansíveis, evitando texto repetido.
+
+Os 22 ícones de interface e as quatro prévias de baús foram redesenhados em SVG local, com silhuetas e espessuras consistentes. As cores ressaltam ações e estados, acompanhadas de seus rótulos. Os selos de classe impressos nas cartas continuam preservados. As moedas usam o mesmo ícone na carteira e nos recibos, sem mudar os valores.
+
+A arena conserva a estrutura aprovada na v0.33.1, incluindo mão, montes, frente, retaguarda, Daly Mães, área de ações e habilidade na estrela da carta. Não há painel extra de comando, cópias de cartas ou vistas Campo/Ações. O enquadramento continua sob responsabilidade de ArenaFit. Em paisagem baixa, a correção de uma coluna implícita evita que o nome do monte principal seja quebrado letra por letra.
+
+A abertura usa as artes oficiais de Sam e Sark, carrega seus seis recursos essenciais e mantém Pular, Entrar e os controles de teclado. As transições curtas e os efeitos já existentes respeitam som desligado e movimento reduzido. As folhas finais `signal_system.css`, `signal_screens.css` e `signal_arena.css` organizam o acabamento sem alterar o motor.

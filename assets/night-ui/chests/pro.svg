@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-labelledby="title desc"><title id="title">Baú Pro</title><desc id="desc">Baú ilustrado de GOGHOS com ferragens góticas e um selo próprio. Prévia visual.</desc><defs><linearGradient id="body" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#416252"/><stop offset="1" stop-color="#233d36"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4ba88"/><stop offset="1" stop-color="#71816a"/></linearGradient><radialGradient id="aura"><stop stop-color="#a3d8bb" stop-opacity=".22"/><stop offset="1" stop-color="#a3d8bb" stop-opacity="0"/></radialGradient></defs><ellipse cx="180" cy="162" rx="154" ry="128" fill="url(#aura)"/><ellipse cx="180" cy="264" rx="124" ry="16" fill="#0b0b13" opacity=".55"/><path d="m96 94-8-27 27 17m149 10 8-27-27 17" fill="#657764" stroke="#181b20" stroke-width="7" stroke-linejoin="round"/><path d="M65 146 76 103Q180 48 284 103L295 146 180 179Z" fill="url(#body)" stroke="#14101b" stroke-width="10" stroke-linejoin="round"/><path d="M80 138 89 111Q180 70 271 111L280 138 180 166Z" fill="none" stroke="url(#metal)" stroke-width="9" stroke-linejoin="round"/><path d="M65 146 180 176 295 146 282 233 180 262 78 233Z" fill="url(#body)" stroke="#14101b" stroke-width="10" stroke-linejoin="round"/><path d="m81 160 10 63 89 25 89-25 10-63M180 180v63" fill="none" stroke="url(#metal)" stroke-width="8" stroke-linejoin="round"/><path d="M92 143 180 167 268 143" fill="none" stroke="#ece8db" stroke-opacity=".25" stroke-width="3"/><path d="M103 111 92 221M257 111l11 110" stroke="#a99b70" stroke-width="13"/><path d="M197 162a24 24 0 1 0 0 43c-16 2-26-24 0-43Z" fill="#cecc9a" stroke="#181b20" stroke-width="5"/><path d="m139 177 5 8-5 8-5-8Zm82 0 5 8-5 8-5-8Z" fill="#a3d8bb"/><path d="m79 147 12 8-10 12m198-20-12 8 10 12M88 223l13-4 1 13m156-9-13-4-1 13" fill="none" stroke="#c4ba88" stroke-width="5" stroke-linecap="round"/><g fill="#c4ba88"><circle cx="105" cy="132" r="3"/><circle cx="255" cy="132" r="3"/><circle cx="125" cy="231" r="3"/><circle cx="235" cy="231" r="3"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-labelledby="title desc"><title id="title">Baú Pro</title><desc id="desc">Ilustração original de um baú de GOGHOS, com ferragem angular e selo próprio. Prévia visual.</desc>
+<path d="m62 242 112-16 130 16-7 26-115 18-116-24Z" fill="#100d16" opacity=".6"/>
+<path d="m77 110 5-39 32 25m135-1 32-24 5 39" fill="#78d4c5" stroke="#100d16" stroke-width="8"/>
+<path d="m61 149 17-51 83-32 117 31 31 47-16 102-108 33-112-39Z" transform="translate(5 6)" fill="#100d16" stroke="#100d16" stroke-width="12" stroke-linejoin="miter"/>
+<g stroke="#100d16" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="2">
+<path d="m57 139 20-48 83-31 115 31 28 46-121 41Z" fill="#48867c"/>
+<path d="m77 91 83-31 115 31-95 33Z" fill="#78d4c5"/>
+<path d="m73 135 14-33 73-27 93 26-74 25Z" fill="#48867c" stroke-width="4"/>
+<path d="m57 139 123 35 123-37-17 99-107 35-107-36Z" fill="#315a57"/>
+<path d="m180 174 123-37-17 99-107 35Z" fill="#100d16" opacity=".23" stroke="none"/>
+<path d="m59 143 121 34 121-36-5 24-116 35-115-32Z" fill="#78d4c5" stroke-width="6"/>
+<path d="m88 110 16-6-4 123-17-5Zm169-4 16 6 6 109-17 6Z" fill="#78d4c5" stroke-width="5"/>
+<path d="m75 212 28 6 1 20-27-8Zm183 7 27-7-3 18-25 9Z" fill="#78d4c5" stroke-width="5"/>
+</g>
+<path d="m108 110 51-19 37 9m-87 47 53 15" fill="none" stroke="#eee6d4" stroke-width="5"/>
+<path d="m114 211 44 11m-44 8 27 7m96-26-29 10" fill="none" stroke="#100d16" stroke-width="4" opacity=".5"/>
+<path d="m137 157 42 11 41-11-8 59-33 15-35-15Z" fill="#78d4c5" stroke="#100d16" stroke-width="6"/>
+<path d="M190 159a29 29 0 1 0 12 43c-31 8-46-29-12-43Z" fill="#e0bd66" stroke="#100d16" stroke-width="6"/>
+<path d="m93 122 6 2-1 7-6-2Zm170 0 6-2 1 7-6 2ZM89 222l7 2-1 7-6-2Zm179 0 7-2-1 7-6 2Z" fill="#100d16"/>
+</svg>

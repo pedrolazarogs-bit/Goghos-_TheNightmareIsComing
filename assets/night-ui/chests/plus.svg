@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-labelledby="title desc"><title id="title">Baú Plus</title><desc id="desc">Baú ilustrado de GOGHOS com ferragens góticas e um selo próprio. Prévia visual.</desc><defs><linearGradient id="body" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#65536f"/><stop offset="1" stop-color="#36283f"/></linearGradient><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c5aecb"/><stop offset="1" stop-color="#977d9b"/></linearGradient><radialGradient id="aura"><stop stop-color="#d4b4e0" stop-opacity=".22"/><stop offset="1" stop-color="#d4b4e0" stop-opacity="0"/></radialGradient></defs><ellipse cx="180" cy="162" rx="154" ry="128" fill="url(#aura)"/><ellipse cx="180" cy="264" rx="124" ry="16" fill="#0b0b13" opacity=".55"/><path d="m88 118-12-59 35 32m161 27 12-59-35 32" fill="#ae9bb6" stroke="#201627" stroke-width="8" stroke-linejoin="round"/><path d="m139 85 7-22 15 17m60 5-7-22-15 17" fill="#ad94b4" stroke="#201627" stroke-width="6"/><path d="M65 146 76 103Q180 48 284 103L295 146 180 179Z" fill="url(#body)" stroke="#14101b" stroke-width="10" stroke-linejoin="round"/><path d="M80 138 89 111Q180 70 271 111L280 138 180 166Z" fill="none" stroke="url(#metal)" stroke-width="9" stroke-linejoin="round"/><path d="M65 146 180 176 295 146 282 233 180 262 78 233Z" fill="url(#body)" stroke="#14101b" stroke-width="10" stroke-linejoin="round"/><path d="m81 160 10 63 89 25 89-25 10-63M180 180v63" fill="none" stroke="url(#metal)" stroke-width="8" stroke-linejoin="round"/><path d="M92 143 180 167 268 143" fill="none" stroke="#ece8db" stroke-opacity=".25" stroke-width="3"/><path d="m97 116 11 109m155-109-11 109" stroke="#ad94b4" stroke-width="14"/><path d="m180 154 10 21 24 4-17 18 3 25-20-12-20 12 3-25-17-18 24-4Z" fill="#c6b0ce" stroke="#201627" stroke-width="6"/><path d="m180 173 9 14-9 18-9-18Z" fill="#775284"/><path d="m104 164 7 10-7 12-7-12Zm152 0 7 10-7 12-7-12Z" fill="#cfb6de"/><path d="m79 147 12 8-10 12m198-20-12 8 10 12M88 223l13-4 1 13m156-9-13-4-1 13" fill="none" stroke="#c5aecb" stroke-width="5" stroke-linecap="round"/><g fill="#c5aecb"><circle cx="105" cy="132" r="3"/><circle cx="255" cy="132" r="3"/><circle cx="125" cy="231" r="3"/><circle cx="235" cy="231" r="3"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" role="img" aria-labelledby="title desc"><title id="title">Baú Plus</title><desc id="desc">Ilustração original de um baú de GOGHOS, com ferragem angular e selo próprio. Prévia visual.</desc>
+<path d="m62 242 112-16 130 16-7 26-115 18-116-24Z" fill="#100d16" opacity=".6"/>
+<path d="m76 117-25-57 61 31m135 0 61-31-25 57" fill="#e45896" stroke="#100d16" stroke-width="8"/><path d="m60 72 34 21m198-21-34 21" stroke="#eee6d4" stroke-width="4"/>
+<path d="m61 149 17-51 83-32 117 31 31 47-16 102-108 33-112-39Z" transform="translate(5 6)" fill="#100d16" stroke="#100d16" stroke-width="12" stroke-linejoin="miter"/>
+<g stroke="#100d16" stroke-width="9" stroke-linejoin="miter" stroke-miterlimit="2">
+<path d="m57 139 20-48 83-31 115 31 28 46-121 41Z" fill="#8e5d99"/>
+<path d="m77 91 83-31 115 31-95 33Z" fill="#bba6d7"/>
+<path d="m73 135 14-33 73-27 93 26-74 25Z" fill="#8e5d99" stroke-width="4"/>
+<path d="m57 139 123 35 123-37-17 99-107 35-107-36Z" fill="#594263"/>
+<path d="m180 174 123-37-17 99-107 35Z" fill="#100d16" opacity=".23" stroke="none"/>
+<path d="m59 143 121 34 121-36-5 24-116 35-115-32Z" fill="#bba6d7" stroke-width="6"/>
+<path d="m88 110 16-6-4 123-17-5Zm169-4 16 6 6 109-17 6Z" fill="#bba6d7" stroke-width="5"/>
+<path d="m75 212 28 6 1 20-27-8Zm183 7 27-7-3 18-25 9Z" fill="#bba6d7" stroke-width="5"/>
+</g>
+<path d="m108 110 51-19 37 9m-87 47 53 15" fill="none" stroke="#eee6d4" stroke-width="5"/>
+<path d="m114 211 44 11m-44 8 27 7m96-26-29 10" fill="none" stroke="#100d16" stroke-width="4" opacity=".5"/>
+<path d="m137 157 42 11 41-11-8 59-33 15-35-15Z" fill="#bba6d7" stroke="#100d16" stroke-width="6"/>
+<path d="m179 151 12 22 25 4-18 19 4 27-23-12-24 12 5-27-18-19 25-4Z" fill="#e45896" stroke="#100d16" stroke-width="6"/><path d="m179 170 6 14 15 2-12 10 3 15-12-8-13 8 4-15-12-10 15-2Z" fill="#eee6d4"/>
+<path d="m93 122 6 2-1 7-6-2Zm170 0 6-2 1 7-6 2ZM89 222l7 2-1 7-6-2Zm179 0 7-2-1 7-6 2Z" fill="#100d16"/>
+</svg>

@@ -292,3 +292,8 @@ Os baús Comum, Pro, Plus e Plus+ são somente prévias na loja: sem preços, co
 Correção solicitada pelo criador: a referência não autorizava criar uma segunda área de jogo. O painel com cópias de personagem/alvo, as abas de comandos e a divisão Campo/Ações são removidos. As melhorias acontecem nas cartas da formação e na área de ações já existente. A estrela da carta ativa permite revelar as opções de habilidade; detalhes e estados usam as consultas existentes. As duas equipes permanecem no campo.
 
 Nenhum atributo, habilidade, probabilidade, monte ou regra de ações foi alterado. Sons, movimentos e os quatro baús de prévia da atualização anterior são preservados.
+
+
+## v0.34.0 — Apresentação global
+
+Atualização visual de telas, ícones e baús a partir das referências enviadas. Nenhuma alteração de atributo, habilidade, tributo, chance de dado, ordem de ações, compra, recompensa ou preço. A arena segue a estrutura da v0.33.1. A abertura carrega também as duas ilustrações oficiais exibidas, sem interferir na partida. Os quatro baús novos permanecem prévias sem transações.

@@ -54,7 +54,7 @@ function newMatchToken(){
  const s=read();s.issued.push(token);s.issued=s.issued.slice(-128);save(s);return token;
 }
 const formatCoins=n=>n>=1000000?(n/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mi':n>=10000?(n/1000).toLocaleString('pt-BR',{maximumFractionDigits:1})+' mil':n.toLocaleString('pt-BR');
-const coinHTML=()=>'<img class="sanctuary-coin" src="assets/concepts/kikiy/36.png" alt="" decoding="async">';
+const coinHTML=()=>'<img class="sanctuary-coin" src="assets/night-ui/icons/credit.svg" alt="" decoding="async">';
 function receipt(){return `<div class="sanctuary-match-reward">${coinHTML()}<div><strong>+${MATCH_REWARD} moedas</strong><span>Uma história a mais no seu santuário.</span></div><button data-act="sanctuary-vault">Ver baús <span aria-hidden="true">${G.VisualShell?.icon?.('back')||'→'}</span></button></div>`;}
 function awardMatch(token,result){
  if(!['victory','defeat','draw'].includes(result))return{awarded:false,coins:0,balance:read().coins,html:''};

@@ -1,19 +1,20 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.33.1** corrige a interpretação da referência de UI: mantém o campo de batalha existente e melhora as interações nas próprias cartas. O painel extra com cópias das cartas, as novas abas e a divisão Campo/Ações foram retirados.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.34.0** aplica uma linguagem visual consistente ao jogo inteiro: recortes angulares, contornos de tinta, sombras discretas e acentos rosa, turquesa e dourado sobre o cenário sombrio.
 
-## Interações no campo existente
+## Uma identidade em todas as telas
 
-- **Uma carta por personagem:** equipes, frente, retaguarda e Daly Mães continuam juntas na arena. Vida, vez atual, alvo e vínculos são apresentados diretamente no campo.
-- **Habilidades:** a estrela da carta ativa abre os comandos relevantes na área de ações que já existia. A ficha continua disponível para explicações completas.
-- **Menos ruído:** ícones e barras mais claros, informações repetidas reduzidas e detalhes completos sob demanda. Montes, mão e consultas mantêm seus lugares.
-- **Movimento e som:** golpes movimentam as cartas reais, com sons por arma ou poder, entrada por raridade e eliminações próprias. Fonte, logo e artes oficiais preservadas.
+- **Abertura e menu:** composição com a logo e os personagens oficiais, carregamento real e controles claros.
+- **Personagens, seleção e treinos:** os mesmos ícones e materiais, com habilidades detalhadas sob demanda.
+- **Batalha:** a arena aprovada mantém suas formações e posições. A estrela da própria carta abre as opções nos controles existentes; alvo, Vida e efeitos continuam junto do personagem.
+- **Loja e coleção:** quatro baús redesenhados — Comum, Pro, Plus e Plus+ — e apresentação coerente para os visuais e as Crônicas.
+- **22 ícones próprios:** silhuetas legíveis, com contorno escuro e pequenos acentos de cor. A fonte original German Beauty, a logo e as artes das cartas permanecem preservadas.
 
-O balanceamento da v0.32.0 permanece intacto. Os baús **Comum, Pro, Plus e Plus+** continuam como prévias na loja, aguardando suas regras de conteúdo e abertura. Som e movimento podem ser ajustados nas preferências.
+O balanceamento da v0.32.0 e a economia anterior permanecem intactos. Os quatro novos baús continuam como prévias, aguardando suas regras de conteúdo e abertura. Som, músicas, movimentos de cartas e preferências continuam disponíveis.
 
-![Arena existente com interações nas cartas](docs/previews/arena-v0.33.1-desktop.png)
+![Batalha com a identidade visual aplicada ao campo existente](docs/previews/arena-v0.34.0-desktop.png)
 
-[Ver no celular](docs/previews/arena-v0.33.1-celular.png) · [Guia da interface](docs/UI.md) · [Regras](docs/REGRAS.md) · [Validação](docs/VALIDACAO.md)
+[Menu](docs/previews/menu-v0.34.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.34.0-celular.png) · [Loja](docs/previews/loja-v0.34.0-celular.png) · [Abertura](docs/previews/abertura-v0.34.0-desktop.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 

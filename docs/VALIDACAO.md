@@ -448,3 +448,16 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - Nenhum erro JavaScript ou HTTP observado nos fluxos revisados. Os quatro baús de prévia e sua ausência de transações permanecem preservados.
 
 [Arena corrigida no computador](previews/arena-v0.33.1-desktop.png) · [Arena corrigida no celular](previews/arena-v0.33.1-celular.png)
+
+
+## v0.34.0 — Estilo global com arena preservada
+
+- `npm test`: **444 casos aprovados** antes e depois da alteração. As verificações de invariantes preservam o motor e os dados aprovados da v0.32.0, as 71 imagens originais de cartas e os 106 arquivos dos kits catalogados.
+- Navegador Chromium: **64 verificações de telas** em 1280×720, 390×844, 360×640 e 844×390. Menu, modos, arquivo com busca, treinos, Apoios, preferências, loja, Crônicas, coleção, seleção alternada e batalha conferidos. Sem erros de JavaScript ou HTTP.
+- Arena densa com 12 personagens e mão de cinco cartas: controles e formações dentro da tela, sem rolagem obrigatória. Cenários de quatro personagens também conferidos por seleção real. Habilidade aberta na estrela da carta, sem painel extra ou cópia do personagem.
+- **28 verificações adicionais de interação**: Sortudo efetivamente usado durante paralisia sem remover o impedimento, pré-batalha, formação, substituição com mão cheia, recuperação com raridades disponíveis e resultado. Resultados com recompensa conferidos em quatro tamanhos; ações visíveis também em paisagem baixa.
+- Abertura em quatro tamanhos: seis imagens carregadas, progresso 6/6, Pular, Entrar, Escape e ciclo de foco por Tab. Contraste e fonte original conferidos após o acabamento final.
+- 26 SVGs locais válidos: 22 ícones e quatro baús. Ícones conferidos sobre fundo claro e escuro em 24/32 px, sem cortes nas sombras. As quatro prévias não alteram saldo ou coleção.
+- `git diff --check` limpo. A execução pelo servidor local foi validada; o navegador gerenciado bloqueou `file://` antes de carregar o aplicativo, portanto essa modalidade não foi testada neste ambiente.
+
+As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`. As referências recebidas ficam em `docs/references/style-v0.34-*.jpg`; o jogo não depende delas para executar.

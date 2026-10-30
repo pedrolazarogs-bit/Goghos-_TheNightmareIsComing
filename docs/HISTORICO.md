@@ -280,3 +280,14 @@ Movimentos das cartas, timbres por arma e habilidade, entradas progressivas das 
 ## v0.33.1 — Correção da interpretação da referência
 
 O criador esclareceu que a melhoria deve acontecer na arena existente. Retirados o painel adicional com cartas repetidas, os novos grupos de abas e a divisão Campo/Ações. A formação permanece visível; habilidades e vínculos interagem diretamente com as cartas do campo e com os controles existentes. Mantidos o áudio, os movimentos, os efeitos de raridade, a loja e o balanceamento.
+
+
+## v0.34.0 — Identidade visual de recortes de tinta
+
+- Referências aplicadas proporcionalmente à abertura, menu, modos, seleção, arquivo, treinos, batalha, consultas, configurações, resultado, loja, coleção e Crônicas.
+- 22 ícones e quatro baús em SVG original: contornos angulares, sombras deslocadas e pequenos acentos de cor.
+- Abertura com Sam e Sark oficiais, progresso real de seis recursos e navegação por teclado preservada.
+- Fonte German Beauty, logo, cartas, músicas, efeitos e estrutura da arena mantidos.
+- Corrigido o nome do monte principal em paisagem baixa; botão de entrada com maior contraste.
+- Resultado com recibo de recompensa e ações visíveis também em janelas curtas.
+- Nenhuma mudança de balanceamento ou economia.
