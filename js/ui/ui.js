@@ -6,7 +6,7 @@ const ui={mode:'menu',state:null,sel:null,timer:null,target:null,handIid:null,he
 let presentedMode=null;
 const show=html=>{if(presentedMode!==ui.mode){G.PresentationFX?.stop();presentedMode=ui.mode;}G.CartoonMotion?.detach();G.ArenaFit?.detach();app.innerHTML=html;G.VisualShell?.mount?.();G.CartoonMotion?.mountInterface?.(app);G.Soundtrack?.setContext(ui.mode==='battle'?'combat':ui.mode==='result'?(ui.state?.result==='draw'?'menu':ui.state?.final?.winner==='player'?'victory':'defeat'):'menu',{paused:ui.mode==='battle'&&ui.paused});};
 const btn=(act,label,disabled=false,cls='')=>{
-  const short={ 'mode-normal':'Normal','mode-pin':'Cravar','mode-heal':'Curar','mode-double':'Quatro braços','mode-stun':'Paralisar','mode-area':'Em área','mode-break':'Libertar aliado','power-sleepPowder':'Pó mágico','power-petrify':'Petrificar','power-hypnosis':'Trocar alvo','full-heal':'Cura total','hypnosis-keep':'Manter · 90','pin-keep':'Manter machado','pin-release':'Soltar machado','pinned-wait':'Passar vez','wait':'Passar vez','move':ui.move?'Concluir':'Mover','mana-':'−','mana+':'+','attack':ui.attackMode==='heal'?'Curar':ui.attackMode==='break'?'Libertar':label==='Confirmar ataque'?'Atacar':label};
+  const short={ 'mode-normal':'Normal','mode-pin':'Cravar','mode-heal':'Modo cura','mode-double':'Quatro braços','mode-stun':'Paralisar','mode-area':'Em área','mode-break':'Libertar aliado','power-sleepPowder':'Pó mágico','power-petrify':'Petrificar','power-hypnosis':'Trocar alvo','full-heal':'Cura total','hypnosis-keep':'Manter · 90','pin-keep':'Manter machado','pin-release':'Soltar machado','pinned-wait':'Passar vez','wait':'Passar vez','move':ui.move?'Concluir':'Mover','mana-':'−','mana+':'+','attack':ui.attackMode==='heal'?'Curar':ui.attackMode==='break'?'Libertar':label==='Confirmar ataque'?'Atacar':label};
   const text=ui.mode==='battle'?(short[act]||label):label;
   const iconAct=act==='pause'&&ui.paused?'play':act==='attack'&&ui.attackMode==='heal'?'mode-heal':act;
   return `<button class="${cls}${act.startsWith('mode-')?' mode-button':''}" data-act="${act}"${disabled?' disabled':''} title="${G.escapeUI(label)}">${G.VisualShell?.actionIcon(iconAct)||''}<span>${text}</span></button>`;
@@ -115,7 +115,7 @@ function render(actor){
   };
   const selectedTarget=G.getUnit(s,ui.target),executionReady=mine&&actor&&G.getMainAbility(actor)?.trigger==='petrify'&&selectedTarget?.petrifiedBy===actor.uid&&G.canExecutePetrified?.(s,actor,selectedTarget);
   let info=ui.busy?'Confira o resultado da ação e as reações no registro da batalha. A próxima ação começa em instantes.':ui.paused?'Batalha pausada. Continue quando estiver pronto.':choice?'Mão cheia: escolha uma carta para substituir ou descarte a nova.':s.formation?'Escolha os Suportes que vão defender a linha de frente.':s.recovery?'A batalha aguarda a recuperação da Daly Mãe.':pd?`Brisa: escolha um aliado ferido para curar +${pd.value} de Vida.`:idle?'Não há personagens capazes de atacar. Use suas medalhas ou avance o ciclo para ambas as equipes comprarem uma carta.':mine?ui.move?'Toque em um Suporte para mudar de linha. Se a linha estiver cheia, escolha outro Suporte para trocar.':`Vez de ${actor.name}. Escolha um alvo e confirme o ataque.`:actor?`${actor.name}, do adversário, está preparando a jogada…`:'Aguardando…';
-  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)&&!G.hasIdleHandResources?.(s,'player')&&!G.hasIdleHandResources?.(s,'enemy')):btn('attack',executionReady?'Executar petrificado':'Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
+  let actions=pd&&!ui.busy?btn('brisaskip','Dispensar cura da Brisa'):mine?idle?btn('idle-cycle',s.deck.pile.length?'Avançar ciclo · comprar cartas':'Avançar ciclo · resolver efeitos',s.deck.pile.length===0&&!G.hasTimedEffects?.(s)&&!G.hasIdleHandResources?.(s,'player')&&!G.hasIdleHandResources?.(s,'enemy')):btn('attack',executionReady?'Executar petrificado':ui.attackMode==='heal'?'Confirmar cura':'Confirmar ataque',!ui.target||ui.move)+btn('move',ui.move?'Concluir posições':'Mover Suportes',!B.player.front.concat(B.player.rear).some(G.canTransit)):'';
   if(idle&&s.deck.pile.length===0)info+=' O monte principal acabou; as medalhas na mão ainda podem ser resgatadas.';
   if(pinned){info=actor.name+' está cravado e não pode atacar ou se mover. Passe a vez para continuar a batalha.';actions=btn('pinned-wait','Passar vez · imobilizado');}
   if(holding){info='John mantém o machado em '+G.getUnit(s,actor.pinning)?.name+'. Manter encerra sua ação; retirar libera os dois e permite atacar novamente.';actions=btn('pin-keep','Manter machado')+btn('pin-release','Retirar e escolher ataque');}
@@ -123,7 +123,7 @@ function render(actor){
   if(area){info=areaDaly?'A Daly Mãe está exposta: este ataque retira exatamente 1 vida, sem gastar mana.':'3000W atinge todos os adversários da linha de frente. Aliados e retaguarda ficam protegidos. Dano por alvo: '+G.previewDamage(s,actor,ui.mana,null,ui.attackMode)+'.';actions=btn('attack',areaDaly?'Atacar Daly Mãe · 1 vida':'Atacar em área · 3000W');}
   if(pinAttack){actions=btn('mode-normal','Ataque normal · 80',false,ui.attackMode==='normal'?'on':'')+btn('mode-pin','Cravar machado · 80 + 20 por ação',ui.target==='daly_enemy',ui.attackMode==='pin'?'on':'')+actions;info+=' Modo: '+(ui.attackMode==='pin'?'cravar o machado se o golpe acertar e ambos sobreviverem.':'ataque normal.');}
   if(mine&&actor&&G.getMainAbility(actor)?.trigger==='healingAttack'){
-    actions=(rearHealer?'':btn('mode-normal','Atacar',false,ui.attackMode==='normal'?'on':''))+btn('mode-heal','Curar aliado · '+actor.damage,false,ui.attackMode==='heal'?'on':'')+actions;
+    actions=(rearHealer?'':btn('mode-normal','Atacar',false,ui.attackMode==='normal'?'on':'')+btn('mode-heal','Modo cura · '+actor.damage,false,ui.attackMode==='heal'?'on':''))+actions;
     if(ui.attackMode==='heal')info='Escolha outro aliado ferido na mesma dimensão para curar até '+actor.damage+' de Vida. A cura usa a ação de Elysh.';
   }
   if(mine&&actor&&G.getMainAbility(actor)?.trigger==='doubleAttack'){
@@ -282,7 +282,11 @@ app.addEventListener('click',event=>{
     if(a==='full-heal'||a==='hypnosis-keep'){const r=a==='full-heal'?G.performFullHeal(s,actor.uid):G.performHypnosisTurn(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
     if(a==='idle-cycle'){finishChoice(G.advanceIdleCycle(s));return;}
     if(a==='attack'&&!actor)return;
-    if(['mode-normal','mode-pin','mode-heal','mode-double','mode-stun','mode-area','mode-break'].includes(a)){ui.attackMode=a.slice(5);ui.target=null;render(actor);return;}
+    if(['mode-normal','mode-pin','mode-heal','mode-double','mode-stun','mode-area','mode-break'].includes(a)){
+      const nextMode=a.slice(5),keepHealTarget=nextMode==='heal'&&ui.attackMode==='heal'&&!ui.move&&!ui.handIid&&G.healingTargets(s,actor).some(u=>u.uid===ui.target);
+      ui.attackMode=nextMode;if(!keepHealTarget)ui.target=null;
+      ui.move=false;ui.swapPick=null;ui.handIid=null;ui.healTarget=null;ui.msg='';render(actor);return;
+    }
     if(a==='wait'){const r=G.performWait(s,actor.uid);if(r.ok)feedback();else finishChoice(r);return;}
     if(a==='attack'){const r=ui.attackMode==='break'?G.performBreakCurse(s,actor.uid,ui.target):ui.attackMode==='heal'?G.performHealingAttack(s,actor.uid,ui.target):G.performBasicAttack(s,actor.uid,ui.target,ui.mana,ui.attackMode);if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}return;}
     if(a==='move'){ui.move=!ui.move;ui.target=null;ui.handIid=null;ui.healTarget=null;ui.swapPick=null;ui.msg='';render(actor);return;}
@@ -309,7 +313,7 @@ app.addEventListener('click',event=>{
   if(daly&&daly.dataset.daly==='enemy'&&G.canAttackFrom(actor)&&G.isDalyExposed(s,'enemy')){ui.target='daly_enemy';ui.mana=0;ui.attackMode='normal';ui.move=false;render(actor);return;}
   if(!u)return;
   if(ui.attackMode==='break'&&G.breakCurseTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
-  if(ui.attackMode==='heal'&&G.healingTargets(s,actor).includes(u)){ui.target=u.uid;render(actor);return;}
+  if(!ui.move&&['normal','heal'].includes(ui.attackMode)&&G.getMainAbility(actor)?.trigger==='healingAttack'&&G.healingTargets(s,actor).includes(u)){ui.attackMode='heal';ui.target=u.uid;ui.msg='';render(actor);return;}
   if(ui.move&&u.team==='player'){
     const r=ui.swapPick&&ui.swapPick!==u.uid?G.performSwap(s,ui.swapPick,u.uid):G.performTransit(s,u.uid);
     ui.msg=r.ok?'':r.error;

@@ -1,6 +1,6 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.1** mantém Jogar, seleção, modos e batalha com os emblemas facetados e agora usa **fundo preto**, sem a ilustração do cenário.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.2** corrige a seleção da cura de Elysh, mantendo os emblemas, o layout e o **fundo preto** aprovados. Na vez dela, toque em um aliado ferido e confirme **Curar**; a habilidade funciona tanto na frente quanto na retaguarda.
 
 ## Cartas sobre a mesa
 

@@ -480,3 +480,13 @@ As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`
 ## v0.35.1 — Fundo preto
 
 `npm test`: **447 testes aprovados**. Dez conferências visuais em 1280×720 e 390×844 confirmam fundo preto em abertura, menu, modos, seleção e batalha, sem textura ilustrada ativa. Cartas e ícones conservam exatamente as medidas e posições da v0.35.0; sem erros de JavaScript/HTTP ou overflow. Prévia atualizada em `docs/previews/arena-v0.35.1-desktop.png`.
+
+
+## v0.35.2 — Cura de Elysh
+
+- `npm test`: **454 testes aprovados**, com sete regressões novas da seleção/execução de cura.
+- Navegador: **22 casos aprovados** em 1280×720 e 390×844, sem erros de JavaScript ou HTTP.
+- Cura direta na frente e na retaguarda: aliado 35→115, ação gasta uma única vez; cura limitada 100→130.
+- Mover→Modo cura e Apoio selecionado→Modo cura deixam de bloquear a confirmação. O Apoio permanece na mão, sem ser usado.
+- Repetir Modo cura mantém o alvo; própria Elysh, aliado cheio e aliado em outra dimensão continuam inelegíveis. Cura em aliado da retaguarda, leitura da ficha e ataque normal contra o adversário também conferidos.
+- Nenhuma alteração em CSS, regras de combate, balanceamento ou artes oficiais.

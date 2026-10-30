@@ -54,6 +54,50 @@ test('consultar um monte físico abre a leitura existente sem comprar nem avanç
  assert(G.mainPileHTML(s).includes('data-act="piles-info"'));
  click('piles-info');assert.equal(ui.drawer,'piles');assert.equal(ui.readerPage,0);assert.equal(JSON.stringify(s),before);
 });
+function clickUnit(uid){const c={dataset:{id:uid}};events.click({target:{closest:selector=>selector==='.card'?c:null}})}
+function confirmHeal(s,a,t,expected){
+ assert.equal(ui.target,t.uid);assert.equal(ui.attackMode,'heal');assert.equal(ui.move,false);
+ assert(html.includes('data-act="attack"'));
+ assert(!/<button[^>]*data-act="attack"[^>]* disabled/.test(html));
+ click('attack');clearTimeout(ui.timer);assert.equal(t.hp,expected);assert.equal(s.lastEvent.type,'heal');assert.equal(s.acted[a.uid],true);
+}
+test('Elysh seleciona a cura ao tocar no aliado ferido da frente e só cura após confirmar',()=>{
+ const s=battle(['elysh','mike'],['john']),a=unit(s,'elysh'),t=unit(s,'mike');t.hp=35;mount(s,a);G.getNextActor(s);const before=JSON.stringify(s);
+ clickUnit(t.uid);assert.equal(ui.drawer,null);assert.equal(JSON.stringify(s),before);assert(html.includes('title="Confirmar cura"'));
+ confirmHeal(s,a,t,115);
+});
+test('Elysh cura da retaguarda sem oferecer um seletor de cura redundante ou ataque inimigo',()=>{
+ const s=battle(['mike'],['john'],['elysh']),a=unit(s,'elysh'),t=unit(s,'mike');t.hp=35;mount(s,a);
+ assert.equal(ui.attackMode,'heal');assert(!html.includes('data-act="mode-heal"'));assert(!html.includes('data-act="mode-normal"'));
+ clickUnit(t.uid);confirmHeal(s,a,t,115);
+});
+test('escolher Modo cura encerra Mover e limpa a seleção de troca antes de escolher o aliado',()=>{
+ const s=battle(['elysh','mike'],['john']),a=unit(s,'elysh'),t=unit(s,'mike');t.hp=35;mount(s,a);
+ click('move');ui.swapPick=a.uid;assert(ui.move);click('unit-ability',{unitAbility:a.uid});click('mode-heal');
+ assert.equal(ui.move,false);assert.equal(ui.swapPick,null);assert(html.includes('Modo cura'));
+ clickUnit(t.uid);confirmHeal(s,a,t,115);
+});
+test('Modo cura libera o alvo de um Apoio selecionado sem usar ou descartar a carta da mão',()=>{
+ const s=battle(['elysh','mike'],['john']),a=unit(s,'elysh'),t=unit(s,'mike');t.hp=35;
+ const hand={iid:'cura-ui-apoio',id:'bandeide'};s.deck.hands.player=[hand];mount(s,a);ui.handIid=hand.iid;ui.healTarget=t.uid;
+ click('mode-heal');assert.equal(ui.handIid,null);assert.equal(ui.healTarget,null);
+ clickUnit(t.uid);confirmHeal(s,a,t,115);assert.deepEqual(s.deck.hands.player,[hand]);
+});
+test('repetir o Modo cura mantém um aliado já escolhido e a cura respeita a Vida máxima',()=>{
+ const s=battle(['elysh','mike'],['john']),a=unit(s,'elysh'),t=unit(s,'mike');t.hp=100;mount(s,a);
+ click('mode-heal');clickUnit(t.uid);click('mode-heal');assert.equal(ui.target,t.uid);
+ confirmHeal(s,a,t,130);assert.equal(s.lastEvent.healed,30);
+});
+test('a cura direta de Elysh também alcança um aliado ferido da retaguarda',()=>{
+ const s=battle(['elysh'],['john'],['zuri']),a=unit(s,'elysh'),t=unit(s,'zuri');t.hp=900;mount(s,a);
+ clickUnit(t.uid);confirmHeal(s,a,t,980);assert.equal(t.row,'rear');
+});
+test('a seleção direta não oferece cura à própria Elysh, a aliados cheios ou em outra dimensão',()=>{
+ for(const kind of ['self','full','dimension']){
+  const s=battle(['elysh','mike'],['john']),a=unit(s,'elysh'),t=unit(s,'mike');a.hp=100;t.hp=35;if(kind==='full')t.hp=t.maxHp;if(kind==='dimension')t.duelId='outro-mundo';mount(s,a);
+  clickUnit(kind==='self'?a.uid:t.uid);assert.equal(ui.target,null);assert.equal(ui.attackMode,'normal');
+ }
+});
 test('nenhum identificador de carta da mão adversária é exposto na arena',()=>{
  const s=battle(),a=unit(s,'ddx');for(let i=0;i<5;i++)G.drawCard(s,'enemy');mount(s,a);for(const h of s.deck.hands.enemy)assert(!html.includes('data-hand="'+h.iid+'"'));assert(html.includes('class="rarity-piles"'));
 });

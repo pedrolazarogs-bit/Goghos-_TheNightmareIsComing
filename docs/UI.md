@@ -167,3 +167,10 @@ As [artes locais](../assets/realms-v035/README.md) incluem mesa horizontal, comp
 ## v0.35.1 — Fundo preto
 
 A ilustração do cenário foi retirada de Jogar, seleção, modos e batalha. A abertura também usa fundo preto, preservando os personagens em primeiro plano. Cartas, emblemas, controles, enquadramento, sons e regras permanecem os mesmos. A abertura prepara seis recursos, sem carregar a imagem de cenário que deixou de ser usada.
+
+
+## v0.35.2 — Cura de Elysh
+
+Tocar em um aliado elegível com Elysh na frente seleciona a cura diretamente, sem abrir a ficha; a confirmação continua necessária e usa a ação da personagem. O botão opcional chama-se **Modo cura**, distinto da confirmação **Curar**. Na retaguarda, a cura já fica selecionada e não há seletor redundante.
+
+Escolher um modo de ação encerra a seleção de movimento e de cartas de Apoio, evitando que elas capturem o clique no aliado ou mantenham a confirmação desabilitada. Repetir o Modo cura conserva um alvo de cura já válido. Um Apoio que estava selecionado não é consumido por essa troca.

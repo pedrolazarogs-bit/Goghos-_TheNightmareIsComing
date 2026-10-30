@@ -306,3 +306,8 @@ O criador esclareceu que a melhoria deve acontecer na arena existente. Retirados
 ## v0.35.1 — Fundo preto
 
 Removida a ilustração de fundo de Jogar, seleção, modos, batalha e abertura. Mantidos os personagens, cartas, ícones e organização aprovados na v0.35.0.
+
+
+## v0.35.2 — Cura de Elysh
+
+Corrigidas as seleções de movimento e Apoio que bloqueavam a cura. Aliado ferido pode ser escolhido diretamente; Modo cura e Curar têm rótulos distintos, e repetir o modo não apaga um alvo válido. Cura na frente e na retaguarda preservada, sem mudar regras ou visual.

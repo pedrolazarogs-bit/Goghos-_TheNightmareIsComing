@@ -307,3 +307,8 @@ Nenhuma regra de combate, atributo, habilidade, tributo, sorteio, preço ou reco
 ## v0.35.1 — Fundo preto
 
 Somente apresentação: removido o cenário ilustrado. Nenhuma alteração de regra, balanceamento, posicionamento ou recurso da partida.
+
+
+## v0.35.2 — Correção da seleção de cura
+
+Correção de interface: a cura de Elysh continua sendo de 80, limitada à Vida máxima de outro aliado elegível na mesma dimensão e gastando uma ação. A seleção agora funciona diretamente no aliado e deixa de ser bloqueada por estados antigos de movimento ou de seleção de Apoio. Nenhuma alteração de balanceamento ou elegibilidade.
