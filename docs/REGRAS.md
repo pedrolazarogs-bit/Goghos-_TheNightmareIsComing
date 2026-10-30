@@ -297,3 +297,8 @@ Nenhum atributo, habilidade, probabilidade, monte ou regra de ações foi altera
 ## v0.34.0 — Apresentação global
 
 Atualização visual de telas, ícones e baús a partir das referências enviadas. Nenhuma alteração de atributo, habilidade, tributo, chance de dado, ordem de ações, compra, recompensa ou preço. A arena segue a estrutura da v0.33.1. A abertura carrega também as duas ilustrações oficiais exibidas, sem interferir na partida. Os quatro baús novos permanecem prévias sem transações.
+
+
+## v0.35.0 — Reorganização visual de Jogar e batalha
+
+Nenhuma regra de combate, atributo, habilidade, tributo, sorteio, preço ou recompensa foi alterada. Os montes agora abrem sua consulta ao serem clicados; consultar não compra cartas. O controle de mana mantém os mesmos limites e consumo. O enquadramento usa a quantidade de personagens presentes somente para dimensionar a apresentação; a capacidade real da frente e a regra de Recruta permanecem intactas.

@@ -48,6 +48,12 @@ test('os vínculos identificam a origem real sem repetir estados genéricos ou a
 test('redesenhar a arena e consultar habilidades não avança ações, compra cartas nem rola dados',()=>{
  const s=battle(),a=unit(s,'ddx');mount(s,a);const before=JSON.stringify(s);for(let i=0;i<4;i++){render(a);G.unitRelations(s,a);G.unitPowerButtonHTML(a)}assert.equal(JSON.stringify(s),before);assert.equal(ui.abilityOptions,false);
 });
+test('consultar um monte físico abre a leitura existente sem comprar nem avançar a hierarquia',()=>{
+ const s=battle(),a=unit(s,'ddx');mount(s,a);const before=JSON.stringify(s);
+ assert.equal((G.characterPilesHTML(s).match(/data-act="piles-info"/g)||[]).length,G.RARITIES.length);
+ assert(G.mainPileHTML(s).includes('data-act="piles-info"'));
+ click('piles-info');assert.equal(ui.drawer,'piles');assert.equal(ui.readerPage,0);assert.equal(JSON.stringify(s),before);
+});
 test('nenhum identificador de carta da mão adversária é exposto na arena',()=>{
  const s=battle(),a=unit(s,'ddx');for(let i=0;i<5;i++)G.drawCard(s,'enemy');mount(s,a);for(const h of s.deck.hands.enemy)assert(!html.includes('data-hand="'+h.iid+'"'));assert(html.includes('class="rarity-piles"'));
 });

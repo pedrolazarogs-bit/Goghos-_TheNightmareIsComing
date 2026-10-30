@@ -1,20 +1,20 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.34.0** aplica uma linguagem visual consistente ao jogo inteiro: recortes angulares, contornos de tinta, sombras discretas e acentos rosa, turquesa e dourado sobre o cenário sombrio.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.0** refaz Jogar, seleção e batalha com uma mesa ilustrada e emblemas facetados, seguindo o novo kit de referência do criador com um acabamento mais sóbrio.
 
-## Uma identidade em todas as telas
+## Cartas sobre a mesa
 
-- **Abertura e menu:** composição com a logo e os personagens oficiais, carregamento real e controles claros.
-- **Personagens, seleção e treinos:** os mesmos ícones e materiais, com habilidades detalhadas sob demanda.
-- **Batalha:** a arena aprovada mantém suas formações e posições. A estrela da própria carta abre as opções nos controles existentes; alvo, Vida e efeitos continuam junto do personagem.
-- **Loja e coleção:** quatro baús redesenhados — Comum, Pro, Plus e Plus+ — e apresentação coerente para os visuais e as Crônicas.
-- **22 ícones próprios:** silhuetas legíveis, com contorno escuro e pequenos acentos de cor. A fonte original German Beauty, a logo e as artes das cartas permanecem preservadas.
+- **Jogar em destaque:** personagens oficiais, acesso principal próprio e atalhos com ícones grandes, sem a lista anterior de seis barras.
+- **Seleção física:** os quatro Comuns aparecem como cartas soltas; as escolhas alternam entre jogador e bot, conservando a ordem inicial.
+- **Uma arena aberta:** a frente, a retaguarda e as Daly Mães compartilham o campo, sem as grandes caixas por equipe nem o painel permanente de atributos. As consultas continuam disponíveis nos ícones.
+- **Emblemas ilustrados:** doze símbolos com bases facetadas, metal e esmalte em cores contidas. A habilidade especial usa a estrela; ataque normal, confirmação, movimento e recursos mantêm seus próprios controles.
+- **Protagonismo das cartas:** enquadramento considera os personagens presentes; as vagas livres são marcas discretas no chão. A mão fica em leque, os montes são peças clicáveis, e a estrela da própria carta abre suas opções de habilidade.
 
-O balanceamento da v0.32.0 e a economia anterior permanecem intactos. Os quatro novos baús continuam como prévias, aguardando suas regras de conteúdo e abertura. Som, músicas, movimentos de cartas e preferências continuam disponíveis.
+O balanceamento, as artes oficiais, a fonte German Beauty, as músicas e os efeitos de combate permanecem preservados. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
 
-![Batalha com a identidade visual aplicada ao campo existente](docs/previews/arena-v0.34.0-desktop.png)
+![Campo com cartas e controles ilustrados](docs/previews/arena-v0.35.0-desktop.png)
 
-[Menu](docs/previews/menu-v0.34.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.34.0-celular.png) · [Loja](docs/previews/loja-v0.34.0-celular.png) · [Abertura](docs/previews/abertura-v0.34.0-desktop.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
+[Menu](docs/previews/menu-v0.35.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.35.0-celular.png) · [Seleção](docs/previews/selecao-v0.35.0-celular.png) · [Combate em movimento](docs/previews/combate-v0.35.0.mp4) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 

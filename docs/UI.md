@@ -147,3 +147,18 @@ Os 22 ícones de interface e as quatro prévias de baús foram redesenhados em S
 A arena conserva a estrutura aprovada na v0.33.1, incluindo mão, montes, frente, retaguarda, Daly Mães, área de ações e habilidade na estrela da carta. Não há painel extra de comando, cópias de cartas ou vistas Campo/Ações. O enquadramento continua sob responsabilidade de ArenaFit. Em paisagem baixa, a correção de uma coluna implícita evita que o nome do monte principal seja quebrado letra por letra.
 
 A abertura usa as artes oficiais de Sam e Sark, carrega seus seis recursos essenciais e mantém Pular, Entrar e os controles de teclado. As transições curtas e os efeitos já existentes respeitam som desligado e movimento reduzido. As folhas finais `signal_system.css`, `signal_screens.css` e `signal_arena.css` organizam o acabamento sem alterar o motor.
+
+
+## v0.35.0 — Jogar e batalha como uma mesa de jogo
+
+O novo [kit de referência de ícones](references/icones-v0.35-referencia.jpg) define símbolos claros sobre bases facetadas. A direção usa essa leitura com cores mais contidas e acabamento de metal, esmalte e cristal, em vez de aumentar os detalhes ornamentais dos símbolos.
+
+Jogar passa a ter uma composição com personagens oficiais e um acesso principal em destaque. Os demais acessos são atalhos de ícones grandes, com seus rótulos. A seleção conserva somente Voltar, cartas e identificação das escolhas, seguida de Começar quando as equipes estão prontas. As cartas não ficam dentro de painéis retangulares individuais.
+
+Na batalha, os personagens ocupam a mesa diretamente, com sombra e marca de seleção no chão. As grandes caixas por equipe e o painel fixo de atributos deixam de aparecer. A mão, os seis montes de raridade, o principal, a ordem, o registro e os eliminados continuam acessíveis no campo. Tocar em um monte abre a consulta existente, sem comprar cartas nem gastar a ação. Frente e retaguarda preservam seus papéis e posições; cada personagem tem uma única carta real na arena.
+
+Os ícones de habilidade e ataque são diferentes; ações obrigatórias como passar a vez e manter ou retirar o machado também recebem símbolos. O ajuste de mana conserva seus botões e limites em um grupo compacto. A estrela da própria carta continua sendo o acesso às opções da habilidade, na mesma área de ações, sem adicionar outro painel de combate.
+
+`ArenaFit` lê medidas da interface e usa a quantidade real de personagens da frente, reserva de espaço e proporção de Suportes definidas pelo cenário. As vagas vazias não obrigam cartas iniciais a encolher. A área dos comandos e o rodapé da mão permanecem estáveis entre as jogadas. A seleção de um alvo, as consultas e o redesenho continuam sem alterar estado, dados ou recursos da partida.
+
+As [artes locais](../assets/realms-v035/README.md) incluem mesa horizontal, composição vertical e duas folhas transparentes de seis ícones. O carregamento da abertura prepara os sete recursos essenciais, incluindo as novas artes. Nenhuma classe, carta ou logotipo oficial foi redesenhado.

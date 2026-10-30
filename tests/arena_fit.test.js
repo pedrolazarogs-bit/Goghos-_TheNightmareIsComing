@@ -38,6 +38,24 @@ test('o enquadramento mantém cartas de frente e retaguarda proporcionais na are
   assert.deepEqual(o,before);
  }
 });
+test('o campo de relíquias recupera espaço para cartas maiores sem exceder área nem sobrepor Suportes',()=>{
+ const F=load(),area={sideWidth:800,sideHeight:290,frontCap:2,hasRear:true};
+ const old=F.computeSizing(area),realm=F.computeSizing({...area,reservedHeight:34,maxFrontSize:170,rearRatio:.62});
+ assert(realm.frontSize>old.frontSize);assert(realm.frontSize*1.67+34<=area.sideHeight+.1);
+ assert(realm.frontSize*2+realm.rearSize*2+30<=area.sideWidth+.3);
+ assert(Math.abs(realm.rearSize/realm.frontSize-.62)<.02);
+ const dense=F.computeSizing({...area,frontCap:4,reservedHeight:34,maxFrontSize:170,rearRatio:.62});
+ assert(dense.frontSize<=realm.frontSize);assert(dense.frontSize*4+dense.rearSize*2+42<=area.sideWidth+.3);
+});
+test('a montagem lê o perfil do cenário e o número de cartas sem consultar ou alterar a batalha',()=>{
+ const state={round:3,hp:95,deck:['apoio']},before=JSON.stringify(state),vars=new Map();let count=2;
+ const side={getBoundingClientRect:()=>({width:550,height:300}),querySelectorAll:()=>Array(count).fill({})};
+ const arena={isConnected:true,classList:{contains:name=>name==='realm-arena'},dataset:{frontcap:'4'},style:{setProperty:(k,v)=>vars.set(k,v)},querySelectorAll:selector=>selector==='.side'?[side,side]:[],querySelector:()=>null};
+ const F=load({GOGHOS:{state},document:{body:{}},innerWidth:1280,getComputedStyle:()=>({getPropertyValue:key=>({'--realm-card-reserve':'34','--realm-card-max':'170','--realm-rear-ratio':'.62','--realm-width-reserve':'54'})[key]||''})});
+ F.mount(arena);const first=F.getDebugState().frontSize;assert(first>120);assert.equal(vars.get('--fit-front-size'),first+'px');
+ count=4;F.refresh();assert(F.getDebugState().frontSize<first);assert(F.getDebugState().frontSize*4+72<=550+.3);
+ assert.equal(JSON.stringify(state),before);F.detach();assert.equal(F.getDebugState().active,false);
+});
 test('carregar sem DOM e encerrar uma montagem inválida não acessa ou altera o estado da partida',()=>{
  const G={battle:{round:3,hand:['a'],units:[{hp:1}]}},before=JSON.stringify(G.battle),F=load({GOGHOS:G});assert.equal(typeof F.mount(null),'function');F.refresh();F.detach();assert.equal(F.getDebugState().active,false);assert.equal(JSON.stringify(G.battle),before);
 });

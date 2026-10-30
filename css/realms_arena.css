@@ -1,0 +1,501 @@
+/* v0.35 · Uma mesa de batalha, não uma coleção de painéis. */
+.arena.fit-arena.inplace-arena.realm-arena{
+ --realm-card-reserve:34;--realm-card-max:170;--realm-rear-ratio:.62;--realm-width-reserve:24;--realm-heart:17px;
+ --realm-ivory:#f1e2c5;--realm-mint:#a4e1cd;--realm-rose:#e4a6bd;
+ --realm-edge:#a99073;--realm-shadow:#090c12;
+ position:relative;isolation:isolate;
+ grid-template-columns:128px minmax(0,1fr) 112px!important;
+ grid-template-rows:54px minmax(0,1fr)!important;
+ padding:12px 22px 14px!important;gap:7px 12px!important;
+ background:#16191d;color:var(--realm-ivory);
+}
+.arena.fit-arena.inplace-arena.realm-arena:before{
+ content:'';display:block;position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:1;grid-column:auto!important;grid-row:auto!important;
+ background:url('../assets/realms-v035/nightmare-table.png') center/100% 100% no-repeat;
+ border:0;box-shadow:none;filter:none;transform:none;
+}
+.arena.fit-arena.inplace-arena.realm-arena:after{
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(ellipse at 50% 50%,transparent 25%,#05080e26 100%);
+ opacity:1;border:0;box-shadow:none;
+}
+/* Os objetos úteis ocupam as bordas; o meio pertence aos personagens. */
+.arena.fit-arena.inplace-arena.realm-arena>.arena-header{
+ display:flex;justify-content:space-between;align-items:center;gap:12px;
+ position:relative;grid-column:1/-1;grid-row:1;padding:0!important;
+ background:none;border:0;box-shadow:none;z-index:12;
+}
+.arena.fit-arena.inplace-arena.realm-arena .arena-brand{display:flex;flex:none;width:84px}
+.arena.fit-arena.inplace-arena.realm-arena .arena-brand>img{width:84px;max-width:84px;max-height:54px;filter:drop-shadow(0 3px 3px #05070c)}
+.arena.fit-arena.inplace-arena.realm-arena .arena-brand>small{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .arena-round{
+ position:absolute;left:104px;top:1px;display:flex;gap:4px;align-items:center;
+ height:50px;min-width:66px;padding:0!important;margin:0;border:0;background:none;
+ box-shadow:none;transform:none;text-shadow:0 2px 3px #040608;
+}
+.arena.fit-arena.inplace-arena.realm-arena .arena-round>.asset-window{width:42px;flex:none;filter:drop-shadow(0 2px 5px #08090e)}
+.arena.fit-arena.inplace-arena.realm-arena .arena-round>span{font-size:10px;color:#ddc9a9}
+.arena.fit-arena.inplace-arena.realm-arena .arena-round b{display:block;font-size:24px;color:var(--realm-ivory);line-height:1}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header>nav{display:flex;gap:6px;align-items:center;margin-left:auto}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button{
+ display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;margin:0;
+ border:0;border-radius:50%;background:radial-gradient(ellipse,#342c37aa 25%,#171b2199 68%,transparent 72%);
+ box-shadow:none;color:var(--realm-ivory);text-shadow:0 2px 2px #090a10;
+ transition:filter .16s,translate .16s;
+}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button>span:not(.realm-icon):not(.relic-icon){display:none}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button :is(.toon-icon,.realm-icon,.relic-icon){width:44px;height:44px;filter:drop-shadow(0 3px 2px #080a0d)}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button>.toon-icon.realm-icon{display:inline-block!important}
+.arena.fit-arena.inplace-arena.realm-arena .arena-round>.asset-window{display:inline-block!important}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button>.ui-icon{width:27px;height:27px}
+.arena.fit-arena.inplace-arena.realm-arena .arena-header button:hover:not(:disabled){background:radial-gradient(ellipse,#78604c5c,transparent 72%);filter:brightness(1.15);translate:0 -2px;box-shadow:none}
+.arena.fit-arena.inplace-arena.realm-arena .battle-sound{display:none!important}
+.arena.fit-arena.inplace-arena.realm-arena .arena-left,.arena.fit-arena.inplace-arena.realm-arena .arena-right{display:contents!important}
+.arena.fit-arena.inplace-arena.realm-arena :is(.rarity-piles,.history-panel,.main-deck,.mao:not(.choose-replacement)){grid-column:auto!important;grid-row:auto!important}
+.arena.fit-arena.inplace-arena.realm-arena .arena-right>.actor-info{display:none!important}
+/* A fila fica na própria borda superior, sem uma faixa encaixotada. */
+.arena.fit-arena.inplace-arena.realm-arena .turn-panel{
+ position:absolute!important;left:calc(50% - 196px);top:12px;width:392px;height:51px;grid-column:auto!important;grid-row:auto!important;
+ display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,.84fr) 42px;
+ grid-template-rows:1fr;gap:4px;padding:0!important;margin:0;
+ border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;z-index:14;
+}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview{
+ display:flex;align-items:center;gap:6px;min-width:0;padding:0 7px;
+ border:0;border-radius:0;background:none;box-shadow:none;
+}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview.now{background:linear-gradient(90deg,#9cd5c91b,transparent);border-left:2px solid #a4e1cd80}
+.arena.fit-arena.inplace-arena.realm-arena .turn-panel.enemy .turn-preview.now{background:linear-gradient(90deg,#d79bb91c,transparent);border-left-color:#dba4c29c}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait{width:40px;height:45px;border:0;background:none;box-shadow:none;border-radius:0}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait .asset-window{width:39px}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait.banner .asset-window{width:62px}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview-copy>span{font-size:10px!important;line-height:1.15!important;color:#c4e5d9!important;letter-spacing:.05em}
+.arena.fit-arena.inplace-arena.realm-arena .turn-panel.enemy .now .turn-preview-copy>span{color:#ecc0d0!important}
+.arena.fit-arena.inplace-arena.realm-arena .now .turn-preview-copy>strong{font-size:24px;color:var(--realm-ivory);text-shadow:0 2px 3px #05080c}
+.arena.fit-arena.inplace-arena.realm-arena .upcoming .turn-preview-copy>strong{font-size:18px;color:#dbcbb8}
+.arena.fit-arena.inplace-arena.realm-arena .turn-preview-copy>small{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .turn-arrow{opacity:.55}
+.arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button{
+ display:grid;place-items:center;min-height:44px;width:42px;padding:0;margin:0;
+ border:0;border-radius:50%;background:radial-gradient(ellipse,#6c5b4d28,transparent 70%);
+ box-shadow:none;font-size:0;color:#e0ccac;
+}
+.arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){display:block;width:44px;height:44px}
+.arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button:empty:before{content:'≋';font-size:34px;color:#dfc29a}
+/* Seis montes físicos, com a raridade marcada na própria borda. */
+.arena.fit-arena.inplace-arena.realm-arena .rarity-piles{
+ position:absolute;left:22px;top:94px;width:114px;margin:0;padding:0!important;
+ border:0;border-radius:0;box-shadow:none;background:none;z-index:7;
+}
+.arena.fit-arena.inplace-arena.realm-arena .rarity-piles>h3{font-size:12px;color:#d4c4ad;gap:4px;margin:0 0 9px;padding-left:2px;text-shadow:0 2px 2px #03070a}
+.arena.fit-arena.inplace-arena.realm-arena .rarity-piles>h3 .fg-arena-icon{width:20px;height:20px}
+.arena.fit-arena.inplace-arena.realm-arena .piles-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:23px 10px;padding:0}
+.arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile){
+ display:grid;place-items:center;grid-template-columns:1fr;gap:0;position:relative;width:100%;margin:0;
+ min-height:68px;padding:5px 1px 6px;border:1px solid color-mix(in srgb,var(--pile) 55%,#534c57);
+ border-radius:7px 2px 7px 2px;background:linear-gradient(150deg,#34323ce8,#14191edb);
+ box-shadow:2px 3px 0 #080c11,3px 4px 0 color-mix(in srgb,var(--pile) 40%,#22252c),0 5px 8px #080a0f88;
+ transform:rotate(-3deg);isolation:isolate;
+}
+.arena.fit-arena.inplace-arena.realm-arena .deck-pile:nth-child(even):not(.main-pile){transform:rotate(3deg)}
+.arena.fit-arena.inplace-arena.realm-arena .rarity-piles .pile-card{position:absolute;inset:0;width:100%;height:100%;border:0;box-shadow:none;filter:none;opacity:.76;z-index:-1;transform:none;border-radius:inherit;overflow:hidden}
+.arena.fit-arena.inplace-arena.realm-arena .rarity-piles .pile-card-face{inset:0;background:none;border:0}
+.arena.fit-arena.inplace-arena.realm-arena :is(.pile-card,.pile-card-face,.pile-card-face .asset-window){pointer-events:none!important}
+.arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile):before{inset:5px;border:1px solid #b8a78e3d;border-radius:3px;background:radial-gradient(ellipse at 50% 45%,var(--pile),transparent 24%);opacity:.3;box-shadow:none;z-index:-1}
+.arena.fit-arena.inplace-arena.realm-arena .rarity-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;border:0;border-radius:1px;box-shadow:0 0 7px color-mix(in srgb,var(--pile) 50%,transparent);transform:rotate(45deg)}
+.arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) strong{position:absolute;left:-4px;right:-4px;bottom:-13px;font-size:10px;line-height:1.1;color:#eadcc8;text-align:center;font-weight:400;text-shadow:0 2px 2px #05070a}
+.arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) b{position:absolute;right:-4px;top:-6px;font-size:22px;min-width:23px;padding:2px;background:#161b23ed;border-radius:6px 2px;color:#f0e6d5;line-height:1;align-self:end;text-shadow:0 2px 2px #05070a;box-shadow:0 1px 3px #030609}
+.arena.fit-arena.inplace-arena.realm-arena .history-panel{
+ position:absolute;left:27px;top:58%;width:95px;display:flex;gap:10px;
+ flex-flow:row wrap;flex:none;justify-content:center;margin:0;z-index:8;
+}
+.arena.fit-arena.inplace-arena.realm-arena .event-feed{display:none!important}
+.arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button{
+ position:relative;width:42px;height:48px;min-height:48px;padding:0;
+ display:flex;align-items:center;justify-content:center;flex:none;
+ border:0;border-radius:0;background:none;box-shadow:none;font-size:0;
+}
+.arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){width:48px;height:48px}
+.arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button b{position:absolute;right:-3px;bottom:1px;font-size:12px;color:#f3e6cf;background:#19191fe8;padding:1px 3px;border-radius:4px}
+/* O campo é um espaço único; a luz desenha as duas formações. */
+.arena.fit-arena.inplace-arena.realm-arena .battle-board{
+ grid-column:2;grid-row:2;display:grid!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ grid-template-rows:minmax(0,1fr) 24px minmax(0,1fr) auto!important;
+ gap:5px!important;min-width:0;min-height:0;padding:0!important;overflow:visible!important;
+}
+.arena.fit-arena.inplace-arena.realm-arena .side{
+ position:relative!important;grid-column:1!important;min-height:0!important;
+ padding:0!important;margin:0;overflow:visible!important;isolation:isolate;
+}
+.arena.fit-arena.inplace-arena.realm-arena .side.enemy{grid-row:1}
+.arena.fit-arena.inplace-arena.realm-arena .side.player{grid-row:3}
+.arena.fit-arena.inplace-arena.realm-arena .side:before{
+ content:'';position:absolute;inset:18% 3% 0;border:0;border-radius:50%;
+ background:radial-gradient(ellipse at 50% 72%,#8adcc415,transparent 67%);
+ box-shadow:none;filter:blur(6px);z-index:-1;
+}
+.arena.fit-arena.inplace-arena.realm-arena .side.enemy:before{background:radial-gradient(ellipse at 50% 72%,#e9a4b910,transparent 67%)}
+.arena.fit-arena.inplace-arena.realm-arena .team-label{position:absolute;left:0;top:0!important;bottom:auto!important;padding:0;background:none;border:0;border-radius:0;box-shadow:none;font-size:10px;letter-spacing:.08em;color:#a9d5c5;opacity:.8;transform:none;text-shadow:0 2px 2px #040709;max-width:none}
+.arena.fit-arena.inplace-arena.realm-arena .enemy .team-label{color:#ddb0c3}
+.arena.fit-arena.inplace-arena.realm-arena .formation-row.front,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.front{
+ position:absolute!important;left:0;right:0;top:auto;bottom:0;width:auto!important;padding:0!important;z-index:3;
+}
+.arena.fit-arena.inplace-arena.realm-arena .side.player .formation-row.front{top:0;bottom:auto}
+.arena.fit-arena.inplace-arena.realm-arena .side:has(.rear .cell) .formation-row.front{left:calc(var(--fit-rear-size) + 10px);right:calc(var(--fit-rear-size) + 10px)}
+.arena.fit-arena.inplace-arena.realm-arena .front>.lbl{top:-13px;left:0;right:auto;height:12px;line-height:12px;font-size:9px;letter-spacing:.03em;opacity:.6;text-transform:none;color:#cfdbd3;text-shadow:0 1px 3px #000}
+.arena.fit-arena.inplace-arena.realm-arena .side.player .front>.lbl{top:auto;bottom:-13px}
+.arena.fit-arena.inplace-arena.realm-arena .front .frow{position:relative;display:flex;align-items:flex-start;justify-content:center;gap:var(--fit-gap);padding:0;margin:0;width:100%;min-height:0;overflow:visible!important}
+.arena.fit-arena.inplace-arena.realm-arena .front .empty{position:absolute;right:0;bottom:0;width:calc(var(--cw)*.38)!important;flex:none!important;opacity:.35;pointer-events:none}
+.arena.fit-arena.inplace-arena.realm-arena .front .empty:nth-last-child(2){right:auto;left:0}
+.arena.fit-arena.inplace-arena.realm-arena .empty-frame{width:100%!important;height:22px!important;border:0;border-radius:50%;background:radial-gradient(ellipse,#a6dac525,transparent 68%);box-shadow:none}
+.arena.fit-arena.inplace-arena.realm-arena .empty-frame:after{content:'✧';position:absolute;inset:0;color:#cfe5d150;font-size:22px;line-height:22px;text-shadow:0 0 12px #8fe7c733}
+.arena.fit-arena.inplace-arena.realm-arena .enemy .empty-frame:after{color:#e7c0d050}
+.arena.fit-arena.inplace-arena.realm-arena .empty>span{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .formation-row.rear,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.rear{top:50%;left:0;right:0;bottom:auto;transform:translateY(-50%);z-index:2}
+.arena.fit-arena.inplace-arena.realm-arena .rear .frow{padding:0;margin:0;display:flex;justify-content:space-between;align-items:center}
+.arena.fit-arena.inplace-arena.realm-arena .rear .cell{opacity:.92}
+.arena.fit-arena.inplace-arena.realm-arena .rear .empty{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .cell{isolation:isolate}
+.arena.fit-arena.inplace-arena.realm-arena .cell:before{
+ content:'';position:absolute;left:0;right:0;bottom:15px;height:25px;z-index:-1;
+ background:radial-gradient(ellipse,#03070caa,transparent 70%);border:0;pointer-events:none;
+}
+.arena.fit-arena.inplace-arena.realm-arena .cell .slot{background:none;box-shadow:none;border:0;outline:0!important;border-radius:0}
+.arena.fit-arena.inplace-arena.realm-arena .cell.is-current .slot,.arena.fit-arena.inplace-arena.realm-arena .cell.is-target .slot{outline:0!important;box-shadow:none!important;background:none}
+.arena.fit-arena.inplace-arena.realm-arena .side .card{filter:drop-shadow(0 9px 5px #04070c9c);transition:filter .18s ease;transform-origin:50% 85%}
+.arena.fit-arena.inplace-arena.realm-arena .cell.is-current .card{filter:drop-shadow(0 2px 0 #c7f0d0) drop-shadow(0 0 10px #a4e1cd45) drop-shadow(0 10px 5px #05080caa)}
+.arena.fit-arena.inplace-arena.realm-arena .enemy .cell.is-current .card{filter:drop-shadow(0 2px 0 #e4a6bd) drop-shadow(0 0 9px #e4a6bd40) drop-shadow(0 10px 5px #05080caa)}
+.arena.fit-arena.inplace-arena.realm-arena .cell.is-target .card{filter:drop-shadow(0 2px 0 #f6db99) drop-shadow(0 0 12px #f0ce8548) drop-shadow(0 10px 5px #05080caa)}
+.arena.fit-arena.inplace-arena.realm-arena .cell.is-current:before{background:radial-gradient(ellipse,#a4e1cd70,transparent 69%);height:35px;bottom:12px}
+.arena.fit-arena.inplace-arena.realm-arena .cell.is-target:before{background:radial-gradient(ellipse,#edcf8570,transparent 69%);height:35px}
+.arena.fit-arena.inplace-arena.realm-arena .unit-turn{top:4px;left:0;padding:2px 5px;background:#b8deca;color:#1d302b;font-size:9px;border:0;border-radius:8px 2px;box-shadow:0 2px 4px #05090d}
+.arena.fit-arena.inplace-arena.realm-arena .unit-turn.selected{background:#ead19b;color:#382b20}
+.arena.fit-arena.inplace-arena.realm-arena .unit-nameplate{margin-top:2px;padding:0 2px;min-height:16px;height:16px;gap:4px;background:none;border:0;border-radius:0;box-shadow:none;text-shadow:0 2px 2px #04070b}
+.arena.fit-arena.inplace-arena.realm-arena .unit-nameplate strong{font-size:12px;color:#f2e9d6}
+.arena.fit-arena.inplace-arena.realm-arena .unit-nameplate .ui-icon{width:13px;height:13px;color:#c3d6ce}
+.arena.fit-arena.inplace-arena.realm-arena .unit-nameplate>span{font-size:10px;color:#c4dfd1}
+.arena.fit-arena.inplace-arena.realm-arena .unit-vitals{height:13px;min-height:13px;gap:5px;margin-top:1px;text-shadow:0 2px 2px #05090c}
+.arena.fit-arena.inplace-arena.realm-arena .unit-vitals b{font-size:12px;color:#f3e7cd}
+.arena.fit-arena.inplace-arena.realm-arena .unit-vitals small{font-size:8px;color:#d3ccbb}
+.arena.fit-arena.inplace-arena.realm-arena .hp-track{height:5px;border:0;border-radius:8px;background:#0c1119;box-shadow:0 1px 0 #d8d3b91c;min-width:8px}
+.arena.fit-arena.inplace-arena.realm-arena .hp-track>i{border-radius:8px;background:linear-gradient(90deg,#669f91,#cce5b5);box-shadow:0 0 6px #b1e3bc29}
+.arena.fit-arena.inplace-arena.realm-arena .enemy .hp-track>i{background:linear-gradient(90deg,#ad748e,#e2b5b9)}
+.arena.fit-arena.inplace-arena.realm-arena .rear .unit-nameplate{height:13px;min-height:13px}
+.arena.fit-arena.inplace-arena.realm-arena .rear .unit-nameplate strong{font-size:10px}
+.arena.fit-arena.inplace-arena.realm-arena .rear .unit-vitals{height:11px;min-height:11px}
+.arena.fit-arena.inplace-arena.realm-arena .rear .unit-vitals b{font-size:10px}
+.arena.fit-arena.inplace-arena.realm-arena .unit-power{border:1px solid #f2db9b80;background:transparent;box-shadow:0 0 12px #f4d68e3b;outline-offset:3px;border-radius:50%}
+.arena.fit-arena.inplace-arena.realm-arena .unit-power:hover,.arena.fit-arena.inplace-arena.realm-arena .unit-power[aria-expanded=true]{border-color:#fff0c9;box-shadow:0 0 15px #f4d68e70;background:#f2d79c0a}
+.arena.fit-arena.inplace-arena.realm-arena :is(.unit-relation,.unit-status){border:0;border-radius:50%;background:radial-gradient(ellipse,#66536b,#1b1d25 70%);box-shadow:0 3px 6px #05080c80}
+/* Cristais-mãe nas bordas: a peça inteira continua sendo o alvo clicável. */
+.arena.fit-arena.inplace-arena.realm-arena .daly-feedback,.arena.fit-arena.inplace-arena.realm-arena .enemy .daly-feedback{
+ position:absolute;left:auto;right:-112px;top:50%;bottom:auto!important;transform:translateY(-50%);
+ width:100px;padding:0!important;z-index:5;
+}
+.arena.fit-arena.inplace-arena.realm-arena .daly{background:none!important;border:0;border-radius:0;box-shadow:none!important;width:100%;padding:0!important;cursor:default}
+.arena.fit-arena.inplace-arena.realm-arena .daly:not(.target){outline:0!important}
+.arena.fit-arena.inplace-arena.realm-arena .daly-name{font-size:11px;height:auto;line-height:1.1;color:#d8bfc9;text-shadow:0 2px 2px #08080c;margin:0 0 5px}
+.arena.fit-arena.inplace-arena.realm-arena .daly-emblem{display:flex;height:69px;gap:7px;justify-content:center;align-items:center;filter:drop-shadow(0 3px 8px #7f315334)}
+.arena.fit-arena.inplace-arena.realm-arena .daly-emblem>.asset-window{height:68px;width:auto}
+.arena.fit-arena.inplace-arena.realm-arena .daly-lives{display:flex;flex-direction:column;gap:4px}
+.arena.fit-arena.inplace-arena.realm-arena .daly-life-slot{width:17px;height:17px;border:0;border-radius:0;background:none;box-shadow:none}
+.arena.fit-arena.inplace-arena.realm-arena .daly-lives .daly-life-slot{width:var(--realm-heart)!important;height:var(--realm-heart);flex:0 0 var(--realm-heart)!important;min-width:0;opacity:1;background:none!important;box-shadow:none!important;border:0}
+.arena.fit-arena.inplace-arena.realm-arena .daly-heart{width:17px;height:17px;filter:drop-shadow(0 2px 2px #06070b)}
+.arena.fit-arena.inplace-arena.realm-arena .daly.exposed{outline:0;cursor:pointer;filter:drop-shadow(0 0 7px #e871a07a)}
+.arena.fit-arena.inplace-arena.realm-arena .daly.target{outline:2px solid #f1dca0;outline-offset:7px}
+.arena.fit-arena.inplace-arena.realm-arena .daly-status,.arena.fit-arena.inplace-arena.realm-arena .rear-count{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .arena-divider{grid-column:1;grid-row:2;display:flex;height:24px;min-height:24px;justify-content:center;padding:0;gap:10px}
+.arena.fit-arena.inplace-arena.realm-arena .arena-divider>i{height:1px;max-width:80px;background:linear-gradient(90deg,transparent,#b29c7f55,transparent)}
+.arena.fit-arena.inplace-arena.realm-arena .event-brief{height:23px;min-height:23px!important;max-width:74%;padding:1px 8px!important;border:0!important;border-radius:0;background:none!important;box-shadow:none;color:#ded2bd!important;font-size:10px!important;line-height:1.2!important;text-shadow:0 2px 2px #04070a}
+/* Ações como relíquias, com ícones grandes e rótulos curtos. */
+.arena.fit-arena.inplace-arena.realm-arena .turn-guide{
+ grid-column:1;grid-row:4;position:relative!important;min-height:112px;padding:0!important;
+ margin:0;background:none;border:0;border-radius:0;box-shadow:none;z-index:11;
+}
+.arena.fit-arena.inplace-arena.realm-arena .turn-guide:before{content:'';position:absolute;inset:17px 8% -8px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 70%,#0a1019ad,transparent 72%);border:0;border-radius:50%;box-shadow:none}
+.arena.fit-arena.inplace-arena.realm-arena .turn-guide .info{font-size:12px;line-height:1.2;color:#e5dccb;text-shadow:0 2px 3px #02060a;margin:2px auto 1px;max-width:620px;min-height:15px}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions{display:flex;flex-flow:row wrap;justify-content:center;align-items:flex-start;gap:8px;min-height:0}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+ position:relative;min-width:84px;max-width:130px;min-height:96px;height:auto;
+ margin:0;padding:0 3px 2px;border:0;border-radius:0;background:none;box-shadow:none;
+ font-size:13px;line-height:1.1;color:#e8dbc5;text-shadow:0 2px 2px #05080c;
+ transition:filter .16s ease,translate .16s ease;
+}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions :is(.mode-button,[data-act=move],[data-act=attack],[data-act=full-heal],[data-act=hypnosis-keep],[data-act=status-turn],[data-act=pinned-wait]){background:none;border:0;box-shadow:none;color:#e8dbc5;font-size:13px;min-width:84px;min-height:96px;padding:0 3px 2px}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button :is(.toon-icon,.realm-icon,.relic-icon){display:block;flex:none;width:80px;height:80px;margin:0;filter:drop-shadow(0 4px 3px #04080bbb);transition:filter .16s ease}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button>.ui-icon{width:48px;height:56px}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button:before{content:'';position:absolute;left:0;right:0;bottom:10px;height:55px;border:0;border-radius:50%;background:radial-gradient(ellipse,#a8d6c800,transparent 70%);pointer-events:none;z-index:-1}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button:hover:not(:disabled){background:none;box-shadow:none;translate:0 -3px;filter:brightness(1.15)}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button:hover:not(:disabled):before{background:radial-gradient(ellipse,#bddfcf2b,transparent 70%)}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions .on{color:#d9f0c9}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions .on:before{background:radial-gradient(ellipse,#b4e6cf40,transparent 70%)}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions button:disabled{opacity:.37;filter:saturate(.15);translate:none}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions [data-act=attack]:not(:disabled){color:#f5deb1;filter:drop-shadow(0 0 7px #d5a65130)}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions [data-act=attack]:not(:disabled):before{background:radial-gradient(ellipse,#e1bd5929,transparent 70%)}
+.arena.fit-arena.inplace-arena.realm-arena .turn-guide :is(.msg,.notice){margin:2px 0;font-size:10px;line-height:1.1}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions>span{align-self:center;font-size:12px}
+/* Mana continua sendo um ajuste de recurso, com peças menores junto da ação. */
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control{display:flex;align-items:center;justify-content:center;align-self:center;gap:3px;max-width:174px;min-width:0;height:64px;padding:0 3px}
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control>span{font-size:12px;line-height:1.15;text-align:center;color:#b8dcdb;max-width:76px;text-shadow:0 2px 2px #03070a}
+.arena.fit-arena.inplace-arena.realm-arena .battle-actions .realm-mana-control button{display:grid;place-items:center;flex:none;width:40px;min-width:40px;max-width:40px;height:44px;min-height:44px;padding:0;border:1px solid #9ab4b055;border-radius:50%;background:radial-gradient(ellipse,#34424bb8,#121f2a75);font-size:0;line-height:1;box-shadow:0 2px 5px #03070b}
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control button>span,.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control button .toon-icon{display:none!important}
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control button:before{content:none}
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control button:after{content:'+';font-size:25px;line-height:1;color:#d6e6dd}
+.arena.fit-arena.inplace-arena.realm-arena .realm-mana-control button[data-act=mana-]:after{content:'−'}
+/* A mão vira um leque real de cartas, mantendo áreas independentes de toque. */
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){
+ position:absolute!important;left:17px;bottom:14px;right:auto;top:auto;transform:none;
+ width:262px;height:124px;min-height:0;padding:0!important;margin:0;border:0;border-radius:0;
+ display:flex;flex-direction:column;background:none;box-shadow:none;z-index:10;
+}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement):before{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header{height:21px;margin:0;padding:0 8px;flex:none;display:flex;align-items:center;gap:6px;border:0;background:none;box-shadow:none}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header h4{font-size:13px;line-height:1;gap:5px;color:#d6c7b2;text-shadow:0 2px 2px #08090f}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header .choice-icon{width:22px;height:22px}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-count{padding:0;background:none;border:0;box-shadow:none;font-size:13px;color:#eee0c6}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{display:flex;flex:none;justify-content:center;align-items:flex-end;gap:0;height:102px;min-height:0;width:100%;padding:0 10px 7px!important;overflow:visible}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:51px!important;width:51px!important;flex:0 0 51px;position:relative;margin:0 -3px!important;border:1px solid #ad9983;border-radius:6px 3px;background:#181c25;box-shadow:0 4px 5px #05090db3;transform:rotate(calc((var(--hand-index,2) - 2)*4deg))!important;transform-origin:50% 150%;transition:translate .16s ease,filter .16s ease,transform .16s ease}
+.arena.fit-arena.inplace-arena.realm-arena .hcard:nth-child(1){--hand-index:0}.arena.fit-arena.inplace-arena.realm-arena .hcard:nth-child(2){--hand-index:1}.arena.fit-arena.inplace-arena.realm-arena .hcard:nth-child(3){--hand-index:2}.arena.fit-arena.inplace-arena.realm-arena .hcard:nth-child(4){--hand-index:3}.arena.fit-arena.inplace-arena.realm-arena .hcard:nth-child(5){--hand-index:4}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard.selected,.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard:hover:not(:disabled){translate:0 -13px;transform:rotate(0)!important;outline:1px solid #f0d7a2;outline-offset:2px;filter:brightness(1.09);z-index:5}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard em{font-size:7px;line-height:1.1;padding:3px 1px;background:#191723d9}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard-new-badge{font-size:8px;top:-9px;right:-5px;z-index:3}
+.arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-empty{display:none!important}
+.arena.fit-arena.inplace-arena.realm-arena .hand-empty .choice-icon{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck{
+ position:absolute;right:23px;bottom:16px;width:100px;padding:0!important;display:block;
+ border:0;border-radius:0;box-shadow:none;background:none;text-align:center;z-index:8;
+}
+.arena.fit-arena.inplace-arena.realm-arena .main-pile{display:block;width:55px;height:82px;min-height:0;margin:0 auto 3px;padding:0;border:0;background:none;box-shadow:none;transform:rotate(7deg)}
+.arena.fit-arena.inplace-arena.realm-arena .pile-card{width:55px;height:82px;box-shadow:3px 3px 0 #bba78b66,5px 5px 0 #090d14;filter:drop-shadow(0 4px 3px #04080ca0);border-radius:5px;background:#0d1219;border:1px solid #93816b}
+.arena.fit-arena.inplace-arena.realm-arena .pile-card-face{inset:0;border:0;background:#0b1016;border-radius:4px;transform:none}
+.arena.fit-arena.inplace-arena.realm-arena .pile-card-face .asset-window{width:100%;height:100%}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck-copy{display:block;min-width:0}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck h3{font-size:11px;line-height:1.1;justify-content:center;margin:7px 0 0;color:#d4c3a7;text-shadow:0 2px 2px #000}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck h3 .fg-arena-icon{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck-copy>strong{position:absolute;top:50px;right:10px;font-size:28px;line-height:1;color:#eee2c9;text-shadow:0 2px 4px #000;transform:rotate(-6deg)}
+.arena.fit-arena.inplace-arena.realm-arena .main-deck-copy>strong small,.arena.fit-arena.inplace-arena.realm-arena .main-deck-copy>p{display:none}
+.arena.fit-arena.inplace-arena.realm-arena .deck-meta{display:flex;justify-content:center;gap:3px;font-size:8px;margin:4px 0 0;opacity:.7;color:#c9c1b1}
+.arena.fit-arena.inplace-arena.realm-arena .deck-meta>span{display:none}
+/* A consulta continua no mesmo leitor paginado; não nasce um segundo campo. */
+.arena.fit-arena.inplace-arena.realm-arena :is(.inspect-sheet,.choice-dialog){border-color:#8e7b69;border-radius:15px 4px;background:linear-gradient(145deg,#302b32f7,#171d26fa);box-shadow:0 20px 80px #02050bd9,inset 0 0 0 3px #c8ae8124}
+.arena.fit-arena.inplace-arena.realm-arena :is(.inspect-sheet,.choice-dialog):before{opacity:.14}
+.arena.fit-arena.inplace-arena.realm-arena .inspect-sheet>header{background:none;border-bottom-color:#b79d763d}
+.arena.fit-arena.inplace-arena.realm-arena .fit-reader-nav button,.arena.fit-arena.inplace-arena.realm-arena .inspect-sheet>header button{border:1px solid #9f8a6a70;border-radius:10px 3px;background:#3d3439;color:#e9ddc4;box-shadow:0 3px 4px #080d14}
+.arena.fit-arena.inplace-arena.realm-arena .reader-note{border-color:#8d796333;background:#d8c69f07}
+.arena.fit-arena.inplace-arena.realm-arena .reader-note h4{color:#d2c098}
+.arena.fit-arena.inplace-arena.realm-arena .reader-note p{color:#e2d9c8}
+
+@media(min-width:761px) and (max-width:1100px){
+ .arena.fit-arena.inplace-arena.realm-arena{grid-template-columns:102px minmax(0,1fr) 88px!important;padding:10px 14px 12px!important;gap:6px 9px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round{left:85px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-panel{left:calc(50% - 167px);width:334px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview.now .turn-preview-copy>strong{font-size:21px}
+ .arena.fit-arena.inplace-arena.realm-arena .upcoming .turn-preview-copy>strong{font-size:16px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles{left:15px;width:94px}
+ .arena.fit-arena.inplace-arena.realm-arena .piles-grid{gap:9px 8px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile){min-height:60px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) strong{font-size:9px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-feedback,.arena.fit-arena.inplace-arena.realm-arena .enemy .daly-feedback{right:-88px;width:79px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem{height:60px;gap:4px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem>.asset-window{height:60px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-name{font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel{left:17px;width:90px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){left:12px;width:232px;height:115px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{height:94px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:46px!important;width:46px!important;flex-basis:46px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck{right:15px;width:79px}
+}
+@media(max-width:760px){
+ .arena.fit-arena.inplace-arena.realm-arena{
+  --realm-card-reserve:30;--realm-card-max:158;--realm-rear-ratio:.58;--realm-width-reserve:54;--realm-heart:12px;
+  grid-template-columns:minmax(0,1fr)!important;grid-template-rows:104px minmax(0,1fr) 94px!important;
+  padding:8px 12px 9px!important;gap:0!important;
+ }
+ .arena.fit-arena.inplace-arena.realm-arena:before{background-image:url('../assets/realms-v035/nightmare-table-portrait.png');background-size:100% 100%;background-position:center}
+ .arena.fit-arena.inplace-arena.realm-arena>.arena-header{grid-column:1;grid-row:1;align-self:start;height:48px;min-height:0;display:flex}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-brand{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round{left:0;top:0;min-width:37px;height:43px;gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round>.asset-window{width:28px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round>span{font-size:0}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round b{font-size:21px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header>nav{gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header button{width:34px;min-width:34px;height:40px;min-height:40px;border:0;padding:0}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header button :is(.toon-icon,.realm-icon,.relic-icon){width:39px;height:39px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header button>.ui-icon{width:22px;height:22px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-panel{left:57px;right:151px;top:9px;width:auto;height:42px;grid-template-columns:minmax(0,1fr) 30px;gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview.now{padding:0 3px;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview.upcoming,.arena.fit-arena.inplace-arena.realm-arena .turn-arrow{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait{width:25px;height:32px;flex:none}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait .asset-window{width:25px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait.banner .asset-window{width:39px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview-copy>span{font-size:8px!important;line-height:1.05!important;letter-spacing:0}
+ .arena.fit-arena.inplace-arena.realm-arena .now .turn-preview-copy>strong{font-size:14px}
+ .arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button{grid-column:2;grid-row:1;width:30px;min-height:36px;font-size:0;padding:0}
+ .arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){width:34px;height:34px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles{top:62px;left:13px;width:calc(100% - 79px);padding:0!important}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles>h3{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .piles-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile){height:44px;min-height:44px;padding:4px 1px 3px;border-radius:4px 1px;transform:rotate(-3deg)}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) strong{font-size:7px;line-height:1.05;bottom:-9px;left:-3px;right:-3px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) b{font-size:17px;min-width:15px;padding:1px 2px;top:-5px;right:-3px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-dot{width:4px;height:4px;top:2px;right:2px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-board{grid-column:1;grid-row:2;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) 18px minmax(0,1fr) auto!important;gap:4px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .side.enemy{grid-column:1!important;grid-row:1}
+ .arena.fit-arena.inplace-arena.realm-arena .side.player{grid-column:1!important;grid-row:3}
+ .arena.fit-arena.inplace-arena.realm-arena .side .team-label{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .front>.lbl{font-size:8px;top:-11px;height:10px;line-height:10px;opacity:.6}
+ .arena.fit-arena.inplace-arena.realm-arena .side.player .front>.lbl{top:auto;bottom:-11px}
+ .arena.fit-arena.inplace-arena.realm-arena .formation-row.front,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.front{left:0;right:38px;bottom:0}
+ .arena.fit-arena.inplace-arena.realm-arena .side.player .formation-row.front{top:0;bottom:auto}
+ .arena.fit-arena.inplace-arena.realm-arena .side:has(.rear .cell) .formation-row.front{left:calc(var(--fit-rear-size) + 4px);right:calc(var(--fit-rear-size) + 35px)}
+ .arena.fit-arena.inplace-arena.realm-arena .formation-row.rear,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.rear{left:0;right:37px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-feedback,.arena.fit-arena.inplace-arena.realm-arena .enemy .daly-feedback{left:auto;right:-4px;top:50%;bottom:auto!important;width:39px;transform:translateY(-50%)}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-name{font-size:0;margin:0}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem{height:auto;gap:3px;flex-direction:column;overflow:visible}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem>.asset-window{height:48px;width:auto}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-lives{flex-direction:row;gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-life-slot{width:12px;height:12px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-heart{width:12px;height:12px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate{height:14px;min-height:14px;gap:3px;padding:0}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate strong{font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate .ui-icon{width:10px;height:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate>span{font-size:8px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-vitals{height:11px;min-height:11px;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-vitals b{font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-vitals small{font-size:7px}
+ .arena.fit-arena.inplace-arena.realm-arena .rear .unit-nameplate{height:11px;min-height:11px}
+ .arena.fit-arena.inplace-arena.realm-arena .rear .unit-nameplate strong,.arena.fit-arena.inplace-arena.realm-arena .rear .unit-vitals b{font-size:8px}
+ .arena.fit-arena.inplace-arena.realm-arena .rear .unit-vitals{height:9px;min-height:9px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-divider{grid-row:2;height:18px;min-height:18px;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .event-brief{font-size:9px!important;max-width:94%;height:18px;min-height:18px!important;padding:0 4px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-divider>i{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-guide{grid-row:4;min-height:106px;padding-top:6px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-guide .info{font-size:10px;min-height:12px;line-height:1.15;margin:0 0 2px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions{gap:4px;flex-wrap:wrap}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button,.arena.fit-arena.inplace-arena.realm-arena .battle-actions :is(.mode-button,[data-act=move],[data-act=attack],[data-act=full-heal],[data-act=hypnosis-keep],[data-act=status-turn],[data-act=pinned-wait]){min-width:72px;max-width:110px;min-height:84px;font-size:11px;padding:0 2px 1px;gap:0}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button :is(.toon-icon,.realm-icon,.relic-icon){width:70px;height:70px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button>.ui-icon{width:42px;height:50px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){left:9px;bottom:9px;width:calc(100% - 86px);height:88px;display:flex;flex-direction:column}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header{height:15px;min-height:15px;padding:0 5px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header h4{font-size:11px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header .choice-icon{width:17px;height:17px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-count{font-size:11px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{height:73px;min-height:0;padding:0 4px 4px!important;gap:0;justify-content:center}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:40px!important;width:40px!important;flex:0 0 40px;margin:0 -1px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard em{font-size:6px;padding:2px 1px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck{right:12px;top:58px;bottom:auto;width:52px;height:48px;text-align:center}
+ .arena.fit-arena.inplace-arena.realm-arena .main-pile{width:27px;height:42px;margin:0 auto;transform:rotate(7deg)}
+ .arena.fit-arena.inplace-arena.realm-arena .pile-card{width:27px;height:42px;box-shadow:2px 2px 0 #bba78b55,3px 3px 0 #090d14}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck h3{font-size:0;margin:0}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck-copy>strong{top:23px;right:0;font-size:20px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-meta{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel{top:auto;bottom:16px;left:auto;right:8px;width:68px;gap:4px;justify-content:center}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button{width:30px;height:38px;min-height:38px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){width:36px;height:36px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button b{font-size:9px;right:-2px;bottom:0}
+}
+@media(max-width:760px) and (max-height:700px){
+ .arena.fit-arena.inplace-arena.realm-arena{--realm-card-reserve:27;grid-template-rows:94px minmax(0,1fr) 72px!important;padding:6px 10px 7px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles{top:55px;left:11px;width:calc(100% - 76px)}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile){height:38px;min-height:38px;padding-top:2px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) strong{font-size:6.5px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) b{font-size:17px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck{top:53px;right:11px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button,.arena.fit-arena.inplace-arena.realm-arena .battle-actions :is(.mode-button,[data-act=move],[data-act=attack],[data-act=full-heal],[data-act=hypnosis-keep],[data-act=status-turn],[data-act=pinned-wait]){min-height:70px;min-width:60px;font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button :is(.toon-icon,.realm-icon,.relic-icon){width:58px;height:58px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-board{gap:3px!important;grid-template-rows:minmax(0,1fr) 15px minmax(0,1fr) auto!important}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-guide{min-height:90px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-divider{height:15px;min-height:15px}
+ .arena.fit-arena.inplace-arena.realm-arena .event-brief{height:15px;min-height:15px!important;font-size:8px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){height:69px;bottom:8px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header{height:14px;min-height:14px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{height:55px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:30px!important;width:30px!important;flex-basis:30px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel{bottom:10px}
+}
+/* Em paisagem baixa, as equipes dividem uma mesa lado a lado. */
+@media(min-width:761px) and (max-height:560px){
+ .arena.fit-arena.inplace-arena.realm-arena{--realm-card-reserve:28;--realm-card-max:132;--realm-rear-ratio:.58;--realm-width-reserve:54;--realm-heart:10px;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:49px minmax(0,1fr)!important;padding:7px 12px 8px!important;gap:2px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-brand,.arena.fit-arena.inplace-arena.realm-arena .arena-brand>img{width:50px;max-width:50px;max-height:42px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round{left:250px;top:0;height:42px;min-width:40px;gap:2px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round>.asset-window{width:25px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round>span{font-size:0}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-round b{font-size:19px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header>nav{gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header button{width:38px;height:40px;min-height:40px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-header button :is(.toon-icon,.realm-icon,.relic-icon){width:40px;height:40px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-panel{left:310px;right:177px;top:8px;width:auto;height:42px;grid-template-columns:minmax(0,1fr) 12px minmax(0,.8fr) 32px;gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview{padding:0 3px;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait{width:29px;height:33px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait .asset-window{width:28px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview .actor-portrait.banner .asset-window{width:45px}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-preview-copy>span{font-size:8px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .now .turn-preview-copy>strong{font-size:17px}
+ .arena.fit-arena.inplace-arena.realm-arena .upcoming .turn-preview-copy>strong{font-size:13px}
+ .arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button{width:32px;min-height:38px}
+ .arena.fit-arena.inplace-arena.realm-arena .speed-order.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){width:36px;height:36px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles{top:12px;left:77px;width:171px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-piles>h3{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .piles-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile){min-height:32px;height:32px;padding:1px;border-radius:3px 1px;box-shadow:1px 2px 0 #080c11,2px 3px 0 color-mix(in srgb,var(--pile) 40%,#22252c)}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) strong{font-size:6px;line-height:1;bottom:-8px;left:-4px;right:-4px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-pile:not(.main-pile) b{font-size:14px;min-width:13px;top:-5px;right:-2px;padding:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .rarity-dot{width:3px;height:3px;top:2px;right:2px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-board{grid-column:1;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:minmax(0,1fr) auto!important;gap:7px 20px!important}
+ .arena.fit-arena.inplace-arena.realm-arena .side.player{grid-column:1!important;grid-row:1}
+ .arena.fit-arena.inplace-arena.realm-arena .side.enemy{grid-column:2!important;grid-row:1}
+ .arena.fit-arena.inplace-arena.realm-arena .side .team-label{font-size:9px;top:0!important}
+ .arena.fit-arena.inplace-arena.realm-arena .side.player .formation-row.front,.arena.fit-arena.inplace-arena.realm-arena .formation-row.front,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.front{top:auto;bottom:2px;left:0;right:34px}
+ .arena.fit-arena.inplace-arena.realm-arena .side:has(.rear .cell) .formation-row.front{left:calc(var(--fit-rear-size) + 4px);right:calc(var(--fit-rear-size) + 34px)}
+ .arena.fit-arena.inplace-arena.realm-arena .front>.lbl,.arena.fit-arena.inplace-arena.realm-arena .side.player .front>.lbl{top:-12px;bottom:auto;font-size:7px}
+ .arena.fit-arena.inplace-arena.realm-arena .formation-row.rear,.arena.fit-arena.inplace-arena.realm-arena .enemy .formation-row.rear{left:0;right:33px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-feedback,.arena.fit-arena.inplace-arena.realm-arena .enemy .daly-feedback{right:-3px;width:32px;left:auto;top:50%;bottom:auto!important;transform:translateY(-50%)}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-name{font-size:0;margin:0}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem{flex-direction:column;height:auto;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-emblem>.asset-window{height:40px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-lives{flex-direction:row;gap:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .daly-life-slot,.arena.fit-arena.inplace-arena.realm-arena .daly-heart{width:10px;height:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .arena-divider{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-guide{grid-row:2;grid-column:1/-1;min-height:84px;max-width:440px;width:100%;justify-self:center;margin:0;padding:0!important}
+ .arena.fit-arena.inplace-arena.realm-arena .turn-guide .info{font-size:10px;line-height:1.1;min-height:12px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions{gap:6px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button,.arena.fit-arena.inplace-arena.realm-arena .battle-actions :is(.mode-button,[data-act=move],[data-act=attack],[data-act=full-heal],[data-act=hypnosis-keep],[data-act=status-turn],[data-act=pinned-wait]){min-height:70px;min-width:62px;font-size:10px;padding:0 2px}
+ .arena.fit-arena.inplace-arena.realm-arena .battle-actions button :is(.toon-icon,.realm-icon,.relic-icon){width:58px;height:58px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){left:12px;bottom:9px;width:174px;height:70px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header{height:15px;padding:0;font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hand-header h4{font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{height:55px;padding:0!important}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:31px!important;width:31px!important;flex-basis:31px;margin:0!important}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .hcard em{font-size:4px;padding:1px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck{right:17px;bottom:9px;top:auto;width:68px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-pile,.arena.fit-arena.inplace-arena.realm-arena .pile-card{width:34px;height:52px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck h3{font-size:8px;line-height:1;margin-top:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .main-deck-copy>strong{top:29px;right:1px;font-size:21px}
+ .arena.fit-arena.inplace-arena.realm-arena .deck-meta{display:none}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel{top:auto;bottom:21px;left:auto;right:89px;width:70px;gap:3px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button{width:31px;height:35px;min-height:35px}
+ .arena.fit-arena.inplace-arena.realm-arena .history-panel>.fit-read-button :is(.toon-icon,.realm-icon,.relic-icon){width:35px;height:35px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate strong{font-size:10px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-nameplate>span{font-size:8px}
+ .arena.fit-arena.inplace-arena.realm-arena .unit-vitals b{font-size:10px}
+}
+/* Quatro personagens deixam espaço vertical livre para os cristais, liberando largura. */
+@media(max-width:760px){
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)){--realm-width-reserve:24}
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .formation-row.front,.arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .enemy .formation-row.front{right:0}
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .side:has(.rear .cell) .formation-row.front{left:calc(var(--fit-rear-size) + 4px);right:calc(var(--fit-rear-size) + 4px)}
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .formation-row.rear,.arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .enemy .formation-row.rear{right:0}
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .enemy .daly-feedback{top:10px;bottom:auto!important;transform:none}
+ .arena.fit-arena.inplace-arena.realm-arena:has(.front .cell:nth-child(4)) .player .daly-feedback{top:auto;bottom:9px!important;transform:none}
+}
+@media(min-width:761px) and (max-width:900px) and (min-height:561px){
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement){width:188px;height:96px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid{height:75px}
+ .arena.fit-arena.inplace-arena.realm-arena .mao:not(.choose-replacement) .mo-grid .hcard{--hw:38px!important;width:38px!important;flex-basis:38px}
+}
+/* O limite das formações continua acessível, sem legenda flutuando sobre a arte. */
+.arena.fit-arena.inplace-arena.realm-arena .front>.lbl{width:1px;height:1px;clip-path:inset(50%);overflow:hidden;opacity:0!important;font-size:0!important}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .arena.realm-arena :is(.hcard,.battle-actions button,.arena-header button){transition:none!important}}
+.goghos-motion-reduced .arena.realm-arena :is(.hcard,.battle-actions button,.arena-header button){transition:none!important}

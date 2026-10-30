@@ -11,11 +11,15 @@ function computeSizing(options={}){
  options=options&&typeof options==='object'?options:{};
  const width=Math.max(0,finite(options.sideWidth,0)),height=Math.max(0,finite(options.sideHeight,0));
  const cap=Math.max(1,Math.floor(finite(options.frontCap,3))||3),gap=options.portrait?4:6;
- const heightLimit=(height-80)/1.67;
- const widthLimit=(width-24-(cap-1)*gap)/(cap+(options.hasRear?1.2:0));
+ const reservedHeight=Math.max(0,finite(options.reservedHeight,80));
+ const reservedWidth=Math.max(0,finite(options.reservedWidth,24));
+ const maxFrontSize=Math.max(1,Math.min(196,finite(options.maxFrontSize,156)));
+ const rearRatio=Math.max(.35,Math.min(1,finite(options.rearRatio,.6)));
+ const heightLimit=(height-reservedHeight)/1.67;
+ const widthLimit=(width-reservedWidth-(cap-1)*gap)/(cap+(options.hasRear?rearRatio*2:0));
  // Não impõe um mínimo que pudesse empurrar unidades para fora de uma janela pequena.
- const frontSize=Math.max(1,tenth(Math.min(156,heightLimit,widthLimit)));
- return{frontSize,rearSize:Math.max(1,tenth(frontSize*.6))};
+ const frontSize=Math.max(1,tenth(Math.min(maxFrontSize,heightLimit,widthLimit)));
+ return{frontSize,rearSize:Math.max(1,tenth(frontSize*rearRatio))};
 }
 
 function detach(){active?.cleanup();}
@@ -26,12 +30,18 @@ function mount(arena){
  function measure(){
   if(s.dead)return;
   if(arena.isConnected===false){cleanup();return;}
-  const sides=Array.from(arena.querySelectorAll('.side')).map(side=>side.getBoundingClientRect?.()).filter(box=>box&&box.width>0&&box.height>0);
+  const sideElements=Array.from(arena.querySelectorAll('.side'));
+  const sides=sideElements.map(side=>side.getBoundingClientRect?.()).filter(box=>box&&box.width>0&&box.height>0);
   if(!sides.length)return;
   const viewportWidth=finite(globalThis.innerWidth,0)||arena.getBoundingClientRect?.()?.width||0;
+  const realm=arena.classList?.contains('realm-arena');
+  const style=realm?globalThis.getComputedStyle?.(arena):null;
+  const cssNumber=(name,fallback)=>{const value=parseFloat(style?.getPropertyValue(name));return Number.isFinite(value)?value:fallback;};
+  const frontCap=realm?Math.max(2,...sideElements.map(side=>side.querySelectorAll?.('.front .cell')?.length||0)):arena.dataset?.frontcap;
   const size=computeSizing({
    sideWidth:Math.min(...sides.map(box=>box.width)),sideHeight:Math.min(...sides.map(box=>box.height)),
-   frontCap:arena.dataset?.frontcap,hasRear:!!arena.querySelector?.('.rear .cell'),portrait:viewportWidth<=760
+   frontCap,hasRear:!!arena.querySelector?.('.rear .cell'),portrait:viewportWidth<=760,
+   ...(realm?{reservedHeight:cssNumber('--realm-card-reserve',34),reservedWidth:cssNumber('--realm-width-reserve',24),maxFrontSize:cssNumber('--realm-card-max',170),rearRatio:cssNumber('--realm-rear-ratio',.62)}:{})
   });
   s.measurements++;
   if(Math.abs(s.frontSize-size.frontSize)<.05&&Math.abs(s.rearSize-size.rearSize)<.05)return;

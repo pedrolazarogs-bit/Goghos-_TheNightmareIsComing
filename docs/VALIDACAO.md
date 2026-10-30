@@ -461,3 +461,17 @@ As regras atuais estão em [REGRAS.md](REGRAS.md), e o inventário das artes em 
 - `git diff --check` limpo. A execução pelo servidor local foi validada; o navegador gerenciado bloqueou `file://` antes de carregar o aplicativo, portanto essa modalidade não foi testada neste ambiente.
 
 As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`. As referências recebidas ficam em `docs/references/style-v0.34-*.jpg`; o jogo não depende delas para executar.
+
+
+## v0.35.0 — Jogar e batalha reconstruídos
+
+- `npm test`: **447 testes aprovados**, incluindo novas verificações do enquadramento por quantidade real de cartas, leitura das medidas do cenário e consulta aos montes sem comprar ou avançar a partida. Motor, catálogo e artes oficiais conferidos pelos invariantes existentes.
+- Fluxo e apresentação em 1280×720, 1024×768, 390×844, 360×640, 844×390 e tablet 768×1024. Seleção nativa, quatro personagens, habilidade do DD-X, campo cheio com 12 personagens e cinco cartas na mão conferidos. Sem erros de JavaScript/HTTP ou rolagem obrigatória na batalha.
+- Cartas iniciais maiores que a v0.34.0: 90,6→123,2 px no desktop 1280×720; 107,4→129,6 no celular 390×844; 48,5→87,7 no celular curto 360×640. Os espaços dos ícones de ação passam de cerca de 22–23 para 58–80 px, com enquadramento óptico que aproveita as margens transparentes.
+- O leque passar de zero para cinco cartas e a abertura das opções de habilidade não alteram o enquadramento nas cinco resoluções principais. Pequenas diferenças inferiores a 2 px entre a vez do bot e a do jogador se limitam ao arredondamento do espaço de comandos.
+- Mana 0→3 sem consumir o recurso antes da confirmação; cura real de Zuri na frente e na retaguarda; escolhas de entrada; Apoio usado durante paralisia; formação; mão cheia; recuperação com raridades limitadas; resultado com recibo real. Daly Mãe com uma e duas vidas cabe na tela, e o ataque validado retira exatamente uma vida.
+- Movimento de cartas por animação real, áudio WebAudio após gesto e quatro golpes separados do DD-X verificados. A demonstração de 6,52 s usa ações reais da interface e registra John indo de 250 para 30 de Vida, sem áudio na gravação.
+- Duas artes de mesa e doze emblemas em PNG local, com transparência entre os símbolos e sem fragmentos de células vizinhas. Os novos ícones seguem o kit enviado como referência, com esmalte facetado e filete metálico. Não dependem de rede.
+- `git diff --check` limpo. Prévias identificadas por `v0.35.0` em `docs/previews/`.
+
+[Ver o combate em movimento](previews/combate-v0.35.0.mp4) · [Batalha no celular](previews/arena-v0.35.0-celular.png) · [Menu](previews/menu-v0.35.0-desktop.png)

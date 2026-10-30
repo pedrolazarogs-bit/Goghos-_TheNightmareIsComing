@@ -291,3 +291,13 @@ O criador esclareceu que a melhoria deve acontecer na arena existente. Retirados
 - Corrigido o nome do monte principal em paisagem baixa; botão de entrada com maior contraste.
 - Resultado com recibo de recompensa e ações visíveis também em janelas curtas.
 - Nenhuma mudança de balanceamento ou economia.
+
+
+## v0.35.0 — Mesa ilustrada e emblemas facetados
+
+- Menu de Jogar recomposto, com personagens oficiais, acesso principal próprio e atalhos grandes.
+- Seleção em cartas soltas, conservando as escolhas alternadas e a equipe inicial.
+- Campo de batalha aberto, retirando as grandes caixas por equipe e a ficha permanente da lateral.
+- Duas composições originais de mesa, para computador e celular, e doze ícones baseados no novo kit de referência, com acabamento menos cartoon.
+- Cartas maiores, montes físicos clicáveis, mão em leque e símbolos distintos para ações e habilidades.
+- Enquadramento e espaço dos comandos estabilizados; regras, artes oficiais, fonte e sons preservados.

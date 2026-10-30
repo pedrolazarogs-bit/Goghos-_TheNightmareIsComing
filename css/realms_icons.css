@@ -1,0 +1,30 @@
+/* Relíquias ilustradas para GOGHOS. Cada símbolo ocupa uma célula da arte original. */
+.toon-icon.realm-icon{
+ display:inline-block;flex-shrink:0;aspect-ratio:1;width:44px;height:44px;
+ border:0;border-radius:0;box-shadow:none;background-color:transparent;
+ background-image:url('../assets/realms-v035/relic-icons.png');
+ background-repeat:no-repeat;background-size:300% 450%;
+ background-position:var(--relic-x,0%) var(--relic-y,0%);
+ object-fit:initial;vertical-align:middle;pointer-events:none;
+ filter:drop-shadow(0 3px 2px #08050c99);
+}
+.toon-icon.realm-icon:is(.realm-icon-cards,.realm-icon-store,.realm-icon-play,.realm-icon-move,.realm-icon-back,.realm-icon-pause){background-image:url('../assets/realms-v035/navigation-icons.png')}
+/* As consultas herdam o desenho sem alterar as dimensões de suas páginas. */
+.fit-reader .toon-icon.realm-icon{width:30px;height:30px}
+@media(max-height:560px){
+ .result-screen.fg-screen .result-actions .toon-icon.realm-icon{width:24px;height:24px}
+}
+
+/* Zoom óptico 1,5× : as margens do sprite não reduzem os símbolos. */
+.realm-icon-attack{--relic-x:14.624%;--relic-y:11.747%}
+.realm-icon-hand,.realm-icon-heal{--relic-x:85.229%;--relic-y:11.747%}
+.realm-icon-star{--relic-x:14.624%;--relic-y:52.051%}
+.realm-icon-mode,.realm-icon-speed{--relic-x:85.229%;--relic-y:52.093%}
+.realm-icon-book,.realm-icon-history,.realm-icon-search{--relic-x:14.624%;--relic-y:92.271%}
+.realm-icon-settings{--relic-x:85.229%;--relic-y:92.271%}
+.realm-icon-cards{--relic-x:12.720%;--relic-y:10.700%}
+.realm-icon-store{--relic-x:87.427%;--relic-y:10.700%}
+.realm-icon-play{--relic-x:12.793%;--relic-y:50.837%}
+.realm-icon-move{--relic-x:87.427%;--relic-y:50.837%}
+.realm-icon-back{--relic-x:12.720%;--relic-y:90.765%}
+.realm-icon-pause{--relic-x:87.500%;--relic-y:90.765%}
