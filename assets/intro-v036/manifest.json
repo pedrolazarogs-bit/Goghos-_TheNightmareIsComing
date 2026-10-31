@@ -1,0 +1,36 @@
+{
+  "source_file": "GOGHOS, tela de carregamento.html",
+  "source_sha256": "48ddf9937f5bf0a2414662dbce77ece5ca1c10b82ec2905a2322ae892ff011a1",
+  "assets": [
+    {
+      "id": "bg",
+      "file": "bg.webp",
+      "bytes": 104500,
+      "sha256": "51eb6cc0207029d88e7db168d442ee526f89c4d7837e68b590848632d506018b"
+    },
+    {
+      "id": "logoTop",
+      "file": "logo_top.webp",
+      "bytes": 57894,
+      "sha256": "9a33390198062defd82277b9158489fc440e5148305af501a41a3f958f4e0c83"
+    },
+    {
+      "id": "logoBottom",
+      "file": "logo_bottom.webp",
+      "bytes": 115640,
+      "sha256": "24e756d5bce4cba63a7a53b71965efd1ed15d4ee25b6afd4d9ebe7f4b729cd86"
+    },
+    {
+      "id": "font",
+      "file": "german_beauty.ttf",
+      "bytes": 40768,
+      "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+    },
+    {
+      "id": "music",
+      "file": "ready_to_duel.mp3",
+      "bytes": 1454981,
+      "sha256": "7d7a7b31198c1ed5b9679d907ffc43b80c883477787ce2fc4c7e4429a7a899ab"
+    }
+  ]
+}

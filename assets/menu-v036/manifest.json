@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "version": "0.36.0",
+  "source": {
+    "fileName": "Cosmos — Menu Principal.html",
+    "bytes": 5260432,
+    "sha256": "b45f1d2d7aa7a5563f95f155688375fdf3514a07fab8571ae4a356615c7212c8"
+  },
+  "files": [
+    {
+      "path": "bg.jpg",
+      "sourceKey": "bg",
+      "mimeType": "image/jpeg",
+      "bytes": 132727,
+      "sha256": "05c67bf4b8bd0f68317c71d3bea312d0ecf15d347f3d85e833993b87a60f1474",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "logo.webp",
+      "sourceKey": "logo",
+      "mimeType": "image/webp",
+      "bytes": 127182,
+      "sha256": "e1cba60435436f86a9c6a6b121723904ececc3001a74d2b8c8a0f8d6b34ab11e",
+      "width": 1100,
+      "height": 942
+    },
+    {
+      "path": "coins.webp",
+      "sourceKey": "coins",
+      "mimeType": "image/webp",
+      "bytes": 3112,
+      "sha256": "43bad28541ef1d4713370ba7af3ef8d5613e8fff7edccfbcbf74ed7bd056d2ba",
+      "width": 258,
+      "height": 81
+    },
+    {
+      "path": "deck.webp",
+      "sourceKey": "deck",
+      "mimeType": "image/webp",
+      "bytes": 3150,
+      "sha256": "b29b81c200064fc2627e157f71d3ec314d69ec7e00b5d80943f24c0c0da84b18",
+      "width": 145,
+      "height": 158
+    },
+    {
+      "path": "shop.webp",
+      "sourceKey": "shop",
+      "mimeType": "image/webp",
+      "bytes": 2776,
+      "sha256": "f449241f0f21b45a5a54fa5f260b559a2f9d3832d443ad8f535a6b1e849036df",
+      "width": 126,
+      "height": 128
+    },
+    {
+      "path": "star.webp",
+      "sourceKey": "star",
+      "mimeType": "image/webp",
+      "bytes": 5460,
+      "sha256": "1f0d6a4e1f42e0bba480bb2c1c2d8f9dc3ad8f403f2af425c9ba0636da3f8cd8",
+      "width": 180,
+      "height": 192
+    },
+    {
+      "path": "frame.webp",
+      "sourceKey": "frame",
+      "mimeType": "image/webp",
+      "bytes": 23632,
+      "sha256": "8953e31bddaff01085c146d4d42b7c0cb734a6f3862fa058565fdd890c73b7a0",
+      "width": 420,
+      "height": 404
+    },
+    {
+      "path": "trophy.webp",
+      "sourceKey": "trophy",
+      "mimeType": "image/webp",
+      "bytes": 26602,
+      "sha256": "2b1701abd1e2a48b79488a1b6f6f0c70a83c51f3c63b6485facb2376a6f25f14",
+      "width": 420,
+      "height": 355
+    },
+    {
+      "path": "dots.webp",
+      "sourceKey": "dots",
+      "mimeType": "image/webp",
+      "bytes": 650,
+      "sha256": "2ac9e614be0d5654069db31fa870b4b02f3025d84067758dc435db0a0b851fcf",
+      "width": 105,
+      "height": 105
+    },
+    {
+      "path": "play.webp",
+      "sourceKey": "play",
+      "mimeType": "image/webp",
+      "bytes": 4690,
+      "sha256": "71b3b1375f36c435284511fbd771f9bc10dfb4a8659760fef6ee7f6636e85634",
+      "width": 526,
+      "height": 150
+    },
+    {
+      "path": "character-0.webp",
+      "sourceKey": "chars[0]",
+      "mimeType": "image/webp",
+      "bytes": 173120,
+      "sha256": "9213575b89dc6afa8832e0529a16362f598bc2deaf6cb80597b7a0ddd241bd53",
+      "width": 1281,
+      "height": 1300
+    },
+    {
+      "path": "character-1.webp",
+      "sourceKey": "chars[1]",
+      "mimeType": "image/webp",
+      "bytes": 108164,
+      "sha256": "7843f40df2917b15ab3b957211d60f91743d7ea5968a69ec15e979b6ce0da2e0",
+      "width": 1031,
+      "height": 1300
+    },
+    {
+      "path": "character-2.webp",
+      "sourceKey": "chars[2]",
+      "mimeType": "image/webp",
+      "bytes": 167304,
+      "sha256": "929ce63727166f1555f261db975d3af53d13325039f3e389fcdd7f9864315e21",
+      "width": 1215,
+      "height": 1300
+    },
+    {
+      "path": "character-3.webp",
+      "sourceKey": "chars[3]",
+      "mimeType": "image/webp",
+      "bytes": 98740,
+      "sha256": "fd81b509f21635042a3ad5ca607bf945f8f25d13cb038716c0a8fde355c1cd91",
+      "width": 1300,
+      "height": 995
+    },
+    {
+      "path": "character-4.webp",
+      "sourceKey": "chars[4]",
+      "mimeType": "image/webp",
+      "bytes": 100672,
+      "sha256": "b79d940db1d0aa6816e36665c63b71e8941b157d4a36d42a017d552d6bfbf395",
+      "width": 991,
+      "height": 1300
+    },
+    {
+      "path": "menu.mp3",
+      "sourceKey": "audio.music",
+      "mimeType": "audio/mpeg",
+      "bytes": 2911547,
+      "sha256": "b46a3b537f9ff2c2f82ac8c58df5a27d5b60fd1a7ea9886ab9e1627179e917fe"
+    },
+    {
+      "path": "german_beauty.ttf",
+      "sourceKey": "@font-face GB",
+      "mimeType": "font/ttf",
+      "bytes": 40768,
+      "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+    }
+  ],
+  "characters": [
+    {
+      "index": 0,
+      "id": "unicorn",
+      "name": "Unicorn",
+      "path": "character-0.webp"
+    },
+    {
+      "index": 1,
+      "id": "sam",
+      "name": "Sam",
+      "path": "character-1.webp"
+    },
+    {
+      "index": 2,
+      "id": "sarck",
+      "name": "Sark",
+      "path": "character-2.webp"
+    },
+    {
+      "index": 3,
+      "id": "nully",
+      "name": "Nully",
+      "path": "character-3.webp"
+    },
+    {
+      "index": 4,
+      "id": "mike",
+      "name": "Mike",
+      "path": "character-4.webp"
+    }
+  ],
+  "music": {
+    "title": "Ace Beneath the Sleeve",
+    "path": "menu.mp3",
+    "durationSeconds": 181.942857,
+    "codec": "mp3",
+    "sampleRate": 44100,
+    "channels": 2
+  }
+}

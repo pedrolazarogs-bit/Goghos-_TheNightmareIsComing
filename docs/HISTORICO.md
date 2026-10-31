@@ -318,3 +318,10 @@ Corrigidas as seleções de movimento e Apoio que bloqueavam a cura. Aliado feri
 Corrigida a área transparente dos controles que bloqueava cartas do leque no computador. As habilidades ativas passam a ser preparadas por um toque na estrela ou no atalho junto do ataque; o jogador seleciona a carta no campo e confirma no mesmo botão principal. A cura total exige confirmação e as habilidades gratuitas mantêm a ação disponível. Nenhuma alteração de regras, balanceamento, artes ou fundo preto.
 
 Incluído teste opcional de navegador para reproduzir a seleção das cinco cartas por mouse, toque e teclado, Apoio sob paralisia e todas as escolhas de substituição.
+
+
+## v0.36.0 — Intro animada e menu cósmico
+
+Integrados `GOGHOS, tela de carregamento.html` e `Cosmos — Menu Principal.html` ao jogo real, preservando os recursos recebidos e a marca GOGHOS. A abertura tem carregamento real, áudio sincronizado, pular, replay, passagem automática ao menu e alternativa de movimento reduzido. O novo menu conserva cenário, painel diagonal, favorito e ícones, com navegação, preferências e moedas existentes. A música do menu passa a usar a trilha enviada com esse HTML.
+
+Os emblemas ganham pressão e assentamento, as telas entram com sequência curta e o alvo selecionado recebe um brilho discreto. Nenhuma alteração de balanceamento. Acrescentados testes da integração da abertura, limpeza de recursos, modo reduzido, áudio exclusivo e microinterações; mantidas as regressões das cartas da mão e das habilidades diretas.

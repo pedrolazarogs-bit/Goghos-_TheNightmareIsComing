@@ -183,3 +183,12 @@ O espaço transparente da linha de comandos deixa os cliques atravessarem até a
 Na própria vez, a estrela da carta e o atalho junto do ataque selecionam a habilidade diretamente. O jogador toca no alvo real e confirma no botão principal, que mostra o nome e o símbolo da ação. Outro toque retorna ao ataque normal e preserva o alvo quando ele ainda for válido. Mover e a seleção de Apoio são encerrados ao preparar uma habilidade, sem consumir a carta. Elysh na retaguarda conserva a cura automática sem um seletor redundante.
 
 Cura total e Swarm em área dispensam alvo individual, mas exigem confirmação. Pó mágico, petrificação e troca de hipnose escolhem o alvo nas cartas da arena, sem uma segunda lista de personagens. Efeitos gratuitos continuam gratuitos; trocar a hipnose não antecipa os 90 de dano de Manter. Pré-batalha obrigatória mantém suas escolhas. Habilidades passivas continuam automáticas e a estrela abre sua ficha. Libertar um aliado petrificado fica disponível na linha de ações quando as regras permitem.
+
+
+## v0.36.0 — Intro e menu enviados pelo criador
+
+A abertura foi extraída de `GOGHOS, tela de carregamento.html`: conserva o monstro em tinta, o logo em duas camadas, as duas batidas, a barra angular amarela, o brilho e a música. O carregamento acompanha recursos locais reais. Um toque libera o início e o áudio; a conclusão entra no menu automaticamente. Pular, Escape e Rever abertura funcionam sem deixar música, fontes, timers ou animações da sessão anterior. Movimento reduzido usa arte estática e uma passagem curta.
+
+O menu substitui a composição anterior pela de `Cosmos — Menu Principal.html`, usando suas ilustrações originais. Cenário cósmico, painel diagonal, favorito, logo, ícones e Play conservam a identidade fornecida. No celular em pé, os elementos são reorganizados sem girar o conteúdo. Os números fictícios do exemplo foram substituídos por moedas, partidas e visuais do Santuário. Loja, Deck, modos, coleção e Configurações usam a navegação existente; Ranked é uma prévia com saída para a Arena.
+
+A qualidade de movimento da referência também aparece nas outras telas: entrada escalonada de elementos, pressão e assentamento de emblemas e um brilho curto ao selecionar o alvo real. O movimento de ataque, entrada e morte das cartas continua pertencendo aos eventos de combate, sem ser repetido pelo redesenho da interface. Todos esses acabamentos respeitam movimento reduzido e página oculta.

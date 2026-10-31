@@ -317,3 +317,8 @@ Correção de interface: a cura de Elysh continua sendo de 80, limitada à Vida 
 ## v0.35.3 — Interação da mão e preparação de habilidades
 
 Somente interface: corrigida a interceptação dos cliques na mão por uma área transparente dos comandos. Preparar uma habilidade na estrela não causa dano, não cura, não rola dados nem consome uso ou ação. O alvo é escolhido na própria arena e a confirmação chama as mesmas operações do núcleo. Habilidades gratuitas, ações gastas, elegibilidade, pré-batalha, efeitos e balanceamento permanecem iguais. A troca de personagem limpa o modo e o alvo do anterior.
+
+
+## v0.36.0 — Abertura e novo menu
+
+Somente apresentação e navegação. Integrados os recursos e animações dos dois HTMLs recebidos, sem importar a simulação de carregamento, os números fictícios do perfil ou os exemplos de eventos. As músicas da abertura e do menu são exclusivas durante a transição e obedecem às preferências locais. Moedas, compras, recompensas, regras de combate, habilidades e balanceamento não mudaram. O botão Ranked não cria partidas competitivas, pontuação ou recompensas: essas regras aguardam definição.

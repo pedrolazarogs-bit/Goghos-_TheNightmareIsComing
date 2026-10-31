@@ -1,7 +1,7 @@
 // Trilha instrumental local: apresentação independente do estado e das regras da partida.
 (function(G){
 'use strict';
-const TRACKS=Object.freeze({menu:{src:'assets/music/menu.mp3',loop:true},combat:{src:'assets/music/combat.mp3',loop:true},victory:{src:'assets/music/victory.mp3',loop:false},defeat:{src:'assets/music/defeat.mp3',loop:false}});
+const TRACKS=Object.freeze({menu:{src:'assets/menu-v036/menu.mp3',loop:true},combat:{src:'assets/music/combat.mp3',loop:true},victory:{src:'assets/music/victory.mp3',loop:false},defeat:{src:'assets/music/defeat.mp3',loop:false}});
 const DEFAULTS=Object.freeze({muted:false,volume:.38,musicMuted:false,musicVolume:.55});
 const clamp=(value,fallback)=>{const n=Number(value);return Number.isFinite(n)?Math.min(1,Math.max(0,n)):fallback;};
 const normalize=(value={})=>({muted:typeof value.muted==='boolean'?value.muted:DEFAULTS.muted,volume:clamp(value.volume,DEFAULTS.volume),musicMuted:typeof value.musicMuted==='boolean'?value.musicMuted:DEFAULTS.musicMuted,musicVolume:clamp(value.musicVolume,DEFAULTS.musicVolume)});
@@ -72,6 +72,7 @@ function sync(retry=false,duration=400){
 }
 function setContext(value,options={}){
  const next=Object.prototype.hasOwnProperty.call(TRACKS,value)?value:'silent',paused=options.paused===true;
+ if(options.immediate){for(const record of [...records])release(record);cancelTimer();context=next;battlePaused=paused;if(next!=='silent')sync(true,400);return getDebugState();}
  if(context===next){if(battlePaused!==paused){battlePaused=paused;sync(false,450);}return getDebugState();}
  context=next;battlePaused=paused;
  // A rapid navigation discards obsolete retirees; there are never more than two tracks.

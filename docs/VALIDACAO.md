@@ -502,3 +502,15 @@ As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`
 - Sem erros JavaScript/HTTP, botões fora da tela, sobreposição dos comandos ou necessidade de rolar o campo nos cenários de habilidades conferidos. A suíte de preservação confirma atributos, regras, artes e cartas oficiais intactos.
 
 [Habilidade no computador](previews/habilidade-v0.35.3-desktop.png) · [Habilidade no celular](previews/habilidade-v0.35.3-celular.png)
+
+
+## v0.36.0 — Intro e menu recebidos
+
+- `npm test`: **511 testes aprovados**. Os novos testes verificam integridade dos recursos recebidos, primeiro quadro sem tempo negativo, ciclo de vida do canvas, limpeza de áudio/fontes/RAF/timers, carregamento real, foco, pular/replay, timeout, movimento reduzido, favoritos persistentes e HUD real. As regressões de balanceamento e das artes anteriores continuam aprovadas.
+- **62 cenários finais do menu** em 1280×720, 1920×1080, 390×844, 360×640 e 844×390. Todos os botões ficam dentro da tela, sem sobreposição, com cliques reais. Conferidos os cinco favoritos e persistência, moedas/partidas/visuais reais, Loja, Deck, Configurações, modos, perfil, crônicas, prévia Ranked → Arena, Treino → Play, teclado e limpeza ao sair. O retrato não gira o conteúdo.
+- **13 cenários finais da intro e fluxo completo**, incluindo renderização do canvas, saída natural para o menu novo, pular, rever, Escape, redimensionamento, movimento reduzido, seleção → batalha, cinco cartas da mão e quatro golpes separados do DD-X. A primeira revisão isolada da abertura também passou em 20 cenários.
+- **7 verificações com áudio real**: a música enviada do menu só começa após gesto; a intro interrompe essa faixa imediatamente, toca sua própria trilha sincronizada e libera o menu com exatamente uma faixa ativa. A saída natural limpa o MP3, fecha o AudioContext, remove o canvas e esvazia timers.
+- Regressão persistida da mão: `npm run test:hand-browser` passou novamente em **111 cenários** de mouse, toque, teclado, Apoio sob paralisia e substituição/descarte. A fixture agora marca a abertura da v0.36 como já vista.
+- Sem erros JavaScript/HTTP nos cenários finais. Corrigidos antes da validação: relógio negativo no primeiro RAF, URL antiga inexistente de troféu e ampliação do botão inteiro no hover. A animação agora amplia a imagem, preservando a região de clique.
+
+[Menu no computador](previews/menu-v0.36.0-desktop.png) · [Menu no celular](previews/menu-v0.36.0-celular.png) · [Intro no computador](previews/intro-v0.36.0-desktop.png) · [Intro no celular](previews/intro-v0.36.0-celular.png)

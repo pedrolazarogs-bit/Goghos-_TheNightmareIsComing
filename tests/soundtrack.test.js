@@ -29,7 +29,7 @@ let passed=0;const test=async(name,run)=>{await run();passed++;console.log('OK  
  });
  await test('aguarda gesto real e redesenhar a mesma tela não reinicia a trilha ou sua posição',async()=>{
   const q=setup();assert(q.S.init());assert(q.S.init());assert.equal(q.listeners(),4);q.S.setContext('menu');assert.equal(q.audios.length,0);q.gesture(false);assert.equal(q.audios.length,0);q.gesture(true);await flush();q.advance(1500);
-  const a=q.audios[0];assert.equal(a.src,'assets/music/menu.mp3');assert.equal(a.loop,true);assert.equal(a.calls,1);a.currentTime=23;
+  const a=q.audios[0];assert.equal(a.src,'assets/menu-v036/menu.mp3');assert.equal(a.loop,true);assert.equal(a.calls,1);a.currentTime=23;
   for(let i=0;i<50;i++)q.S.setContext('menu');assert.equal(q.audios.length,1);assert.equal(a.calls,1);assert.equal(a.currentTime,23);assert.equal(q.S.getDebugState().targetVolume,.2);q.S.destroy();
  });
  await test('combate faz transição limitada a duas faixas e resultado toca uma vez sem reiniciar',async()=>{
@@ -56,6 +56,12 @@ let passed=0;const test=async(name,run)=>{await run();passed++;console.log('OK  
  });
  await test('destruir e remontar limpa listeners, timers e fontes sem acumular tocadores',async()=>{
   const q=setup();q.S.init();q.S.setContext('menu');q.gesture(true);await flush();q.S.setContext('combat');q.S.destroy();await flush();assert.equal(q.listeners(),0);assert.equal(q.timers.size,0);assert.equal(q.S.getDebugState().tracks.length,0);assert(q.audios.every(a=>a.paused&&a.src===''));q.S.init();assert.equal(q.listeners(),4);q.S.destroy();assert.equal(q.listeners(),0);
+ });
+ await test('a abertura silencia imediatamente o menu e permite retomá-lo sem sobrepor duas músicas',async()=>{
+  const q=setup();q.S.init();q.S.setContext('menu');q.gesture(true);await flush();q.advance(1500);
+  const previous=q.audios[0];assert.equal(previous.paused,false);
+  q.S.setContext('silent',{immediate:true});assert.equal(previous.paused,true);assert.equal(previous.src,'');assert.equal(q.S.getDebugState().tracks.length,0);assert.equal(q.timers.size,0);
+  q.S.setContext('menu');await flush();q.advance(1500);assert.equal(q.S.getDebugState().tracks.length,1);assert.equal(q.S.getDebugState().playing,true);assert.equal(q.audios.at(-1).src,'assets/menu-v036/menu.mp3');q.S.destroy();
  });
  console.log(`${passed} testes da trilha instrumental passaram`);
 })().catch(e=>{console.error(e);process.exitCode=1;});

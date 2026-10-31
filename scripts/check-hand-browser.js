@@ -102,7 +102,7 @@ async function checkViewport(browser, viewport) {
   let checks = 0;
   try {
     await context.addInitScript(() => {
-      localStorage.setItem('goghos-intro-v028', 'seen');
+      localStorage.setItem('goghos-intro-v036', 'seen');
       localStorage.setItem('goghos.presentation.v1', JSON.stringify({
         muted: true, musicMuted: true, motion: 'reduced'
       }));

@@ -1,0 +1,21 @@
+/* Acabamento da abertura aplicado aos controles, sem alterar a mesa ou seu fundo. */
+.duel-motion-ready{--duel-glint:#ffdf91}
+.duel-motion-ready :is(button,[role=button]){-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.duel-motion-ready button:focus-visible{outline-color:#f3dca9;outline-offset:3px}
+.duel-motion-ready .duel-selection-flare{
+ position:absolute;top:17%;right:10%;width:19px;height:19px;z-index:12;
+ background:radial-gradient(circle,#fff 0 13%,var(--duel-glint) 25%,#e6be6700 72%);
+ clip-path:polygon(50% 0,59% 40%,100% 50%,59% 59%,50% 100%,40% 59%,0 50%,40% 40%);
+ filter:drop-shadow(0 0 3px #ffe0a1);opacity:0;
+ pointer-events:none!important;user-select:none;
+}
+.duel-motion-ready .duel-selection-flare-small{top:66%;right:auto;left:12%;width:12px;height:12px}
+.duel-motion-ready[data-duel-motion=reduced] .duel-selection-flare,
+.duel-motion-ready[data-duel-motion=paused] .duel-selection-flare{display:none!important}
+@media(prefers-reduced-motion:reduce){html:not(.goghos-motion-full) .duel-selection-flare{display:none!important}}
+.goghos-motion-reduced .duel-selection-flare{display:none!important}
+.ranked-preview-copy{max-width:650px;margin:5vh auto;text-align:center;padding:24px}
+.ranked-preview-copy .ranked-emblem{display:block;margin:0 auto 24px}
+.ranked-preview-copy .ranked-emblem>.toon-icon{width:100px;height:100px;object-fit:contain}
+.ranked-preview-copy h2{font-size:36px;color:#f5dfae}
+.ranked-preview-copy p{font-size:21px;line-height:1.5;color:#dbcbe0}

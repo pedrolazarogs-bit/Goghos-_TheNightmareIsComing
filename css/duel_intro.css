@@ -1,0 +1,17 @@
+/* A abertura enviada mantém seu papel branco, tinta preta e faixa amarela. */
+.world-intro.duel-intro{position:fixed;inset:0;z-index:10000;display:block;overflow:hidden;background:#fff!important;color:#000;isolation:isolate;opacity:1;animation:none;padding:0}
+.duel-intro .duel-intro-scene{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.duel-intro [hidden]{display:none!important}
+.duel-intro .intro-skip{position:absolute;z-index:4;top:max(18px,env(safe-area-inset-top));right:max(20px,env(safe-area-inset-right));display:block;min-height:42px;padding:9px 20px;border:2px solid #17131a;border-radius:2px;background:#fffdf4e8;box-shadow:3px 3px 0 #17131a;color:#17131a;font-size:17px;line-height:1.2;transform:rotate(-2deg);cursor:pointer}
+.duel-intro .intro-start-prompt{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:17px;background:#fff}
+.duel-intro .intro-kicker{margin:0;padding:0 20px;font-size:18px;text-align:center;color:#19141d}
+.duel-intro :is(.intro-start,.intro-enter){display:block;position:relative;max-width:calc(100% - 42px);min-height:64px;margin:0;padding:18px 54px 18px 40px;border:0;border-radius:0;background:#ffdc6a!important;box-shadow:none;color:#000!important;font-size:34px;line-height:1.1;clip-path:polygon(0 32%,100% 0,92% 100%,0 100%);cursor:pointer;animation:none}
+.duel-intro .intro-start:disabled{opacity:.45;cursor:wait}
+.duel-intro .intro-enter{position:absolute;z-index:5;left:50%;bottom:max(35px,env(safe-area-inset-bottom));transform:translateX(-50%);font-size:25px;white-space:nowrap}
+.duel-intro .intro-loading{position:absolute;z-index:4;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(280px,72%);display:flex;flex-direction:column;gap:10px;align-items:center;background:none;color:#17131a;font-size:18px;text-align:center;pointer-events:none}
+.duel-intro .intro-loading progress{height:5px;width:100%;accent-color:#e8ac36;border:0;border-radius:0}
+.duel-intro.intro-running .intro-loading{width:1px;height:1px;padding:0;margin:-1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
+.duel-intro.intro-fallback .intro-start-prompt{display:none}
+.duel-intro.intro-fallback .intro-loading{bottom:140px}
+.duel-intro button:focus-visible{outline:3px solid #e9a62b;outline-offset:6px}
+@media(max-width:600px){.duel-intro .intro-skip{font-size:14px;min-height:40px;padding:8px 13px;top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right))}.duel-intro .intro-start{font-size:28px;padding:18px 40px 18px 30px}.duel-intro .intro-kicker{font-size:16px}}
