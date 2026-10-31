@@ -322,3 +322,8 @@ Somente interface: corrigida a interceptação dos cliques na mão por uma área
 ## v0.36.0 — Abertura e novo menu
 
 Somente apresentação e navegação. Integrados os recursos e animações dos dois HTMLs recebidos, sem importar a simulação de carregamento, os números fictícios do perfil ou os exemplos de eventos. As músicas da abertura e do menu são exclusivas durante a transição e obedecem às preferências locais. Moedas, compras, recompensas, regras de combate, habilidades e balanceamento não mudaram. O botão Ranked não cria partidas competitivas, pontuação ou recompensas: essas regras aguardam definição.
+
+
+## v0.36.1 — Música e apresentação inicial
+
+Por solicitação do criador, a apresentação inicial é obrigatória em toda abertura do aplicativo e o menu é liberado somente ao fim. Falhas permitem recarregar a apresentação, sem dispensá-la. As músicas de batalha, vitória e derrota passam a usar os três MP3s recebidos; não houve alteração de combate, atributos, probabilidades, habilidades, preços ou recompensas.

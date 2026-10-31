@@ -1,6 +1,6 @@
 # Interface — v0.33.1
 
-As seções iniciais registram a direção da v0.29; a interface atual está descrita na seção v0.33.1 ao final. A direção original seguiu o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
+As seções iniciais registram a direção da v0.29; a interface atual está descrita nas seções mais recentes ao final. A direção original seguiu o HTML **GOGHOS Without Mercy**, o vídeo **cosmos_intro.mp4** e as três imagens de referência enviados pelo criador. Mantém as artes recebidas em MasterKitUp e Ms1–Ms4. As regras, valores, ordem de velocidade, probabilidades, classes, raridades e cartas do combate foram preservados. O inventário está em [CATALOGO.md](../assets/visual-v0.27/CATALOGO.md).
 
 ## Direção visual nas telas de jogo
 
@@ -192,3 +192,12 @@ A abertura foi extraída de `GOGHOS, tela de carregamento.html`: conserva o mons
 O menu substitui a composição anterior pela de `Cosmos — Menu Principal.html`, usando suas ilustrações originais. Cenário cósmico, painel diagonal, favorito, logo, ícones e Play conservam a identidade fornecida. No celular em pé, os elementos são reorganizados sem girar o conteúdo. Os números fictícios do exemplo foram substituídos por moedas, partidas e visuais do Santuário. Loja, Deck, modos, coleção e Configurações usam a navegação existente; Ranked é uma prévia com saída para a Arena.
 
 A qualidade de movimento da referência também aparece nas outras telas: entrada escalonada de elementos, pressão e assentamento de emblemas e um brilho curto ao selecionar o alvo real. O movimento de ataque, entrada e morte das cartas continua pertencendo aos eventos de combate, sem ser repetido pelo redesenho da interface. Todos esses acabamentos respeitam movimento reduzido e página oculta.
+
+
+## v0.36.1 — Abertura obrigatória e novas músicas
+
+A abertura aparece em toda inicialização, inclusive quando o navegador já tem uma marca antiga de abertura vista. O toque inicial libera áudio e animação; o menu só fica disponível após a conclusão natural. Não há Pular nem entrada antecipada, e Escape não a dispensa. Movimento reduzido continua mostrando a apresentação estática até sua conclusão.
+
+Falhas e demora no carregamento oferecem **Tentar novamente**, conservando o menu bloqueado. Uma nova tentativa invalida callbacks antigos e limpa imagens, áudio, fontes, timers e canvas anteriores. Pedidos repetidos de abertura e a antiga API de fechar não dispensam a apresentação. O foco fica no diálogo durante a animação e volta ao menu ao terminar.
+
+As músicas enviadas substituem as trilhas ativas de batalha, vitória e derrota: batalha em laço, resultados uma vez. O menu e a própria abertura conservam suas músicas. Preferências de som, volumes, pausa e visibilidade continuam em vigor.

@@ -1,6 +1,6 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.0** integra a intro e o novo menu enviados: abertura animada com monstro, logo em duas camadas, música e barra de carregamento; menu cósmico com personagem favorito, ícones ilustrados e Play. As interações recebem pressão, assentamento e brilhos curtos, mantendo as regras e o campo de batalha organizado.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.1** usa as músicas enviadas para batalha, vitória e derrota. A abertura aparece em toda inicialização, não pode ser pulada e entra no menu automaticamente quando termina. O menu cósmico, os favoritos e as regras de combate permanecem iguais.
 
 ## Abertura e menu
 
@@ -10,15 +10,15 @@ Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.0*
 - **Emblemas ilustrados:** doze símbolos com bases facetadas, metal e esmalte em cores contidas. A habilidade especial usa a estrela; ataque normal, confirmação, movimento e recursos mantêm seus próprios controles.
 - **Protagonismo das cartas:** enquadramento considera os personagens presentes; as vagas livres são marcas discretas no chão. A mão fica em leque, os montes são peças clicáveis, e a estrela da própria carta seleciona a habilidade diretamente, sem abrir outro painel.
 
-O balanceamento, as artes oficiais, a fonte German Beauty e os efeitos de combate permanecem preservados. A abertura e o menu usam as trilhas enviadas nos novos arquivos. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
+O balanceamento, as artes oficiais, a fonte German Beauty e os efeitos de combate permanecem preservados. A abertura, o menu, a batalha e os resultados usam as trilhas enviadas pelo criador. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
 
 ![Novo menu principal enviado pelo criador](docs/previews/menu-v0.36.0-desktop.png)
 
-[Abertura](docs/previews/intro-v0.36.0-desktop.png) · [Menu no celular](docs/previews/menu-v0.36.0-celular.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
+[Abertura](docs/previews/intro-v0.36.1-desktop.png) · [Menu no celular](docs/previews/menu-v0.36.0-celular.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 
-Abra `index.html` no navegador. Na primeira abertura, toque em **Toque para iniciar**; ao terminar a animação, o menu aparece automaticamente. **Pular abertura** e Escape entram no menu imediatamente, e **Rever abertura** permite assistir novamente. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte original German Beauty é carregada dos arquivos locais do projeto. O som começa depois de uma interação; volume e movimento podem ser ajustados nas Configurações. A intro usa os arquivos recebidos e respeita as preferências de áudio e movimento reduzido, sem tocar a música do menu ao mesmo tempo. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
+Abra `index.html` no navegador. Em toda inicialização, toque em **Toque para iniciar**; ao terminar a animação, o menu aparece automaticamente. A abertura não oferece Pular nem entrada antecipada; Escape não a encerra. Se um recurso não carregar, use **Tentar novamente** para repetir o carregamento e concluir a abertura. **Rever abertura** continua disponível no menu. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte original German Beauty é carregada dos arquivos locais do projeto. O som começa depois de uma interação; volume e movimento podem ser ajustados nas Configurações. A intro usa os arquivos recebidos e respeita as preferências de áudio e movimento reduzido, sem tocar a música do menu ao mesmo tempo. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
 Com **Arena** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
@@ -66,3 +66,7 @@ Com Playwright disponível no ambiente e o servidor de `npm run dev` aberto, exe
 A intro de `GOGHOS, tela de carregamento.html` e o menu de `Cosmos — Menu Principal.html` foram integrados como componentes locais. Os recursos originais estão em [assets/intro-v036](assets/intro-v036/README.md) e [assets/menu-v036](assets/menu-v036/README.md), com manifestos de integridade. O título visível permanece **GOGHOS — The Nightmare Is Coming**.
 
 O menu se adapta ao retrato sem girar os controles; tocar no personagem troca o favorito e salva apenas essa preferência visual. O acesso **Ranked** apresenta uma prévia e o caminho para a Arena: regras e recompensas competitivas ainda não foram definidas. Os controles dos treinos, coleção e crônicas continuam acessíveis.
+
+### Trilhas da batalha e dos resultados
+
+As três faixas foram integradas sem recodificação em [assets/music-v0361](assets/music-v0361/README.md): `BattleMusic.mp3` toca em laço na batalha; `WinMusic.mp3` e `DefeatMusicc.mp3` tocam uma vez nos respectivos resultados. Mute, volumes, pausa, transições e suspensão ao ocultar a aba mantêm os controles existentes.

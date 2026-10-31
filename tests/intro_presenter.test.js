@@ -128,12 +128,13 @@ function setup(options = {}) {
     load() { return this.loading.promise; }
     start() { this.starts++; this.phase = 'run'; return this; }
     setProgress(value) { this.progress.push(value); }
-    destroy() { this.destroys++; this.phase = 'gone'; this.el.remove(); this.completion.resolve(); }
+    destroy() { if (this.destroyed) return; this.destroyed = true; this.destroys++; this.phase = 'gone'; this.el.remove(); this.completion.resolve(); }
     finish() { this.phase = 'gone'; this.o.onDone?.(this); this.completion.resolve(); }
   }
   const preferences = { muted: false, volume: .4, musicMuted: false, musicVolume: .5, reducedMotion: false, ...options.preferences };
   const G = {
-    CONFIG: { version: '0.36.0' }, LoadingScreen,
+    CONFIG: { version: '0.36.1' }, LoadingScreen,
+    battle: { round: 3, units: [{ uid: 'ally', hp: 115 }], hands: { player: ['support-1'] } },
     PresentationFX: { getPreferences: () => ({ ...preferences }), interaction() {}, stop() {} },
     Soundtrack: { setContext(name, flags) { contexts.push({ name, flags }); } },
     getNextActor() { throw Error('A abertura não pode consultar a vez'); },
@@ -182,7 +183,7 @@ const ready = async q => { q.flushAssets(); await flush(); };
   });
 
   await test('a abertura aguarda recursos reais e gesto, isolando o menu sem iniciar a partida', async () => {
-    const q = setup();
+    const q = setup(), before = JSON.stringify(q.G.battle);
     assert.equal(q.P.open(), true);
     assert.equal(q.P.isActive(), true);
     assert.equal(q.app.inert, true);
@@ -204,10 +205,34 @@ const ready = async q => { q.flushAssets(); await flush(); };
     q.button('shell-start').click(); q.button('shell-start').click();
     assert.equal(q.loaders[0].starts, 1, 'O mesmo gesto não pode iniciar duas animações.');
     assert.equal(q.P.getDebugState().started, true);
-    q.P.close();
+    assert.equal(q.P.close(), false, 'Não é possível fechar uma animação em execução.');
+    assert.equal(q.P.isActive(), true);
+    q.loaders[0].finish(); await flush();
+    assert.equal(JSON.stringify(q.G.battle), before);
   });
 
-  await test('progresso acessível acompanha a animação e anuncia quando ela fica pronta', async () => {
+  await test('a abertura não oferece Pular nem Entrar antecipadamente e Escape não a encerra', async () => {
+    const q = setup(); q.P.open();
+    const dialog = q.document.querySelector('.duel-intro');
+    assert.equal(q.button('shell-skip'), null);
+    assert.equal(q.button('shell-enter'), null);
+    assert(!/Pular abertura|Entrar no jogo/.test(dialog.innerHTML));
+    for (const phase of ['carregando', 'pronta', 'executando']) {
+      if (phase === 'pronta') await ready(q);
+      if (phase === 'executando') q.button('shell-start').click();
+      let prevented = false;
+      q.key(dialog, 'Escape', { preventDefault() { prevented = true; } });
+      assert.equal(prevented, true);
+      assert.equal(q.P.isActive(), true, phase);
+      assert.equal(q.app.inert, true, phase);
+      assert.equal(q.contexts.filter(item => item.name === 'menu').length, 0, phase);
+      assert.equal(q.P.close(), false, phase);
+    }
+    q.loaders[0].finish(); await flush();
+    assert.equal(q.P.isActive(), false);
+  });
+
+  await test('o progresso acessível acompanha a animação sem liberar o menu ao chegar em 100%', async () => {
     const q = setup(); q.P.open(); await ready(q); q.button('shell-start').click();
     const loader = q.loaders[0];
     loader.o.onProgress(.46, 'run');
@@ -216,10 +241,13 @@ const ready = async q => { q.flushAssets(); await flush(); };
     loader.o.onProgress(1, 'ready');
     assert.match(q.document.querySelector('.intro-status').textContent, /Pronto para duelar/);
     assert.equal(q.P.getDebugState().phase, 'ready');
-    q.P.close();
+    assert.equal(q.P.close(), false);
+    assert.equal(q.P.isActive(), true, 'Ainda falta a saída natural da animação.');
+    loader.finish(); await flush();
+    assert.equal(q.P.isActive(), false);
   });
 
-  await test('a intro usa as preferências reais de volume, mute e movimento reduzido', async () => {
+  await test('a intro obrigatória respeita volume, mute e movimento reduzido', async () => {
     for (const preferences of [
       { muted: false, musicMuted: false, reducedMotion: false },
       { muted: true, musicMuted: false, reducedMotion: true },
@@ -231,16 +259,17 @@ const ready = async q => { q.flushAssets(); await flush(); };
       assert.equal(config.volume, .2);
       assert.equal(config.sfxVolume, .4);
       assert.equal(config.reducedMotion, preferences.reducedMotion);
-      assert.equal(config.version, 'Versão 0.36.0');
+      assert.equal(config.version, 'Versão 0.36.1');
       assert.equal(config.base, 'assets/intro-v036/');
-      q.P.close();
+      assert.equal(q.P.close(), false);
+      await ready(q); q.button('shell-start').click(); q.loaders[0].finish(); await flush();
     }
   });
 
-  await test('pular restaura foco e acessibilidade, libera recursos e fecha uma única vez', async () => {
+  await test('somente a conclusão natural restaura foco e acessibilidade e libera recursos uma vez', async () => {
     const q = setup(); let closed = 0;
-    q.P.open({ onClose: () => closed++ });
-    const loader = q.loaders[0]; q.button('shell-skip').click();
+    q.P.open({ onClose: () => closed++ }); await ready(q); q.button('shell-start').click();
+    const loader = q.loaders[0]; loader.finish(); await flush();
     assert.equal(q.P.isActive(), false);
     assert.equal(loader.destroys, 1);
     assert.equal(q.app.inert, false);
@@ -248,81 +277,105 @@ const ready = async q => { q.flushAssets(); await flush(); };
     assert.equal(q.document.activeElement, q.play);
     assert.equal(q.timers.size, 0);
     assert(q.images.every(image => image.onload === null && image.onerror === null));
-    assert.equal(q.storage.get('goghos-intro-v036'), 'seen');
-    assert.equal(q.contexts.at(-1).name, 'menu');
+    assert.equal(q.contexts.filter(item => item.name === 'menu').length, 1);
     assert.equal(closed, 1);
     assert.equal(q.P.close(), false);
-    await flush(); assert.equal(closed, 1); assert.equal(loader.destroys, 1);
+    loader.o.onDone?.(loader); await flush();
+    assert.equal(closed, 1); assert.equal(loader.destroys, 1);
+    assert.equal(q.storage.size, 0, 'Concluir não salva uma dispensa para a próxima abertura.');
   });
 
-  await test('conclusão natural leva ao menu sem duplicar áudio, fechamento ou callbacks', async () => {
-    const q = setup(); let closed = 0;
-    q.P.open({ onClose: () => closed++ }); await ready(q); q.button('shell-start').click();
-    const loader = q.loaders[0]; loader.finish(); await flush();
-    assert.equal(q.P.isActive(), false);
-    assert.equal(closed, 1);
-    assert.equal(loader.destroys, 1);
-    assert.equal(q.contexts.filter(item => item.name === 'menu').length, 1);
-    assert.equal(q.timers.size, 0);
-    assert.equal(q.document.activeElement, q.play);
+  await test('a tela reaparece em toda inicialização, mesmo com flags antigas de abertura vista', async () => {
+    const q = setup();
+    q.storage.set('goghos-intro-v028', 'seen'); q.storage.set('goghos-intro-v036', 'seen');
+    const originalStorage = [...q.storage];
+    for (let opening = 0; opening < 2; opening++) {
+      assert.equal(q.P.open(), true);
+      assert.equal(q.app.inert, true);
+      await ready(q); q.button('shell-start').click(); q.loaders.at(-1).finish(); await flush();
+      assert.equal(q.P.isActive(), false);
+    }
+    assert.equal(q.loaders.length, 2);
+    assert.deepEqual([...q.storage], originalStorage);
   });
 
-  await test('uma intro já vista só reaparece pelo replay explícito', async () => {
-    const q = setup(); q.storage.set('goghos-intro-v036', 'seen');
-    assert.equal(q.P.open(), false);
-    assert.equal(q.loaders.length, 0); assert.equal(q.images.length, 0);
-    assert.equal(q.contexts.length, 0); assert.equal(q.app.inert, false);
-    assert.equal(q.P.open({ force: true }), true); await ready(q);
-    assert.equal(q.loaders.length, 1);
-    q.P.close();
+  await test('pedidos repetidos ou force durante a abertura não reiniciam nem cancelam a sessão', async () => {
+    const q = setup(); q.P.open();
+    const dialog = q.document.querySelector('.duel-intro'), loader = q.loaders[0], session = q.P.getDebugState().session;
+    assert.equal(q.P.open(), true); assert.equal(q.P.open({ force: true }), true);
+    assert.equal(q.loaders.length, 1); assert.equal(loader.destroys, 0);
+    assert.equal(q.document.querySelector('.duel-intro'), dialog); assert.equal(q.P.getDebugState().session, session);
+    await ready(q); q.button('shell-start').click(); q.P.open({ force: true });
+    assert.equal(q.loaders.length, 1); assert.equal(loader.starts, 1);
+    assert.equal(q.app.inert, true);
+    loader.finish(); await flush();
   });
 
-  await test('Escape preserva um estado inert e aria-hidden que já existiam no aplicativo', async () => {
+  await test('a conclusão preserva inert e aria-hidden que já existiam antes da abertura', async () => {
     const q = setup({ inert: true }); q.app.setAttribute('aria-hidden', 'previous');
     q.P.open(); const dialog = q.document.querySelector('.duel-intro');
-    q.key(dialog, 'Escape');
-    assert.equal(q.P.isActive(), false);
+    q.key(dialog, 'Escape'); assert.equal(q.P.isActive(), true);
+    await ready(q); q.button('shell-start').click(); q.loaders[0].finish(); await flush();
     assert.equal(q.app.inert, true);
     assert.equal(q.app.getAttribute('aria-hidden'), 'previous');
     assert.equal(q.timers.size, 0);
   });
 
-  await test('Tab mantém o foco nos controles da abertura, sem alcançar o menu inerte', async () => {
+  await test('Tab mantém o foco dentro da abertura antes e durante a animação', async () => {
     const q = setup(); q.P.open(); await ready(q);
-    const dialog = q.document.querySelector('.duel-intro'), skip = q.button('shell-skip'), start = q.button('shell-start');
-    q.key(dialog, 'Tab', { target: start }); assert.equal(q.document.activeElement, skip);
-    q.key(dialog, 'Tab', { target: skip, shiftKey: true }); assert.equal(q.document.activeElement, start);
-    q.P.close();
+    const dialog = q.document.querySelector('.duel-intro'), start = q.button('shell-start');
+    for (const shiftKey of [false, true]) {
+      q.key(dialog, 'Tab', { target: start, shiftKey });
+      assert.equal(q.document.activeElement, start);
+    }
+    start.click();
+    assert(q.document.activeElement.closest('.duel-intro'), 'O foco não pode voltar ao menu inerte.');
+    let prevented = false;
+    q.key(dialog, 'Tab', { target: q.document.activeElement, preventDefault() { prevented = true; } });
+    assert.equal(prevented, true, 'Sem controles visíveis, Tab permanece no diálogo.');
+    assert(q.document.activeElement.closest('.duel-intro'));
+    q.loaders[0].finish(); await flush();
   });
 
-  await test('falha na arte oferece entrada no jogo e não inicia áudio nem prende a abertura', async () => {
-    const q = setup(); q.P.open();
+  await test('falha de arte oferece tentar novamente e mantém o menu bloqueado até recuperar a intro', async () => {
+    const q = setup(); q.P.open(); const originalDialog = q.document.querySelector('.duel-intro');
     q.loaders[0].loading.reject(Error('Falha de imagem')); await flush();
     assert.equal(q.P.isActive(), true);
-    assert.equal(q.button('shell-enter').hidden, false);
+    assert.equal(q.app.inert, true);
+    assert.equal(q.button('shell-enter'), null);
+    assert.equal(q.button('shell-retry').hidden, false);
     assert.equal(q.loaders[0].starts, 0);
-    assert.equal(q.timers.size, 0);
-    q.button('shell-enter').click();
+    assert.equal(q.P.close(), false);
+    q.button('shell-retry').click();
+    assert.equal(q.loaders.length, 2);
+    assert.equal(q.document.querySelector('.duel-intro'), originalDialog);
+    assert.equal(q.app.inert, true);
+    await ready(q); q.button('shell-start').click(); q.loaders[1].finish(); await flush();
     assert.equal(q.P.isActive(), false);
     assert.equal(q.app.inert, false);
   });
 
-  await test('recursos que nunca terminam habilitam uma saída sem dependência de rede', async () => {
+  await test('timeout de carregamento só permite tentar novamente e nunca oferece uma saída antecipada', async () => {
     const q = setup(); q.P.open(); q.advance(8000);
     assert.equal(q.P.isActive(), true);
-    assert.equal(q.button('shell-enter').hidden, false);
+    assert.equal(q.app.inert, true);
+    assert.equal(q.button('shell-enter'), null);
+    assert.equal(q.button('shell-retry').hidden, false);
     assert.equal(q.loaders[0].starts, 0);
-    q.button('shell-enter').click();
+    assert.equal(q.P.close(), false);
+    q.advance(120000);
+    assert.equal(q.P.isActive(), true);
+    q.button('shell-retry').click(); await ready(q);
+    q.button('shell-start').click(); q.loaders.at(-1).finish(); await flush();
     assert.equal(q.P.isActive(), false);
-    assert.equal(q.timers.size, 0);
   });
 
-  await test('respostas e conclusão tardias de uma sessão não alteram uma nova abertura', async () => {
+  await test('callbacks tardios da tentativa anterior não liberam ou alteram a nova tentativa', async () => {
     const q = setup(); q.P.open();
     const old = q.loaders[0], lateImage = q.images[0].onload;
-    q.P.close(); q.P.open({ force: true });
+    q.advance(8000); q.button('shell-retry').click();
     const next = q.loaders[1], debug = q.P.getDebugState().session;
-    old.loading.resolve(old); lateImage(); old.o.onProgress(.99, 'ready'); old.finish(); await flush();
+    old.loading.resolve(old); lateImage(); old.o.onProgress(.99, 'ready'); old.o.onDone?.(old); old.completion.resolve(); await flush();
     assert.equal(q.P.isActive(), true);
     assert.equal(q.P.getDebugState().session, debug);
     assert.equal(q.P.getDebugState().loaded, false);
@@ -331,8 +384,17 @@ const ready = async q => { q.flushAssets(); await flush(); };
     for (const image of q.images.slice(17)) image.onload?.(); next.loading.resolve(next); await flush();
     assert.equal(q.button('shell-start').disabled, false);
     q.button('shell-start').click(); assert.equal(next.starts, 1);
-    q.P.close();
+    next.finish(); await flush();
   });
 
-  console.log(`${passed} testes da integração da abertura passaram`);
+  await test('conclusão recebida antes do início não permite contornar a tela obrigatória', async () => {
+    const q = setup(); q.P.open(); await ready(q);
+    q.loaders[0].o.onDone?.(q.loaders[0]); q.loaders[0].completion.resolve(); await flush();
+    assert.equal(q.P.isActive(), true);
+    assert.equal(q.app.inert, true);
+    assert.equal(q.P.close(), false);
+    assert.equal(q.contexts.filter(item => item.name === 'menu').length, 0);
+  });
+
+  console.log(`${passed} testes da integração da abertura obrigatória passaram`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

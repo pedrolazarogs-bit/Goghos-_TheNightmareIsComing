@@ -102,7 +102,6 @@ async function checkViewport(browser, viewport) {
   let checks = 0;
   try {
     await context.addInitScript(() => {
-      localStorage.setItem('goghos-intro-v036', 'seen');
       localStorage.setItem('goghos.presentation.v1', JSON.stringify({
         muted: true, musicMuted: true, motion: 'reduced'
       }));
@@ -126,6 +125,9 @@ async function checkViewport(browser, viewport) {
     });
     await page.goto(baseURL, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
+    // A abertura é obrigatória também na QA: aguarda a conclusão em movimento reduzido.
+    await page.locator('[data-act="shell-start"]').click();
+    await page.locator('.duel-intro').waitFor({ state: 'detached' });
 
     // O Fighter possui habilidade selecionável; a Maga também tem controles de
     // Mana. Os espaços transparentes desses comandos devem deixar a mão acessível.

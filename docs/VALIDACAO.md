@@ -514,3 +514,15 @@ As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`
 - Sem erros JavaScript/HTTP nos cenários finais. Corrigidos antes da validação: relógio negativo no primeiro RAF, URL antiga inexistente de troféu e ampliação do botão inteiro no hover. A animação agora amplia a imagem, preservando a região de clique.
 
 [Menu no computador](previews/menu-v0.36.0-desktop.png) · [Menu no celular](previews/menu-v0.36.0-celular.png) · [Intro no computador](previews/intro-v0.36.0-desktop.png) · [Intro no celular](previews/intro-v0.36.0-celular.png)
+
+
+## v0.36.1 — Trilhas recebidas e abertura obrigatória
+
+- `npm test`: **515 testes aprovados**. Os 14 casos da integração inicial cobrem abertura recorrente, ausência de saídas antecipadas, bloqueio de Escape/API, conclusão natural, foco, recursos, timeout, nova tentativa e callbacks antigos. A trilha tem 11 casos, incluindo associação dos três MP3s recebidos, SHA-256, repetição e transições.
+- **22 cenários finais de navegador aprovados**, sem erros inesperados, em computador e celular. Flags antigas de abertura vista não dispensam a apresentação; recarregar exige concluí-la novamente. Escape, chamadas antigas de fechar e pedidos repetidos não liberam o menu.
+- Falha de recurso e timeout conservaram o menu bloqueado. Tentar novamente recuperou os recursos e exigiu completar a abertura. Movimento reduzido continua mostrando a apresentação até sua conclusão.
+- Reprodução real dos três novos MP3s: batalha entrou em laço; vitória e derrota terminaram sem repetir e sem reiniciar por redesenho. Conferidos volumes, mute, pausa e limpeza ao retornar ao menu. Os términos foram testados por reprodução acelerada, sem seek, pois o servidor HTTP local não fornece busca de tempo para esses MP3s.
+- Regressão persistida da mão: **111 cenários aprovados**. O teste agora toca Iniciar e aguarda a abertura obrigatória em movimento reduzido antes de preparar os cenários de batalha.
+- Arquivos originais recebidos preservados byte a byte; nenhuma alteração no motor, balanceamento, artes de cartas ou preços.
+
+[Abertura no computador](previews/intro-v0.36.1-desktop.png) · [Abertura no celular](previews/intro-v0.36.1-celular.png)

@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "version": "0.36.1",
+  "source": "Arquivos MP3 enviados pelo criador do jogo",
+  "files": [
+    {
+      "role": "combat",
+      "file": "combat.mp3",
+      "source_file": "BattleMusic.mp3",
+      "bytes": 4373381,
+      "sha256": "823150dcf2de51c184d70ccb8c5400ca15e6d97122bde37ecb80c70326731f9a",
+      "duration_seconds": 181.968917,
+      "codec": "mp3",
+      "sample_rate": 44100,
+      "channels": 2,
+      "loop": true
+    },
+    {
+      "role": "defeat",
+      "file": "defeat.mp3",
+      "source_file": "DefeatMusicc.mp3",
+      "bytes": 1453100,
+      "sha256": "45b86807d11aab1ee553d1f53afc05aa5d02ac5f7bf8585d14dbc1424d902527",
+      "duration_seconds": 60.290542,
+      "codec": "mp3",
+      "sample_rate": 44100,
+      "channels": 2,
+      "loop": false
+    },
+    {
+      "role": "victory",
+      "file": "victory.mp3",
+      "source_file": "WinMusic.mp3",
+      "bytes": 1507017,
+      "sha256": "d99e7421e8d9addb025e70bb43050b7093a532dd9b1c16d290ee57576c5bd65a",
+      "duration_seconds": 62.537083,
+      "codec": "mp3",
+      "sample_rate": 44100,
+      "channels": 2,
+      "loop": false
+    }
+  ]
+}

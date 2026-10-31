@@ -1,5 +1,5 @@
 // Música é apresentação: renderizar telas não pode duplicar faixas nem alterar a partida.
-const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),crypto=require('node:crypto');
 const source=fs.readFileSync(require('node:path').join(__dirname,'../js/ui/soundtrack.js'),'utf8');
 function setup(options={}){
  let time=0,seq=0;const timers=new Map(),docEvents=new Map(),windowEvents=new Map(),audios=[],plays=[];
@@ -23,6 +23,26 @@ function setup(options={}){
 const flush=async()=>{await Promise.resolve();await Promise.resolve();};
 let passed=0;const test=async(name,run)=>{await run();passed++;console.log('OK  '+name);};
 (async()=>{
+ await test('as músicas de batalha, derrota e vitória conservam os bytes e a identificação dos anexos recebidos',async()=>{
+  const base=path.join(__dirname,'../assets/music-v0361'),manifest=JSON.parse(fs.readFileSync(path.join(base,'manifest.json'),'utf8'));
+  const expected={combat:{source:'BattleMusic.mp3',bytes:4373381,sha:'823150dcf2de51c184d70ccb8c5400ca15e6d97122bde37ecb80c70326731f9a'},defeat:{source:'DefeatMusicc.mp3',bytes:1453100,sha:'45b86807d11aab1ee553d1f53afc05aa5d02ac5f7bf8585d14dbc1424d902527'},victory:{source:'WinMusic.mp3',bytes:1507017,sha:'d99e7421e8d9addb025e70bb43050b7093a532dd9b1c16d290ee57576c5bd65a'}};
+  assert.equal(manifest.schema,1);assert.equal(manifest.files.length,3);assert.deepEqual(manifest.files.map(file=>file.role).sort(),Object.keys(expected).sort());
+  for(const file of manifest.files){
+   const wanted=expected[file.role],bytes=fs.readFileSync(path.join(base,file.file));
+   assert.equal(file.file,file.role+'.mp3');assert.equal(file.source_file,wanted.source);assert.equal(file.bytes,wanted.bytes);assert.equal(bytes.length,wanted.bytes);
+   assert.equal(file.sha256,wanted.sha);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),wanted.sha);assert.equal(bytes.subarray(0,3).toString(),'ID3');
+   assert.equal(file.codec,'mp3');assert.equal(file.channels,2);assert.equal(file.sample_rate,44100);assert.equal(file.loop,file.role==='combat');assert(file.duration_seconds>50);
+  }
+ });
+ await test('cada contexto toca o anexo correto: combate em laço, vitória e derrota uma vez por resultado',async()=>{
+  for(const role of ['combat','victory','defeat']){
+   const q=setup(),before=JSON.stringify(q.G.battle);q.S.init();q.S.setContext(role);q.gesture(true);await flush();q.advance(1500);
+   const audio=q.audios[0];assert.equal(audio.src,'assets/music-v0361/'+role+'.mp3');assert.equal(audio.loop,role==='combat');assert.equal(audio.calls,1);audio.currentTime=15;
+   for(let i=0;i<10;i++)q.S.setContext(role);assert.equal(q.audios.length,1);assert.equal(audio.calls,1);assert.equal(audio.currentTime,15);
+   if(role!=='combat'){audio.onended();for(let i=0;i<10;i++)q.S.setContext(role);assert.equal(audio.calls,1);assert.equal(q.S.getDebugState().ended,true);}
+   assert.equal(JSON.stringify(q.G.battle),before);q.S.destroy();
+  }
+ });
  await test('carrega sem DOM ou suporte de áudio e mantém o estado da partida intacto',async()=>{
   const c={GOGHOS:{}};vm.createContext(c);vm.runInContext(source,c);assert.equal(c.GOGHOS.Soundtrack.init(),false);c.GOGHOS.Soundtrack.setContext('menu');c.GOGHOS.Soundtrack.setPreferences({volume:2});c.GOGHOS.Soundtrack.destroy();
   const q=setup(),before=JSON.stringify(q.G.battle);q.S.init();q.S.setContext('combat');q.gesture(true);await flush();q.advance(2000);assert.equal(JSON.stringify(q.G.battle),before);q.S.destroy();

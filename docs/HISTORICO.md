@@ -325,3 +325,10 @@ Incluído teste opcional de navegador para reproduzir a seleção das cinco cart
 Integrados `GOGHOS, tela de carregamento.html` e `Cosmos — Menu Principal.html` ao jogo real, preservando os recursos recebidos e a marca GOGHOS. A abertura tem carregamento real, áudio sincronizado, pular, replay, passagem automática ao menu e alternativa de movimento reduzido. O novo menu conserva cenário, painel diagonal, favorito e ícones, com navegação, preferências e moedas existentes. A música do menu passa a usar a trilha enviada com esse HTML.
 
 Os emblemas ganham pressão e assentamento, as telas entram com sequência curta e o alvo selecionado recebe um brilho discreto. Nenhuma alteração de balanceamento. Acrescentados testes da integração da abertura, limpeza de recursos, modo reduzido, áudio exclusivo e microinterações; mantidas as regressões das cartas da mão e das habilidades diretas.
+
+
+## v0.36.1 — Trilhas enviadas e abertura sempre presente
+
+Adicionados os MP3s originais `BattleMusic.mp3`, `WinMusic.mp3` e `DefeatMusicc.mp3`, associados à batalha, vitória e derrota. Menu e intro mantêm suas trilhas. Os arquivos recebidos possuem manifesto de integridade e não foram recodificados.
+
+Removidos o bloqueio por abertura já vista, o botão Pular, a saída por Escape e a entrada antecipada. A conclusão da animação libera o menu; em caso de falha, Tentar novamente recupera os recursos mantendo a abertura obrigatória. A regressão de cliques da mão agora aguarda a apresentação antes de iniciar seus cenários.

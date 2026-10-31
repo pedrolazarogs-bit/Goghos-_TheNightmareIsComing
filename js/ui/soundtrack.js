@@ -1,7 +1,7 @@
 // Trilha instrumental local: apresentação independente do estado e das regras da partida.
 (function(G){
 'use strict';
-const TRACKS=Object.freeze({menu:{src:'assets/menu-v036/menu.mp3',loop:true},combat:{src:'assets/music/combat.mp3',loop:true},victory:{src:'assets/music/victory.mp3',loop:false},defeat:{src:'assets/music/defeat.mp3',loop:false}});
+const TRACKS=Object.freeze({menu:{src:'assets/menu-v036/menu.mp3',loop:true},combat:{src:'assets/music-v0361/combat.mp3',loop:true},victory:{src:'assets/music-v0361/victory.mp3',loop:false},defeat:{src:'assets/music-v0361/defeat.mp3',loop:false}});
 const DEFAULTS=Object.freeze({muted:false,volume:.38,musicMuted:false,musicVolume:.55});
 const clamp=(value,fallback)=>{const n=Number(value);return Number.isFinite(n)?Math.min(1,Math.max(0,n)):fallback;};
 const normalize=(value={})=>({muted:typeof value.muted==='boolean'?value.muted:DEFAULTS.muted,volume:clamp(value.volume,DEFAULTS.volume),musicMuted:typeof value.musicMuted==='boolean'?value.musicMuted:DEFAULTS.musicMuted,musicVolume:clamp(value.musicVolume,DEFAULTS.musicVolume)});
