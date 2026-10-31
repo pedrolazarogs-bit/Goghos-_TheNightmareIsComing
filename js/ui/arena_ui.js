@@ -70,7 +70,7 @@ G.characterAbilityChoiceHTML=(s,selectedUid)=>{
   return `<div class="choice-overlay"><section class="choice-dialog entry-choice" role="dialog" aria-modal="true" aria-labelledby="entry-title"><small>${p.reason==='entry'?'Pré-batalha · habilidade de entrada':'Escolha de habilidade'}</small><h3 id="entry-title">${safe(u.name)} · ${copy[0]}</h3><p>${copy[1]}</p>${targets}<button data-act="resolve-entry"${p.type!=='fright'&&!G.abilityTargets(s,u,p.type).some(t=>t.uid===selectedUid)?' disabled':''}>${p.type==='fright'?'Rolar os dados do susto':p.type==='petrify'?'Tentar petrificar · d6':'Confirmar escolha'}</button>${p.reason==='turn'&&['hypnosis','petrify','sleepPowder'].includes(p.type)?'<button data-act="cancel-entry">Voltar sem usar</button>':''}</section></div>`;
 };
 // Interactions stay on the original cards and action row; these functions only read state.
-const optionalArenaAction=act=>act.startsWith('power-')||act.startsWith('mode-');
+const optionalArenaAction=act=>act.startsWith('power-')||act.startsWith('mode-')&&!['mode-normal','mode-break'].includes(act);
 G.hasArenaAbilityOptions=html=>[...String(html||'').matchAll(/data-act="([^"]+)"/g)].some(([,act])=>optionalArenaAction(act)&&act!=='mode-normal');
 G.arenaActionsHTML=html=>String(html||'').replace(/<button\b([^>]*data-act="([^"]+)"[^>]*)>/g,(_,attrs,act)=>'<button'+(optionalArenaAction(act)?' data-ability-option="true"':'')+attrs+'>');
 G.unitPowerIconHTML=u=>{

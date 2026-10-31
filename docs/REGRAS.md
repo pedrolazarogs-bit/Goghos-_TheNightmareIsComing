@@ -312,3 +312,8 @@ Somente apresentação: removido o cenário ilustrado. Nenhuma alteração de re
 ## v0.35.2 — Correção da seleção de cura
 
 Correção de interface: a cura de Elysh continua sendo de 80, limitada à Vida máxima de outro aliado elegível na mesma dimensão e gastando uma ação. A seleção agora funciona diretamente no aliado e deixa de ser bloqueada por estados antigos de movimento ou de seleção de Apoio. Nenhuma alteração de balanceamento ou elegibilidade.
+
+
+## v0.35.3 — Interação da mão e preparação de habilidades
+
+Somente interface: corrigida a interceptação dos cliques na mão por uma área transparente dos comandos. Preparar uma habilidade na estrela não causa dano, não cura, não rola dados nem consome uso ou ação. O alvo é escolhido na própria arena e a confirmação chama as mesmas operações do núcleo. Habilidades gratuitas, ações gastas, elegibilidade, pré-batalha, efeitos e balanceamento permanecem iguais. A troca de personagem limpa o modo e o alvo do anterior.

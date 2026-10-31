@@ -490,3 +490,15 @@ As capturas desta versão ficam em `docs/previews/`, identificadas por `v0.34.0`
 - Mover→Modo cura e Apoio selecionado→Modo cura deixam de bloquear a confirmação. O Apoio permanece na mão, sem ser usado.
 - Repetir Modo cura mantém o alvo; própria Elysh, aliado cheio e aliado em outra dimensão continuam inelegíveis. Cura em aliado da retaguarda, leitura da ficha e ataque normal contra o adversário também conferidos.
 - Nenhuma alteração em CSS, regras de combate, balanceamento ou artes oficiais.
+
+
+## v0.35.3 — Cliques da mão e habilidades diretas
+
+- `npm test`: **468 testes aprovados**, incluindo 14 novos casos da interação direta de habilidades e do retorno de Libertar.
+- A causa do bloqueio foi reproduzida no Chromium: as áreas transparentes de `.turn-guide` e `.battle-actions` interceptavam as cartas finais da mão em 1280×720 e 1024×768. A correção mantém captura somente nos controles reais.
+- **195 cenários de mão aprovados** em 1280×720, 1024×768, 390×844, 360×640 e 844×390: cinco cartas com DD-X/Elétrica por mouse, toque e teclado, Sortudo durante paralisia, cura com Bandeide, resgate de medalha, cinco substituições e descarte da nova.
+- Regressão reproduzível: `npm run test:hand-browser`, com Playwright opcional, passou em **111 cenários** nas três resoluções configuradas. A instrumentação existe somente na resposta interceptada pelo navegador de teste.
+- **60 cenários finais de habilidades aprovados** em 1280×720, 390×844, 360×640 e 844×390. DD-X continua com quatro golpes independentes; John, Stally, Elysh e Alex confirmam os efeitos corretos. Zuri só cura após confirmar, inclusive na retaguarda, gastando a ação e sem curar a si mesma. Pó mágico, petrificação e troca de hipnose usam alvos reais sem consumir a ação. Burn só causa os 90 ao confirmar Manter. Sam continua automático e sua estrela apenas consulta a ficha.
+- Sem erros JavaScript/HTTP, botões fora da tela, sobreposição dos comandos ou necessidade de rolar o campo nos cenários de habilidades conferidos. A suíte de preservação confirma atributos, regras, artes e cartas oficiais intactos.
+
+[Habilidade no computador](previews/habilidade-v0.35.3-desktop.png) · [Habilidade no celular](previews/habilidade-v0.35.3-celular.png)

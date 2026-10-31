@@ -9,7 +9,7 @@ vm.runInThisContext(fs.readFileSync(require.resolve('../js/ui/ui.js'),'utf8').re
 const test=(name,fn)=>{fn();passed++;console.log('OK  '+name);};
 const unit=(s,id)=>s.units.find(u=>u.id===id);
 function battle(p=['mike'],e=['john'],rear=[]){const s=G.createBattleState({front:p,rear},{front:e,rear:[]},[],{rng:()=>.5,roll:()=>6});s.abilityChoices=[];s.openingAbilities=false;s.phase='battle';return s;}
-function render(s,actor,target=null){Object.assign(G.__balanceUITest.ui,{state:s,actor,target,mode:'battle',busy:false,paused:false,drawer:null,handIid:null,attackMode:'normal',abilityTarget:null,move:false,msg:'',notice:''});s.order=[actor.uid,...s.order.filter(uid=>uid!==actor.uid)];s.acted={};const before=JSON.stringify(s);G.__balanceUITest.render(actor);assert.equal(JSON.stringify(s),before,'redesenhar não deve avançar ações ou alterar a partida');return html.match(/<div class="battle-actions">([\s\S]*?)<\/div><p class="msg">/)?.[1]||'';}
+function render(s,actor,target=null){Object.assign(G.__balanceUITest.ui,{state:s,actor,target,abilityActor:actor.uid,mode:'battle',busy:false,paused:false,drawer:null,handIid:null,attackMode:'normal',abilityTarget:null,move:false,msg:'',notice:''});s.order=[actor.uid,...s.order.filter(uid=>uid!==actor.uid)];s.acted={};const before=JSON.stringify(s);G.__balanceUITest.render(actor);assert.equal(JSON.stringify(s),before,'redesenhar não deve avançar ações ou alterar a partida');return html.match(/<div class="battle-actions">([\s\S]*?)<\/div><p class="msg">/)?.[1]||'';}
 
 test('cartas mostram DD-X55×2, Fonior320 e ataque inicial55 de Chama sem o antigo ×6',()=>{
  for(const [id,field,value]of [['ddx','damage','55×2'],['fonior','hp','320'],['chama','damage','55']]){const c=G.getCharacterById(id),card=G.cardHTML(c);assert.match(card,new RegExp('data-value="'+field+'"[^>]*>'+value+'<'));if(id==='chama')assert(!/55×6/.test(card));}
@@ -19,10 +19,10 @@ test('a ficha de Linx deriva os35% da habilidade ativa',()=>{
 });
 test('Zuri na retaguarda oferece cura única, passar e mover, sem ataque básico ou modos ofensivos',()=>{
  const s=battle(['mike'],['john'],['zuri']),a=unit(s,'zuri');unit(s,'mike').hp=35;
- const controls=render(s,a),acts=[...controls.matchAll(/data-act="([^"]+)"/g)].map(x=>x[1]);assert.deepEqual(acts,['full-heal','wait','move']);assert(!/data-act="full-heal" disabled/.test(controls));assert(html.includes('Retaguarda: cura total dos outros aliados'));assert(!/data-daly="enemy"(?! disabled)/.test(html));
+ const controls=render(s,a),acts=[...controls.matchAll(/data-act="([^"]+)"/g)].map(x=>x[1]);assert.deepEqual(acts,['ability','wait','move']);assert(!/data-act="ability"[^>]* disabled/.test(controls));assert(html.includes('Retaguarda: cura total dos outros aliados'));assert(!/data-daly="enemy"(?! disabled)/.test(html));
 });
 test('com aliados cheios Zuri ainda pode passar ou mover sem habilitar uma cura inútil',()=>{
- const s=battle(['mike'],['john'],['zuri']),controls=render(s,unit(s,'zuri'));assert(/data-act="full-heal" disabled/.test(controls));assert(controls.includes('data-act="wait"'));assert(controls.includes('data-act="move"'));assert(html.includes('Aliados com Vida cheia'));
+ const s=battle(['mike'],['john'],['zuri']),controls=render(s,unit(s,'zuri'));assert(/data-act="ability"[^>]* disabled/.test(controls));assert(controls.includes('data-act="wait"'));assert(controls.includes('data-act="move"'));assert(html.includes('Aliados com Vida cheia'));
 });
 test('um impedimento na retaguarda mostra a resolução do estado, sem permitir cura',()=>{
  const s=battle(['mike'],['john'],['zuri']),a=unit(s,'zuri');a.sleep=true;unit(s,'mike').hp=35;const controls=render(s,a);assert(controls.includes('data-act="status-turn"'));assert(!controls.includes('data-act="full-heal"'));assert(!controls.includes('data-act="attack"'));

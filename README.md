@@ -1,6 +1,6 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.2** corrige a seleção da cura de Elysh, mantendo os emblemas, o layout e o **fundo preto** aprovados. Na vez dela, toque em um aliado ferido e confirme **Curar**; a habilidade funciona tanto na frente quanto na retaguarda.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.3** corrige o clique nas cinco cartas da mão e deixa as habilidades tão diretas quanto o ataque: toque na estrela ou no atalho, escolha o alvo no próprio campo e confirme. O layout, os emblemas e o **fundo preto** aprovados continuam preservados.
 
 ## Cartas sobre a mesa
 
@@ -8,13 +8,13 @@ Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.35.2*
 - **Seleção física:** os quatro Comuns aparecem como cartas soltas; as escolhas alternam entre jogador e bot, conservando a ordem inicial.
 - **Uma arena aberta:** a frente, a retaguarda e as Daly Mães compartilham o campo, sem as grandes caixas por equipe nem o painel permanente de atributos. As consultas continuam disponíveis nos ícones.
 - **Emblemas ilustrados:** doze símbolos com bases facetadas, metal e esmalte em cores contidas. A habilidade especial usa a estrela; ataque normal, confirmação, movimento e recursos mantêm seus próprios controles.
-- **Protagonismo das cartas:** enquadramento considera os personagens presentes; as vagas livres são marcas discretas no chão. A mão fica em leque, os montes são peças clicáveis, e a estrela da própria carta abre suas opções de habilidade.
+- **Protagonismo das cartas:** enquadramento considera os personagens presentes; as vagas livres são marcas discretas no chão. A mão fica em leque, os montes são peças clicáveis, e a estrela da própria carta seleciona a habilidade diretamente, sem abrir outro painel.
 
 O balanceamento, as artes oficiais, a fonte German Beauty, as músicas e os efeitos de combate permanecem preservados. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
 
 ![Campo com cartas e controles ilustrados](docs/previews/arena-v0.35.1-desktop.png)
 
-[Menu](docs/previews/menu-v0.35.1-desktop.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
+[Menu](docs/previews/menu-v0.35.1-desktop.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
 
 ## Jogar e desenvolver
 
@@ -22,7 +22,7 @@ Abra `index.html` no navegador. O jogo roda localmente, sem conta, servidor ou i
 
 Com **Arena** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
-No seletor de modos, **Treino de campeões** oferece uma formação para cada um dos 31 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. **Mesa de Apoios** inclui os 17 efeitos; **Invocação primordial** prepara os três fragmentos para a invocação manual. Os **Atalhos de treino** mantêm os testes de Sark e Elétrica e John. A escolha do modo vale enquanto o jogo estiver aberto; recarregar retorna à Arena.
+No seletor de modos, **Treino de campeões** oferece uma formação para cada um dos 31 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. A estrela prepara a habilidade; o botão principal confirma o efeito e mostra seu nome. Outro toque volta ao ataque normal. A cura de Elysh na retaguarda já fica selecionada. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. **Mesa de Apoios** inclui os 17 efeitos; **Invocação primordial** prepara os três fragmentos para a invocação manual. Os **Atalhos de treino** mantêm os testes de Sark e Elétrica e John. A escolha do modo vale enquanto o jogo estiver aberto; recarregar retorna à Arena.
 
 Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md). A [revisão de balanceamento](docs/BALANCEAMENTO.md) lista todos os valores anteriores, atuais e justificativas.
 
@@ -55,4 +55,8 @@ Item e Habilidade Especial continuam em desenvolvimento. O Santuário oferece a 
 
 ![Catálogo de personagens](docs/previews/catalogo-v0.29.0-desktop.png)
 
-[Seleção no celular](docs/previews/selecao-v0.29.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.29.0-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)
+[Seleção no celular](docs/previews/selecao-v0.29.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.29.0-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)
+
+### Regressão de cliques no navegador
+
+Com Playwright disponível no ambiente e o servidor de `npm run dev` aberto, execute `npm run test:hand-browser`. O teste opcional confere as cinco cartas por mouse, toque e teclado, Apoio durante paralisia e substituição de mão cheia. `TEST_URL` permite outro servidor; `CHROMIUM_PATH` aponta para um Chromium local. O jogo e `npm test` continuam sem dependências externas.

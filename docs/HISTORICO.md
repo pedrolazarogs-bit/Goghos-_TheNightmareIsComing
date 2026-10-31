@@ -311,3 +311,10 @@ Removida a ilustração de fundo de Jogar, seleção, modos, batalha e abertura.
 ## v0.35.2 — Cura de Elysh
 
 Corrigidas as seleções de movimento e Apoio que bloqueavam a cura. Aliado ferido pode ser escolhido diretamente; Modo cura e Curar têm rótulos distintos, e repetir o modo não apaga um alvo válido. Cura na frente e na retaguarda preservada, sem mudar regras ou visual.
+
+
+## v0.35.3 — Cliques da mão e habilidades diretas
+
+Corrigida a área transparente dos controles que bloqueava cartas do leque no computador. As habilidades ativas passam a ser preparadas por um toque na estrela ou no atalho junto do ataque; o jogador seleciona a carta no campo e confirma no mesmo botão principal. A cura total exige confirmação e as habilidades gratuitas mantêm a ação disponível. Nenhuma alteração de regras, balanceamento, artes ou fundo preto.
+
+Incluído teste opcional de navegador para reproduzir a seleção das cinco cartas por mouse, toque e teclado, Apoio sob paralisia e todas as escolhas de substituição.

@@ -213,6 +213,9 @@
  grid-column:1;grid-row:4;position:relative!important;min-height:112px;padding:0!important;
  margin:0;background:none;border:0;border-radius:0;box-shadow:none;z-index:11;
 }
+/* O espaço transparente dos comandos não pode interceptar o leque da mão. */
+.arena.fit-arena.inplace-arena.realm-arena :is(.turn-guide,.battle-actions){pointer-events:none}
+.arena.fit-arena.inplace-arena.realm-arena .turn-guide :is(button,.realm-mana-control){pointer-events:auto}
 .arena.fit-arena.inplace-arena.realm-arena .turn-guide:before{content:'';position:absolute;inset:17px 8% -8px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 70%,#0a1019ad,transparent 72%);border:0;border-radius:50%;box-shadow:none}
 .arena.fit-arena.inplace-arena.realm-arena .turn-guide .info{font-size:12px;line-height:1.2;color:#e5dccb;text-shadow:0 2px 3px #02060a;margin:2px auto 1px;max-width:620px;min-height:15px}
 .arena.fit-arena.inplace-arena.realm-arena .battle-actions{display:flex;flex-flow:row wrap;justify-content:center;align-items:flex-start;gap:8px;min-height:0}

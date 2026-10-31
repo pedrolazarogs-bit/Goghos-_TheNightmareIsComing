@@ -174,3 +174,12 @@ A ilustração do cenário foi retirada de Jogar, seleção, modos e batalha. A 
 Tocar em um aliado elegível com Elysh na frente seleciona a cura diretamente, sem abrir a ficha; a confirmação continua necessária e usa a ação da personagem. O botão opcional chama-se **Modo cura**, distinto da confirmação **Curar**. Na retaguarda, a cura já fica selecionada e não há seletor redundante.
 
 Escolher um modo de ação encerra a seleção de movimento e de cartas de Apoio, evitando que elas capturem o clique no aliado ou mantenham a confirmação desabilitada. Repetir o Modo cura conserva um alvo de cura já válido. Um Apoio que estava selecionado não é consumido por essa troca.
+
+
+## v0.35.3 — Mão clicável e habilidades diretas
+
+O espaço transparente da linha de comandos deixa os cliques atravessarem até a mão; somente botões e o controle de mana capturam a interação. Isso corrige as cartas finais do leque em telas de computador sem mudar sua posição. Mouse, toque e teclado continuam disponíveis.
+
+Na própria vez, a estrela da carta e o atalho junto do ataque selecionam a habilidade diretamente. O jogador toca no alvo real e confirma no botão principal, que mostra o nome e o símbolo da ação. Outro toque retorna ao ataque normal e preserva o alvo quando ele ainda for válido. Mover e a seleção de Apoio são encerrados ao preparar uma habilidade, sem consumir a carta. Elysh na retaguarda conserva a cura automática sem um seletor redundante.
+
+Cura total e Swarm em área dispensam alvo individual, mas exigem confirmação. Pó mágico, petrificação e troca de hipnose escolhem o alvo nas cartas da arena, sem uma segunda lista de personagens. Efeitos gratuitos continuam gratuitos; trocar a hipnose não antecipa os 90 de dano de Manter. Pré-batalha obrigatória mantém suas escolhas. Habilidades passivas continuam automáticas e a estrela abre sua ficha. Libertar um aliado petrificado fica disponível na linha de ações quando as regras permitem.
