@@ -14,3 +14,11 @@
 .duel-intro.intro-fallback .intro-loading{bottom:140px}
 .duel-intro button:focus-visible{outline:3px solid #e9a62b;outline-offset:6px}
 @media(max-width:600px){.duel-intro .intro-start{font-size:28px;padding:18px 40px 18px 30px}.duel-intro .intro-kicker{font-size:16px}}
+
+/* Cosmic preview: the mandatory gate and retry controls remain accessible. */
+.world-intro.duel-intro{background:#120a2a!important}
+.duel-intro .intro-start-prompt{background:#120a2a}
+.duel-intro .intro-kicker,.duel-intro .intro-loading{color:#fff3c9}
+.duel-intro.intro-running .duel-intro-scene{animation:intro-preview-in .65s ease both}
+@keyframes intro-preview-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.duel-intro.intro-running .duel-intro-scene{animation-duration:.15s}}

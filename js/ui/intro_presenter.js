@@ -46,7 +46,7 @@ function load(s){
  el.querySelector('[data-act="shell-start"]').disabled=true;el.querySelector('[data-act="shell-retry"]').hidden=true;el.querySelector('progress').value=0;
  announce(s,'Preparando a abertura…');focus(s);
  try{
-  s.loader=new G.LoadingScreen({parent:el.querySelector('.duel-intro-scene'),base:BASE,assets:{bg:'bg.webp',logoTop:'logo_top.webp',logoBottom:'logo_bottom.webp',font:'german_beauty.ttf',music:'ready_to_duel.mp3'},version:'Versão '+G.CONFIG.version,text:'Carregando...',readyText:'Pronto para duelar!',background:'#ffffff',music:!p.muted&&!p.musicMuted,volume:p.volume*p.musicVolume,sfx:!p.muted,sfxVolume:p.volume,reducedMotion:p.reducedMotion,zIndex:0,
+  s.loader=new (G.IntroPreview || G.LoadingScreen)({parent:el.querySelector('.duel-intro-scene'),base:BASE,assets:{bg:'bg.webp',logoTop:'logo_top.webp',logoBottom:'logo_bottom.webp',font:'german_beauty.ttf',music:'ready_to_duel.mp3'},version:'Versão '+G.CONFIG.version,text:'Carregando...',readyText:'Pronto para duelar!',background:'#ffffff',music:!p.muted&&!p.musicMuted,volume:p.volume*p.musicVolume,sfx:!p.muted,sfxVolume:p.volume,reducedMotion:p.reducedMotion,zIndex:0,
    onProgress:(value,phase)=>{
     if(!valid()||s.failed)return;s.progress=Math.max(0,Math.min(1,value));s.phase=phase;el.querySelector('progress').value=Math.round(s.progress*100);
     if(phase==='ready')announce(s,'Pronto para duelar!');
