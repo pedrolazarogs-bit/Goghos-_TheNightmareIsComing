@@ -332,3 +332,12 @@ Os emblemas ganham pressão e assentamento, as telas entram com sequência curta
 Adicionados os MP3s originais `BattleMusic.mp3`, `WinMusic.mp3` e `DefeatMusicc.mp3`, associados à batalha, vitória e derrota. Menu e intro mantêm suas trilhas. Os arquivos recebidos possuem manifesto de integridade e não foram recodificados.
 
 Removidos o bloqueio por abertura já vista, o botão Pular, a saída por Escape e a entrada antecipada. A conclusão da animação libera o menu; em caso de falha, Tentar novamente recupera os recursos mantendo a abertura obrigatória. A regressão de cliques da mão agora aguarda a apresentação antes de iniciar seus cenários.
+
+
+## v0.36.2 — Título, música contínua e controles sem caixas
+
+- Carregamento original seguido da nova tela de título; o menu aguarda uma tecla ou toque após a animação.
+- Música do menu começa no título e continua sem reiniciar ao entrar no menu.
+- Removidos fundos, sombras retangulares e contornos das áreas dos controles do menu em hover, clique e foco. O destaque por teclado acompanha a arte e o texto visíveis.
+- Ícones, navegação, abertura obrigatória e balanceamento preservados.
+- Versão sincronizada no jogo e no pacote; futuras entregas devem incrementar a versão e registrar as mudanças neste histórico.

@@ -1,6 +1,6 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.1** usa as músicas enviadas para batalha, vitória e derrota. A abertura aparece em toda inicialização, não pode ser pulada e mostra a tela de título após o carregamento e aguarda uma tecla ou toque para entrar no menu. O menu cósmico, os favoritos e as regras de combate permanecem iguais.
+Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.2** usa as músicas enviadas para batalha, vitória e derrota. A abertura aparece em toda inicialização, não pode ser pulada e mostra a tela de título após o carregamento e aguarda uma tecla ou toque para entrar no menu. O menu cósmico, os favoritos e as regras de combate permanecem iguais.
 
 ## Abertura e menu
 
