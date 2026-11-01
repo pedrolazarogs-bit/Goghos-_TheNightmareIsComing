@@ -28,6 +28,9 @@ const { chromium } = require('playwright');
       assert(await page.evaluate(() => document.querySelector('#app').inert));
       await page.keyboard.press('Enter'); // An early title key cannot skip its entrance.
       await page.waitForFunction(() => GOGHOS.IntroPresenter.getDebugState().phase === 'title-ready', null, { timeout: 20000 });
+      const titleMusic = await page.evaluate(() => GOGHOS.Soundtrack.getDebugState());
+      assert.equal(titleMusic.activeTrack, 'menu');
+      assert.equal(titleMusic.playing, true);
       await page.waitForTimeout(2200); // Ready must wait indefinitely, with no auto-exit.
       assert(await page.evaluate(() => GOGHOS.IntroPresenter.isActive()));
       assert(await page.evaluate(() => document.querySelector('#app').inert));
@@ -36,6 +39,12 @@ const { chromium } = require('playwright');
       else await page.keyboard.press('a');
       await page.waitForFunction(() => !GOGHOS.IntroPresenter.isActive(), null, { timeout: 10000 });
       assert.equal(await page.evaluate(() => document.querySelector('#app').inert), false);
+      const menuMusic = await page.evaluate(() => GOGHOS.Soundtrack.getDebugState());
+      assert.equal(menuMusic.activeTrack, 'menu');
+      assert.equal(menuMusic.playing, true);
+      assert.equal(menuMusic.playCount, titleMusic.playCount);
+      assert.equal(menuMusic.tracks.length, 1);
+      assert(menuMusic.tracks[0].currentTime > titleMusic.tracks[0].currentTime, 'Menu music must continue without restarting');
       assert.deepEqual(errors, []);
       console.log('PASS loading -> title -> ' + (mobile ? 'touch' : 'key') + ' -> menu');
       await page.close();

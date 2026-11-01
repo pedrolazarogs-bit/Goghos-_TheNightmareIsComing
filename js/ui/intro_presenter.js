@@ -50,7 +50,7 @@ function load(s){
    onProgress:(value,phase)=>{
     if(!valid()||s.failed)return;s.progress=Math.max(0,Math.min(1,value));s.phase=phase;el.querySelector('progress').value=Math.round(s.progress*100);
     if(phase==='ready')announce(s,'Pronto para duelar!');
-    if(phase==='title')announce(s,'Apresentando GOGHOS.');
+    if(phase==='title'){G.Soundtrack?.setContext('menu');announce(s,'Apresentando GOGHOS.');}
     if(phase==='title-ready')announce(s,'Pressione qualquer tecla ou toque para continuar.');
    },
    onError:()=>{if(valid())failAttempt(s);},

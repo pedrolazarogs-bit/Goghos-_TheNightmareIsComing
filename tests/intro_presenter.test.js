@@ -247,6 +247,21 @@ const ready = async q => { q.flushAssets(); await flush(); };
     assert.equal(q.P.isActive(), false);
   });
 
+  await test('a trilha do menu começa na tela de título e mantém o mesmo contexto ao entrar no menu', async () => {
+    const q = setup(); q.P.open(); await ready(q); q.button('shell-start').click();
+    assert.equal(q.contexts.filter(item => item.name === 'menu').length, 0);
+    q.loaders[0].o.onProgress(1, 'title');
+    assert.equal(q.contexts.at(-1).name, 'menu');
+    assert.equal(q.P.isActive(), true);
+    assert.equal(q.app.inert, true);
+    q.loaders[0].o.onProgress(1, 'title-ready');
+    q.loaders[0].finish(); await flush();
+    assert.equal(q.P.isActive(), false);
+    assert.equal(q.contexts.at(-1).name, 'menu');
+    assert.equal(q.contexts.filter(item => item.name === 'silent').length, 1);
+    assert(q.contexts.filter(item => item.name === 'menu').every(item => !item.flags?.immediate));
+  });
+
   await test('a intro obrigatória respeita volume, mute e movimento reduzido', async () => {
     for (const preferences of [
       { muted: false, musicMuted: false, reducedMotion: false },
