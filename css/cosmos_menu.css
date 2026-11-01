@@ -4,6 +4,8 @@
 .cosmos-menu .cosmos-stage>*{position:absolute}
 .cosmos-menu img{display:block;pointer-events:none;-webkit-user-drag:none;max-width:none}
 .cosmos-menu button{appearance:none;background:none;color:inherit;border:0;border-radius:0;margin:0;padding:0;font:inherit;line-height:1.1;cursor:pointer;text-align:center;box-shadow:none;text-shadow:0 4px 0 #0008}
+/* Illustrated controls keep their transparent hit areas on hover. */
+.cosmos-menu button:hover:not(:disabled){background:none}
 .cosmos-menu button:focus-visible{outline:5px solid #fff4c7;outline-offset:8px;border-radius:8px;filter:drop-shadow(0 0 14px #ffc47f)}
 .cosmos-menu .cosmos-bg{left:370px;top:-155px;width:2300px;height:auto;transform-origin:1150px 745px;animation:cosmos-zoom 24s ease-in-out infinite alternate}
 .cosmos-menu .cosmos-rays{left:320px;top:-610px;width:2400px;height:2400px;pointer-events:none;background:repeating-conic-gradient(#ffebbe8c 0 4deg,transparent 4deg 14deg);mask:radial-gradient(circle,#000,transparent 62%);mix-blend-mode:screen;opacity:.35;animation:cosmos-spin 90s linear infinite}
