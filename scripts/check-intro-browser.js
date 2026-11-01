@@ -1,3 +1,46 @@
-// Optional real-browser regression: run with the development server active.
-const {chromium}=require('playwright');
-(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});for(const viewport of [{width:1366,height:768},{width:390,height:844}]){const p=await b.newPage({viewport});let errors=[];p.on('pageerror',e=>errors.push(String(e)));await p.goto(process.env.TEST_URL || 'http://127.0.0.1:8000');await p.locator('[data-act="shell-start"]:enabled').waitFor();await p.keyboard.press('Escape');if(!await p.evaluate(()=>GOGHOS.IntroPresenter.isActive()))throw Error('Escape skipped intro');await p.locator('[data-act="shell-start"]').click();await p.waitForTimeout(3300);await p.screenshot({path:'/tmp/intro-'+viewport.width+'.png'});await p.waitForFunction(()=>!GOGHOS.IntroPresenter.isActive(),{timeout:20000});if(errors.length)throw Error(errors.join('\n'));console.log('PASS mandatory intro -> automatic menu',viewport);await p.close()}await b.close()})().catch(e=>{console.error(e);process.exit(1)});
+// Optional regression: start npm run dev, then run this with Playwright installed.
+const assert = require('node:assert/strict');
+const { chromium } = require('playwright');
+
+(async () => {
+  const browser = await chromium.launch({
+    executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
+    headless: true, args: ['--no-sandbox']
+  });
+  try {
+    for (const mobile of [false, true]) {
+      const page = await browser.newPage({
+        viewport: mobile ? { width: 390, height: 844 } : { width: 1366, height: 768 },
+        hasTouch: mobile
+      });
+      const errors = [];
+      page.on('pageerror', error => errors.push(String(error)));
+      await page.goto(process.env.TEST_URL || 'http://127.0.0.1:8000');
+      await page.locator('[data-act="shell-start"]:enabled').waitFor();
+      await page.keyboard.press('Escape');
+      assert(await page.evaluate(() => GOGHOS.IntroPresenter.isActive()));
+      await page.locator('[data-act="shell-start"]').click();
+      // The original white loading canvas must precede the cosmic title canvas.
+      await page.waitForFunction(() => document.querySelector('.duel-intro-scene canvas'));
+      assert.equal(await page.locator('.intro-title').count(), 0);
+      await page.keyboard.press('Enter'); // A loading-stage key must not be queued.
+      await page.waitForFunction(() => GOGHOS.IntroPresenter.getDebugState().phase === 'title');
+      assert(await page.evaluate(() => document.querySelector('#app').inert));
+      await page.keyboard.press('Enter'); // An early title key cannot skip its entrance.
+      await page.waitForFunction(() => GOGHOS.IntroPresenter.getDebugState().phase === 'title-ready', null, { timeout: 20000 });
+      await page.waitForTimeout(2200); // Ready must wait indefinitely, with no auto-exit.
+      assert(await page.evaluate(() => GOGHOS.IntroPresenter.isActive()));
+      assert(await page.evaluate(() => document.querySelector('#app').inert));
+      await page.screenshot({ path: '/tmp/goghos-title-' + (mobile ? 'mobile' : 'desktop') + '.png' });
+      if (mobile) await page.locator('.intro-title canvas').tap();
+      else await page.keyboard.press('a');
+      await page.waitForFunction(() => !GOGHOS.IntroPresenter.isActive(), null, { timeout: 10000 });
+      assert.equal(await page.evaluate(() => document.querySelector('#app').inert), false);
+      assert.deepEqual(errors, []);
+      console.log('PASS loading -> title -> ' + (mobile ? 'touch' : 'key') + ' -> menu');
+      await page.close();
+    }
+  } finally {
+    await browser.close();
+  }
+})().catch(error => { console.error(error); process.exitCode = 1; });

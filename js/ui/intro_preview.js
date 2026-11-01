@@ -542,7 +542,7 @@ class GoghosIntro {
   _bindInput() {
     this._onKey = (e) => {
       if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
-      if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab'].includes(e.key)) return;
+      // Any deliberate key continues the ready title; repeated/modified events are ignored.
       if (this._gesture(e)) { if (e.key === ' ' || e.key.startsWith('Arrow')) e.preventDefault(); }
     };
     this._onPtr = (e) => { this._gesture(e); };
@@ -1240,9 +1240,9 @@ P._drawPrompt = function (ctx, t, text, scale, alpha, ex, q) {
   if (a <= 0.003) return;
   ctx.save(); ctx.globalAlpha = clamp(a);
   ctx.font = `${fs}px ${this._fam}`; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-  const inkW = p.inkW, tw = ctx.measureText(text).width, k = 1;
+  const inkW = p.inkW, tw = ctx.measureText(text).width, k = Math.min(1, L.w * 0.9 / Math.max(1, tw));
   // para textos diferentes do padrão, centraliza pela largura medida
-  const left = text === this.opt.texts.prompt ? p.cx - inkW / 2 + fm.l * fs / 100 : p.cx - tw / 2;
+  const left = p.cx - tw / 2;
   const base = p.inkTop + fm.a * fs / 100, cx = p.cx, cy = base - fs * 0.3;
   ctx.translate(cx, cy); ctx.scale(sc * k, sc * k); ctx.translate(-cx, -cy);
   const glow = 0.5 + (fz ? 0 : 0.18 * Math.sin(t * 2.6)) + 0.3 * beat;
@@ -1292,20 +1292,37 @@ P._drawExitLines = function (ctx, ex) {
 
 
 
+// The mandatory loading animation and the title are separate, ordered stages.
 class IntroPreview {
   constructor(o) {
+    this.o = o;
+    this.phase = 'loading';
+    this.destroyed = false;
     this.intro = new GoghosIntro({container:o.parent, baseUrl:'assets/intro-preview/',
-      gate:false, autoExit:true, sfx:o.sfx, sfxVolume:o.sfxVolume,
-      music:o.music ? {src:o.base+o.assets.music, volume:o.volume, loop:false} : null,
+      gate:false, autoExit:false, sfx:o.sfx, sfxVolume:o.sfxVolume,
       reducedMotion:o.reducedMotion, zIndex:o.zIndex,
-      texts:{version:o.version,prompt:'Pronto para duelar!',gate:'Toque para iniciar'},
-      onReady:()=>o.onProgress?.(1,'ready'), onFinished:()=>o.onDone?.()});
-    this.o=o;
+      texts:{version:o.version,prompt:'Pressione qualquer tecla ou toque para continuar.',gate:'Toque para iniciar'},
+      onReady:()=>{if(!this.destroyed){this.phase='title-ready';o.onProgress?.(1,'title-ready');}},
+      onFinished:()=>{if(!this.destroyed && this.phase==='title-ready'){this.phase='done';o.onDone?.();}}});
+    this.loading = new G.LoadingScreen({...o,
+      onDone:()=>this.showTitle()});
   }
-  load(){return this.intro.load();}
-  start(){return this.intro.start();}
-  setProgress(p){this.intro.setProgress(p);this.o.onProgress?.(p,'loading');}
-  destroy(){this.intro.destroy({stopMusic:true});}
+  load(){return Promise.all([this.loading.load(),this.intro.load()]);}
+  start(){return this.loading.start();}
+  setProgress(p){this.loading.setProgress(p);this.intro.setProgress(p);}
+  async showTitle(){
+    if(this.destroyed || this.phase!=='loading')return;
+    this.phase='title';
+    this.o.parent.closest('.duel-intro').classList.add('intro-title');
+    this.o.onProgress?.(1,'title');
+    try{await this.intro.start();}catch(error){if(!this.destroyed)this.o.onError?.(error);}
+  }
+  destroy(){
+    if(this.destroyed)return;
+    this.destroyed=true;
+    this.loading.destroy();
+    this.intro.destroy({stopMusic:true});
+  }
 }
 G.IntroPreview = IntroPreview;
 })(globalThis.GOGHOS);

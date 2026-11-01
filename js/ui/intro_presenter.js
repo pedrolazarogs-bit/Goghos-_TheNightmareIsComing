@@ -42,7 +42,7 @@ function load(s){
  const attempt=++s.attempt;clearAttempt(s);
  s.loader=null;s.loaded=false;s.started=false;s.failed=false;s.completed=false;s.progress=0;s.phase='loading';
  const el=s.el,p=preferences(),valid=()=>current(s)&&s.attempt===attempt;
- el.classList.remove('intro-running','intro-fallback','intro-loaded');el.querySelector('.intro-start-prompt').hidden=false;
+ el.classList.remove('intro-running','intro-fallback','intro-loaded','intro-title');el.querySelector('.intro-start-prompt').hidden=false;
  el.querySelector('[data-act="shell-start"]').disabled=true;el.querySelector('[data-act="shell-retry"]').hidden=true;el.querySelector('progress').value=0;
  announce(s,'Preparando a abertura…');focus(s);
  try{
@@ -50,7 +50,10 @@ function load(s){
    onProgress:(value,phase)=>{
     if(!valid()||s.failed)return;s.progress=Math.max(0,Math.min(1,value));s.phase=phase;el.querySelector('progress').value=Math.round(s.progress*100);
     if(phase==='ready')announce(s,'Pronto para duelar!');
+    if(phase==='title')announce(s,'Apresentando GOGHOS.');
+    if(phase==='title-ready')announce(s,'Pressione qualquer tecla ou toque para continuar.');
    },
+   onError:()=>{if(valid())failAttempt(s);},
    onDone:()=>{if(valid()&&s.loaded&&s.started&&!s.failed){s.completed=true;finish(s);}}
   });
   const loader=s.loader;let done=0;
