@@ -1,0 +1,399 @@
+/* Scoped draft and arena artwork from the supplied official 5x5 UI. */
+#five-root{position:fixed;inset:0;z-index:9000;background:#090d20;color:#fff;overflow:auto;isolation:isolate;font-family:'German Beauty',Georgia,serif}
+#five-root *{box-sizing:border-box;font-family:inherit;letter-spacing:normal}
+#five-root #five-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center;overflow:hidden;background:#0a1a33}
+#five-root img{display:block;pointer-events:none;max-width:none}
+#five-root h1,#five-root h2,#five-root h3{font-weight:400;margin:0}
+#five-root .btn{cursor:pointer}
+#five-root :focus-visible{outline:3px solid #ffe6a4;outline-offset:5px}
+/* ===== draft 5x5 ===== */
+#five-root #draft{left:0;top:0;width:1920px;height:1080px;z-index:6;display:none;background:#0a1a33}
+#five-root #draft.on{display:block}
+#five-root #draft>*,#five-root #dr>*,#five-root #mm>*,#five-root #dend>*{position:absolute}
+#five-root .scr{display:none;left:0;top:0;width:1920px;height:1080px}
+#five-root .scr.on{display:block}
+#five-root #dbg{left:0;top:0;width:1920px;height:1080px;object-fit:cover}
+#five-root #dshade{left:0;top:0;width:1920px;height:1080px;background:linear-gradient(#0a1a3399,#0003 40%,#000a)}
+#five-root #mm{background:radial-gradient(#0e2a55cc,#040a18f0)}
+#five-root #mm .lg{left:700px;top:90px;width:520px}
+#five-root #mmt{left:0;width:1920px;top:640px;text-align:center;font-size:84px;color:#ffc61a;text-shadow:0 6px 0 #000a}
+#five-root #mmd{left:610px;top:790px;display:flex;gap:14px}
+#five-root #mmd i{width:60px;height:60px;background:#ffffff22;clip-path:polygon(0 25%,100% 0,100% 75%,0 100%);transition:.25s}
+#five-root #mmd i.on{background:#ffc61a;transform:scale(1.1)}
+#five-root #dtitle{left:0;width:1920px;top:4px;text-align:center;font-size:76px;color:#ffc61a;text-shadow:0 5px 0 #000a,0 0 26px #ff9a00}
+#five-root #dtime{left:0;width:1920px;top:92px;text-align:center;font-size:62px;color:#ff4d4d;text-shadow:0 4px 0 #0008}
+#five-root #dtime.lo{animation:pulse .5s infinite}
+#five-root #dsub{left:560px;width:800px;top:152px;text-align:center;font-size:30px;color:#cfe8ff;text-shadow:0 3px 0 #000a}
+#five-root #dvs{left:0;width:1920px;top:850px;text-align:center;font-size:190px;line-height:1;color:#ffffff30;pointer-events:none}
+#five-root .mbtn{cursor:pointer;background:#ff6469;border:5px solid #000;border-radius:18px;padding:8px 26px;font-size:42px;box-shadow:0 6px 0 #96506e;text-align:center;white-space:nowrap}
+#five-root .mbtn:active{transform:scale(.94)}
+#five-root .mbtn.off{filter:grayscale(1);opacity:.4;pointer-events:none}
+#five-root #dexit{left:24px;top:222px;font-size:30px;padding:2px 20px}/* área de banidos */
+#five-root .bz{top:0;width:520px;height:210px}
+#five-root #bl{left:0;background:#8c5fd0b3;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+#five-root #br{right:0;background:#e07080b3;clip-path:polygon(18% 0,100% 0,100% 100%,0 100%)}
+#five-root .bz h3{position:absolute;left:30px;top:12px;margin:0;font-size:36px;font-weight:400;text-shadow:0 3px 0 #0008}
+#five-root .bz .bw{position:absolute;left:24px;top:76px;display:flex;gap:14px}
+#five-root #br h3{left:auto;right:30px}
+#five-root #br .bw{left:auto;right:24px}/* grade */
+#five-root #grid{left:595px;top:195px;display:grid;grid-template-columns:repeat(4,175px);gap:10px}
+#five-root .cd{position:relative;width:175px;height:100px;cursor:pointer;filter:drop-shadow(0 5px 0 #000b);transition:transform .12s,filter .12s}
+#five-root .cd .in,#five-root .sl2 .in{position:absolute;left:0;top:0;width:100%;height:100%;clip-path:polygon(0 24%,96% 0,100% 76%,8% 100%);background:linear-gradient(135deg,var(--a),var(--b));overflow:hidden}
+#five-root .cd:hover{transform:scale(1.05)}
+#five-root .cd.sl{transform:scale(1.1);filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 16px #fff)}
+#five-root .cd .st{position:absolute;left:12px;top:30px;width:32px}
+#five-root .cd .pt{position:absolute;right:-8px;top:2px;height:98px;width:auto}
+#five-root .q{filter:invert(.45) contrast(1.3)}
+#five-root .cd .nm{position:absolute;left:10px;bottom:6px;font-size:25px;color:#fff;text-shadow:0 3px 0 #000a}
+#five-root .cd .ks{position:absolute;right:10px;bottom:4px;font-size:22px}
+#five-root .cd em{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:30px;transform:rotate(-8deg)}
+#five-root .cd.bn .in{filter:saturate(.3) brightness(.7)}
+#five-root .cd.bn em{background:#c0182acc;color:#ffd2d2}
+#five-root .cd.pk .in{filter:grayscale(1) brightness(.7)}
+#five-root .cd.pk em{background:#000a;color:#ffe27a}
+#five-root .cd.ph{background:#0005;clip-path:polygon(0 24%,96% 0,100% 76%,8% 100%);filter:none;cursor:default}/* info / apoios */
+#five-root #info,#five-root #sup{left:590px;top:648px;width:740px;height:176px;background:#000b;border:5px solid #000;border-radius:16px;box-sizing:border-box;padding:0 18px;align-items:center;gap:16px}
+#five-root #info{display:flex}
+#five-root #sup{display:none}
+#five-root #sup.on{display:flex}
+#five-root #info img{width:120px;height:90px;object-fit:cover}
+#five-root #info .mbtn{font-size:34px;padding:6px 16px}
+#five-root .t{flex:1;line-height:1.05}
+#five-root #info h3,#five-root #sup h4{margin:0 0 3px;font-size:36px;font-weight:400;color:#ffc61a}
+#five-root #info p{margin:2px 0;font-size:23px}
+#five-root #info p b{font-weight:400;color:#8fe6ff}
+#five-root #sup h4{font-size:32px;margin:0}
+#five-root .chip{display:inline-block;margin:3px;padding:0 10px;background:#ffffff22;border:4px solid #000;border-radius:14px;font-size:26px;cursor:pointer}
+#five-root .chip.on{background:#ffc61a;color:#000}
+#five-root #sd{margin:2px 0 0;font-size:24px;color:#8fe6ff}/* ficha da revisão */
+#five-root #sheet{left:595px;top:195px;width:730px;height:430px;display:none;gap:10px}
+#five-root #sheet.on{display:flex}
+#five-root #sheet .col{flex:1;display:flex;flex-direction:column;gap:6px}
+#five-root .rw{height:76px;display:flex;align-items:center;gap:8px;padding:0 8px;background:linear-gradient(135deg,var(--a),var(--b));border:4px solid #000;border-radius:10px;box-sizing:border-box}
+#five-root .rw img{width:76px;height:58px;object-fit:cover}
+#five-root .rw b{display:block;font-weight:400;font-size:26px;color:#fff;text-shadow:0 2px 0 #000a}
+#five-root .rw small{font-size:22px;color:#fff}
+#five-root .rw .e{font-size:22px;text-align:right;line-height:1.1}
+#five-root .rw.me{outline:4px solid #ffc61a}/* equipes */
+#five-root .bgb{top:870px;height:210px;width:900px;background:linear-gradient(#000a,#000d)}
+#five-root #bgl{left:0;clip-path:polygon(0 0,80% 0,100% 100%,0 100%)}
+#five-root #bgr{right:0;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%)}
+#five-root .bar{top:940px;display:flex;gap:8px}
+#five-root #tl{left:40px}
+#five-root #tr{left:1090px}
+#five-root .bar h2{position:absolute;top:-92px;margin:0;font-weight:400;font-size:80px;white-space:nowrap;text-shadow:0 5px 0 #000a}
+#five-root #tl h2{left:0;color:#ff2a2a}
+#five-root #tr h2{right:0;color:#8fd8ff}
+#five-root .sl2{position:relative;width:150px;height:112px;filter:drop-shadow(0 4px 0 #000b)}
+#five-root .sl2 img{position:absolute;right:-6px;top:4px;height:106px}
+#five-root .sl2 small{position:absolute;left:14px;bottom:6px;font-size:22px;color:#fff;text-shadow:0 2px 0 #000}
+#five-root .sl2>span{position:absolute;left:0;width:100%;top:106px;text-align:center;font-size:26px;text-shadow:0 3px 0 #000}
+#five-root .sl2.me{filter:drop-shadow(0 0 3px #ffc61a) drop-shadow(0 0 12px #ffc61a)}
+#five-root .sl2.tn{animation:five-bl .8s infinite}@keyframes five-bl{50%{filter:brightness(1.7)}}
+#five-root .ld{top:640px;width:300px;height:190px}
+#five-root #ll{left:14px}
+#five-root #lr{left:1606px}
+#five-root .ld::before{content:'';position:absolute;left:0;top:0;width:100%;height:100%;background:#000;clip-path:polygon(0 20%,100% 0,100% 86%,12% 100%)}
+#five-root .ld img{position:absolute;right:22px;top:26px;height:128px}
+#five-root .ld b{position:absolute;left:26px;top:20px;font-size:42px;font-weight:400;color:#ffd27a;transform:rotate(-6deg);text-shadow:0 3px 0 #000}
+#five-root .ld span{position:absolute;right:20px;bottom:10px;font-size:32px;text-shadow:0 2px 0 #000}
+#five-root #dend{background:#050c1aee}
+#five-root #dend h1{left:0;width:1920px;top:150px;margin:0;text-align:center;font-size:110px;font-weight:400;color:#ffc61a}
+#five-root #dsum{left:360px;top:330px;width:1200px;font-size:40px;line-height:1.5;text-align:center}
+#five-root #dback{left:760px;top:780px}
+#five-root [hidden]{display:none!important}
+#five-root #splash{position:fixed;inset:0;display:grid;place-items:center;background:#fff;z-index:10000}
+#five-root #go{font:400 34px GB,"Comic Sans MS",cursive;background:#ffdc6a;color:#000;border:0;padding:18px 54px 18px 40px;clip-path:polygon(0 32%,100% 0,92% 100%,0 100%);cursor:pointer}
+#five-root #go:focus-visible{outline:3px solid #000;outline-offset:4px}
+@media (prefers-reduced-motion:reduce){
+#five-root #bg,#five-root #rays,#five-root #glow,#five-root #sun,#five-root .fl,#five-root #shine{animation:none!important}}/* ===== arena 5x5 ===== */
+#five-root #arena{left:0;top:0;width:1920px;height:1080px;z-index:7;display:none;background:#0a1a33;overflow:hidden}
+#five-root #arena.on{display:block}
+#five-root #arena>*{position:absolute}
+#five-root #abg{left:0;top:0;width:1920px;height:1080px;object-fit:cover}
+#five-root #ashade{left:0;top:0;width:1920px;height:1080px;background:linear-gradient(#0a1a3366,#0000 38%,#0008);pointer-events:none}
+#five-root #afloor{left:-420px;top:600px;width:2760px;height:1100px;transform-origin:50% 0;transform:perspective(760px) rotateX(64deg);background:conic-gradient(#060606 25%,#f2f2f2 0 50%,#060606 0 75%,#f2f2f2 0) 0 0/200px 200px;-webkit-mask:linear-gradient(#0000,#000 12%);mask:linear-gradient(#0000,#000 12%);pointer-events:none}
+#five-root #aunits{left:0;top:0;width:1920px;height:1080px}/* cartas em campo */
+#five-root .au{position:absolute;width:146px;height:250px}
+#five-root .au.rd{--tc:#ff3b4e}
+#five-root .au.bl{--tc:#4aa8ff}
+#five-root .au-in{position:absolute;inset:0}
+#five-root .au-base{position:absolute;left:-16px;top:196px;width:178px;height:46px;border-radius:50%;background:radial-gradient(ellipse,var(--tc),#0000 68%);opacity:.8}
+#five-root .au-card{position:absolute;left:0;top:0;width:146px;height:196px;background:#000;clip-path:polygon(50% 0,100% 13%,100% 87%,50% 100%,0 87%,0 13%)}
+#five-root .au-fr{position:absolute;inset:5px;clip-path:polygon(50% 0,100% 13%,100% 87%,50% 100%,0 87%,0 13%);background:linear-gradient(155deg,#f1f1f8,#8f8fa8 55%,#d6d6e4)}
+#five-root .au-art{position:absolute;inset:13px 11px 34px;clip-path:polygon(50% 0,100% 9%,100% 91%,50% 100%,0 91%,0 9%);background:linear-gradient(135deg,var(--a),var(--b));overflow:hidden}
+#five-root .au-art img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
+#five-root .au-spd{position:absolute;left:50%;top:-18px;width:48px;height:48px;margin-left:-24px;background:#000;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);display:grid;place-items:center}
+#five-root .au-spd::before{content:'';position:absolute;inset:6px;background:linear-gradient(#ffe9a8,#e0a060);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+#five-root .au-spd b{position:relative;font-weight:400;font-size:27px;color:#1a1030}
+#five-root .au-atk{position:absolute;left:-8px;top:62px;background:#000;border-radius:9px;font-size:19px;padding:0 7px;line-height:25px}
+#five-root .au-nm{position:absolute;left:8px;right:8px;top:160px;height:26px;background:#000d;clip-path:polygon(4% 0,100% 0,96% 100%,0 100%);font-size:20px;text-align:center;line-height:26px;white-space:nowrap;overflow:hidden}
+#five-root .au-hp{position:absolute;left:4px;top:204px;width:138px;height:22px;background:#000;clip-path:polygon(0 0,100% 0,95% 100%,5% 100%)}
+#five-root .au-hp i{position:absolute;left:3px;top:3px;bottom:3px;width:calc(100% - 6px);background:linear-gradient(#8dffa8,#25c25a);transition:width .35s}
+#five-root .au-hp[data-l=m] i{background:linear-gradient(#ffe27a,#e0a020)}
+#five-root .au-hp[data-l=l] i{background:linear-gradient(#ff8a8a,#d02a3a)}
+#five-root .au-hp b{position:absolute;inset:0;text-align:center;font-weight:400;font-size:17px;line-height:22px;text-shadow:0 2px 0 #000}
+#five-root .au-sup{position:absolute;right:-12px;top:70px;display:flex;flex-direction:column;gap:5px}
+#five-root .au-sup span{width:30px;height:30px;border-radius:50%;background:#000d;display:grid;place-items:center;font-size:17px}
+#five-root .au-own{position:absolute;left:-10px;width:166px;top:228px;text-align:center;font-size:21px;color:var(--tc);text-shadow:0 2px 0 #000}
+#five-root .au.me .au-own{color:#ffc61a}
+#five-root .au-st{position:absolute;left:0;width:146px;top:-58px;text-align:center;font-size:30px;height:34px}
+#five-root .au.cur .au-in{filter:drop-shadow(0 0 4px #ffc61a) drop-shadow(0 0 16px #ffc61a)}
+#five-root .au.tgt{cursor:pointer}
+#five-root .au.tgt .au-in{animation:five-tg .5s infinite alternate}
+@keyframes five-tg{to{filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 16px #ff5a5a);transform:translateY(-8px)}}
+#five-root .au.dead .au-in{filter:grayscale(1) brightness(.45);transform:translateY(34px) rotate(5deg);transition:transform .6s,filter .6s}
+#five-root .au.dead::after{content:'✖';position:absolute;left:0;width:146px;top:66px;text-align:center;font-size:96px;color:#ff3b4e;text-shadow:0 4px 0 #000;pointer-events:none}
+#five-root .au.dead .au-hp,#five-root .au.dead .au-sup,#five-root .au.dead .au-st,#five-root .au.dead .au-base{opacity:.3}/* cronômetro / rodada */
+#five-root #atimer{left:0;top:0;width:440px;height:210px;background:#000;clip-path:polygon(0 0,100% 0,83% 34%,63% 100%,0 100%)}
+#five-root #atimer img{position:absolute;left:14px;top:18px;width:116px}
+#five-root #atm{position:absolute;left:148px;top:14px;font-weight:400;font-size:104px;line-height:1;color:#fff}
+#five-root #atm.lo{color:#ff5a5a;animation:pulse .5s infinite}
+#five-root #atimer small{position:absolute;left:352px;top:16px;font-size:32px;transform:rotate(-8deg)}
+#five-root #arnd{position:absolute;left:96px;top:130px;font-size:46px}
+#five-root #aexit,#five-root #aspd,#five-root #aauto{left:24px;font-size:28px;padding:2px 20px;min-width:96px}
+#five-root #aexit{top:226px}
+#five-root #aspd{top:292px;background:#6cc8ff}
+#five-root #aauto{top:358px;background:#9a7cff}
+#five-root #aauto.act{background:#ffc61a;color:#000}/* placar */
+#five-root #ascore{left:600px;top:0;width:720px;height:210px}
+#five-root #ascore>*{position:absolute}
+#five-root .sc{top:30px;width:300px;height:100px}
+#five-root .sc.l{left:0;background:linear-gradient(120deg,#ff6a7c,#a01a3a);clip-path:polygon(0 0,100% 0,86% 100%,0 100%)}
+#five-root .sc.r{right:0;background:linear-gradient(240deg,#5cb4ff,#2340a8);clip-path:polygon(14% 100%,0 0,100% 0,100% 100%)}
+#five-root .sc::before{content:'';position:absolute;inset:0;border:0;box-shadow:inset 0 -8px 0 #0004}
+#five-root .sc b{position:absolute;top:2px;font-weight:400;font-size:90px;line-height:1;text-shadow:0 5px 0 #0007}
+#five-root .sc.l b{right:90px}
+#five-root .sc.r b{left:90px}
+#five-root .sc span{position:absolute;top:138px;font-size:30px;white-space:nowrap;text-shadow:0 3px 0 #000}
+#five-root .sc em{position:absolute;top:174px;font-style:normal;font-size:30px;color:#cfe8ff;text-shadow:0 3px 0 #000}
+#five-root #ascore .sc.l span,#five-root #ascore .sc.l em{left:20px}
+#five-root #ascore .sc.r span,#five-root #ascore .sc.r em{right:20px}
+#five-root #ascore .sc span,#five-root #ascore .sc em{position:absolute}
+#five-root #asl,#five-root #asr{display:block}
+#five-root #aem{left:262px;top:0;width:196px;height:200px;display:block}
+#five-root #aem img{position:absolute;left:30px;top:0;width:136px}
+#five-root #aem small{position:absolute;left:0;top:132px;width:196px;text-align:center;font-size:25px;color:#ffc61a;background:#000;clip-path:polygon(6% 0,100% 0,94% 100%,0 100%);line-height:34px}
+#five-root #ant0,#five-root #ant1{display:block}/* fila de turnos */
+#five-root #aturns{left:1722px;top:14px;width:198px;display:flex;flex-direction:column;gap:7px}
+#five-root .aqw{position:relative;width:198px;height:76px}
+#five-root .aqw b{position:absolute;right:206px;top:18px;font-weight:400;font-size:36px;text-shadow:0 3px 0 #000;white-space:nowrap}
+#five-root .aqw.cur b{color:#ffc61a;font-size:44px}
+#five-root .aq{position:absolute;inset:0;background:#000;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)}
+#five-root .aqb{position:absolute;inset:4px 0 4px 6px;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)}
+#five-root .aq.rd .aqb{background:linear-gradient(110deg,#ff5a6e,#6a1030)}
+#five-root .aq.bl .aqb{background:linear-gradient(110deg,#5cb4ff,#1c3a8a)}
+#five-root .aqb .st{position:absolute;left:24px;top:18px;width:36px;filter:drop-shadow(0 2px 0 #000)}
+#five-root .aqb img:not(.st){position:absolute;right:-6px;top:2px;height:68px;width:110px;object-fit:cover}
+#five-root .aqb span{position:absolute;left:30px;bottom:2px;font-size:19px;text-shadow:0 2px 0 #000;display:none}
+#five-root .aqw.cur{transform:scale(1.1);transform-origin:100% 50%;filter:drop-shadow(0 0 8px #ffc61a);margin-top:8px}/* barra inferior */
+#five-root #abase{left:0;top:940px;width:1920px;height:140px;background:#000;clip-path:polygon(0 0,31% 0,36% 100%,0 100%);pointer-events:none}
+#five-root .ad{position:absolute;top:938px;width:132px;height:140px;cursor:pointer;transition:transform .15s,filter .15s}
+#five-root .ad.sp{cursor:help;width:96px;height:96px}
+#five-root .ad.sp .dm{width:96px;height:96px}
+#five-root .ad.sp .ic{width:96px;top:26px;font-size:40px}
+#five-root .ad .dm{position:absolute;left:0;top:0;width:132px;height:132px;background:#000;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+#five-root .ad .dm::before{content:'';position:absolute;inset:8px;background:var(--g);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+#five-root .ad .ic{position:absolute;left:0;width:132px;top:30px;text-align:center;font-size:54px;pointer-events:none;filter:drop-shadow(0 3px 0 #0006)}
+#five-root .ad small{position:absolute;left:0;width:132px;top:96px;text-align:center;font-size:24px;text-shadow:0 2px 0 #000;pointer-events:none}
+#five-root .ad.sk:not(.off):hover{transform:scale(1.08)}
+#five-root .ad.sel{filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 14px #ffc61a)}
+#five-root .ad.off{filter:grayscale(1) brightness(.55);pointer-events:none}
+#five-root .ad.sp.off{filter:none}
+#five-root #aatk{left:740px;top:966px;width:440px;height:108px;background:linear-gradient(#ffd24d,#e8892b);border:6px solid #000;border-radius:54px;box-shadow:0 8px 0 #a35a1a;font-size:82px;text-align:center;line-height:96px;color:#fff;-webkit-text-stroke:9px #000;paint-order:stroke fill;cursor:pointer;transition:transform .12s}
+#five-root #aatk:not(.off):hover{transform:scale(1.05)}
+#five-root #aatk.off{filter:grayscale(1);opacity:.45;pointer-events:none}
+#five-root #aatk.sel{filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 16px #fff)}
+#five-root #apass{left:1200px;top:1004px;font-size:30px;padding:2px 22px;background:#6cc8ff}
+#five-root #aen{left:1192px;top:952px;font-size:40px;color:#8fe6ff;text-shadow:0 3px 0 #000;white-space:nowrap}
+#five-root #atbar{left:760px;top:950px;width:400px;height:10px;background:#0007;border-radius:5px;display:none;overflow:hidden}
+#five-root #atbar.on{display:block}
+#five-root #atbar i{display:block;height:100%;background:#ffc61a;animation:five-tbar var(--d,20s) linear forwards}
+@keyframes five-tbar{from{width:100%}to{width:0}}
+#five-root #atip{left:360px;top:896px;width:1200px;text-align:center;font-size:32px;color:#fff;text-shadow:0 3px 0 #000;pointer-events:none}/* carta ativa */
+#five-root #aact{left:1440px;top:770px;width:480px;height:310px;pointer-events:none}
+#five-root #aact img{position:absolute;right:-24px;bottom:-40px;height:370px}
+#five-root #aact .lf{position:absolute;left:36px;top:206px;width:400px;height:58px;background:#000;clip-path:polygon(0 0,100% 0,96% 100%,0 100%)}
+#five-root #aact .lf i{position:absolute;left:5px;top:5px;bottom:5px;max-width:calc(100% - 10px);background:linear-gradient(#ff8a9a,#c61a3a)}
+#five-root #aact .lf b{position:absolute;right:56px;top:0;font-weight:400;font-size:56px;line-height:58px;text-shadow:0 4px 0 #000}
+#five-root #aact .lf small{position:absolute;right:12px;top:30px;font-size:20px}
+#five-root #aact .df,#five-root #aact .ak{position:absolute;font-size:30px;text-shadow:0 3px 0 #000}
+#five-root #aact .df{left:60px;top:272px}
+#five-root #aact .ak{left:200px;top:262px}
+#five-root #aact .df b,#five-root #aact .ak b{font-weight:400;font-size:50px;margin-right:6px}
+#five-root #aact .ak b{font-size:56px}
+#five-root #aact .nmk{position:absolute;left:36px;top:150px;font-size:44px;color:#ffc61a;text-shadow:0 4px 0 #000}/* textos flutuantes e banners */
+#five-root #afx{left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:50}
+#five-root .aft{position:absolute;font-size:62px;color:#fff;-webkit-text-stroke:8px #000;paint-order:stroke fill;white-space:nowrap;text-shadow:0 5px 0 #0006}
+#five-root .aft.cr{color:#ffd54a;font-size:84px}
+#five-root .aft.cr2{color:#ff6a3a;font-size:48px}
+#five-root .aft.hl{color:#6dff9e}
+#five-root .aft.mi{color:#d6dcea;font-size:42px}
+#five-root .aft.sp{color:#8fe6ff;font-size:44px}
+#five-root .aft.sk{color:#ffc61a;font-size:50px}
+#five-root .ast{position:absolute;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);pointer-events:none}
+#five-root #abn{left:0;top:340px;width:1920px;text-align:center;font-size:190px;color:#ffc61a;-webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 14px 0 #0007;opacity:0;pointer-events:none;z-index:60}
+#five-root #abn.fg{color:#fff;font-size:230px}
+#five-root #abn.rd{color:#ff5a6e}
+#five-root #abn.bl{color:#6cc8ff}
+#five-root #aend{left:0;top:0;width:1920px;height:1080px;background:#050c1aee;display:none;z-index:70;text-align:center}
+#five-root #aend.on{display:block}
+#five-root #aend h1{margin:120px 0 0;font-size:200px;font-weight:400;-webkit-text-stroke:12px #000;paint-order:stroke fill}
+#five-root #aend h1.w{color:#ffc61a}
+#five-root #aend h1.l{color:#8fb4ff}
+#five-root #aend .sc2{font-size:140px;line-height:1.1}
+#five-root #aend .sc2 b{font-weight:400}
+#five-root #aend .sc2 span{margin:0 40px;color:#fff6}
+#five-root #aend .rd{color:#ff5a6e}
+#five-root #aend .bl{color:#6cc8ff}
+#five-root #aend p{font-size:38px;margin:6px 0 24px;color:#cfe8ff}
+#five-root #aend .mv{display:inline-flex;align-items:center;gap:26px;background:#000a;border:5px solid #000;border-radius:18px;padding:14px 34px;font-size:40px;text-align:left;line-height:1.15}
+#five-root #aend .mv img{height:150px;width:150px;object-fit:cover}
+#five-root #aend .mv small{font-size:28px;color:#8fe6ff}
+#five-root #aend .bt{margin-top:40px;display:flex;gap:40px;justify-content:center}
+#five-root #aunits{z-index:2}
+#five-root #aturns,#five-root #atimer,#five-root #ascore,#five-root #abase,#five-root #askills,#five-root #aatk,#five-root #apass,#five-root #aen,#five-root #atbar,#five-root #atip,#five-root #aact,#five-root #aexit,#five-root #aspd,#five-root #aauto{z-index:3}
+#five-root #tarena{margin:0 auto 18px;width:340px;padding:6px 0;background:#ffc61a;color:#000;border:6px solid #000;border-radius:24px;text-align:center;box-shadow:0 8px 0 #a37a00}/* ===== elenco oficial / cartas na arena ===== */
+#five-root #grid{grid-template-columns:repeat(5,141px);gap:8px}
+#five-root .cd{width:141px;height:84px}
+#five-root .cd .pt{height:82px}
+#five-root .cd .nm{font-size:19px;white-space:nowrap}
+#five-root .cd .ks{font-size:16px}
+#five-root .cd .st{width:24px}
+#five-root .au{height:272px}
+#five-root .au-img{position:absolute;left:8px;top:0;height:215px;width:auto;filter:drop-shadow(0 6px 0 #0007)}
+#five-root .au-base{top:198px}
+#five-root .au-hp{top:222px}
+#five-root .au-own{top:246px}
+#five-root .au-sup{top:56px;right:-14px}
+#five-root .au-st{top:-46px;font-size:26px}
+#five-root .au.dead::after{top:78px}
+#five-root .aft.bn{color:#ff9a3a}
+#five-root #aact{left:1380px;top:800px;width:540px;height:280px}
+#five-root #aact img{right:-10px;bottom:-250px;height:480px;width:auto}
+#five-root #aact .nmk{left:36px;top:92px}
+#five-root #aact .cl{position:absolute;left:38px;top:146px;font-size:26px;color:#cfe8ff;text-shadow:0 3px 0 #000}
+#five-root #aact .lf{left:36px;top:176px;width:360px}
+#five-root #aact .df{left:50px;top:244px}
+#five-root #aact .ak{left:200px;top:236px}
+#five-root #aen{left:1192px;top:944px;font-size:26px;white-space:nowrap;color:#ffe27a}
+#five-root #aclr{left:540px;top:1006px;font-size:26px;padding:2px 18px;background:#b58cff;display:none}
+#five-root #aclr.off{filter:grayscale(1);opacity:.5;pointer-events:none}
+#five-root #aclr.sel{background:#ffc61a;color:#000}
+#five-root .ad.ps{cursor:help}
+#five-root .ad.ps small{font-size:20px;top:98px}
+#five-root #aen{display:none}
+#five-root #aact .nmk{top:62px}
+#five-root #aact .pwl{position:absolute;left:38px;top:118px;font-size:24px;color:#ffe27a;text-shadow:0 3px 0 #000;white-space:nowrap}
+#five-root #aact .cl{top:152px}
+#five-root #aact .lf{top:184px}
+#five-root #aact .df{top:250px}
+#five-root #aact .ak{top:242px}
+#five-root #aact{left:1500px;top:858px;width:420px;height:222px}
+#five-root #aact img{right:-10px;bottom:-200px;height:420px}
+#five-root #aact .nmk{left:20px;top:0;font-size:38px}
+#five-root #aact .pwl{left:22px;top:46px;font-size:21px}
+#five-root #aact .cl{left:22px;top:76px;font-size:22px}
+#five-root #aact .lf{left:18px;top:106px;width:330px;height:50px}
+#five-root #aact .lf b{font-size:46px;line-height:50px}
+#five-root #aact .df{left:30px;top:168px}
+#five-root #aact .df b{font-size:40px}
+#five-root #aact .ak{left:150px;top:164px}
+#five-root #aact .ak b{font-size:44px}
+/* Readable portrait layout: never rotate the player's screen. */
+#five-root .five-pause{position:fixed;right:16px;top:16px;z-index:90;margin:0;padding:10px 18px;background:#12263de8;color:#fff3ce;border:1px solid #e1c98b;border-radius:24px;font-size:18px;box-shadow:none}
+#five-root.five-paused #five-stage *{animation-play-state:paused!important}
+#five-root.five-paused::after{content:'PAUSADO';position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);padding:20px 40px;background:#0b152ded;border:1px solid #d8bf81;border-radius:16px;font-size:36px;pointer-events:none;z-index:85}
+#five-root.portrait #draft,#five-root.portrait .scr,#five-root.portrait #dbg,#five-root.portrait #dshade,#five-root.portrait #arena,#five-root.portrait #abg,#five-root.portrait #ashade,#five-root.portrait #aunits,#five-root.portrait #afx,#five-root.portrait #aend{width:1080px;height:1920px}
+#five-root.portrait #dr>svg,#five-root.portrait .ld,#five-root.portrait .bgb{display:none}
+#five-root.portrait #dtitle{width:1080px;top:30px;font-size:66px}
+#five-root.portrait #dtime{width:1080px;top:110px}
+#five-root.portrait #dsub{left:100px;top:180px;width:880px;font-size:36px}
+#five-root.portrait .bz{top:270px;width:450px;height:180px}
+#five-root.portrait .bz h3{font-size:28px}
+#five-root.portrait .bz .bw{top:55px}
+#five-root.portrait #dexit{top:200px;font-size:32px}
+#five-root.portrait #grid{left:60px;top:480px;grid-template-columns:repeat(4,225px);gap:16px}
+#five-root.portrait #grid .cd{width:225px;height:118px}
+#five-root.portrait #grid .cd .pt{height:116px}
+#five-root.portrait #grid .cd .nm{font-size:30px}
+#five-root.portrait #info,#five-root.portrait #sup{left:40px;top:1180px;width:1000px;height:245px;padding:20px;gap:20px}
+#five-root.portrait #info h3,#five-root.portrait #sup h4{font-size:42px}
+#five-root.portrait #info p,#five-root.portrait #sd{font-size:30px;line-height:1.2}
+#five-root.portrait .chip{font-size:36px}
+#five-root.portrait #sheet{left:40px;top:480px;width:1000px;height:640px;gap:20px}
+#five-root.portrait .rw{height:120px}
+#five-root.portrait .rw .e{font-size:26px}
+#five-root.portrait .rw b{font-size:32px}
+#five-root.portrait .rw small{font-size:28px}
+#five-root.portrait .bar{left:100px;gap:30px}
+#five-root.portrait #tl{top:1510px}#five-root.portrait #tr{top:1750px;left:100px}
+#five-root.portrait .bar h2{font-size:50px;top:-65px;left:0;right:auto}
+#five-root.portrait #dvs{display:none}
+#five-root.portrait #mm .lg{left:280px;top:360px}
+#five-root.portrait #mmt{width:1080px;top:1000px;font-size:62px}
+#five-root.portrait #mmd{left:150px;top:1150px}
+#five-root.portrait #dend h1{width:1080px;top:300px;font-size:90px}
+#five-root.portrait #dsum{left:90px;top:580px;width:900px;font-size:48px}
+#five-root.portrait #dback{left:320px;top:1300px}
+#five-root.portrait #ascore{left:40px;top:80px;width:1000px;transform:scale(.9);transform-origin:top left}
+#five-root.portrait #atimer{left:420px;top:230px;transform:scale(.75);transform-origin:top left}
+#five-root.portrait #aturns{left:50px;top:345px;width:980px;transform:scale(.8);transform-origin:top left}
+#five-root.portrait #aexit{left:30px;top:30px;font-size:36px}
+#five-root.portrait #aspd{left:30px;top:240px;font-size:36px}
+#five-root.portrait #aauto{left:780px;top:240px;font-size:36px}
+#five-root.portrait #afloor{top:850px}
+#five-root.portrait #abase{left:0;top:1620px;width:1080px;height:300px}
+#five-root.portrait #askills{left:0;top:0}
+#five-root.portrait #askills .ad{top:1700px!important}
+#five-root.portrait #aatk{left:560px;top:1725px;font-size:76px}
+#five-root.portrait #apass{left:740px;top:1840px;font-size:38px}
+#five-root.portrait #aclr{left:440px;top:1840px;font-size:38px}
+#five-root.portrait #atbar{left:40px;top:1650px;width:1000px}
+#five-root.portrait #atip{left:50px;top:1560px;width:980px;font-size:36px;text-align:center}
+#five-root.portrait #aact{left:30px;top:1440px;width:1000px;height:130px}
+#five-root.portrait #aact>img{display:none}
+#five-root.portrait #aact .lf{left:550px;top:0;width:380px}
+#five-root.portrait #aact .df{left:580px;top:64px}
+#five-root.portrait #aact .ak{left:780px;top:64px}
+#five-root.portrait #abn{width:1080px;top:830px;font-size:110px}
+#five-root.portrait #aend h1{margin-top:350px;font-size:150px}
+#five-root.portrait #aend .mv{max-width:950px}
+#five-root.portrait #aend p{padding:0 60px}
+#five-root.portrait #aend .bt{margin-top:100px}
+#five-root.reduced *{animation:none!important;transition:none!important}
+.victory-overlay{position:fixed;inset:0;z-index:9500;background:#120a2a}
+.victory-canvas{position:absolute;inset:0}
+.victory-overlay>button{position:absolute;opacity:0;border:0;margin:0;padding:0;cursor:pointer;z-index:2}
+.victory-overlay>button:focus-visible{opacity:1;background:#ffffff12;outline:3px solid #fff3c9;border-radius:16px;color:transparent}
+.victory-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.victory-failed{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;padding:20px}
+.victory-failed .victory-status{position:static;width:100%;height:auto;clip-path:none;text-align:center;font-size:30px}
+.victory-failed>button{position:static;opacity:1;padding:20px 40px;background:#f4cf7d;color:#211734}
+/* Final layout pass: queue and active card never cover a team's cards. */
+#five-root #aact>img{display:none}
+#five-root #aact .pwl{max-width:390px;white-space:normal;line-height:1.1}
+#five-root.portrait #aturns{left:50px;top:340px;width:980px;transform:none;flex-direction:row-reverse;gap:8px}
+#five-root.portrait .aqw{width:100px;height:70px;flex:1}
+#five-root.portrait .aqw b{display:none}
+#five-root.portrait .aqw.cur{transform:none;margin:0}
+#five-root.portrait .aqb .st{display:none}
+#five-root.portrait .aqb img:not(.st){width:90px;height:65px}
+#five-root.portrait .au{transform:scale(.85);transform-origin:50% 0}
+#five-root.portrait #aact{top:1510px}
+#five-root.portrait #atip{top:1640px}
+#five-root.portrait #atbar{top:1700px}
+#five-root.portrait #askills .ad{top:1760px!important}
+#five-root.portrait #aatk{top:1740px}
+#five-root:not(:has(#arena.on)) .five-pause{display:none}
+#five-root.five-hidden #five-stage *{animation-play-state:paused!important}
+/* Canvas effects stay below the accessible victory controls. */
+.victory-canvas{z-index:0}
+#five-root:not(.portrait) #aturns{left:1760px;top:100px;width:160px}
+#five-root:not(.portrait) .aqw{width:160px;height:58px}
+#five-root:not(.portrait) .aqw b{display:none}
+#five-root:not(.portrait) .aqw.cur b{display:block;right:12px;top:-32px;font-size:26px}
+#five-root:not(.portrait) .aqb img:not(.st){height:50px;width:84px}
+#five-root:not(.portrait) .aqb .st{left:18px;top:12px;width:26px}
+/* Non-interactive HUD artwork must never intercept arena controls or targets. */
+#five-root :is(#ascore,#atimer,#aturns,#aact){pointer-events:none}

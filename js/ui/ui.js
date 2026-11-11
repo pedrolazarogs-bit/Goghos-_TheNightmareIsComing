@@ -233,8 +233,8 @@ function render(actor){
 function openDrawer(type,page=0){G.PresentationFX?.stop();clearTimeout(ui.timer);ui.drawer=type;ui.readerPage=page;render(ui.busy?null:ui.actor);app.querySelector('[data-act=close-drawer]')?.focus();}
 function closeDrawer(){ui.drawer=null;if(ui.paused){ui.busy=false;render(ui.actor);}else if(ui.busy)feedback();else step();app.querySelector('[data-act=card-info]')?.focus({preventScroll:true});}
 function feedback(){
-  ui.drawer=null;clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);G.PresentationFX?.playEvent(ui.state,ui.state.lastEvent,{duration:G.feedbackDuration(ui.state.lastEvent)});
-  ui.timer=setTimeout(()=>{ui.busy=false;step();},G.feedbackDuration(ui.state.lastEvent));
+  ui.drawer=null;clearTimeout(ui.timer);ui.busy=true;ui.notice='';clearPick();render(null);G.PresentationFX?.playEvent(ui.state,ui.state.lastEvent,{duration:Math.round(G.feedbackDuration(ui.state.lastEvent)*1.45)});
+  ui.timer=setTimeout(()=>{ui.busy=false;step();},Math.round(G.feedbackDuration(ui.state.lastEvent)*1.45));
 }
 function step(){
   clearTimeout(ui.timer);const s=ui.state;if(!s)return;
@@ -244,21 +244,21 @@ function step(){
   if(s.result){ui.timer=setTimeout(result,G.CONFIG.pacing.feedback);return;}
   if(ui.paused)return;
   if(s.deck.pendingChoice)return;
-  if(s.formation){if(s.formation.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveFormation(s);step();},G.CONFIG.pacing.botThink);return;}
-  if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},G.CONFIG.pacing.botThink);return;}
+  if(s.formation){if(s.formation.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveFormation(s);step();},Math.round(G.CONFIG.pacing.botThink*1.4));return;}
+  if(s.recovery){if(s.recovery.side==='enemy')ui.timer=setTimeout(()=>{G.AI.resolveRecovery(s);step();},Math.round(G.CONFIG.pacing.botThink*1.4));return;}
   if(s.support.pending)return;
-  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&(p.type==='fright'||r.free))feedback();else{finishChoice(r);if(r.ok){const a=G.getUnit(s,p.actorUid),d=s.duels.filter(x=>x.sourceUid===p.actorUid&&x.active).at(-1),targetUid=d?.targetUid||a?.bookTarget||a?.hypnosisTarget||a?.protectedUid||a?.friendUid;G.PresentationFX?.playAbility(s,{type:p.type,actorUid:p.actorUid,targetUid});}}},G.CONFIG.pacing.botThink);return;}
+  if(s.abilityChoices.length){if(s.abilityChoices[0].side==='enemy')ui.timer=setTimeout(()=>{const p=s.abilityChoices[0],r=G.AI.resolveCharacterAbility(s);if(r.ok&&(p.type==='fright'||r.free))feedback();else{finishChoice(r);if(r.ok){const a=G.getUnit(s,p.actorUid),d=s.duels.filter(x=>x.sourceUid===p.actorUid&&x.active).at(-1),targetUid=d?.targetUid||a?.bookTarget||a?.hypnosisTarget||a?.protectedUid||a?.friendUid;G.PresentationFX?.playAbility(s,{type:p.type,actorUid:p.actorUid,targetUid});}}},Math.round(G.CONFIG.pacing.botThink*1.4));return;}
   if(actor?.team==='enemy')ui.timer=setTimeout(()=>{
     const redeemed=G.AI.redeemMedals(s,'enemy');
     const attack=()=>{const r=G.AI.takeTurn(s,actor);if(r.pending){step();return;}if(r.ok){ui.msg='';feedback();}else{ui.msg=r.error;render(actor);}};
     if(s.abilityChoices.length){step();return;}
-    if(redeemed.length){ui.notice='O adversário resgatou '+redeemed.map(r=>r.name).join(', ')+'.';render(actor);ui.timer=setTimeout(attack,G.CONFIG.pacing.botThink);}else attack();
-  },G.CONFIG.pacing.botThink);
+    if(redeemed.length){ui.notice='O adversário resgatou '+redeemed.map(r=>r.name).join(', ')+'.';render(actor);ui.timer=setTimeout(attack,Math.round(G.CONFIG.pacing.botThink*1.4));}else attack();
+  },Math.round(G.CONFIG.pacing.botThink*1.4));
 }
 function result(){
   G.PresentationFX?.stop();ui.mode='result';const f=ui.state.final,draw=ui.state.result==='draw',kind=draw?'draw':f.winner==='player'?'victory':'defeat';
   const reward=G.Sanctuary?.awardMatch(ui.matchToken,ui.state.result);
-  show(`<section class="result-screen fg-screen ${kind}"><div class="fg-result-card"><img class="result-emblem" src="assets/visual-v0.27/ui/champion-emblem.png" alt=""><span class="eyebrow">Mais uma história no campo</span><h1>${draw?'EMPATE':f.winner==='player'?'VITÓRIA':'DERROTA'}</h1><p>${draw?'Nenhuma equipe pode continuar atacando com os recursos restantes.':(f.loser==='player'?'Sua Daly Mãe':'A Daly Mãe adversária')+' perdeu todas as vidas.'}</p><div class="result-score"><span><small>Você</small>${f.daly.player}<small>/3 vidas</small></span><span><small>Bot</small>${f.daly.enemy}<small>/3 vidas</small></span></div>${reward?.html?'<div class="result-reward">'+reward.html+'</div>':''}<div class="result-actions">${btn('play','Nova partida')}${btn('menu','Voltar ao menu')}</div></div></section>`);G.PresentationFX?.playResult(kind);toTop();
+  show(`<section class="result-screen fg-screen ${kind}"><div class="fg-result-card"><img class="result-emblem" src="assets/visual-v0.27/ui/champion-emblem.png" alt=""><span class="eyebrow">Mais uma história no campo</span><h1>${draw?'EMPATE':f.winner==='player'?'VITÓRIA':'DERROTA'}</h1><p>${draw?'Nenhuma equipe pode continuar atacando com os recursos restantes.':(f.loser==='player'?'Sua Daly Mãe':'A Daly Mãe adversária')+' perdeu todas as vidas.'}</p><div class="result-score"><span><small>Você</small>${f.daly.player}<small>/3 vidas</small></span><span><small>Bot</small>${f.daly.enemy}<small>/3 vidas</small></span></div>${reward?.html?'<div class="result-reward">'+reward.html+'</div>':''}<div class="result-actions">${btn('play','Nova partida')}${btn('menu','Voltar ao menu')}</div></div></section>`);G.PresentationFX?.playResult(kind);toTop();if(kind==='victory')G.VictoryPresenter?.open({coins:reward?.coins||0,onChoice:choice=>choice==='play'?startMatch():menu()});
 }
 function settingsPage(){ui.mode='settings';show(`<section class="settings-page fg-screen">${screenHeader('Configurações','Seu jogo, seu ritmo','settings')}${G.VisualShell?.settingsHTML()||''}</section>`);toTop();}
 
@@ -277,6 +277,7 @@ app.addEventListener('click',event=>{
     if(a==='mode-open'&&ui.mode==='menu'&&G.VisualShell){ui.mode='modes';show(G.VisualShell.modesHTML());toTop();app.querySelector('[aria-pressed=true]')?.focus({preventScroll:true});return;}
     if(a.startsWith('mode-select-')&&ui.mode==='modes'&&G.VisualShell?.selectMode(a.slice(12))){menu();app.querySelector('[data-act=mode-open]')?.focus({preventScroll:true});return;}
     if(a==='play'&&ui.mode==='menu')a=G.VisualShell?.getMode().action||'play';
+    if(a==='arena-five'){G.ArenaFive?.open({onClose:()=>menu()});return;}
     if(a==='play'){startMatch();return;}
     if(a==='divine-test'){wipe();ui.state=G.createDivineTestState();step();toTop();return;}
     if(a==='support-test'){supportTest();return;}

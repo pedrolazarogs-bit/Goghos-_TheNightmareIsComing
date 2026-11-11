@@ -28,8 +28,8 @@ function shell(baseURI){
  G.getCharacterById=id=>G.CHARACTERS.find(c=>c.id===id);G.getMainAbility=c=>G.MAIN_ABILITIES[c.abilityId];G.rarityLabel=c=>c.rarity;
  const context={GOGHOS:G,URL,document:{baseURI}};vm.createContext(context);vm.runInContext(fs.readFileSync('js/ui/visual_shell.js','utf8'),context);return G.VisualShell;
 }
-test('os quatro modos do lobby apontam somente para as rotas já existentes e recusam escolhas inválidas',()=>{
- const S=shell('https://example.test/goghos/index.html');assert.equal(S.getMode().id,'arena');for(const [id,action] of Object.entries({arena:'play',champions:'new-abilities',support:'support-test',divine:'divine-test'})){assert(S.selectMode(id));assert.equal(S.getMode().id,id);assert.equal(S.getMode().action,action);assert(S.modesHTML().includes('data-act="mode-select-'+id+'" aria-pressed="true"'));}assert.equal(S.selectMode('pvp'),false);assert.equal(S.getMode().id,'divine');
+test('os cinco modos do lobby apontam somente para as rotas já existentes e recusam escolhas inválidas',()=>{
+ const S=shell('https://example.test/goghos/index.html');assert.equal(S.getMode().id,'arena5');for(const [id,action] of Object.entries({arena5:'arena-five',arena:'play',champions:'new-abilities',support:'support-test',divine:'divine-test'})){assert(S.selectMode(id));assert.equal(S.getMode().id,id);assert.equal(S.getMode().action,action);assert(S.modesHTML().includes('data-act="mode-select-'+id+'" aria-pressed="true"'));}assert.equal(S.selectMode('pvp'),false);assert.equal(S.getMode().id,'divine');
 });
 test('as cenas do lobby e do seletor resolvem URLs de assets também em subpastas e projetos locais',()=>{
  for(const base of ['https://example.test/goghos/index.html','file:///tmp/Goghos/index.html']){const S=shell(base),html=S.modesHTML();for(const name of ['red-tree-field','crystal-valley','cosmic-rift'])assert(html.includes(new URL('assets/visual-v0.27/backgrounds/'+name+'.png',base).href));assert(S.homeHTML().includes(new URL('assets/visual-v0.27/backgrounds/red-tree-field.png',base).href));}

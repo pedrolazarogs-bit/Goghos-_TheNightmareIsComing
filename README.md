@@ -1,6 +1,19 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas por velocidade no universo **GOGHOS**. A **v0.36.2** usa as músicas enviadas para batalha, vitória e derrota. A abertura aparece em toda inicialização, não pode ser pulada e mostra a tela de título após o carregamento e aguarda uma tecla ou toque para entrar no menu. O menu cósmico, os favoritos e as regras de combate permanecem iguais.
+Um jogo de cartas e batalhas no universo **GOGHOS**. A **v0.37.0** integra o draft e a Arena 5×5 enviados ao mesmo projeto, com vitória animada, música compartilhada, moedas reais e navegação de volta ao menu. A abertura obrigatória e a Arena clássica continuam disponíveis.
+
+## Arena 5×5
+
+**Play** abre o novo modo por padrão: banimento → escolhas → revisão dos Apoios → campeonato. Você joga com quatro bots aliados contra cinco bots locais. Não há matchmaking online. O elenco de 19 personagens, a defesa, os poderes e os seis Apoios seguem a prévia 5×5; a Arena clássica conserva seu catálogo e as regras das Daly Mães.
+
+- Como líder, escolha dois banimentos e confirme. Os bots escolhem outros dois; as dez escolhas seguintes são únicas.
+- Na sua vez, escolha seu campeão. Na revisão, equipe até dois Apoios e clique em **PRONTO**.
+- A batalha começa em **Calmo**, com golpes e reações separados. Use **Pausar**, **Calmo / Normal / Rápido** ou **AUTO** quando desejar. Escolha ataque ou poder e então um alvo destacado. Teclado: Tab para navegar, Enter ou Espaço para confirmar.
+- O campeonato termina quando uma equipe vence cinco rodadas. O relógio da rodada para durante pausa, aba oculta e sua decisão. Rodadas sem atacantes ou com tempo esgotado têm desempate por sobreviventes, Vida e sorteio.
+- Partidas concluídas concedem as mesmas **50 moedas** do Santuário, uma única vez. A vitória enviada oferece **JOGAR** e **MENU**; sair antes do fim não concede recompensa. Não há XP fictício.
+- Para as regras anteriores, use **trocar modo → Arena clássica**. Os laboratórios, Loja, coleção, favoritos e preferências permanecem no mesmo menu.
+
+[Draft no desktop](docs/previews/draft-v0.37.0-desktop.png) · [Arena no desktop](docs/previews/arena-v0.37.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.37.0-celular.png) · [Vitória no celular](docs/previews/victory-v0.37.0-celular.png)
 
 ## Abertura e menu
 
@@ -20,7 +33,7 @@ O balanceamento, as artes oficiais, a fonte German Beauty e os efeitos de combat
 
 Abra `index.html` no navegador. Em toda inicialização, toque em **Toque para iniciar**; ao terminar o carregamento, a tela de título aparece. Aguarde a animação e pressione qualquer tecla ou toque na tela para abrir o menu. A abertura não oferece Pular nem entrada antecipada; Escape não a encerra. Se um recurso não carregar, use **Tentar novamente** para repetir o carregamento e concluir a abertura. **Rever abertura** continua disponível no menu. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte original German Beauty é carregada dos arquivos locais do projeto. O som começa depois de uma interação; volume e movimento podem ser ajustados nas Configurações. A intro incorpora a prévia cósmica enviada, com logo em camadas, fades de entrada e saída, depois da tela de carregamento; o menu só é liberado após uma tecla ou toque na tela de título. Usa os arquivos recebidos e respeita as preferências de áudio e movimento reduzido. A música do menu começa na tela de título, após o carregamento, e continua sem reiniciar ao entrar no menu. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
 
-Com **Arena** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
+Com **Arena clássica** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
 
 No seletor de modos, **Treino de campeões** oferece uma formação para cada um dos 31 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. A estrela prepara a habilidade; o botão principal confirma o efeito e mostra seu nome. Outro toque volta ao ataque normal. A cura de Elysh na retaguarda já fica selecionada. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. **Mesa de Apoios** inclui os 17 efeitos; **Invocação primordial** prepara os três fragmentos para a invocação manual. Os **Atalhos de treino** mantêm os testes de Sark e Elétrica e John. A escolha do modo vale enquanto o jogo estiver aberto; recarregar retorna à Arena.
 
@@ -70,3 +83,7 @@ O menu se adapta ao retrato sem girar os controles; tocar no personagem troca o 
 ### Trilhas da batalha e dos resultados
 
 As três faixas foram integradas sem recodificação em [assets/music-v0361](assets/music-v0361/README.md): `BattleMusic.mp3` toca em laço na batalha; `WinMusic.mp3` e `DefeatMusicc.mp3` tocam uma vez nos respectivos resultados. Mute, volumes, pausa, transições e suspensão ao ocultar a aba mantêm os controles existentes.
+
+### Verificações do novo fluxo
+
+`npm test` inclui regras da Arena 5×5 e 100 campeonatos simulados com sementes fixas. Com o servidor aberto e Playwright instalado, `node scripts/check-arena-five-browser.js` testa o draft por cliques reais, pausa, limite de término de partida, crédito de moedas e retorno ao menu em desktop e celular. O teste injeta um estado de fim de rodada para validar a vitória sem aguardar todo um campeonato; os campeonatos completos são exercitados pelo teste do motor.

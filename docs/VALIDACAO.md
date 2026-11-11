@@ -1,3 +1,12 @@
+# Validação — v0.37.0
+
+- `npm test`: suíte existente e sete testes novos do modo 5×5, incluindo 100 campeonatos completos com sementes fixas. Catálogo, regras e artes da Arena clássica continuam conferidos pelas fixtures históricas; somente o novo motor independente possui sua própria suíte.
+- `npm run balance`: auditoria da Arena clássica executada sem alterar seus números de combate.
+- `node scripts/check-arena-five-browser.js`: cliques reais em 1366×768 e 390×844, com quatro banimentos, escolhas únicas, revisão e equipagem de Apoios, entrada com dez personagens, pausa congelando relógio e estado, vitória, 50 moedas creditadas uma vez, retorno ao menu e reabertura/saída segura.
+- O teste de navegador usa um estado de limite de tempo para concluir uma rodada e verificar a integração da vitória. A duração inteira dos campeonatos é exercitada na simulação do motor, sem esperar dezenas de minutos por animações no navegador.
+- Inspeção visual das capturas em `docs/previews/*-v0.37.0-*.png`. Corrigidos fila de turnos sobre as cartas no celular, painel ativo sobre os personagens, textos longos da recompensa, canvas sobre botões da vitória e placar sobre os controles.
+- Verificação dos SHA-256: 50 recursos da arena e quatro da vitória correspondem aos bytes extraídos dos anexos.
+
 # Validação — v0.29.0
 
 `npm test`: **354 testes aprovados**, incluindo **380 partidas completas simuladas**. As quatro verificações novas cobrem redesenho da mão cheia, recuperação e avanço sem chamadas mutantes ou perda de estado, além da integridade dos dez SVGs de ações. Os testes existentes continuam conferindo motor, catálogo, atributos, regras e cartas anteriores.

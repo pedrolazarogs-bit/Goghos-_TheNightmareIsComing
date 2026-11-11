@@ -327,3 +327,14 @@ Somente apresentação e navegação. Integrados os recursos e animações dos d
 ## v0.36.1 — Música e apresentação inicial
 
 Por solicitação do criador, a apresentação inicial é obrigatória em toda abertura do aplicativo e o menu é liberado somente ao fim. Falhas permitem recarregar a apresentação, sem dispensá-la. As músicas de batalha, vitória e derrota passam a usar os três MP3s recebidos; não houve alteração de combate, atributos, probabilidades, habilidades, preços ou recompensas.
+
+
+## Arena 5×5 — v0.37.0
+
+O seletor de modos distingue **Arena 5×5** da **Arena clássica**. O novo modo utiliza o motor e os números enviados na prévia oficial de 19 campeões: cinco participantes de cada lado, sem Daly Mãe, defesa numérica, críticos de 10% (×1,5), variação de dano de 6%, rodada de 180 segundos de jogo, escolha de ação com prazo de 20 segundos de jogo e cinco pontos para vencer. O tempo de decisão e os efeitos visuais respeitam o ritmo selecionado. O relógio geral não corre durante decisões humanas, pausa ou aba oculta. Na ausência de atacantes, no limite de 60 ciclos ou ao esgotar o tempo, a equipe com mais sobreviventes vence; depois compara-se Vida total e, em empate, sorteio.
+
+O draft é local: você e nove bots. Cada lado bane dois campeões; os quatro banimentos são distintos. As escolhas seguem a ordem 1–2–2–1–1–1–1–1, totalizando cinco por lado sem repetição. O jogador escolhe seu campeão e até dois Apoios; os bots escolhem os restantes.
+
+Apoios: Escudo dá +10% de Defesa; Cura restaura 6% da Vida máxima em cada turno próprio; Velocidade prioriza empates; Foco soma 10 pontos percentuais de crítico; Vingança atinge um oponente ao cair; Sorte tem 25% de repetir a ação, exceto poderes únicos. Apoios não se repetem no mesmo personagem. Caça acrescenta +1 de Velocidade enquanto o alvo vive; melhorias de Unicorn terminam quando seu emissor sai; Zédia protege também contra execução enquanto permanece vivo. A cura é registrada nas estatísticas do curador.
+
+A Arena clássica mantém todas as regras anteriores e seu catálogo de 31 personagens. Nenhuma regra da prévia 5×5 substitui silenciosamente seus números ou habilidades. Os dois modos compartilham as 50 moedas por partida concluída; a emissão de um token único impede créditos duplicados, inclusive ao voltar ao menu.

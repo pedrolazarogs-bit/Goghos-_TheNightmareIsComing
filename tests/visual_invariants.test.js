@@ -6,8 +6,9 @@ const normalizeVersion=source=>source.replace(/\bversion\s*:\s*(['"])[^'"]+\1/g,
 const walk=dir=>fs.readdirSync(path.join(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(path.join(dir,entry.name)):[path.join(dir,entry.name)]).sort();
 let passed=0;const test=(name,run)=>{run();passed++;console.log('OK  '+name);};
 
-test('o motor corresponde ao balanceamento aprovado da v0.32.0, preservando a referência histórica',()=>{
- const sources=walk('js/core').filter(file=>file.endsWith('.js'));assert.deepEqual(sources,Object.keys(approved.core).sort());
+// The independent 5x5 mode has its own mechanics and complete-match tests.
+test('o motor clássico corresponde ao balanceamento aprovado da v0.32.0, preservando a referência histórica',()=>{
+ const sources=walk('js/core').filter(file=>file.endsWith('.js')&&file!=='js/core/arena_five.js');assert.deepEqual(sources,Object.keys(approved.core).sort());
  for(const [file,expected]of Object.entries(approved.core))assert.equal(sha(fs.readFileSync(path.join(root,file))),expected,file+' mudou após a revisão do balanceamento');
 });
 test('fontes dos dados correspondem aos ajustes aprovados, permitindo somente identificação de versão',()=>{

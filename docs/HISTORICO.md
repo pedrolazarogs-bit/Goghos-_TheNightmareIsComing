@@ -341,3 +341,14 @@ Removidos o bloqueio por abertura já vista, o botão Pular, a saída por Escape
 - Removidos fundos, sombras retangulares e contornos das áreas dos controles do menu em hover, clique e foco. O destaque por teclado acompanha a arte e o texto visíveis.
 - Ícones, navegação, abertura obrigatória e balanceamento preservados.
 - Versão sincronizada no jogo e no pacote; futuras entregas devem incrementar a versão e registrar as mudanças neste histórico.
+
+
+## v0.37.0 — Draft e Arena 5×5 integrados
+
+- UI dos anexos integrada em módulos e estilos locais, sem iframe, segundo menu ou servidor externo. O draft avulso fornecia o fluxo; a versão da arena traz sua evolução com 19 personagens oficiais, usada para evitar os slots provisórios. As origens e hashes dos anexos estão em `assets/arena-five/sources.json`.
+- Modo 5×5: quatro banimentos, dez escolhas únicas, dois Apoios por participante, poderes ativos/passivos, IA, relógios, rodadas até cinco vitórias, estatísticas e placar.
+- Ritmo Calmo por padrão, pausa real, velocidades ajustáveis, suspensão em aba oculta, destaques de alvos por teclado e disposição própria para celular sem girar a tela. A leitura das ações da Arena clássica também ganhou mais tempo, sem alterar os valores do motor.
+- Corrigidas lacunas do motor da prévia: proteção do Striker sem alvo alternativo indevido, caça com bônus de velocidade temporário, proteção de Zédia contra execução, Estrela Celeste vinculada ao emissor, crédito de cura ao curador e validação de equipes e Apoios.
+- Vitória do anexo ligada ao resultado real nos dois modos, com áudio existente e apenas as moedas realmente concedidas pelo Santuário. Corrigida a camada do canvas que interceptava cliques nos botões.
+- Limpeza dos processos e animações ao sair ou reiniciar; prazos de decisões antigos não afetam turnos novos.
+- Arena clássica, catálogo, balanceamento, progresso, menu, intro e trilhas anteriores preservados. O novo modo usa as regras próprias da prévia 5×5, documentadas separadamente.

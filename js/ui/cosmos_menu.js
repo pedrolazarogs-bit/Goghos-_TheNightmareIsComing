@@ -25,7 +25,7 @@ function data(){
 function flame(){return '<svg viewBox="0 0 64 80" aria-hidden="true"><defs><linearGradient id="cosmos-flame" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8ff0ff"/><stop offset="1" stop-color="#2a50ff"/></linearGradient></defs><path d="M33 3C36 20 56 30 56 52C56 68 45 77 32 77C18 77 8 67 8 52C8 40 15 33 19 24C22 33 26 35 28 32C30 22 28 11 33 3Z" fill="url(#cosmos-flame)" stroke="#000" stroke-width="4" stroke-linejoin="round"/><ellipse cx="32" cy="56" rx="11" ry="12" fill="#37d3ff" stroke="#000" stroke-width="3"/><circle cx="32" cy="58" r="4.5" fill="#ff3a63"/></svg>';}
 function html(){
  const {state,title,mode}=data(),fav=favorite(),owned=Array.isArray(state.owned)?state.owned.length:0;
- const modeLabel=({arena:'Arena',champions:'Treino',support:'Apoios',divine:'Invocação'})[mode.id]||mode.name;
+ const modeLabel=({arena5:'5×5',arena:'Arena',champions:'Treino',support:'Apoios',divine:'Invocação'})[mode.id]||mode.name;
  const particles=Array.from({length:16},(_,index)=>`<i style="--x:${12+(index*67)%83}%;--y:${10+(index*37)%83}%;--size:${7+index%4*4}px;--delay:${-index*.71}s;--duration:${5+index%5*1.5}s"></i>`).join('');
  return `<section class="cosmos-menu" aria-label="Menu principal de GOGHOS — The Nightmare Is Coming"><div class="cosmos-stage">
  <img class="cosmos-bg" src="${BASE}bg.jpg" alt="" draggable="false"><div class="cosmos-rays" aria-hidden="true"></div><div class="cosmos-glow" aria-hidden="true"></div><div class="cosmos-sun" aria-hidden="true"></div>

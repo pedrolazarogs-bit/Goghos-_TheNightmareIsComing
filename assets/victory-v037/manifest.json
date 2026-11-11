@@ -1,0 +1,18 @@
+[
+  {
+    "file": "fundo.jpg",
+    "sha256": "b175a46d65165e6f2c4fba80c19852941d642947ddf857d64a375da593e6ca23"
+  },
+  {
+    "file": "trofeu.png",
+    "sha256": "b23ecbbac777bd1c51c721f75ba146fd55dde5d6197a83d6c8c73d08874294a8"
+  },
+  {
+    "file": "fonte.ttf",
+    "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+  },
+  {
+    "file": "musica.mp3",
+    "sha256": "d99e7421e8d9addb025e70bb43050b7093a532dd9b1c16d290ee57576c5bd65a"
+  }
+]
