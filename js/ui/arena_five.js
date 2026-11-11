@@ -21,9 +21,16 @@ function open(options={}){
  const ASSETS=assets;
  root.innerHTML='<div id="five-stage">'+"<div id=\"draft\"><img id=\"dbg\" data-a=\"bg2\" alt=\"\"><div id=\"dshade\"></div>\n<div id=\"mm\" class=\"scr\"><div class=\"lg\"><img data-a=\"logo\" width=\"520\" alt=\"\"></div><div id=\"mmt\"></div><div id=\"mmd\"></div></div>\n<div id=\"dr\" class=\"scr\">\n<svg width=\"1920\" height=\"1080\" viewBox=\"0 0 1920 1080\" style=\"left:0;top:0;pointer-events:none\"><polygon points=\"960,72 1378,170 1378,760 1336,830 960,992 584,830 542,760 542,170\" fill=\"#0a1c34b8\" stroke=\"#0a1626\" stroke-width=\"16\" stroke-linejoin=\"round\"/><line x1=\"960\" y1=\"82\" x2=\"960\" y2=\"985\" stroke=\"#6cf5\" stroke-width=\"3\"/></svg>\n<div id=\"dvs\">VS</div><div id=\"bgl\" class=\"bgb\"></div><div id=\"bgr\" class=\"bgb\"></div>\n<div id=\"bl\" class=\"bz\"></div><div id=\"br\" class=\"bz\"></div>\n<div id=\"dtitle\"></div><div id=\"dtime\"></div><div id=\"dsub\"></div><div id=\"dexit\" class=\"mbtn\">Sair</div>\n<div id=\"grid\"></div><div id=\"sheet\"></div><div id=\"info\"></div><div id=\"sup\"></div>\n<div id=\"ll\" class=\"ld\"></div><div id=\"lr\" class=\"ld\"></div><div id=\"tl\" class=\"bar\"></div><div id=\"tr\" class=\"bar\"></div>\n</div>\n<div id=\"dend\" class=\"scr\"><h1>Equipes prontas!</h1><div id=\"dsum\"></div><div id=\"dback\" class=\"mbtn\">Voltar ao menu</div></div>\n</div>\n<div id=\"arena\"><img id=\"abg\" alt=\"\"><div id=\"ashade\"></div><div id=\"afloor\"></div><div id=\"aunits\"></div>\n<div id=\"atimer\"><img data-a=\"trophy\" alt=\"\"><b id=\"atm\">3:00</b><small>Time</small><span id=\"arnd\">1\u00b0 Rodada</span></div>\n<div id=\"aexit\" class=\"mbtn\">Sair</div><div id=\"aspd\" class=\"mbtn\">x1</div><div id=\"aauto\" class=\"mbtn\">AUTO</div>\n<div id=\"ascore\"><div class=\"sc l\"><b id=\"asl\">0</b><span id=\"ant0\">RED TEAM</span><em id=\"aal\">5/5</em></div><div class=\"sc r\"><b id=\"asr\">0</b><span id=\"ant1\">BLUE TEAM</span><em id=\"aar\">5/5</em></div><div id=\"aem\"><img data-a=\"trophy\" alt=\"\"><small>CHAMPIONSHIP</small></div></div>\n<div id=\"aturns\"></div>\n<div id=\"abase\"></div><div id=\"askills\"></div><div id=\"aatk\">ATTACK</div><div id=\"apass\" class=\"mbtn\">PASSAR</div><div id=\"aclr\" class=\"mbtn\">QUEBRAR</div><div id=\"aen\"></div><div id=\"atbar\"><i></i></div><div id=\"atip\"></div>\n<div id=\"aact\"></div><div id=\"afx\"></div><div id=\"abn\"></div><div id=\"aend\"></div></div>\n\n"+'</div><button class="five-pause">Pausar</button>';
  $('#atip').setAttribute('role','status');$('#atip').setAttribute('aria-live','polite');
- root.querySelectorAll('[data-a]').forEach(img=>img.src=ASSETS[img.dataset.a]);
+ root.querySelectorAll('[data-a]').forEach(img=>img.src=ASSETS[img.dataset.a]);$('#dbg').src='assets/visual-v0.27/backgrounds/crystal-valley.png';
  const fit=()=>{portrait=innerHeight>innerWidth;root.classList.toggle('portrait',portrait);const stage=$('#five-stage');stage.style.width=(portrait?1080:1920)+'px';stage.style.height=(portrait?1920:1080)+'px';stage.style.transform='translate(-50%,-50%) scale('+Math.min(innerWidth/(portrait?1080:1920),innerHeight/(portrait?1920:1080))+')';Arena.relayout();};
  function close(){if(closed)return;closed=true;Draft.exit();Arena.exit();G.VictoryPresenter?.close();for(const id of timeouts)globalThis.clearTimeout(id);for(const id of intervals)globalThis.clearInterval(id);for(const animation of animations)animation.cancel();observer.disconnect();globalThis.removeEventListener('resize',fit);globalThis.removeEventListener('goghos:presentation-preferences',preferences);document.removeEventListener('visibilitychange',visibility);root.remove();app.inert=wasInert;active=null;G.Soundtrack?.setContext('menu');options.onClose?.();document.querySelector('[data-act="play"]')?.focus();}
+let inspectedPause=null;
+function inspect(index,unit){const previousFocus=document.activeElement,c=BattleEngine.character(index),power=G.getMainAbility(c);if(!c)return;inspectedPause=paused;paused=true;for(const animation of animations)animation.pause();
+ const hero=['sam','unicorn','sarck','zuri','nully','linx','vaglar','fonior','chama'].includes(c.id)?'<img class="inspect-character" src="assets/visual-v0.27/characters/'+c.id+'.png" alt="">':G.actorPortraitHTML(c,'five-hero');
+ const overlay=document.createElement('div');overlay.id='five-inspect';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Ficha de '+c.name);
+ overlay.innerHTML=`<button class="inspect-back">‹ Voltar</button><div class="inspect-cards">${G.cardHTML(c)}</div><div class="inspect-hero">${hero}</div><article><small>CAMPEÃO · ${G.CLASS_LABEL[c.class]}</small><h2>${c.name}</h2><div class="inspect-numbers"><span>♥ ${unit?.hp??c.maxHp}<small>Vida</small></span><span>✦ ${unit?Arena.battle.eff(unit,'atk'):c.damage}<small>Ataque</small></span><span>» ${unit?Arena.battle.eff(unit,'spd'):c.speed||'—'}<small>Velocidade</small></span></div><h3>✦ ${power.name}</h3><p>${power.description}</p><h3>◇ Tributo da classe</h3><p>${BattleEngine.TRIBUTES[c.class]}</p><small>Sem poderes extras equipados.</small></article>`;
+ root.append(overlay);overlay.querySelector('button').focus();const done=()=>{overlay.remove();paused=inspectedPause;inspectedPause=null;if(!paused)for(const animation of animations)animation.play();if(previousFocus?.isConnected)previousFocus.focus();};overlay.querySelector('button').onclick=done;overlay.onkeydown=e=>{if(e.key==='Escape'){e.stopPropagation();done();}if(e.key==='Tab'){e.preventDefault();overlay.querySelector('button').focus();}};
+}
 const Draft=(()=>{
 const $$=s=>root.querySelectorAll(s),rnd=a=>a[Math.random()*a.length|0],shuf=n=>[...Array(n).keys()].sort(()=>Math.random()-.5);
 const ORDER=[0,1,1,0,0,1,0,1,0,1]; /* 0 = equipe sorteada, 1 = outra: 1-2-2-1-1-1-1-1 → 5 de cada lado */
@@ -32,37 +39,45 @@ const PAL=[['#7be0b0','#d3ffe9'],['#ff8fc0','#ffe08a'],['#ffe27a','#fff6c4'],['#
 const SUP=[['Escudo','🛡️','+10% de defesa no início.'],['Cura','💚','Recupera 6% da vida a cada turno.'],['Velocidade','⚡','Age primeiro no desempate.'],['Foco','🎯','+10% de chance crítica.'],['Vingança','🔥','Dano extra ao ser derrotado.'],['Sorte','🍀','25% de chance de repetir a ação.']];
 const TBD=[['Em breve','✨','Habilidade ainda não definida.'],['Em breve','✨','Habilidade ainda não definida.']];
 /* EDITE AQUI: [nome, [[habilidade, ícone, descrição] x2], recorte do rosto [x, y, largura]] (a ordem = ASSETS.chars) */
-const OFF=[{"n": "NULLY", "cls": "ASSASSIN", "ci": "🗡️", "cl": "ASSASSIN · Vel 7 · Def 30 · Atk 45~220 · Vida 190", "c": ["#ff4d6d", "#ffc2cc"], "pn": "Corte Preciso", "pi": "🗡️", "pt": "Passivo", "pd": "Avança em velocidade extrema com a katana. Dano de 45 a 220 e, se acertar um ponto vital, elimina o alvo na hora.", "spd": 7, "def": 30, "atk": "45~220", "life": 190}, {"n": "STRIKER", "cls": "DESTROYER", "ci": "🎯", "cl": "DESTROYER · Vel 4 · Def 10 · Atk 250 · Vida 140", "c": ["#ff4d6d", "#ffc2cc"], "pn": "Na Mira", "pi": "🎯", "pt": "Passivo", "pd": "Não pode ser atacado por quem tem velocidade maior que a dele. Só é percebido por mais lentos ou iguais. Dano garantido.", "spd": 4, "def": 10, "atk": "250", "life": 140}, {"n": "MIKE", "cls": "DESTROYER", "ci": "🎯", "cl": "DESTROYER · Vel 3 · Def 20 · Atk 200 · Vida 200", "c": ["#63c5ff", "#d8f0ff"], "pn": "Retaguarda", "pi": "🛡️", "pt": "Passivo", "pd": "Anula por completo os ataques de personagens ASSASSIN direcionados a ele.", "spd": 3, "def": 20, "atk": "200", "life": 200}, {"n": "VAGLAR", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 4 · Def 30 · Atk - · Vida 270", "c": ["#ff4d6d", "#ffc2cc"], "pn": "Escrita Mortal", "pi": "📓", "pt": "Passivo", "pd": "Anota um oponente no caderno. Se no turno seguinte ele ainda estiver marcado, morre na hora. Se VAGLAR for atacado 2 vezes seguidas, o livro o elimina.", "spd": 4, "def": 30, "atk": "-", "life": 270}, {"n": "LINIX", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 4 · Def 20 · Atk 120 · Vida 280", "c": ["#ff4d6d", "#ffc2cc"], "pn": "Afiação 5", "pi": "🐾", "pt": "Passivo", "pd": "Dano extra pela classe do alvo: ASSASSIN +40, FIGHTER +120, SUPORTT +140, TANK +170, DESTROYER +0.", "spd": 4, "def": 20, "atk": "120", "life": 280}, {"n": "DRAKTAR", "cls": "ASSASSIN", "ci": "🗡️", "cl": "ASSASSIN · Vel 6 · Def 20 · Atk 70x2 · Vida 190", "c": ["#ffd479", "#fff3cf"], "pn": "Caça-Clisma", "pi": "🔍", "pt": "Secundário", "pd": "Marca um alvo: contra ele causa dano aumentado (220) e ataca mais rápido, até o alvo cair.", "spd": 6, "def": 20, "atk": "70x2", "life": 190}, {"n": "UNICORN", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 3 · Def 20 · Atk 100 · Vida 320", "c": ["#6fe3a8", "#d6ffe9"], "pn": "Estrela Celeste", "pi": "⭐", "pt": "Secundário", "pd": "Enquanto estiver em batalha, concede a um aliado: Vida +50, Dano +20 e Velocidade +1.", "spd": 3, "def": 20, "atk": "100", "life": 320}, {"n": "ELYSH", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 4 · Def 30 · Atk 100 · Vida 260", "c": ["#9a3cff", "#dcc2ff"], "pn": "Def ou Atk?", "pi": "➕", "pt": "Passivo", "pd": "No seu turno escolhe entre atacar ou curar um aliado, de acordo com o seu ATK básico.", "spd": 4, "def": 30, "atk": "100", "life": 260}, {"n": "DAZTIRRY", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 4 · Def 35 · Atk 130 · Vida 320", "c": ["#f1dfa6", "#fff7de"], "pn": "Adrenalina Oni", "pi": "👹", "pt": "Passivo", "pd": "Aliados que seriam derrotados ficam mais 2 turnos vivos e causam +20 de dano.", "spd": 4, "def": 35, "atk": "130", "life": 320}, {"n": "SAM", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 5 · Def 20 · Atk 50x6 · Vida 250", "c": ["#ff9ad5", "#a5dcff"], "pn": "Mega Combo", "pi": "🥊", "pt": "Passivo", "pd": "Sequência de até 6 golpes em alta velocidade. Errar um único golpe interrompe o combo.", "spd": 5, "def": 20, "atk": "50x6", "life": 250}, {"n": "RAYVILIN", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 5 · Def 20 · Atk 120 · Vida 280", "c": ["#ff9ad5", "#a5dcff"], "pn": "Estátua", "pi": "🗿", "pt": "Passivo", "pd": "Lança uma maldição: no dado 1, 2 ou 3 o alvo vira pedra. Se um aliado não quebrar a tempo, ela o executa.", "spd": 5, "def": 20, "atk": "120", "life": 280}, {"n": "SARCK", "cls": "ASSASSIN", "ci": "🗡️", "cl": "ASSASSIN · Vel - · Def 10 · Atk - · Vida 220", "c": ["#9a3cff", "#dcc2ff"], "pn": "Jumpscare", "pi": "😱", "pt": "Passivo", "pd": "Elimina na hora qualquer oponente que o faça receber dano, de qualquer fonte. Não age.", "spd": "-", "def": 10, "atk": "-", "life": 220}, {"n": "ZIKSSY", "cls": "ASSASSIN", "ci": "🗡️", "cl": "ASSASSIN · Vel 7 · Def 20 · Atk 120 · Vida 190", "c": ["#9a3cff", "#dcc2ff"], "pn": "Medroso", "pi": "😨", "pt": "Passivo", "pd": "Intimida o time inimigo (1 ou 2 no dado): +20 de dano contra quem sentir medo. Se todos temerem, +1 de velocidade.", "spd": 7, "def": 20, "atk": "120", "life": 190}, {"n": "CHAMA", "cls": "DESTROYER", "ci": "🎯", "cl": "DESTROYER · Vel 4 · Def 10 · Atk 35x6 · Vida 140", "c": ["#ff4d6d", "#ffc2cc"], "pn": "Esquentadinho", "pi": "🔥", "pt": "Passivo", "pd": "Incendeia o alvo (35 x6). Quem atacar CHAMA também se queima (20 x3).", "spd": 4, "def": 10, "atk": "35x6", "life": 140}, {"n": "ZÉDIA", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 5 · Def 50 · Atk - · Vida 650", "c": ["#6b6b7c", "#ececf2"], "pn": "Imortal", "pi": "♾️", "pt": "Passivo", "pd": "Enquanto ZÉDIA estiver em batalha, nenhum aliado pode ser eliminado. Não ataca.", "spd": 5, "def": 50, "atk": "-", "life": 650}, {"n": "ZURI", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 3 · Def 30 · Atk 100 · Vida 300", "c": ["#f1dfa6", "#fff7de"], "pn": "Cura Vitalícia", "pi": "💖", "pt": "Secundário", "pd": "Cura totalmente a saúde de todos os aliados, uma única vez.", "spd": 3, "def": 30, "atk": "100", "life": 300}, {"n": "FONIOR", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 3 · Def 25 · Atk 110 · Vida 270", "c": ["#9a3cff", "#dcc2ff"], "pn": "Alma Tomada", "pi": "👻", "pt": "Passivo", "pd": "Coleta a alma de quem é eliminado: +30 de cura e +30 de vida máxima por alma (máx. 5).", "spd": 3, "def": 25, "atk": "110", "life": 270}, {"n": "RAYYB", "cls": "SUPORTT", "ci": "➕", "cl": "SUPORTT · Vel 4 · Def 20 · Atk 110 · Vida 300", "c": ["#ff9ad5", "#a5dcff"], "pn": "Soninho", "pi": "💤", "pt": "Passivo", "pd": "Faz o oponente dormir. A cada turno ele precisa tirar 1 ou 2 no dado para acordar.", "spd": 4, "def": 20, "atk": "110", "life": 300}, {"n": "DASHOW ONLY", "cls": "FIGHTER", "ci": "⚔️", "cl": "FIGHTER · Vel 2 · Def 30 · Atk 140 · Vida 420", "c": ["#ff9ad5", "#a5dcff"], "pn": "Player 2", "pi": "🔄", "pt": "Passivo", "pd": "Tem uma segunda versão que pode entrar a qualquer momento no seu turno. A versão que sai recupera +15 de vida por turno.", "spd": 2, "def": 30, "atk": "140", "life": 420}];
-OFF.forEach((o,i)=>{if(BattleEngine.SKILL[BattleEngine.statsFor(i).pw])o.pt='Ativo';});
-const ROSTER=OFF.map(o=>({n:o.n,k:[[o.pn,o.pi,o.pd,o.pt],['Classe',o.ci,o.cl]],crop:[0,0,0],c:o.c,st:{cls:o.cls,spd:o.spd,def:o.def,atk:o.atk,life:o.life}}));
+const ROSTER=BattleEngine.CHARS.map((c,i)=>{
+ const base=BattleEngine.character(i),power=G.getMainAbility(base),active=BattleEngine.SKILL[c.pw];
+ return{n:c.n,k:[[power.name,'✦',power.description,active?'Ativo':'Próprio'],['Tributo de '+(G.CLASS_LABEL[c.cls]||c.cls),'◇',BattleEngine.TRIBUTES[c.cls],'Classe']],crop:[0,0,0],c:PAL[i%PAL.length],st:c};
+});
+let page=0;
+const portrait=i=>G.actorPortraitHTML(BattleEngine.character(i),'five-portrait');
+const draftPages=document.createElement('nav');draftPages.id='draft-pages';draftPages.setAttribute('aria-label','Páginas dos campeões');draftPages.innerHTML='<button id="draft-prev" aria-label="Campeões anteriores">‹</button><span></span><button id="draft-next" aria-label="Próximos campeões">›</button>';$('#dr').append(draftPages);
+function pageGrid(){const cards=[...$$('#grid>.cd')];cards.forEach((el,i)=>el.hidden=Math.floor(i/6)!==page);$('#draft-pages span').textContent=(page+1)+' / '+Math.ceil(ROSTER.length/6);$('#draft-prev').disabled=page===0;$('#draft-next').disabled=page>=Math.ceil(ROSTER.length/6)-1;}
+$('#draft-prev').onclick=()=>{page=Math.max(0,page-1);pageGrid();};$('#draft-next').onclick=()=>{page=Math.min(3,page+1);pageGrid();};
 let S={run:0,id:0};const TH=[];let thP;
 const W=ms=>{const id=S.id;return new Promise(r=>setTimeout(r,ms)).then(()=>{if(!S.run||S.id!=id)throw 0})};
-async function until(f,ms){const t=Date.now()+ms;while(!f()&&Date.now()<t)await W(100)}
+async function until(f,ms){let left=ms,last=Date.now();while((!f()&&left>0)||paused||document.hidden){await W(100);const now=Date.now();if(paused||document.hidden){if(S.dl)S.dl+=now-last;}else left-=now-last;last=now;}}
 const show=id=>['mm','dr','dend'].forEach(x=>$('#'+x).classList.toggle('on',x==id));
 const T=(a,b='')=>{$('#dtitle').textContent=a;$('#dsub').textContent=b};
 const hint=(h,p)=>$('#info').innerHTML=`<div class="t"><h3>${h}</h3><p>${p}</p></div>`;
-const face=m=>m.ch>=0?(TH[m.ch]||ASSETS.deck):ASSETS.deck;
+const face=m=>m.ch>=0?(BattleEngine.character(m.ch).portraitBanner?.src||BattleEngine.character(m.ch).art):ASSETS.deck;
 function thumbs(){ASSETS.faces.forEach((s,i)=>TH[i]=s);return Promise.resolve()}
 
 /* ---------- desenho ---------- */
-function cardHTML(i){const r=ROSTER[i];return `<div class="cd" data-i="${i}" style="--a:${r.c[0]};--b:${r.c[1]}"><div class="in"><img class="st" src="${ASSETS.star}"><img class="pt${r.crop?'':' q'}" src="${TH[i]||ASSETS.deck}"><span class="nm">${r.n}</span><span class="ks">${r.k.map(k=>k[1]).join('')}</span><em></em></div></div>`}
-const buildGrid=()=>$('#grid').innerHTML=ROSTER.map((_,i)=>cardHTML(i)).join('');
+function cardHTML(i){const r=ROSTER[i];return `<div class="cd" data-i="${i}" style="--a:${r.c[0]};--b:${r.c[1]}"><div class="in"><img class="st" src="${ASSETS.star}">${portrait(i)}<span class="nm">${r.n}</span><span class="ks">${r.k.map(k=>k[1]).join('')}</span><em></em></div></div>`}
+const buildGrid=()=>{$('#grid').innerHTML=ROSTER.map((_,i)=>cardHTML(i)).join('');page=0;pageGrid();};
 function paint(){$$('#grid .cd').forEach(e=>{const i=+e.dataset.i,b=S.rev&&S.bans.has(i),p=S.owner[i]!=null;e.classList.toggle('bn',!!b);e.classList.toggle('pk',p);e.classList.toggle('sl',S.sel.includes(i));e.querySelector('em').textContent=p?'ESCOLHIDO':b?'BANNED':''})}
 function renderBans(){[0,1].forEach(t=>{const b=S.banBy[t];$(t?'#br':'#bl').innerHTML=`<h3>*Área banidos*</h3><div class="bw">${[0,1].map(i=>b[i]!=null&&S.rev?cardHTML(b[i]).replace('class="cd"','class="cd bn"').replace('<em></em>','<em>BANNED</em>'):'<div class="cd ph"></div>').join('')}</div>`})}
-function slot(m){const r=m.ch>=0&&ROSTER[m.ch];return `<div class="sl2${m.h?' me':''}${S.turn==m?' tn':''}" style="--a:${r?r.c[0]:'#1c1c22'};--b:${r?r.c[1]:'#3a3a44'}"><div class="in"><img src="${face(m)}" class="${r&&r.crop?'':'q'}"><small>${r?r.n:''}</small></div><span>${m.n}</span></div>`}
+function slot(m){const r=m.ch>=0&&ROSTER[m.ch];return `<div data-pick-key="${m.t}-${m.j}" data-picked="${m.ch}" class="sl2${m.h?' me':''}${S.turn==m?' tn':''}" style="--a:${r?r.c[0]:'#1c1c22'};--b:${r?r.c[1]:'#3a3a44'}"><div class="in">${r?portrait(m.ch):'<span class="five-unknown">?</span>'}<small>${r?r.n:''}</small></div><span>${m.n}</span></div>`}
+const seenPicks=new Map();
 function renderSlots(){TEAMS.forEach((t,k)=>{$(k?'#tr':'#tl').innerHTML=`<h2>${t.n}</h2>`+S.mem.filter(m=>m.t==k).map(slot).join('')});S.lead.forEach((m,k)=>{$(k?'#lr':'#ll').innerHTML=`<img src="${face(m)}" class="${m.ch>=0&&ROSTER[m.ch].crop?'':'q'}"><b>Líder</b><span>${m.n}</span>`})}
+function animatePicks(){if(reduced())return;for(const el of root.querySelectorAll('[data-pick-key]')){const key=el.dataset.pickKey,id=+el.dataset.picked;if(id>=0&&seenPicks.get(key)!==id){const a=el.animate([{opacity:0,translate:'0 28px',scale:.75},{opacity:1,translate:'0 0',scale:1}],{duration:480,easing:'cubic-bezier(.2,1.25,.4,1)'});animations.add(a);a.finished.catch(()=>{}).finally(()=>animations.delete(a));}seenPicks.set(key,id);}}
 function info(i){S.view=i;const r=ROSTER[i],ban=S.mode=='ban',ok=ban?S.hb&&S.sel.length==2:S.mode=='pick'&&S.ht&&S.sel[0]!=null;
-$('#info').innerHTML=`<img src="${TH[i]||ASSETS.deck}"><div class="t"><h3>${r.n}</h3>${r.k.map(k=>`<p><b>${k[1]} ${k[0]}</b> — ${k[2]}</p>`).join('')}</div>${S.hb||S.ht?`<div id="ok" class="mbtn${ok?'':' off'}">${ban?'BANIR '+S.sel.length+'/2':'ESCOLHER'}</div>`:''}`}
-function buildSheet(){$('#sheet').innerHTML=TEAMS.map((_,t)=>`<div class="col">${S.mem.filter(m=>m.t==t).map(m=>{const r=ROSTER[m.ch];return `<div class="rw${m.h?' me':''}" style="--a:${r.c[0]};--b:${r.c[1]}"><img src="${TH[m.ch]||ASSETS.deck}" class="${r.crop?'':'q'}"><div class="t"><b>${m.n}</b><small>${r.n}</small></div><span class="e">${r.k.map(k=>k[1]).join('')}<br>${[0,1].map(i=>m.sup[i]!=null?SUP[m.sup[i]][1]:'·').join('')}</span></div>`}).join('')}</div>`).join('')}
-function buildSup(){const me=S.mem[0];$('#sup').innerHTML=`<div class="t"><h4>Seus apoios (máx. 2)</h4>${SUP.map((s,i)=>`<span class="chip${me.sup.includes(i)?' on':''}" data-s="${i}">${s[1]} ${s[0]}</span>`).join('')}<p id="sd">Toque para equipar ou remover.</p></div><div id="rdy" class="mbtn">PRONTO</div>`}
+$('#info').innerHTML=`${portrait(i)}<div class="t"><h3>${r.n}</h3>${r.k.map(k=>`<p><b>${k[1]} ${k[0]}</b> — ${k[2]}</p>`).join('')}</div><button class="inspect-link" data-inspect-index="${i}">Ver ficha</button>${S.hb||S.ht?`<div id="ok" class="mbtn${ok?'':' off'}">${ban?'BANIR '+S.sel.length+'/2':'ESCOLHER'}</div>`:''}`}
+function buildSheet(){$('#sheet').innerHTML=TEAMS.map((_,t)=>`<div class="col">${S.mem.filter(m=>m.t==t).map(m=>{const r=ROSTER[m.ch];return `<div class="rw${m.h?' me':''}" style="--a:${r.c[0]};--b:${r.c[1]}">${portrait(m.ch)}<div class="t"><b>${m.n}</b><small>${r.n}</small></div><span class="e">${r.k.map(k=>k[1]).join('')}<br>◇ ${G.CLASS_LABEL[r.st.cls]||r.st.cls}</span></div>`}).join('')}</div>`).join('')}
+function buildSup(){const me=S.mem[0],r=ROSTER[me.ch];$('#sup').innerHTML='<div class="t"><h4>Seu campeão está pronto</h4><p>✦ '+r.k[0][0]+' · ◇ '+(G.CLASS_LABEL[r.st.cls]||r.st.cls)+'</p><small>Somente habilidade própria e tributo da classe.</small></div><button id="rdy" class="mbtn">PRONTO</button>';}
+
 
 /* ---------- interação ---------- */
 $('#grid').onclick=e=>{const c=e.target.closest('.cd');if(!c||!S.run)return;const i=+c.dataset.i;Aud.sfx('click');
 if(!((S.rev&&S.bans.has(i))||S.owner[i]!=null)){if(S.mode=='ban'&&S.hb){const k=S.sel.indexOf(i);k>=0?S.sel.splice(k,1):(S.sel.push(i),S.sel.length>2&&S.sel.shift())}else if(S.mode=='pick'&&S.ht)S.sel=[i]}
 info(i);paint()};
-$('#info').onclick=e=>{if(e.target.closest('#ok:not(.off)')&&S.conf){Aud.sfx('pick');S.conf()}};
-$('#sup').onclick=e=>{const c=e.target.closest('.chip'),me=S.mem[0];if(c){const i=+c.dataset.s,k=me.sup.indexOf(i);Aud.sfx('click');k>=0?me.sup.splice(k,1):(me.sup.push(i),me.sup.length>2&&me.sup.shift());buildSup();buildSheet();$('#sd').textContent=SUP[i][0]+': '+SUP[i][2]}
-if(e.target.closest('#rdy')){Aud.sfx('pick');S.rd=1}};
+$('#info').onclick=e=>{if(e.target.closest('[data-inspect-index]')){inspect(+e.target.closest('[data-inspect-index]').dataset.inspectIndex);return;}if(e.target.closest('#ok:not(.off)')&&S.conf){Aud.sfx('pick');S.conf()}};
+$('#sup').onclick=e=>{if(e.target.closest('#rdy')){Aud.sfx('pick');S.rd=1;}};
 setInterval(()=>{const el=$('#dtime');if(!S.run||!S.dl){el.textContent='';el.classList.remove('lo');return}const s=Math.max(0,Math.ceil((S.dl-Date.now())/1000));el.textContent=s+'s';el.classList.toggle('lo',s<=5);if(s<=5&&s>0&&s!=S.ls&&(S.hb||S.ht||S.mode=='rev')){S.ls=s;Aud.sfx('tick')}},250);
 
 /* ---------- fases ---------- */
@@ -89,19 +104,19 @@ async function pickPhase(){
 S.mode='pick';const f=Math.random()<.5?0:1,av=()=>ROSTER.map((_,i)=>i).filter(i=>!S.bans.has(i)&&S.owner[i]==null);
 T('SORTEIO','Sorteando quem começa…');await W(1300);T(TEAMS[f].n+' COMEÇA!');Aud.sfx('open');await W(1600);
 for(const o of ORDER){const t=o?1-f:f,m=rnd(S.mem.filter(x=>x.t==t&&x.ch<0));
-S.turn=m;S.ht=m.h?1:0;S.sel=[];S.pc=null;renderSlots();paint();
+S.turn=m;S.ht=m.h?1:0;if(S.ht)page=Math.floor(av()[0]/6);pageGrid();S.sel=[];S.pc=null;renderSlots();paint();
 T(`VEZ DE ${m.n}!`,m.h?'Sua vez! Toque em um personagem e confirme.':TEAMS[t].n);
 hint(m.h?'Sua vez!':`${m.n} está escolhendo…`,'Toque em um personagem para ver as habilidades.');
 S.conf=()=>{S.pc=S.sel[0]};S.dl=Date.now()+30000;let ch;
 if(m.h){Aud.sfx('turn');await until(()=>S.pc!=null,30000);ch=S.pc??S.sel[0]??rnd(av())}
-else{await W(800+Math.random()*800);ch=rnd(av());S.sel=[ch];paint();await W(650)}
-S.ht=0;m.ch=ch;S.owner[ch]=m;S.sel=[];S.dl=0;S.conf=null;Aud.sfx('pick');renderSlots();paint();await W(700)}
+else{await W(800+Math.random()*800);ch=rnd(av());S.sel=[ch];page=Math.floor(ch/6);pageGrid();paint();await W(650)}
+S.ht=0;m.ch=ch;S.owner[ch]=m;S.sel=[];S.dl=0;S.conf=null;Aud.sfx('pick');renderSlots();animatePicks();paint();await W(700)}
 S.turn=null;renderSlots()}
 
 async function review(){
-S.mode='rev';S.mem.forEach(m=>{if(!m.h)m.sup=shuf(6).slice(0,2)});
+S.mode='rev';S.mem.forEach(m=>m.sup=[]);$('#draft-pages').hidden=true;
 $('#grid').style.display=$('#info').style.display='none';$('#sheet').classList.add('on');$('#sup').classList.add('on');
-T('PREPARE-SE!','Revise as equipes e ajuste seus apoios.');S.dl=Date.now()+30000;S.rd=0;buildSup();buildSheet();Aud.sfx('turn');
+T('PREPARE-SE!','Confira sua habilidade e o tributo da classe.');S.dl=Date.now()+30000;S.rd=0;buildSup();buildSheet();Aud.sfx('turn');
 await until(()=>S.rd,30000)}
 
 function finish(){S.dl=0;
@@ -113,7 +128,7 @@ $('#dsum').innerHTML=res.teams.map(t=>`<b>${t.name}</b>: ${t.players.map(p=>p.ch
 function start(){if(S.run)return;
 const mem=[];TEAMS.forEach((t,k)=>t.m.forEach((n,j)=>mem.push({t:k,j,n,ch:-1,sup:[],h:k==0&&j==0})));
 S={run:1,id:++start.n,mem,bans:new Set(),owner:{},sel:[],mode:'',rev:0,lead:[],banBy:[[],[]],turn:null,ht:0,hb:0,dl:0};
-$('#grid').style.display=$('#info').style.display='';$('#sheet').classList.remove('on');$('#sup').classList.remove('on');$('#draft').classList.add('on');
+$('#draft-pages').hidden=false;$('#grid').style.display=$('#info').style.display='';$('#sheet').classList.remove('on');$('#sup').classList.remove('on');$('#draft').classList.add('on');
 thumbs().then(async()=>{await search();await banPhase();await pickPhase();await review();finish()}).catch(e=>e!==0&&console.error(e))}
 start.n=0;
 function exit(){S.run=0;$('#draft').classList.remove('on')}
@@ -127,32 +142,31 @@ const SUPD={Escudo:'+10% de defesa no início da rodada.',Cura:'Cura 6% da vida 
 let B=null,on=0,runId=0,spd=.65,auto=0,els={},pend=null,sel=null,human=null,cur=null,roundOn=0,res0=null,tt=null,inputSerial=0;
 const sleep=async (ms,valid)=>{const id=runId;let left=ms;while(left>0){await new Promise(r=>setTimeout(r,50));if(!on||runId!==id||valid&&!valid())throw 0;if(!paused&&!document.hidden)left-=50*spd;}};
 const pos=u=>portrait?({x:220+u.slot%3*280,y:(u.team?450:1000)+Math.floor(u.slot/3)*260}):({x:(u.team?935:100)+u.slot*152,y:u.slot%2?585:560}),ctr=u=>{const p=pos(u);return{x:p.x,y:p.y+105}};
-const faceOf=u=>ASSETS.faces[u.ch],cardOf=u=>ASSETS.chars[u.ch],R0=u=>RO()[u.ch];
+const faceOf=u=>BattleEngine.character(u.ch).portraitBanner?.src||BattleEngine.character(u.ch).art,cardOf=u=>BattleEngine.character(u.ch).cardBase.src,R0=u=>RO()[u.ch];
+const cardFor=u=>G.cardHTML({...BattleEngine.character(u.ch),hp:u.hp,maxHp:u.max,mana:u.mana,maxMana:u.cls==='MAGO'?3:0,damage:B.eff(u,'atk'),speed:B.eff(u,'spd')});
 const shuf=n=>[...Array(n).keys()].sort(()=>Math.random()-.5);
 
 /* ---------- construção ---------- */
 function unitHTML(u){const r=R0(u),p=pos(u);
- return `<div class="au ${u.team?'bl':'rd'}${u.human?' me':''}" id="au${u.id}" data-id="${u.id}" style="left:${p.x-73}px;top:${p.y}px;z-index:${p.y}"><div class="au-in">
-<div class="au-st"></div><div class="au-base"></div><img class="au-img" src="${cardOf(u)}" alt="${r.n}">
-<div class="au-hp"><i></i><b>${u.max}</b></div><div class="au-sup">${u.sup.map(s=>`<span data-s="${s}">${SUPI[s]||'✨'}</span>`).join('')}</div>
+ return `<div class="au ${u.team?'bl':'rd'}${u.human?' me':''}" id="au${u.id}" data-id="${u.id}" aria-label="${u.name}" tabindex="0" role="button" style="left:${p.x-73}px;top:${p.y}px;z-index:${p.y}"><div class="au-in">
+<div class="au-st"></div><div class="au-base"></div><div class="five-card-art">${cardFor(u)}</div>
+<div class="au-hp"><i></i><b>${u.max}</b></div><div class="au-class" title="${BattleEngine.TRIBUTES[u.cls]}">${G.VisualShell?.icon(({ASSASSIN:'assassin',FIGHTER:'sword',MAGO:'moon',SUPPORT:'plus',DESTROYER:'target',TANK:'bolt'})[u.cls])||'◇'}</div>
 <div class="au-own">${u.owner}</div></div></div>`}
 function buildUnits(){$('#aunits').innerHTML=B.units.map(unitHTML).join('');els={};B.units.forEach(u=>els[u.id]=$('#au'+u.id))}
-function buildBar(){const h=human;if(!h){$('#askills').innerHTML='';return}const r=R0(h),k=B.skill(h);
- $('#askills').innerHTML=`<div class="ad ${k?'sk':'ps'}" data-i="0" style="left:24px;--g:linear-gradient(135deg,#8a3cff,#4a1aa8)"><div class="dm"></div><span class="ic">${r.k[0][1]}</span><small>${k?'ATIVO':'PASSIVO'}</small></div>`+
- [0,1].map(i=>{const s=h.sup[i];return`<div class="ad sp" data-s="${s||''}" style="left:${200+i*104}px;top:970px;--g:linear-gradient(135deg,${i?'#ffe27a,#e0a03a':'#5cf2a0,#1aa86a'})"><div class="dm"></div><span class="ic">${s?SUPI[s]:'·'}</span></div>`}).join('');
- $('#aen').textContent=`${r.k[0][1]} ${r.k[0][0]} · ${r.k[0][3]||''}`}
+function buildBar(){const h=human;if(!h)return;const r=R0(h),k=B.skill(h);$('#askills').innerHTML=`<div class="ad ${k?'sk':'ps'}" data-i="0"><div class="dm"></div><span class="ic">✦</span><small>${k?'HABILIDADE':'PASSIVA'}</small></div><button class="ad tribute" id="class-info" aria-label="Ver tributo da classe"><div class="dm"></div><span class="ic">◇</span><small>CLASSE</small></button><button id="atransit" class="mbtn" hidden>Retaguarda</button><button id="amana" class="mbtn" hidden>Mana 0/3</button>`;$('#class-info').onclick=()=>inspect(h.ch,h);$('#atransit').onclick=()=>{if(pend?.u===h&&B.transit(h)){paintUnit(h);bar();tip(h.row==='rear'?'Na retaguarda: protegido de ataques básicos.':'Na linha de frente.');}};$('#amana').onclick=()=>{if(pend?.u===h){h.manaSpend=(h.manaSpend+1)%(h.mana+1);bar();}};}
 function statusIcons(u){const s=[];if(u.st.pet!=null)s.push('🗿');if(u.st.slp)s.push('💤');if(u.st.burn&&u.st.burn.length)s.push('🔥');
  if(B.units.some(x=>x.alive&&x.team!==u.team&&x.st.mark===u.id))s.push('🎯');if(B.units.some(x=>x.team!==u.team&&x.st.fear&&x.st.fear[u.id]))s.push('😨');
- if(u.st.und!=null)s.push('♾️');if(u.st.starred)s.push('⭐');if(u.pw==='soul'&&u.st.souls)s.push('👻'.repeat(u.st.souls));return s.join('')}
-function paintUnit(u,hp){const e=els[u.id];if(!e)return;hp=hp==null?u.hp:hp;const r=Math.max(0,Math.min(1,hp/u.max)),b=e.querySelector('.au-hp');
- e.classList.toggle('dead',hp<=0);b.firstElementChild.style.width=`calc((100% - 6px) * ${r})`;b.dataset.l=r>.5?'h':r>.25?'m':'l';b.lastElementChild.textContent=Math.round(Math.max(0,hp));e.querySelector('.au-st').textContent=statusIcons(u)}
+ if(u.st.und!=null)s.push('Oni '+u.st.und+' ações');if(u.row==='rear')s.push('Retaguarda');if(u.st.starred)s.push('⭐');if(u.pw==='soul'&&u.st.souls)s.push('👻 '+u.st.souls);return s.join('')}
+function paintUnit(u,hp){const e=els[u.id];if(!e)return;hp=hp==null?u.hp:hp;e.querySelector('.five-card-art').innerHTML=cardFor({...u,hp:Math.max(0,hp)});const r=Math.max(0,Math.min(1,hp/u.max)),b=e.querySelector('.au-hp');
+ if(hp>0)e.classList.remove('dead');e.classList.toggle('is-fallen',hp<=0);b.firstElementChild.style.width=`calc((100% - 6px) * ${r})`;b.dataset.l=r>.5?'h':r>.25?'m':'l';b.lastElementChild.textContent=Math.round(Math.max(0,hp));e.classList.toggle('rear',u.row==='rear');e.querySelector('[data-value="hp"]')&&(e.querySelector('[data-value="hp"]').textContent=Math.max(0,hp));e.querySelector('.au-st').textContent=statusIcons(u)}
 function paintAll(){B.units.forEach(u=>paintUnit(u));counters();bar()}
 function counters(){[0,1].forEach(t=>$(t?'#aar':'#aal').textContent=B.alive(t).length+'/5');$('#asl').textContent=B.score[0];$('#asr').textContent=B.score[1]}
-function paintQueue(c){const q=B.preview(c,9);$('#aturns').innerHTML=q.map((u,i)=>`<div class="aqw${i==0?' cur':''}"><b>${i==0?'TURN':i==1?'NEXT':''}</b><div class="aq ${u.team?'bl':'rd'}"><div class="aqb"><img class="st" src="${ASSETS.star}"><img src="${faceOf(u)}"></div></div></div>`).reverse().join('')}
-function paintActive(u){const r=R0(u),s=r.st;$('#aact').innerHTML=`<img src="${cardOf(u)}"><div class="nmk">${u.name}</div><div class="pwl">${r.k[0][1]} ${r.k[0][0]} · ${r.k[0][3]}</div><div class="cl">${r.k[1][1]} ${s.cls} · VEL ${s.spd}</div><div class="lf"><i style="width:${Math.max(0,Math.min(100,u.hp/u.max*100))}%"></i><b>${Math.round(u.hp)}</b><small>LIFE</small></div><div class="df"><b>${Math.round(B.eff(u,'def'))}</b><small>Def</small></div><div class="ak"><b>${s.atk}</b><small>ATK</small></div>`}
-function bar(){const h=human;if(!h)return;const mine=!!(h.alive&&pend&&pend.u===h),k=B.skill(h);
+const portraitFor=u=>G.actorPortraitHTML(BattleEngine.character(u.ch),'five-portrait');
+function paintQueue(c){const q=B.preview(c,6);$('#aturns').innerHTML=q.map((u,i)=>`<div class="aqw${i==0?' cur':''}"><b>${i==0?'VEZ':i==1?'PRÓXIMO':''}</b><div class="aq ${u.team?'bl':'rd'}"><div class="aqb"><img class="st" src="${ASSETS.star}">${portraitFor(u)}</div></div></div>`).reverse().join('')}
+function paintActive(u){const r=R0(u);$('#aact').innerHTML=`<div class="five-active-portrait">${portraitFor(u)}</div><div class="nmk">${u.name}</div><div class="pwl">✦ ${r.k[0][0]}</div><div class="cl">◇ ${G.CLASS_LABEL[u.cls]||u.cls}</div><div class="lf"><i style="width:${u.hp/u.max*100}%"></i><b>${u.hp}<small> / ${u.max}</small></b></div><div class="df"><small>VEL</small> <b>${B.eff(u,'spd')}</b></div><div class="ak"><small>ATQ</small> <b>${u.pw==='claw'?'35%':B.eff(u,'atk')}</b></div>`;}
+function bar(){const h=human;if(!h)return;$('#atransit').hidden=h.cls!=='SUPPORT';$('#atransit').disabled=pend?.u!==h;$('#atransit').textContent=h.row==='rear'?'Ir à frente':'Retaguarda';$('#amana').hidden=h.cls!=='MAGO'||h.base.atk<=0;$('#amana').disabled=pend?.u!==h;$('#amana').textContent='Mana '+h.manaSpend+'/'+h.mana;const mine=!!(h.alive&&pend&&pend.u===h),k=B.skill(h);
  const d=root.querySelector('#askills .ad[data-i="0"]');if(d){d.classList.toggle('off',!(k&&mine&&B.skillReady(h)));d.classList.toggle('sel',!!sel&&sel.type==='skill')}
- $('#aatk').classList.toggle('off',!(mine&&h.base.atk>0));$('#aatk').style.display=h.base.atk>0?'':'none';$('#aatk').classList.toggle('sel',!!sel&&sel.type==='attack');
+ $('#aatk').classList.toggle('off',!(mine&&(h.base.atk>0||h.pw==='claw')&&B.targets(h).length));$('#aatk').style.display=(h.base.atk>0||h.pw==='claw')?'':'none';$('#aatk').classList.toggle('sel',!!sel&&sel.type==='attack');
  $('#apass').classList.toggle('off',!mine);const br=h.alive&&B.breakables(h).length>0;$('#aclr').style.display=br?'':'none';$('#aclr').classList.toggle('off',!(mine&&br));$('#aclr').classList.toggle('sel',!!sel&&sel.type==='break')}
 
 /* ---------- efeitos visuais ---------- */
@@ -163,7 +177,7 @@ function spark(x,y,n=10,k=1){const C=['#ffe27a','#ff9ad5','#8fe6ff','#fff'];for(
  const a=Math.random()*6.28,v=(70+Math.random()*150)*k;anim(e,[{transform:'translate(-50%,-50%) scale(.3) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*v-s/2}px,${Math.sin(a)*v-s/2}px) scale(1) rotate(${(Math.random()-.5)*300}deg)`,opacity:1,offset:.55},{transform:`translate(${Math.cos(a)*v*1.2-s/2}px,${Math.sin(a)*v*1.2+30}px) scale(.2)`,opacity:0}],{duration:(520+Math.random()*260)/spd}).then(()=>e.remove())}}
 async function banner(t,ms=1000,cls=''){const b=$('#abn');b.className=cls;b.textContent=t;anim(b,[{opacity:0,transform:'scale(2.4) rotate(-8deg)'},{opacity:1,transform:'scale(1) rotate(-3deg)',offset:.16},{opacity:1,transform:'scale(1.05) rotate(-3deg)',offset:.8},{opacity:0,transform:'scale(.9) translateY(-50px) rotate(-3deg)'}],{duration:ms/spd,fill:'forwards'});await sleep(ms)}
 const inner=u=>els[u.id].firstElementChild;
-function lunge(a,t){const A=els[a.id],pa=pos(a),pt=pos(t),dx=(pt.x-pa.x)*.6,dy=(pt.y-pa.y)*.6;A.style.zIndex=2000;
+function lunge(a,t){const trace=document.createElement('i'),ca=ctr(a),ct=ctr(t);trace.className='five-strike';trace.style.cssText='left:'+ca.x+'px;top:'+ca.y+'px;width:'+Math.hypot(ct.x-ca.x,ct.y-ca.y)+'px;rotate:'+Math.atan2(ct.y-ca.y,ct.x-ca.x)+'rad';$('#afx').append(trace);anim(trace,[{opacity:0,scale:'.2 1'},{opacity:.85,scale:'1 1',offset:.5},{opacity:0,scale:'1 0'}],{duration:560/spd}).then(()=>trace.remove());const A=els[a.id],pa=pos(a),pt=pos(t),dx=(pt.x-pa.x)*.6,dy=(pt.y-pa.y)*.6;A.style.zIndex=2000;
  return anim(inner(a),[{transform:'none'},{transform:`translate(${-dx*.1}px,${-dy*.1}px) scale(.95)`,offset:.2},{transform:`translate(${dx}px,${dy}px) scale(1.14)`,offset:.52},{transform:'none'}],{duration:520/spd}).then(()=>A.style.zIndex=pos(a).y)}
 function hurt(t,crit){return anim(inner(t),[{transform:'none',filter:'none'},{transform:`translateX(${crit?-26:-14}px) rotate(${crit?-6:-3}deg)`,filter:'brightness(2.6) saturate(0)',offset:.25},{transform:'translateX(10px)',offset:.6},{transform:'none',filter:'none'}],{duration:(crit?460:340)/spd})}
 function shake(k=1){anim(AR,[{transform:'none'},{transform:`translate(${9*k}px,${-6*k}px)`},{transform:`translate(${-8*k}px,${5*k}px)`},{transform:`translate(${5*k}px,${3*k}px)`},{transform:'none'}],{duration:320/spd})}
@@ -176,9 +190,11 @@ async function ev1(e,fast){const u=B.units[e.u],c=u&&ctr(u),S=B.units[e.src];swi
   else{const r=R0(a),nm=e.name||'ação';Aud.sfx('skill');float(c.x,c.y-60,`${r.k[0][1]} ${nm}${e.again?' x2':''}!`,'sk');spark(c.x,c.y,8,.9);
    anim(inner(a),[{transform:'none'},{transform:'scale(1.16) translateY(-10px)',filter:'brightness(1.6)'},{transform:'none'}],{duration:500/spd});await sleep(520)}break}
  case'dmg':{const t=u;tip((S?.name||'Efeito')+' → '+u.name+': −'+e.v+' de Vida');float(c.x,c.y,(e.dot?'🔥':e.rev?'🔥':'')+'-'+e.v,e.crit?'cr':e.dot?'bn':'');if(e.crit)float(c.x,c.y-70,'CRÍTICO!','cr2');
-  Aud.sfx(e.crit?'crit':'hit');hurt(t,e.crit);spark(c.x,c.y,e.multi?4:e.crit?16:8,e.crit?1.2:.8);shake(e.crit?1.3:.5);paintUnit(t,e.hp);await sleep(e.multi?440:e.crit?850:650);break}
+  Aud.sfx(e.crit?'crit':'hit');hurt(t,e.crit);spark(c.x,c.y,e.multi?4:e.crit?16:8,e.crit?1.2:.8);if(e.crit)shake(.6);paintUnit(t,e.hp);await sleep(e.multi?440:e.crit?850:650);break}
  case'heal':float(c.x,c.y,'+'+e.v,'hl');if(e.src==='skill')Aud.sfx('heal');spark(c.x,c.y,5,.7);paintUnit(u,e.hp);await sleep(fast?150:360);break;
  case'miss':float(c.x,c.y,e.k==='combo'?'COMBO QUEBRADO!':'ERROU!','mi');Aud.sfx('miss');await sleep(420);break;
+ case'parry':float(c.x,c.y,'PARRY · d6 '+e.roll,'mi');Aud.sfx('miss');await sleep(420);break;
+ case'dodge':float(c.x,c.y,'ESQUIVA · d6 '+e.roll,'mi');await anim(inner(u),[{transform:'none'},{transform:'translateX(45px)',offset:.45},{transform:'none'}],{duration:420/spd});break;
  case'block':float(c.x,c.y,'🛡️ BLOQUEADO!','mi');Aud.sfx('miss');await sleep(420);break;
  case'vital':float(c.x,c.y,'🗡️ PONTO VITAL!','cr');shake(1.6);Aud.sfx('crit');await sleep(500);break;
  case'execute':float(c.x,c.y,'☠️ EXECUTADO!','cr');shake(1.4);Aud.sfx('crit');spark(c.x,c.y,12,1.1);await sleep(560);break;
@@ -195,20 +211,20 @@ async function ev1(e,fast){const u=B.units[e.u],c=u&&ctr(u),S=B.units[e.src];swi
  case'status':float(c.x,c.y,STN[e.k]||'!','sp');paintUnit(u);await sleep(fast?120:360);break;
  case'resist':float(c.x,c.y,'RESISTIU','mi');await sleep(300);break;
  case'immortal':float(c.x,c.y,'♾️ IMORTAL!','sp');paintUnit(u);await sleep(420);break;
- case'undying':float(c.x,c.y,'👹 ADRENALINA ONI! +2 turnos','sp');paintUnit(u);await sleep(520);break;
- case'soul':float(c.x,c.y-40,'👻 ALMA '+e.n+'/5','sp');paintUnit(u);await sleep(380);break;
+ case'undying':float(c.x,c.y,'ONI · 4 AÇÕES','sp');paintUnit(u);await sleep(520);break;
+ case'soul':float(c.x,c.y-40,'ALMAS '+e.n+' · +20 MÁX.','sp');paintUnit(u);await sleep(380);break;
  case'swap':float(c.x,c.y,e.auto?'🔄 SEGUNDA VERSÃO!':'🔄 PLAYER 2!','sp');paintUnit(u,e.hp);Aud.sfx('skill');await sleep(520);break;
  case'pass':float(c.x,c.y,'PASSOU','mi');await sleep(380);break;
  case'sup':{float(c.x,c.y-60,(SUPI[e.name]||'')+' '+e.name,'sp');const s=els[u.id].querySelector(`.au-sup [data-s="${e.name}"]`);s&&anim(s,[{transform:'scale(1)'},{transform:'scale(1.8)',background:'#ffc61a'},{transform:'scale(1)'}],{duration:500/spd});
   document.querySelectorAll(`#askills .sp[data-s="${e.name}"]`).forEach(d=>u.human&&anim(d,[{transform:'scale(1)'},{transform:'scale(1.25)',filter:'brightness(1.8)'},{transform:'scale(1)'}],{duration:500/spd}));await sleep(fast?110:420);break}
- case'die':Aud.sfx('die');spark(c.x,c.y,14,1.2);shake(1);paintUnit(u,0);counters();await sleep(620);break}}
+ case'die':Aud.sfx('die');spark(c.x,c.y,10,.8);paintUnit(u,0);await anim(inner(u),[{opacity:1,filter:'brightness(1.3)'},{opacity:0,filter:'grayscale(1)',translate:'0 -36px'}],{duration:520/spd});els[u.id].classList.add('dead');counters();await sleep(220);break}}
 
 /* ---------- entrada do jogador ---------- */
 const tip=t=>$('#atip').textContent=t;
 function targetsFor(a){const h=pend.u;
  if(a.type==='attack')return B.targets(h);
  if(a.type==='break')return B.breakables(h);
- if(a.type==='skill'){const k=B.skill(h);if(k.tg==='enemy')return B.targets(h);if(k.tg==='ally')return B.alive(h.team).filter(x=>h.pw==='heal'?x.hp<x.max:x!==h)}
+ if(a.type==='skill'){const k=B.skill(h);if(k.tg==='enemy')return B.abilityTargets(h);if(k.tg==='ally')return B.alive(h.team).filter(x=>h.pw==='star'||x!==h&&x.hp<x.max)}
  return[]}
 function mark(list){B.units.forEach(u=>{const e=els[u.id];if(!e)return;const target=!!list&&list.includes(u);e.classList.toggle('tgt',target);e.setAttribute('role','button');e.setAttribute('tabindex',target?'0':'-1');e.setAttribute('aria-label',u.name+' · '+u.hp+' de Vida');})}
 function humanInput(u){return new Promise(res=>{const inputId=++inputSerial;pend={u,res};sel=null;bar();tip('Sua vez! Escolha uma ação.');
@@ -226,7 +242,7 @@ $('#apass').onclick=()=>{Aud.sfx('click');pend&&commit({type:'pass'},-1)};
 $('#askills').onclick=e=>{const d=e.target.closest('.sk');if(!d||!pend||!human)return;if(!B.skillReady(human)){tip('Poder indisponível agora.');Aud.sfx('ban');return}Aud.sfx('click');choose({type:'skill'})};
 $('#askills').onpointerover=e=>{const d=e.target.closest('.ad');if(!d||!human)return;if(d.dataset.s)tip(`${SUPI[d.dataset.s]} ${d.dataset.s}: ${SUPD[d.dataset.s]}`);else{const k=R0(human).k[0];tip(`${k[1]} ${k[0]} (${k[3]}): ${k[2]}`)}};
 $('#askills').onpointerout=()=>{if(!pend)tip('')};
-$('#aunits').onclick=e=>{const c=e.target.closest('.au.tgt');if(c&&sel&&pend){Aud.sfx('pick');commit(sel,+c.dataset.id)}};
+$('#aunits').onclick=e=>{const c=e.target.closest('.au.tgt');if(c&&sel&&pend){Aud.sfx('pick');commit(sel,+c.dataset.id)}else{const unit=e.target.closest('.au');if(unit)inspect(B.units[+unit.dataset.id].ch,B.units[+unit.dataset.id]);}};
 $('#aauto').onclick=()=>{auto^=1;$('#aauto').classList.toggle('act',!!auto);Aud.sfx('click');if(auto&&pend){const p=B.ai(pend.u);commit(p.a,p.tid)}};
 $('#aspd').onclick=()=>{const rates=[.65,1,1.5];spd=rates[(rates.indexOf(spd)+1)%rates.length];$('#aspd').textContent=spd===.65?'Calmo':spd===1?'Normal':'Rápido';Aud.sfx('click')};
 $('#aexit').onclick=()=>{Aud.sfx('click');close()};
@@ -234,16 +250,17 @@ $('#aexit').onclick=()=>{Aud.sfx('click');close()};
 /* ---------- fluxo: partida → rodadas → turnos ---------- */
 async function turn(u){cur=u;tip('Vez de '+u.name+' · '+u.owner);els[u.id].classList.add('cur');paintQueue(u);paintActive(u);
  const b=B.beginTurn(u);await play(b.ev);paintActive(u);
- if(!b.skip&&u.alive){let pick;
-  if(u.human&&!auto){pick=await humanInput(u)}else{await sleep(1100);pick=B.ai(u)}
-  await play(B.act(u,pick.a,pick.tid))}
+ if(!b.skip&&u.alive){let free=true;for(let choice=0;choice<4&&free&&u.alive;choice++){let pick;
+  if(u.human&&!auto)pick=await humanInput(u);else{await sleep(1100);pick=B.ai(u);}
+  const events=B.act(u,pick.a,pick.tid);await play(events);free=events.free===true;if(free){paintActive(u);bar();tip('Habilidade aplicada · sua ação de ataque continua disponível.');}
+ }}
  B.endTurn(u);await play(B.takeLate());paintUnit(u);paintActive(u);bar();els[u.id].classList.remove('cur');counters();
  const w=B.check();if(w!=null)return{w,kind:'wipe'};
  if(B.timeLeft<=0||B.cycle>B.o.MAX_CYCLES)return{w:B.byTime(),kind:'time'};return null}
 async function runMatch(id){
  while(!B.over){
   const ev=B.startRound();paintAll();$('#arnd').textContent=B.round+'° Rodada';tick();roundOn=0;
-  Aud.sfx('round');await banner('ROUND '+B.round,1100);await play(ev.filter(e=>e.t==='sup'||e.t==='fear'||e.t==='status'),1);await banner('FIGHT!',700,'fg');
+  Aud.sfx('round');tip('Rodada '+B.round+' · nova formação, Vida restaurada.');await banner('RODADA '+B.round,1600);await play(ev.filter(e=>e.t==='sup'||e.t==='fear'||e.t==='status'),1);await banner('BATALHA!',900,'fg');
   roundOn=1;let r=null;for(;;){const u=B.next();if(!u){r={w:B.byTime(),kind:'time'};break}r=await turn(u);if(r)break}
   roundOn=0;cur&&els[cur.id]&&els[cur.id].classList.remove('cur');const res=B.finishRound(r.w,r.kind);counters();Aud.sfx('round');
   await banner(r.kind==='time'?'TEMPO ESGOTADO!':'ROUND VENCIDO!',900,r.w?'bl':'rd');
@@ -263,11 +280,11 @@ setInterval(()=>{if(!on||!B||!roundOn||paused||document.hidden||pend)return;B.ti
 
 /* ---------- entrada / saída ---------- */
 function begin(){runId++;pend=null;sel=null;clearTimeout(tt);$('#aend').classList.remove('on');$('#afx').innerHTML='';
- B=new E.Battle(res0);matchToken=G.Sanctuary?.newMatchToken();G.Soundtrack?.setContext('combat');human=B.units.find(u=>u.human)||null;buildUnits();buildBar();
- $('#ant0').textContent=B.names[0];$('#ant1').textContent=B.names[1];$('#atm').textContent='3:00';$('#atip').textContent='';paintAll();
+ B=new E.Battle(res0,options.rules||{});matchToken=G.Sanctuary?.newMatchToken();G.Soundtrack?.setContext('combat');human=B.units.find(u=>u.human)||null;buildUnits();buildBar();
+ $('#ant0').textContent=B.names[0];$('#ant1').textContent=B.names[1];$('#atm').textContent='3:00';$('#atip').textContent='';paintAll();const first=B.order()[0];if(first){paintQueue(first);paintActive(first);}
  on=1;AR.classList.add('on');const id=runId;runMatch(id).catch(e=>{if(e!==0)console.error(e)})}
-function start(res){res0=res;try{Draft.exit()}catch(e){}$('#abg').src=ASSETS.arena||ASSETS.bg2;begin()}
-function demo(){const ch=shuf(RO().length),mk=(t,n)=>({name:t?'BLUE TEAM':'RED TEAM',players:n.map((nm,j)=>({name:nm,human:!t&&!j,char:RO()[ch[t*5+j]].n,charId:ch[t*5+j],support:shuf(6).slice(0,2).map(i=>SUPN[i])}))});
+function start(res){res0=res;try{Draft.exit()}catch(e){}$('#abg').src='assets/visual-v0.27/backgrounds/crystal-valley.png';begin()}
+function demo(){const ch=shuf(RO().length),mk=(t,n)=>({name:t?'BLUE TEAM':'RED TEAM',players:n.map((nm,j)=>({name:nm,human:!t&&!j,char:RO()[ch[t*5+j]].n,charId:ch[t*5+j],support:[]}))});
  Aud.init&&Aud.init();start({bans:[[],[]],teams:[mk(0,['Jogador','Bot1','Bot2','Bot3','Bot4']),mk(1,['Bot5','Bot6','Bot7','Bot8','Bot9'])]})}
 function exit(){on=0;runId++;pend=null;clearTimeout(tt);AR.classList.remove('on');$('#aend').classList.remove('on');roundOn=0}
 
@@ -284,7 +301,7 @@ return{start,demo,exit,get battle(){return B},get pending(){return pend},get spe
  const visibility=()=>{root.classList.toggle('five-hidden',document.hidden);for(const animation of animations)animation[document.hidden||paused?'pause':'play']();};
  globalThis.addEventListener('goghos:presentation-preferences',preferences);document.addEventListener('visibilitychange',visibility);globalThis.addEventListener('resize',fit);fit();$('#aspd').textContent='Calmo';
  active={close,root,Draft,Arena,get paused(){return paused}};
- root.classList.toggle('reduced',reduced());if(options.demo)Arena.demo();else Draft.start();return true;
+ root.classList.toggle('reduced',reduced());if(options.match)Arena.start(options.match);else if(options.demo)Arena.demo();else Draft.start();return true;
 }
 G.ArenaFive=Object.freeze({open,close:()=>active?.close(),getDebugState:()=>({active:!!active,paused:!!active?.paused,phase:active?.Arena.battle?'battle':active?.Draft.state.mode||'closed',draft:active?.Draft.state,battle:active?.Arena.battle,speed:active?.Arena.speed}),demo:()=>open({demo:true})});
 })(globalThis.GOGHOS);

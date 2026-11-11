@@ -1,6 +1,6 @@
 # Estrutura base do GOGHOS — v0.29.0
 
-**Versão atual: v0.33.1.** Os ajustes aprovados estão na seção final deste documento e os atributos ativos em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md). As seções versionadas anteriores registram a evolução das regras.
+**Versão atual: v0.38.0.** Os ajustes aprovados estão na seção final deste documento e os atributos ativos em [BALANCEAMENTO_MANUAL.md](BALANCEAMENTO_MANUAL.md). As seções versionadas anteriores registram a evolução das regras.
 Estas são as regras atuais, conforme a estrutura descrita pelo criador. A v0.29.0 estende a apresentação cartoon à seleção, arena, mão, decisões e demais telas. Mantém integralmente as regras e o balanceamento anteriores. As diferenças das versões anteriores ficam em [HISTORICO.md](HISTORICO.md).
 
 ## Seleção
@@ -338,3 +338,14 @@ O draft é local: você e nove bots. Cada lado bane dois campeões; os quatro ba
 Apoios: Escudo dá +10% de Defesa; Cura restaura 6% da Vida máxima em cada turno próprio; Velocidade prioriza empates; Foco soma 10 pontos percentuais de crítico; Vingança atinge um oponente ao cair; Sorte tem 25% de repetir a ação, exceto poderes únicos. Apoios não se repetem no mesmo personagem. Caça acrescenta +1 de Velocidade enquanto o alvo vive; melhorias de Unicorn terminam quando seu emissor sai; Zédia protege também contra execução enquanto permanece vivo. A cura é registrada nas estatísticas do curador.
 
 A Arena clássica mantém todas as regras anteriores e seu catálogo de 31 personagens. Nenhuma regra da prévia 5×5 substitui silenciosamente seus números ou habilidades. Os dois modos compartilham as 50 moedas por partida concluída; a emissão de um token único impede créditos duplicados, inclusive ao voltar ao menu.
+
+
+## Arena 5×5 — correções da v0.38.0 (substituem as regras experimentais da v0.37.0)
+
+O catálogo oficial é a única origem de atributos, classe e habilidade dos 19 campeões selecionáveis. Zédia e Dashow não fazem parte do catálogo confirmado e foram substituídos por Cavaleiro e Endrik, presentes nas referências. Os seis Apoios extras da prévia (Escudo, Cura, Velocidade, Foco, Vingança e Sorte) não são mais equipados nem aplicados. Buffs numéricos de uma habilidade própria, como Estrela de Unicorn, não copiam a habilidade do emissor ao beneficiado.
+
+Oni pertence somente a Daztirry: uma ativação ao receber dano letal ou execução, quatro ações globais subsequentes, +30 de ataque durante o efeito e eliminação obrigatória no fim. Petrificação, sono, ausência de turno próprio ou morte de um aliado não prolongam a duração. Nenhum outro personagem herda o efeito. Não há aura coletiva de imortalidade.
+
+Os tributos seguem as classes atuais: esquiva por diferença de velocidade no d6, máximo cinco faces, ignorada por Mago; Parry pelo limiar individual dos Lutadores, ignorado por Destruidor; resistência individual de Tanque (Cavaleiro continua com zero natural e sua própria armadura de 80%); Suporte pode transitar sem ação, com até dois na retaguarda e ao menos um defensor frontal; Mago começa em 3/3 e regenera +1 por ação global, podendo gastar até três pontos no ataque (+10 cada); Destruidor tem crítico de +25% com 1–2 no d6, sem crítico universal para as outras classes.
+
+O fim de um ciclo de velocidade não encerra a rodada. Personagens mortos na cauda da fila são ignorados e a ordem é reconstruída com os sobreviventes. Vida só é restaurada no início explícito de uma nova rodada do campeonato, depois de pontuar o resultado anterior.

@@ -1,19 +1,21 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas no universo **GOGHOS**. A **v0.37.0** integra o draft e a Arena 5×5 enviados ao mesmo projeto, com vitória animada, música compartilhada, moedas reais e navegação de volta ao menu. A abertura obrigatória e a Arena clássica continuam disponíveis.
+Um jogo de cartas e batalhas no universo **GOGHOS**. A **v0.38.0** integra o draft e a Arena 5×5 enviados ao mesmo projeto, com vitória animada, música compartilhada, moedas reais e navegação de volta ao menu. A abertura obrigatória e a Arena clássica continuam disponíveis.
 
 ## Arena 5×5
 
-**Play** abre o novo modo por padrão: banimento → escolhas → revisão dos Apoios → campeonato. Você joga com quatro bots aliados contra cinco bots locais. Não há matchmaking online. O elenco de 19 personagens, a defesa, os poderes e os seis Apoios seguem a prévia 5×5; a Arena clássica conserva seu catálogo e as regras das Daly Mães.
+**Play** abre o draft da Arena 5×5. Você e quatro bots aliados enfrentam cinco bots locais. A **v0.38.0** corrige a imortalidade compartilhada e o reset prematuro de Vida: a rodada só termina quando houver vencedor, tempo esgotado ou limite de ciclos.
 
-- Como líder, escolha dois banimentos e confirme. Os bots escolhem outros dois; as dez escolhas seguintes são únicas.
-- Na sua vez, escolha seu campeão. Na revisão, equipe até dois Apoios e clique em **PRONTO**.
-- A batalha começa em **Calmo**, com golpes e reações separados. Use **Pausar**, **Calmo / Normal / Rápido** ou **AUTO** quando desejar. Escolha ataque ou poder e então um alvo destacado. Teclado: Tab para navegar, Enter ou Espaço para confirmar.
-- O campeonato termina quando uma equipe vence cinco rodadas. O relógio da rodada para durante pausa, aba oculta e sua decisão. Rodadas sem atacantes ou com tempo esgotado têm desempate por sobreviventes, Vida e sorteio.
-- Partidas concluídas concedem as mesmas **50 moedas** do Santuário, uma única vez. A vitória enviada oferece **JOGAR** e **MENU**; sair antes do fim não concede recompensa. Não há XP fictício.
-- Para as regras anteriores, use **trocar modo → Arena clássica**. Os laboratórios, Loja, coleção, favoritos e preferências permanecem no mesmo menu.
+- O elenco usa **19 campeões oficiais**, com Vida, ataque, velocidade, habilidade e classe vindos do mesmo catálogo da Arena clássica. Cavaleiro e Endrik substituem os dois slots provisórios da prévia.
+- Cada personagem tem **somente sua habilidade própria e o tributo de sua classe**. Foram removidos os seis poderes extras equipáveis e as escolhas aleatórias de bônus dos bots.
+- Oni só se aplica a **Daztirry**, uma vez por rodada, por **quatro ações globais**; ele é eliminado quando o efeito termina, inclusive se estiver petrificado. Não protege os aliados.
+- O draft mostra seis campeões por página, com setas para os demais. Escolha dois banimentos, confirme seu campeão e revise habilidade e classe antes de **PRONTO**. **Ver ficha** abre a ilustração e os dados reais, sem inventar níveis ou XP.
+- Na batalha, a fila à direita mostra a vez e os próximos; o painel inferior mostra o personagem ativo. A estrela representa a habilidade e o losango representa o tributo. Magos têm controle de mana; Suportes podem alternar frente/retaguarda (até dois atrás, preservando um defensor).
+- Clique em **ATTACK**, depois no alvo destacado. Tocar numa carta fora da seleção de alvo abre a ficha e suspende a batalha durante a consulta. **Pausar**, **Calmo / Normal / Rápido** e **AUTO** continuam disponíveis.
+- Partidas são disputadas até cinco vitórias de rodada. Uma **nova rodada** restaura a formação e é anunciada claramente. Dentro da mesma rodada, personagens eliminados saem do campo e não reaparecem.
+- Cada partida concluída concede **50 moedas**, uma única vez. A Arena clássica permanece no seletor de modos, com suas regras e progressão preservadas.
 
-[Draft no desktop](docs/previews/draft-v0.37.0-desktop.png) · [Arena no desktop](docs/previews/arena-v0.37.0-desktop.png) · [Arena no celular](docs/previews/arena-v0.37.0-celular.png) · [Vitória no celular](docs/previews/victory-v0.37.0-celular.png)
+[Draft atualizado](docs/previews/draft-v0.38.0-desktop.png) · [Batalha no desktop](docs/previews/arena-v0.38.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.38.0-celular.png) · [Ficha ilustrada](docs/previews/ficha-v0.38.0-desktop.png)
 
 ## Abertura e menu
 
@@ -86,4 +88,4 @@ As três faixas foram integradas sem recodificação em [assets/music-v0361](ass
 
 ### Verificações do novo fluxo
 
-`npm test` inclui regras da Arena 5×5 e 100 campeonatos simulados com sementes fixas. Com o servidor aberto e Playwright instalado, `node scripts/check-arena-five-browser.js` testa o draft por cliques reais, pausa, limite de término de partida, crédito de moedas e retorno ao menu em desktop e celular. O teste injeta um estado de fim de rodada para validar a vitória sem aguardar todo um campeonato; os campeonatos completos são exercitados pelo teste do motor.
+`npm test` inclui regressões de Oni, fila de turnos, tributos individuais e 100 campeonatos simulados com sementes fixas. Com o servidor aberto e Playwright instalado, `node scripts/check-arena-five-browser.js` testa o draft por cliques reais, pausa, limite de término de partida, crédito de moedas e retorno ao menu em desktop e celular. `node scripts/check-arena-rules-browser.js` executa um ataque real até eliminar o alvo, confere ausência de poderes extras e testa ficha, pausa e redimensionamento. O teste injeta um estado de fim de rodada para validar a vitória sem aguardar todo um campeonato; os campeonatos completos são exercitados pelo teste do motor.

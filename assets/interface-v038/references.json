@@ -1,0 +1,19 @@
+{
+  "archive": "Photos-1-001.zip",
+  "sha256": "f1656b095955b067d98b6540fd08556ced2f2161a3cca53b5fc44c2bf4c8c5cf",
+  "references": [
+    {
+      "file": "bg_20261102010011.png",
+      "sha256": "d6fd034e672e1bb3a892813c01ec53e532ec9dc0a921d92a3dfa9c271ac14841"
+    },
+    {
+      "file": "225 Sem Título3_20261101234747.png",
+      "sha256": "a1bb856028a9413e078f84ca93c9134df77e8bacc5920c12feae314da3da381c"
+    },
+    {
+      "file": "91 Sem Título_20261102014633.png",
+      "sha256": "e19e4be1c6449e0c3d6bcd1c07445abcd05797e895a7c87bba2d7e82c0d4aaec"
+    }
+  ],
+  "use": "Layout references only. Gameplay uses the official live character catalogue; the new ruins SVG is authored UI artwork."
+}

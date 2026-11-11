@@ -1,3 +1,13 @@
+# Validação — v0.38.0
+
+- `npm test`: suíte completa aprovada, com 13 regressões do modo 5×5. Os atributos e regras da Arena clássica continuam conferidos pelas fixtures anteriores; seus valores não foram alterados.
+- 100 campeonatos com sementes fixas: **537 de 537 rodadas encerradas por eliminações reais**. Nenhuma dependeu do limite de ciclos/tempo para esconder uma falha de eliminação. Vida finita e coerência `alive`/Vida verificadas depois de cada ação.
+- Regressões específicas: fila terminando em morto não reinicia a rodada; Oni só no Daztirry, com expiração após quatro ações globais mesmo petrificado; não reativa; sem aura coletiva; não há Apoios extras; classe e habilidade correspondem ao catálogo; combo usa dados sem repetição; cura não restaura quem não deve; almas não curam; poderes gratuitos não gastam o ataque.
+- `node scripts/check-arena-rules-browser.js`: em 1366×768 e 390×844, ataque manual de Sam elimina Mike, o alvo chega a zero, a animação termina e o personagem sai do campo. Consulta da ficha preserva estado, não há poderes equipados, pausa e rotação não avançam a batalha. Verificadas também falhas de recursos HTTP e erros de JavaScript.
+- `node scripts/check-arena-five-browser.js`: paginação do draft, banimentos, escolhas únicas, revisão de habilidade/classe sem equipamentos, entrada com dez campeões, pausa, término de partida, 50 moedas creditadas uma vez e retorno/reabertura do menu. O limite final de partida usa uma fixture explícita; as eliminações reais são verificadas pelo teste manual e pelos campeonatos simulados.
+- `npm run balance`: auditoria da Arena clássica concluída. As mudanças desta versão estão no modo 5×5 e na apresentação.
+- Capturas revisadas em `docs/previews/*-v0.38.0-*.png`. O ZIP enviado serve como referência de composição; níveis, XP e poderes não confirmados das imagens não são inventados. O cenário mantém arte local e recebe uma sobreposição vetorial própria de ruínas.
+
 # Validação — v0.37.0
 
 - `npm test`: suíte existente e sete testes novos do modo 5×5, incluindo 100 campeonatos completos com sementes fixas. Catálogo, regras e artes da Arena clássica continuam conferidos pelas fixtures históricas; somente o novo motor independente possui sua própria suíte.

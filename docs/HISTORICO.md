@@ -352,3 +352,15 @@ Removidos o bloqueio por abertura já vista, o botão Pular, a saída por Escape
 - Vitória do anexo ligada ao resultado real nos dois modos, com áudio existente e apenas as moedas realmente concedidas pelo Santuário. Corrigida a camada do canvas que interceptava cliques nos botões.
 - Limpeza dos processos e animações ao sair ou reiniciar; prazos de decisões antigos não afetam turnos novos.
 - Arena clássica, catálogo, balanceamento, progresso, menu, intro e trilhas anteriores preservados. O novo modo usa as regras próprias da prévia 5×5, documentadas separadamente.
+
+
+## v0.38.0 — Habilidades individuais, eliminações reais e referências visuais
+
+- Corrigido o fim da fila quando restavam personagens já eliminados: agora o próximo ciclo continua a rodada, sem reset indevido de Vida.
+- Removidos Oni coletivo, proteção coletiva de Zédia e a segunda vida que se regenerava depois de esgotada. Só Daztirry entra no próprio Oni, uma vez, por quatro ações globais; depois é eliminado sem depender de sua própria vez.
+- O elenco 5×5 passa a ler os dados oficiais do catálogo atual. Cavaleiro e Endrik entram no lugar de Zédia e Dashow, que eram provisórios e não pertenciam ao catálogo confirmado. Não houve alteração dos atributos da Arena clássica.
+- Cada campeão possui sua habilidade própria e seu tributo: esquiva de Assassino, Parry individual de Lutador, resistência de Tanque, transição de Suporte, mana de Mago ou crítico de Destruidor. Os seis poderes extras de equipamentos e bônus aleatórios dos bots foram retirados.
+- Corrigidas habilidades pessoais no modo 5×5: combo de Sam com dados sem repetição, morte de Sark sem revide, dano percentual de Linx, queimaduras de Chama, máximo de Vida sem cura pelas almas de Fonior e cura de Zuri excluindo a si mesma.
+- Draft paginado em seis miniaturas, revisão de habilidade/classe e ficha ilustrada, seguindo a organização das referências enviadas no ZIP. Batalha com cartas oficiais, painel de personagem, fila identificada e leitura de dano separada dos controles.
+- Animações de escolha, antecipação e rastro do ataque, esquiva/Parry e saída dos eliminados. Movimento reduzido, pausa e limpeza ao sair preservados.
+- Testes: treze regressões do modo, 100 campeonatos (537 rodadas por eliminações reais), testes de ataque manual e eliminação no navegador e fluxo completo do draft à vitória, em desktop/celular.
