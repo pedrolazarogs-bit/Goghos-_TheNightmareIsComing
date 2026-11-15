@@ -1,0 +1,9 @@
+.victory-overlay{position:fixed;inset:0;z-index:9500;background:#120a2a}
+.victory-canvas{position:absolute;inset:0}
+.victory-overlay>button{position:absolute;opacity:0;border:0;margin:0;padding:0;cursor:pointer;z-index:2}
+.victory-overlay>button:focus-visible{opacity:1;background:#ffffff12;outline:3px solid #fff3c9;border-radius:16px;color:transparent}
+.victory-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.victory-failed{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;padding:20px}
+.victory-failed .victory-status{position:static;width:100%;height:auto;clip-path:none;text-align:center;font-size:30px}
+.victory-failed>button{position:static;opacity:1;padding:20px 40px;background:#f4cf7d;color:#211734}
+.victory-canvas{z-index:0}

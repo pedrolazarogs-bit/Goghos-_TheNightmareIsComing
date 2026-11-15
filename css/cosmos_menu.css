@@ -3,10 +3,10 @@
 .cosmos-menu .cosmos-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;overflow:hidden;transform:translate(-50%,-50%) scale(var(--cosmos-scale,1));transform-origin:center;background:#150a33}
 .cosmos-menu .cosmos-stage>*{position:absolute}
 .cosmos-menu img{display:block;pointer-events:none;-webkit-user-drag:none;max-width:none}
-.cosmos-menu button{appearance:none;background:none;color:inherit;border:0;border-radius:0;margin:0;padding:0;font:inherit;line-height:1.1;cursor:pointer;text-align:center;box-shadow:none;text-shadow:0 4px 0 #0008}
+.cosmos-menu .cosmos-decor{appearance:none;background:none;color:inherit;border:0;border-radius:0;margin:0;padding:0;font:inherit;line-height:1.1;cursor:default;text-align:center;box-shadow:none;text-shadow:0 4px 0 #0008}
 /* Illustrated controls keep their transparent hit areas on hover. */
-.cosmos-menu button:is(:hover,:active,:focus,:focus-visible){background:none;box-shadow:none;border:0;outline:none;filter:none}
-.cosmos-menu button:focus-visible :is(img,svg,span,strong),.cosmos-menu .cosmos-footer>button:focus-visible{filter:brightness(1.25) drop-shadow(0 0 6px #ffc47f)}
+.cosmos-menu .cosmos-decor:is(:hover,:active,:focus,:focus-visible){background:none;box-shadow:none;border:0;outline:none;filter:none}
+.cosmos-menu .cosmos-decor:focus-visible :is(img,svg,span,strong),.cosmos-menu .cosmos-footer>.cosmos-decor:focus-visible{filter:brightness(1.25) drop-shadow(0 0 6px #ffc47f)}
 .cosmos-menu .cosmos-bg{left:370px;top:-155px;width:2300px;height:auto;transform-origin:1150px 745px;animation:cosmos-zoom 24s ease-in-out infinite alternate}
 .cosmos-menu .cosmos-rays{left:320px;top:-610px;width:2400px;height:2400px;pointer-events:none;background:repeating-conic-gradient(#ffebbe8c 0 4deg,transparent 4deg 14deg);mask:radial-gradient(circle,#000,transparent 62%);mix-blend-mode:screen;opacity:.35;animation:cosmos-spin 90s linear infinite}
 .cosmos-menu .cosmos-glow{left:1170px;top:240px;width:700px;height:700px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#fff0c8bf,#ffa07840 40%,transparent 70%);mix-blend-mode:screen;animation:cosmos-pulse 3.2s ease-in-out infinite}
@@ -16,8 +16,6 @@
 .cosmos-menu .cosmos-favorite .cosmos-float,.cosmos-menu .cosmos-favorite-image{width:100%;height:100%}
 .cosmos-menu .cosmos-favorite-image{object-fit:contain;object-position:50% 100%}
 .cosmos-menu .cosmos-favorite .cosmos-float{transform-origin:20% 100%}
-.cosmos-menu .cosmos-favorite-hit{left:0;top:250px;width:520px;height:650px;z-index:4;border-radius:35px}
-.cosmos-menu:has(.cosmos-favorite-hit:focus-visible) .cosmos-favorite-image{filter:brightness(1.15) drop-shadow(0 0 6px #ffc47f)}
 .cosmos-menu .cosmos-favorite-label{left:30px;top:600px;color:#f6dc8e;z-index:5;pointer-events:none;text-shadow:0 4px 0 #0009;transform:rotate(-2deg)}
 .cosmos-menu .cosmos-favorite-label strong{display:block;font-size:56px;line-height:1.2;font-weight:400}
 .cosmos-menu .cosmos-favorite-label span{display:block;font-size:32px}
@@ -69,8 +67,8 @@
 .cosmos-menu .cosmos-stars{inset:0;pointer-events:none;z-index:5;overflow:hidden}
 .cosmos-menu .cosmos-stars>i{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);background:#ffefc0;filter:drop-shadow(0 0 6px #ffb4da);clip-path:polygon(50% 0,61% 38%,100% 50%,61% 62%,50% 100%,39% 62%,0 50%,39% 38%);opacity:0;animation:cosmos-spark var(--duration) ease-in-out var(--delay) infinite}
 .cosmos-menu .cosmos-footer{left:30px;right:30px;bottom:13px;display:flex;align-items:center;gap:25px;z-index:8;min-height:28px}
-.cosmos-menu .cosmos-footer>button{font-size:22px;color:#fff9;line-height:1.2}
-.cosmos-menu .cosmos-footer>button:hover{color:#fff4c7}
+.cosmos-menu .cosmos-footer>.cosmos-decor{font-size:22px;color:#fff9;line-height:1.2}
+.cosmos-menu .cosmos-footer>.cosmos-decor:hover{color:#fff4c7}
 .cosmos-menu .cosmos-footer>small{margin-left:auto;font-size:20px;color:#fff9}
 .cosmos-menu .cosmos-announcement{width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .cosmos-menu .cosmos-float{animation:cosmos-float 5s ease-in-out infinite}
@@ -99,7 +97,6 @@
 .cosmos-menu[data-layout=portrait] .cosmos-sun{left:64%;top:54%;width:30%;height:auto;aspect-ratio:1}
 .cosmos-menu[data-layout=portrait] .cosmos-panel{left:-12%;top:0;width:155%;height:77%}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite{left:-6%;top:12%;width:86%;height:56%;clip-path:polygon(0 0,100% 0,100% 30%,80% 58%,60% 100%,0 100%)}
-.cosmos-menu[data-layout=portrait] .cosmos-favorite-hit{left:0;top:max(17%,114px);width:59%;height:32%;border-radius:25px}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label{left:17px;top:54%;max-width:36%;text-shadow:0 3px 0 #0009}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label strong{font-size:clamp(24px,8vw,38px)}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label span{font-size:18px}.cosmos-menu[data-layout=portrait] .cosmos-favorite-label small{font-size:12px}
@@ -133,7 +130,7 @@
 .cosmos-menu[data-layout=portrait] .cosmos-shortcut>img{height:70px;width:auto;max-width:100%;object-fit:contain}
 .cosmos-menu[data-layout=portrait] .cosmos-shortcut>span{font-size:23px;line-height:1.1}
 .cosmos-menu[data-layout=portrait] .cosmos-footer{left:13px;right:13px;bottom:10px;gap:16px;min-height:16px}
-.cosmos-menu[data-layout=portrait] .cosmos-footer>button{font-size:12px}.cosmos-menu[data-layout=portrait] .cosmos-footer>small{font-size:10px}
+.cosmos-menu[data-layout=portrait] .cosmos-footer>.cosmos-decor{font-size:12px}.cosmos-menu[data-layout=portrait] .cosmos-footer>small{font-size:10px}
 @media(max-width:360px){
  .cosmos-menu[data-layout=portrait] .cosmos-stat-visuais{left:93px}.cosmos-menu[data-layout=portrait] .cosmos-stat-matches{left:102px}
  .cosmos-menu[data-layout=portrait] .cosmos-stat-visuais>span{font-size:14px}

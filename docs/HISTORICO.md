@@ -1,3 +1,16 @@
+# Histórico de versões
+
+## v0.39.0 — somente abertura e menu
+
+- Removidos os acessos de todos os elementos do menu, inclusive Play, loja, deck, ranked, perfil, moedas, configurações, modo, personagem e rodapé. As antigas áreas de botão são agora elementos decorativos, sem navegação ou foco de controle.
+- Retirados os motores de combate, draft e IA, os catálogos de personagens, as telas internas e seus recursos exclusivos. A implementação anterior continua disponível na tag v0.38.0.
+- Preservados o visual do menu, suas animações, a abertura obrigatória em duas etapas, as transições, a espera por tecla/toque e a música contínua entre apresentação e menu.
+- Mantidos o módulo e os recursos da animação de vitória, sem acesso pelo menu. Seus comandos retornam ao menu, sem iniciar partida nem conceder recompensa.
+- Conservados todos os 11 arquivos de áudio e os recursos originais de abertura, menu e vitória, verificados por SHA-256.
+- Simplificados os estilos, a inicialização, as preferências e a documentação. Adicionada validação de navegador para computador e celular, incluindo cliques sem navegação.
+
+As seções abaixo registram versões anteriores; suas regras e telas não integram a edição 0.39.0.
+
 # Origem e integração do projeto
 
 Os arquivos `goghos-v0_12_0.zip` e `goghos-v0_14_0.zip` foram comparados por nome e conteúdo. Todos os 40 arquivos da 0.12 estão presentes na 0.14; 10 deles mudaram e a 0.14 acrescentou 2 testes. Não havia um terceiro conjunto de arquivos exclusivos da 0.12 a transplantar. Os commits de importação preservam cada versão separadamente no histórico do Git.

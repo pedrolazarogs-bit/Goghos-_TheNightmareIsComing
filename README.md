@@ -1,91 +1,46 @@
 # GOGHOS — The Nightmare Is Coming
 
-Um jogo de cartas e batalhas no universo **GOGHOS**. A **v0.38.0** integra o draft e a Arena 5×5 enviados ao mesmo projeto, com vitória animada, música compartilhada, moedas reais e navegação de volta ao menu. A abertura obrigatória e a Arena clássica continuam disponíveis.
+**Versão 0.39.0 — abertura e menu de apresentação.**
 
-## Arena 5×5
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.39.0.zip)
 
-**Play** abre o draft da Arena 5×5. Você e quatro bots aliados enfrentam cinco bots locais. A **v0.38.0** corrige a imortalidade compartilhada e o reset prematuro de Vida: a rodada só termina quando houver vencedor, tempo esgotado ou limite de ciclos.
+Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé e na imagem do personagem também foram removidos.
 
-- O elenco usa **19 campeões oficiais**, com Vida, ataque, velocidade, habilidade e classe vindos do mesmo catálogo da Arena clássica. Cavaleiro e Endrik substituem os dois slots provisórios da prévia.
-- Cada personagem tem **somente sua habilidade própria e o tributo de sua classe**. Foram removidos os seis poderes extras equipáveis e as escolhas aleatórias de bônus dos bots.
-- Oni só se aplica a **Daztirry**, uma vez por rodada, por **quatro ações globais**; ele é eliminado quando o efeito termina, inclusive se estiver petrificado. Não protege os aliados.
-- O draft mostra seis campeões por página, com setas para os demais. Escolha dois banimentos, confirme seu campeão e revise habilidade e classe antes de **PRONTO**. **Ver ficha** abre a ilustração e os dados reais, sem inventar níveis ou XP.
-- Na batalha, a fila à direita mostra a vez e os próximos; o painel inferior mostra o personagem ativo. A estrela representa a habilidade e o losango representa o tributo. Magos têm controle de mana; Suportes podem alternar frente/retaguarda (até dois atrás, preservando um defensor).
-- Clique em **ATTACK**, depois no alvo destacado. Tocar numa carta fora da seleção de alvo abre a ficha e suspende a batalha durante a consulta. **Pausar**, **Calmo / Normal / Rápido** e **AUTO** continuam disponíveis.
-- Partidas são disputadas até cinco vitórias de rodada. Uma **nova rodada** restaura a formação e é anunciada claramente. Dentro da mesma rodada, personagens eliminados saem do campo e não reaparecem.
-- Cada partida concluída concede **50 moedas**, uma única vez. A Arena clássica permanece no seletor de modos, com suas regras e progressão preservadas.
+A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
-[Draft atualizado](docs/previews/draft-v0.38.0-desktop.png) · [Batalha no desktop](docs/previews/arena-v0.38.0-desktop.png) · [Batalha no celular](docs/previews/arena-v0.38.0-celular.png) · [Ficha ilustrada](docs/previews/ficha-v0.38.0-desktop.png)
+Os motores de batalha, draft, loja, personagens, coleção e demais telas internas foram retirados deste pacote, junto com as artes e estilos usados apenas nessas telas. As versões anteriores permanecem no histórico e nas tags do repositório.
 
-## Abertura e menu
+A animação de vitória e seus recursos foram preservados como módulo de apresentação, sem acesso pelos botões do menu. Todos os 11 arquivos de áudio existentes na versão anterior foram conservados, inclusive as trilhas de combate, vitória e derrota. Esta edição não inicia partidas nem concede recompensas.
 
-- **Menu enviado:** cenário cósmico, painel diagonal, logo GOGHOS, personagem favorito alternável e Play. Os ícones abrem Loja, Deck, modos e Configurações reais; moedas, partidas e visuais mostram o progresso local.
-- **Seleção física:** os quatro Comuns aparecem como cartas soltas; as escolhas alternam entre jogador e bot, conservando a ordem inicial.
-- **Uma arena aberta:** a frente, a retaguarda e as Daly Mães compartilham o campo, sem as grandes caixas por equipe nem o painel permanente de atributos. As consultas continuam disponíveis nos ícones.
-- **Emblemas ilustrados:** doze símbolos com bases facetadas, metal e esmalte em cores contidas. A habilidade especial usa a estrela; ataque normal, confirmação, movimento e recursos mantêm seus próprios controles.
-- **Protagonismo das cartas:** enquadramento considera os personagens presentes; as vagas livres são marcas discretas no chão. A mão fica em leque, os montes são peças clicáveis, e a estrela da própria carta seleciona a habilidade diretamente, sem abrir outro painel.
+## Testar
 
-O balanceamento, as artes oficiais, a fonte German Beauty e os efeitos de combate permanecem preservados. A abertura, o menu, a batalha e os resultados usam as trilhas enviadas pelo criador. A hierarquia de velocidade, os ataques separados, os Apoios durante impedimentos e a recuperação continuam seguindo as regras existentes.
+Extraia o ZIP, entre na pasta do projeto e execute:
 
-![Novo menu principal enviado pelo criador](docs/previews/menu-v0.36.0-desktop.png)
+```sh
+npm run dev
+```
 
-[Abertura](docs/previews/intro-v0.36.1-desktop.png) · [Menu no celular](docs/previews/menu-v0.36.0-celular.png) · [Batalha no celular](docs/previews/arena-v0.35.1-celular.png) · [Seleção](docs/previews/selecao-v0.35.1-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Validação](docs/VALIDACAO.md)
+Abra <http://localhost:8000>. O comando usa Python 3; Node.js é necessário para os testes automatizados. O jogo roda com arquivos locais e não precisa baixar dependências ou acessar serviços externos.
 
-## Jogar e desenvolver
+1. Toque em **Toque para iniciar** e aguarde o carregamento e a apresentação.
+2. Pressione qualquer tecla ou toque na tela quando a apresentação indicar que pode continuar.
+3. Confira o menu, as animações e a continuidade da música.
+4. Clique nos antigos botões e na imagem do personagem: o menu deve permanecer aberto, sem painéis ou navegação.
 
-Abra `index.html` no navegador. Em toda inicialização, toque em **Toque para iniciar**; ao terminar o carregamento, a tela de título aparece. Aguarde a animação e pressione qualquer tecla ou toque na tela para abrir o menu. A abertura não oferece Pular nem entrada antecipada; Escape não a encerra. Se um recurso não carregar, use **Tentar novamente** para repetir o carregamento e concluir a abertura. **Rever abertura** continua disponível no menu. O jogo roda localmente, sem conta, servidor ou internet. Extraia o ZIP completo antes de abrir o arquivo. A fonte original German Beauty é carregada dos arquivos locais do projeto. O som começa depois de uma interação; volume e movimento podem ser ajustados nas Configurações. A intro incorpora a prévia cósmica enviada, com logo em camadas, fades de entrada e saída, depois da tela de carregamento; o menu só é liberado após uma tecla ou toque na tela de título. Usa os arquivos recebidos e respeita as preferências de áudio e movimento reduzido. A música do menu começa na tela de título, após o carregamento, e continua sem reiniciar ao entrar no menu. Para servir os arquivos durante o desenvolvimento, execute `npm run dev` na raiz do projeto e acesse `http://localhost:8000`.
-
-Com **Arena clássica** selecionada, **Jogar** apresenta Elysh, Stally, Mike e Alex. A escolha alterna **você → bot → você → bot**, sem repetir cartas. Depois das quatro escolhas, clique em **Play · começar batalha**. Cada equipe começa com seus dois Comuns na frente; não são sorteados Raros.
-
-No seletor de modos, **Treino de campeões** oferece uma formação para cada um dos 31 oficiais, com busca por nome e descrição da habilidade. As escolhas de entrada aparecem na pré-batalha; as ações específicas aparecem na vez do personagem. A estrela prepara a habilidade; o botão principal confirma o efeito e mostra seu nome. Outro toque volta ao ataque normal. A cura de Elysh na retaguarda já fica selecionada. **Personagens** mostra o catálogo com as cartas e as regras de cada habilidade. **Mesa de Apoios** inclui os 17 efeitos; **Invocação primordial** prepara os três fragmentos para a invocação manual. Os **Atalhos de treino** mantêm os testes de Sark e Elétrica e John. A escolha do modo vale enquanto o jogo estiver aberto; recarregar retorna à Arena.
-
-Foram adicionados combo de Sam, míssil com dano nos vizinhos, paralisia, duelo do Sheriff, hipnose, almas, queimaduras, cura total, caça sorteada, estado Oni, estrela de Unicorn, execução por dado, sono, petrificação, proteção de Z-Zus, Swarm de Alex, amizade de Karma e esquiva progressiva de Trucc. As regras completas estão no [guia dos personagens](docs/PERSONAGENS_PENDENTES.md). A [revisão de balanceamento](docs/BALANCEAMENTO.md) lista todos os valores anteriores, atuais e justificativas.
-
-As cartas da mão podem ser usadas na vez da equipe mesmo se o personagem estiver imobilizado ou sob outro impedimento. Isso não gasta a ação nem remove o efeito. Magos mantêm 3 de mana inicial, +1 por ação concluída e máximo de 3.
-
-É necessário **Node.js 20 ou superior** para rodar os testes e **Python 3** para `npm run dev`. Não há pacotes externos nem etapa de instalação:
+## Validação
 
 ```sh
 npm test
 ```
 
-## Onde está cada parte
+Verifica os recursos originais, a ausência de telas internas, a abertura obrigatória, as tentativas de carregamento e o controle da trilha sonora.
 
-| Caminho | Conteúdo |
-| --- | --- |
-| `js/data/` | Personagens, cartas de Apoio e cartas do monte principal |
-| `js/core/` | Regras da batalha, seleção, IA, montes e recuperação |
-| `js/ui/` | Telas, cartas, mão e mensagens |
-| `assets/` e `css/` | Arte recebida, conceitos, fontes e aparência |
-| `tests/` | Regras atuais e testes da interface com DOM simulado |
-| `docs/` | Regras completas e histórico das versões recebidas |
+Com Playwright e Chromium disponíveis e o servidor iniciado:
 
-[Conferência de classes e tributos](docs/CLASSES.md) · [Invocação e tributos](docs/DEUSES.md) · [Cartas de Apoio](docs/APOIOS.md) · [Balanceamento](docs/BALANCEAMENTO.md) · [Regras e decisões provisórias](docs/REGRAS.md) · [Validação e imagens](docs/VALIDACAO.md) · [Artes recebidas](docs/ARTES.md) · [Histórico](docs/HISTORICO.md) · [Como contribuir](CONTRIBUTING.md)
+```sh
+npm run test:browser
+```
 
-## Estado do protótipo
+O teste percorre a abertura em computador e celular, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, verifica que não há navegação e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
 
-A partida pode ser concluída contra a IA. Há seis montes de personagens, monte principal, mão de cinco cartas, cartas de Apoio, pré-batalha, habilidades individuais, recuperação sem reiniciar a velocidade e vitória ao eliminar a Daly Mãe adversária. Vida, dano e cura são arredondados para cima em múltiplos de 5, com a exceção confirmada de Morto Vivo voltando com 1 de Vida. O contador da Daly Mãe perde uma vida por ataque.
-
-Item e Habilidade Especial continuam em desenvolvimento. O Santuário oferece a loja de baús e visuais, separada das regras de combate. As habilidades dos 31 personagens presentes estão implementadas; Petra aguarda sua mecânica. Sem ação possível, é possível avançar o ciclo e comprar cartas; com os recursos esgotados e sem efeitos a resolver, há empate.
-
-![Catálogo de personagens](docs/previews/catalogo-v0.29.0-desktop.png)
-
-[Seleção no celular](docs/previews/selecao-v0.29.0-celular.png) · [Crônicas](docs/previews/cronicas-v0.29.0-celular.png) · [Habilidade direta](docs/previews/habilidade-v0.35.3-celular.png) · [Guia da interface](docs/UI.md) · [Atualizações anteriores](docs/HISTORICO.md)
-
-### Regressão de cliques no navegador
-
-Com Playwright disponível no ambiente e o servidor de `npm run dev` aberto, execute `npm run test:hand-browser`. O teste opcional confere as cinco cartas por mouse, toque e teclado, Apoio durante paralisia e substituição de mão cheia. `TEST_URL` permite outro servidor; `CHROMIUM_PATH` aponta para um Chromium local. O jogo e `npm test` continuam sem dependências externas.
-
-### Os novos arquivos enviados
-
-A intro de `GOGHOS, tela de carregamento.html` e o menu de `Cosmos — Menu Principal.html` foram integrados como componentes locais. Os recursos originais estão em [assets/intro-v036](assets/intro-v036/README.md) e [assets/menu-v036](assets/menu-v036/README.md), com manifestos de integridade. O título visível permanece **GOGHOS — The Nightmare Is Coming**.
-
-O menu se adapta ao retrato sem girar os controles; tocar no personagem troca o favorito e salva apenas essa preferência visual. O acesso **Ranked** apresenta uma prévia e o caminho para a Arena: regras e recompensas competitivas ainda não foram definidas. Os controles dos treinos, coleção e crônicas continuam acessíveis.
-
-### Trilhas da batalha e dos resultados
-
-As três faixas foram integradas sem recodificação em [assets/music-v0361](assets/music-v0361/README.md): `BattleMusic.mp3` toca em laço na batalha; `WinMusic.mp3` e `DefeatMusicc.mp3` tocam uma vez nos respectivos resultados. Mute, volumes, pausa, transições e suspensão ao ocultar a aba mantêm os controles existentes.
-
-### Verificações do novo fluxo
-
-`npm test` inclui regressões de Oni, fila de turnos, tributos individuais e 100 campeonatos simulados com sementes fixas. Com o servidor aberto e Playwright instalado, `node scripts/check-arena-five-browser.js` testa o draft por cliques reais, pausa, limite de término de partida, crédito de moedas e retorno ao menu em desktop e celular. `node scripts/check-arena-rules-browser.js` executa um ataque real até eliminar o alvo, confere ausência de poderes extras e testa ficha, pausa e redimensionamento. O teste injeta um estado de fim de rodada para validar a vitória sem aguardar todo um campeonato; os campeonatos completos são exercitados pelo teste do motor.
+[Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

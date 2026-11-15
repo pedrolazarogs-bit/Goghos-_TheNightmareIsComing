@@ -96,7 +96,7 @@ function stage(options = {}) {
     const manifest = JSON.parse(fs.readFileSync(path.join(folder, 'manifest.json')));
     assert.match(manifest.source_sha256, /^[a-f0-9]{64}$/); assert.equal(manifest.assets.length, 5);
     for (const entry of manifest.assets) { const bytes = fs.readFileSync(path.join(folder, entry.file)); assert.equal(bytes.length, entry.bytes); assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), entry.sha256); }
-    assert.deepEqual(fs.readFileSync(path.join(folder, 'german_beauty.ttf')), fs.readFileSync(path.join(__dirname, '../assets/fonts/german_beauty.ttf')));
+    assert.deepEqual(fs.readFileSync(path.join(folder, 'german_beauty.ttf')), fs.readFileSync(path.join(__dirname, '../assets/menu-v036/german_beauty.ttf')));
   });
   await test('o primeiro quadro pode preceder start sem tempo negativo, exceção ou tela branca', async () => {
     const s = stage(), c = s.make(); await c.load(); c.start();

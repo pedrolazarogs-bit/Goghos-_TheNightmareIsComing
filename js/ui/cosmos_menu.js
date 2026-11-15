@@ -1,4 +1,4 @@
-// O menu recebido usa as imagens originais, com navegação e progresso do jogo real.
+// Menu de apresentação: arte e animações originais, sem acessos a telas internas.
 (function(G){
 'use strict';
 const BASE='assets/menu-v036/',FAVORITE_KEY='goghos.menu-favorite.v036';
@@ -16,34 +16,32 @@ function favorite(){
  return FAVORITES.find(item=>item.id===id)||FAVORITES[0];
 }
 function data(){
- let state={coins:0,matches:0,owned:[],equipped:{}};
- try{state=G.Sanctuary?.read?.()||state;}catch{}
- const title=G.Sanctuary?.cosmetics?.find(item=>item.id===state.equipped?.title)?.name||'Vigilante';
- const mode=G.VisualShell?.getMode?.()||{name:'Arena',tag:'Você × Bot'};
- return {state,title,mode};
+ let state={coins:180,matches:0,owned:[]};
+ // Apenas consulta os contadores antigos; esta edição não altera progresso nem moedas.
+ try{const saved=JSON.parse(localStorage.getItem('goghos.sanctuary.v1')||'null');if(saved&&typeof saved==='object')state={...state,...saved};}catch{}
+ return {state,title:'Vigilante',mode:{name:'5×5',tag:'GOGHOS'}};
 }
 function flame(){return '<svg viewBox="0 0 64 80" aria-hidden="true"><defs><linearGradient id="cosmos-flame" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8ff0ff"/><stop offset="1" stop-color="#2a50ff"/></linearGradient></defs><path d="M33 3C36 20 56 30 56 52C56 68 45 77 32 77C18 77 8 67 8 52C8 40 15 33 19 24C22 33 26 35 28 32C30 22 28 11 33 3Z" fill="url(#cosmos-flame)" stroke="#000" stroke-width="4" stroke-linejoin="round"/><ellipse cx="32" cy="56" rx="11" ry="12" fill="#37d3ff" stroke="#000" stroke-width="3"/><circle cx="32" cy="58" r="4.5" fill="#ff3a63"/></svg>';}
 function html(){
  const {state,title,mode}=data(),fav=favorite(),owned=Array.isArray(state.owned)?state.owned.length:0;
- const modeLabel=({arena5:'5×5',arena:'Arena',champions:'Treino',support:'Apoios',divine:'Invocação'})[mode.id]||mode.name;
+ const modeLabel=mode.name;
  const particles=Array.from({length:16},(_,index)=>`<i style="--x:${12+(index*67)%83}%;--y:${10+(index*37)%83}%;--size:${7+index%4*4}px;--delay:${-index*.71}s;--duration:${5+index%5*1.5}s"></i>`).join('');
- return `<section class="cosmos-menu" aria-label="Menu principal de GOGHOS — The Nightmare Is Coming"><div class="cosmos-stage">
+ return `<section class="cosmos-menu" tabindex="-1" aria-label="Menu principal de GOGHOS — The Nightmare Is Coming"><div class="cosmos-stage">
  <img class="cosmos-bg" src="${BASE}bg.jpg" alt="" draggable="false"><div class="cosmos-rays" aria-hidden="true"></div><div class="cosmos-glow" aria-hidden="true"></div><div class="cosmos-sun" aria-hidden="true"></div>
  <svg class="cosmos-panel" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true"><defs><linearGradient id="cosmos-panel-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#36363d"/><stop offset="1" stop-color="#1d1d22"/></linearGradient></defs><polygon points="830,185 1150,155 1000,330" fill="#000"/><polygon points="0,0 985,0 420,1080 0,1080" fill="url(#cosmos-panel-fill)" stroke="#000" stroke-width="18" stroke-linejoin="round"/><path d="M1012-6 446 1086" stroke="#ffffff22" stroke-width="5"/></svg>
  <div class="cosmos-favorite" aria-hidden="true"><div class="cosmos-float">${art('character-'+fav.index,'class="cosmos-favorite-image"')}</div></div>
- <button class="cosmos-favorite-hit" type="button" data-cosmos-favorite aria-label="Trocar personagem favorito. Atual: ${safe(fav.name)}" title="Trocar personagem favorito"></button>
- <div class="cosmos-favorite-label cosmos-pop" style="--delay:1s"><strong>${safe(fav.name)}</strong><span>Favorito</span><small>toque para trocar</small></div>
- <button class="cosmos-profile cosmos-pop" data-act="sanctuary-collection" style="--delay:.7s" aria-label="Coleção e perfil: ${safe(title)}">${art('frame')}<span class="cosmos-profile-initial" aria-hidden="true">G</span><strong>${safe(title)}</strong></button>
+ <div class="cosmos-favorite-label cosmos-pop" style="--delay:1s"><strong>${safe(fav.name)}</strong><span>Favorito</span></div>
+ <span class="cosmos-decor cosmos-profile cosmos-pop" style="--delay:.7s">${art('frame')}<span class="cosmos-profile-initial" aria-hidden="true">G</span><strong>${safe(title)}</strong></span>
  <div class="cosmos-stat cosmos-stat-visuais cosmos-pop" style="--delay:.8s" aria-label="${owned} visuais na coleção">${art('star')}<b>${owned}</b><span>Visuais</span></div>
  <div class="cosmos-stat cosmos-stat-matches cosmos-pop" style="--delay:.85s" aria-label="${count(state.matches)} partidas concluídas">${flame()}<b>${format(state.matches)}</b><span>Partidas</span></div>
- <button class="cosmos-coins cosmos-pop" data-act="shop" style="--delay:.6s" aria-label="${count(state.coins)} moedas. Abrir loja">${art('coins')}<b>${format(state.coins)}</b></button>
- <button class="cosmos-settings cosmos-pop cosmos-button" data-act="settings" style="--delay:.6s" aria-label="Configurações" title="Configurações">${art('dots')}<i></i><i></i><i></i></button>
+ <span class="cosmos-decor cosmos-coins cosmos-pop" style="--delay:.6s">${art('coins')}<b>${format(state.coins)}</b></span>
+ <span class="cosmos-decor cosmos-settings cosmos-pop cosmos-button" style="--delay:.6s">${art('dots')}<i></i><i></i><i></i></span>
  <div class="cosmos-logo cosmos-pop" style="--delay:.5s"><div class="cosmos-float"><img src="${BASE}logo.webp" alt="GOGHOS — The Nightmare Is Coming" draggable="false"><i class="cosmos-shine" aria-hidden="true"></i></div></div>
- <nav class="cosmos-shortcuts" aria-label="Explore o jogo"><button class="cosmos-shortcut cosmos-shop cosmos-pop cosmos-button" data-act="shop" style="--delay:.9s">${art('shop')}<span>Loja</span></button><button class="cosmos-shortcut cosmos-deck cosmos-pop cosmos-button" data-act="characters" style="--delay:1s">${art('deck')}<span>Deck</span></button><button class="cosmos-shortcut cosmos-ranked cosmos-pop cosmos-button" data-act="ranked-preview" style="--delay:1.1s">${art('trophy')}<span>Ranked</span></button></nav>
- <button class="cosmos-mode cosmos-pop cosmos-button" data-act="mode-open" style="--delay:1.2s" aria-label="Escolher modo. Atual: ${safe(mode.name)}" title="Escolher modo"><small>${safe(mode.tag)}</small><strong>${safe(modeLabel)}</strong><span>trocar modo</span></button>
- <button class="cosmos-play cosmos-pop cosmos-button" data-act="play" style="--delay:1.3s" aria-label="Jogar ${safe(mode.name)}"><span class="cosmos-float">${art('play')}<b>Play</b></span></button>
+ <div class="cosmos-shortcuts"><span class="cosmos-decor cosmos-shortcut cosmos-shop cosmos-pop cosmos-button" style="--delay:.9s">${art('shop')}<span>Loja</span></span><span class="cosmos-decor cosmos-shortcut cosmos-deck cosmos-pop cosmos-button" style="--delay:1s">${art('deck')}<span>Deck</span></span><span class="cosmos-decor cosmos-shortcut cosmos-ranked cosmos-pop cosmos-button" style="--delay:1.1s">${art('trophy')}<span>Ranked</span></span></div>
+ <span class="cosmos-decor cosmos-mode cosmos-pop cosmos-button" style="--delay:1.2s"><small>${safe(mode.tag)}</small><strong>${safe(modeLabel)}</strong></span>
+ <span class="cosmos-decor cosmos-play cosmos-pop cosmos-button" style="--delay:1.3s"><span class="cosmos-float">${art('play')}<b>Play</b></span></span>
  <div class="cosmos-stars" aria-hidden="true">${particles}</div>
- <footer class="cosmos-footer"><button data-act="sanctuary-lore">Crônicas</button><button data-act="shell-intro">Rever abertura</button><small>v${safe(G.CONFIG?.version||'')} · Beta</small></footer>
+ <footer class="cosmos-footer"><span class="cosmos-decor">Crônicas</span><span class="cosmos-decor">The Nightmare Is Coming</span><small>v${safe(G.CONFIG?.version||'')} · Beta</small></footer>
  <span class="cosmos-announcement" role="status" aria-live="polite"></span>
  </div></section>`;
 }
@@ -51,28 +49,6 @@ function reduced(){
  const prefs=G.PresentationFX?.getPreferences?.();
  if(typeof prefs?.reducedMotion==='boolean')return prefs.reducedMotion;
  return prefs?.motion==='reduced'||prefs?.motion!=='full'&&!!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-}
-function animate(s,element,keyframes,options,onfinish){
- if(!element?.animate||reduced()){onfinish?.();return;}
- const animation=element.animate(keyframes,options);s.animations.add(animation);
- animation.onfinish=()=>{s.animations.delete(animation);if(active===s)onfinish?.();};
- animation.oncancel=()=>s.animations.delete(animation);
-}
-function updateFavorite(s,next){
- const image=s.menu.querySelector('.cosmos-favorite-image'),label=s.menu.querySelector('.cosmos-favorite-label strong'),button=s.menu.querySelector('[data-cosmos-favorite]');
- s.favorite=next;image.src=BASE+'character-'+next.index+'.webp';label.textContent=next.name;
- button.setAttribute('aria-label','Trocar personagem favorito. Atual: '+next.name);
- s.menu.querySelector('.cosmos-announcement').textContent='Favorito: '+next.name;
- try{localStorage.setItem(FAVORITE_KEY,next.id);}catch{}
-}
-function swap(s){
- if(s.busy||active!==s)return;s.busy=true;
- const next=FAVORITES[(s.favorite.index+1)%FAVORITES.length],image=s.menu.querySelector('.cosmos-favorite-image');
- G.PresentationFX?.interaction?.('card');
- animate(s,image,[{transform:'none',opacity:1},{transform:'translateX(-140px)',opacity:0}],{duration:170,easing:'ease-in'},()=>{
-  updateFavorite(s,next);
-  animate(s,image,[{transform:'translateX(160px) scale(1.05)',opacity:0,filter:'brightness(2.4)'},{transform:'none',opacity:1,filter:'brightness(1)'}],{duration:380,easing:'cubic-bezier(.2,1.4,.4,1)'},()=>{s.busy=false;});
- });
 }
 function mount(host){
  const menu=host?.matches?.('.cosmos-menu')?host:host?.querySelector?.('.cosmos-menu');
@@ -95,7 +71,7 @@ function mount(host){
   const hidden=!!globalThis.document?.hidden;menu.classList.toggle('cosmos-paused',hidden);
   for(const animation of s.animations)animation[hidden?'pause':'play']?.();
  };
- listen(menu,'click',event=>{if(event.target.closest?.('[data-cosmos-favorite]'))swap(s);});
+ listen(menu,'pointerdown',event=>{if(event.target.closest?.('.cosmos-decor'))G.PresentationFX?.interaction?.('click');});
  listen(menu,'pointerover',event=>{if(event.pointerType==='touch')return;const button=event.target.closest?.('.cosmos-button');if(button&&button!==s.hovered){s.hovered=button;G.PresentationFX?.interaction?.('hover');}});
  listen(menu,'pointerleave',()=>{s.hovered=null;});
  listen(globalThis,'goghos:presentation-preferences',preferences);

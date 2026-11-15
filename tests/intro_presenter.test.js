@@ -113,7 +113,7 @@ function setup(options = {}) {
   };
   document.body = new Element('body'); document.documentElement = new Element('html'); document.activeElement = document.body;
   const app = new Element('div'); app.setAttribute('id', 'app'); app.inert = !!options.inert;
-  const play = new Element('button'); play.setAttribute('data-act', 'play'); app.append(play); document.body.append(app);
+  const play = new Element('section'); play.setAttribute('class', 'cosmos-menu'); app.append(play); document.body.append(app);
   class Image {
     constructor() { images.push(this); }
     set src(value) { this._src = value; }
@@ -189,7 +189,7 @@ const ready = async q => { q.flushAssets(); await flush(); };
     assert.equal(q.app.inert, true);
     assert.equal(q.app.getAttribute('aria-hidden'), 'true');
     assert.equal(q.loaders.length, 1);
-    assert.equal(q.images.length, 17);
+    assert.equal(q.images.length, 15);
     assert(q.images.every(image => /^assets\//.test(image.src)));
     assert.equal(q.contexts[0].name, 'silent');
     assert.equal(q.contexts[0].flags.immediate, true);
@@ -396,7 +396,7 @@ const ready = async q => { q.flushAssets(); await flush(); };
     assert.equal(q.P.getDebugState().loaded, false);
     assert.equal(q.button('shell-start').disabled, true);
     assert.equal(next.starts, 0);
-    for (const image of q.images.slice(17)) image.onload?.(); next.loading.resolve(next); await flush();
+    for (const image of q.images.slice(15)) image.onload?.(); next.loading.resolve(next); await flush();
     assert.equal(q.button('shell-start').disabled, false);
     q.button('shell-start').click(); assert.equal(next.starts, 1);
     next.finish(); await flush();

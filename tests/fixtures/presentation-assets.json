@@ -1,0 +1,202 @@
+[
+  {
+    "path": "assets/arena-five/audio-music.mp3",
+    "sha256": "b46a3b537f9ff2c2f82ac8c58df5a27d5b60fd1a7ea9886ab9e1627179e917fe"
+  },
+  {
+    "path": "assets/intro-preview/beta.png",
+    "sha256": "2690b39792a21f38e12640511fe6c3c1c2129f593c537b8e3f92f8df860708a2"
+  },
+  {
+    "path": "assets/intro-preview/fundo.jpg",
+    "sha256": "b175a46d65165e6f2c4fba80c19852941d642947ddf857d64a375da593e6ca23"
+  },
+  {
+    "path": "assets/intro-preview/german_beauty.ttf",
+    "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+  },
+  {
+    "path": "assets/intro-preview/logo_camadas.json",
+    "sha256": "5aef51f1437b8d9e797d2aa5c89a70ae8d94f6e1babf21a70e0dffbd476c5fad"
+  },
+  {
+    "path": "assets/intro-preview/logo_camadas.png",
+    "sha256": "6ba04b9df9e5311e0e0d0148f03c4424f7e6ea52e87dd23c36de8da8e97b6b62"
+  },
+  {
+    "path": "assets/intro-v036/README.md",
+    "sha256": "d935a9fdbfa601f1b5c2b43cdd261e8682730b275f0f7baacff7cb6c7de76f0e"
+  },
+  {
+    "path": "assets/intro-v036/bg.webp",
+    "sha256": "51eb6cc0207029d88e7db168d442ee526f89c4d7837e68b590848632d506018b"
+  },
+  {
+    "path": "assets/intro-v036/german_beauty.ttf",
+    "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+  },
+  {
+    "path": "assets/intro-v036/logo_bottom.webp",
+    "sha256": "24e756d5bce4cba63a7a53b71965efd1ed15d4ee25b6afd4d9ebe7f4b729cd86"
+  },
+  {
+    "path": "assets/intro-v036/logo_top.webp",
+    "sha256": "9a33390198062defd82277b9158489fc440e5148305af501a41a3f958f4e0c83"
+  },
+  {
+    "path": "assets/intro-v036/manifest.json",
+    "sha256": "1c7153cea3bae2bbdad8b2fa397bb978ce186249fccf19d240cb29be6eafb9d9"
+  },
+  {
+    "path": "assets/intro-v036/ready_to_duel.mp3",
+    "sha256": "7d7a7b31198c1ed5b9679d907ffc43b80c883477787ce2fc4c7e4429a7a899ab"
+  },
+  {
+    "path": "assets/menu-v036/README.md",
+    "sha256": "006f9244d951350e2a23d65f67e453de31b13f41cd50201ff7bda76412617242"
+  },
+  {
+    "path": "assets/menu-v036/bg.jpg",
+    "sha256": "05c67bf4b8bd0f68317c71d3bea312d0ecf15d347f3d85e833993b87a60f1474"
+  },
+  {
+    "path": "assets/menu-v036/character-0.webp",
+    "sha256": "9213575b89dc6afa8832e0529a16362f598bc2deaf6cb80597b7a0ddd241bd53"
+  },
+  {
+    "path": "assets/menu-v036/character-1.webp",
+    "sha256": "7843f40df2917b15ab3b957211d60f91743d7ea5968a69ec15e979b6ce0da2e0"
+  },
+  {
+    "path": "assets/menu-v036/character-2.webp",
+    "sha256": "929ce63727166f1555f261db975d3af53d13325039f3e389fcdd7f9864315e21"
+  },
+  {
+    "path": "assets/menu-v036/character-3.webp",
+    "sha256": "fd81b509f21635042a3ad5ca607bf945f8f25d13cb038716c0a8fde355c1cd91"
+  },
+  {
+    "path": "assets/menu-v036/character-4.webp",
+    "sha256": "b79d940db1d0aa6816e36665c63b71e8941b157d4a36d42a017d552d6bfbf395"
+  },
+  {
+    "path": "assets/menu-v036/coins.webp",
+    "sha256": "43bad28541ef1d4713370ba7af3ef8d5613e8fff7edccfbcbf74ed7bd056d2ba"
+  },
+  {
+    "path": "assets/menu-v036/deck.webp",
+    "sha256": "b29b81c200064fc2627e157f71d3ec314d69ec7e00b5d80943f24c0c0da84b18"
+  },
+  {
+    "path": "assets/menu-v036/dots.webp",
+    "sha256": "2ac9e614be0d5654069db31fa870b4b02f3025d84067758dc435db0a0b851fcf"
+  },
+  {
+    "path": "assets/menu-v036/frame.webp",
+    "sha256": "8953e31bddaff01085c146d4d42b7c0cb734a6f3862fa058565fdd890c73b7a0"
+  },
+  {
+    "path": "assets/menu-v036/german_beauty.ttf",
+    "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+  },
+  {
+    "path": "assets/menu-v036/logo.webp",
+    "sha256": "e1cba60435436f86a9c6a6b121723904ececc3001a74d2b8c8a0f8d6b34ab11e"
+  },
+  {
+    "path": "assets/menu-v036/manifest.json",
+    "sha256": "45867390096dbd177467eadc371288c2b83e0d2a7fb8381a85cd698bb886ce21"
+  },
+  {
+    "path": "assets/menu-v036/menu.mp3",
+    "sha256": "b46a3b537f9ff2c2f82ac8c58df5a27d5b60fd1a7ea9886ab9e1627179e917fe"
+  },
+  {
+    "path": "assets/menu-v036/play.webp",
+    "sha256": "71b3b1375f36c435284511fbd771f9bc10dfb4a8659760fef6ee7f6636e85634"
+  },
+  {
+    "path": "assets/menu-v036/shop.webp",
+    "sha256": "f449241f0f21b45a5a54fa5f260b559a2f9d3832d443ad8f535a6b1e849036df"
+  },
+  {
+    "path": "assets/menu-v036/star.webp",
+    "sha256": "1f0d6a4e1f42e0bba480bb2c1c2d8f9dc3ad8f403f2af425c9ba0636da3f8cd8"
+  },
+  {
+    "path": "assets/menu-v036/trophy.webp",
+    "sha256": "2b1701abd1e2a48b79488a1b6f6f0c70a83c51f3c63b6485facb2376a6f25f14"
+  },
+  {
+    "path": "assets/music/README.md",
+    "sha256": "f945948d562943363e9747bc41180e00d2d727b4cc0ffe1678fceaef1a5c8eba"
+  },
+  {
+    "path": "assets/music/TimGM6mb-CREDITS.txt",
+    "sha256": "6ef01652619cf29b289a9403cd2ab59550fa3e2c30844c67292eea5421f993e9"
+  },
+  {
+    "path": "assets/music/TimGM6mb-GPL-2.txt",
+    "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6"
+  },
+  {
+    "path": "assets/music/combat.mp3",
+    "sha256": "2d2d132b1cb2b27461b46f4b32d2513032b5ce5153e0c1ae05a4897ad5e4e423"
+  },
+  {
+    "path": "assets/music/defeat.mp3",
+    "sha256": "4f33166f419afaf964cab3e770541ba9c1742f540596a2c4f7b81932fbc3e9a5"
+  },
+  {
+    "path": "assets/music/manifest.json",
+    "sha256": "03e6b81b57db52be701486eb89ed70ce062ab3d7eba15b9d7a9af9de876bec37"
+  },
+  {
+    "path": "assets/music/menu.mp3",
+    "sha256": "9c5540f5ddf94698e956a30d721e469bdb6cf5c17bf5fd1b5e4201f057916f0d"
+  },
+  {
+    "path": "assets/music/victory.mp3",
+    "sha256": "810985b0d918aeeb62647437e12f09382f14933f04e995990a4a5050caaa1689"
+  },
+  {
+    "path": "assets/music-v0361/README.md",
+    "sha256": "7ced5439afd8d7bd92e88315cd31146e8ab872eb9c700cc50f041862d0f69006"
+  },
+  {
+    "path": "assets/music-v0361/combat.mp3",
+    "sha256": "823150dcf2de51c184d70ccb8c5400ca15e6d97122bde37ecb80c70326731f9a"
+  },
+  {
+    "path": "assets/music-v0361/defeat.mp3",
+    "sha256": "45b86807d11aab1ee553d1f53afc05aa5d02ac5f7bf8585d14dbc1424d902527"
+  },
+  {
+    "path": "assets/music-v0361/manifest.json",
+    "sha256": "07f09ffc31e9668297f11dd204de84573fd4dea457154bf190372714e575e83f"
+  },
+  {
+    "path": "assets/music-v0361/victory.mp3",
+    "sha256": "d99e7421e8d9addb025e70bb43050b7093a532dd9b1c16d290ee57576c5bd65a"
+  },
+  {
+    "path": "assets/victory-v037/fonte.ttf",
+    "sha256": "62ea1b27212ba4f86ed983664a4d62b43c143d2c8e0e445c23aa21e6b141497f"
+  },
+  {
+    "path": "assets/victory-v037/fundo.jpg",
+    "sha256": "b175a46d65165e6f2c4fba80c19852941d642947ddf857d64a375da593e6ca23"
+  },
+  {
+    "path": "assets/victory-v037/manifest.json",
+    "sha256": "402a0128017e3d27f9d21a5e3e4c723bb591be61af0f44544cd7e506f7514674"
+  },
+  {
+    "path": "assets/victory-v037/musica.mp3",
+    "sha256": "d99e7421e8d9addb025e70bb43050b7093a532dd9b1c16d290ee57576c5bd65a"
+  },
+  {
+    "path": "assets/victory-v037/trofeu.png",
+    "sha256": "b23ecbbac777bd1c51c721f75ba146fd55dde5d6197a83d6c8c73d08874294a8"
+  }
+]

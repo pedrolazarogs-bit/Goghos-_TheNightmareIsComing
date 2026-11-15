@@ -2,7 +2,7 @@
 (function(G){
 'use strict';
 const BASE='assets/intro-v036/';
-const ESSENTIALS=['bg.jpg','logo.webp','coins.webp','deck.webp','shop.webp','star.webp','frame.webp','trophy.webp','dots.webp','play.webp',...Array.from({length:5},(_,i)=>'character-'+i+'.webp')].map(file=>'assets/menu-v036/'+file).concat(['assets/realms-v035/relic-icons.png','assets/realms-v035/navigation-icons.png']);
+const ESSENTIALS=['bg.jpg','logo.webp','coins.webp','deck.webp','shop.webp','star.webp','frame.webp','trophy.webp','dots.webp','play.webp',...Array.from({length:5},(_,i)=>'character-'+i+'.webp')].map(file=>'assets/menu-v036/'+file);
 let active=null,serial=0;
 const preferences=()=>G.PresentationFX?.getPreferences?.()||{muted:true,volume:.38,musicMuted:false,musicVolume:.55,reducedMotion:false};
 const current=s=>active===s&&!s.closed;
@@ -18,7 +18,7 @@ function finish(s){
  active=null;s.closed=true;clearAttempt(s);s.el.remove();
  if(s.app){s.app.inert=s.inert;if(s.hidden===null)s.app.removeAttribute('aria-hidden');else s.app.setAttribute('aria-hidden',s.hidden);}
  G.Soundtrack?.setContext('menu');s.onClose?.();
- const target=s.previous?.isConnected&&s.previous!==document.body?s.previous:document.querySelector('[data-act="play"]');
+ const target=s.previous?.isConnected&&s.previous!==document.body?s.previous:document.querySelector('.cosmos-menu');
  target?.focus?.({preventScroll:true});return true;
 }
 function fallback(s,message){
@@ -35,7 +35,7 @@ function start(s){
  if(!current(s)||!s.loaded||s.started||s.failed)return;
  const attempt=s.attempt;
  s.started=true;s.phase='run';s.el.classList.add('intro-running');s.el.querySelector('.intro-start-prompt').hidden=true;focus(s);
- announce(s,'Carregando a arena.');
+ announce(s,'Preparando o menu.');
  try{Promise.resolve(s.loader.start()).catch(()=>{if(current(s)&&s.attempt===attempt)failAttempt(s);});}catch{failAttempt(s);}
 }
 function load(s){
@@ -77,9 +77,9 @@ function open(options={}){
  const app=document.getElementById('app'),el=document.createElement('div');
  const s={id:++serial,el,app,inert:app?.inert||false,hidden:app?.getAttribute('aria-hidden')??null,previous:document.activeElement,onClose:options.onClose,images:[],attempt:0,closed:false,completed:false};active=s;
  el.className='world-intro duel-intro';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('tabindex','-1');el.setAttribute('aria-label','Abertura de GOGHOS — The Nightmare Is Coming');
- el.innerHTML='<div class="duel-intro-scene" aria-hidden="true"></div><div class="intro-start-prompt"><p class="intro-kicker">GOGHOS · The Nightmare Is Coming</p><button class="intro-start" data-act="shell-start" disabled>Toque para iniciar</button></div><div class="intro-loading" role="status"><span class="intro-status">Preparando a abertura…</span><progress max="100" value="0" aria-label="Carregamento da arena"></progress></div><button class="intro-retry" data-act="shell-retry" hidden>Tentar novamente</button>';
+ el.innerHTML='<div class="duel-intro-scene" aria-hidden="true"></div><div class="intro-start-prompt"><p class="intro-kicker">GOGHOS · The Nightmare Is Coming</p><button class="intro-start" data-act="shell-start" disabled>Toque para iniciar</button></div><div class="intro-loading" role="status"><span class="intro-status">Preparando a abertura…</span><progress max="100" value="0" aria-label="Carregamento do menu"></progress></div><button class="intro-retry" data-act="shell-retry" hidden>Tentar novamente</button>';
  document.body.append(el);if(app){app.inert=true;app.setAttribute('aria-hidden','true');}
- G.CosmosMenu?.detach();G.DuelMotion?.detach();G.Soundtrack?.setContext('silent',{immediate:true});
+ G.CosmosMenu?.detach();G.Soundtrack?.setContext('silent',{immediate:true});
  el.addEventListener('click',event=>{const button=event.target.closest('[data-act]');if(!button||button.disabled)return;if(button.dataset.act==='shell-start')start(s);else if(button.dataset.act==='shell-retry')load(s);});
  el.addEventListener('keydown',event=>{
   if(event.key==='Escape'){event.preventDefault();return;}

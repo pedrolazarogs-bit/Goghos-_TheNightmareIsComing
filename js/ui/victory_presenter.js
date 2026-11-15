@@ -1,18 +1,18 @@
-// Real end-of-match rewards; all navigation stays inside the project.
+// Animação de vitória preservada, sem acesso pelo menu e sem iniciar partidas.
 (function(G){
 'use strict';
 let active=null;
-function close(){if(!active)return;const s=active;active=null;s.view?.destroy({stopMusic:true});globalThis.removeEventListener('resize',s.layout);s.el.remove();s.app.inert=s.inert;if(s.arena)s.arena.inert=s.arenaInert;s.resolve();}
+function close(){if(!active)return;const s=active;active=null;s.view?.destroy({stopMusic:true});globalThis.removeEventListener('resize',s.layout);s.el.remove();s.app.inert=s.inert;G.Soundtrack?.setContext('menu');document.querySelector('.cosmos-menu')?.focus({preventScroll:true});s.resolve();}
 function open(options={}){
  close();
  return new Promise(resolve=>{
   const el=document.createElement('div'),app=document.getElementById('app'),p=G.PresentationFX?.getPreferences?.()||{};
   el.className='victory-overlay';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Vitória');
-  el.innerHTML='<div class="victory-canvas"></div><p class="victory-status" role="status">Preparando sua vitória…</p><button data-victory="menu" disabled aria-label="Voltar ao menu">MENU</button><button data-victory="play" disabled aria-label="Jogar novamente">JOGAR</button>';
-  const arena=document.getElementById('five-root');const s={el,app,inert:app.inert,arena,arenaInert:arena?.inert,resolve,layout:()=>{}};if(arena)arena.inert=true;active=s;app.inert=true;document.body.append(el);
+  el.innerHTML='<div class="victory-canvas"></div><p class="victory-status" role="status">Preparando sua vitória…</p><button data-victory="menu" disabled aria-label="Voltar ao menu">MENU</button><button data-victory="play" disabled aria-label="Voltar ao menu">VOLTAR</button>';
+  const s={el,app,inert:app.inert,resolve,layout:()=>{}};active=s;app.inert=true;document.body.append(el);G.Soundtrack?.setContext('victory');
   const current=()=>active===s;
-  const finish=choice=>{if(!current())return;close();options.onChoice?.(choice);};
-  const view=s.view=new G.GoghosVictory({container:el.querySelector('.victory-canvas'),assets:{"fundo": "assets/victory-v037/fundo.jpg", "trofeu": "assets/victory-v037/trofeu.png", "fonte": "assets/victory-v037/fonte.ttf", "musica": "assets/victory-v037/musica.mp3"},baseUrl:'',music:null,gate:false,sfx:!p.muted,sfxVolume:p.volume??.38,reducedMotion:p.reducedMotion,
+  const finish=choice=>{if(!current())return;close();};
+  const view=s.view=new G.GoghosVictory({container:el.querySelector('.victory-canvas'),assets:{"fundo": "assets/victory-v037/fundo.jpg", "trofeu": "assets/victory-v037/trofeu.png", "fonte": "assets/victory-v037/fonte.ttf", "musica": "assets/victory-v037/musica.mp3"},baseUrl:'',music:null,texts:{title:'VITÓRIA!',menu:'MENU',play:'VOLTAR',gate:''},gate:false,sfx:!p.muted,sfxVolume:p.volume??.38,reducedMotion:p.reducedMotion,
    rewards:[{id:'dalycoin',label:'Moedas',value:options.coins||0}],
    onReady:()=>{if(!current())return;el.classList.add('victory-ready');el.querySelector('.victory-status').textContent='Vitória! +'+(options.coins||0)+' moedas.';el.querySelectorAll('button').forEach(b=>b.disabled=false);s.layout();el.querySelector('[data-victory="play"]').focus();},
    onFinished:choice=>finish(choice)});

@@ -1,0 +1,7 @@
+@font-face{font-family:'German Beauty';src:url('../assets/menu-v036/german_beauty.ttf') format('truetype');font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:#120a2a;color:#fff;font-family:'German Beauty',Georgia,serif}
+body{overflow:hidden}
+button{font:inherit}
+#app{width:100%;height:100dvh}
+.cosmos-menu:focus{outline:none}
