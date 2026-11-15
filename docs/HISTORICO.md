@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.39.1 — personagem estático dentro da divisão
+
+- O personagem usa o limite real do painel como recorte; a borda fica desenhada à sua frente. O recorte é recalculado ao redimensionar a janela, inclusive nas proporções do celular.
+- Ajustado o enquadramento no celular para manter o rosto visível dentro da área recortada.
+- Removidas a flutuação e a entrada animada do personagem. A divisão também permanece fixa para manter a borda alinhada desde a entrada no menu.
+- Mantidos os demais efeitos do menu, a abertura obrigatória, a música contínua e os controles sem acessos internos.
+- Validação de navegador inclui comparação de pixels com e sem o personagem para detectar qualquer desenho fora da divisão, além de conferir a ausência de movimento.
+
 ## v0.39.0 — somente abertura e menu
 
 - Removidos os acessos de todos os elementos do menu, inclusive Play, loja, deck, ranked, perfil, moedas, configurações, modo, personagem e rodapé. As antigas áreas de botão são agora elementos decorativos, sem navegação ou foco de controle.

@@ -2,6 +2,7 @@
 (function(G){
 'use strict';
 const BASE='assets/menu-v036/',FAVORITE_KEY='goghos.menu-favorite.v036';
+const PANEL_POINTS='0,0 985,0 420,1080 0,1080';
 const FAVORITES=Object.freeze([
  {id:'unicorn',name:'Unicorn',index:0},{id:'sam',name:'Sam',index:1},
  {id:'sarck',name:'Sark',index:2},{id:'nully',name:'Nully',index:3},{id:'mike',name:'Mike',index:4}
@@ -28,8 +29,9 @@ function html(){
  const particles=Array.from({length:16},(_,index)=>`<i style="--x:${12+(index*67)%83}%;--y:${10+(index*37)%83}%;--size:${7+index%4*4}px;--delay:${-index*.71}s;--duration:${5+index%5*1.5}s"></i>`).join('');
  return `<section class="cosmos-menu" tabindex="-1" aria-label="Menu principal de GOGHOS — The Nightmare Is Coming"><div class="cosmos-stage">
  <img class="cosmos-bg" src="${BASE}bg.jpg" alt="" draggable="false"><div class="cosmos-rays" aria-hidden="true"></div><div class="cosmos-glow" aria-hidden="true"></div><div class="cosmos-sun" aria-hidden="true"></div>
- <svg class="cosmos-panel" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true"><defs><linearGradient id="cosmos-panel-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#36363d"/><stop offset="1" stop-color="#1d1d22"/></linearGradient></defs><polygon points="830,185 1150,155 1000,330" fill="#000"/><polygon points="0,0 985,0 420,1080 0,1080" fill="url(#cosmos-panel-fill)" stroke="#000" stroke-width="18" stroke-linejoin="round"/><path d="M1012-6 446 1086" stroke="#ffffff22" stroke-width="5"/></svg>
- <div class="cosmos-favorite" aria-hidden="true"><div class="cosmos-float">${art('character-'+fav.index,'class="cosmos-favorite-image"')}</div></div>
+ <svg class="cosmos-panel" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true"><defs><linearGradient id="cosmos-panel-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#36363d"/><stop offset="1" stop-color="#1d1d22"/></linearGradient></defs><polygon points="830,185 1150,155 1000,330" fill="#000"/><polygon class="cosmos-panel-boundary" points="${PANEL_POINTS}" fill="url(#cosmos-panel-fill)" stroke="#000" stroke-width="18" stroke-linejoin="round"/><path d="M1012-6 446 1086" stroke="#ffffff22" stroke-width="5"/></svg>
+ <div class="cosmos-character-layer" aria-hidden="true"><div class="cosmos-favorite">${art('character-'+fav.index,'class="cosmos-favorite-image"')}</div></div>
+ <svg class="cosmos-divider" width="1920" height="1080" viewBox="0 0 1920 1080" aria-hidden="true"><polygon points="${PANEL_POINTS}" fill="none" stroke="#000" stroke-width="18" stroke-linejoin="round"/></svg>
  <div class="cosmos-favorite-label cosmos-pop" style="--delay:1s"><strong>${safe(fav.name)}</strong><span>Favorito</span></div>
  <span class="cosmos-decor cosmos-profile cosmos-pop" style="--delay:.7s">${art('frame')}<span class="cosmos-profile-initial" aria-hidden="true">G</span><strong>${safe(title)}</strong></span>
  <div class="cosmos-stat cosmos-stat-visuais cosmos-pop" style="--delay:.8s" aria-label="${owned} visuais na coleção">${art('star')}<b>${owned}</b><span>Visuais</span></div>
@@ -62,6 +64,17 @@ function mount(host){
   const rect=menu.getBoundingClientRect(),width=rect.width||globalThis.innerWidth||1920,height=rect.height||globalThis.innerHeight||1080;
   s.layout=width<height?'portrait':'landscape';menu.dataset.layout=s.layout;
   menu.style.setProperty('--cosmos-scale',String(Math.min(width/1920,height/1080)));
+  // Use the rendered SVG edge, including its portrait letterboxing and stage scale.
+  const stage=menu.querySelector('.cosmos-stage'),boundary=menu.querySelector('.cosmos-panel-boundary');
+  const matrix=boundary.getScreenCTM(),bounds=stage.getBoundingClientRect();
+  if(matrix&&bounds.width&&bounds.height){
+   const points=Array.from(boundary.points,point=>{
+    const x=(matrix.a*point.x+matrix.c*point.y+matrix.e-bounds.left)*stage.clientWidth/bounds.width;
+    const y=(matrix.b*point.x+matrix.d*point.y+matrix.f-bounds.top)*stage.clientHeight/bounds.height;
+    return x+'px '+y+'px';
+   });
+   menu.querySelector('.cosmos-character-layer').style.clipPath='polygon('+points.join(',')+')';
+  }
  };
  const preferences=()=>{
   const value=reduced();menu.classList.toggle('cosmos-reduced',value);

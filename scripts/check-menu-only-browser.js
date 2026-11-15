@@ -1,6 +1,43 @@
 // Execute npm run dev antes deste teste; requer Playwright e Chromium.
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
+const { PNG } = require('pngjs');
+
+async function checkCharacter(page){
+  const geometry=await page.evaluate(()=>{
+    const layer=document.querySelector('.cosmos-character-layer'),image=layer.querySelector('img');
+    if(layer.getAnimations({subtree:true}).length)throw Error('O personagem deve estar estático desde a entrada');
+    const boundary=document.querySelector('.cosmos-panel-boundary'),matrix=boundary.getScreenCTM();
+    window.__menuAnimations=document.querySelector('.cosmos-menu').getAnimations({subtree:true});
+    window.__menuAnimations.forEach(animation=>animation.pause());
+    return {points:Array.from(boundary.points,point=>({x:matrix.a*point.x+matrix.c*point.y+matrix.e,y:matrix.b*point.x+matrix.d*point.y+matrix.f})),rect:JSON.stringify(image.getBoundingClientRect())};
+  });
+  await page.waitForTimeout(180);
+  assert.equal(await page.locator('.cosmos-favorite-image').evaluate(image=>JSON.stringify(image.getBoundingClientRect())),geometry.rect,'O personagem não deve flutuar');
+  const visible=PNG.sync.read(await page.screenshot());
+  await page.locator('.cosmos-favorite').evaluate(element=>element.style.visibility='hidden');
+  const hidden=PNG.sync.read(await page.screenshot());
+  await page.locator('.cosmos-favorite').evaluate(element=>element.removeAttribute('style'));
+  await page.evaluate(()=>{window.__menuAnimations.forEach(animation=>animation.play());delete window.__menuAnimations;});
+  const points=geometry.points;
+  const inside=(x,y)=>{
+    let result=false;
+    for(let i=0,j=points.length-1;i<points.length;j=i++){
+      const a=points[i],b=points[j];
+      if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)result=!result;
+    }
+    return result;
+  };
+  let changed=0,outside=0;
+  for(let y=0;y<visible.height;y++)for(let x=0;x<visible.width;x++){
+    const offset=(y*visible.width+x)*4;
+    if(![0,1,2].some(channel=>Math.abs(visible.data[offset+channel]-hidden.data[offset+channel])>3))continue;
+    changed++;
+    if(!inside(x+.5,y+.5))outside++;
+  }
+  assert(changed>100,'O personagem deve permanecer visível dentro da divisão');
+  assert.equal(outside,0,'Nenhum pixel do personagem pode ultrapassar a divisão');
+}
 
 (async () => {
   const browser = await chromium.launch({
@@ -64,13 +101,14 @@ const { chromium } = require('playwright');
       assert(await page.evaluate(()=>[...document.querySelectorAll('.cosmos-menu img')].every(img=>img.complete&&img.naturalWidth>0)));
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth&&document.documentElement.scrollHeight<=innerHeight));
       assert.equal(await page.evaluate(()=>GOGHOS.Soundtrack.getDebugState().playCount),titleMusic.playCount);
-      await page.screenshot({path:'/tmp/goghos-menu-v0.39.0-'+(mobile?'celular':'desktop')+'.png'});
+      await checkCharacter(page);
+      await page.screenshot({path:'/tmp/goghos-menu-v0.39.1-'+(mobile?'celular':'desktop')+'.png'});
       // Verify the preserved animation directly; no menu control opens it.
       await page.evaluate(()=>{GOGHOS.VictoryPresenter.open();});
       await page.waitForFunction(()=>GOGHOS.VictoryPresenter.getDebugState().ready,null,{timeout:20000});
       assert.equal(await page.locator('.victory-failed').count(),0);
       assert.equal(await page.locator('.victory-canvas canvas').count(),1);
-      await page.screenshot({path:'/tmp/goghos-victory-v0.39.0-'+(mobile?'celular':'desktop')+'.png'});
+      await page.screenshot({path:'/tmp/goghos-victory-v0.39.1-'+(mobile?'celular':'desktop')+'.png'});
       await page.locator(mobile?'[data-victory="play"]':'[data-victory="menu"]').click();
       await page.waitForFunction(()=>!GOGHOS.VictoryPresenter.getDebugState().active);
       assert.equal(await menu.count(),1);
@@ -80,8 +118,12 @@ const { chromium } = require('playwright');
       await page.waitForFunction(()=>GOGHOS.Soundtrack.getDebugState().activeTrack==='menu'&&GOGHOS.Soundtrack.getDebugState().playing);
       await page.emulateMedia({reducedMotion:'reduce'});
       await page.waitForFunction(()=>document.querySelector('.cosmos-menu').classList.contains('cosmos-reduced'));
+      // Resize and inspect the painted pixels, including the portrait SVG's letterbox.
+      await page.setViewportSize(mobile?{width:320,height:568}:{width:1024,height:768});
+      await page.waitForTimeout(100);
+      await checkCharacter(page);
       assert.deepEqual(errors, []);
-      console.log('PASS '+(mobile?'celular':'desktop')+': abertura obrigatória, música contínua, 10 controles sem acessos e animação de vitória preservada');
+      console.log('PASS '+(mobile?'celular':'desktop')+': abertura obrigatória, música contínua, 10 controles sem acessos, personagem estático dentro da divisão e animação de vitória preservada');
       await page.close();
     }
   } finally {

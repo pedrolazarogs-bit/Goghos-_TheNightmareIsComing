@@ -1,10 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.39.0 — abertura e menu de apresentação.**
+**Versão 0.39.1 — abertura e menu de apresentação.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.39.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.39.1.zip)
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé e na imagem do personagem também foram removidos.
+
+O personagem do menu fica estático e recortado pela mesma borda da divisão, com o contorno desenhado à sua frente. O recorte acompanha a janela em computador e celular.
 
 A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
@@ -35,12 +37,12 @@ npm test
 
 Verifica os recursos originais, a ausência de telas internas, a abertura obrigatória, as tentativas de carregamento e o controle da trilha sonora.
 
-Com Playwright e Chromium disponíveis e o servidor iniciado:
+Com Playwright, pngjs e Chromium disponíveis e o servidor iniciado:
 
 ```sh
 npm run test:browser
 ```
 
-O teste percorre a abertura em computador e celular, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, verifica que não há navegação e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
+O teste percorre a abertura em computador e celular, verifica por pixels que o personagem está estático e dentro da divisão, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, verifica que não há navegação e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
 
 [Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

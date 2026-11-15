@@ -11,11 +11,13 @@
 .cosmos-menu .cosmos-rays{left:320px;top:-610px;width:2400px;height:2400px;pointer-events:none;background:repeating-conic-gradient(#ffebbe8c 0 4deg,transparent 4deg 14deg);mask:radial-gradient(circle,#000,transparent 62%);mix-blend-mode:screen;opacity:.35;animation:cosmos-spin 90s linear infinite}
 .cosmos-menu .cosmos-glow{left:1170px;top:240px;width:700px;height:700px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#fff0c8bf,#ffa07840 40%,transparent 70%);mix-blend-mode:screen;animation:cosmos-pulse 3.2s ease-in-out infinite}
 .cosmos-menu .cosmos-sun{left:1420px;top:490px;width:200px;height:200px;pointer-events:none;border-radius:50%;background:radial-gradient(circle,#fffdf0 0,#fff3c4 40%,#ffd79600 70%);filter:blur(4px);animation:cosmos-pulse 3.2s ease-in-out infinite}
-.cosmos-menu .cosmos-panel{left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:1}
-.cosmos-menu .cosmos-favorite{left:-90px;top:60px;width:1160px;height:1100px;pointer-events:none;z-index:2;clip-path:polygon(0 0,100% 0,100% 32.7%,73.2% 52.7%,49.8% 100%,0 100%)}
-.cosmos-menu .cosmos-favorite .cosmos-float,.cosmos-menu .cosmos-favorite-image{width:100%;height:100%}
+.cosmos-menu .cosmos-panel,.cosmos-menu .cosmos-divider{left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:1}
+/* Clip the static character to the actual panel; draw its border in front. */
+.cosmos-menu .cosmos-character-layer{inset:0;pointer-events:none;z-index:2;clip-path:polygon(0 0,0 0,0 0)}
+.cosmos-menu .cosmos-divider{z-index:3}
+.cosmos-menu .cosmos-favorite{position:absolute;left:-90px;top:60px;width:1160px;height:1100px;pointer-events:none}
+.cosmos-menu .cosmos-favorite-image{width:100%;height:100%}
 .cosmos-menu .cosmos-favorite-image{object-fit:contain;object-position:50% 100%}
-.cosmos-menu .cosmos-favorite .cosmos-float{transform-origin:20% 100%}
 .cosmos-menu .cosmos-favorite-label{left:30px;top:600px;color:#f6dc8e;z-index:5;pointer-events:none;text-shadow:0 4px 0 #0009;transform:rotate(-2deg)}
 .cosmos-menu .cosmos-favorite-label strong{display:block;font-size:56px;line-height:1.2;font-weight:400}
 .cosmos-menu .cosmos-favorite-label span{display:block;font-size:32px}
@@ -73,8 +75,6 @@
 .cosmos-menu .cosmos-announcement{width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .cosmos-menu .cosmos-float{animation:cosmos-float 5s ease-in-out infinite}
 .cosmos-menu.cosmos-ready .cosmos-pop{animation:cosmos-pop .7s cubic-bezier(.2,1.4,.4,1) var(--delay,0s) backwards}
-.cosmos-menu.cosmos-ready .cosmos-panel{animation:cosmos-panel-in .8s cubic-bezier(.2,.9,.2,1) backwards}
-.cosmos-menu.cosmos-ready .cosmos-favorite{animation:cosmos-character-in .9s cubic-bezier(.2,1.2,.3,1) .25s backwards}
 .cosmos-menu.cosmos-ready .cosmos-logo{animation:cosmos-logo-in 1s cubic-bezier(.3,1.3,.5,1) .5s backwards}
 .cosmos-menu.cosmos-paused *{animation-play-state:paused!important}
 .cosmos-menu.cosmos-reduced *{animation:none!important;transition:none!important}
@@ -86,8 +86,6 @@
 @keyframes cosmos-sweep{0%,35%{background-position:150% 0}85%,100%{background-position:-50% 0}}
 @keyframes cosmos-spark{0%,100%{opacity:0;transform:translateY(25px) scale(.55) rotate(0)}40%,65%{opacity:.8}80%{opacity:.35;transform:translateY(-50px) scale(1.05) rotate(80deg)}}
 @keyframes cosmos-pop{from{opacity:0;transform:translateY(70px) scale(.6)}}
-@keyframes cosmos-panel-in{from{transform:translateX(-1100px)}}
-@keyframes cosmos-character-in{from{transform:translateX(-700px) scale(1.15);opacity:0}}
 @keyframes cosmos-logo-in{0%{opacity:0;transform:translateY(-520px) scale(1.5)}70%{transform:translateY(24px) scale(.97)}}
 /* O retrato mantém a leitura natural e redistribui os controles, sem girar a tela. */
 .cosmos-menu[data-layout=portrait] .cosmos-stage{left:0;top:0;width:100%;height:100%;transform:none}
@@ -95,8 +93,8 @@
 .cosmos-menu[data-layout=portrait] .cosmos-rays{left:-85%;top:-5%;width:280%;height:auto;aspect-ratio:1}
 .cosmos-menu[data-layout=portrait] .cosmos-glow{left:28%;top:34%;width:100%;height:auto;aspect-ratio:1}
 .cosmos-menu[data-layout=portrait] .cosmos-sun{left:64%;top:54%;width:30%;height:auto;aspect-ratio:1}
-.cosmos-menu[data-layout=portrait] .cosmos-panel{left:-12%;top:0;width:155%;height:77%}
-.cosmos-menu[data-layout=portrait] .cosmos-favorite{left:-6%;top:12%;width:86%;height:56%;clip-path:polygon(0 0,100% 0,100% 30%,80% 58%,60% 100%,0 100%)}
+.cosmos-menu[data-layout=portrait] .cosmos-panel,.cosmos-menu[data-layout=portrait] .cosmos-divider{left:-12%;top:0;width:155%;height:77%}
+.cosmos-menu[data-layout=portrait] .cosmos-favorite{left:-22%;top:12%;width:86%;height:46%}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label{left:17px;top:54%;max-width:36%;text-shadow:0 3px 0 #0009}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label strong{font-size:clamp(24px,8vw,38px)}
 .cosmos-menu[data-layout=portrait] .cosmos-favorite-label span{font-size:18px}.cosmos-menu[data-layout=portrait] .cosmos-favorite-label small{font-size:12px}
