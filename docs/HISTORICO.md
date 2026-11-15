@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.40.2 — correção do tamanho dos personagens
+
+- Removida a ampliação introduzida na v0.40.1: os cinco favoritos recuperam exatamente o tamanho e o enquadramento aprovados na v0.40.0.
+- Suavizados os cortes das artes com transparência nas extremidades, aplicada apenas no computador. Os arquivos de imagem continuam originais e o personagem permanece atrás da linha de divisão.
+- Entrada e escolha usam fade com deslocamento curto, sem zoom. Continuam com uma execução e repouso após o término.
+- Validação de navegador verifica as dimensões também durante as animações, o enquadramento final e a transparência renderizada nas extremidades. O celular permanece preservado.
+
 ## v0.40.1 — pivôs e animações pontuais no computador
 
 - Ajustadas posição e escala das cinco artes no computador para esconder as extremidades dos arquivos atrás das bordas do painel.

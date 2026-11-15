@@ -1,4 +1,4 @@
-# Validação — v0.40.1
+# Validação — v0.40.2
 
 Validação em Chromium headless e Node.js, em 15/11/2026.
 
@@ -9,7 +9,8 @@ Validação em Chromium headless e Node.js, em 15/11/2026.
 `npm run test:desktop-character` passou em 1366 × 768 e 1024 × 768:
 
 - Entrada do personagem e escolha de cada um dos cinco favoritos com apenas uma execução.
-- Amostras em 0%, 25%, 50%, 75% e no término da animação: nenhum pixel opaco das extremidades originais das artes aparece no interior do painel. A medição considera a área coberta pelo contorno de 18 px.
+- Amostras em 0%, 25%, 50%, 75% e no término da animação: largura e altura iguais às aprovadas na v0.40.0, sem ampliação. O enquadramento final também coincide com essa versão, com tolerância de 0,1 px para arredondamento do navegador.
+- Capturas com fundo transparente verificam o alfa renderizado nas extremidades, incluindo a máscara CSS: nenhuma borda amostrada supera 32/255 (tolerância de antialiasing). O centro da arte conserva pixels opacos; a imagem não é escondida por inteiro.
 - Após terminar, nenhuma animação permanece no personagem e sua posição não muda durante a observação.
 - Fechar o seletor sem escolher não reinicia a animação.
 - Movimento reduzido e mudança para uma janela em retrato interrompem as animações.
@@ -25,6 +26,6 @@ A comparação após a mudança passou: os 15 enquadramentos são idênticos à 
 
 ## Revisão visual
 
-Capturas dos cinco personagens no computador revisadas, incluindo a ocultação das extremidades das artes. `git diff --check` passou.
+Capturas dos cinco personagens no computador revisadas, incluindo o tamanho restaurado e o acabamento gradual das extremidades das artes. `git diff --check` passou.
 
-[Unicorn](previews/unicorn-v0.40.1-desktop.png) · [Sam](previews/sam-v0.40.1-desktop.png) · [Sark](previews/sarck-v0.40.1-desktop.png) · [Nully](previews/nully-v0.40.1-desktop.png) · [Mike](previews/mike-v0.40.1-desktop.png)
+[Unicorn](previews/unicorn-v0.40.2-desktop.png) · [Sam](previews/sam-v0.40.2-desktop.png) · [Sark](previews/sarck-v0.40.2-desktop.png) · [Nully](previews/nully-v0.40.2-desktop.png) · [Mike](previews/mike-v0.40.2-desktop.png)

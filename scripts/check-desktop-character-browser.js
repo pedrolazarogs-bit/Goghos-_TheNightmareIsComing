@@ -1,18 +1,33 @@
 // Isolated menu checks complement the complete mandatory-opening browser flow.
-const assert=require('node:assert/strict'),{chromium}=require('playwright');
+const assert=require('node:assert/strict'),{chromium}=require('playwright'),{PNG}=require('pngjs');
 const URL=process.env.TEST_URL||'http://127.0.0.1:8000';
-async function edges(page){
- return page.evaluate(()=>{
-  const image=document.querySelector('.cosmos-favorite-image'),r=image.getBoundingClientRect(),panel=document.querySelector('.cosmos-panel-boundary'),matrix=panel.getScreenCTM().inverse();
-  const c=document.createElement('canvas');c.width=image.naturalWidth;c.height=image.naturalHeight;const ctx=c.getContext('2d');ctx.drawImage(image,0,0);const data=ctx.getImageData(0,0,c.width,c.height).data;
-  let exposed=0;
-  const check=(x,y)=>{if(data[(y*c.width+x)*4+3]<=32)return;const screenX=r.left+(x+.5)*r.width/c.width,screenY=r.top+(y+.5)*r.height/c.height;const p=new DOMPoint(screenX,screenY).matrixTransform(matrix);
-   // The panel's 18px stroke covers the outer 9px on each edge.
-   if(p.x>10&&p.y>10&&p.y<1070&&p.x<975-565*p.y/1080)exposed++;
-  };
-  for(let x=0;x<c.width;x++){check(x,0);check(x,c.height-1);}for(let y=1;y<c.height-1;y++){check(0,y);check(c.width-1,y);}
-  return exposed;
+// Approved v0.40.0 dimensions and face anchors: do not hide cuts with zoom.
+const FRAMES={unicorn:[.66,.4,1],sam:[.6,.47,1],sarck:[.53,.36,1],nully:[.47,.22,.8],mike:[.41,.4,1]};
+async function size(page,settled=false){
+ const actual=await page.evaluate(()=>{
+  const image=document.querySelector('.cosmos-favorite-image');
+  return {id:GOGHOS.CosmosMenu.getDebugState().favorite,image:image.getBoundingClientRect().toJSON(),stage:document.querySelector('.cosmos-stage').getBoundingClientRect().toJSON(),ratio:image.naturalWidth/image.naturalHeight};
  });
+ const [faceX,faceY,multiplier]=FRAMES[actual.id],scale=actual.stage.width/1920,height=910*multiplier*scale,width=height*actual.ratio;
+ const close=(a,b,label)=>assert(Math.abs(a-b)<.1,label+': '+a+' ≠ '+b);
+ close(actual.image.height,height,'Altura aprovada deve permanecer igual, inclusive durante a animação');
+ close(actual.image.width,width,'Largura aprovada deve permanecer igual, sem zoom');
+ if(settled){close(actual.image.x,actual.stage.x+400*scale-width*faceX,'Enquadramento horizontal aprovado');close(actual.image.y,actual.stage.y+470*scale-height*faceY,'Enquadramento vertical aprovado');}
+}
+async function edges(page,settled=false){
+ // Capture the rendered alpha, including the mask, instead of assuming the
+ // original asset edges must be moved out of the panel by enlarging the image.
+ const style=await page.addStyleTag({content:'body *{visibility:hidden!important}.cosmos-favorite-image{visibility:visible!important}html,body,#app,.cosmos-menu,.cosmos-stage{background:transparent!important}'});
+ let png,r;
+ try{r=await page.locator('.cosmos-favorite-image').boundingBox();png=PNG.sync.read(await page.screenshot({omitBackground:true}));}
+ finally{await style.evaluate(element=>element.remove());}
+ let sampled=0,exposed=0;
+ const check=(x,y)=>{x=Math.floor(x);y=Math.floor(y);if(x<0||y<0||x>=png.width||y>=png.height)return;sampled++;if(png.data[(y*png.width+x)*4+3]>32)exposed++;};
+ for(let x=r.x+.5;x<r.x+r.width;x++){check(x,r.y+.5);check(x,r.y+r.height-.5);}
+ for(let y=r.y+.5;y<r.y+r.height;y++){check(r.x+.5,y);check(r.x+r.width-.5,y);}
+ assert(sampled>0,'É necessário verificar extremidades visíveis no quadro');
+ assert.equal(exposed,0,'As extremidades devem se dissolver no painel, sem linha opaca (tolerância de antialiasing: 32/255)');
+ if(settled){let opaque=0;for(let i=3;i<png.data.length;i+=4)if(png.data[i]>240)opaque++;assert(opaque>1000,'O centro da arte deve continuar visível e opaco');}
 }
 async function motion(page,kind){
  await page.waitForFunction(kind=>document.querySelector('.cosmos-favorite-image').getAnimations().some(a=>a.id==='favorite-'+kind),kind);
@@ -20,11 +35,11 @@ async function motion(page,kind){
  assert.equal(timing.iterations,1);
  for(const fraction of [0,.25,.5,.75]){
   await page.locator('.cosmos-favorite-image').evaluate((image,fraction)=>{const a=image.getAnimations()[0];a.currentTime=a.effect.getTiming().duration*fraction;},fraction);
-  assert.equal(await edges(page),0,'Nenhuma borda original da imagem deve aparecer dentro do painel durante a animação');
+  await size(page);await edges(page);
  }
  await page.locator('.cosmos-favorite-image').evaluate(image=>image.getAnimations()[0].finish());
  await page.waitForFunction(()=>!document.querySelector('.cosmos-character-layer').getAnimations({subtree:true}).length);
- assert.equal(await edges(page),0);
+ await size(page,true);await edges(page,true);
 }
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -39,7 +54,7 @@ async function motion(page,kind){
   for(const id of ['sam','sarck','nully','mike','unicorn']){
    await trigger.click();await page.locator('[data-favorite-choice="'+id+'"]').click();await motion(page,'choice');
    await page.mouse.move(0,0);await page.waitForTimeout(180);
-   if(viewport.width===1366)await page.screenshot({path:'/tmp/goghos-v0401-'+id+'.png'});
+   if(viewport.width===1366)await page.screenshot({path:'/tmp/goghos-v0402-'+id+'.png'});
   }
   const before=await page.locator('.cosmos-favorite-image').boundingBox();await page.waitForTimeout(1200);
   assert.deepEqual(await page.locator('.cosmos-favorite-image').boundingBox(),before,'Personagem deve ficar em repouso');
@@ -55,7 +70,7 @@ async function motion(page,kind){
   await page.setViewportSize({width:390,height:844});
   await page.waitForFunction(()=>!document.querySelector('.cosmos-menu').hasAttribute('data-desktop-character'));
   assert.equal(await page.locator('.cosmos-favorite-image').evaluate(image=>image.getAnimations().length),0);
-  assert.deepEqual(errors,[]);console.log('PASS desktop '+viewport.width+': pivôs, bordas ocultas, entrada/escolha sem loop, repouso e movimento reduzido');await page.close();
+  assert.deepEqual(errors,[]);console.log('PASS desktop '+viewport.width+': tamanho/enquadramento v0.40.0, bordas transparentes, entrada/escolha sem zoom ou loop, repouso e movimento reduzido');await page.close();
  }
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -16,4 +16,6 @@ Por solicitação do usuário a partir da v0.40.1, não altere o visual nem o co
 
 ## Entregas por versão
 
+No computador, preserve o tamanho e o enquadramento aprovados na v0.40.0. Não amplie as artes para esconder seus cortes, nem aplique zoom nas animações. O acabamento das extremidades fica na máscara de transparência exclusiva de computador; a entrada e a escolha devem terminar em repouso.
+
 A cada atualização, revise os controles afetados e incremente a versão em `package.json` e `G.CONFIG.version` (`js/config.js`). Registre as mudanças em `docs/HISTORICO.md`, atualize o README e execute as validações pertinentes. Publique cada versão com uma tag Git `vX.Y.Z` e forneça o link do ZIP dessa tag para teste.

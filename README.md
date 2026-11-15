@@ -1,12 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.40.1 — menu com seleção de personagem favorito.**
+**Versão 0.40.2 — menu com seleção de personagem favorito.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.1.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.2.zip)
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
-No computador, cada personagem possui posição e escala próprias para esconder as extremidades da imagem atrás da divisão do menu. A entrada e a troca de favorito têm animações curtas, executadas uma vez; ao terminar, o personagem fica parado, sem flutuação ou repetição.
+No computador, os cinco personagens voltaram ao tamanho e ao enquadramento aprovados na v0.40.0. Uma transição de transparência nas extremidades suaviza os cortes das artes sem ampliá-las. A entrada e a troca de favorito usam fade com um pequeno deslocamento, sem zoom e com apenas uma execução; ao terminar, o personagem fica parado, sem flutuação ou repetição.
 
 A versão de celular está preservada no comportamento e no enquadramento da v0.40.0. Novas alterações no celular dependem de pedido explícito.
 
@@ -50,7 +50,7 @@ npm run test:browser
 
 O teste percorre a abertura em computador e celular, verifica por pixels que o personagem repousa dentro da divisão após a animação, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, confere a troca dos cinco favoritos, a persistência e o fechamento por teclado, mantém os demais acessos desativados e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
 
-Para conferir também as bordas das artes durante a entrada e a escolha no computador:
+Para conferir também o tamanho aprovado, o enquadramento e a transparência das bordas durante a entrada e a escolha no computador:
 
 ```sh
 npm run test:desktop-character

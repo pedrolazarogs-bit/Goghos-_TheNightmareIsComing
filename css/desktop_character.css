@@ -1,8 +1,9 @@
-/* Applied only to a desktop with a precise pointer. Mobile keeps its existing CSS. */
-.cosmos-menu[data-desktop-character=true] .cosmos-favorite{
- left:var(--desktop-character-left);top:var(--desktop-character-top);
- height:var(--desktop-character-height);transform:none;
-}
+/* Desktop only. The accepted dimensions and face framing remain in cosmos_menu.css. */
 .cosmos-menu[data-desktop-character=true] .cosmos-favorite-image{
  transform-origin:calc(100% * var(--face-x)) calc(100% * var(--face-y));
+ /* Blend only the source edges into the panel instead of enlarging the art. */
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 64px,#000 calc(100% - 64px),transparent),linear-gradient(to bottom,transparent,#000 48px,#000 calc(100% - 96px),transparent);
+ mask-image:linear-gradient(to right,transparent,#000 64px,#000 calc(100% - 64px),transparent),linear-gradient(to bottom,transparent,#000 48px,#000 calc(100% - 96px),transparent);
+ -webkit-mask-composite:source-in;
+ mask-composite:intersect;
 }
