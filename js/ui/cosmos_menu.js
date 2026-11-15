@@ -61,6 +61,7 @@ function selectFavorite(s,id){
  trigger.style.setProperty('--favorite-size',next.size||1);trigger.style.setProperty('--favorite-portrait-size',next.portraitSize||1);
  trigger.setAttribute('aria-label','Trocar personagem favorito. Atual: '+next.name);
  s.menu.querySelector('.cosmos-favorite-image').src=BASE+'character-'+next.index+'.webp';
+ s.desktop?.select(next.id);
  s.menu.querySelector('.cosmos-favorite-label strong').textContent=next.name;
  let saved=true;try{localStorage.setItem(FAVORITE_KEY,next.id);}catch{saved=false;}
  s.menu.querySelector('.cosmos-announcement').textContent='Favorito selecionado: '+next.name+(saved?'.':' nesta sessão.');
@@ -78,6 +79,7 @@ function mount(host){
   const rect=menu.getBoundingClientRect(),width=rect.width||globalThis.innerWidth||1920,height=rect.height||globalThis.innerHeight||1080;
   s.layout=width<height?'portrait':'landscape';menu.dataset.layout=s.layout;
   menu.style.setProperty('--cosmos-scale',String(Math.min(width/1920,height/1080)));
+  s.desktop?.fit();
   // Use the rendered SVG edge, including its portrait letterboxing and stage scale.
   const stage=menu.querySelector('.cosmos-stage'),boundary=menu.querySelector('.cosmos-panel-boundary');
   const matrix=boundary.getScreenCTM(),bounds=stage.getBoundingClientRect();
@@ -109,13 +111,14 @@ function mount(host){
  listen(globalThis.document,'visibilitychange',visibility);
  if(typeof ResizeObserver==='function'){s.observer=new ResizeObserver(fit);s.observer.observe(menu);}else listen(globalThis,'resize',fit);
  fit();preferences();visibility();
- const enter=()=>{if(active===s){s.raf=null;menu.classList.add('cosmos-ready');}};
+ s.desktop=G.DesktopCharacter?.mount(menu,s.favorite.id);
+ const enter=()=>{if(active===s){s.raf=null;menu.classList.add('cosmos-ready');s.desktop?.enter();}};
  if(typeof requestAnimationFrame==='function')s.raf=requestAnimationFrame(enter);else enter();
  return true;
 }
 function detach(){
  const s=active;if(!s)return;
- G.FavoritePicker?.close({restoreFocus:false});active=null;if(s.raf!==null)globalThis.cancelAnimationFrame?.(s.raf);s.observer?.disconnect();
+ s.desktop?.destroy();G.FavoritePicker?.close({restoreFocus:false});active=null;if(s.raf!==null)globalThis.cancelAnimationFrame?.(s.raf);s.observer?.disconnect();
  for(const remove of s.listeners)remove();for(const animation of [...s.animations])animation.cancel();s.animations.clear();
  s.menu.classList.remove('cosmos-ready');s.menu.classList.add('cosmos-paused');
 }

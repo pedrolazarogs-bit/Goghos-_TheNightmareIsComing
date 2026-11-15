@@ -1,0 +1,8 @@
+/* Applied only to a desktop with a precise pointer. Mobile keeps its existing CSS. */
+.cosmos-menu[data-desktop-character=true] .cosmos-favorite{
+ left:var(--desktop-character-left);top:var(--desktop-character-top);
+ height:var(--desktop-character-height);transform:none;
+}
+.cosmos-menu[data-desktop-character=true] .cosmos-favorite-image{
+ transform-origin:calc(100% * var(--face-x)) calc(100% * var(--face-y));
+}

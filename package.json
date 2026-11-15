@@ -1,12 +1,13 @@
 {
   "name": "goghos-tcg",
-  "version": "0.40.0",
+  "version": "0.40.1",
   "private": true,
   "description": "GOGHOS — abertura e menu de apresentação",
   "scripts": {
     "dev": "python3 -m http.server 8000",
     "test": "node tests/menu_only.test.js && node tests/loading_screen.test.js && node tests/intro_presenter.test.js && node tests/soundtrack.test.js",
-    "test:browser": "node scripts/check-menu-only-browser.js"
+    "test:browser": "node scripts/check-menu-only-browser.js",
+    "test:desktop-character": "node scripts/check-desktop-character-browser.js"
   },
   "engines": {
     "node": ">=20"

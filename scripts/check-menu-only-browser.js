@@ -4,13 +4,14 @@ const { chromium } = require('playwright');
 const { PNG } = require('pngjs');
 
 async function checkCharacter(page){
+  await page.waitForFunction(()=>!document.querySelector('.cosmos-character-layer').getAnimations({subtree:true}).length);
   // Keep hover transitions on other menu icons out of the character-only comparison.
   await page.mouse.move(0,0);
   const captureStyle=await page.addStyleTag({content:'.cosmos-favorite{will-change:opacity}'});
   await page.waitForTimeout(180);
   const geometry=await page.evaluate(()=>{
     const layer=document.querySelector('.cosmos-character-layer'),image=layer.querySelector('img');
-    if(layer.getAnimations({subtree:true}).length)throw Error('O personagem deve estar estático desde a entrada');
+    if(layer.getAnimations({subtree:true}).length)throw Error('O personagem deve repousar após a animação pontual');
     const boundary=document.querySelector('.cosmos-panel-boundary'),matrix=boundary.getScreenCTM();
     window.__menuAnimations=document.querySelector('.cosmos-menu').getAnimations({subtree:true});
     window.__menuAnimations.forEach(animation=>animation.pause());
@@ -134,7 +135,7 @@ async function checkCharacter(page){
       const progress=await withoutFavorite();
       for(const [id,name,index] of [['unicorn','Unicorn',0],['sam','Sam',1],['sarck','Sark',2],['nully','Nully',3],['mike','Mike',4],['unicorn','Unicorn',0]]){
         await openPicker();
-        if(id==='unicorn'&&index===0)await page.screenshot({path:'/tmp/goghos-favorites-v0.40.0-'+(mobile?'celular':'desktop')+'.png'});
+        if(id==='unicorn'&&index===0)await page.screenshot({path:'/tmp/goghos-favorites-v0.40.1-'+(mobile?'celular':'desktop')+'.png'});
         await page.locator('[data-favorite-choice="'+id+'"]').click();
         assert.equal(await page.locator('.favorite-picker').count(),0);
         assert.equal(await trigger.getAttribute('aria-expanded'),'false');
@@ -149,13 +150,13 @@ async function checkCharacter(page){
       assert.deepEqual(await withoutFavorite(),progress,'A seleção não pode alterar moedas, coleção ou preferências de áudio');
       assert.equal(await page.evaluate(()=>GOGHOS.Soundtrack.getDebugState().playCount),titleMusic.playCount);
       const chosenStorage=await page.evaluate(()=>JSON.stringify(localStorage));
-      await page.screenshot({path:'/tmp/goghos-menu-v0.40.0-'+(mobile?'celular':'desktop')+'.png'});
+      await page.screenshot({path:'/tmp/goghos-menu-v0.40.1-'+(mobile?'celular':'desktop')+'.png'});
       // Verify the preserved animation directly; no menu control opens it.
       await page.evaluate(()=>{GOGHOS.VictoryPresenter.open();});
       await page.waitForFunction(()=>GOGHOS.VictoryPresenter.getDebugState().ready,null,{timeout:20000});
       assert.equal(await page.locator('.victory-failed').count(),0);
       assert.equal(await page.locator('.victory-canvas canvas').count(),1);
-      await page.screenshot({path:'/tmp/goghos-victory-v0.40.0-'+(mobile?'celular':'desktop')+'.png'});
+      await page.screenshot({path:'/tmp/goghos-victory-v0.40.1-'+(mobile?'celular':'desktop')+'.png'});
       await page.locator(mobile?'[data-victory="play"]':'[data-victory="menu"]').click();
       await page.waitForFunction(()=>!GOGHOS.VictoryPresenter.getDebugState().active);
       assert.equal(await menu.count(),1);

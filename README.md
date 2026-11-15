@@ -1,12 +1,14 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.40.0 — menu com seleção de personagem favorito.**
+**Versão 0.40.1 — menu com seleção de personagem favorito.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.1.zip)
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
-O personagem do menu ficou menor, com o rosto posicionado individualmente em cada arte. Ele permanece estático e recortado pela borda da divisão, que fica desenhada à sua frente. O enquadramento acompanha a janela em computador e celular.
+No computador, cada personagem possui posição e escala próprias para esconder as extremidades da imagem atrás da divisão do menu. A entrada e a troca de favorito têm animações curtas, executadas uma vez; ao terminar, o personagem fica parado, sem flutuação ou repetição.
+
+A versão de celular está preservada no comportamento e no enquadramento da v0.40.0. Novas alterações no celular dependem de pedido explícito.
 
 Clique ou toque no personagem para abrir **Personagem favorito**. Escolha entre **Unicorn, Sam, Sark, Nully e Mike**: a imagem e o nome mudam na hora, e a preferência fica salva neste navegador. A aba também funciona com teclado e pode ser fechada pelo botão ×, Escape ou um clique fora dela. Se o navegador impedir o salvamento, a escolha funciona durante a sessão.
 
@@ -46,6 +48,12 @@ Com Playwright, pngjs e Chromium disponíveis e o servidor iniciado:
 npm run test:browser
 ```
 
-O teste percorre a abertura em computador e celular, verifica por pixels que o personagem está estático e dentro da divisão, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, confere a troca dos cinco favoritos, a persistência e o fechamento por teclado, mantém os demais acessos desativados e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
+O teste percorre a abertura em computador e celular, verifica por pixels que o personagem repousa dentro da divisão após a animação, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, confere a troca dos cinco favoritos, a persistência e o fechamento por teclado, mantém os demais acessos desativados e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
+
+Para conferir também as bordas das artes durante a entrada e a escolha no computador:
+
+```sh
+npm run test:desktop-character
+```
 
 [Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

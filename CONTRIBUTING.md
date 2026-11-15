@@ -10,6 +10,10 @@ Esta edição contém somente a abertura, o menu inicial e os módulos de aprese
 
 O aplicativo não possui dependências de terceiros para execução. `tests/fixtures/presentation-assets.json` registra os hashes dos recursos preservados na redução para o menu. Não altere esse registro apenas para acomodar mudanças acidentais nas artes ou nos áudios.
 
+## Celular preservado
+
+Por solicitação do usuário a partir da v0.40.1, não altere o visual nem o comportamento da versão de celular sem uma nova instrução explícita. As mudanças de pivô e animação ficam em `desktop_character.js` e `desktop_character.css`, ativadas apenas no computador com ponteiro preciso. Verificações de regressão do celular são permitidas.
+
 ## Entregas por versão
 
 A cada atualização, revise os controles afetados e incremente a versão em `package.json` e `G.CONFIG.version` (`js/config.js`). Registre as mudanças em `docs/HISTORICO.md`, atualize o README e execute as validações pertinentes. Publique cada versão com uma tag Git `vX.Y.Z` e forneça o link do ZIP dessa tag para teste.

@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.40.1 — pivôs e animações pontuais no computador
+
+- Ajustadas posição e escala das cinco artes no computador para esconder as extremidades dos arquivos atrás das bordas do painel.
+- Pivô das animações no rosto; aproximação e fade de entrada em 650 ms, escolha em 420 ms, sempre uma execução. Ao terminar, os efeitos são removidos e o personagem permanece em repouso.
+- Escolher o favorito já ativo ou fechar o seletor não repete a animação. Trocas interrompem efeitos anteriores; movimento reduzido e saída do layout de computador cancelam os movimentos.
+- Implementação isolada em módulo e CSS de computador, ativada com ponteiro preciso e janela em paisagem com largura mínima de 900 px. O celular mantém a versão anterior, inclusive em paisagem.
+- Preferência de não alterar mais o celular registrada em CONTRIBUTING.md. Comparados os cinco personagens em três tamanhos móveis: geometria, recorte e ausência de animações iguais à v0.40.0.
+
 ## v0.40.0 — seletor de personagem favorito
 
 - Personagem menor, com pontos de enquadramento específicos para o rosto de Unicorn, Sam, Sark, Nully e Mike. Mantidos o recorte pela divisão e a ausência de movimento.
