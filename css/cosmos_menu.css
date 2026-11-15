@@ -12,6 +12,10 @@
 .cosmos-menu .cosmos-glow{left:1170px;top:240px;width:700px;height:700px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#fff0c8bf,#ffa07840 40%,transparent 70%);mix-blend-mode:screen;animation:cosmos-pulse 3.2s ease-in-out infinite}
 .cosmos-menu .cosmos-sun{left:1420px;top:490px;width:200px;height:200px;pointer-events:none;border-radius:50%;background:radial-gradient(circle,#fffdf0 0,#fff3c4 40%,#ffd79600 70%);filter:blur(4px);animation:cosmos-pulse 3.2s ease-in-out infinite}
 .cosmos-menu .cosmos-panel,.cosmos-menu .cosmos-divider{left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:1}
+/* Reveal the original background behind the decorative triangle on desktop. */
+@media (min-width:900px) and (orientation:landscape) and (hover:hover) and (pointer:fine){
+ .cosmos-menu .cosmos-panel-accent{display:none}
+}
 /* Clip the static character to the actual panel; draw its border in front. */
 .cosmos-menu .cosmos-character-layer{inset:0;pointer-events:none;z-index:2;clip-path:polygon(0 0,0 0,0 0)}
 .cosmos-menu .cosmos-divider{z-index:3}

@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## v0.40.3 — fundo sem triângulo preto no computador
+
+- Removido o triângulo preto decorativo sobre o cenário no computador; a imagem original fica visível nessa área.
+- Mantidos a divisão do personagem, o enquadramento e as animações aprovadas na v0.40.2.
+- A alteração de estilo é restrita ao computador com ponteiro preciso. A versão de celular permanece preservada.
+
 ## v0.40.2 — correção do tamanho dos personagens
 
 - Removida a ampliação introduzida na v0.40.1: os cinco favoritos recuperam exatamente o tamanho e o enquadramento aprovados na v0.40.0.
