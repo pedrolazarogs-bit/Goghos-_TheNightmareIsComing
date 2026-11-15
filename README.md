@@ -1,12 +1,14 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.39.1 — abertura e menu de apresentação.**
+**Versão 0.40.0 — menu com seleção de personagem favorito.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.39.1.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.0.zip)
 
-Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé e na imagem do personagem também foram removidos.
+Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
-O personagem do menu fica estático e recortado pela mesma borda da divisão, com o contorno desenhado à sua frente. O recorte acompanha a janela em computador e celular.
+O personagem do menu ficou menor, com o rosto posicionado individualmente em cada arte. Ele permanece estático e recortado pela borda da divisão, que fica desenhada à sua frente. O enquadramento acompanha a janela em computador e celular.
+
+Clique ou toque no personagem para abrir **Personagem favorito**. Escolha entre **Unicorn, Sam, Sark, Nully e Mike**: a imagem e o nome mudam na hora, e a preferência fica salva neste navegador. A aba também funciona com teclado e pode ser fechada pelo botão ×, Escape ou um clique fora dela. Se o navegador impedir o salvamento, a escolha funciona durante a sessão.
 
 A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
@@ -27,7 +29,8 @@ Abra <http://localhost:8000>. O comando usa Python 3; Node.js é necessário par
 1. Toque em **Toque para iniciar** e aguarde o carregamento e a apresentação.
 2. Pressione qualquer tecla ou toque na tela quando a apresentação indicar que pode continuar.
 3. Confira o menu, as animações e a continuidade da música.
-4. Clique nos antigos botões e na imagem do personagem: o menu deve permanecer aberto, sem painéis ou navegação.
+4. Clique ou toque no personagem e selecione outro favorito. Feche e reabra o jogo para conferir que a escolha foi salva.
+5. Clique nos demais ícones: eles devem manter o menu aberto, sem iniciar ações internas.
 
 ## Validação
 
@@ -43,6 +46,6 @@ Com Playwright, pngjs e Chromium disponíveis e o servidor iniciado:
 npm run test:browser
 ```
 
-O teste percorre a abertura em computador e celular, verifica por pixels que o personagem está estático e dentro da divisão, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, verifica que não há navegação e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
+O teste percorre a abertura em computador e celular, verifica por pixels que o personagem está estático e dentro da divisão, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, confere a troca dos cinco favoritos, a persistência e o fechamento por teclado, mantém os demais acessos desativados e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
 
 [Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

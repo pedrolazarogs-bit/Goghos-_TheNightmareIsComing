@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.40.0 — seletor de personagem favorito
+
+- Personagem menor, com pontos de enquadramento específicos para o rosto de Unicorn, Sam, Sark, Nully e Mike. Mantidos o recorte pela divisão e a ausência de movimento.
+- Clique ou toque no personagem abre uma aba com as cinco artes disponíveis para o menu e indicação do favorito atual. As miniaturas são decodificadas antes da abertura para aparecerem juntas, inclusive no celular.
+- Selecionar um personagem atualiza a imagem e o nome imediatamente e salva a preferência local existente, sem alterar moedas ou coleção.
+- Seletor acessível por teclado, foco contido na aba e retorno ao personagem após fechar; fechamento por ×, Escape ou clique fora. Uma falha no armazenamento mantém a escolha durante a sessão.
+- Preservadas a abertura obrigatória, a música contínua e as animações do menu e de vitória. Os outros ícones continuam sem abrir telas ou partidas.
+- Testes de navegador ampliados para trocar todos os favoritos, verificar recorte, salvamento após recarregar, cancelamento e armazenamento indisponível.
+
 ## v0.39.1 — personagem estático dentro da divisão
 
 - O personagem usa o limite real do painel como recorte; a borda fica desenhada à sua frente. O recorte é recalculado ao redimensionar a janela, inclusive nas proporções do celular.
