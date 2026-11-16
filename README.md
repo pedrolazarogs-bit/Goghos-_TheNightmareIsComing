@@ -1,18 +1,16 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.41.0 — menu com seleção de personagem favorito.**
+**Versão 0.42.0 — menu de apresentação, sem sistema de favorito.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.41.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.42.0.zip)
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
 Na v0.41.0, o menu de computador segue a nova referência enviada: divisão em zigue-zague, base circular em degradê, perfil com nível, Ranked junto à divisão, atalhos inferiores e Play amarelo. Os quatro ícones enviados foram incorporados sem alterar seus arquivos. Os elementos novos são decorativos, sem novos acessos ou sistemas de progressão.
 
-No computador, os cinco personagens voltaram ao tamanho e ao enquadramento aprovados na v0.40.0. Uma transição de transparência nas extremidades suaviza os cortes das artes sem ampliá-las. A entrada e a troca de favorito usam fade com um pequeno deslocamento, sem zoom e com apenas uma execução; ao terminar, o personagem fica parado, sem flutuação ou repetição.
+A Unicorn aparece como arte fixa do menu, no tamanho e enquadramento aprovados. O sistema de personagem favorito foi removido: não há seletor, botão de troca nem leitura da antiga preferência salva. No computador, a entrada toca uma vez e termina em repouso, sem zoom ou flutuação.
 
-A versão de celular está preservada no comportamento e no enquadramento da v0.40.0. Novas alterações no celular dependem de pedido explícito.
-
-Clique ou toque no personagem para abrir **Personagem favorito**. Escolha entre **Unicorn, Sam, Sark, Nully e Mike**: a imagem e o nome mudam na hora, e a preferência fica salva neste navegador. A aba também funciona com teclado e pode ser fechada pelo botão ×, Escape ou um clique fora dela. Se o navegador impedir o salvamento, a escolha funciona durante a sessão.
+A composição de celular permanece preservada, com a mesma remoção do recurso de favorito solicitada nesta versão.
 
 A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
@@ -33,7 +31,7 @@ Abra <http://localhost:8000>. O comando usa Python 3; Node.js é necessário par
 1. Toque em **Toque para iniciar** e aguarde o carregamento e a apresentação.
 2. Pressione qualquer tecla ou toque na tela quando a apresentação indicar que pode continuar.
 3. Confira o menu, as animações e a continuidade da música.
-4. Clique ou toque no personagem e selecione outro favorito. Feche e reabra o jogo para conferir que a escolha foi salva.
+4. Clique ou toque no personagem: a arte é decorativa e não abre seleção.
 5. Clique nos demais ícones: eles devem manter o menu aberto, sem iniciar ações internas.
 
 ## Validação
@@ -50,12 +48,6 @@ Com Playwright, pngjs e Chromium disponíveis e o servidor iniciado:
 npm run test:browser
 ```
 
-O teste percorre a abertura em computador e celular, verifica por pixels que o personagem repousa dentro da divisão após a animação, confere o áudio contínuo, clica nos 10 elementos decorativos que antes eram botões, confere a troca dos cinco favoritos, a persistência e o fechamento por teclado, mantém os demais acessos desativados e exercita o módulo de vitória diretamente. O menu não oferece esse acesso.
-
-Para conferir também o tamanho aprovado, o enquadramento e a transparência das bordas durante a entrada e a escolha no computador:
-
-```sh
-npm run test:desktop-character
-```
+O teste percorre a abertura no computador e no celular, confere a música contínua, a ausência de acessos nos elementos do menu, a arte dentro da divisão e a animação de vitória preservada. Uma antiga preferência de favorito não altera a arte fixa nem pula a abertura.
 
 [Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

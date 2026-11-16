@@ -1,14 +1,10 @@
-# Validação — v0.41.0
+# Validação — v0.42.0
 
-Revisão em Chromium e Node.js em 16/11/2026.
+Validação em Node.js e Chromium em 16/11/2026.
 
-- `npm run test:browser`: aprovado no computador e no celular; abertura obrigatória, música contínua, seletor, persistência, recorte do personagem e vitória preservados.
-- `npm test`: recursos originais, abertura obrigatória, preferências e áudio aprovados.
-- Os quatro PNGs recebidos foram copiados sem edição; hashes registrados em `assets/menu-v041/manifest.json`.
-- Os cinco favoritos foram selecionados na revisão visual. Dimensões e enquadramento permanecem iguais à versão aprovada.
-- Comparação móvel aprovada: 15 enquadramentos idênticos à referência preservada, em 390 × 844, 320 × 568 e 844 × 390.
-- Os novos elementos são decorativos, sem ouvintes de clique ou telas internas. Apenas o favorito mantém seu seletor.
+- `npm test`: aprovado, incluindo ausência de botão/seletor de favorito, arte fixa mesmo com preferência antiga, integridade das artes e dos 11 áudios, abertura obrigatória e trilha sonora.
+- `npm run test:browser` passou no computador e no celular. Verifica cliques e teclado sem abrir seletor, inexistência do módulo FavoritePicker, personagem dentro da divisão, música contínua e vitória preservada. Após gravar uma preferência antiga de Sam e recarregar, a arte continua sendo Unicorn e a abertura continua obrigatória.
+- Removidos os arquivos de implementação e estilo do seletor e a validação específica de troca de favoritos, que deixou de existir.
+- Mantidos os estilos e dimensões da composição; removidos o rótulo de favorito e a instrução de troca.
 
-A comparação de pixels do teste de navegador considera a caixa completa da imagem com margem para o brilho de foco. Isso exclui diferenças de rasterização do cenário fora da área onde o personagem pode ser desenhado, mantendo a verificação exata do limite do painel.
-
-[Prévia do menu atualizado](previews/menu-v0.41.0-desktop.png)
+[Prévia do menu sem favorito](previews/menu-v0.42.0-desktop.png)

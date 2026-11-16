@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.42.0 — remoção do sistema de favorito
+
+- Removidos seletor, botão de troca, nome/rótulo de favorito, preferência de escolha e animação de troca.
+- Unicorn mantida como arte decorativa fixa, preservando tamanho, enquadramento e entrada única no computador. Preferências antigas deixam de ser consultadas.
+- Mantidos os ícones da referência, a abertura obrigatória, o áudio contínuo e a vitória. Nenhum elemento do menu abre telas.
+- Testes atualizados para verificar ausência de seletor e ignorar uma preferência antiga após recarregar.
+
 ## v0.41.0 — menu atualizado conforme a referência
 
 - Composição de computador reorganizada com os quatro PNGs originais recebidos: temporada, progresso, deck e loja.
