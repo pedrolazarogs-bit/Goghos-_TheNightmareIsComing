@@ -1,12 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.40.3 — menu com seleção de personagem favorito.**
+**Versão 0.41.0 — menu com seleção de personagem favorito.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.40.3.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.41.0.zip)
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
-Na v0.40.3, o triângulo preto decorativo foi removido do fundo no computador, revelando a imagem original do cenário.
+Na v0.41.0, o menu de computador segue a nova referência enviada: divisão em zigue-zague, base circular em degradê, perfil com nível, Ranked junto à divisão, atalhos inferiores e Play amarelo. Os quatro ícones enviados foram incorporados sem alterar seus arquivos. Os elementos novos são decorativos, sem novos acessos ou sistemas de progressão.
 
 No computador, os cinco personagens voltaram ao tamanho e ao enquadramento aprovados na v0.40.0. Uma transição de transparência nas extremidades suaviza os cortes das artes sem ampliá-las. A entrada e a troca de favorito usam fade com um pequeno deslocamento, sem zoom e com apenas uma execução; ao terminar, o personagem fica parado, sem flutuação ou repetição.
 

@@ -153,3 +153,50 @@
  .cosmos-menu[data-layout=portrait] .cosmos-stat-visuais>span{font-size:12px}
  .cosmos-menu[data-layout=portrait] .cosmos-coins{width:96px;height:31px}.cosmos-menu[data-layout=portrait] .cosmos-coins>img{width:96px;height:31px}.cosmos-menu[data-layout=portrait] .cosmos-coins>b{left:34px;font-size:18px}
 }
+
+/* Reference artwork supplied for the desktop menu; mobile remains unchanged. */
+.cosmos-reference-decor{display:none}
+@media (min-width:900px) and (orientation:landscape) and (hover:hover) and (pointer:fine){
+ .cosmos-menu .cosmos-panel-boundary{fill:#343434;stroke-width:12}
+ .cosmos-menu .cosmos-character-layer:before{content:"";position:absolute;left:-385px;top:390px;width:1200px;height:1200px;border-radius:50%;background:linear-gradient(#aff3ee,#c5b5ef);pointer-events:none}
+ .cosmos-menu .cosmos-divider polygon{stroke-width:12}
+ .cosmos-menu .cosmos-panel>path,.cosmos-menu .cosmos-rays,.cosmos-menu .cosmos-stat{display:none}
+ .cosmos-menu .cosmos-profile{left:30px;top:24px;width:164px;height:200px}
+ .cosmos-menu .cosmos-profile>img,.cosmos-menu .cosmos-profile-initial{display:none}
+ .cosmos-menu .cosmos-profile:before{content:'';display:block;width:146px;height:138px;background:#fff;border:9px solid #000;border-radius:5px}
+ .cosmos-menu .cosmos-profile>strong{left:0;top:155px;width:164px;font-size:40px}
+ .cosmos-menu .cosmos-shop{left:1155px;top:875px;width:164px;height:195px}
+ .cosmos-menu .cosmos-shop>img{width:164px;height:148px}
+ .cosmos-menu .cosmos-deck{left:914px;top:860px;width:204px;height:210px}
+ .cosmos-menu .cosmos-deck>img{width:204px;height:153px}
+ .cosmos-menu .cosmos-ranked{left:905px;top:285px;width:210px;height:230px}
+ .cosmos-menu .cosmos-ranked>img{width:210px;height:178px}
+ .cosmos-menu .cosmos-mode{left:1350px;top:754px;width:370px;height:80px;font-size:68px;text-align:left}
+ .cosmos-menu .cosmos-mode>small{display:none}
+ .cosmos-menu .cosmos-mode>strong{display:inline}
+ .cosmos-menu .cosmos-mode:before{content:'⊕';font-size:50px;margin-right:8px}
+ .cosmos-menu .cosmos-mode:after{content:' Clássico';font-size:40px}
+ .cosmos-menu .cosmos-play{left:1380px;top:850px;width:310px;height:150px}
+ .cosmos-menu .cosmos-play img{display:none}
+ .cosmos-menu .cosmos-play .cosmos-float{filter:none}
+ .cosmos-menu .cosmos-play .cosmos-float:before{content:'';position:absolute;inset:0;background:#fff39a;border:8px solid #000;border-radius:45% 35% 45% 40% / 22% 16% 70% 60%;box-shadow:-9px 2px 0 #c6869d;transform:rotate(3deg)}
+ .cosmos-menu .cosmos-play b{font-size:86px;top:15px;text-shadow:none}
+ .cosmos-menu .cosmos-reference-decor{display:block;inset:0;z-index:6;pointer-events:none}
+ .cosmos-reference-decor>div{position:absolute}
+ .cosmos-reference-characters{left:720px;top:855px;width:160px;text-align:center}
+ .cosmos-reference-characters img{width:160px;height:174px;object-fit:contain}
+ .cosmos-reference-characters b{position:absolute;top:22px;left:65px;font-size:44px}
+ .cosmos-reference-characters span{font-size:28px}
+ .cosmos-reference-season{left:350px;top:675px;width:290px;transform:rotate(-8deg)}
+ .cosmos-reference-season img{width:290px;height:auto}
+ .cosmos-reference-season span{position:absolute;left:56px;top:36px;font-size:160px;color:#000}
+ .cosmos-reference-progress{left:48px;bottom:25px;width:327px}
+ .cosmos-reference-progress img{width:327px;height:182px}
+ .cosmos-reference-progress span{position:absolute;left:32px;top:20px;font-size:68px;color:#fff;-webkit-text-stroke:3px #000;paint-order:stroke fill}
+ .cosmos-reference-level{left:207px;top:44px;color:#000;text-align:center}
+ .cosmos-reference-level small,.cosmos-reference-level b{display:block;background:#fff;border:8px solid #000;border-radius:50%;font-weight:400}
+ .cosmos-reference-level small{width:52px;height:52px;font-size:28px;transform:rotate(-15deg)}
+ .cosmos-reference-level b{position:relative;top:-20px;left:4px;width:76px;height:76px;font-size:58px}
+ .cosmos-menu .cosmos-footer{left:720px;bottom:4px}
+ .cosmos-menu .cosmos-footer>.cosmos-decor{font-size:14px}
+}

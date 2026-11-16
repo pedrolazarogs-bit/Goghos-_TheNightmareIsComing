@@ -15,7 +15,7 @@ async function checkCharacter(page){
     const boundary=document.querySelector('.cosmos-panel-boundary'),matrix=boundary.getScreenCTM();
     window.__menuAnimations=document.querySelector('.cosmos-menu').getAnimations({subtree:true});
     window.__menuAnimations.forEach(animation=>animation.pause());
-    return {points:Array.from(boundary.points,point=>({x:matrix.a*point.x+matrix.c*point.y+matrix.e,y:matrix.b*point.x+matrix.d*point.y+matrix.f})),rect:JSON.stringify(image.getBoundingClientRect())};
+    return {points:Array.from(boundary.points,point=>({x:matrix.a*point.x+matrix.c*point.y+matrix.e,y:matrix.b*point.x+matrix.d*point.y+matrix.f})),imageBounds:image.getBoundingClientRect().toJSON(),rect:JSON.stringify(image.getBoundingClientRect())};
   });
   await page.waitForTimeout(180);
   assert.equal(await page.locator('.cosmos-favorite-image').evaluate(image=>JSON.stringify(image.getBoundingClientRect())),geometry.rect,'O personagem não deve flutuar');
@@ -37,6 +37,10 @@ async function checkCharacter(page){
   };
   let changed=0,outside=0;
   for(let y=0;y<visible.height;y++)for(let x=0;x<visible.width;x++){
+    // Ignore unrelated background rasterization outside the full image bounds.
+    // Include a margin for the keyboard focus glow; the panel check stays exact.
+    const bounds=geometry.imageBounds;
+    if(x<bounds.left-16||x>bounds.right+16||y<bounds.top-16||y>bounds.bottom+16)continue;
     const offset=(y*visible.width+x)*4;
     // Chromium may rasterize paused SVG/particle edges with slightly different colors.
     if(![0,1,2].some(channel=>Math.abs(visible.data[offset+channel]-hidden.data[offset+channel])>16))continue;

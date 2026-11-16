@@ -42,6 +42,7 @@ function html(){
  <div class="cosmos-shortcuts"><span class="cosmos-decor cosmos-shortcut cosmos-shop cosmos-pop cosmos-button" style="--delay:.9s">${art('shop')}<span>Loja</span></span><span class="cosmos-decor cosmos-shortcut cosmos-deck cosmos-pop cosmos-button" style="--delay:1s">${art('deck')}<span>Deck</span></span><span class="cosmos-decor cosmos-shortcut cosmos-ranked cosmos-pop cosmos-button" style="--delay:1.1s">${art('trophy')}<span>Ranked</span></span></div>
  <span class="cosmos-decor cosmos-mode cosmos-pop cosmos-button" style="--delay:1.2s"><small>${safe(mode.tag)}</small><strong>${safe(modeLabel)}</strong></span>
  <span class="cosmos-decor cosmos-play cosmos-pop cosmos-button" style="--delay:1.3s"><span class="cosmos-float">${art('play')}<b>Play</b></span></span>
+ <div class="cosmos-reference-decor" aria-hidden="true"><div class="cosmos-reference-characters"><img src="assets/menu-v036/deck.webp" alt=""><b>?</b><span>Characters</span></div><div class="cosmos-reference-season"><img src="assets/menu-v041/season.png" alt=""><span>S1</span></div><div class="cosmos-reference-progress"><img src="assets/menu-v041/progress.png" alt=""><span>1</span></div><div class="cosmos-reference-level"><small>Lv</small><b>1</b></div></div>
  <div class="cosmos-stars" aria-hidden="true">${particles}</div>
  <footer class="cosmos-footer"><span class="cosmos-decor">Crônicas</span><span class="cosmos-decor">The Nightmare Is Coming</span><small>v${safe(G.CONFIG?.version||'')} · Beta</small></footer>
  <span class="cosmos-announcement" role="status" aria-live="polite"></span>
@@ -82,6 +83,10 @@ function mount(host){
   s.desktop?.fit();
   // Use the rendered SVG edge, including its portrait letterboxing and stage scale.
   const stage=menu.querySelector('.cosmos-stage'),boundary=menu.querySelector('.cosmos-panel-boundary');
+  const desktop=width>=900&&width>=height&&matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const points=desktop?'0,0 985,0 795,202 1145,162 420,1080 0,1080':PANEL_POINTS;
+  boundary.setAttribute('points',points);menu.querySelector('.cosmos-divider polygon').setAttribute('points',points);
+  for(const [selector,name] of [['.cosmos-shop>img','shop'],['.cosmos-deck>img','deck']])menu.querySelector(selector).src=desktop?'assets/menu-v041/'+name+'.png':BASE+name+'.webp';
   const matrix=boundary.getScreenCTM(),bounds=stage.getBoundingClientRect();
   if(matrix&&bounds.width&&bounds.height){
    const points=Array.from(boundary.points,point=>{

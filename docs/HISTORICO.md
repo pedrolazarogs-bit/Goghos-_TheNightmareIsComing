@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.41.0 — menu atualizado conforme a referência
+
+- Composição de computador reorganizada com os quatro PNGs originais recebidos: temporada, progresso, deck e loja.
+- Perfil e nível no alto, Ranked junto à divisão em zigue-zague, atalhos inferiores, base circular em degradê e Play amarelo.
+- Elementos novos apenas decorativos. Mantidos o seletor de favorito, o tamanho aprovado dos personagens, a abertura e o áudio contínuo.
+- Celular preservado; imagens e estilos novos ativados somente no layout de computador.
+
 ## v0.40.3 — fundo sem triângulo preto no computador
 
 - Removido o triângulo preto decorativo sobre o cenário no computador; a imagem original fica visível nessa área.
