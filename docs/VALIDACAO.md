@@ -1,10 +1,11 @@
-# Validação — v0.42.0
+# Validação — v0.43.0
 
-Validação em Node.js e Chromium em 16/11/2026.
+Validação em 17/11/2026, com Node.js e Chromium.
 
-- `npm test`: aprovado, incluindo ausência de botão/seletor de favorito, arte fixa mesmo com preferência antiga, integridade das artes e dos 11 áudios, abertura obrigatória e trilha sonora.
-- `npm run test:browser` passou no computador e no celular. Verifica cliques e teclado sem abrir seletor, inexistência do módulo FavoritePicker, personagem dentro da divisão, música contínua e vitória preservada. Após gravar uma preferência antiga de Sam e recarregar, a arte continua sendo Unicorn e a abertura continua obrigatória.
-- Removidos os arquivos de implementação e estilo do seletor e a validação específica de troca de favoritos, que deixou de existir.
-- Mantidos os estilos e dimensões da composição; removidos o rótulo de favorito e a instrução de troca.
+- `npm test` passou, incluindo os testes existentes de menu, abertura e áudio e o novo modelo do laboratório: seleção, vida limitada, entradas inválidas, bloqueio sem vida, movimento e limite de 100 eventos.
+- `npm run test:lab` passou em 1440 × 1000 e 390 × 844: seleção, dano/cura, movimentação, detalhes, teclado, exportação JSON, reinício e ausência de erros JavaScript/rolagem horizontal.
+- A mesma validação foi executada sobre o ZIP isolado extraído e servido separadamente, verificando que ele contém todos os recursos necessários.
+- O navegador gerenciado bloqueia URLs file:// por política; a validação automatizada utilizou servidor HTTP local. O pacote usa somente HTML, CSS, scripts clássicos e imagens locais, sem fetch ou dependências externas.
+- O laboratório não importa módulos de progresso do jogo, não escreve localStorage e não altera as telas do menu. Apenas a versão global foi incrementada.
 
-[Prévia do menu sem favorito](previews/menu-v0.42.0-desktop.png)
+[Prévia do laboratório](previews/laboratorio-v0.43.0-desktop.png)

@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.43.0 — laboratório independente
+
+- Nova página laboratorio.html para experimentar cartas antes da integração ao jogo.
+- Seleção por clique e teclado, detalhes por clique duplo/botão direito, movimento entre áreas, dano e cura com limites, reinício e registro exportável em JSON.
+- Modelo de teste independente, sem armazenamento, progresso ou regras oficiais de combate.
+- Entrega dupla: ZIP isolado do laboratório e projeto completo. Menu e versão móvel do jogo preservados.
+
 ## v0.42.0 — remoção do sistema de favorito
 
 - Removidos seletor, botão de troca, nome/rótulo de favorito, preferência de escolha e animação de troca.

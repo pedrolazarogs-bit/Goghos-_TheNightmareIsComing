@@ -1,8 +1,25 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.42.0 — menu de apresentação, sem sistema de favorito.**
+**Versão 0.43.0 — menu de apresentação e laboratório separado.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.42.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.43.0.zip)
+
+## Laboratório de testes
+
+Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
+
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.43.0/downloads/laboratorio-v0.43.0.zip)
+
+- Clique ou use Tab + Enter para selecionar e desmarcar cartas.
+- Dois cliques, botão direito ou “Abrir detalhes” mostram os dados da carta.
+- Teste movimentos entre mão e área, dano e cura com limites de vida.
+- Confira o registro, exporte JSON e reinicie a mesa quando quiser.
+
+Os três personagens usam 100 PV fictícios, sem atributos ou habilidades oficiais. Cartas sem vida permanecem inspecionáveis e precisam de cura para serem movidas. Nada é gravado em armazenamento local; recarregar reinicia a sessão. O laboratório não implementa combate, draft ou inventário.
+
+As próximas mecânicas devem ser experimentadas aqui antes de integrar suas telas definitivas. O modelo independente fica em `js/lab_model.js`, e a apresentação em `js/ui/laboratorio.js` e `css/laboratorio.css`.
+
+`npm run test:lab` verifica as interações no Chromium com o servidor ativo. `npm run package:lab` gera o ZIP isolado. Toda entrega inclui a parte testável e o projeto completo, ambos com a mesma versão.
 
 Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
 
