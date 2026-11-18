@@ -73,7 +73,7 @@
         '</div>' +
         '<div class="tc-stats">' +
           '<div class="tc-hp" style="--f:' + f + '"><i></i><b data-n="' + hp + '">' + hp + '</b><img src="' + O.assets + 'heart.png" alt=""></div>' +
-          '<div class="tc-dmg"><b data-n="' + (c.atk || 0) + '">' + (c.atk || 0) + '</b><img src="' + O.assets + 'sword.png" alt=""></div>' +
+          '<div class="tc-dmg">' + (c.atk === null ? '<b>—</b>' : '<b data-n="' + (Number(c.atk) || 0) + '">' + (Number(c.atk) || 0) + '</b>') + '<img src="' + O.assets + 'sword.png" alt=""></div>' +
         '</div>' +
       '</div>');
     p.style.setProperty('--tc-o', s === 'r' ? 'left center' : s === 'l' ? 'right center' : 'bottom center');

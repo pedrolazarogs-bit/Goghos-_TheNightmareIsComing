@@ -6,10 +6,11 @@ root = Path(__file__).resolve().parents[1]
 version = json.loads((root / 'package.json').read_text())['version']
 output = root / 'downloads' / ('laboratorio-v' + version + '.zip')
 output.parent.mkdir(exist_ok=True)
-files = ['docs/ARTES_PENDENTES.md', 'batalha.html','css/battle_lab.css','js/lab/battle.js','js/ui/battle_lab.js','assets/menu-v036/bg.jpg','assets/menu-v036/trophy.webp', 'oponente.html', 'laboratorio.html', 'css/laboratorio.css', 'js/lab_model.js', 'js/ui/laboratorio.js']
+files = ['js/lab/characters.js', 'docs/CARTAS_KIT.md', 'docs/ARTES_PENDENTES.md', 'batalha.html','css/battle_lab.css','js/lab/battle.js','js/ui/battle_lab.js','assets/menu-v036/bg.jpg','assets/menu-v036/trophy.webp', 'oponente.html', 'laboratorio.html', 'css/laboratorio.css', 'js/lab_model.js', 'js/ui/laboratorio.js']
 files += ['css/card_touch.css','js/ui/card_touch.js','js/ui/lab_opponent.js','assets/menu-v036/german_beauty.ttf']
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/card-touch-v044').glob('*.png'))]
 files += ['assets/menu-v036/character-' + str(i) + '.webp' for i in range(5)]
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/characters-v047').glob('*'))]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for name in files:
         archive.write(root / name, name)

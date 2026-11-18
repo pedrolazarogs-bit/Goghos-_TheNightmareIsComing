@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.46.0
+# Arena 4×4 — estrutura de teste v0.47.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
@@ -6,7 +6,7 @@ Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena n
 
 Você escolhe um personagem da equipe azul. Seus três aliados e os quatro oponentes são bots. Há exatamente um personagem sob seu controle, identificado por ID durante toda a série. A escolha é preservada entre rodadas; não é o antigo sistema de favorito do menu.
 
-Cada equipe possui quatro personagens diferentes entre si. Com cinco artes disponíveis para oito posições, personagens podem aparecer nos dois lados, mas cada carta tem uma identidade independente. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
+Cada equipe possui quatro personagens diferentes entre si. A seleção oferece 32 cartas e as oito posições da partida usam arquivos distintos. Nomes iguais em duas artes permanecem como entradas separadas. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
 
 O cronômetro usa tempo monotônico desde **Iniciar batalha** até a vitória final. Ele não é regressivo, não reinicia entre rodadas e inclui intervalos, pausas e inspeções. No resultado final, seu valor fica congelado.
 
@@ -16,7 +16,7 @@ A rodada alterna Azul 1, Vermelho 1, Azul 2, Vermelho 2, e assim por diante. Eli
 
 A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. Os retratos podem ser clicados para inspeção. A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
 
-Apenas o ataque básico está definido: todos têm 100 PV e 25 de dano para este teste. Nenhuma habilidade pessoal, atributo de classe, item ou efeito de apoio foi criado. Os espaços de inspeção indicam isso explicitamente.
+Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Nenhuma habilidade pessoal, atributo de classe, item ou efeito de apoio foi criado. Os espaços de inspeção indicam isso explicitamente.
 
 ## Campo e interface
 
@@ -31,7 +31,7 @@ Apenas o ataque básico está definido: todos têm 100 PV e 25 de dano para este
 
 ## Jogador e bots
 
-O jogador só pode atacar na vez do personagem escolhido, com ele vivo. O modelo expõe ações separadas para jogador e bot e rejeita o controle de aliados ou adversários pelo caminho do jogador. Se ele for eliminado, a batalha prossegue entre os bots; não há transferência de controle.
+O jogador só pode atacar na vez do personagem escolhido, com ele vivo e com valor de ataque definido. Cartas com “—” não recebem dano inventado: o jogador pode passar a vez e os bots passam automaticamente após a espera normal. Se no futuro restarem apenas cartas sem ataque definido, a série para sem atribuir vencedor ou ponto. O modelo expõe ações separadas para jogador e bot e rejeita o controle de aliados ou adversários pelo caminho do jogador. Se ele for eliminado, a batalha prossegue entre os bots; não há transferência de controle.
 
 Cada um dos sete bots escolhe um adversário vivo com menor vida, sem bônus ocultos. Há espera de **3,2 segundos** antes de cada decisão automática, inclusive a dos aliados, além da transição de impacto de 650 ms (200 ms com efeitos reduzidos). O turno humano aguarda uma ação sem limite de tempo. Entre rodadas, o teste aguarda **Próxima rodada**.
 
@@ -41,11 +41,13 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 ## Arquivos e verificações
 
-`js/lab/battle.js` contém o modelo independente. `js/ui/battle_lab.js` controla a tela e os turnos automáticos. `css/battle_lab.css` contém a composição visual. O CardTouch de `js/ui/card_touch.js` é reutilizado sem alterar o experimento anterior.
+`js/lab/characters.js` contém os 32 registros de cartas, caminhos para os arquivos e atributos impressos. `assets/characters-v047/manifest.json` registra os hashes dos PNGs originais. [Lista completa](CARTAS_KIT.md).
+
+`js/lab/battle.js` contém o modelo independente. `js/ui/battle_lab.js` controla a tela e os turnos automáticos. `css/battle_lab.css` contém a composição visual. O CardTouch de `js/ui/card_touch.js` continua reutilizado; agora mostra “—” para ataque ausente, preservando os valores numéricos do experimento anterior.
 
 `tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.46.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.47.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

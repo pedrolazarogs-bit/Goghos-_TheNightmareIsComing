@@ -5,16 +5,17 @@ import json
 root = Path(__file__).resolve().parents[1]
 version = json.loads((root / 'package.json').read_text())['version']
 output = root / 'downloads' / ('batalha-v' + version + '.zip')
-files = ['docs/ARTES_PENDENTES.md', 'css/battle_lab.css', 'css/card_touch.css', 'js/lab/battle.js', 'js/ui/battle_lab.js', 'js/ui/card_touch.js']
+files = ['js/lab/characters.js', 'docs/CARTAS_KIT.md', 'docs/ARTES_PENDENTES.md', 'css/battle_lab.css', 'css/card_touch.css', 'js/lab/battle.js', 'js/ui/battle_lab.js', 'js/ui/card_touch.js']
 files += ['assets/menu-v036/' + name for name in ['german_beauty.ttf', 'bg.jpg', 'trophy.webp']]
 files += ['assets/menu-v036/character-' + str(i) + '.webp' for i in range(5)]
 files += ['assets/card-touch-v044/' + name + '.png' for name in ['heart', 'sword', 'star']]
 output.parent.mkdir(exist_ok=True)
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/characters-v047').glob('*'))]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     # Only navigation changes in the isolated preview; the arena code is identical.
     page = (root / 'batalha.html').read_text().replace('href="laboratorio.html"', 'href="batalha.html"').replace('← Laboratório', '← Nova sessão')
     archive.writestr('batalha.html', page)
     for name in files:
         archive.write(root / name, name)
-    archive.writestr('LEIA-ME.txt', 'GOGHOS — Arena 4x4 v' + version + '\nExtraia todo este ZIP e abra batalha.html no navegador.\nEscolha seu personagem. Os outros sete são bots; cada bot espera 3,2 segundos antes de agir.\nClique no oponente para usar ATACAR. Quem fizer 3 pontos vence.\nVocê controla apenas o personagem escolhido. Seus aliados continuam se ele for eliminado.\nVida e dano são provisórios. Nenhuma habilidade especial foi inventada.\nA estrela fixa à direita abre a habilidade principal ao clicar. Apoios e item não têm efeitos configurados.\nSilhuetas com ? indicam artes pendentes. Clique para saber o que falta ou leia docs/ARTES_PENDENTES.md.\nO cronômetro conta toda a série, incluindo pausas e intervalos.\n')
+    archive.writestr('LEIA-ME.txt', 'GOGHOS — Arena 4x4 v' + version + '\nExtraia todo este ZIP e abra batalha.html no navegador.\nEscolha seu personagem. Os outros sete são bots; cada bot espera 3,2 segundos antes de agir.\nClique no oponente para usar ATACAR. Quem fizer 3 pontos vence.\nVocê controla apenas o personagem escolhido. Seus aliados continuam se ele for eliminado.\n32 cartas originais. Vida e dano seguem os valores impressos, inclusive multiplicadores. Ataques com traço aguardam regras e passam a vez. Nenhuma habilidade especial foi inventada.\nA estrela fixa à direita abre a habilidade principal ao clicar. Apoios e item não têm efeitos configurados.\nSilhuetas com ? indicam artes pendentes. Clique para saber o que falta ou leia docs/ARTES_PENDENTES.md.\nO cronômetro conta toda a série, incluindo pausas e intervalos.\n')
 print(output)

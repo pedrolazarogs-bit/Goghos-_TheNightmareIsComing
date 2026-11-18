@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.47.0 — kit de 32 cartas
+
+- Incorporadas as 32 artes originais dos dois RARs, sem redesenho, recorte ou recompressão; manifesto com origem e hashes.
+- Seleção visual com busca, prévia ampliada e identidade separada para as duas cartas Sheriff e as duas Vaglar.
+- Cartas completas substituem as silhuetas. Vida atual aparece em barra externa, preservando os números da ilustração.
+- Vida e dano impressos aplicados por pedido do usuário, incluindo multiplicadores. Ataques com “—” aguardam regras e passam a vez, sem dano inventado.
+- Mantidos um jogador, sete bots, espera de 3,2 segundos, estrela fixa e série até três vitórias.
+- Habilidades e atributos de classe aguardam regras; menu, abertura, áudio e celular do jogo preservados.
+
 ## v0.46.0 — personagem único e artes pendentes
 
 - Estrela original da habilidade principal fixa junto ao painel do jogador; descrição somente ao clicar. Removido o espaço de habilidade adicional.

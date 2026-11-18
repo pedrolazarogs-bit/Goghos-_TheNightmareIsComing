@@ -1,4 +1,6 @@
-# Artes pendentes — arena v0.46.0
+# Artes pendentes — arena v0.47.0
+
+As 32 cartas completas recebidas já substituem as molduras provisórias. [Lista de cartas e atributos](CARTAS_KIT.md).
 
 As silhuetas com “?” marcam as peças que ainda precisam da arte definitiva. Clique em uma marcação na batalha para consultar o que enviar. São formas aproximadas para posicionamento, não ilustrações finais.
 
@@ -6,7 +8,6 @@ As silhuetas com “?” marcam as peças que ainda precisam da arte definitiva.
 | --- | --- |
 | CENÁRIO DA ARENA | Fundo e piso, de preferência separados, com a perspectiva da referência. A composição de referência é 16:9. |
 | PLACAR | Faixas azul e vermelha com espaço livre para os números. Envie também o emblema completo do campeonato se desejar substituir a composição provisória com o troféu já recebido. |
-| MOLDURAS / ? nas cartas | Moldura transparente de carta e áreas de nome, vida e dano; as ilustrações recebidas já estão colocadas. |
 | ? na ordem de ação | Três faixas: próximo, vez atual e último atacante, com espaço para nome e retrato. |
 | PAINEL | Moldura do painel do jogador e barra de vida; o retrato e os ícones de vida/dano já existem. |
 | ? nos três apoios | Ícones dos apoios que serão usados, até três por equipe. |
@@ -16,4 +17,4 @@ Já temos e mantemos sem redesenhar: a estrela principal do CardTouch, coração
 
 As molduras e os ícones podem vir como PNG, WebP ou SVG com transparência. Números, nomes e valores são preenchidos pelo jogo; deixe suas áreas livres. O campo usa uma composição de 1600 × 900 escalada para a janela.
 
-A estrela principal já usa a arte recebida; seu nome, descrição e efeito por personagem ainda precisam de definição. Esta versão conserva somente o ataque básico de teste: 100 PV e 25 de dano. Não há habilidades pessoais, atributos de classe, itens ou apoios inventados. Ao fornecer esses recursos, envie também suas regras para implementação posterior no laboratório.
+Vida e dano agora seguem as cartas recebidas. As regras de habilidades, atributos de classe e ataques impressos como “—” ainda serão enviadas pelo usuário. Os demais efeitos não foram inventados. Para os personagens novos, também podem ser enviadas ilustrações isoladas: até lá, usamos suas cartas completas nos retratos.

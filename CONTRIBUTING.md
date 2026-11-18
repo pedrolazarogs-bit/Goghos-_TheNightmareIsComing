@@ -29,3 +29,5 @@ A arena 4×4 é um experimento independente em batalha.html. Ao alterá-la, exec
 Na arena, o jogador escolhe e controla somente um personagem. Os três aliados e os quatro adversários são bots; a eliminação do jogador não transfere o controle. A habilidade principal usa a estrela original recebida, fixa junto ao painel do jogador e com informações abertas somente por clique.
 
 Use apenas ícones e ilustrações fornecidos pelo usuário. Quando uma arte estiver faltando, marque seu lugar com uma silhueta aproximada e “?”, indicando qual arquivo falta. Essas marcações foram explicitamente solicitadas; não crie uma ilustração definitiva para substituí-las. Mantenha docs/ARTES_PENDENTES.md atualizado.
+
+O kit de 32 cartas da v0.47.0 fica em assets/characters-v047/ e js/lab/characters.js. Preserve os PNGs originais e seus hashes. O usuário autorizou vida e dano impressos, inclusive multiplicadores; os efeitos especiais e de classe aguardam regras. Ataque “—” é null, não um valor arbitrário. Consulte docs/CARTAS_KIT.md antes de alterar atributos.
