@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.48.1 — personagem e ícones maiores
+
+- Retrato do jogador 25% maior no painel do computador, incluindo as cartas usadas como retrato.
+- Coração, espada, estrela principal e losango de fôlego cerca de 12% maiores, com pequenos ajustes de posição.
+- Mantidos o espaço da fila de turnos, os cliques, a estrela estática, as artes originais e a composição de celular.
+- Prévia isolada e projeto completo atualizados; regras e balanceamento preservados.
+
 ## v0.48.0 — painel do jogador e fôlego
 
 - Painel montado com base preta, faixa de vida, coração e espada recebidos, mantendo os PNGs originais e registrando seus hashes.

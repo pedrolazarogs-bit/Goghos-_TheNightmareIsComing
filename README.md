@@ -1,12 +1,14 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.48.0 — Painel do jogador com as artes recebidas e indicador de fôlego.**
+**Versão 0.48.1 — Personagem maior e ícones ampliados no painel.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.48.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.48.1.zip)
 
 ## Painel do jogador
 
-[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.0/downloads/painel-v0.48.0.zip)
+[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.1/downloads/painel-v0.48.1.zip)
+
+No computador, o personagem está 25% maior e os ícones do painel cerca de 12% maiores. A composição de celular foi preservada.
 
 Extraia todo o ZIP e abra **painel.html**. Teste as 32 cartas, dano, cura e a exibição do fôlego. Coração e espada abrem atributos; o losango mostra o fôlego e a estrela abre a habilidade principal. A base preta, a faixa vermelha e os ícones usam seus arquivos originais.
 
@@ -16,7 +18,7 @@ O mesmo painel já está em **batalha.html**, no projeto completo. Vida e dano a
 
 ## Nova arena 4×4
 
-[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.0/downloads/batalha-v0.48.0.zip)
+[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.1/downloads/batalha-v0.48.1.zip)
 
 Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a galeria ou a busca, e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. Os botões do menu principal continuam decorativos.
 
@@ -39,7 +41,7 @@ Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a g
 
 Abra `oponente.html` para testar somente a nova interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.0/downloads/laboratorio-v0.48.0.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.48.1/downloads/laboratorio-v0.48.1.zip)
 
 O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
 

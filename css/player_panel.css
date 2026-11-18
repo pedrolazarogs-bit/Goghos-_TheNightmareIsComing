@@ -25,5 +25,15 @@
 .player-panel .hud-breath strong{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:5px;font-size:33px;line-height:1;font-weight:400;text-shadow:0 2px 2px #473c63;pointer-events:none}
 .player-panel .hud-identity{position:absolute;left:165px;bottom:5px;max-width:275px;display:flex;align-items:baseline;gap:9px;white-space:nowrap}
 .player-panel .hud-identity>span{font-size:18px}.player-panel .hud-identity>small{font:8px system-ui;letter-spacing:.6px;color:#b3bfd1}
+/* Larger desktop portrait and icons; keep the existing touch/mobile composition. */
+@media(min-width:981px) and (pointer:fine){
+ .player-panel #portrait{width:400px;height:300px}
+ .player-panel #portrait.uses-card{width:212px;height:250px}
+ .player-panel .hud-heart{right:12px;top:29px;width:84px;height:82px}
+ .player-panel .hud-damage-icon{width:34px;height:60px}
+ .player-panel .principal-ability{left:-9px;bottom:21px;width:176px;height:176px}
+ .player-panel .hud-breath{left:167px;top:109px;width:88px;height:94px}
+ .player-panel .hud-breath strong{font-size:36px}
+}
 .reduced .player-panel .hud-life-fill{transition:none}
 @media(prefers-reduced-motion:reduce){.player-panel .hud-life-fill{transition:none}}
