@@ -23,3 +23,5 @@ A cada atualização, revise os controles afetados e incremente a versão em `pa
 ## Laboratório e entregas duplas
 
 Experimente novas mecânicas no laboratório independente antes de integrá-las ao jogo. Não conecte módulos de teste ao menu ou ao progresso real sem pedido explícito. Valores fictícios devem ser identificados. Cada atualização deve fornecer dois downloads com a mesma versão: a parte alterada pronta para testar isoladamente e o projeto completo. Use scripts/package-laboratorio.py para empacotar o laboratório e execute npm run test:lab ao alterar suas interações.
+
+A arena 4×4 é um experimento independente em batalha.html. Ao alterá-la, execute npm run test:battle e gere sua prévia com npm run package:battle. Não atribua habilidades pessoais ou efeitos de itens/apoios sem definição do usuário. As regras de teste estão em docs/ARENA_4X4.md.

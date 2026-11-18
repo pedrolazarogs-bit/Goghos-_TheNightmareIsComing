@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.45.0 — nova arena 4×4
+
+- Campo em perspectiva com piso, horizonte, iluminação, cartas em duas profundidades e efeitos leves de ataque.
+- Série até 3 pontos, pontuação única por eliminação completa de equipe, restauração entre rodadas e cronômetro crescente até a vitória final.
+- Fila com próximo, atual e último atacante; inspeção lateral, ataque básico, espaço de habilidade/item e até três apoios.
+- CardTouch integrado ao alvo inimigo. Sem criação de habilidades pessoais ou efeitos de itens/apoios. Atributos provisórios iguais para testar a estrutura.
+- Equipes configuráveis, controle manual/contra computador/automático, pausa, movimento reduzido, registro e exportação.
+- Prévia independente em batalha.html, acessível também no laboratório. Menu principal e apresentação preservados.
+
 ## v0.44.0 — CardTouch no clique do oponente
 
 - Base CardTouch v0.1.1 adaptada ao laboratório com seus quatro PNGs originais e fonte German Beauty do jogo.

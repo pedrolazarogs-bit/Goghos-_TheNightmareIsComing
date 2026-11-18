@@ -1,15 +1,16 @@
-# Validação — v0.44.0
+# Validação — v0.45.0
 
-Validação em Node.js e Chromium em 17/11/2026.
+Revisão em 17/11/2026, com Node.js e Chromium.
 
-- `npm test` passou: testes existentes de recursos, menu, abertura, áudio e modelo do laboratório.
-- A mesa anterior continua passando nos testes de seleção, movimentação, dano/cura, teclado, detalhes, exportação e reinício.
-- CardTouch testado em 1440 × 1000 com mouse e 390 × 844 com toque: ciclo de cliques, botão condicionado à vez, detalhes, indicadores, fonte German Beauty carregada, Escape, fechamento explícito, teclado e redimensionamento.
-- Painel e botão conferidos dentro da tela e sem sobreposição entre si. Rolagem automática anterior ao clique não encerra a interação recém-aberta.
-- Ataque verificado no alvo correto, com 25 PV de dano e encerramento de vez; o outro oponente mantém sua vida. Alvo com zero PV continua inspecionável, sem oferecer ataque. Reinício restaura as duas cartas.
-- Os quatro PNGs são idênticos aos arquivos enviados. A fonte é o TTF original do menu, incluído no pacote separado.
-- A página `oponente.html`, que abre somente a interação nova, também passou nos testes de computador e toque do ZIP extraído.
-- `npm run test:lab` também passou contra o ZIP isolado extraído e servido por HTTP local. Não houve erros JavaScript ou recursos ausentes.
-- Menu, versão móvel do jogo e combate real não foram modificados; apenas a versão global foi incrementada. A nova interação fica no laboratório.
+- `npm test`: aprovado, incluindo recursos originais, menu, abertura, áudio, laboratório e modelo da arena. A série determinística percorreu 145 ataques e terminou com uma equipe em três pontos.
+- `npm run test:battle`: aprovado no projeto. Verifica equipes sem duplicatas internas, oito cartas, três apoios, CardTouch, alvo correto, ordem dos turnos, pausa, inspeção de espaços sem efeitos, redução de movimento e uma série completa até a vitória.
+- Conferidos o congelamento do cronômetro final, exportação JSON, nova série, teclado, redimensionamento e ataque por toque em paisagem.
+- A prévia foi extraída do ZIP e validada por servidor HTTP local, incluindo seus recursos visuais e fonte.
+- `npm run test:lab`: aprovado para as interações anteriores, com mouse e toque.
+- As telas do menu e da abertura não receberam alterações. A versão global foi incrementada e o laboratório ganhou o acesso à arena.
 
-[Computador](previews/oponente-v0.44.0-desktop.png) · [Toque no laboratório](previews/oponente-v0.44.0-mobile.png)
+A primeira revisão da prévia detectou transbordamento durante o redimensionamento. O contêiner da arena passou a delimitar também os elementos posicionados, mantendo o campo recortado durante a atualização de escala.
+
+[Campo](previews/batalha-v0.45.0-desktop.png) · [Interação no oponente](previews/batalha-v0.45.0-alvo.png) · [Resultado da série](previews/batalha-v0.45.0-resultado.png)
+
+[Regras e estrutura desta versão](ARENA_4X4.md)

@@ -1,14 +1,33 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.44.0 — menu de apresentação e laboratório separado.**
+**Versão 0.45.0 — arena 4×4 no laboratório.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.44.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.45.0.zip)
+
+## Nova arena 4×4
+
+[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.45.0/downloads/batalha-v0.45.0.zip)
+
+Extraia o ZIP e abra **batalha.html**. Escolha quatro personagens diferentes por equipe e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. Os botões do menu principal continuam decorativos.
+
+- Eliminar os quatro adversários concede um ponto. A primeira equipe a alcançar **3 pontos** vence a série, que pode durar até cinco rodadas.
+- Ao avançar de rodada, as equipes voltam com vida cheia. O cronômetro começa ao iniciar e continua durante pausas e intervalos até o vencedor final; então congela.
+- A ordem alterna as equipes, pula os eliminados e troca a equipe inicial a cada rodada. A coluna direita mostra próximo, atual e último atacante.
+- Clique em um oponente: primeiro clique mostra **ATACAR**, segundo abre o painel CardTouch, terceiro fecha. Na vez adversária ou ao inspecionar aliados, aparecem somente informações.
+- O canto direito acompanha o personagem selecionado, com retrato, vida, dano e situação. Os controles inferiores mostram ataque básico, espaço de habilidade e item; o canto esquerdo reserva **três apoios**.
+- Habilidades pessoais, itens e apoios não foram inventados. Seus espaços abrem informações, sem conceder efeitos. Todos usam **100 PV e 25 de dano provisórios**; não há atributos de velocidade ou classe adicionais.
+- **Azul × computador** permite jogar com a equipe azul; **Manual** permite testar os dois lados; **Automático** permite observar a batalha. O computador espera 1,2 segundo e cada impacto tem uma transição curta.
+- Pausa, efeitos reduzidos, registro da série, exportação JSON, inspeção e reinício estão disponíveis. Nenhum progresso é salvo no jogo.
+
+[Regras e estrutura detalhadas da arena](docs/ARENA_4X4.md).
+
+`npm run test:battle` testa uma série completa no navegador. `npm run package:battle` gera a prévia independente; seu link de retorno abre uma nova sessão, pois o menu não acompanha esse ZIP.
 
 ## Laboratório de testes
 
 Abra `oponente.html` para testar somente a nova interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.44.0/downloads/laboratorio-v0.44.0.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.44.0/downloads/laboratorio-v0.45.0.zip)
 
 O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
 
@@ -41,7 +60,7 @@ A composição de celular permanece preservada, com a mesma remoção do recurso
 
 A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
-Os motores de batalha, draft, loja, personagens, coleção e demais telas internas foram retirados deste pacote, junto com as artes e estilos usados apenas nessas telas. As versões anteriores permanecem no histórico e nas tags do repositório.
+Os motores antigos de batalha, draft, loja, personagens, coleção e demais telas internas foram retirados. A arena 4×4 desta versão é um experimento independente no laboratório. As versões anteriores permanecem no histórico e nas tags do repositório.
 
 A animação de vitória e seus recursos foram preservados como módulo de apresentação, sem acesso pelos botões do menu. Todos os 11 arquivos de áudio existentes na versão anterior foram conservados, inclusive as trilhas de combate, vitória e derrota. Esta edição não inicia partidas nem concede recompensas.
 
