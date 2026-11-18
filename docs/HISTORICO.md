@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.49.1 — interface mais compacta
+
+- Placar e painel do jogador reduzidos em 22% na largura e altura no computador, liberando área para a batalha.
+- Placar ancorado no centro superior; painel, personagem e ícones reduzidos juntos e ancorados na quina inferior direita.
+- Ajustados os textos secundários para preservar a leitura e centralizadas as prévias individuais.
+- Preservados celular, artes originais, cliques, animações e regras da série. Prévia da arena e projeto completo atualizados.
+
 ## v0.49.0 — placar original do jogo
 
 - Arte do placar recebida no ZIP incorporada sem alterar o PNG, com origem e SHA-256 registrados. Margens transparentes enquadradas por CSS.

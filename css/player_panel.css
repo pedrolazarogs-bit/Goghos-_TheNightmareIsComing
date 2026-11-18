@@ -27,6 +27,8 @@
 .player-panel .hud-identity>span{font-size:18px}.player-panel .hud-identity>small{font:8px system-ui;letter-spacing:.6px;color:#b3bfd1}
 /* Larger desktop portrait and icons; keep the existing touch/mobile composition. */
 @media(min-width:981px) and (pointer:fine){
+ .player-panel{transform:scale(.78);transform-origin:right bottom}
+ .player-panel .hud-identity>small{font-size:10px}
  .player-panel #portrait{width:400px;height:300px}
  .player-panel #portrait.uses-card{width:212px;height:250px}
  .player-panel .hud-heart{right:12px;top:29px;width:84px;height:82px}

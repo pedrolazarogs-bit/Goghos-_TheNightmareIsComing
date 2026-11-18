@@ -1,8 +1,10 @@
-# Placar do jogo — v0.49.0
+# Placar do jogo — v0.49.1
 
 O placar no topo da arena de computador usa a arte original recebida em **84 Sem Título_20261118200516.png.zip**. As faixas azul e vermelha, o troféu e o logotipo GOGHOS Championship já fazem parte desse PNG; nenhum desses elementos foi redesenhado ou sobreposto por uma ilustração nova.
 
 `assets/scoreboard-v049/scoreboard.png` é uma cópia exata do arquivo recebido. O manifesto registra origem, SHA-256, resolução de 2048 × 2048 e limites da região visível. A imagem tem margens transparentes grandes; CSS enquadra a região de 1670 × 629 pixels, sem recortar, recomprimir ou modificar o arquivo.
+
+Na v0.49.1, o conjunto foi reduzido em 22% na largura e altura no computador. A âncora continua no centro superior, liberando espaço acima das cartas. Os textos de rodada e meta receberam ajuste de tamanho para preservar a leitura. A prévia individual mostra a mesma redução.
 
 ## Na batalha
 
@@ -21,4 +23,4 @@ Abra **placar.html** para testar somente esta parte. Clique em **Iniciar série 
 
 A página usa o mesmo `js/ui/scoreboard.js` e `css/scoreboard.css` da arena. Os controles de teste ficam em `js/ui/scoreboard_preview.js`, sem importar ou alterar o combate. A prévia se ajusta a janelas estreitas para consulta; isso não altera o placar da arena de celular.
 
-`npm run test:scoreboard` testa a prévia no navegador. `npm run test:battle` confere a integração durante uma série real. `npm run package:scoreboard` gera `downloads/placar-v0.49.0.zip`; extraia tudo e abra placar.html. Apenas os links de navegação são adaptados no ZIP isolado.
+`npm run test:scoreboard` testa a prévia no navegador. `npm run test:battle` confere a integração durante uma série real. `npm run package:scoreboard` gera `downloads/placar-v0.49.1.zip`; extraia tudo e abra placar.html. Apenas os links de navegação são adaptados no ZIP isolado.

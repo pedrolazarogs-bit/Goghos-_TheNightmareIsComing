@@ -1,18 +1,17 @@
-# Validação — v0.49.0
+# Validação — v0.49.1
 
 Revisão em 18/11/2026, com Node.js e Chromium.
 
-- `npm test`: aprovado antes e depois da integração. Recursos originais, menu, abertura, áudio, laboratório e modelo da arena preservados. As 32 escolhas e 1.793 ações do modelo continuam passando.
-- `npm run test:scoreboard`: aprovado no projeto e nos arquivos extraídos do ZIP de entrega. Conferidos início em 0 × 0, bloqueio antes de iniciar, pontos das duas equipes, empate 2 × 2 na quinta rodada, vitória aos três, bloqueio após o resultado e reinício completo.
-- Cronômetro testado acima de uma hora (61:02), sem reiniciar entre pontos e congelando após a vitória final. O valor mostrado na arena também foi comparado ao tempo final do modelo.
-- Pontos, vencedor e relógio do novo placar foram conferidos durante uma série completa de `npm run test:battle`. Preservados um jogador, sete bots, espera de 3,2 segundos, mortes, CardTouch, teclado, pausa, exportação e reinício sem ações antigas.
-- `npm run test:lab`: aprovado no laboratório e no experimento CardTouch, com mouse e toque.
-- A revisão visual encontrou pouco espaço entre o relógio e as cartas; a composição do placar na arena foi ajustada para caber acima delas. O teste agora verifica esse limite, além do carregamento do PNG correto.
-- A animação breve dos pontos termina sem repetição. O teste aguarda o término real da animação nativa do Chromium, separado do relógio simulado da série. Com efeitos reduzidos, não há animação.
-- Na arena com toque, o placar anterior permanece visível e o novo fica oculto. A prévia isolada se ajusta a janelas estreitas e permite testar os pontos por toque, sem rolagem horizontal.
-- PNG comparado byte a byte ao arquivo do ZIP recebido e ao SHA-256 do manifesto. Nenhum pixel foi alterado; apenas as margens transparentes são enquadradas por CSS.
-- Prévia do placar, arena, laboratório e painel empacotados na v0.49.0. Integridade dos quatro ZIPs, referências locais e correspondência dos módulos com o projeto verificadas. As únicas adaptações nas páginas isoladas são os links de navegação documentados.
+- `npm test`: aprovado antes e depois da alteração. Menu, abertura, áudio, recursos originais e modelo da batalha preservados.
+- `npm run test:panel`: aprovado com os 32 personagens, ícones clicáveis, teclado, vida zero/máxima, dano com multiplicador, fôlego e ajuste à janela.
+- `npm run test:scoreboard`: aprovado com pontos de ambas as equipes, quinta rodada, vitória aos três, cronômetro acima de uma hora, congelamento final, reinício, teclado e toque.
+- `npm run test:battle`: aprovado durante uma série completa. Pontuação, fila de turnos, cliques do painel, bots, mortes, pausa, exportação, redimensionamento e reinício preservados.
+- Comparação direta com o CSS da v0.49.0 em 1440 × 900: placar passou de aproximadamente 414 × 195 para 323 × 152 pixels; painel passou de 531 × 333 para 414 × 260 pixels. Ambos têm largura e altura 22% menores.
+- Conferidas as âncoras: centro superior do placar e bordas direita/inferior do painel permanecem no mesmo lugar. A redução libera espaço no campo sem deslocar as cartas.
+- Na janela com toque de 844 × 390, as posições e dimensões do placar anterior, painel, retrato e quatro ícones são idênticas às da v0.49.0.
+- Revisão visual das prévias: valores de quatro dígitos, fôlego de dois dígitos, multiplicadores e relógio final continuam legíveis. Textos secundários tiveram ajuste para compensar a redução; as artes mantêm as proporções originais.
+- Prévia da arena e pacotes individuais gerados na v0.49.1. Integridade dos quatro ZIPs, referências locais e correspondência dos arquivos com o projeto verificadas, exceto os links de navegação adaptados nos pacotes isolados.
 
-[Prévia do placar](previews/placar-v0.49.0.png) · [Resultado 3 × 2](previews/placar-v0.49.0-resultado.png) · [Placar na arena](previews/batalha-v0.49.0-desktop.png)
+[Placar e painel menores na arena](previews/batalha-v0.49.1-desktop.png)
 
-[Arte, regras e prévia do placar](PLACAR.md) · [Estrutura da arena](ARENA_4X4.md) · [Artes pendentes](ARTES_PENDENTES.md)
+[Placar](PLACAR.md) · [Painel do jogador](PAINEL_JOGADOR.md) · [Regras da arena](ARENA_4X4.md)

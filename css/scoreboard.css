@@ -13,6 +13,8 @@
 /* The previously approved mobile arena keeps its existing scoreboard. */
 #battle-stage>.game-scoreboard{display:none;position:absolute;left:550px;top:4px;z-index:20;transform:scale(.92);transform-origin:top center}
 @media(min-width:981px) and (pointer:fine){
- #battle-stage>.game-scoreboard{display:block}
+ .game-scoreboard{transform:scale(.78);transform-origin:center}
+ .game-scoreboard .scoreboard-clock>span,.game-scoreboard .scoreboard-clock small{font-size:12px}
+ #battle-stage>.game-scoreboard{display:block;transform:scale(.7176)}
  #battle-stage>.legacy-scoreboard{display:none}
 }
