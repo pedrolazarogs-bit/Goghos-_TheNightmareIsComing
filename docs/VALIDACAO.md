@@ -1,11 +1,15 @@
-# Validação — v0.43.0
+# Validação — v0.44.0
 
-Validação em 17/11/2026, com Node.js e Chromium.
+Validação em Node.js e Chromium em 17/11/2026.
 
-- `npm test` passou, incluindo os testes existentes de menu, abertura e áudio e o novo modelo do laboratório: seleção, vida limitada, entradas inválidas, bloqueio sem vida, movimento e limite de 100 eventos.
-- `npm run test:lab` passou em 1440 × 1000 e 390 × 844: seleção, dano/cura, movimentação, detalhes, teclado, exportação JSON, reinício e ausência de erros JavaScript/rolagem horizontal.
-- A mesma validação foi executada sobre o ZIP isolado extraído e servido separadamente, verificando que ele contém todos os recursos necessários.
-- O navegador gerenciado bloqueia URLs file:// por política; a validação automatizada utilizou servidor HTTP local. O pacote usa somente HTML, CSS, scripts clássicos e imagens locais, sem fetch ou dependências externas.
-- O laboratório não importa módulos de progresso do jogo, não escreve localStorage e não altera as telas do menu. Apenas a versão global foi incrementada.
+- `npm test` passou: testes existentes de recursos, menu, abertura, áudio e modelo do laboratório.
+- A mesa anterior continua passando nos testes de seleção, movimentação, dano/cura, teclado, detalhes, exportação e reinício.
+- CardTouch testado em 1440 × 1000 com mouse e 390 × 844 com toque: ciclo de cliques, botão condicionado à vez, detalhes, indicadores, fonte German Beauty carregada, Escape, fechamento explícito, teclado e redimensionamento.
+- Painel e botão conferidos dentro da tela e sem sobreposição entre si. Rolagem automática anterior ao clique não encerra a interação recém-aberta.
+- Ataque verificado no alvo correto, com 25 PV de dano e encerramento de vez; o outro oponente mantém sua vida. Alvo com zero PV continua inspecionável, sem oferecer ataque. Reinício restaura as duas cartas.
+- Os quatro PNGs são idênticos aos arquivos enviados. A fonte é o TTF original do menu, incluído no pacote separado.
+- A página `oponente.html`, que abre somente a interação nova, também passou nos testes de computador e toque do ZIP extraído.
+- `npm run test:lab` também passou contra o ZIP isolado extraído e servido por HTTP local. Não houve erros JavaScript ou recursos ausentes.
+- Menu, versão móvel do jogo e combate real não foram modificados; apenas a versão global foi incrementada. A nova interação fica no laboratório.
 
-[Prévia do laboratório](previews/laboratorio-v0.43.0-desktop.png)
+[Computador](previews/oponente-v0.44.0-desktop.png) · [Toque no laboratório](previews/oponente-v0.44.0-mobile.png)

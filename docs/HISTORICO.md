@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.44.0 — CardTouch no clique do oponente
+
+- Base CardTouch v0.1.1 adaptada ao laboratório com seus quatro PNGs originais e fonte German Beauty do jogo.
+- Ciclo de um/dois/três cliques na vez do jogador; fora da vez, somente informações. Painel de habilidade, buffs/nerfs, vida e dano.
+- Ataque simulado de 25 pontos no alvo escolhido, encerramento de vez, alternância de turno e reinício independente. Eventos e estado do oponente incluídos na exportação JSON.
+- Ajustados foco, rolagem automática, limites do painel, teclado e limpeza de listeners/animações. Menu e combate real não recebem essa mecânica ainda.
+- Laboratório isolado e projeto completo publicados na mesma versão.
+
 ## v0.43.0 — laboratório independente
 
 - Nova página laboratorio.html para experimentar cartas antes da integração ao jogo.

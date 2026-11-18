@@ -1,21 +1,31 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.43.0 — menu de apresentação e laboratório separado.**
+**Versão 0.44.0 — menu de apresentação e laboratório separado.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.43.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.44.0.zip)
 
 ## Laboratório de testes
 
-Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
+Abra `oponente.html` para testar somente a nova interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.43.0/downloads/laboratorio-v0.43.0.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.44.0/downloads/laboratorio-v0.44.0.zip)
+
+O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
+
+- Na sua vez: primeiro clique mostra **ATACAR**, segundo abre os detalhes junto do botão, terceiro fecha.
+- Fora da sua vez: primeiro clique abre somente os detalhes; o próximo fecha.
+- A aba mostra habilidade, buffs/nerfs, vida e dano, com os indicadores colados à carta. Escape, clique fora, rolagem ou redimensionamento fecham a interação.
+- **ATACAR** simula 25 de dano no oponente clicado e encerra sua vez. Use **Liberar sua vez** para repetir ou **Reiniciar este teste** para restaurar os valores.
+- Os atributos de P.ULLYS vêm da demonstração recebida. Habilidade e efeitos são exibidos, mas não executados. O dano exibido pertence ao oponente, não ao jogador.
+
+A mesa de testes anterior continua disponível logo abaixo:
 
 - Clique ou use Tab + Enter para selecionar e desmarcar cartas.
 - Dois cliques, botão direito ou “Abrir detalhes” mostram os dados da carta.
 - Teste movimentos entre mão e área, dano e cura com limites de vida.
 - Confira o registro, exporte JSON e reinicie a mesa quando quiser.
 
-Os três personagens usam 100 PV fictícios, sem atributos ou habilidades oficiais. Cartas sem vida permanecem inspecionáveis e precisam de cura para serem movidas. Nada é gravado em armazenamento local; recarregar reinicia a sessão. O laboratório não implementa combate, draft ou inventário.
+Na mesa anterior, os três personagens usam 100 PV fictícios, sem atributos ou habilidades oficiais. Cartas sem vida permanecem inspecionáveis e precisam de cura para serem movidas. Nada é gravado em armazenamento local; recarregar reinicia a sessão. O laboratório não implementa combate, draft ou inventário.
 
 As próximas mecânicas devem ser experimentadas aqui antes de integrar suas telas definitivas. O modelo independente fica em `js/lab_model.js`, e a apresentação em `js/ui/laboratorio.js` e `css/laboratorio.css`.
 
