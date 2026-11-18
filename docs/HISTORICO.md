@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.46.0 — personagem único e artes pendentes
+
+- Estrela original da habilidade principal fixa junto ao painel do jogador; descrição somente ao clicar. Removido o espaço de habilidade adicional.
+- Cartas retas, com o piso ajustado para não encobrir a equipe azul e os controles.
+- Escolha de um personagem; três aliados e quatro adversários controlados por bots. Controle mantido no personagem escolhido em todas as rodadas.
+- Espera de 3,2 segundos para cada bot. A rodada continua automaticamente entre bots após a eliminação do jogador.
+- Artes faltantes indicadas por silhuetas com “?” e explicação ao clicar. Arquivos originais preservados; sem habilidades, itens ou efeitos de apoio inventados.
+- Prévia da batalha e projeto completo com a mesma versão. Menu, abertura, áudio e versão de celular do jogo preservados.
+
 ## v0.45.0 — nova arena 4×4
 
 - Campo em perspectiva com piso, horizonte, iluminação, cartas em duas profundidades e efeitos leves de ataque.

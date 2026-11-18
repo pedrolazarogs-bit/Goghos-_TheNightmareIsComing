@@ -9,3 +9,30 @@
 .team.blue{top:465px}.team.blue .combat-card{height:190px}.team.red{top:245px;gap:42px}.team.red .combat-card{width:130px;height:182px}.formation-label.enemies{top:218px}.formation-label.allies{top:435px}.card-vitals{display:grid;grid-template-columns:14px 1fr 14px 1fr;gap:3px}.card-vitals img{width:14px;height:16px}.card-vitals b{font-size:22px;font-weight:400}.card-vitals small{font-size:20px;margin:0;white-space:nowrap}.card-name{font-size:18px}.support-slots i{font-family:'German Beauty';font-size:30px;line-height:1}
 /* Keep the scaled stage clipped during viewport changes as well as after fit(). */
 #battle-viewport{position:relative}
+/* v0.46: straight formations; supplied principal star, without an action-slot frame. */
+.team.red,.team.blue,.card-info{transform:none}
+.card-info{left:10%;width:80%;padding:4px 4px 6px}.card-vitals{grid-template-columns:12px minmax(0,1fr) 12px minmax(0,1fr);gap:2px}.card-vitals img{width:12px;height:15px}.card-vitals b{font-size:20px}.card-vitals small{font-size:18px}
+.principal-ability{position:absolute;right:330px;bottom:108px;width:160px;height:160px;z-index:17;padding:0;border:0;border-radius:0;background:none;box-shadow:none;transform:none;transition:none;animation:none}
+.principal-ability img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.principal-ability:hover,.principal-ability:active{background:none;filter:none;transform:none;box-shadow:none}
+.principal-ability:focus-visible{outline:none;filter:drop-shadow(0 0 5px var(--gold))}
+.action-dock{width:320px}.action-slots{justify-content:flex-start}.action-dock .dock-label{gap:12px}
+.player-choice{display:grid;gap:10px;margin:22px 0;color:#f4dfb0}.player-choice select{font:22px 'German Beauty';padding:12px;background:#111827;color:#fff;border:1px solid #798599;border-radius:8px}
+.combat-card[data-controller=player]:before{box-shadow:0 0 15px #5edcfa44}
+.arena-footer #player-identity{color:#c4d7ed;font-weight:500;min-width:160px}
+/* User-requested placeholders: flat silhouettes with ? until the final art arrives. */
+.sky{background:#20232c}.aurora,.horizon,.floor-glow,.arena-ring,.sparkles{display:none}
+.floor{left:-200px;width:2000px;height:850px;transform:perspective(1200px) rotateX(58deg);background:#0e1118;border:2px solid #333943;mask-image:linear-gradient(#000 0 65%,transparent 100%)}
+.score-ribbon.blue,.score-ribbon.red{background:#07090d;border-bottom-color:#383c49}.score-ribbon.blue{color:var(--blue)}.score-ribbon.red{color:var(--red)}
+.card-rim{background:#07090d;filter:none}.card-rim:after,.team.red .card-rim:after{background:#282b34}.card-info{background:#d9d8d3}.slot-gem{background:transparent;color:#c7cbd4;font:22px system-ui;clip-path:none}
+.queue-card,.queue-card.red,.queue-card.current{background:#0a0c14}.queue-card.current{box-shadow:inset -3px 0 var(--gold)}
+.support-slots button,.support-slots button:nth-child(2),.support-slots button:nth-child(3){background:#05070c;border-color:#303642}.support-slots i{color:#b4bac7}
+.action-slots button,.action-slots .basic{background:#0a0c14}.action-slots .missing-icon{top:-10px;left:45px;width:50px;height:50px;display:grid;place-items:center;background:#04060b;color:#aeb6c6;border:1px solid #3a4050;border-radius:20% 20% 35% 35%;font:35px 'German Beauty'}
+.inspector-sheet{background:#090c14;border-left-color:#444955}.stat-life{background:#12151d;border-bottom:3px solid #ec4277}
+.art-marker{background:none;border:0;border-radius:0;color:#adb6c7;font-family:system-ui;padding:2px 4px;z-index:18;line-height:1.2;pointer-events:auto}
+.art-marker:hover{background:#ffffff0b;filter:none}.art-marker small{font:8px system-ui;letter-spacing:1px}
+.scene-art-marker{position:absolute;left:850px;top:470px;width:195px;height:85px;color:#6a7384}.scene-art-marker b{display:block;font:42px 'German Beauty';font-weight:400}.scene-art-marker small{display:block;font-size:10px}
+.cards-art-marker{position:absolute;left:505px;top:431px;font-size:22px}
+.score-art-marker{position:absolute;left:212px;top:109px;width:100px;height:19px;font-size:14px;z-index:10}
+.queue-art-marker{display:inline;font-size:18px;margin-left:8px;padding:0 4px;vertical-align:middle}
+.stats-art-marker{position:absolute;left:0;bottom:170px;font-size:22px;z-index:20}

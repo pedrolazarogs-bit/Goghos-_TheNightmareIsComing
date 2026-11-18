@@ -1,10 +1,12 @@
-# Arena 4×4 — estrutura de teste v0.45.0
+# Arena 4×4 — estrutura de teste v0.46.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
 ## Série, rodadas e tempo
 
-Cada equipe possui quatro personagens. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
+Você escolhe um personagem da equipe azul. Seus três aliados e os quatro oponentes são bots. Há exatamente um personagem sob seu controle, identificado por ID durante toda a série. A escolha é preservada entre rodadas; não é o antigo sistema de favorito do menu.
+
+Cada equipe possui quatro personagens diferentes entre si. Com cinco artes disponíveis para oito posições, personagens podem aparecer nos dois lados, mas cada carta tem uma identidade independente. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
 
 O cronômetro usa tempo monotônico desde **Iniciar batalha** até a vitória final. Ele não é regressivo, não reinicia entre rodadas e inclui intervalos, pausas e inspeções. No resultado final, seu valor fica congelado.
 
@@ -18,23 +20,24 @@ Apenas o ataque básico está definido: todos têm 100 PV e 25 de dano para este
 
 ## Campo e interface
 
-- Campo com piso em perspectiva, horizonte, luzes suaves e duas profundidades de cartas.
+- Campo com piso em perspectiva e cartas retas em duas profundidades. As artes faltantes usam silhuetas com “?”, conforme solicitado; as peças recebidas são preservadas.
 - Placar azul/vermelho com três marcadores por equipe, número de rodada e tempo crescente.
-- Painel do personagem selecionado no canto direito: retrato, vida, dano, habilidade e situação.
-- Ataque básico, espaço de habilidade e espaço de item no centro inferior.
+- Painel fixado no personagem do jogador no canto direito: retrato, vida, dano e situação. Inspecionar outra carta não troca esse painel.
+- Estrela original do CardTouch, fixa junto ao painel direito, sem animação nem moldura de botão. Clique nela para consultar a habilidade principal; o conteúdo permanece fechado antes do clique.
+- Ataque básico e espaço de item no centro inferior. A habilidade principal não aparece como uma ação adicional.
 - Três espaços de apoio no canto esquerdo, sem equipar ou executar efeitos inexistentes.
 - CardTouch: primeiro clique no alvo mostra ATACAR, segundo abre informações e terceiro fecha. Fora de uma ação válida, o clique apenas inspeciona.
 - Opções de efeitos reduzidos, pausa, ajuda, registro, exportação e reinício. A redução de movimento do sistema também é respeitada.
 
-## Modos de teste
+## Jogador e bots
 
-**Azul × computador:** jogador controla Azul. O computador escolhe um alvo vivo com menor vida, sem bônus ocultos.
+O jogador só pode atacar na vez do personagem escolhido, com ele vivo. O modelo expõe ações separadas para jogador e bot e rejeita o controle de aliados ou adversários pelo caminho do jogador. Se ele for eliminado, a batalha prossegue entre os bots; não há transferência de controle.
 
-**Manual:** permite agir pelos dois lados na ordem definida, útil para reproduzir situações.
+Cada um dos sete bots escolhe um adversário vivo com menor vida, sem bônus ocultos. Há espera de **3,2 segundos** antes de cada decisão automática, inclusive a dos aliados, além da transição de impacto de 650 ms (200 ms com efeitos reduzidos). O turno humano aguarda uma ação sem limite de tempo. Entre rodadas, o teste aguarda **Próxima rodada**.
 
-**Automático:** permite observar a sequência completa. Há espera de 1,2 segundo antes da decisão automática e uma transição de impacto de 650 ms (200 ms com efeitos reduzidos). Entre as rodadas, o teste aguarda **Próxima rodada**.
+Esta versão não implementa conexões online. A distinção de controlador fica explícita no estado e no registro exportado para futura evolução.
 
-Inspeções e diálogos suspendem decisões automáticas. Ao ocultar a página, as ações são pausadas; o relógio continua medindo a duração da série. Reiniciar cancela ações pendentes antes de criar outra sessão.
+Os diálogos de detalhes suspendem decisões automáticas enquanto estão abertos. Ao ocultar a página, as ações são pausadas; o relógio continua medindo a duração da série. Reiniciar cancela ações pendentes antes de criar outra sessão.
 
 ## Arquivos e verificações
 
@@ -42,4 +45,8 @@ Inspeções e diálogos suspendem decisões automáticas. Ao ocultar a página, 
 
 `tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.45.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.46.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+
+## Artes pendentes
+
+Cada “?” identifica uma peça sem arte definitiva. Os botões de marcação explicam o que enviar. Consulte [ARTES_PENDENTES.md](ARTES_PENDENTES.md). Nenhuma arte nova foi gerada; as silhuetas são marcações provisórias solicitadas pelo usuário.

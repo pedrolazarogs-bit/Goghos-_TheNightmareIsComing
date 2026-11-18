@@ -25,3 +25,7 @@ A cada atualização, revise os controles afetados e incremente a versão em `pa
 Experimente novas mecânicas no laboratório independente antes de integrá-las ao jogo. Não conecte módulos de teste ao menu ou ao progresso real sem pedido explícito. Valores fictícios devem ser identificados. Cada atualização deve fornecer dois downloads com a mesma versão: a parte alterada pronta para testar isoladamente e o projeto completo. Use scripts/package-laboratorio.py para empacotar o laboratório e execute npm run test:lab ao alterar suas interações.
 
 A arena 4×4 é um experimento independente em batalha.html. Ao alterá-la, execute npm run test:battle e gere sua prévia com npm run package:battle. Não atribua habilidades pessoais ou efeitos de itens/apoios sem definição do usuário. As regras de teste estão em docs/ARENA_4X4.md.
+
+Na arena, o jogador escolhe e controla somente um personagem. Os três aliados e os quatro adversários são bots; a eliminação do jogador não transfere o controle. A habilidade principal usa a estrela original recebida, fixa junto ao painel do jogador e com informações abertas somente por clique.
+
+Use apenas ícones e ilustrações fornecidos pelo usuário. Quando uma arte estiver faltando, marque seu lugar com uma silhueta aproximada e “?”, indicando qual arquivo falta. Essas marcações foram explicitamente solicitadas; não crie uma ilustração definitiva para substituí-las. Mantenha docs/ARTES_PENDENTES.md atualizado.
