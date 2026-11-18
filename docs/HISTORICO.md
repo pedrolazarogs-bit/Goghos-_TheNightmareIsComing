@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.48.0 — painel do jogador e fôlego
+
+- Painel montado com base preta, faixa de vida, coração e espada recebidos, mantendo os PNGs originais e registrando seus hashes.
+- Retrato atrás do painel, números atuais de vida/dano, multiplicadores e estrela principal fixa com consulta por clique.
+- Losango identificado pelo usuário como fôlego; aplicados os valores impressos das 32 cartas, sem inventar consumo ou recuperação.
+- Prévia exclusiva em painel.html com escolha de personagem, dano, cura e controles visuais de fôlego. O mesmo componente é usado na arena.
+- Mantidos o balanceamento, um jogador e sete bots, turnos de 3,2 segundos, menu, abertura, áudio e celular do jogo.
+- Downloads da prévia e do projeto completo na mesma versão; arquivo completo omite ZIPs duplicados de versões anteriores.
+
 ## v0.47.0 — kit de 32 cartas
 
 - Incorporadas as 32 artes originais dos dois RARs, sem redesenho, recorte ou recompressão; manifesto com origem e hashes.

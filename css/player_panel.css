@@ -1,0 +1,29 @@
+/* Original supplied artwork, arranged as independent layers. No generated graphics. */
+.player-panel{position:absolute;right:0;bottom:50px;width:590px;height:370px;z-index:16;pointer-events:none;color:#fff;font-family:'German Beauty',Georgia,serif;isolation:isolate}
+.player-panel[hidden]{display:none}.player-panel *{box-sizing:border-box}
+.player-panel #portrait{position:absolute;right:24px;top:20px;bottom:auto;width:320px;height:240px;overflow:hidden;mask-image:none;z-index:0}
+.player-panel #portrait img{display:block;width:100%;height:100%;object-fit:contain;object-position:right bottom;filter:none;pointer-events:none}
+.player-panel #portrait.uses-card{right:42px;top:20px;bottom:auto;width:170px;height:200px;mask-image:none}
+.player-panel #portrait.uses-card img{object-position:center top}
+.player-panel.is-defeated #portrait{filter:grayscale(1);opacity:.6}
+.player-panel .player-stats{position:absolute;right:0;bottom:0;width:480px;height:225px;z-index:1}
+.player-panel .hud-base{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.player-panel .stat-life{position:absolute;left:16px;top:16px;width:420px;height:100px;display:block;background:none;border:0;padding:0;clip-path:none;--health:1}
+.player-panel .hud-life-fill{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;clip-path:inset(0 calc((1 - var(--health))*100%) 0 0);transition:clip-path .25s ease-out;pointer-events:none}
+.player-panel .stat-life strong{position:absolute;right:70px;top:20px;font-size:66px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums;text-shadow:0 2px 1px #0004}
+.player-panel .hud-icon{position:absolute;display:block;pointer-events:auto;cursor:pointer;padding:0;border:0;border-radius:0;background:none;color:white;font:inherit;box-shadow:none;transform:none;transition:none;animation:none;z-index:3}
+.player-panel .hud-icon img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.player-panel .hud-icon:hover,.player-panel .hud-icon:active{background:none;filter:none;transform:none;box-shadow:none}
+.player-panel .hud-icon:focus-visible{outline:none;filter:drop-shadow(0 0 5px #ffe09b)}
+.player-panel .hud-heart{right:17px;top:34px;width:74px;height:72px}
+.player-panel .hud-damage{position:absolute;right:49px;bottom:33px;height:60px;display:flex;align-items:center;gap:14px}
+.player-panel .hud-damage>strong{font-size:57px;font-weight:400;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.player-panel .hud-damage>strong.has-multiplier{font-size:42px}
+.player-panel .hud-damage-icon{position:relative;width:30px;height:53px}
+.player-panel .principal-ability{left:0;right:auto;bottom:30px;width:158px;height:158px;z-index:4}
+.player-panel .hud-breath{left:172px;top:115px;width:78px;height:83px;z-index:4}
+.player-panel .hud-breath strong{position:absolute;inset:0;display:grid;place-items:center;padding-bottom:5px;font-size:33px;line-height:1;font-weight:400;text-shadow:0 2px 2px #473c63;pointer-events:none}
+.player-panel .hud-identity{position:absolute;left:165px;bottom:5px;max-width:275px;display:flex;align-items:baseline;gap:9px;white-space:nowrap}
+.player-panel .hud-identity>span{font-size:18px}.player-panel .hud-identity>small{font:8px system-ui;letter-spacing:.6px;color:#b3bfd1}
+.reduced .player-panel .hud-life-fill{transition:none}
+@media(prefers-reduced-motion:reduce){.player-panel .hud-life-fill{transition:none}}

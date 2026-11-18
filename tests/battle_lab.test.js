@@ -2,6 +2,7 @@ const assert=require('node:assert/strict'),M=require('../js/lab/battle');
 const choose=name=>M.roster.indexOf(name);
 const step=(s,now)=>{const c=M.current(s);if(c.atk===null)return c.controller==='player'?M.playerPass(s,now):M.botPass(s,c.id,now);const target=s.cards.filter(x=>x.team!==c.team&&x.hp>0).sort((a,b)=>a.hp-b.hp||a.slot-b.slot)[0];return c.controller==='player'?M.playerAttack(s,target.id,now):M.botAttack(s,c.id,target.id,now);};
 assert.equal(M.characters.length,32);assert.equal(new Set(M.characters.map(c=>c.id)).size,32);
+assert.deepEqual(M.characters.map(c=>c.breath),[6,7,5,5,6,3,12,4,7,5,7,10,12,4,6,6,7,3,3,4,12,4,6,4,6,2,6,8,1,3,7,6]);
 assert.equal(M.characters.filter(c=>c.baseAtk===null).length,4);
 for(const [name,hp,base,hits] of [['Unicorn',390,60,1],['Sam',530,70,6],['Zeneerian',1700,700,1],['Chama',230,55,6],['DD-X',260,45,2],['Draktar',310,90,2],['Sarck',530,null,1],['P.ULLYS',150,300,1]]){const c=M.characters[choose(name)];assert.deepEqual([c.maxHp,c.baseAtk,c.hits],[hp,base,hits]);}
 let total=0,deadPlayerObserved=false,allyBotObserved=false;
@@ -13,7 +14,7 @@ for(let selected=0;selected<M.characters.length;selected++){
   const actor=M.current(s);assert(actor.hp>0);
   if(actor.team==='blue'&&actor.id!==s.playerId){allyBotObserved=true;assert.equal(M.playerAttack(s,'red-0',time),null);assert.equal(M.playerPass(s,time),false);}
   if(M.player(s).hp===0){deadPlayerObserved=true;assert.equal(M.canPlayerAct(s),false);}
-  assert(step(s,time+=4000));total++;for(const c of s.cards)assert(c.hp>=0&&c.hp<=c.maxHp);
+  assert(step(s,time+=4000));total++;for(const c of s.cards){assert(c.hp>=0&&c.hp<=c.maxHp);assert.equal(c.breath,M.characters[c.art].breath,'Sem consumo de fôlego antes das regras oficiais.');assert.equal(c.maxBreath,c.breath);}
  }
  assert(['finished','blocked'].includes(s.phase),'A série não pode ficar num ciclo sem fim: '+M.roster[selected]);
  if(s.phase==='finished'){assert.equal(Math.max(s.score.blue,s.score.red),3);assert.equal(s.score.blue+s.score.red,points+1);assert(s.score.blue+s.score.red<=5);}else assert(s.cards.filter(c=>c.hp>0).every(c=>c.atk===null));

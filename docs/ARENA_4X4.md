@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.47.0
+# Arena 4×4 — estrutura de teste v0.48.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
@@ -22,12 +22,14 @@ Vida e dano são transcritos das cartas recebidas; multiplicadores impressos sã
 
 - Campo com piso em perspectiva e cartas retas em duas profundidades. As artes faltantes usam silhuetas com “?”, conforme solicitado; as peças recebidas são preservadas.
 - Placar azul/vermelho com três marcadores por equipe, número de rodada e tempo crescente.
-- Painel fixado no personagem do jogador no canto direito: retrato, vida, dano e situação. Inspecionar outra carta não troca esse painel.
+- Painel fixado no personagem do jogador no canto direito: retrato, vida, dano, fôlego e situação. A base e os ícones usam as artes recebidas na v0.48.0. Inspecionar outra carta não troca esse painel.
 - Estrela original do CardTouch, fixa junto ao painel direito, sem animação nem moldura de botão. Clique nela para consultar a habilidade principal; o conteúdo permanece fechado antes do clique.
 - Ataque básico e espaço de item no centro inferior. A habilidade principal não aparece como uma ação adicional.
 - Três espaços de apoio no canto esquerdo, sem equipar ou executar efeitos inexistentes.
 - CardTouch: primeiro clique no alvo mostra ATACAR, segundo abre informações e terceiro fecha. Fora de uma ação válida, o clique apenas inspeciona.
 - Opções de efeitos reduzidos, pausa, ajuda, registro, exportação e reinício. A redução de movimento do sistema também é respeitada.
+
+O losango indica o fôlego impresso na carta, conforme confirmado pelo usuário. Clicar nele abre suas informações; consumo e recuperação aguardam regras. O painel e sua prévia independente compartilham js/ui/player_panel.js e css/player_panel.css. [Painel do jogador](PAINEL_JOGADOR.md).
 
 ## Jogador e bots
 
@@ -47,7 +49,7 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.47.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.48.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

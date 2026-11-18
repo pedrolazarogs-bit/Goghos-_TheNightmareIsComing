@@ -1,0 +1,32 @@
+{
+  "version": "0.48.0",
+  "sourceArchive": "Photos-1-001 (4).zip",
+  "files": [
+    {
+      "path": "damage.png",
+      "sourceFile": "168 Sem Título_20260502120457.png",
+      "sha256": "643abd01e54e91a0d5ff38086394417fd69a1aba2c7fafd23a77b72a73d1645a"
+    },
+    {
+      "path": "panel-base.png",
+      "sourceFile": "230 Sem Título_20261118141204.png",
+      "sha256": "969816feeab6b078d9a6994bba2f0f308536d3de07a1f99fdafa885e65193f9c"
+    },
+    {
+      "path": "heart.png",
+      "sourceFile": "Original-Base43_20260131112227.png",
+      "sha256": "65a887447f8b38a3e163bf07b2ce917d3e076a99d369b4a71aede005520f0ab5"
+    },
+    {
+      "path": "health-bar.png",
+      "sourceFile": "230 Sem Título_20261118141143.png",
+      "sha256": "61d3574efea594f6a87e0597f54b4888a830a57b22ee09a8afd6b3bac1606110"
+    },
+    {
+      "path": "reference.png",
+      "sourceFile": "230 Sem Título_20261118141134.png",
+      "sha256": "050dc1cdc54472abb3bfc7e1392583c69e06cde8812e29d7a88fa11f8f3efc64"
+    }
+  ],
+  "reusedDiamond": "assets/menu-v036/star.webp"
+}

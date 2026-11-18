@@ -1,6 +1,6 @@
 {
   "name": "goghos-tcg",
-  "version": "0.47.0",
+  "version": "0.48.0",
   "private": true,
   "description": "GOGHOS — abertura e menu de apresentação",
   "scripts": {
@@ -10,7 +10,9 @@
     "test:lab": "node scripts/check-laboratorio-browser.js && node scripts/check-opponent-browser.js",
     "package:lab": "python3 scripts/package-laboratorio.py",
     "test:battle": "node scripts/check-battle-browser.js",
-    "package:battle": "python3 scripts/package-battle.py"
+    "package:battle": "python3 scripts/package-battle.py",
+    "package:panel": "python3 scripts/package-player-panel.py",
+    "test:panel": "node scripts/check-player-panel-browser.js"
   },
   "engines": {
     "node": ">=20"

@@ -11,6 +11,8 @@ files += ['assets/menu-v036/character-' + str(i) + '.webp' for i in range(5)]
 files += ['assets/card-touch-v044/' + name + '.png' for name in ['heart', 'sword', 'star']]
 output.parent.mkdir(exist_ok=True)
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/characters-v047').glob('*'))]
+files += ['css/player_panel.css', 'js/ui/player_panel.js', 'assets/menu-v036/star.webp', 'docs/PAINEL_JOGADOR.md']
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/player-panel-v048').glob('*'))]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     # Only navigation changes in the isolated preview; the arena code is identical.
     page = (root / 'batalha.html').read_text().replace('href="laboratorio.html"', 'href="batalha.html"').replace('← Laboratório', '← Nova sessão')

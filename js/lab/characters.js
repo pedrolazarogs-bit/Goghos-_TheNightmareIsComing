@@ -9,7 +9,8 @@ const cards=[
     "baseAtk": 60,
     "hits": 1,
     "attackName": "Stardust",
-    "portrait": "assets/menu-v036/character-0.webp"
+    "portrait": "assets/menu-v036/character-0.webp",
+    "breath": 6
   },
   {
     "id": "kit-Base68_20261023101502",
@@ -19,7 +20,8 @@ const cards=[
     "baseAtk": 70,
     "hits": 6,
     "attackName": "Steel Jaw",
-    "portrait": "assets/menu-v036/character-1.webp"
+    "portrait": "assets/menu-v036/character-1.webp",
+    "breath": 7
   },
   {
     "id": "kit-Base63_20261021225220",
@@ -29,7 +31,8 @@ const cards=[
     "baseAtk": null,
     "hits": 1,
     "attackName": "Steal Jaw",
-    "portrait": "assets/menu-v036/character-2.webp"
+    "portrait": "assets/menu-v036/character-2.webp",
+    "breath": 5
   },
   {
     "id": "kit-Base77_20261023224039",
@@ -39,7 +42,8 @@ const cards=[
     "baseAtk": 80,
     "hits": 1,
     "attackName": "Katana",
-    "portrait": "assets/menu-v036/character-3.webp"
+    "portrait": "assets/menu-v036/character-3.webp",
+    "breath": 5
   },
   {
     "id": "kit-Base68_20261023194147",
@@ -49,7 +53,8 @@ const cards=[
     "baseAtk": 170,
     "hits": 1,
     "attackName": "AK-47",
-    "portrait": "assets/menu-v036/character-4.webp"
+    "portrait": "assets/menu-v036/character-4.webp",
+    "breath": 6
   },
   {
     "id": "kit-Base63_20261022170442",
@@ -59,7 +64,8 @@ const cards=[
     "baseAtk": 80,
     "hits": 1,
     "attackName": "Sharp Guitar",
-    "portrait": null
+    "portrait": null,
+    "breath": 3
   },
   {
     "id": "kit-Base65_20261023032340",
@@ -69,7 +75,8 @@ const cards=[
     "baseAtk": 700,
     "hits": 1,
     "attackName": "Presence",
-    "portrait": null
+    "portrait": null,
+    "breath": 12
   },
   {
     "id": "kit-Base66_20261024011640",
@@ -79,7 +86,8 @@ const cards=[
     "baseAtk": 100,
     "hits": 1,
     "attackName": "3000w",
-    "portrait": null
+    "portrait": null,
+    "breath": 4
   },
   {
     "id": "kit-Base68_20261023181416",
@@ -89,7 +97,8 @@ const cards=[
     "baseAtk": 140,
     "hits": 1,
     "attackName": "Phantom Claw",
-    "portrait": null
+    "portrait": null,
+    "breath": 7
   },
   {
     "id": "kit-Base68_20261023182557",
@@ -99,7 +108,8 @@ const cards=[
     "baseAtk": 300,
     "hits": 1,
     "attackName": "Pebble",
-    "portrait": null
+    "portrait": null,
+    "breath": 5
   },
   {
     "id": "kit-Base68_20261023200328",
@@ -109,7 +119,8 @@ const cards=[
     "baseAtk": 55,
     "hits": 6,
     "attackName": "Fire Ball",
-    "portrait": null
+    "portrait": null,
+    "breath": 7
   },
   {
     "id": "kit-Base68_20261023202010",
@@ -119,7 +130,8 @@ const cards=[
     "baseAtk": 240,
     "hits": 1,
     "attackName": "Skewer of fear",
-    "portrait": null
+    "portrait": null,
+    "breath": 10
   },
   {
     "id": "kit-Base77_20261023204636",
@@ -129,7 +141,8 @@ const cards=[
     "baseAtk": 160,
     "hits": 1,
     "attackName": "Primordial Sword",
-    "portrait": null
+    "portrait": null,
+    "breath": 12
   },
   {
     "id": "kit-Base77_20261023222344",
@@ -139,7 +152,8 @@ const cards=[
     "baseAtk": 120,
     "hits": 1,
     "attackName": "Scratch",
-    "portrait": null
+    "portrait": null,
+    "breath": 4
   },
   {
     "id": "kit-Base77_20261023224851",
@@ -149,7 +163,8 @@ const cards=[
     "baseAtk": 180,
     "hits": 1,
     "attackName": "Oxtal",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   },
   {
     "id": "kit-Base77_20261023225559",
@@ -159,7 +174,8 @@ const cards=[
     "baseAtk": 120,
     "hits": 1,
     "attackName": "Hypnosis",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   },
   {
     "id": "kit-Base77_20261023230628",
@@ -169,7 +185,8 @@ const cards=[
     "baseAtk": 220,
     "hits": 1,
     "attackName": "Soul",
-    "portrait": null
+    "portrait": null,
+    "breath": 7
   },
   {
     "id": "kit-Base77_20261023231438",
@@ -179,7 +196,8 @@ const cards=[
     "baseAtk": 80,
     "hits": 1,
     "attackName": "Lazer Gun",
-    "portrait": null
+    "portrait": null,
+    "breath": 3
   },
   {
     "id": "kit-Base77_20261023232441",
@@ -189,7 +207,8 @@ const cards=[
     "baseAtk": null,
     "hits": 1,
     "attackName": "Magnum",
-    "portrait": null
+    "portrait": null,
+    "breath": 3
   },
   {
     "id": "kit-Base77_20261023234212",
@@ -199,7 +218,8 @@ const cards=[
     "baseAtk": 220,
     "hits": 1,
     "attackName": "Aim",
-    "portrait": null
+    "portrait": null,
+    "breath": 4
   },
   {
     "id": "kit-Base77_20261023235058",
@@ -209,7 +229,8 @@ const cards=[
     "baseAtk": null,
     "hits": 1,
     "attackName": "Cursed Book",
-    "portrait": null
+    "portrait": null,
+    "breath": 12
   },
   {
     "id": "kit-Base77_20261023235926",
@@ -219,7 +240,8 @@ const cards=[
     "baseAtk": 90,
     "hits": 1,
     "attackName": "Kick",
-    "portrait": null
+    "portrait": null,
+    "breath": 4
   },
   {
     "id": "kit-Base77_20261024000815",
@@ -229,7 +251,8 @@ const cards=[
     "baseAtk": 45,
     "hits": 2,
     "attackName": "Fish",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   },
   {
     "id": "kit-Base77_20261024001601",
@@ -239,7 +262,8 @@ const cards=[
     "baseAtk": 90,
     "hits": 1,
     "attackName": "Sleeping Pill",
-    "portrait": null
+    "portrait": null,
+    "breath": 4
   },
   {
     "id": "kit-Base77_20261024002335",
@@ -249,7 +273,8 @@ const cards=[
     "baseAtk": 250,
     "hits": 1,
     "attackName": "Metal Shark",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   },
   {
     "id": "kit-Base77_20261024002928",
@@ -259,7 +284,8 @@ const cards=[
     "baseAtk": 170,
     "hits": 1,
     "attackName": "ShotGun",
-    "portrait": null
+    "portrait": null,
+    "breath": 2
   },
   {
     "id": "kit-Base77_20261024003723",
@@ -269,7 +295,8 @@ const cards=[
     "baseAtk": 300,
     "hits": 1,
     "attackName": "Missle",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   },
   {
     "id": "kit-Base77_20261024004609",
@@ -279,7 +306,8 @@ const cards=[
     "baseAtk": 130,
     "hits": 1,
     "attackName": "Scalibur",
-    "portrait": null
+    "portrait": null,
+    "breath": 8
   },
   {
     "id": "kit-Base77_20261024005349",
@@ -289,7 +317,8 @@ const cards=[
     "baseAtk": 120,
     "hits": 1,
     "attackName": "Bite",
-    "portrait": null
+    "portrait": null,
+    "breath": 1
   },
   {
     "id": "kit-Base77_20261024005943",
@@ -299,7 +328,8 @@ const cards=[
     "baseAtk": null,
     "hits": 1,
     "attackName": "Prototype",
-    "portrait": null
+    "portrait": null,
+    "breath": 3
   },
   {
     "id": "kit-Base77_20261024010549",
@@ -309,7 +339,8 @@ const cards=[
     "baseAtk": 120,
     "hits": 1,
     "attackName": "Lazer Pop",
-    "portrait": null
+    "portrait": null,
+    "breath": 7
   },
   {
     "id": "kit-Base77_20261024011138",
@@ -319,7 +350,8 @@ const cards=[
     "baseAtk": 90,
     "hits": 2,
     "attackName": "Duble Blade",
-    "portrait": null
+    "portrait": null,
+    "breath": 6
   }
 ];
 cards.forEach(Object.freeze);Object.freeze(cards);

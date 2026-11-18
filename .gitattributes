@@ -1,0 +1,2 @@
+# Full source downloads omit duplicate ZIP packages; individual previews remain in Git.
+downloads/ export-ignore

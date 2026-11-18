@@ -31,3 +31,5 @@ Na arena, o jogador escolhe e controla somente um personagem. Os três aliados e
 Use apenas ícones e ilustrações fornecidos pelo usuário. Quando uma arte estiver faltando, marque seu lugar com uma silhueta aproximada e “?”, indicando qual arquivo falta. Essas marcações foram explicitamente solicitadas; não crie uma ilustração definitiva para substituí-las. Mantenha docs/ARTES_PENDENTES.md atualizado.
 
 O kit de 32 cartas da v0.47.0 fica em assets/characters-v047/ e js/lab/characters.js. Preserve os PNGs originais e seus hashes. O usuário autorizou vida e dano impressos, inclusive multiplicadores; os efeitos especiais e de classe aguardam regras. Ataque “—” é null, não um valor arbitrário. Consulte docs/CARTAS_KIT.md antes de alterar atributos.
+
+O painel da v0.48.0 usa os PNGs originais em assets/player-panel-v048/. Preserve seus hashes. O componente js/ui/player_panel.js é compartilhado por batalha.html e painel.html; execute npm run test:panel e gere npm run package:panel ao alterá-lo. Fôlego vem do losango das cartas e é somente exibido: consumo e recuperação aguardam regras do usuário. Os controles de painel.html são uma simulação isolada.
