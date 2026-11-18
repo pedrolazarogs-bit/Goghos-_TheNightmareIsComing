@@ -10,7 +10,8 @@ const cards=[
     "hits": 1,
     "attackName": "Stardust",
     "portrait": "assets/menu-v036/character-0.webp",
-    "breath": 6
+    "breath": 6,
+    "queueArt": "assets/turn-order-v050/unicorn.png"
   },
   {
     "id": "kit-Base68_20261023101502",
@@ -21,7 +22,8 @@ const cards=[
     "hits": 6,
     "attackName": "Steel Jaw",
     "portrait": "assets/menu-v036/character-1.webp",
-    "breath": 7
+    "breath": 7,
+    "queueArt": "assets/turn-order-v050/sam.png"
   },
   {
     "id": "kit-Base63_20261021225220",
@@ -32,7 +34,8 @@ const cards=[
     "hits": 1,
     "attackName": "Steal Jaw",
     "portrait": "assets/menu-v036/character-2.webp",
-    "breath": 5
+    "breath": 5,
+    "queueArt": "assets/turn-order-v050/sarck.png"
   },
   {
     "id": "kit-Base77_20261023224039",
@@ -43,7 +46,8 @@ const cards=[
     "hits": 1,
     "attackName": "Katana",
     "portrait": "assets/menu-v036/character-3.webp",
-    "breath": 5
+    "breath": 5,
+    "queueArt": "assets/turn-order-v050/nully.png"
   },
   {
     "id": "kit-Base68_20261023194147",
@@ -54,7 +58,8 @@ const cards=[
     "hits": 1,
     "attackName": "AK-47",
     "portrait": "assets/menu-v036/character-4.webp",
-    "breath": 6
+    "breath": 6,
+    "queueArt": "assets/turn-order-v050/mike.png"
   },
   {
     "id": "kit-Base63_20261022170442",
@@ -65,7 +70,8 @@ const cards=[
     "hits": 1,
     "attackName": "Sharp Guitar",
     "portrait": null,
-    "breath": 3
+    "breath": 3,
+    "queueArt": "assets/turn-order-v050/jonh.png"
   },
   {
     "id": "kit-Base65_20261023032340",
@@ -98,7 +104,8 @@ const cards=[
     "hits": 1,
     "attackName": "Phantom Claw",
     "portrait": null,
-    "breath": 7
+    "breath": 7,
+    "queueArt": "assets/turn-order-v050/penxy.png"
   },
   {
     "id": "kit-Base68_20261023182557",
@@ -109,7 +116,8 @@ const cards=[
     "hits": 1,
     "attackName": "Pebble",
     "portrait": null,
-    "breath": 5
+    "breath": 5,
+    "queueArt": "assets/turn-order-v050/z-zus.png"
   },
   {
     "id": "kit-Base68_20261023200328",
@@ -120,7 +128,8 @@ const cards=[
     "hits": 6,
     "attackName": "Fire Ball",
     "portrait": null,
-    "breath": 7
+    "breath": 7,
+    "queueArt": "assets/turn-order-v050/chama.png"
   },
   {
     "id": "kit-Base68_20261023202010",
@@ -131,7 +140,8 @@ const cards=[
     "hits": 1,
     "attackName": "Skewer of fear",
     "portrait": null,
-    "breath": 10
+    "breath": 10,
+    "queueArt": "assets/turn-order-v050/daztirry.png"
   },
   {
     "id": "kit-Base77_20261023204636",
@@ -142,7 +152,8 @@ const cards=[
     "hits": 1,
     "attackName": "Primordial Sword",
     "portrait": null,
-    "breath": 12
+    "breath": 12,
+    "queueArt": "assets/turn-order-v050/zuri.png"
   },
   {
     "id": "kit-Base77_20261023222344",
@@ -153,7 +164,8 @@ const cards=[
     "hits": 1,
     "attackName": "Scratch",
     "portrait": null,
-    "breath": 4
+    "breath": 4,
+    "queueArt": "assets/turn-order-v050/trucc.png"
   },
   {
     "id": "kit-Base77_20261023224851",
@@ -164,7 +176,8 @@ const cards=[
     "hits": 1,
     "attackName": "Oxtal",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "queueArt": "assets/turn-order-v050/rawlin.png"
   },
   {
     "id": "kit-Base77_20261023225559",
@@ -175,7 +188,8 @@ const cards=[
     "hits": 1,
     "attackName": "Hypnosis",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "queueArt": "assets/turn-order-v050/barn.png"
   },
   {
     "id": "kit-Base77_20261023230628",
@@ -186,7 +200,8 @@ const cards=[
     "hits": 1,
     "attackName": "Soul",
     "portrait": null,
-    "breath": 7
+    "breath": 7,
+    "queueArt": "assets/turn-order-v050/fomor.png"
   },
   {
     "id": "kit-Base77_20261023231438",
@@ -197,7 +212,8 @@ const cards=[
     "hits": 1,
     "attackName": "Lazer Gun",
     "portrait": null,
-    "breath": 3
+    "breath": 3,
+    "queueArt": "assets/turn-order-v050/elish.png"
   },
   {
     "id": "kit-Base77_20261023232441",
@@ -208,7 +224,8 @@ const cards=[
     "hits": 1,
     "attackName": "Magnum",
     "portrait": null,
-    "breath": 3
+    "breath": 3,
+    "queueArt": "assets/turn-order-v050/sheriff-verde.png"
   },
   {
     "id": "kit-Base77_20261023234212",
@@ -340,7 +357,8 @@ const cards=[
     "hits": 1,
     "attackName": "Lazer Pop",
     "portrait": null,
-    "breath": 7
+    "breath": 7,
+    "queueArt": "assets/turn-order-v050/karma.png"
   },
   {
     "id": "kit-Base77_20261024011138",

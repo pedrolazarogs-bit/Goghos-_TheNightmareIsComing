@@ -1,5 +1,5 @@
 // Esta edição contém somente a apresentação e o menu inicial.
 (function(G){
 'use strict';
-G.CONFIG=Object.freeze({version:'0.49.1'});
+G.CONFIG=Object.freeze({version:'0.50.0'});
 })(globalThis.GOGHOS=globalThis.GOGHOS||{});

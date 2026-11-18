@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.50.0 — faixas CC originais dos personagens
+
+- Incorporadas as 18 faixas enviadas, com arquivos originais, correspondência por personagem e hashes registrados.
+- Fila de próximo, vez atual e último ataque usa as faixas completas no computador, incluindo seus nomes e estrelas impressos. Clique e teclado continuam abrindo a inspeção.
+- Personagens sem faixa usam silhueta com “?” e nome; a lista de 14 artes pendentes foi atualizada.
+- Mantidos o placar e o painel compactos, a composição de celular, os atributos das cartas, as habilidades pendentes, os turnos e o menu.
+- Prévia da arena e projeto completo na mesma versão.
+
 ## v0.49.1 — interface mais compacta
 
 - Placar e painel do jogador reduzidos em 22% na largura e altura no computador, liberando área para a batalha.

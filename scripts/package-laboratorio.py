@@ -17,6 +17,8 @@ files += ['painel.html', 'css/player_panel_preview.css', 'js/ui/player_panel_pre
 files += ['css/scoreboard.css', 'js/ui/scoreboard.js', 'docs/PLACAR.md']
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/scoreboard-v049').glob('*'))]
 files += ['placar.html', 'css/scoreboard_preview.css', 'js/ui/scoreboard_preview.js']
+files += ['docs/FAIXAS_PERSONAGENS.md']
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/turn-order-v050').glob('*'))]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for name in files:
         archive.write(root / name, name)

@@ -35,6 +35,32 @@
 .cards-art-marker{position:absolute;left:505px;top:431px;font-size:22px}
 .score-art-marker{position:absolute;left:212px;top:109px;width:100px;height:19px;font-size:14px;z-index:10}
 .queue-art-marker{display:inline;font-size:18px;margin-left:8px;padding:0 4px;vertical-align:middle}
+/* v0.50: original CC ribbons on desktop; the previous mobile queue is preserved. */
+.queue-desktop{display:none}
+@media(min-width:981px) and (pointer:fine){
+ .turn-order{top:160px}
+ .turn-order h2{margin:0 0 8px;font-size:9px;letter-spacing:2px}
+ .queue-card,.queue-card.red,.queue-card.current{position:relative;display:block;height:116px;margin:3px 0;padding:0;border:0;background:none;box-shadow:none;clip-path:none}
+ .queue-card.current{height:130px}
+ .queue-card:hover{background:none}
+ .queue-card:disabled{opacity:.65}
+ .queue-card>.queue-legacy{display:none}
+ .queue-desktop{display:block;position:absolute;inset:0;pointer-events:none}
+ .queue-meta{position:absolute;left:0;top:18px;width:80px}
+ .queue-meta small{font:10px/1.5 system-ui;letter-spacing:1px;color:#c7cfde;margin:0 0 5px}
+ .queue-meta em{font:8px/1.5 system-ui;letter-spacing:.5px;color:var(--blue)}
+ .queue-card.red .queue-meta em{color:var(--red)}
+ .queue-card.current .queue-meta small{color:var(--gold)}
+ /* Frame only the transparent margins: full 2048px PNG, no zoom or file edits. */
+ .queue-art-frame{position:absolute;right:0;top:0;width:162px;aspect-ratio:1945/1371;overflow:hidden}
+ .queue-card.current .queue-art-frame{width:180px}
+ .queue-art-frame img{position:absolute;left:0;top:-9.2633%;width:105.29563%;height:auto;max-width:none;margin:0;object-fit:fill}
+ .queue-art-missing:before{content:'';position:absolute;inset:0;background:#05070c;clip-path:polygon(0 71%,88% 0,100% 83%,25% 100%)}
+ .queue-art-missing b{position:absolute;right:29%;top:33%;font:40px 'German Beauty';color:#aeb6c6}
+ .queue-art-missing strong{position:absolute;right:0;bottom:0;max-width:100%;font:15px 'German Beauty';color:#c7cfde}
+ .queue-empty{position:absolute;right:0;top:32px;width:162px;text-align:right;color:#aeb6c6;font:26px 'German Beauty'}
+ .queue-empty small{font:10px system-ui;letter-spacing:0;color:#aeb6c6}
+}
 .stats-art-marker{position:absolute;left:0;bottom:170px;font-size:22px;z-index:20}
 /* v0.47: supplied complete cards; the live life bar is outside the original artwork. */
 .team.red{left:415px;top:228px;gap:18px}.team.red .combat-card{width:150px;height:212px}

@@ -1,16 +1,18 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.49.1 — Placar e painel do jogador mais compactos.**
+**Versão 0.50.0 — 18 faixas CC originais na fila de turnos.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.49.1.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.50.0.zip)
 
-[Baixar a prévia das alterações na arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.49.1/downloads/batalha-v0.49.1.zip) — extraia tudo e abra **batalha.html**.
+[Baixar a prévia das alterações na arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/batalha-v0.50.0.zip) — extraia tudo e abra **batalha.html**.
+
+As faixas enviadas agora aparecem em **Próximo**, **Vez atual** e **Último ataque** na arena de computador. Clique nelas para inspecionar o personagem. As 14 faixas ainda não recebidas aparecem como silhuetas com “?”. [Artes incorporadas e correspondência](docs/FAIXAS_PERSONAGENS.md).
 
 No computador, o placar e o painel do jogador estão **22% menores em largura e altura**, liberando espaço para as cartas. O placar continua centralizado no topo e o painel fica ancorado na quina inferior direita. As proporções das artes e os cliques são preservados.
 
 ## Placar do jogo
 
-[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.49.1/downloads/placar-v0.49.1.zip)
+[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/placar-v0.50.0.zip)
 
 Extraia todo o ZIP e abra **placar.html**. Inicie a série de teste e simule vitórias das equipes azul e vermelha. Ao alcançar três pontos, o relógio congela no resultado final. Reiniciar restaura 0 × 0 e 00:00.
 
@@ -20,7 +22,7 @@ O mesmo placar usa sua arte original no topo da arena de computador em **batalha
 
 ## Painel do jogador
 
-[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.49.1/downloads/painel-v0.49.1.zip)
+[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/painel-v0.50.0.zip)
 
 O painel inteiro foi reduzido em 22%, mantendo as proporções aprovadas entre personagem, ícones e barra. A composição de celular foi preservada.
 
@@ -32,7 +34,7 @@ O mesmo painel já está em **batalha.html**, no projeto completo. Vida e dano a
 
 ## Nova arena 4×4
 
-[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.49.1/downloads/batalha-v0.49.1.zip)
+[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/batalha-v0.50.0.zip)
 
 Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a galeria ou a busca, e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. Os botões do menu principal continuam decorativos.
 
@@ -55,7 +57,7 @@ Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a g
 
 Abra `placar.html` para testar somente o placar, `painel.html` para o painel do jogador e `oponente.html` para a interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.49.1/downloads/laboratorio-v0.49.1.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/laboratorio-v0.50.0.zip)
 
 O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
 

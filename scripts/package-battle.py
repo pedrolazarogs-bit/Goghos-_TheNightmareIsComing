@@ -15,11 +15,13 @@ files += ['css/player_panel.css', 'js/ui/player_panel.js', 'assets/menu-v036/sta
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/player-panel-v048').glob('*'))]
 files += ['css/scoreboard.css', 'js/ui/scoreboard.js', 'docs/PLACAR.md']
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/scoreboard-v049').glob('*'))]
+files += ['docs/FAIXAS_PERSONAGENS.md']
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/turn-order-v050').glob('*'))]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     # Only navigation changes in the isolated preview; the arena code is identical.
     page = (root / 'batalha.html').read_text().replace('href="laboratorio.html"', 'href="batalha.html"').replace('← Laboratório', '← Nova sessão')
     archive.writestr('batalha.html', page)
     for name in files:
         archive.write(root / name, name)
-    archive.writestr('LEIA-ME.txt', 'GOGHOS — Arena 4x4 v' + version + '\nExtraia todo este ZIP e abra batalha.html no navegador.\nEscolha seu personagem. Os outros sete são bots; cada bot espera 3,2 segundos antes de agir.\nClique no oponente para usar ATACAR. Quem fizer 3 pontos vence.\nVocê controla apenas o personagem escolhido. Seus aliados continuam se ele for eliminado.\n32 cartas originais. Vida e dano seguem os valores impressos, inclusive multiplicadores. Ataques com traço aguardam regras e passam a vez. Nenhuma habilidade especial foi inventada.\nA estrela fixa à direita abre a habilidade principal ao clicar. Apoios e item não têm efeitos configurados.\nSilhuetas com ? indicam artes pendentes. Clique para saber o que falta ou leia docs/ARTES_PENDENTES.md.\nO cronômetro conta toda a série, incluindo pausas e intervalos.\n')
+    archive.writestr('LEIA-ME.txt', 'GOGHOS — Arena 4x4 v' + version + '\nExtraia todo este ZIP e abra batalha.html no navegador.\nEscolha seu personagem. Os outros sete são bots; cada bot espera 3,2 segundos antes de agir.\nClique no oponente para usar ATACAR. Quem fizer 3 pontos vence.\nVocê controla apenas o personagem escolhido. Seus aliados continuam se ele for eliminado.\n32 cartas originais. Vida e dano seguem os valores impressos, inclusive multiplicadores. Ataques com traço aguardam regras e passam a vez. Nenhuma habilidade especial foi inventada.\nA estrela fixa à direita abre a habilidade principal ao clicar. Apoios e item não têm efeitos configurados.\n18 faixas CC originais na fila de turnos do computador; clique para consultar a carta. Celular preservado.\nSilhuetas com ? indicam artes pendentes. Clique para saber o que falta ou leia docs/ARTES_PENDENTES.md.\nO cronômetro conta toda a série, incluindo pausas e intervalos.\n')
 print(output)

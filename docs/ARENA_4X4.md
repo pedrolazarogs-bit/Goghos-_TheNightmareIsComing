@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.49.1
+# Arena 4×4 — estrutura de teste v0.50.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
@@ -14,7 +14,7 @@ O cronômetro usa tempo monotônico desde **Iniciar batalha** até a vitória fi
 
 A rodada alterna Azul 1, Vermelho 1, Azul 2, Vermelho 2, e assim por diante. Eliminados são ignorados. Na rodada seguinte, a equipe que inicia é alternada. Essa ordem é provisória e não atribui velocidade aos personagens.
 
-A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. Os retratos podem ser clicados para inspeção. A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
+A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. No computador, as 18 faixas CC recebidas mostram a arte completa do personagem; onde falta a faixa, aparece uma silhueta com “?”. A fila anterior de celular foi preservada. As faixas podem ser clicadas para inspeção. [Artes e correspondência](FAIXAS_PERSONAGENS.md). A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
 
 Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Nenhuma habilidade pessoal, atributo de classe, item ou efeito de apoio foi criado. Os espaços de inspeção indicam isso explicitamente.
 
@@ -49,7 +49,7 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.49.1.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.50.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

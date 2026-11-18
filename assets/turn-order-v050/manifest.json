@@ -1,0 +1,312 @@
+{
+  "sourceArchive": "Photos-1-001 (5).zip",
+  "version": "0.50.0",
+  "files": [
+    {
+      "characterId": "kit-Base77_20261023224851",
+      "character": "Rawlin",
+      "file": "rawlin.png",
+      "sourceFile": "202 Sem Título4_20261116093817.png",
+      "sha256": "50f289d3008815f83bd01e5a77261b768518d1374e3b4ef5eab50f261c334614",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023222344",
+      "character": "Trucc",
+      "file": "trucc.png",
+      "sourceFile": "202 Sem Título4_20261104082201.png",
+      "sha256": "2c8e250456d2dbcb7efb8799764f36aaf1ab8b6ff26d0eed0637ea6f1a9dfb60",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023204636",
+      "character": "Zuri",
+      "file": "zuri.png",
+      "sourceFile": "202 Sem Título4_20261104083633.png",
+      "sha256": "71c6f52aed6e6fbbda2ce5f64c798c8fbb729257bf9dc49cb3d65d32baa8704d",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023101502",
+      "character": "Sam",
+      "file": "sam.png",
+      "sourceFile": "202 Sem Título4_20261104081258.png",
+      "sha256": "f725981a59c8e8b9b2915acc5f20c0ac6edb684c3baabab5ee3086157b75f276",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023230628",
+      "character": "Fomor",
+      "file": "fomor.png",
+      "sourceFile": "202 Sem Título4_20261116215332.png",
+      "sha256": "0ece896e306e2f9b04de6872ab53d8be5f964a142ff22f04cb32b2e2f22ccba7",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023194147",
+      "character": "Mike",
+      "file": "mike.png",
+      "sourceFile": "202 Sem Título4_20261104080915.png",
+      "sha256": "ecaaeb0c39b43de88036974dddad61145b0b52da8fd6688939b3f95ae7d1e060",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023232441",
+      "character": "Sheriff · verde",
+      "file": "sheriff-verde.png",
+      "sourceFile": "202 Sem Título4_20261116214233.png",
+      "sha256": "735cbf273591065a152d0e0cb9767fd05929e6b68df886d8bf4e114313d239a5",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261024010549",
+      "character": "Karma",
+      "file": "karma.png",
+      "sourceFile": "202 Sem Título4_20261116213950.png",
+      "sha256": "0698c1301402cc2314280f62feb31b09fdbbf78f6c1928f0a206ec611b947c6f",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1498
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023202010",
+      "character": "Daztirry",
+      "file": "daztirry.png",
+      "sourceFile": "202 Sem Título4_20261104082624.png",
+      "sha256": "cc45b8de496945f72867c5528f9a8468abd201dd75a7d16c6c79bae1f599db2d",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base63_20261021225220",
+      "character": "Sarck",
+      "file": "sarck.png",
+      "sourceFile": "202 Sem Título4_20261104083222.png",
+      "sha256": "9b602005aa138c30f06cd56c9d8aa45a52394ab51a5646a9071fc8fe6f546b50",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023225559",
+      "character": "Barn",
+      "file": "barn.png",
+      "sourceFile": "202 Sem Título4_20261116214510.png",
+      "sha256": "4b62ccfe47d4e405dab7a178d111a39fa05bae7011f3c341cdefb16e484c7970",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base63_20261022170442",
+      "character": "Jonh",
+      "file": "jonh.png",
+      "sourceFile": "202 Sem Título4_20261116214718.png",
+      "sha256": "acaa7c3a47dff826ed8c8b8e8f1d7e79592a2ed66283cf6fb8ecf3224cd8673a",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023182557",
+      "character": "Z-Zus",
+      "file": "z-zus.png",
+      "sourceFile": "202 Sem Título4_20261104084257.png",
+      "sha256": "212dd76657e3a73ee82a59bcfca19e4e89aed781a612e1193414d753cdcc41f0",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023200328",
+      "character": "Chama",
+      "file": "chama.png",
+      "sourceFile": "202 Sem Título4_20261104083358.png",
+      "sha256": "4ee23c6dc0c8bdeccf6fe7a5ab831721862f079c5dc5d690aea760eee76f9a45",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023223319",
+      "character": "Unicorn",
+      "file": "unicorn.png",
+      "sourceFile": "202 Sem Título4_20261104081453.png",
+      "sha256": "064eb40b62b76bfc3e21ab802e08c49debe2f9147e43511742375b804c3219c7",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1485
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023224039",
+      "character": "Nully",
+      "file": "nully.png",
+      "sourceFile": "202 Sem Título4_20261104082910.png",
+      "sha256": "32467525ee7f915917eccdd765bf65adbb9c2b9d556e236d0cd526ed0439d317",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base77_20261023231438",
+      "character": "Elish",
+      "file": "elish.png",
+      "sourceFile": "202 Sem Título4_20261116215126.png",
+      "sha256": "de4c30a99b270d30b2d2b50adb0466040f4714f5dfb91bac53875884a70303c7",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    },
+    {
+      "characterId": "kit-Base68_20261023181416",
+      "character": "Penxy",
+      "file": "penxy.png",
+      "sourceFile": "202 Sem Título4_20261104083957.png",
+      "sha256": "3f270c6b8860a0b86d1828515a30ceab4cdd87b77765d55068cb044308c7f172",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        0,
+        127,
+        1945,
+        1484
+      ]
+    }
+  ]
+}

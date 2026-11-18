@@ -1,17 +1,16 @@
-# Validação — v0.49.1
+# Validação — v0.50.0
 
 Revisão em 18/11/2026, com Node.js e Chromium.
 
-- `npm test`: aprovado antes e depois da alteração. Menu, abertura, áudio, recursos originais e modelo da batalha preservados.
-- `npm run test:panel`: aprovado com os 32 personagens, ícones clicáveis, teclado, vida zero/máxima, dano com multiplicador, fôlego e ajuste à janela.
-- `npm run test:scoreboard`: aprovado com pontos de ambas as equipes, quinta rodada, vitória aos três, cronômetro acima de uma hora, congelamento final, reinício, teclado e toque.
-- `npm run test:battle`: aprovado durante uma série completa. Pontuação, fila de turnos, cliques do painel, bots, mortes, pausa, exportação, redimensionamento e reinício preservados.
-- Comparação direta com o CSS da v0.49.0 em 1440 × 900: placar passou de aproximadamente 414 × 195 para 323 × 152 pixels; painel passou de 531 × 333 para 414 × 260 pixels. Ambos têm largura e altura 22% menores.
-- Conferidas as âncoras: centro superior do placar e bordas direita/inferior do painel permanecem no mesmo lugar. A redução libera espaço no campo sem deslocar as cartas.
-- Na janela com toque de 844 × 390, as posições e dimensões do placar anterior, painel, retrato e quatro ícones são idênticas às da v0.49.0.
-- Revisão visual das prévias: valores de quatro dígitos, fôlego de dois dígitos, multiplicadores e relógio final continuam legíveis. Textos secundários tiveram ajuste para compensar a redução; as artes mantêm as proporções originais.
-- Prévia da arena e pacotes individuais gerados na v0.49.1. Integridade dos quatro ZIPs, referências locais e correspondência dos arquivos com o projeto verificadas, exceto os links de navegação adaptados nos pacotes isolados.
+- `npm test`: aprovado antes e depois da alteração. Menu, abertura, áudio, recursos originais e modelo da batalha preservados; 32 escolhas e séries completas com 1793 ações no teste do modelo.
+- `npm run test:battle`: aprovado. Carregamento das 18 faixas CC e das 32 cartas, inspeção por clique e teclado, troca para último atacante, silhueta para faixa pendente, série completa até três vitórias, espera de 3,2 segundos dos bots, mortes, pausa, exportação, redimensionamento, reinício e toque.
+- As 18 imagens de 2048 × 2048 pixels são cópias byte a byte dos arquivos recebidos em Photos-1-001 (5).zip. SHA-256 registrado no manifesto. Conferida a correspondência visual; Sheriff verde não foi confundido com Sheriff roxo.
+- Comparação dos 32 registros com a v0.49.1: somente o campo de arte da fila foi acrescentado. Nomes, cartas, retratos, vida, dano, multiplicadores e fôlego permanecem iguais.
+- No computador em 1440 × 900, placar, painel e retrato mantêm as mesmas posições e dimensões da v0.49.1. A fila apresenta as artes completas, sem invadir o retrato inferior. O teste também confere a separação em 1024 × 768.
+- Em 844 × 390 com toque, as posições e dimensões da fila, faixa atual, painel, retrato e placar anterior são idênticas às da v0.49.1. As faixas novas ficam ocultas nessa composição.
+- Prévia da arena e outros três pacotes gerados na v0.50.0. Integridade dos ZIPs, referências HTML locais e correspondência dos arquivos com o projeto verificadas, exceto os links de navegação adaptados nas prévias isoladas.
+- O ZIP da arena foi extraído em uma pasta separada e aberto por outro servidor local: todas as 18 faixas carregaram, o último atacante foi atualizado, a consulta funcionou e não houve erros JavaScript nem respostas HTTP 404.
 
-[Placar e painel menores na arena](previews/batalha-v0.49.1-desktop.png)
+[Faixas originais na fila de turnos](previews/batalha-v0.50.0-faixas.png)
 
-[Placar](PLACAR.md) · [Painel do jogador](PAINEL_JOGADOR.md) · [Regras da arena](ARENA_4X4.md)
+[Correspondência das artes](FAIXAS_PERSONAGENS.md) · [Artes pendentes](ARTES_PENDENTES.md) · [Regras da arena](ARENA_4X4.md)
