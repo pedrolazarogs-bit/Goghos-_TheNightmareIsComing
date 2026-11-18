@@ -14,8 +14,11 @@ files += [str(p.relative_to(root)) for p in sorted((root / 'assets/characters-v0
 files += ['css/player_panel.css', 'js/ui/player_panel.js', 'assets/menu-v036/star.webp', 'docs/PAINEL_JOGADOR.md']
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/player-panel-v048').glob('*'))]
 files += ['painel.html', 'css/player_panel_preview.css', 'js/ui/player_panel_preview.js']
+files += ['css/scoreboard.css', 'js/ui/scoreboard.js', 'docs/PLACAR.md']
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/scoreboard-v049').glob('*'))]
+files += ['placar.html', 'css/scoreboard_preview.css', 'js/ui/scoreboard_preview.js']
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for name in files:
         archive.write(root / name, name)
-    archive.writestr('LEIA-ME.txt', 'GOGHOS — Laboratório v' + version + '\nExtraia todo este ZIP. Abra painel.html para testar só o painel do jogador. Abra batalha.html para a arena 4x4. Abra oponente.html para a interação CardTouch. Abra laboratorio.html para todos os testes.\nNão precisa instalar nada. Os dados duram apenas nesta sessão. A arena usa os atributos impressos nas cartas; a mesa de cliques usa valores fictícios.\nUse Exportar JSON para guardar o resultado dos testes.\n')
+    archive.writestr('LEIA-ME.txt', 'GOGHOS — Laboratório v' + version + '\nExtraia todo este ZIP. Abra placar.html para testar só o placar. Abra painel.html para testar só o painel do jogador. Abra batalha.html para a arena 4x4. Abra oponente.html para a interação CardTouch. Abra laboratorio.html para todos os testes.\nNão precisa instalar nada. Os dados duram apenas nesta sessão. A arena usa os atributos impressos nas cartas; a mesa de cliques usa valores fictícios.\nUse Exportar JSON para guardar o resultado dos testes.\n')
 print(output)

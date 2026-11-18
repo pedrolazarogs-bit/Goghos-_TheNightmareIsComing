@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.49.0 — placar original do jogo
+
+- Arte do placar recebida no ZIP incorporada sem alterar o PNG, com origem e SHA-256 registrados. Margens transparentes enquadradas por CSS.
+- Pontos reais nas faixas azul e vermelha, cronômetro crescente abaixo e destaque breve ao pontuar. A primeira equipe a três vitórias encerra a série.
+- Prévia isolada em placar.html para simular pontos, testar o relógio e reiniciar. Componente visual compartilhado com a arena.
+- Composição anterior do placar de celular preservada; removida a indicação de arte pendente no computador.
+- Mantidos o painel ampliado, as regras da batalha, as cartas, o menu, a abertura e o áudio.
+
 ## v0.48.1 — personagem e ícones maiores
 
 - Retrato do jogador 25% maior no painel do computador, incluindo as cartas usadas como retrato.

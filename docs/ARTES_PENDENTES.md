@@ -1,4 +1,4 @@
-# Artes pendentes — arena v0.48.0
+# Artes pendentes — arena v0.49.0
 
 As 32 cartas completas recebidas já substituem as molduras provisórias. [Lista de cartas e atributos](CARTAS_KIT.md).
 
@@ -7,10 +7,11 @@ As silhuetas com “?” marcam as peças que ainda precisam da arte definitiva.
 | Marcação | Arquivos necessários |
 | --- | --- |
 | CENÁRIO DA ARENA | Fundo e piso, de preferência separados, com a perspectiva da referência. A composição de referência é 16:9. |
-| PLACAR | Faixas azul e vermelha com espaço livre para os números. Envie também o emblema completo do campeonato se desejar substituir a composição provisória com o troféu já recebido. |
 | ? na ordem de ação | Três faixas: próximo, vez atual e último atacante, com espaço para nome e retrato. |
 | ? nos três apoios | Ícones dos apoios que serão usados, até três por equipe. |
 | ? no item | Ícone do item ou do espaço vazio de itens. |
+
+O placar foi recebido na v0.49.0: faixas, troféu e logotipo estão no PNG original e já são usados na arena de computador. [Detalhes](PLACAR.md).
 
 O painel foi recebido na v0.48.0: base preta, faixa de vida, coração e espada já substituem a marcação provisória. O losango original identifica o fôlego. [Detalhes](PAINEL_JOGADOR.md).
 
