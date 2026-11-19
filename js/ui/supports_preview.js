@@ -14,18 +14,20 @@ function render(){
  $('support-test-enemy').innerHTML=enemies.map(c=>'<option value="'+c.id+'">'+escape(c.name)+' · '+c.hp+' PV</option>').join('');$('support-test-enemy').value=enemyId;$('support-test-enemy').disabled=state.phase!=='active';
  $('support-test-attack').disabled=!M.canPlayerAct(state)||!enemyId;
  const enemy=state.cards.find(c=>c.id===enemyId);$('support-test-enemy-attack').disabled=state.phase!=='active'||!M.player(state)?.hp||!enemy||enemy.atk===null;
+ $('support-test-cycle').disabled=!M.isPlayerTurn(state)||!enemyId;
  $('support-next-round').hidden=state.phase!=='round-end';$('support-test-log').innerHTML=state.events.slice(0,12).map(e=>'<li>'+escape(e.text)+'</li>').join('');
 }
 // Manual controls belong exclusively to this bench; the real arena keeps its normal turn order.
 function returnToPlayer(){if(state.phase==='active')state.cursor=state.order.indexOf(state.playerId);}
 $('choose-supports').addEventListener('click',dock.openPicker);
-$('start-support-test').addEventListener('click',()=>{if(M.start(state,now(),0)){render();say('Ajuste a vida para testar cura ou Papakill. Clique nos ícones para ativar os apoios.');}});
+$('start-support-test').addEventListener('click',()=>{if(M.start(state,now(),0)){returnToPlayer();render();say('Ajuste a vida para testar cura ou Papakill. Clique nos ícones para ativar os apoios.');}});
 $('reset-support-test').addEventListener('click',()=>{dialog.close();state=M.create();enemyId='red-0';render();say('Nova série de teste. Obtenha seus apoios novamente.');});
 $('support-test-enemy').addEventListener('change',e=>{enemyId=e.target.value;render();});
 document.querySelector('.support-teams').addEventListener('change',e=>{if(!e.target.matches('[data-test-hp]')||state.phase!=='active')return;const c=state.cards.find(c=>c.id===e.target.dataset.testHp),value=e.target.valueAsNumber;if(!c||!Number.isInteger(value)||value<0||value>c.maxHp){render();say('Informe uma vida inteira entre zero e o máximo da carta.');return;}c.hp=value;state.revision++;render();say(c.name+': vida ajustada para '+value+' PV nesta bancada.');});
 $('support-test-attack').addEventListener('click',()=>{const r=M.playerAttack(state,enemyId,now());if(r){returnToPlayer();render();say('Seu ataque: '+r.damage+' de dano'+(r.bonus?' · +'+r.bonus+' do apoio':'')+'.');}});
 $('support-test-enemy-attack').addEventListener('click',()=>{if(state.phase!=='active'||!M.player(state)?.hp)return;const saved=state.cursor;state.cursor=state.order.indexOf(enemyId);const r=M.botAttack(state,enemyId,state.playerId,now());if(!r){state.cursor=saved;return;}returnToPlayer();render();say('Ataque recebido: '+r.damage+' de dano'+(r.blocked?' · '+r.blocked+' bloqueados pelo escudo':'')+'.');});
 $('support-next-round').addEventListener('click',()=>{if(M.continueRound(state,now())){returnToPlayer();render();say('Vida restaurada. Apoios usados não recarregam; os preparados aguardam o próximo ataque.');}});
+$('support-test-cycle').addEventListener('click',()=>{if(!M.isPlayerTurn(state))return;state.speedActed=state.cards.filter(c=>c.hp>0&&c.id!==state.playerId).map(c=>c.id);const target=state.cards.filter(c=>c.team==='red'&&c.hp>0).sort((a,b)=>b.hp-a.hp)[0];const result=M.player(state).atk===null?M.playerPass(state,now()):M.playerAttack(state,target.id,now());if(result){returnToPlayer();render();if(!dock.notice())say('A rodada terminou antes de outro reset. Nenhum apoio extra foi gerado.');}});
 $('support-dialog-close').addEventListener('click',()=>dialog.close());
 window.GoghosSupportBench=Object.freeze({snapshot:()=>JSON.parse(JSON.stringify(state))});render();
 })();

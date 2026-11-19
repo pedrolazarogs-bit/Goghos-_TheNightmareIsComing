@@ -90,3 +90,6 @@
 @media(max-width:900px){#character-grid{grid-template-columns:repeat(4,minmax(0,1fr));max-height:330px}.choose-layout{grid-template-columns:minmax(0,1fr) 190px;gap:14px}#chosen-card{max-height:240px}}
 @media(max-height:600px){#battle-dialog[data-kind=setup]{padding:14px}#battle-dialog[data-kind=setup] h1{font-size:26px}.setup-intro{margin:4px 0!important}#character-grid{max-height:170px;grid-template-columns:repeat(5,minmax(0,1fr))}#chosen-card{max-height:140px}.catalog-note{display:none}.choose-layout{grid-template-columns:minmax(0,1fr) 180px}.card-inspection{grid-template-columns:170px minmax(0,1fr)}}
 @media(max-width:550px){#character-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.choose-layout{grid-template-columns:minmax(0,1fr) 140px;gap:10px}.catalog-search{display:block}.card-inspection{grid-template-columns:1fr}.inspected-card{max-height:40dvh}}
+
+#speed-cycle{display:none}.queue-speed{display:block;font:9px system-ui;color:#c8d9ee;margin-top:7px;letter-spacing:1px}
+@media(min-width:981px) and (pointer:fine){.legacy-order-title{display:none}#speed-cycle{display:inline;font:8px system-ui;letter-spacing:1px}}

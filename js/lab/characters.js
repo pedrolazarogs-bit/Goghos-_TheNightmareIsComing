@@ -11,7 +11,8 @@ const cards=[
     "attackName": "Stardust",
     "portrait": "assets/menu-v036/character-0.webp",
     "breath": 6,
-    "queueArt": "assets/turn-order-v050/unicorn.png"
+    "queueArt": "assets/turn-order-v050/unicorn.png",
+    "speed": 4
   },
   {
     "id": "kit-Base68_20261023101502",
@@ -23,7 +24,8 @@ const cards=[
     "attackName": "Steel Jaw",
     "portrait": "assets/menu-v036/character-1.webp",
     "breath": 7,
-    "queueArt": "assets/turn-order-v050/sam.png"
+    "queueArt": "assets/turn-order-v050/sam.png",
+    "speed": 7
   },
   {
     "id": "kit-Base63_20261021225220",
@@ -35,7 +37,8 @@ const cards=[
     "attackName": "Steal Jaw",
     "portrait": "assets/menu-v036/character-2.webp",
     "breath": 5,
-    "queueArt": "assets/turn-order-v050/sarck.png"
+    "queueArt": "assets/turn-order-v050/sarck.png",
+    "speed": null
   },
   {
     "id": "kit-Base77_20261023224039",
@@ -47,7 +50,8 @@ const cards=[
     "attackName": "Katana",
     "portrait": "assets/menu-v036/character-3.webp",
     "breath": 5,
-    "queueArt": "assets/turn-order-v050/nully.png"
+    "queueArt": "assets/turn-order-v050/nully.png",
+    "speed": 9
   },
   {
     "id": "kit-Base68_20261023194147",
@@ -59,7 +63,8 @@ const cards=[
     "attackName": "AK-47",
     "portrait": "assets/menu-v036/character-4.webp",
     "breath": 6,
-    "queueArt": "assets/turn-order-v050/mike.png"
+    "queueArt": "assets/turn-order-v050/mike.png",
+    "speed": 5
   },
   {
     "id": "kit-Base63_20261022170442",
@@ -71,7 +76,8 @@ const cards=[
     "attackName": "Sharp Guitar",
     "portrait": null,
     "breath": 3,
-    "queueArt": "assets/turn-order-v050/jonh.png"
+    "queueArt": "assets/turn-order-v050/jonh.png",
+    "speed": 2
   },
   {
     "id": "kit-Base65_20261023032340",
@@ -82,7 +88,8 @@ const cards=[
     "hits": 1,
     "attackName": "Presence",
     "portrait": null,
-    "breath": 12
+    "breath": 12,
+    "speed": 7
   },
   {
     "id": "kit-Base66_20261024011640",
@@ -93,7 +100,8 @@ const cards=[
     "hits": 1,
     "attackName": "3000w",
     "portrait": null,
-    "breath": 4
+    "breath": 4,
+    "speed": 3
   },
   {
     "id": "kit-Base68_20261023181416",
@@ -105,7 +113,8 @@ const cards=[
     "attackName": "Phantom Claw",
     "portrait": null,
     "breath": 7,
-    "queueArt": "assets/turn-order-v050/penxy.png"
+    "queueArt": "assets/turn-order-v050/penxy.png",
+    "speed": 9
   },
   {
     "id": "kit-Base68_20261023182557",
@@ -117,7 +126,8 @@ const cards=[
     "attackName": "Pebble",
     "portrait": null,
     "breath": 5,
-    "queueArt": "assets/turn-order-v050/z-zus.png"
+    "queueArt": "assets/turn-order-v050/z-zus.png",
+    "speed": 3
   },
   {
     "id": "kit-Base68_20261023200328",
@@ -129,7 +139,8 @@ const cards=[
     "attackName": "Fire Ball",
     "portrait": null,
     "breath": 7,
-    "queueArt": "assets/turn-order-v050/chama.png"
+    "queueArt": "assets/turn-order-v050/chama.png",
+    "speed": 5
   },
   {
     "id": "kit-Base68_20261023202010",
@@ -141,7 +152,8 @@ const cards=[
     "attackName": "Skewer of fear",
     "portrait": null,
     "breath": 10,
-    "queueArt": "assets/turn-order-v050/daztirry.png"
+    "queueArt": "assets/turn-order-v050/daztirry.png",
+    "speed": 6
   },
   {
     "id": "kit-Base77_20261023204636",
@@ -153,7 +165,8 @@ const cards=[
     "attackName": "Primordial Sword",
     "portrait": null,
     "breath": 12,
-    "queueArt": "assets/turn-order-v050/zuri.png"
+    "queueArt": "assets/turn-order-v050/zuri.png",
+    "speed": 7
   },
   {
     "id": "kit-Base77_20261023222344",
@@ -165,7 +178,8 @@ const cards=[
     "attackName": "Scratch",
     "portrait": null,
     "breath": 4,
-    "queueArt": "assets/turn-order-v050/trucc.png"
+    "queueArt": "assets/turn-order-v050/trucc.png",
+    "speed": 9
   },
   {
     "id": "kit-Base77_20261023224851",
@@ -177,7 +191,8 @@ const cards=[
     "attackName": "Oxtal",
     "portrait": null,
     "breath": 6,
-    "queueArt": "assets/turn-order-v050/rawlin.png"
+    "queueArt": "assets/turn-order-v050/rawlin.png",
+    "speed": 6
   },
   {
     "id": "kit-Base77_20261023225559",
@@ -189,7 +204,8 @@ const cards=[
     "attackName": "Hypnosis",
     "portrait": null,
     "breath": 6,
-    "queueArt": "assets/turn-order-v050/barn.png"
+    "queueArt": "assets/turn-order-v050/barn.png",
+    "speed": 3
   },
   {
     "id": "kit-Base77_20261023230628",
@@ -201,7 +217,8 @@ const cards=[
     "attackName": "Soul",
     "portrait": null,
     "breath": 7,
-    "queueArt": "assets/turn-order-v050/fomor.png"
+    "queueArt": "assets/turn-order-v050/fomor.png",
+    "speed": 4
   },
   {
     "id": "kit-Base77_20261023231438",
@@ -213,7 +230,8 @@ const cards=[
     "attackName": "Lazer Gun",
     "portrait": null,
     "breath": 3,
-    "queueArt": "assets/turn-order-v050/elish.png"
+    "queueArt": "assets/turn-order-v050/elish.png",
+    "speed": 4
   },
   {
     "id": "kit-Base77_20261023232441",
@@ -225,7 +243,8 @@ const cards=[
     "attackName": "Magnum",
     "portrait": null,
     "breath": 3,
-    "queueArt": "assets/turn-order-v050/sheriff-verde.png"
+    "queueArt": "assets/turn-order-v050/sheriff-verde.png",
+    "speed": 5
   },
   {
     "id": "kit-Base77_20261023234212",
@@ -236,7 +255,8 @@ const cards=[
     "hits": 1,
     "attackName": "Aim",
     "portrait": null,
-    "breath": 4
+    "breath": 4,
+    "speed": 2
   },
   {
     "id": "kit-Base77_20261023235058",
@@ -247,7 +267,8 @@ const cards=[
     "hits": 1,
     "attackName": "Cursed Book",
     "portrait": null,
-    "breath": 12
+    "breath": 12,
+    "speed": 5
   },
   {
     "id": "kit-Base77_20261023235926",
@@ -258,7 +279,8 @@ const cards=[
     "hits": 1,
     "attackName": "Kick",
     "portrait": null,
-    "breath": 4
+    "breath": 4,
+    "speed": 2
   },
   {
     "id": "kit-Base77_20261024000815",
@@ -269,7 +291,8 @@ const cards=[
     "hits": 2,
     "attackName": "Fish",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "speed": 3
   },
   {
     "id": "kit-Base77_20261024001601",
@@ -280,7 +303,8 @@ const cards=[
     "hits": 1,
     "attackName": "Sleeping Pill",
     "portrait": null,
-    "breath": 4
+    "breath": 4,
+    "speed": 5
   },
   {
     "id": "kit-Base77_20261024002335",
@@ -291,7 +315,8 @@ const cards=[
     "hits": 1,
     "attackName": "Metal Shark",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "speed": 4
   },
   {
     "id": "kit-Base77_20261024002928",
@@ -302,7 +327,8 @@ const cards=[
     "hits": 1,
     "attackName": "ShotGun",
     "portrait": null,
-    "breath": 2
+    "breath": 2,
+    "speed": 3
   },
   {
     "id": "kit-Base77_20261024003723",
@@ -313,7 +339,8 @@ const cards=[
     "hits": 1,
     "attackName": "Missle",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "speed": 6
   },
   {
     "id": "kit-Base77_20261024004609",
@@ -324,7 +351,8 @@ const cards=[
     "hits": 1,
     "attackName": "Scalibur",
     "portrait": null,
-    "breath": 8
+    "breath": 8,
+    "speed": 2
   },
   {
     "id": "kit-Base77_20261024005349",
@@ -335,7 +363,8 @@ const cards=[
     "hits": 1,
     "attackName": "Bite",
     "portrait": null,
-    "breath": 1
+    "breath": 1,
+    "speed": 5
   },
   {
     "id": "kit-Base77_20261024005943",
@@ -346,7 +375,8 @@ const cards=[
     "hits": 1,
     "attackName": "Prototype",
     "portrait": null,
-    "breath": 3
+    "breath": 3,
+    "speed": 4
   },
   {
     "id": "kit-Base77_20261024010549",
@@ -358,7 +388,8 @@ const cards=[
     "attackName": "Lazer Pop",
     "portrait": null,
     "breath": 7,
-    "queueArt": "assets/turn-order-v050/karma.png"
+    "queueArt": "assets/turn-order-v050/karma.png",
+    "speed": 6
   },
   {
     "id": "kit-Base77_20261024011138",
@@ -369,7 +400,8 @@ const cards=[
     "hits": 2,
     "attackName": "Duble Blade",
     "portrait": null,
-    "breath": 6
+    "breath": 6,
+    "speed": 7
   }
 ];
 cards.forEach(Object.freeze);Object.freeze(cards);

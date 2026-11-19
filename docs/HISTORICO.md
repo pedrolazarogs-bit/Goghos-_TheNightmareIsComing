@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v0.52.0 — velocidade das cartas e apoio por reset
+
+- Ordem de computador baseada nas 31 velocidades impressas, da maior para a menor, com eliminados ignorados e desempate estável por equipe/posição. Sarck permanece consultável, aguardando sua regra especial.
+- Cada ciclo completo volta ao mais rápido vivo e concede exatamente uma carta de apoio com efeito definido. Início de rodada e diálogos não concedem cartas extras.
+- Carta completa na obtenção, fila de recebidos quando não houver espaço e até três ícones na UI. Cada cópia tem um uso; cartas gastas não recarregam.
+- Velocidades e ciclo visíveis na fila; bancada de apoios ganha Simular fim do ciclo para testar o recebimento.
+- Preservados celular, menu, áudio, artes originais, vida/dano/fôlego e dimensões aprovadas da UI.
+
 ## v0.51.0 — cartas de apoio e efeitos definidos
 
 - Incorporados 9 PNGs de cartas completas e 10 ícones originais, com correspondência e hashes registrados. Carta completa na obtenção; ícone menor persistente na UI.

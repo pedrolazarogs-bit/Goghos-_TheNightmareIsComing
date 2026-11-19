@@ -46,3 +46,5 @@
 @media(prefers-reduced-motion:reduce){.support-reveal.is-obtained .support-art{animation:none}}
 .reduced .support-reveal.is-obtained .support-art{animation:none}
 @media(max-width:650px){.support-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}.support-reveal{grid-template-columns:minmax(0,220px);justify-content:center;gap:14px}.support-activation{grid-template-columns:82px minmax(0,1fr);gap:16px}.support-activation .support-icon-art{width:82px}}
+.support-hud-label .support-rewards-trigger{font:8px/1.2 system-ui;letter-spacing:.3px;padding:2px 4px;background:none;border:1px solid #e5cf9e70;border-radius:4px;color:#f0daac}
+#battle-dialog[data-kind=support-reward]{width:min(780px,92vw)}

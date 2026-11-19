@@ -1,12 +1,20 @@
-# Apoios — v0.51.0
+# Apoios — v0.52.0
 
 Foram recebidos **9 PNGs de cartas completas** em Photos-1-001 (7).zip e **10 PNGs de ícones** em Photos-1-001 (6).zip. A carta completa aparece na obtenção do laboratório; o ícone menor ocupa a UI da batalha e permanece visível após o uso. O décimo ícone, de máscara, ainda não tem carta completa nem nome oficial: sua carta usa uma marcação com “?”.
 
 ## Uso confirmado pelo usuário
 
-Cada carta pode ser ativada **uma vez em toda a série**, somente na vez do personagem do jogador e **sem gastar seu ataque**. A preparação permite até três apoios diferentes, sem duplicatas. A escolha acontece antes de iniciar a série e não pode ser trocada durante a batalha. Reiniciar cria uma nova sessão; não existe compra, recompensa persistente ou acesso pelo menu principal.
+Cada carta pode ser ativada **uma vez em toda a série**, somente na vez do personagem do jogador e **sem gastar seu ataque**. A preparação permite até três apoios diferentes, sem duplicatas. Esse conjunto inicial é escolhido antes de iniciar a série. Durante a batalha, novas cópias recebidas nos resets podem ocupar espaços vazios ou substituir apoios já usados; cartas prontas ou ativadas não são descartadas. Reiniciar cria uma nova sessão; não existe compra, recompensa persistente ou acesso pelo menu principal.
 
 O usuário autorizou aplicar os efeitos claros das cartas e deixar regras ambíguas pendentes. Os valores impressos dos personagens não foram alterados. Os apoios só modificam a resolução das ações às quais se aplicam.
+
+## Recebimento por velocidade
+
+A cada volta completa da hierarquia, quando todos os personagens vivos já agiram, o jogador ganha uma carta. A ordem volta à maior velocidade impressa; o ciclo seguinte começa. Não há recompensa ao iniciar a série, ao abrir diálogos, ao avançar de rodada ou ao terminar a partida. Uma eliminação pula a vez da carta eliminada.
+
+Nesta prévia, o sorteio inclui os quatro apoios com regras claras: Bandeide, Na Moleira, Escudo Volátil e Papakill. Os seis pendentes continuam disponíveis para ver suas artes na preparação. O sorteio é feito uma única vez pelo modelo por reset; reabrir a tela não troca nem duplica a carta.
+
+A carta completa aparece na obtenção, com **Colocar na UI** ou **Guardar e continuar**. No máximo três apoios ocupam a UI. Se ela estiver cheia, ou uma cópia igual estiver pronta/ativada, o apoio fica guardado em **RECEBIDOS**. Quando houver espaço vazio ou uma carta usada, ele pode ser equipado. Cada cópia tem sua própria utilização; uma carta usada nunca é recarregada. Apoios guardados e efeitos ativados permanecem entre rodadas; reiniciar apaga a sessão.
 
 ## Efeitos disponíveis
 
@@ -36,7 +44,7 @@ Esses seis apoios podem ser obtidos e equipados para conferir as artes, mas não
 
 Extraia o ZIP da prévia e abra **apoios.html**. Use Obter apoios, escolha uma carta e confirme Obter e equipar. A carta completa aparece na confirmação; o ícone passa a ocupar um dos três espaços.
 
-Inicie o teste e ajuste a vida nos campos da bancada. Para Bandeide, deixe um aliado abaixo da vida máxima; para Papakill, deixe um oponente entre 1 e 39. Os botões Seu ataque e Ataque inimigo usam o mesmo modelo da arena, mas devolvem a vez ao jogador para agilizar a verificação. Esses ajustes de vida e de ordem existem somente nesta página. Na arena real, mantenha os turnos normais, os bots e suas esperas.
+Inicie o teste e ajuste a vida nos campos da bancada. Para Bandeide, deixe um aliado abaixo da vida máxima; para Papakill, deixe um oponente entre 1 e 39. Os botões Seu ataque e Ataque inimigo usam o mesmo modelo da arena, mas devolvem a vez ao jogador para agilizar a verificação. **Simular fim do ciclo** considera os outros personagens como já tendo agido e conclui a ação do jogador contra o oponente com mais vida. Se a rodada continuar, surge exatamente uma carta recebida. Esses ajustes de vida e de ordem existem somente nesta página. Na arena real, mantenha os turnos normais, os bots e suas esperas.
 
 Em **batalha.html**, selecione o personagem e use Escolher apoios antes de Iniciar batalha. Depois, os ícones pequenos ficam no canto inferior esquerdo. A preparação e o HUD novos são exclusivos do computador; a composição e as interações anteriores do celular foram preservadas. Placar, painel do jogador e faixas CC mantêm o tamanho aprovado.
 
@@ -48,7 +56,7 @@ js/lab/supports.js contém o catálogo e as pendências. js/lab/battle.js valida
 
 A obtenção usa uma entrada curta, sem repetição e respeitando movimento reduzido. Apoios ativados não flutuam nem têm animações recorrentes.
 
-Use `npm test`, `npm run test:supports` e `npm run test:battle`. `npm run package:supports` gera downloads/apoios-v0.51.0.zip, sem depender das demais telas.
+Use `npm test`, `npm run test:supports` e `npm run test:battle`. `npm run package:supports` gera downloads/apoios-v0.52.0.zip, sem depender das demais telas.
 
 ## Correspondência das artes
 

@@ -1,13 +1,13 @@
 const assert=require('node:assert/strict'),M=require('../js/lab/battle');
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
-const make=(ids,art=0)=>{const s=M.create();ids.forEach(id=>assert(M.equipSupport(s,id)));assert(M.start(s,0,art));return s;};
+const make=(ids,art=0)=>{const s=M.create({speedOrder:false});ids.forEach(id=>assert(M.equipSupport(s,id)));assert(M.start(s,0,art));return s;};
 const card=(s,id)=>s.cards.find(c=>c.id===id);
 const turn=(s,id)=>{s.cursor=s.order.indexOf(id);};
 const activate=(s,index,target=s.playerId,time=100)=>M.activateSupport(s,index,target,time);
 assert.equal(M.supportCards.length,10);assert.equal(M.supportCards.filter(c=>c.card).length,9);assert.equal(M.supportCards.filter(c=>c.effect).length,4);
 const manifest=require('../assets/supports-v051/manifest.json');assert.equal(manifest.files.length,19);
 for(const f of manifest.files){const data=fs.readFileSync(path.join(__dirname,'../assets/supports-v051',f.file));assert.equal(crypto.createHash('sha256').update(data).digest('hex'),f.sha256);}
-const ready=M.create();assert.equal(M.equipSupport(ready,'inventado'),false);
+const ready=M.create({speedOrder:false});assert.equal(M.equipSupport(ready,'inventado'),false);
 for(const id of ['bandeide','na-moleira','escudo-volatil'])assert(M.equipSupport(ready,id));
 assert.equal(M.equipSupport(ready,'papakill'),false);assert.equal(M.equipSupport(ready,'bandeide'),false);
 for(const bad of [-1,3,1.5,'1'])assert.equal(M.removeSupport(ready,bad),false);

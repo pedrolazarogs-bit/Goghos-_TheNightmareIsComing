@@ -10,19 +10,38 @@ function elapsed(s,now){return s.startedAt===null?0:Math.max(0,(s.endedAt??now)-
 function current(s){return s.cards.find(c=>c.id===s.order[s.cursor])||null;}
 function next(s){if(s.phase!=='active')return null;for(let n=1;n<=s.order.length;n++){const c=s.cards.find(c=>c.id===s.order[(s.cursor+n)%s.order.length]);if(c?.hp>0)return c;}return null;}
 function setupRound(s){
- s.cards=['blue','red'].flatMap(team=>s.lineups[team].map((art,i)=>{const c=characters[art];return {id:team+'-'+i,characterId:c.id,team,slot:i,art,controller:team+'-'+i===s.playerId?'player':'bot',name:c.name,hp:c.maxHp,maxHp:c.maxHp,breath:c.breath,maxBreath:c.breath,baseAtk:c.baseAtk,hits:c.hits,atk:c.baseAtk===null?null:c.baseAtk*c.hits,attackName:c.attackName,status:[],ability:null};}));
+ s.cards=['blue','red'].flatMap(team=>s.lineups[team].map((art,i)=>{const c=characters[art];return {id:team+'-'+i,characterId:c.id,team,slot:i,art,controller:team+'-'+i===s.playerId?'player':'bot',name:c.name,hp:c.maxHp,maxHp:c.maxHp,breath:c.breath,maxBreath:c.breath,speed:c.speed,baseAtk:c.baseAtk,hits:c.hits,atk:c.baseAtk===null?null:c.baseAtk*c.hits,attackName:c.attackName,status:[],ability:null};}));
  const first=s.round%2?'blue':'red',second=opposite(first);
  s.order=Array.from({length:4},(_,i)=>[first+'-'+i,second+'-'+i]).flat();s.cursor=0;s.last=null;s.roundWinner=null;s.phase='active';s.paused=false;s.revision++;
+ if(s.speedOrder)s.order.sort((a,b)=>{const x=s.cards.find(c=>c.id===a),y=s.cards.find(c=>c.id===b);return y.speed-x.speed||(x.team===first?0:1)-(y.team===first?0:1)||x.slot-y.slot;});
+ s.speedCycle=1;s.speedActed=[];
 }
-function create(){return {phase:'ready',playerId:null,playerArt:null,round:1,score:{blue:0,red:0},lineups:{blue:[0,1,2,3],red:[3,2,1,4]},cards:[],order:[],cursor:0,last:null,roundWinner:null,winner:null,startedAt:null,endedAt:null,paused:false,revision:0,sequence:0,events:[],supports:{blue:[null,null,null],red:[null,null,null]}};}
+function create(options={}){return {phase:'ready',playerId:null,playerArt:null,round:1,score:{blue:0,red:0},lineups:{blue:[0,1,2,3],red:[3,2,1,4]},cards:[],order:[],cursor:0,last:null,roundWinner:null,winner:null,startedAt:null,endedAt:null,paused:false,revision:0,sequence:0,events:[],supports:{blue:[null,null,null],red:[null,null,null]},speedOrder:options.speedOrder!==false,cycleRewards:options.speedOrder!==false&&options.cycleRewards!==false,speedCycle:1,speedActed:[],completedCycles:0,rewardSeed:Number.isInteger(options.seed)?options.seed>>>0:1,rewardSequence:0,supportRewards:[]};}
 function player(s){return s.cards.find(c=>c.id===s.playerId)||null;}
 function isPlayerTurn(s){return s.phase==='active'&&!s.paused&&current(s)?.id===s.playerId&&player(s)?.hp>0;}
 function canPlayerAct(s){return isPlayerTurn(s)&&player(s).atk!==null;}
-function advance(s){for(let n=1;n<=s.order.length;n++){const i=(s.cursor+n)%s.order.length;if(s.cards.find(c=>c.id===s.order[i]).hp>0){s.cursor=i;break;}}}
+function advance(s,now){
+ if(s.speedOrder){
+  const actor=current(s);if(!s.speedActed.includes(actor.id))s.speedActed.push(actor.id);
+  const living=s.order.filter(id=>s.cards.find(c=>c.id===id).hp>0),remaining=living.filter(id=>!s.speedActed.includes(id));
+  if(remaining.length){s.cursor=s.order.indexOf(remaining[0]);return;}
+  s.completedCycles++;s.speedCycle++;s.speedActed=[];s.cursor=s.order.indexOf(living[0]);
+  record(s,'reset de velocidade','Hierarquia concluída. Ciclo '+s.speedCycle+': volta ao personagem mais rápido vivo.',now);
+  if(s.cycleRewards){
+   const pool=supportCards.filter(c=>c.effect&&c.card);s.rewardSeed=(Math.imul(1664525,s.rewardSeed)+1013904223)>>>0;
+   const c=pool[Math.floor(s.rewardSeed/4294967296*pool.length)],reward={uid:++s.rewardSequence,id:c.id,round:s.round,cycle:s.speedCycle-1,seen:false,claimed:false};
+   s.supportRewards.push(reward);record(s,'apoio recebido',c.name+': carta recebida no reset da hierarquia de velocidade.',now);
+  }
+  return;
+ }
+ for(let n=1;n<=s.order.length;n++){const i=(s.cursor+n)%s.order.length;if(s.cards.find(c=>c.id===s.order[i]).hp>0){s.cursor=i;break;}}
+}
 function start(s,now,playerArt=0){
  if(s.phase!=='ready'||!Number.isFinite(now)||!Number.isInteger(playerArt)||playerArt<0||playerArt>=roster.length)return false;
+ if(s.speedOrder&&characters[playerArt].speed===null)return false;
  s.playerArt=playerArt;s.playerId='blue-0';
  s.lineups={blue:Array.from({length:4},(_,i)=>(playerArt+i)%roster.length),red:Array.from({length:4},(_,i)=>(playerArt+4+i)%roster.length)};
+ if(s.speedOrder){const eligible=Array.from({length:roster.length},(_,i)=>(playerArt+i)%roster.length).filter(i=>characters[i].speed!==null);s.lineups={blue:eligible.slice(0,4),red:eligible.slice(4,8)};}
  s.startedAt=now;setupRound(s);record(s,'início',roster[playerArt]+': seu personagem. Três aliados e quatro adversários controlados por bots.',now);return true;
 }
 function settle(s,team,target,now,result,advanceTurn){
@@ -30,7 +49,7 @@ function settle(s,team,target,now,result,advanceTurn){
   s.roundWinner=team;s.score[team]++;result.roundWinner=team;s.phase='round-end';
   record(s,'ponto',(team==='blue'?'Azul':'Vermelho')+' vence a rodada '+s.round+'. Placar '+s.score.blue+' × '+s.score.red+'.',now);
   if(s.score[team]===3){s.winner=team;s.endedAt=now;s.phase='finished';result.winner=team;record(s,'fim','Série encerrada.',now);}
- }else if(s.cards.filter(c=>c.hp>0).every(c=>c.atk===null)){s.phase='blocked';s.endedAt=now;record(s,'regras pendentes','Restam somente cartas sem ataque definido. Série interrompida sem conceder ponto.',now);}else if(advanceTurn)advance(s);
+ }else if(s.cards.filter(c=>c.hp>0).every(c=>c.atk===null)){s.phase='blocked';s.endedAt=now;record(s,'regras pendentes','Restam somente cartas sem ataque definido. Série interrompida sem conceder ponto.',now);}else if(advanceTurn)advance(s,now);
 }
 function armedSupport(s,effect,targetId){return Object.values(s.supports).flat().find(slot=>slot?.status==='armed'&&slot.targetId===targetId&&supportCards.find(c=>c.id===slot.id)?.effect===effect);}
 function attack(s,actorId,targetId,now){
@@ -49,6 +68,21 @@ function equipSupport(s,id){
  const i=s.supports.blue.indexOf(null);if(i===-1)return false;s.supports.blue[i]={id,status:'ready',targetId:null};s.revision++;return true;
 }
 function removeSupport(s,index){if(s.phase!=='ready'||!Number.isInteger(index)||index<0||index>2||!s.supports.blue[index])return false;s.supports.blue[index]=null;s.revision++;return true;}
+function supportRewardReason(s,uid){
+ const reward=s.supportRewards.find(r=>r.uid===uid);
+ if(!reward||reward.claimed)return 'Carta já recebida na UI ou indisponível.';
+ if(!['active','round-end'].includes(s.phase))return 'A série não está em andamento.';
+ if(s.supports.blue.some(slot=>slot?.id===reward.id&&slot.status!=='spent'))return 'Use a cópia deste apoio que já está na UI. Esta nova carta fica guardada.';
+ if(!s.supports.blue.some(slot=>!slot||slot.status==='spent'))return 'Os três espaços estão ocupados. Use um apoio para liberar espaço; esta carta fica guardada.';
+ return '';
+}
+function claimSupportReward(s,uid,now){
+ if(!Number.isFinite(now)||supportRewardReason(s,uid))return false;
+ const reward=s.supportRewards.find(r=>r.uid===uid);let index=s.supports.blue.indexOf(null);if(index===-1)index=s.supports.blue.findIndex(slot=>slot.status==='spent');
+ s.supports.blue[index]={id:reward.id,instanceId:'reward-'+reward.uid,status:'ready',targetId:null};reward.claimed=reward.seen=true;s.revision++;
+ record(s,'apoio equipado',supportCards.find(c=>c.id===reward.id).name+': nova carta recebida, adicionada ao espaço '+(index+1)+'.',now);return true;
+}
+function seeSupportReward(s,uid){const reward=s.supportRewards.find(r=>r.uid===uid);if(!reward||reward.seen)return false;reward.seen=true;return true;}
 function supportTargets(s,index){
  const slot=s.supports.blue[index],definition=slot&&supportCards.find(c=>c.id===slot.id),owned=player(s);if(!definition?.effect||!owned)return [];
  if(definition.effect==='heal')return s.cards.filter(c=>c.team===owned.team&&c.hp>0&&c.hp<c.maxHp);
@@ -84,11 +118,11 @@ function activateSupport(s,index,targetId,now){
 }
 function playerAttack(s,targetId,now){if(!canPlayerAct(s))return null;return attack(s,s.playerId,targetId,now);}
 function botAttack(s,actorId,targetId,now){if(current(s)?.controller!=='bot')return null;return attack(s,actorId,targetId,now);}
-function pass(s,actorId,now){const actor=current(s);if(s.phase!=='active'||s.paused||!actor||actor.id!==actorId||actor.atk!==null||!Number.isFinite(now))return false;s.revision++;record(s,'vez passada',actor.name+': ataque impresso como —; aguardando regras.',now);if(s.cards.filter(c=>c.hp>0).every(c=>c.atk===null)){s.phase='blocked';s.endedAt=now;record(s,'regras pendentes','Restam somente cartas sem ataque definido. Série interrompida sem conceder ponto.',now);}else advance(s);return true;}
+function pass(s,actorId,now){const actor=current(s);if(s.phase!=='active'||s.paused||!actor||actor.id!==actorId||actor.atk!==null||!Number.isFinite(now))return false;s.revision++;record(s,'vez passada',actor.name+': ataque impresso como —; aguardando regras.',now);if(s.cards.filter(c=>c.hp>0).every(c=>c.atk===null)){s.phase='blocked';s.endedAt=now;record(s,'regras pendentes','Restam somente cartas sem ataque definido. Série interrompida sem conceder ponto.',now);}else advance(s,now);return true;}
 function playerPass(s,now){return isPlayerTurn(s)&&pass(s,s.playerId,now);}
 function botPass(s,actorId,now){return current(s)?.controller==='bot'&&pass(s,actorId,now);}
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({characters,roster,supportCards,create,start,current,next,player,isPlayerTurn,canPlayerAct,playerAttack,botAttack,playerPass,botPass,continueRound,pause,elapsed,opposite,equipSupport,removeSupport,supportTargets,supportReason,activateSupport});
+const api=Object.freeze({characters,roster,supportCards,create,start,current,next,player,isPlayerTurn,canPlayerAct,playerAttack,botAttack,playerPass,botPass,continueRound,pause,elapsed,opposite,equipSupport,removeSupport,supportTargets,supportReason,activateSupport,supportRewardReason,claimSupportReward,seeSupportReward});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);

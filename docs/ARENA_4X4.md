@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.51.0
+# Arena 4×4 — estrutura de teste v0.52.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
@@ -6,13 +6,19 @@ Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena n
 
 Você escolhe um personagem da equipe azul. Seus três aliados e os quatro oponentes são bots. Há exatamente um personagem sob seu controle, identificado por ID durante toda a série. A escolha é preservada entre rodadas; não é o antigo sistema de favorito do menu.
 
-Cada equipe possui quatro personagens diferentes entre si. A seleção oferece 32 cartas e as oito posições da partida usam arquivos distintos. Nomes iguais em duas artes permanecem como entradas separadas. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
+Cada equipe possui quatro personagens diferentes entre si. A seleção mostra 32 cartas; no computador, 31 podem iniciar a batalha. Sarck permanece consultável, mas não entra nas equipes enquanto sua regra especial de velocidade estiver pendente. As oito posições da partida usam arquivos distintos. Nomes iguais em duas artes permanecem como entradas separadas. Eliminar os quatro adversários concede exatamente um ponto à equipe vencedora. Ao continuar, as duas equipes são restauradas; o placar permanece. A primeira equipe com três pontos encerra a série, em três a cinco rodadas.
 
 O cronômetro usa tempo monotônico desde **Iniciar batalha** até a vitória final. Ele não é regressivo, não reinicia entre rodadas e inclui intervalos, pausas e inspeções. No resultado final, seu valor fica congelado.
 
 ## Ordem e ações
 
-A rodada alterna Azul 1, Vermelho 1, Azul 2, Vermelho 2, e assim por diante. Eliminados são ignorados. Na rodada seguinte, a equipe que inicia é alternada. Essa ordem é provisória e não atribui velocidade aos personagens.
+No computador, o número no pico superior da carta define a velocidade. A ordem é decrescente: o mais rápido age primeiro, o mais lento por último. Em empate, a equipe azul tem prioridade nas rodadas ímpares e a vermelha nas pares; dentro do mesmo time, vale a posição da carta. Esta convenção mantém os empates determinísticos até uma regra específica. Eliminados não recebem vez.
+
+Quando todos os personagens ainda vivos completam sua vez, o ciclo termina e a hierarquia volta ao mais rápido vivo. A velocidade impressa não é reduzida nem confundida com fôlego. Passar a vez também conclui a participação no ciclo. A coluna direita mostra a velocidade e o número do ciclo atual.
+
+Cada reset efetivo concede exatamente uma carta de apoio ao jogador. O sorteio usa somente os quatro efeitos já definidos. A carta completa aparece uma vez; pode ser colocada em um espaço vazio ou no lugar de uma carta usada. Com três apoios disponíveis ou uma cópia igual ainda pronta/ativada, a nova carta fica guardada no botão **RECEBIDOS**. Ela permanece entre rodadas e desaparece ao reiniciar a sessão. Iniciar a série, avançar de rodada, terminar a série, abrir diálogos ou redesenhar a UI não concede cartas. [Detalhes dos apoios](APOIOS.md).
+
+Sarck tem “—” no topo. Sua regra especial será enviada pelo usuário; nenhum valor ou posição foi inventado. A versão de celular mantém a ordem alternada e o comportamento anteriores, sem esta nova mecânica.
 
 A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. No computador, as 18 faixas CC recebidas mostram a arte completa do personagem; onde falta a faixa, aparece uma silhueta com “?”. A fila anterior de celular foi preservada. As faixas podem ser clicadas para inspeção. [Artes e correspondência](FAIXAS_PERSONAGENS.md). A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
 
@@ -25,7 +31,7 @@ Vida e dano são transcritos das cartas recebidas; multiplicadores impressos sã
 - Painel fixado no personagem do jogador no canto direito: retrato, vida, dano, fôlego e situação. A base e os ícones usam as artes recebidas na v0.48.0. Inspecionar outra carta não troca esse painel.
 - Estrela original do CardTouch, fixa junto ao painel direito, sem animação nem moldura de botão. Clique nela para consultar a habilidade principal; o conteúdo permanece fechado antes do clique.
 - Ataque básico e espaço de item no centro inferior. A habilidade principal não aparece como uma ação adicional.
-- Três espaços de apoio no canto esquerdo: carta completa ao obter na preparação e ícones pequenos na batalha. Uso único por carta em toda a série, no turno do jogador, sem gastar o ataque. As seis regras ambíguas permanecem bloqueadas.
+- Três espaços de apoio no canto esquerdo: carta completa ao obter na preparação ou nos resets e ícones pequenos na batalha. Uso único por cópia em toda a série, no turno do jogador, sem gastar o ataque. As seis regras ambíguas permanecem bloqueadas.
 - CardTouch: primeiro clique no alvo mostra ATACAR, segundo abre informações e terceiro fecha. Fora de uma ação válida, o clique apenas inspeciona.
 - Opções de efeitos reduzidos, pausa, ajuda, registro, exportação e reinício. A redução de movimento do sistema também é respeitada.
 
@@ -47,9 +53,9 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `js/lab/battle.js` contém o modelo independente. `js/ui/battle_lab.js` controla a tela e os turnos automáticos. `css/battle_lab.css` contém a composição visual. O CardTouch de `js/ui/card_touch.js` continua reutilizado; agora mostra “—” para ataque ausente, preservando os valores numéricos do experimento anterior.
 
-`tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
+`tests/battle_lab.test.js` conserva a cobertura do modo anterior e testa rejeição de ações inválidas. `tests/speed_cycles.test.js` confere as 31 velocidades, Sarck pendente, empates, eliminados, resets, cópias recebidas, limite de três e séries completas no modo novo. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.51.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.52.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 
