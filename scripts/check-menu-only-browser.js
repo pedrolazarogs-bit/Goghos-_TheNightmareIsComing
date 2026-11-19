@@ -58,7 +58,7 @@ async function checkCharacter(page){
     headless: true, args: ['--no-sandbox']
   });
   try {
-    for (const mobile of [false, true]) {
+    for (const mobile of (process.env.MENU_DESKTOP_ONLY ? [false] : [false, true])) {
       const page = await browser.newPage({
         viewport: mobile ? { width: 390, height: 844 } : { width: 1366, height: 768 },
         hasTouch: mobile
@@ -98,19 +98,21 @@ async function checkCharacter(page){
       assert(menuMusic.tracks[0].currentTime > titleMusic.tracks[0].currentTime, 'Menu music must continue without restarting');
       await page.waitForTimeout(2200);
       const menu=page.locator('.cosmos-menu');
-      assert.equal(await menu.locator('button').count(),0);
+      assert.equal(await menu.locator('button').count(),mobile?0:1);
+      if(!mobile){assert(await menu.locator('button.cosmos-play').isVisible());assert.equal(await menu.locator('.cosmos-mode strong').innerText(),'4×4');}
       assert.equal(await menu.locator('[data-cosmos-favorite][aria-haspopup="dialog"]').count(),0);
       assert.equal(await menu.locator('a,[role="button"],[data-act],[tabindex="0"]').count(),0);
       const baseline=await page.evaluate(()=>({html:document.getElementById('app').innerHTML,storage:JSON.stringify(localStorage),url:location.href}));
-      const decorations=menu.locator('.cosmos-decor');
-      assert.equal(await decorations.count(),10);
+      const decorations=menu.locator(mobile?'.cosmos-decor':'.cosmos-decor:not(.cosmos-play)');
+      assert.equal(await decorations.count(),mobile?10:9);
       for(let i=0;i<await decorations.count();i++){
         const element=decorations.nth(i),box=await element.boundingBox();
         assert(box&&box.width>0&&box.height>0,'Menu artwork must be visible');
         if(mobile)await element.tap();else await element.click();
       }
+      await menu.focus();
       for(const key of ['Enter','Space','Escape','a','Tab'])await page.keyboard.press(key);
-      assert.deepEqual(await page.evaluate(()=>({html:document.getElementById('app').innerHTML,storage:JSON.stringify(localStorage),url:location.href})),baseline,'Menu input must not navigate, open panels or modify progress');
+      assert.deepEqual(await page.evaluate(()=>({html:document.getElementById('app').innerHTML,storage:JSON.stringify(localStorage),url:location.href})),baseline,'Decorative controls must not navigate, open panels or modify progress');
       assert.equal(await page.locator('[role="dialog"]').count(),0);
       assert.equal(await page.evaluate(()=>Object.keys(GOGHOS).some(key=>['Battle','ArenaFive','ArenaFiveUI','Shop','Sanctuary','VisualShell'].includes(key))),false);
       assert(await page.evaluate(()=>[...document.querySelectorAll('.cosmos-menu img')].every(img=>img.complete&&img.naturalWidth>0)));
@@ -122,13 +124,13 @@ async function checkCharacter(page){
       assert.equal(await page.evaluate(()=>!!GOGHOS.FavoritePicker),false);
       await checkCharacter(page);
       const chosenStorage=await page.evaluate(()=>JSON.stringify(localStorage));
-      await page.screenshot({path:'/tmp/goghos-menu-v0.42.0-'+(mobile?'celular':'desktop')+'.png'});
+      await page.screenshot({path:'/tmp/goghos-menu-v0.54.0-'+(mobile?'celular':'desktop')+'.png'});
       // Verify the preserved animation directly; no menu control opens it.
       await page.evaluate(()=>{GOGHOS.VictoryPresenter.open();});
       await page.waitForFunction(()=>GOGHOS.VictoryPresenter.getDebugState().ready,null,{timeout:20000});
       assert.equal(await page.locator('.victory-failed').count(),0);
       assert.equal(await page.locator('.victory-canvas canvas').count(),1);
-      await page.screenshot({path:'/tmp/goghos-victory-v0.42.0-'+(mobile?'celular':'desktop')+'.png'});
+      await page.screenshot({path:'/tmp/goghos-victory-v0.54.0-'+(mobile?'celular':'desktop')+'.png'});
       await page.locator(mobile?'[data-victory="play"]':'[data-victory="menu"]').click();
       await page.waitForFunction(()=>!GOGHOS.VictoryPresenter.getDebugState().active);
       assert.equal(await menu.count(),1);
@@ -142,13 +144,38 @@ async function checkCharacter(page){
       await page.setViewportSize(mobile?{width:320,height:568}:{width:1024,height:768});
       await page.waitForTimeout(100);
       await checkCharacter(page);
+      if(!mobile){
+        // Both native-button input paths open the same real arena and return to the mandatory intro.
+        for(const input of ['keyboard','mouse']){
+          const storage=await page.evaluate(()=>JSON.stringify(localStorage));
+          const play=menu.locator('button.cosmos-play');
+          if(input==='keyboard'){await play.focus();await page.keyboard.press('Enter');}else await play.click();
+          await page.waitForURL(/batalha\.html\?from=menu$/);
+          assert.equal(await page.locator('#player-character option').count(),32);
+          assert.equal(await page.locator('.lab-back').innerText(),'← Menu');
+          assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),storage);
+          assert.equal(await page.evaluate(()=>typeof globalThis.GOGHOS),'undefined','A página da batalha não mantém tocadores do menu.');
+          await page.locator('#player-character').selectOption('3');await page.getByRole('button',{name:'Iniciar batalha',exact:true}).click();
+          assert.equal(await page.locator('[data-battle-card]').count(),8);
+          assert.equal(await page.locator('[data-controller="player"]').count(),1);
+          await page.locator('[data-battle-card="red-1"]').click();await page.locator('.tc-atk').click();
+          assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().cards.find(c=>c.id==='red-1').hp),420);
+          await page.locator('.lab-back').click();await page.locator('[data-act="shell-start"]:enabled').waitFor();
+          assert(await page.evaluate(()=>GOGHOS.IntroPresenter.isActive()&&document.getElementById('app').inert));
+          assert.equal(await menu.locator('button.cosmos-play').count(),0,'Play só é habilitado após a abertura.');
+          if(input==='keyboard'){
+            await page.locator('[data-act="shell-start"]').click();await page.waitForFunction(()=>GOGHOS.IntroPresenter.getDebugState().phase==='title-ready',null,{timeout:20000});
+            await page.keyboard.press('a');await page.waitForFunction(()=>!GOGHOS.IntroPresenter.isActive());
+          }
+        }
+      }
       await page.evaluate(()=>localStorage.setItem('goghos.menu-favorite.v036','sam'));
       await page.reload();
       await page.locator('[data-act="shell-start"]:enabled').waitFor();
       assert((await menu.locator('.cosmos-favorite-image').getAttribute('src')).endsWith('character-0.webp'));
       assert.equal(await page.evaluate(()=>document.getElementById('app').inert),true,'A preferência salva não pula a abertura');
       assert.deepEqual(errors, []);
-      console.log('PASS '+(mobile?'celular':'desktop')+': abertura obrigatória, música contínua, 10 controles sem acessos, personagem estático dentro da divisão, sem sistema de favorito e animação de vitória preservada');
+      console.log('PASS '+(mobile?'celular':'desktop')+': abertura obrigatória, música contínua, '+(mobile?'10 ícones preservados':'Play por mouse/teclado abre batalha 4×4, retorna ao menu; demais ícones decorativos')+', personagem estático, sem favorito e vitória preservada');
       await page.close();
     }
   } finally {

@@ -1,16 +1,16 @@
-# Validação — v0.53.0
+# Validação — v0.54.0
 
-Revisão em 18/11/2026 (America/Sao_Paulo), com Node.js e Chromium.
+Revisão em 19/11/2026 (America/Sao_Paulo), com Node.js e Chromium.
 
-- `npm test`: aprovado antes e depois das alterações. Abertura, menu, áudio, artes originais e valores impressos preservados. Séries completas do modo anterior (1793 ações) e da hierarquia (1699 ações).
-- Novo `tests/support_hand.test.js`: entrada automática com vaga, máximo de três cartas, apenas uma oferta pendente, escolha exata do espaço substituído, descarte mantendo a mão, repetição de arte com uso independente, rejeição de callbacks repetidos/índices inválidos e ausência de avanço enquanto há decisão pendente. Bônus e escudo ativados sobrevivem à troca, funcionam uma vez e não se acumulam com outra cópia do mesmo efeito.
-- `npm run test:supports`: aprovado na bancada e na arena. Recebimento sem modal automático, arte completa por clique, troca por teclado, Escape cancelando a seleção, descarte sem alterar a mão e aviso de entrada automática desaparecendo após cinco segundos. Os quatro efeitos existentes, uso único, regras pendentes e reinício continuam funcionando.
-- `npm run test:battle`: aprovado com série completa, troca e descarte pelo HUD real, uma única oferta, espera da decisão sem avançar ataques e cronômetro contínuo. Confirmados retomada dos bots, 3,2 segundos de espera, controle de um personagem, exportação, reinício, teclado, redimensionamento e toque. A decisão permanece acessível quando uma sessão de computador é reduzida para 960 px de largura.
-- Aviso compacto conferido no campo real sem interseção com cartas, ações ou painel do jogador. O campo permanece visível; a carta ampliada só abre a pedido.
-- Celular: turnos e UI anteriores preservados, com comparação das posições e dimensões em 844 × 390 contra `tests/fixtures/supports-touch-v050.json`. Nenhuma arte foi criada ou reprocessada.
+- `npm test`: aprovado antes e depois das alterações. Abertura, áudio, recursos originais, atributos impressos e mecânicas de apoio preservados. Séries anteriores com 1793 e 1699 ações mantidas.
+- `npm run test:browser`: aprovado no computador e no celular. Play abre a seleção real da batalha por mouse e Enter; é um botão nativo com foco de teclado. Seleção de Nully, oito cartas, um personagem controlado e ataque de 80 conferidos nos dois acessos. Retorno ao menu restaura a abertura obrigatória; Play só é habilitado após sua conclusão. Progresso local não é alterado.
+- Os outros nove elementos do menu de computador continuam decorativos; no celular, os dez elementos mantêm o comportamento anterior. A indicação 4×4 aparece somente no computador.
+- Verificados carregamento antes da apresentação, espera por tecla/toque, música contínua da apresentação ao menu, imagem do personagem parada dentro da divisão, ausência de favorito, animação de vitória e redimensionamento. A navegação completa encerra a página e os tocadores do menu.
+- `npm run test:battle`: aprovado com uma série inteira, hierarquia, apoios, troca/descarte, espera dos bots, pausa, pontuação, relógio, exportação, reinício, teclado e toque. O acesso direto preserva a navegação do laboratório.
+- Revisão visual: botão Play mantém a arte, o tamanho e os efeitos existentes; não foram criadas molduras ou ilustrações novas.
 
-- Os cinco ZIPs passaram na verificação de integridade e comparação com os arquivos do projeto. Só os links de navegação são adaptados nas prévias. Os pacotes de apoios e batalha foram extraídos em outra pasta e passaram novamente nos testes completos por HTTP local, sem erro JavaScript ou recurso ausente.
+- Os seis ZIPs passaram na verificação de integridade e comparação dos arquivos com o projeto. A prévia de menu e batalha inclui os recursos da apresentação e foi extraída em outra pasta; nela, `test:browser` passou novamente no computador por HTTP local, incluindo mouse, teclado, áudio, ataque e retorno. Nenhum recurso ausente ou erro JavaScript.
 
-[Escolha na bancada](previews/apoios-v0.53.0-troca.png) · [Aviso discreto na batalha](previews/batalha-v0.53.0-aviso.png)
+[Menu com Play e modo 4×4](previews/menu-v0.54.0-play.png)
 
-[Regras dos apoios](APOIOS.md) · [Arena 4×4](ARENA_4X4.md)
+[Arena 4×4](ARENA_4X4.md) · [Regras dos apoios](APOIOS.md)

@@ -1,4 +1,4 @@
-// Menu de apresentação: arte e animações originais, sem acessos a telas internas.
+// Menu original; somente Play no computador abre a batalha, após a abertura.
 (function(G){
 'use strict';
 const BASE='assets/menu-v036/';
@@ -59,6 +59,15 @@ function mount(host){
   // Use the rendered SVG edge, including its portrait letterboxing and stage scale.
   const stage=menu.querySelector('.cosmos-stage'),boundary=menu.querySelector('.cosmos-panel-boundary');
   const desktop=width>=900&&width>=height&&matchMedia('(hover: hover) and (pointer: fine)').matches;
+  // Keep the original decorative span on mobile; native button semantics on desktop.
+  menu.querySelector('.cosmos-mode strong').textContent=desktop?'4×4':'5×5';
+  const play=menu.querySelector('.cosmos-play'),tag=desktop?'BUTTON':'SPAN';
+  if(play.tagName!==tag){
+   const control=document.createElement(tag.toLowerCase());
+   control.className=play.className;control.style.cssText=play.style.cssText;control.innerHTML=play.innerHTML;
+   if(desktop){control.type='button';control.setAttribute('aria-label','Play — abrir batalha 4 contra 4');}
+   play.replaceWith(control);
+  }
   const points=desktop?'0,0 985,0 795,202 1145,162 420,1080 0,1080':PANEL_POINTS;
   boundary.setAttribute('points',points);menu.querySelector('.cosmos-divider polygon').setAttribute('points',points);
   for(const [selector,name] of [['.cosmos-shop>img','shop'],['.cosmos-deck>img','deck']])menu.querySelector(selector).src=desktop?'assets/menu-v041/'+name+'.png':BASE+name+'.webp';
@@ -80,6 +89,10 @@ function mount(host){
   const hidden=!!globalThis.document?.hidden;menu.classList.toggle('cosmos-paused',hidden);
   for(const animation of s.animations)animation[hidden?'pause':'play']?.();
  };
+ listen(menu,'click',event=>{
+  if(!event.target.closest?.('button.cosmos-play')||active!==s||G.IntroPresenter?.isActive?.()||menu.closest('[inert]'))return;
+  globalThis.location.assign('batalha.html?from=menu');
+ });
  listen(menu,'pointerdown',event=>{if(event.target.closest?.('.cosmos-decor'))G.PresentationFX?.interaction?.('click');});
  listen(menu,'pointerover',event=>{if(event.pointerType==='touch')return;const button=event.target.closest?.('.cosmos-button');if(button&&button!==s.hovered){s.hovered=button;G.PresentationFX?.interaction?.('hover');}});
  listen(menu,'pointerleave',()=>{s.hovered=null;});

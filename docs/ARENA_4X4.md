@@ -1,6 +1,6 @@
-# Arena 4×4 — estrutura de teste v0.53.0
+# Arena 4×4 — estrutura de teste v0.54.0
 
-Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
+Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. No computador, o Play do menu também abre a seleção desta arena. Nesse acesso, o link ← Menu retorna a index.html; quando aberta pelo laboratório, continua exibindo ← Laboratório. A arena não grava progresso.
 
 ## Série, rodadas e tempo
 
@@ -55,7 +55,7 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `tests/battle_lab.test.js` conserva a cobertura do modo anterior e testa rejeição de ações inválidas. `tests/speed_cycles.test.js` confere as 31 velocidades, Sarck pendente, empates, eliminados, resets, cópias recebidas, limite de três e séries completas no modo novo. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.53.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.54.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

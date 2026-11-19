@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.54.0 — Play abre a batalha
+
+- Play do computador convertido em botão nativo, com clique, Enter e Espaço, após a abertura obrigatória. Abre a seleção da arena 4×4 existente.
+- Indicação do modo atualizada para 4×4 no computador. Os demais ícones permanecem decorativos; celular preservado.
+- Acesso pelo menu oferece ← Menu na arena; acesso direto pelo laboratório preserva seu retorno anterior.
+- Prévia completa do fluxo em menu-batalha-v0.54.0.zip, com abertura, menu, batalha e recursos locais. Regras da batalha, apoios e artes mantidos.
+
 ## v0.53.0 — recebimento discreto e mão de três apoios
 
 - Substituída a tela automática de obtenção por aviso compacto junto aos apoios. Com vaga, entrada automática e aviso temporário; carta completa somente por clique.

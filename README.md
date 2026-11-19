@@ -1,14 +1,20 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.53.0 — Apoios discretos, mão de três e escolha de troca ou descarte.**
+**Versão 0.54.0 — Play do menu conectado à batalha 4×4.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.53.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.54.0.zip)
 
-[Baixar somente os apoios para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/apoios-v0.53.0.zip) — extraia tudo e abra **apoios.html**.
+[Baixar a parte alterada — menu e batalha](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/menu-batalha-v0.54.0.zip) — extraia tudo e abra **index.html**.
+
+No computador, conclua a abertura e clique em **Play** para abrir a seleção de personagem da batalha **4×4**. Escolha seu personagem e clique em **Iniciar batalha**. **← Menu** retorna à tela inicial, com sua abertura obrigatória. Play aceita mouse, Tab + Enter e Espaço. Os demais ícones e a versão de celular mantêm o comportamento anterior. A música continua da apresentação ao menu e termina ao sair dessa página.
+
+`npm run test:browser` valida o fluxo. `npm run package:menu` gera o ZIP com abertura, menu, batalha e seus recursos, sem depender do restante do laboratório.
+
+[Baixar somente os apoios para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/apoios-v0.54.0.zip) — extraia tudo e abra **apoios.html**.
 
 No computador, os personagens agem da maior para a menor velocidade impressa no topo da carta. Quando todos os vivos terminam sua vez, a ordem volta ao mais rápido e você recebe **uma carta de apoio**. Com vaga, a carta entra na mão com um aviso pequeno de cinco segundos. Com **três cartas**, use **Trocar** e clique no ícone que deseja substituir, ou **Descartar nova**. Não existe reserva de excedentes. A decisão fica junto aos apoios; a carta completa abre somente se você clicar no ícone do aviso. Cada cópia tem um uso. Sarck permanece no catálogo, mas sua entrada na batalha aguarda a regra especial de velocidade.
 
-[Baixar a batalha com a nova hierarquia](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/batalha-v0.53.0.zip) — extraia tudo e abra **batalha.html**.
+[Baixar a batalha com a nova hierarquia](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/batalha-v0.54.0.zip) — extraia tudo e abra **batalha.html**.
 
 Foram incorporadas **9 cartas completas e 10 ícones**. Obtenha até três apoios antes da série: a carta completa aparece na obtenção e o ícone menor fica na UI. Uso único por carta em toda a série, no seu turno, sem gastar o ataque, conforme confirmado.
 
@@ -22,7 +28,7 @@ No computador, o placar e o painel do jogador estão **22% menores em largura e 
 
 ## Placar do jogo
 
-[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/placar-v0.53.0.zip)
+[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/placar-v0.54.0.zip)
 
 Extraia todo o ZIP e abra **placar.html**. Inicie a série de teste e simule vitórias das equipes azul e vermelha. Ao alcançar três pontos, o relógio congela no resultado final. Reiniciar restaura 0 × 0 e 00:00.
 
@@ -32,7 +38,7 @@ O mesmo placar usa sua arte original no topo da arena de computador em **batalha
 
 ## Painel do jogador
 
-[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/painel-v0.53.0.zip)
+[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/painel-v0.54.0.zip)
 
 O painel inteiro foi reduzido em 22%, mantendo as proporções aprovadas entre personagem, ícones e barra. A composição de celular foi preservada.
 
@@ -44,9 +50,9 @@ O mesmo painel já está em **batalha.html**, no projeto completo. Vida e dano a
 
 ## Nova arena 4×4
 
-[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/batalha-v0.53.0.zip)
+[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/batalha-v0.54.0.zip)
 
-Extraia o ZIP e abra **batalha.html**. Consulte as **32 cartas** e escolha uma das 31 com velocidade definida, usando a galeria ou a busca, e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. Os botões do menu principal continuam decorativos.
+Extraia o ZIP e abra **batalha.html**. Consulte as **32 cartas** e escolha uma das 31 com velocidade definida, usando a galeria ou a busca, e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. No computador, Play abre esta seleção pelo menu; os demais ícones continuam decorativos.
 
 - Eliminar os quatro adversários concede um ponto. A primeira equipe a alcançar **3 pontos** vence a série, que pode durar até cinco rodadas.
 - Ao avançar de rodada, as equipes voltam com vida cheia. O cronômetro começa ao iniciar e continua durante pausas e intervalos até o vencedor final; então congela.
@@ -67,7 +73,7 @@ Extraia o ZIP e abra **batalha.html**. Consulte as **32 cartas** e escolha uma d
 
 Abra `apoios.html` para testar obtenção e efeitos dos apoios, `placar.html` para testar somente o placar, `painel.html` para o painel do jogador e `oponente.html` para a interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.53.0/downloads/laboratorio-v0.53.0.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.54.0/downloads/laboratorio-v0.54.0.zip)
 
 O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
 
@@ -90,7 +96,7 @@ As próximas mecânicas devem ser experimentadas aqui antes de integrar suas tel
 
 `npm run test:lab` verifica as interações no Chromium com o servidor ativo. `npm run package:lab` gera o ZIP isolado. Toda entrega inclui a parte testável e o projeto completo, ambos com a mesma versão.
 
-Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Os ícones de Play, loja, deck, ranked, perfil, moedas, configurações e modo continuam na composição visual, sem abrir telas ou iniciar ações. Os acessos no rodapé permanecem desativados.
+Esta edição mantém a abertura obrigatória, o menu ilustrado, os efeitos de entrada, as animações contínuas e o áudio. Play no computador abre a arena 4×4. Loja, deck, ranked, perfil, moedas, configurações, modo e rodapé continuam decorativos.
 
 Na v0.41.0, o menu de computador segue a nova referência enviada: divisão em zigue-zague, base circular em degradê, perfil com nível, Ranked junto à divisão, atalhos inferiores e Play amarelo. Os quatro ícones enviados foram incorporados sem alterar seus arquivos. Os elementos novos são decorativos, sem novos acessos ou sistemas de progressão.
 
@@ -100,9 +106,9 @@ A composição de celular permanece preservada, com a mesma remoção do recurso
 
 A tela de carregamento vem primeiro. Depois aparece a apresentação de GOGHOS, que aguarda qualquer tecla ou toque antes de mostrar o menu. A música começa nessa apresentação e continua no menu, sem reiniciar.
 
-Os motores antigos de batalha, draft, loja, personagens, coleção e demais telas internas foram retirados. A arena 4×4 desta versão é um experimento independente no laboratório. As versões anteriores permanecem no histórico e nas tags do repositório.
+Os motores antigos de batalha, draft, loja, personagens, coleção e demais telas internas foram retirados. A arena 4×4 continua disponível no laboratório e agora também abre pelo Play do computador. As versões anteriores permanecem no histórico e nas tags do repositório.
 
-A animação de vitória e seus recursos foram preservados como módulo de apresentação, sem acesso pelos botões do menu. Todos os 11 arquivos de áudio existentes na versão anterior foram conservados, inclusive as trilhas de combate, vitória e derrota. O menu não inicia partidas nem concede recompensas; as cartas recebidas na arena existem somente naquela sessão do laboratório.
+A animação de vitória e seus recursos foram preservados como módulo de apresentação, sem acesso pelos botões do menu. Todos os 11 arquivos de áudio existentes na versão anterior foram conservados, inclusive as trilhas de combate, vitória e derrota. O Play abre a seleção da arena no computador; o menu não concede recompensas. As cartas recebidas na arena existem somente naquela sessão de batalha.
 
 ## Testar
 
@@ -118,7 +124,8 @@ Abra <http://localhost:8000>. O comando usa Python 3; Node.js é necessário par
 2. Pressione qualquer tecla ou toque na tela quando a apresentação indicar que pode continuar.
 3. Confira o menu, as animações e a continuidade da música.
 4. Clique ou toque no personagem: a arte é decorativa e não abre seleção.
-5. Clique nos demais ícones: eles devem manter o menu aberto, sem iniciar ações internas.
+5. No computador, clique em Play: a seleção da batalha abre. Escolha um personagem e inicie a batalha 4×4. Use ← Menu para voltar.
+6. Os demais ícones devem manter o menu aberto. No celular, Play continua com o comportamento anterior.
 
 ## Validação
 
@@ -134,6 +141,6 @@ Com Playwright, pngjs e Chromium disponíveis e o servidor iniciado:
 npm run test:browser
 ```
 
-O teste percorre a abertura no computador e no celular, confere a música contínua, a ausência de acessos nos elementos do menu, a arte dentro da divisão e a animação de vitória preservada. Uma antiga preferência de favorito não altera a arte fixa nem pula a abertura.
+O teste percorre a abertura no computador e no celular, confere a música contínua, o acesso à batalha somente pelo Play do computador, os demais ícones decorativos, a arte dentro da divisão e a animação de vitória preservada. Uma antiga preferência de favorito não altera a arte fixa nem pula a abertura.
 
 [Histórico de versões](docs/HISTORICO.md) · [Validação desta entrega](docs/VALIDACAO.md)

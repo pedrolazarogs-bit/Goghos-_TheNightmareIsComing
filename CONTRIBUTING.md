@@ -5,7 +5,7 @@ Esta edição contém a abertura, o menu inicial, os módulos de apresentação 
 1. Rode `npm test` antes de alterar telas.
 2. Mantenha o código de apresentação em `js/ui/`, os estilos em `css/` e a versão em `js/config.js`.
 3. Preserve a abertura obrigatória e a espera por tecla ou toque na apresentação. A música deve continuar da apresentação para o menu sem reiniciar.
-4. Todos os elementos do menu são decorativos. O sistema de favorito foi removido na v0.42.0: não recrie seletor, troca ou preferência salva sem novo pedido. Nenhum elemento deve abrir telas, modificar progresso ou iniciar partidas.
+4. Na v0.54.0, o usuário autorizou conectar somente o Play do computador à arena 4×4. Ele abre batalha.html?from=menu após a abertura obrigatória; a arena oferece retorno ao menu. Os demais ícones continuam decorativos e o celular mantém o comportamento anterior. O sistema de favorito foi removido na v0.42.0: não recrie seletor, troca ou preferência salva sem novo pedido. O menu não modifica progresso.
 5. Use `npm run dev` para testar e `npm run test:browser` para a validação com Playwright e Chromium, quando disponíveis.
 
 O aplicativo não possui dependências de terceiros para execução. `tests/fixtures/presentation-assets.json` registra os hashes dos recursos preservados na redução para o menu. Não altere esse registro apenas para acomodar mudanças acidentais nas artes ou nos áudios.

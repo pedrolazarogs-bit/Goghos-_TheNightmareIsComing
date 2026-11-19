@@ -1,4 +1,4 @@
-// A abertura termina no menu. Não há roteador nem telas internas nesta edição.
+// A abertura obrigatória termina no menu; Play abre a arena em sua própria página.
 (function(G){
 'use strict';
 const app=document.getElementById('app');

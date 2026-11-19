@@ -1,4 +1,4 @@
-# Placar do jogo — v0.53.0
+# Placar do jogo — v0.54.0
 
 O placar no topo da arena de computador usa a arte original recebida em **84 Sem Título_20261118200516.png.zip**. As faixas azul e vermelha, o troféu e o logotipo GOGHOS Championship já fazem parte desse PNG; nenhum desses elementos foi redesenhado ou sobreposto por uma ilustração nova.
 
@@ -23,4 +23,4 @@ Abra **placar.html** para testar somente esta parte. Clique em **Iniciar série 
 
 A página usa o mesmo `js/ui/scoreboard.js` e `css/scoreboard.css` da arena. Os controles de teste ficam em `js/ui/scoreboard_preview.js`, sem importar ou alterar o combate. A prévia se ajusta a janelas estreitas para consulta; isso não altera o placar da arena de celular.
 
-`npm run test:scoreboard` testa a prévia no navegador. `npm run test:battle` confere a integração durante uma série real. `npm run package:scoreboard` gera `downloads/placar-v0.53.0.zip`; extraia tudo e abra placar.html. Apenas os links de navegação são adaptados no ZIP isolado.
+`npm run test:scoreboard` testa a prévia no navegador. `npm run test:battle` confere a integração durante uma série real. `npm run package:scoreboard` gera `downloads/placar-v0.54.0.zip`; extraia tudo e abra placar.html. Apenas os links de navegação são adaptados no ZIP isolado.
