@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v0.51.0 — cartas de apoio e efeitos definidos
+
+- Incorporados 9 PNGs de cartas completas e 10 ícones originais, com correspondência e hashes registrados. Carta completa na obtenção; ícone menor persistente na UI.
+- Preparação de até três apoios antes da série. Uso único por carta na série, na vez do jogador e sem gastar o ataque, conforme resposta do usuário.
+- Aplicados Bandeide (+70 de cura limitada ao máximo), Na Moleira (+50 no próximo ataque completo), Escudo Volátil (até 80 de bloqueio no próximo ataque recebido) e Papakill (eliminação com menos de 40 PV).
+- Seis apoios aguardam definições, sem ativação fictícia; a máscara ainda não tem carta completa.
+- Prévia exclusiva em apoios.html, com controles de vida e ataques para testar efeitos. Modelos e componentes compartilhados com a arena.
+- Preservados celular, menu, áudio, atributos impressos e dimensões aprovadas do placar e painel.
+
 ## v0.50.0 — faixas CC originais dos personagens
 
 - Incorporadas as 18 faixas enviadas, com arquivos originais, correspondência por personagem e hashes registrados.

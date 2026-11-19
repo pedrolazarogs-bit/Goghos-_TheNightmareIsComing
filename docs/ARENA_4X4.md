@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.50.0
+# Arena 4×4 — estrutura de teste v0.51.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. A arena não é carregada pelo menu principal e não grava progresso.
 
@@ -16,7 +16,7 @@ A rodada alterna Azul 1, Vermelho 1, Azul 2, Vermelho 2, e assim por diante. Eli
 
 A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. No computador, as 18 faixas CC recebidas mostram a arte completa do personagem; onde falta a faixa, aparece uma silhueta com “?”. A fila anterior de celular foi preservada. As faixas podem ser clicadas para inspeção. [Artes e correspondência](FAIXAS_PERSONAGENS.md). A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
 
-Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Nenhuma habilidade pessoal, atributo de classe, item ou efeito de apoio foi criado. Os espaços de inspeção indicam isso explicitamente.
+Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Habilidades pessoais, atributos de classe e itens ainda aguardam regras. Quatro apoios aplicam os efeitos definidos nas cartas recebidas, sem alterar os atributos impressos. Os demais apoios mostram suas pendências. [Regras e preparação](APOIOS.md).
 
 ## Campo e interface
 
@@ -25,7 +25,7 @@ Vida e dano são transcritos das cartas recebidas; multiplicadores impressos sã
 - Painel fixado no personagem do jogador no canto direito: retrato, vida, dano, fôlego e situação. A base e os ícones usam as artes recebidas na v0.48.0. Inspecionar outra carta não troca esse painel.
 - Estrela original do CardTouch, fixa junto ao painel direito, sem animação nem moldura de botão. Clique nela para consultar a habilidade principal; o conteúdo permanece fechado antes do clique.
 - Ataque básico e espaço de item no centro inferior. A habilidade principal não aparece como uma ação adicional.
-- Três espaços de apoio no canto esquerdo, sem equipar ou executar efeitos inexistentes.
+- Três espaços de apoio no canto esquerdo: carta completa ao obter na preparação e ícones pequenos na batalha. Uso único por carta em toda a série, no turno do jogador, sem gastar o ataque. As seis regras ambíguas permanecem bloqueadas.
 - CardTouch: primeiro clique no alvo mostra ATACAR, segundo abre informações e terceiro fecha. Fora de uma ação válida, o clique apenas inspeciona.
 - Opções de efeitos reduzidos, pausa, ajuda, registro, exportação e reinício. A redução de movimento do sistema também é respeitada.
 
@@ -49,7 +49,7 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `tests/battle_lab.test.js` executa uma série determinística completa e testa rejeição de ações inválidas. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.50.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.51.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

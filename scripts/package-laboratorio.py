@@ -19,6 +19,9 @@ files += [str(p.relative_to(root)) for p in sorted((root / 'assets/scoreboard-v0
 files += ['placar.html', 'css/scoreboard_preview.css', 'js/ui/scoreboard_preview.js']
 files += ['docs/FAIXAS_PERSONAGENS.md']
 files += [str(p.relative_to(root)) for p in sorted((root / 'assets/turn-order-v050').glob('*'))]
+files += ['js/lab/supports.js', 'js/ui/supports.js', 'css/supports.css', 'docs/APOIOS.md']
+files += [str(p.relative_to(root)) for p in sorted((root / 'assets/supports-v051').glob('*'))]
+files += ['apoios.html', 'css/supports_preview.css', 'js/ui/supports_preview.js']
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for name in files:
         archive.write(root / name, name)

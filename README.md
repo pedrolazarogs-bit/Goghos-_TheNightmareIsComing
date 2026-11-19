@@ -1,10 +1,16 @@
 # GOGHOS — The Nightmare Is Coming
 
-**Versão 0.50.0 — 18 faixas CC originais na fila de turnos.**
+**Versão 0.51.0 — Cartas de apoio, ícones na UI e quatro efeitos em teste.**
 
-[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.50.0.zip)
+[Baixar esta versão em ZIP](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.51.0.zip)
 
-[Baixar a prévia das alterações na arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/batalha-v0.50.0.zip) — extraia tudo e abra **batalha.html**.
+[Baixar somente os apoios para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.51.0/downloads/apoios-v0.51.0.zip) — extraia tudo e abra **apoios.html**.
+
+Foram incorporadas **9 cartas completas e 10 ícones**. Obtenha até três apoios antes da série: a carta completa aparece na obtenção e o ícone menor fica na UI. Uso único por carta em toda a série, no seu turno, sem gastar o ataque, conforme confirmado.
+
+Bandeide cura até 70 PV; Na Moleira acrescenta 50 ao próximo ataque; Escudo Volátil bloqueia até 80 do próximo ataque recebido; Papakill elimina um oponente com 1–39 PV. As outras seis regras ficam pendentes, com explicação ao clicar. A máscara ainda precisa da carta completa. [Regras, artes e pendências](docs/APOIOS.md).
+
+Na arena, use **Escolher apoios** antes de iniciar a batalha. Na prévia isolada, os controles de vida e de ataques permitem testar cada efeito rapidamente. `npm run test:supports` valida a prévia e a integração; `npm run package:supports` gera o pacote desta parte.
 
 As faixas enviadas agora aparecem em **Próximo**, **Vez atual** e **Último ataque** na arena de computador. Clique nelas para inspecionar o personagem. As 14 faixas ainda não recebidas aparecem como silhuetas com “?”. [Artes incorporadas e correspondência](docs/FAIXAS_PERSONAGENS.md).
 
@@ -12,7 +18,7 @@ No computador, o placar e o painel do jogador estão **22% menores em largura e 
 
 ## Placar do jogo
 
-[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/placar-v0.50.0.zip)
+[Baixar somente o placar para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.51.0/downloads/placar-v0.51.0.zip)
 
 Extraia todo o ZIP e abra **placar.html**. Inicie a série de teste e simule vitórias das equipes azul e vermelha. Ao alcançar três pontos, o relógio congela no resultado final. Reiniciar restaura 0 × 0 e 00:00.
 
@@ -22,7 +28,7 @@ O mesmo placar usa sua arte original no topo da arena de computador em **batalha
 
 ## Painel do jogador
 
-[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/painel-v0.50.0.zip)
+[Baixar somente o painel para testar](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.51.0/downloads/painel-v0.51.0.zip)
 
 O painel inteiro foi reduzido em 22%, mantendo as proporções aprovadas entre personagem, ícones e barra. A composição de celular foi preservada.
 
@@ -34,7 +40,7 @@ O mesmo painel já está em **batalha.html**, no projeto completo. Vida e dano a
 
 ## Nova arena 4×4
 
-[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/batalha-v0.50.0.zip)
+[Baixar somente a arena](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.51.0/downloads/batalha-v0.51.0.zip)
 
 Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a galeria ou a busca, e clique em **Iniciar batalha**. A arena também pode ser aberta pelo laboratório. Os botões do menu principal continuam decorativos.
 
@@ -43,7 +49,7 @@ Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a g
 - A ordem alterna as equipes, pula os eliminados e troca a equipe inicial a cada rodada. A coluna direita mostra próximo, atual e último atacante.
 - Clique em um oponente: primeiro clique mostra **ATACAR**, segundo abre o painel CardTouch, terceiro fecha. Na vez adversária ou ao inspecionar aliados, aparecem somente informações.
 - As cartas ficam retas. O canto direito acompanha sempre **o seu personagem**, com retrato, vida, dano, fôlego e situação. A **estrela original recebida** fica parada ao lado desse painel e mostra a habilidade principal somente ao clicar; não ocupa um espaço de ação. Os controles inferiores mostram ataque básico e item; o canto esquerdo reserva **três apoios**.
-- Habilidades pessoais, itens e apoios não foram inventados. Seus espaços abrem informações, sem conceder efeitos. **Vida e dano seguem os valores impressos**, incluindo multiplicadores. Sarck, Sheriff · verde, Vaglar · preto e Linx têm ataque “—”: aguardam regras e podem passar a vez. Não há atributos de velocidade ou classe adicionais. [Cartas, valores e pendências](docs/CARTAS_KIT.md).
+- Habilidades pessoais e itens aguardam regras. Quatro apoios aplicam os efeitos definidos nas cartas; os demais apenas mostram suas pendências. **Vida e dano seguem os valores impressos**, incluindo multiplicadores. Sarck, Sheriff · verde, Vaglar · preto e Linx têm ataque “—”: aguardam regras e podem passar a vez. Não há atributos de velocidade ou classe adicionais. [Cartas, valores e pendências](docs/CARTAS_KIT.md).
 - Você controla **um personagem** da equipe azul; os três aliados e os quatro oponentes são bots. Cada bot espera **3,2 segundos** antes de agir. Se o seu personagem for eliminado, os aliados continuam sozinhos até o fim da rodada. O controle não passa para outra carta.
 - As cartas recebidas são exibidas inteiras, sem alterações nos arquivos. A barra externa mostra a vida atual; a inspeção abre a arte ampliada.
 - Artes ainda não fornecidas aparecem como **silhuetas com “?”**. Clique nas marcações para identificar o arquivo necessário. As ilustrações, a estrela, o coração e a espada já recebidos continuam em uso. [Lista de artes pendentes](docs/ARTES_PENDENTES.md).
@@ -55,9 +61,9 @@ Extraia o ZIP e abra **batalha.html**. Escolha uma das **32 cartas**, usando a g
 
 ## Laboratório de testes
 
-Abra `placar.html` para testar somente o placar, `painel.html` para o painel do jogador e `oponente.html` para a interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
+Abra `apoios.html` para testar obtenção e efeitos dos apoios, `placar.html` para testar somente o placar, `painel.html` para o painel do jogador e `oponente.html` para a interação de clique no oponente. Abra `laboratorio.html` para testar cartas em um ambiente separado. Ele não altera o menu, a abertura, o áudio nem o progresso do jogo. Extraia todos os arquivos antes de abrir; também funciona em `http://localhost:8000/laboratorio.html` com `npm run dev`.
 
-[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.50.0/downloads/laboratorio-v0.50.0.zip)
+[Baixar somente o laboratório](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.51.0/downloads/laboratorio-v0.51.0.zip)
 
 O novo experimento **Clique no oponente** adapta o CardTouch v0.1.1 enviado, usando os PNGs recebidos e a fonte **German Beauty** original:
 

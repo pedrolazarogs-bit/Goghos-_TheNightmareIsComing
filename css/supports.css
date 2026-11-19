@@ -1,0 +1,48 @@
+/* Original support artwork; desktop arena only. The independent bench reuses these components. */
+#support-dock,.desktop-support-setup,.support-lab-entry{display:none}
+.support-art{position:relative;display:block;overflow:hidden;flex-shrink:0}
+.support-art img{position:absolute;max-width:none;object-fit:fill;height:auto;pointer-events:none}
+.support-icon-art{width:82px;aspect-ratio:1688/1997}
+.support-icon-art img{width:121.327014%;left:-10.663507%;top:-.650976%}
+.support-card-art{width:100%;max-width:278px;aspect-ratio:1002/1578}
+.support-card-art img{width:153.293413%;left:-26.646707%;top:-14.892269%}
+.support-card-missing{display:grid;place-content:center;gap:20px;text-align:center;width:100%;max-width:278px;aspect-ratio:1002/1578;background:#070a11;border:1px solid #3f4858;border-radius:10px;color:#adb7c7;font:14px system-ui}
+.support-card-missing b{font:78px 'German Beauty'}
+.support-hud-label{display:flex;justify-content:space-between;align-items:center;font:11px system-ui;letter-spacing:2px;color:#d1d6e3;margin-bottom:13px}
+.support-hud-label small{font-size:9px;letter-spacing:1px;color:#a3afc2}
+.support-hud-slots{display:flex;gap:14px;align-items:start}
+.support-dock-v051 .support-hud-slot{display:grid;justify-items:center;gap:5px;width:82px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;clip-path:none;transition:filter .15s}
+.support-dock-v051 .support-hud-slot:hover{background:none;filter:brightness(1.1)}
+.support-hud-slot small{font:9px system-ui;letter-spacing:.5px;color:#c3ccdc}
+.support-hud-slot.spent .support-art{opacity:.45}
+.support-hud-slot.armed .support-art{filter:drop-shadow(0 0 5px #b7e8f780)}
+.support-hud-slot.armed small{color:#a8f3df}
+.support-empty-art{display:grid;place-items:center;width:82px;aspect-ratio:1688/1997;background:#05070c;clip-path:polygon(50% 0,100% 37%,50% 100%,0 37%);color:#b4bac7;font:30px 'German Beauty';padding-bottom:10px}
+.support-dock-v051>p{font:9px/1.5 system-ui;color:#a3afc2;margin:10px 0 0}
+.support-catalog{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:20px 0}
+.support-catalog button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;padding:14px 6px;background:#141b29;border:1px solid #344154;border-radius:12px}
+.support-catalog button:hover{background:#202b3d}
+.support-catalog strong{font:18px 'German Beauty';text-align:center;color:#f1eadc}
+.support-catalog small{font:8px/1.5 system-ui;letter-spacing:1px;text-align:center;color:#a9b9cc}
+.support-reveal{display:grid;grid-template-columns:minmax(0,278px) minmax(0,1fr);gap:28px;align-items:center;margin:18px 0}
+.support-reveal.is-obtained .support-art{animation:support-obtained .45s ease-out both}
+@keyframes support-obtained{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.support-card-state{color:#a4edd2!important;font:10px/1.5 system-ui!important;letter-spacing:2px}
+.support-rule-note{font:11px/1.7 system-ui!important;color:#9eacc1!important}
+.support-activation{display:grid;grid-template-columns:110px minmax(0,1fr);gap:25px;align-items:center}
+.support-activation .support-icon-art{width:110px}
+.support-target-label{display:grid;gap:8px;font:12px system-ui;margin:16px 0}
+.support-target-label select{width:100%;min-width:0;background:#121b29;color:#f4eee1;border:1px solid #52627a;border-radius:7px;padding:10px;font:17px 'German Beauty'}
+#support-activation-note{color:#eed4a5}
+#battle-dialog[data-kind=support],#battle-dialog[data-kind=support-card]{width:min(780px,92vw)}
+#battle-dialog [disabled]{cursor:default;opacity:.45}
+.support-buff-note{display:block;color:#b5ecd9;font:11px/1.7 system-ui}
+@media(min-width:981px) and (pointer:fine){
+ .legacy-supports{display:none}
+ #support-dock{display:block;position:absolute;left:30px;bottom:62px;width:300px;z-index:15}
+ .desktop-support-setup{display:inline-block;margin-top:12px;font-size:18px}
+ .support-lab-entry{display:block}
+}
+@media(prefers-reduced-motion:reduce){.support-reveal.is-obtained .support-art{animation:none}}
+.reduced .support-reveal.is-obtained .support-art{animation:none}
+@media(max-width:650px){.support-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}.support-reveal{grid-template-columns:minmax(0,220px);justify-content:center;gap:14px}.support-activation{grid-template-columns:82px minmax(0,1fr);gap:16px}.support-activation .support-icon-art{width:82px}}

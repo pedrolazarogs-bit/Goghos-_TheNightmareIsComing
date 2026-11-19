@@ -1,0 +1,351 @@
+{
+  "version": "0.51.0",
+  "sources": [
+    "Photos-1-001 (6).zip",
+    "Photos-1-001 (7).zip"
+  ],
+  "files": [
+    {
+      "supportId": "bandeide",
+      "kind": "icon",
+      "file": "bandeide-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205402.png",
+      "sha256": "90e56bf61706d96bc6ba93bdc69c1221b1600b86f0f7d42e4f5b0d529b6ba9bf",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "bandeide",
+      "kind": "card",
+      "file": "bandeide-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título21_20261118210419.png",
+      "sha256": "bbd911ede0c6e2742c4a77641bfa03d6d12740a092e88b3f0c9e2be02d4b6a4a",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        78,
+        1269,
+        1813
+      ]
+    },
+    {
+      "supportId": "na-moleira",
+      "kind": "icon",
+      "file": "na-moleira-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205251.png",
+      "sha256": "313e29017b3d71e7eb10938fc41e5d6bcfe7da80b7a4746dc9c97ee95b89a453",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "na-moleira",
+      "kind": "card",
+      "file": "na-moleira-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título17_20261118210336.png",
+      "sha256": "89181476cf13b25422929db30b603f236df5e5c3ef529b1ca437c12cb48556d5",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        78,
+        1269,
+        1813
+      ]
+    },
+    {
+      "supportId": "escudo-volatil",
+      "kind": "icon",
+      "file": "escudo-volatil-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205823.png",
+      "sha256": "2b7742dd53ec3e6d088f6d51400c8a060d8111cfeb4c39947f00db2cab6870ca",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "escudo-volatil",
+      "kind": "card",
+      "file": "escudo-volatil-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título25_20261118211031.png",
+      "sha256": "f2eac8b5b86c3ca8dece38352f50beed95704466f4da78606eb5b26a815d2f0b",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "supportId": "papakill",
+      "kind": "icon",
+      "file": "papakill-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205433.png",
+      "sha256": "a7e6202352bd82de86204c805d411fbcaf5f790b9f4748375c7a6efc0112a4bb",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "papakill",
+      "kind": "card",
+      "file": "papakill-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título20_20261118210431.png",
+      "sha256": "92ff56c0c957e2e862c5f5e48aef116a24b0dd45e67165f1a98ed3d2a48b9970",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "supportId": "brisa",
+      "kind": "icon",
+      "file": "brisa-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205326.png",
+      "sha256": "a548b5f6adb95e617bf589947acf6543235513316a3c406242f19935b3dc6488",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "brisa",
+      "kind": "card",
+      "file": "brisa-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título23_20261118210353.png",
+      "sha256": "445e7c284a1031b0c098294040fc859c9302515a83ed483021a526867598b661",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "supportId": "sortudo",
+      "kind": "icon",
+      "file": "sortudo-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205531.png",
+      "sha256": "33aab0970834d566d01bcbc3fe887bfdf483830d7ffd521d5c76f0faf2c6ca87",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "sortudo",
+      "kind": "card",
+      "file": "sortudo-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título22_20261118210614.png",
+      "sha256": "1121e20e39b06b85f90fe1e6f92b75d6358fed4aab6b6ede4dc52db37c5e1531",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        235,
+        1269,
+        1813
+      ]
+    },
+    {
+      "supportId": "uma-maozinha",
+      "kind": "icon",
+      "file": "uma-maozinha-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205554.png",
+      "sha256": "56d2025cc771ffbe71a0157c71a4f515136dbe6a505c07123a0a8d0dcb3883b9",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "uma-maozinha",
+      "kind": "card",
+      "file": "uma-maozinha-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título25_20261118210658.png",
+      "sha256": "ec0f6dcb9fefc4ec9698b7837576a2309dd52b15c4e1ab03bee5003a52ad238d",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "supportId": "ultima-chance",
+      "kind": "icon",
+      "file": "ultima-chance-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205929.png",
+      "sha256": "51345dc3f5fa4929974e282341db0a5a0c0cf1b73d49bc58e8d8c9ad255e9013",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "ultima-chance",
+      "kind": "card",
+      "file": "ultima-chance-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título7_20261118211112.png",
+      "sha256": "8ef2668d6f9dd8585ad096429dbf604f2940d4509c36c019b5fbf3ee02d98e3f",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "supportId": "recruta",
+      "kind": "icon",
+      "file": "recruta-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118210130.png",
+      "sha256": "6bf54ae199a5ffbb3c174224ebb05e1e39849a2529a0793f10494ed6ecc3b637",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    },
+    {
+      "supportId": "recruta",
+      "kind": "card",
+      "file": "recruta-card.png",
+      "sourceArchive": "Photos-1-001 (7).zip",
+      "sourceFile": "52 Sem Título15_20261118211200.png",
+      "sha256": "41ce79f7a9eb5ef99d0d454f9341ca77f9cc87f2dd24b6c92e8193e13a5b4eb8",
+      "size": [
+        1536,
+        2048
+      ],
+      "alphaBounds": [
+        267,
+        236,
+        1269,
+        1812
+      ]
+    },
+    {
+      "supportId": "mascara",
+      "kind": "icon",
+      "file": "mascara-icon.png",
+      "sourceArchive": "Photos-1-001 (6).zip",
+      "sourceFile": "53 Sem Título7_20261118205452.png",
+      "sha256": "7f30185ace3c241642478670d889c2c540d7e632bf866db8c1d1c8ff375bfac8",
+      "size": [
+        2048,
+        2048
+      ],
+      "alphaBounds": [
+        180,
+        13,
+        1868,
+        2010
+      ]
+    }
+  ]
+}

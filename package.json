@@ -1,11 +1,11 @@
 {
   "name": "goghos-tcg",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "private": true,
-  "description": "GOGHOS \u2014 abertura e menu de apresenta\u00e7\u00e3o",
+  "description": "GOGHOS — abertura e menu de apresentação",
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "test": "node tests/menu_only.test.js && node tests/loading_screen.test.js && node tests/intro_presenter.test.js && node tests/soundtrack.test.js && node tests/laboratorio.test.js && node tests/battle_lab.test.js",
+    "test": "node tests/menu_only.test.js && node tests/loading_screen.test.js && node tests/intro_presenter.test.js && node tests/soundtrack.test.js && node tests/laboratorio.test.js && node tests/battle_lab.test.js && node tests/supports.test.js",
     "test:browser": "node scripts/check-menu-only-browser.js",
     "test:lab": "node scripts/check-laboratorio-browser.js && node scripts/check-opponent-browser.js",
     "package:lab": "python3 scripts/package-laboratorio.py",
@@ -14,7 +14,9 @@
     "package:panel": "python3 scripts/package-player-panel.py",
     "test:panel": "node scripts/check-player-panel-browser.js",
     "package:scoreboard": "python3 scripts/package-scoreboard.py",
-    "test:scoreboard": "node scripts/check-scoreboard-browser.js"
+    "test:scoreboard": "node scripts/check-scoreboard-browser.js",
+    "test:supports": "node scripts/check-supports-browser.js",
+    "package:supports": "python3 scripts/package-supports.py"
   },
   "engines": {
     "node": ">=20"

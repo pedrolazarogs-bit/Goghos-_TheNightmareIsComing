@@ -1,4 +1,4 @@
-# Artes pendentes — arena v0.50.0
+# Artes pendentes — arena v0.51.0
 
 As 32 cartas completas recebidas já substituem as molduras provisórias. [Lista de cartas e atributos](CARTAS_KIT.md).
 
@@ -8,10 +8,12 @@ As silhuetas com “?” marcam as peças que ainda precisam da arte definitiva.
 | --- | --- |
 | CENÁRIO DA ARENA | Fundo e piso, de preferência separados, com a perspectiva da referência. A composição de referência é 16:9. |
 | ? na ordem de ação | Faltam 14 faixas de personagens: Zeneerian, Eletric, Sheriff · roxo, Vaglar · preto, Vaglar · azul, DD-X, Rayyb, Endrik, Alex, P.ULLYS, Cavaleiro, Zikssy, Linx, Draktar. |
-| ? nos três apoios | Ícones dos apoios que serão usados, até três por equipe. |
+| ? na carta da máscara | Carta completa, nome oficial e regras; seu ícone já foi recebido. |
 | ? no item | Ícone do item ou do espaço vazio de itens. |
 
 18 faixas CC já foram recebidas e aplicadas à fila de turnos do computador, sem redesenho. [Correspondência dos arquivos](FAIXAS_PERSONAGENS.md).
+
+Os apoios foram recebidos na v0.51.0: 9 cartas completas e 10 ícones, com até três na UI. Os espaços vazios indicam seleção disponível; a única carta de apoio sem arte completa é a máscara. [Efeitos e regras pendentes](APOIOS.md).
 
 O placar foi recebido na v0.49.0: faixas, troféu e logotipo estão no PNG original e já são usados na arena de computador. [Detalhes](PLACAR.md).
 
