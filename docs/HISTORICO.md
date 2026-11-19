@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v0.53.0 — recebimento discreto e mão de três apoios
+
+- Substituída a tela automática de obtenção por aviso compacto junto aos apoios. Com vaga, entrada automática e aviso temporário; carta completa somente por clique.
+- Mão cheia oferece Trocar e escolha de um dos três ícones, ou Descartar nova. Removida a reserva de excedentes; uma única oferta aguarda a decisão antes do próximo turno.
+- Cada cópia continua com uso único. Trocar uma carta ativada preserva seu efeito até o ataque correspondente, sem duplicação.
+- Bancada com Simular fim do ciclo para testar os dois caminhos, teclado e Escape. Mantidos celular, menu, velocidade, atributos, placar, painel e PNGs originais.
+
 ## v0.52.0 — velocidade das cartas e apoio por reset
 
 - Ordem de computador baseada nas 31 velocidades impressas, da maior para a menor, com eliminados ignorados e desempate estável por equipe/posição. Sarck permanece consultável, aguardando sua regra especial.

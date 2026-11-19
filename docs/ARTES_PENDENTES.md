@@ -1,4 +1,4 @@
-# Artes pendentes — arena v0.52.0
+# Artes pendentes — arena v0.53.0
 
 As 32 cartas completas recebidas já substituem as molduras provisórias. [Lista de cartas e atributos](CARTAS_KIT.md).
 

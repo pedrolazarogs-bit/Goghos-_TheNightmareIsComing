@@ -1,4 +1,4 @@
-# Painel do jogador — v0.52.0
+# Painel do jogador — v0.53.0
 
 O painel inferior direito da arena segue a composição enviada em **Photos-1-001 (4).zip**: retrato atrás da base preta, faixa vermelha de vida, coração à direita, dano com espada abaixo e losango de fôlego sobre a faixa. A estrela da habilidade principal permanece fixa ao lado; suas informações abrem por clique. A fonte é German Beauty, já usada no jogo.
 
@@ -35,6 +35,6 @@ Abra **painel.html** para testar somente esta parte. Escolha uma das 32 cartas, 
 
 `js/ui/player_panel.js` e `css/player_panel.css` são compartilhados entre a prévia e `batalha.html`. Portanto, as duas páginas mostram a mesma implementação. `js/ui/player_panel_preview.js` contém apenas os controles da prévia.
 
-Use `npm run test:panel` com o servidor ativo para verificar valores extremos, recursos, cliques, teclado e enquadramento. `npm run package:panel` gera `downloads/painel-v0.52.0.zip`; extraia tudo e abra painel.html. Apenas os links de navegação são adaptados no ZIP isolado, pois o restante do laboratório não acompanha esse pacote.
+Use `npm run test:panel` com o servidor ativo para verificar valores extremos, recursos, cliques, teclado e enquadramento. `npm run package:panel` gera `downloads/painel-v0.53.0.zip`; extraia tudo e abra painel.html. Apenas os links de navegação são adaptados no ZIP isolado, pois o restante do laboratório não acompanha esse pacote.
 
 O menu, sua composição de celular, a abertura obrigatória e o áudio não receberam alterações. O painel fica no laboratório independente.

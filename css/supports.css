@@ -46,5 +46,22 @@
 @media(prefers-reduced-motion:reduce){.support-reveal.is-obtained .support-art{animation:none}}
 .reduced .support-reveal.is-obtained .support-art{animation:none}
 @media(max-width:650px){.support-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}.support-reveal{grid-template-columns:minmax(0,220px);justify-content:center;gap:14px}.support-activation{grid-template-columns:82px minmax(0,1fr);gap:16px}.support-activation .support-icon-art{width:82px}}
-.support-hud-label .support-rewards-trigger{font:8px/1.2 system-ui;letter-spacing:.3px;padding:2px 4px;background:none;border:1px solid #e5cf9e70;border-radius:4px;color:#f0daac}
-#battle-dialog[data-kind=support-reward]{width:min(780px,92vw)}
+/* Receipt stays beside the HUD; full artwork opens only on request. */
+.support-receipt{margin-top:18px;padding:12px;border:1px solid #e5cf9e40;border-radius:10px;background:#151c29f2;color:#eee5d1}
+.support-receipt-top{display:flex;gap:10px;align-items:center}
+.support-receipt-top>div{min-width:0;flex:1}
+.support-receipt small{display:block;font:9px/1.4 system-ui;letter-spacing:1px;color:#b6c8d6}
+.support-receipt strong{display:block;font:21px/1.2 'German Beauty';font-weight:400;margin-top:4px}
+.support-receipt .support-receipt-art{border:0;background:none;box-shadow:none;padding:0;flex-shrink:0}
+.support-receipt-art .support-icon-art{width:34px}
+.support-receipt p{font:11px/1.5 system-ui;margin:9px 0;color:#bbc7d8}
+.support-receipt-actions{display:flex;gap:8px}
+.support-receipt-actions button{flex:1;padding:7px 5px;font:16px 'German Beauty';border:1px solid #56647a;background:#202b3b;border-radius:6px;color:#f0e4c9;white-space:nowrap}
+.support-receipt [data-dismiss-receipt]{background:none;border:0;padding:2px 4px;color:#b6c8d6;font:18px system-ui}
+.support-dock-v051 .is-replace-target .support-art{filter:drop-shadow(0 0 4px #f6d88c)}
+.support-dock-v051 .is-replace-target small{color:#f6d88c}
+@media(min-width:981px) and (pointer:fine){#support-dock .support-receipt{position:absolute;left:calc(100% + 18px);bottom:0;width:236px;margin:0}}
+/* A desktop session keeps its pending choice reachable if its window is narrowed. */
+.speed-order-session .legacy-supports{display:none}
+.speed-order-session #support-dock{display:block;position:absolute;left:30px;bottom:62px;width:300px;z-index:15}
+.speed-order-session #support-dock .support-receipt{position:absolute;left:calc(100% + 18px);bottom:0;width:236px;margin:0}
