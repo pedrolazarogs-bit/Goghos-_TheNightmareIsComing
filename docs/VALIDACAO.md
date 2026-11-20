@@ -1,16 +1,19 @@
-# Validação — v0.54.0
+# Validação da arena v0.56.0
+
+O modelo da série é idêntico ao arquivo js/lab/battle.js do ZIP enviado. O teste de navegador do pacote extraído cobre seleção duplicada, oito cartas, três modos, ataque de 25, consulta pela fila e pausa. As cartas mostram a vida do modelo da partida.
+
+[Captura da arena](previews/arena-original-v0.56.0.png)
+
+# Validação — v0.55.0
 
 Revisão em 19/11/2026 (America/Sao_Paulo), com Node.js e Chromium.
 
-- `npm test`: aprovado antes e depois das alterações. Abertura, áudio, recursos originais, atributos impressos e mecânicas de apoio preservados. Séries anteriores com 1793 e 1699 ações mantidas.
-- `npm run test:browser`: aprovado no computador e no celular. Play abre a seleção real da batalha por mouse e Enter; é um botão nativo com foco de teclado. Seleção de Nully, oito cartas, um personagem controlado e ataque de 80 conferidos nos dois acessos. Retorno ao menu restaura a abertura obrigatória; Play só é habilitado após sua conclusão. Progresso local não é alterado.
-- Os outros nove elementos do menu de computador continuam decorativos; no celular, os dez elementos mantêm o comportamento anterior. A indicação 4×4 aparece somente no computador.
-- Verificados carregamento antes da apresentação, espera por tecla/toque, música contínua da apresentação ao menu, imagem do personagem parada dentro da divisão, ausência de favorito, animação de vitória e redimensionamento. A navegação completa encerra a página e os tocadores do menu.
-- `npm run test:battle`: aprovado com uma série inteira, hierarquia, apoios, troca/descarte, espera dos bots, pausa, pontuação, relógio, exportação, reinício, teclado e toque. O acesso direto preserva a navegação do laboratório.
-- Revisão visual: botão Play mantém a arte, o tamanho e os efeitos existentes; não foram criadas molduras ou ilustrações novas.
+- `npm test`: modelo, recursos originais e regras anteriores aprovados. Nova cobertura das 32 cartas, vida zero, cura limitada, multiplicador com bônus único, efeito preservado após trocar o apoio, consumo e restauração de rodada. A apresentação não altera o estado da batalha.
+- `npm run test:battle`: série completa aprovada, comparando os números das oito artes com o estado após as ações e na próxima rodada. Carta ampliada também mostra a vida atual. Hierarquia, apoios, pontuação, teclado, tempo de bot, pausa, exportação e reinício preservados.
+- `npm run test:supports`: prévia e integração aprovadas. Nully mostra 130 na carta, na inspeção e no painel com Na Moleira; após atacar, volta a 80 e a vida de Penxy passa de 500 a 370. Cura, escudo e Papakill mantêm seus testes anteriores.
+- Revisão visual das 32 artes: encaixes próprios para números e multiplicadores, com a fonte original e as cores do fundo. Arquivos PNG preservados. Campo e carta ampliada usam a mesma proporção da arte.
+- Regressão do celular aprovada: sem a camada nova; geometria do painel, apoios, fila e placar preservada. O modelo anterior mantém seus resultados.
 
-- Os seis ZIPs passaram na verificação de integridade e comparação dos arquivos com o projeto. A prévia de menu e batalha inclui os recursos da apresentação e foi extraída em outra pasta; nela, `test:browser` passou novamente no computador por HTTP local, incluindo mouse, teclado, áudio, ataque e retorno. Nenhum recurso ausente ou erro JavaScript.
 
-[Menu com Play e modo 4×4](previews/menu-v0.54.0-play.png)
 
-[Arena 4×4](ARENA_4X4.md) · [Regras dos apoios](APOIOS.md)
+[Arena 4×4](ARENA_4X4.md) · [Cartas e valores](CARTAS_KIT.md)

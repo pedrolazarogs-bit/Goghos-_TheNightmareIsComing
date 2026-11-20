@@ -1,0 +1,20 @@
+/* Artwork occupies the supplied arena's existing controls and hit areas. */
+.original-card{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.combat-card .slot-gem{width:22%;top:calc(50% - 100px);background:transparent;clip-path:none}
+.team.red .slot-gem{top:calc(50% - 88px)}
+.slot-gem:before{inset:0;clip-path:none;background:url('../assets/menu-v036/star.webp') center/contain no-repeat}
+.combat-card.target-ready{filter:drop-shadow(0 0 5px var(--gold))}
+.championship:before{content:'';position:absolute;left:0;top:0;width:320px;height:121px;background:url('../assets/scoreboard-v049/scoreboard.png') -36px -250px/392px 392px no-repeat}
+.champion-emblem,.championship-title,.score-ribbon:before,.score-ribbon span{display:none}
+.championship .score-ribbon{top:63px;width:60px;height:40px;padding:0;justify-content:center;background:none;clip-path:none}
+.championship .score-ribbon.blue{left:40px}.championship .score-ribbon.red{right:40px}
+.score-ribbon strong{font-size:35px}
+.queue-card:has(.q-art){background:none;clip-path:none;overflow:hidden}
+.queue-card:has(.q-art):before,.queue-card:has(.q-art) .q-star{display:none}
+.queue-card .q-art{right:0;bottom:auto;top:-9%;width:100%;height:auto;pointer-events:none}
+.queue-card span{z-index:1;left:5%;top:auto;bottom:2px}
+.inspector-sheet{background:transparent url('../assets/player-panel-v048/panel-base.png') center/100% 100% no-repeat;clip-path:none}
+.stat-life{background:transparent;clip-path:none}
+.stat-life i{clip-path:inset(0 calc((1 - var(--f))*100%) 0 0);background:url('../assets/player-panel-v048/health-bar.png') center/100% 100% no-repeat;transform:none}
+.stat-life:before,.stat-life:after{display:none}
+.stat-detail img{filter:none}

@@ -1,8 +1,10 @@
-# Cartas recebidas — atributos revisados na v0.52.0
+# Cartas recebidas — valores em partida na v0.55.0
 
 Os dois arquivos KitCharacters.rar e KitCharacters2.rar contêm 32 PNGs completos, com transparência e resolução de 1536 × 2048. Os arquivos foram incorporados sem recortar, redesenhar ou recomprimir. O manifesto em assets/characters-v047/manifest.json registra origem, nome do arquivo e SHA-256.
 
-O catálogo mantém as 32 cartas, usando a busca ou o seletor. No computador, 31 cartas têm velocidade definida e podem iniciar a batalha; Sarck aguarda sua regra especial. Uma prévia ampliada mostra a carta inteira. No campo, a barra abaixo da imagem indica a vida atual; os números impressos na arte permanecem intactos.
+O catálogo mantém as 32 cartas, usando a busca ou o seletor. No computador, 31 cartas têm velocidade definida e podem iniciar a batalha; Sarck aguarda sua regra especial. Uma prévia ampliada mostra a carta inteira. No computador, o campo e a inspeção ampliada exibem vida atual diretamente sobre os números impressos. Dano, cura, eliminação e restauração de rodada atualizam essa camada. O ataque mantém seu multiplicador quando não há bônus; com Na Moleira, mostra o total acrescido de 50, uma única vez por ataque (Sam: 70 × 6 + 50 = 470). Após o uso, volta ao valor normal. O painel e CardTouch acompanham o bônus. Ataques indefinidos mantêm o traço original. O catálogo e o celular preservam a apresentação anterior.
+
+`js/ui/card_values.js` usa coordenadas específicas das 32 artes, a fonte original do jogo e as duas cores do fundo sob os dígitos. As camadas seguem o mesmo enquadramento proporcional da imagem, inclusive no retrato que usa a carta completa. Nenhum PNG foi editado; os valores de base do catálogo também não são modificados. Fôlego e velocidade permanecem nos valores atuais, sem criar regras de consumo ou bônus.
 
 ## Atributos aplicados
 
@@ -57,4 +59,4 @@ A estrela principal continua fixa e consultável por clique. Efeitos de habilida
 
 Os cinco retratos isolados já recebidos são preservados. Para os demais personagens, a própria carta é exibida nos espaços de retrato, até recebermos ilustrações separadas.
 
-O menu e a versão de celular do jogo não foram alterados. As cartas entram exclusivamente no experimento de batalha do laboratório.
+O menu e a versão de celular do jogo não foram alterados. A arena continua disponível pelo laboratório e pelo Play do computador.

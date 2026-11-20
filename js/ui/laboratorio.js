@@ -33,8 +33,16 @@ for(const type of ['move','damage','heal'])$(type).addEventListener('click',()=>
 $('inspect').addEventListener('click',()=>{flush();inspect(state.selected);});
 $('reset').addEventListener('click',()=>{cancel();$('details').close();state=model.create();$('amount').value='25';model.record(state,'reinício','Mesa restaurada: três cartas com 100 PV.');render();announce();});
 $('clear').addEventListener('click',()=>{flush();model.act(state,'clear');render();$('status').textContent='Registro limpo.';});
-$('export').addEventListener('click',()=>{flush();render();const blob=new Blob([JSON.stringify({version:'0.54.0',...state,opponent:window.GoghosOpponentLab?.snapshot()},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='goghos-laboratorio-0.54.0.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('status').textContent='Registro exportado.';});
+$('export').addEventListener('click',()=>{flush();render();const blob=new Blob([JSON.stringify({version:'0.55.0',...state,opponent:window.GoghosOpponentLab?.snapshot()},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='goghos-laboratorio-0.55.0.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('status').textContent='Registro exportado.';});
 $('close').addEventListener('click',()=>$('details').close());
 document.addEventListener('goghos:lab-event',e=>{model.record(state,e.detail.type,e.detail.text);render();});
 model.record(state,'início','Laboratório pronto. Nenhuma alteração no jogo.');render();
 })();
+
+if(matchMedia('(min-width:981px) and (pointer:fine)').matches){
+ const link=document.querySelector('.battle-lab-link');
+ if(link){
+  link.href='arena-batalha.html';
+  link.closest('section').querySelector('.help').textContent='Monte duas equipes de quatro. Controle os dois lados, jogue contra o computador ou observe os turnos automáticos.';
+ }
+}

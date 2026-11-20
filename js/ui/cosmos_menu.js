@@ -91,7 +91,7 @@ function mount(host){
  };
  listen(menu,'click',event=>{
   if(!event.target.closest?.('button.cosmos-play')||active!==s||G.IntroPresenter?.isActive?.()||menu.closest('[inert]'))return;
-  globalThis.location.assign('batalha.html?from=menu');
+  globalThis.location.assign('arena-batalha.html?from=menu');
  });
  listen(menu,'pointerdown',event=>{if(event.target.closest?.('.cosmos-decor'))G.PresentationFX?.interaction?.('click');});
  listen(menu,'pointerover',event=>{if(event.pointerType==='touch')return;const button=event.target.closest?.('.cosmos-button');if(button&&button!==s.hovered){s.hovered=button;G.PresentationFX?.interaction?.('hover');}});

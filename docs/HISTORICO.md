@@ -1,5 +1,16 @@
 # Histórico de versões
 
+## v0.56.0 — Arena enviada com artes originais
+
+A arena de computador usa a estrutura, o modelo de turnos e os três modos de controle do ZIP recebido. Placar, cinco cartas, faixas da fila e ícones do inspetor usam os arquivos originais do GOGHOS. O Play abre essa arena.
+
+## v0.55.0 — valores ao vivo nas artes das cartas
+
+- Vida atual sobre a própria carta após dano, cura, eliminação e início de rodada, com encaixes específicos para as 32 artes.
+- Ataque considera o bônus ativo, inclusive multiplicadores e efeito preservado após troca do apoio; volta ao normal após o consumo. Mesma informação no campo, inspeção, CardTouch e painel.
+- Fonte original do jogo, PNGs e valores de base preservados. Catálogo e celular mantêm a apresentação anterior; sem novas regras de fôlego, velocidade ou habilidade.
+- Prévia isolada em batalha-v0.55.0.zip e projeto completo na mesma versão.
+
 ## v0.54.0 — Play abre a batalha
 
 - Play do computador convertido em botão nativo, com clique, Enter e Espaço, após a abertura obrigatória. Abre a seleção da arena 4×4 existente.

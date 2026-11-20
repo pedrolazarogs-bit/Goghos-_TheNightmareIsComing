@@ -1,4 +1,4 @@
-# Arena 4×4 — estrutura de teste v0.54.0
+# Arena 4×4 — estrutura de teste v0.55.0
 
 Abra `batalha.html` ou use **Abrir campo de batalha** no laboratório. No computador, o Play do menu também abre a seleção desta arena. Nesse acesso, o link ← Menu retorna a index.html; quando aberta pelo laboratório, continua exibindo ← Laboratório. A arena não grava progresso.
 
@@ -22,9 +22,11 @@ Sarck tem “—” no topo. Sua regra especial será enviada pelo usuário; nen
 
 A coluna direita mostra o próximo personagem vivo, o personagem da vez e o último que efetivamente atacou. No computador, as 18 faixas CC recebidas mostram a arte completa do personagem; onde falta a faixa, aparece uma silhueta com “?”. A fila anterior de celular foi preservada. As faixas podem ser clicadas para inspeção. [Artes e correspondência](FAIXAS_PERSONAGENS.md). A ação é revalidada no modelo: ator correto, alvo de outra equipe, ambos vivos, rodada ativa e não pausada. Um clique repetido ou callback antigo não concede outro ataque.
 
-Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Habilidades pessoais, atributos de classe e itens ainda aguardam regras. Quatro apoios aplicam os efeitos definidos nas cartas recebidas, sem alterar os atributos impressos. Os demais apoios mostram suas pendências. [Regras e preparação](APOIOS.md).
+Vida e dano são transcritos das cartas recebidas; multiplicadores impressos são aplicados ao total do ataque. O dano efetivo é limitado à vida restante do alvo. Habilidades pessoais, atributos de classe e itens ainda aguardam regras. Quatro apoios aplicam os efeitos definidos nas cartas recebidas, sem modificar os valores de base do catálogo. Os demais apoios mostram suas pendências. [Regras e preparação](APOIOS.md).
 
 ## Campo e interface
+
+Na v0.55.0, vida e ataque são atualizados sobre a arte da carta durante a partida no computador. A vida mostra o saldo após dano/cura e chega a zero na eliminação; o ataque considera Na Moleira até seu consumo, inclusive efeitos mantidos após trocar o apoio. Multiplicadores continuam explícitos sem bônus; quando há bônus, a carta mostra o total e a inspeção explica a conta. A camada também aparece na carta ampliada e no retrato que usa a carta inteira. Fôlego e velocidade não têm alterações de regra.
 
 - Campo com piso em perspectiva e cartas retas em duas profundidades. As artes faltantes usam silhuetas com “?”, conforme solicitado; as peças recebidas são preservadas.
 - Placar no computador com a arte original recebida, número de vitórias de cada equipe nas faixas coloridas e cronômetro crescente abaixo. Rodada e meta de três vitórias acompanham o relógio. Composição anterior de celular preservada. [Placar e prévia isolada](PLACAR.md).
@@ -51,11 +53,11 @@ Os diálogos de detalhes suspendem decisões automáticas enquanto estão aberto
 
 `js/lab/characters.js` contém os 32 registros de cartas, caminhos para os arquivos e atributos impressos. `assets/characters-v047/manifest.json` registra os hashes dos PNGs originais. [Lista completa](CARTAS_KIT.md).
 
-`js/lab/battle.js` contém o modelo independente. `js/ui/battle_lab.js` controla a tela e os turnos automáticos. `css/battle_lab.css` contém a composição visual. O CardTouch de `js/ui/card_touch.js` continua reutilizado; agora mostra “—” para ataque ausente, preservando os valores numéricos do experimento anterior.
+`js/lab/battle.js` contém o modelo independente. `js/ui/battle_lab.js` controla a tela e os turnos automáticos. `css/battle_lab.css` contém a composição visual. `js/ui/card_values.js` e `css/card_values.css` posicionam os números ao vivo; `attackPower` do modelo é compartilhado com o cálculo do ataque, sem mutar seus valores de base. O CardTouch de `js/ui/card_touch.js` continua reutilizado; agora mostra “—” para ataque ausente, preservando os valores numéricos do experimento anterior.
 
 `tests/battle_lab.test.js` conserva a cobertura do modo anterior e testa rejeição de ações inválidas. `tests/speed_cycles.test.js` confere as 31 velocidades, Sarck pendente, empates, eliminados, resets, cópias recebidas, limite de três e séries completas no modo novo. `npm run test:battle` percorre a interface real, usa relógio controlado para verificar uma série inteira e também testa toque.
 
-`npm run package:battle` gera `downloads/batalha-v0.54.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
+`npm run package:battle` gera `downloads/batalha-v0.55.0.zip`. A única adaptação da página no ZIP isolado é o link de retorno, que passa a abrir uma nova sessão em vez de apontar para o laboratório ausente no pacote. Todos os módulos da batalha são idênticos aos do projeto completo.
 
 ## Artes pendentes
 

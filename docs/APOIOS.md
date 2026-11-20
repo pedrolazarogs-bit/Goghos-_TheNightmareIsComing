@@ -1,4 +1,4 @@
-# Apoios — v0.54.0
+# Apoios — v0.55.0
 
 Foram recebidos **9 PNGs de cartas completas** em Photos-1-001 (7).zip e **10 PNGs de ícones** em Photos-1-001 (6).zip. A carta completa aparece na preparação do laboratório; durante a batalha, o recebimento é discreto junto ao HUD e a arte completa abre somente ao clicar no ícone do aviso. O ícone menor ocupa a UI e permanece visível após o uso. O décimo ícone, de máscara, ainda não tem carta completa nem nome oficial: sua carta usa uma marcação com “?”.
 
@@ -60,7 +60,7 @@ js/lab/supports.js contém o catálogo e as pendências. js/lab/battle.js valida
 
 A obtenção usa uma entrada curta, sem repetição e respeitando movimento reduzido. Apoios ativados não flutuam nem têm animações recorrentes.
 
-Use `npm test`, `npm run test:supports` e `npm run test:battle`. `npm run package:supports` gera downloads/apoios-v0.54.0.zip, sem depender das demais telas.
+Use `npm test`, `npm run test:supports` e `npm run test:battle`. `npm run package:supports` gera downloads/apoios-v0.55.0.zip, sem depender das demais telas.
 
 ## Correspondência das artes
 
