@@ -36,9 +36,9 @@
     el.appendChild(html('<div class="tc-badges">' + (nn ? '<span class="tc-b nerf">' + nn + '</span>' : '') + (nb ? '<span class="tc-b buff">' + nb + '</span>' : '') + '</div>'));
   }
 
-  function tap(el) {
+  function tap(el,keyboard) {
     if (st && st.el === el) {                       // segundo toque na mesma carta
-      if (st.atk && !st.pan) showPanel(); else close();
+      if (st.atk && !st.pan && !st.inline) showPanel(); else close();
       return;
     }
     close(true);
@@ -46,6 +46,7 @@
     st = { el, c, atk: !!O.isAttackTurn(c, el), rect: el.getBoundingClientRect(), scrollX, scrollY };
     el.classList.add('tc-sel'); el.setAttribute('aria-expanded','true');
     st.atk ? showButton() : showPanel();
+    if(keyboard && st.btn && O.inlineDetails)st.btn.focus({preventScroll:true});
   }
 
   function showButton() {
@@ -59,6 +60,7 @@
   }
 
   function showPanel() {
+    if(O.inlineDetails){st.inline=true;O.inlineDetails(st.c);return;}
     const c = st.c, r = st.rect, w = PW(), s = sideOf(r), a = c.ability || {};
     const hp = Math.max(0, Number(c.hp) || 0), f = Math.max(0, Math.min(1, hp / (c.maxHp || hp || 1)));
     const list = (c.status || []).map((x, i) =>
@@ -119,7 +121,7 @@
     document.addEventListener('click', e => {
       const dragged=e.detail>0 && down?.moved; down=null; if(dragged || e.button!==0)return;
       const t=e.target; if(t.closest('.tc-atk,.tc-pop'))return;
-      const el=t.closest(O.selector); el ? tap(el) : close(true);
+      const el=t.closest(O.selector); el ? tap(el,e.detail===0) : close(true);
     }, options);
     document.addEventListener('keydown', e => { if(e.key==='Escape')close(true); }, options);
     addEventListener('resize', () => close(true), options);
@@ -127,8 +129,9 @@
   }
 
   function refresh() {
+    if(st && !st.el.isConnected)close(true);
     document.querySelectorAll(O.selector).forEach(el => {
-      el.classList.add('tc-card'); el.setAttribute('aria-haspopup','dialog'); el.setAttribute('aria-expanded',String(st?.el===el));
+      el.classList.add('tc-card'); if(!O.inlineDetails)el.setAttribute('aria-haspopup','dialog'); el.setAttribute('aria-expanded',String(st?.el===el));
       badges(el);
     });
   }

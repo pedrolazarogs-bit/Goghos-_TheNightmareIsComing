@@ -1,10 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**v0.56.0 — Arena do projeto enviado com as artes originais do GOGHOS**
+**v0.57.0 — Consultas rápidas no campo de batalha**
 
 Abra **arena-batalha.html** no computador, ou use **Play** no menu. Escolha quatro integrantes de cada equipe. O seletor de controle permite jogar pelo azul, controlar os dois lados ou observar a partida automática. As cartas mostram os 100 PV iniciais e o dano básico de 25 usados pelo projeto enviado.
 
-[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.56.0/downloads/arena-original-v0.56.0.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.56.0.zip)
+Clique em uma carta ou na fila para consultar o personagem no painel da arena. Apoios, item e habilidade mostram uma indicação ao lado do botão. Ajuda e registro abrem no canto superior. Escape fecha a consulta.
+
+[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.57.0/downloads/arena-original-v0.57.0.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.57.0.zip)
 
 [Ver a arena no navegador de teste](docs/previews/arena-original-v0.56.0.png)
 

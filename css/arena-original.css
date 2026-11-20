@@ -18,3 +18,25 @@
 .stat-life i{clip-path:inset(0 calc((1 - var(--f))*100%) 0 0);background:url('../assets/player-panel-v048/health-bar.png') center/100% 100% no-repeat;transform:none}
 .stat-life:before,.stat-life:after{display:none}
 .stat-detail img{filter:none}
+
+/* Desktop information stays in the field, with small sheets only for decisions and history. */
+#arena-tip{position:fixed;z-index:9020;max-width:min(255px,80vw);padding:6px 11px;border-inline-start:3px solid #ffd77b;background:#211b32;color:#fff;border-radius:3px 9px 9px 3px;font:600 14px/1.35 system-ui;pointer-events:none}
+.compact-arena #battle-dialog{box-sizing:border-box;position:fixed;inset:clamp(64px,10vh,100px) 16px auto auto;z-index:9030;margin:0;width:min(300px,90vw);max-height:48dvh;padding:14px 16px;color:#fff;background:#201b30fa;border:1px solid #a58c70;border-top:3px solid #ffd77b;border-radius:5px 5px 13px 13px;box-shadow:0 4px 16px #170d2938}
+.compact-arena #battle-dialog::backdrop{background:transparent;backdrop-filter:none}
+.compact-arena #battle-dialog[data-kind=setup],.compact-arena #battle-dialog[data-kind=result]{inset:clamp(66px,11vh,115px) auto auto max(16px,3vw);width:min(340px,90vw);max-height:72dvh}
+.compact-arena #dialog-kicker{display:none}
+.compact-arena #battle-dialog h1{font-size:24px;margin:1px 32px 10px 0}
+.compact-arena #dialog-close{position:absolute;right:6px;top:5px;width:34px;height:34px}
+.compact-arena #dialog-body{font:14px/1.45 system-ui}
+.compact-arena #dialog-body p{margin:7px 0}
+.compact-arena #dialog-actions{gap:7px;margin-top:10px;flex-wrap:wrap}
+.compact-arena #dialog-actions:empty,.compact-arena #setup-error:empty{display:none}
+.compact-arena #dialog-actions button{font-size:17px;padding:5px 12px;box-shadow:none}
+.compact-arena .lineups{margin:9px 0;gap:12px}
+.compact-arena .lineups h3{font:700 12px system-ui;letter-spacing:.04em;margin:0}
+.compact-arena .lineups select{padding:5px 3px}
+.compact-arena .lineups label{gap:4px;margin:4px 0}
+.compact-arena .dialog-log{max-height:27dvh;overflow:auto}
+.compact-arena .result-score{font-size:38px;margin:5px 0}
+.compact-arena .match-emblem{float:right;width:54px}
+.compact-arena :is(button,select,a):focus-visible{outline:3px solid #ffe09b;outline-offset:3px}

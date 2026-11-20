@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v0.57.0 — Consultas dentro do campo
+
+No computador, cartas e fila atualizam o inspetor existente. Apoios, item e habilidade usam notas curtas. Ajuda e registro ficam na lateral, com acesso por teclado. A montagem das equipes e o resultado ocupam uma faixa compacta com o cenário visível.
+
 ## v0.56.0 — Arena enviada com artes originais
 
 A arena de computador usa a estrutura, o modelo de turnos e os três modos de controle do ZIP recebido. Placar, cinco cartas, faixas da fila e ícones do inspetor usam os arquivos originais do GOGHOS. O Play abre essa arena.
