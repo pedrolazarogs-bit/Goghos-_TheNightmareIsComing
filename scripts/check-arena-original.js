@@ -78,11 +78,18 @@ const assert=require('node:assert/strict');
   assert.match(await phone.locator('#dialog-body').innerText(),/AK-47/);
   await phone.goto(new URL('teste-vida.html',page.url()).href);
   const ribbon=phone.locator('.card-health');
+  let previousHp=100;
   for(const hp of [100,75,15,14,0,100]){
    await phone.getByRole('button',{name:hp+'%',exact:true}).tap();
    assert.equal(await ribbon.locator('text').textContent(),String(hp));
    assert.equal(await ribbon.evaluate(el=>el.classList.contains('life-critical')),hp>0&&hp<15);
-   assert(Math.abs(Number(await ribbon.locator('clipPath rect').getAttribute('x'))-654*(1-hp/100))<.001);
+   assert.equal(await ribbon.evaluate(el=>el.classList.contains('took-damage')),hp<previousHp);
+   assert.equal(await ribbon.locator('.life-track').evaluate(el=>getComputedStyle(el).fill),'rgb(66, 36, 54)');
+   assert.equal(await ribbon.locator('.damage-trail').evaluate(el=>getComputedStyle(el).fill),'rgb(255, 154, 57)');
+   previousHp=hp;
+   const masks=await ribbon.locator('clipPath rect').evaluateAll(rects=>rects.map(rect=>Number(rect.getAttribute('x'))/Number(rect.getAttribute('width'))));
+   assert.equal(masks.length,2);
+   assert(masks.every(edge=>Math.abs(edge-(1-hp/100))<.001));
   }
   await phone.close();
   await page.screenshot({path:'/tmp/arena-original-058.png'});

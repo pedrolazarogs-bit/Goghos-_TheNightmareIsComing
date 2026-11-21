@@ -169,14 +169,13 @@ function updateInspector(){
  if(panel.dataset.owner!==c.name){
   panel.dataset.owner=c.name;
   portrait.innerHTML='<img src="'+art(c)+'" alt="'+escape(c.name)+'">';
-  panel.innerHTML='<h2>'+escape(c.name)+'</h2><div class="stat-life"><i></i><strong></strong><small>PV</small><img src="assets/player-panel-v048/heart.png" alt="Vida"></div><div class="stat-def" aria-hidden="true"></div><div class="stat-detail"><b></b><img src="assets/player-panel-v048/damage.png" alt="Dano"><span>ATK</span></div><button id="inspect-selected">Detalhes</button>';
+  panel.innerHTML='<h2>'+escape(c.name)+'</h2><div class="stat-life"><span class="damage-trail" aria-hidden="true"></span><i></i><strong></strong><small>PV</small><img src="assets/player-panel-v048/heart.png" alt="Vida"></div><div class="stat-def" aria-hidden="true"></div><div class="stat-detail"><b></b><img src="assets/player-panel-v048/damage.png" alt="Dano"><span>ATK</span></div><button id="inspect-selected">Detalhes</button>';
   $('inspect-selected').addEventListener('click',()=>inspect(player().id));
   ability.innerHTML=ArenaArt.emblem(c)+'<span>HABILIDADE</span>';
   ability.setAttribute('aria-label','Habilidade de '+c.name);
  }
  const life=panel.querySelector('.stat-life');
- life.style.setProperty('--missing-hp',(100*ArenaArt.missingFraction(c))+'%');
- life.classList.toggle('life-critical',ArenaArt.isCritical(c));
+ if(ArenaArt.setMeterState(life,c))life.style.setProperty('--missing-hp',(100*ArenaArt.missingFraction(c))+'%');
  panel.querySelector('.stat-life strong').textContent=c.hp;
  panel.querySelector('.stat-detail b').textContent=c.atk;
  for(const el of document.querySelectorAll('[data-battle-card]'))el.classList.toggle('is-selected',el.dataset.battleCard===selected);
