@@ -1,7 +1,7 @@
 // Isolated 4x4 series model. No DOM, game imports, persistence or character skills.
 (function(root){
 'use strict';
-const roster=Object.freeze(['Unicorn','Sam','Sark','Nully','Mike']);
+const roster=Object.freeze(['Unicorn','Sam','Sarck','Nully','Mike']);
 const SUPPORT_LIMIT=3;
 const opposite=team=>team==='blue'?'red':'blue';
 function record(s,type,text,now){s.events.unshift({index:++s.sequence,type,text,ms:elapsed(s,now)});s.events.length=Math.min(s.events.length,1000);}

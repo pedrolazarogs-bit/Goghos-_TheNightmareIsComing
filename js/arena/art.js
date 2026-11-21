@@ -7,6 +7,11 @@ const ArenaArt=(()=>{
   ['77_20261023224039','nully',[464,1337,336,186],[473,1189,144,115]],
   ['68_20261023194147','mike',[477,1339,304,193],[441,1190,192,124]]
  ];
+ const printedAttacks=['Stardust','Steel Jaw','Steal Jaw','Katana','AK-47'];
+ function emblem(c){
+  const source='assets/characters-v047/Original-Base'+pieces[c.art][0]+'.png';
+  return '<svg viewBox="15 30 218 192" aria-hidden="true" class="ability-emblem"><g clip-path="url(#ability-emblem)"><image href="'+source+'" x="-390" y="-505" width="768" height="1024"/></g></svg>';
+ }
  function digits(box,value,life){
   const [x,y,w,h]=box;
   const edge=1212.92+.37794*x-y;
@@ -32,5 +37,5 @@ const ArenaArt=(()=>{
   const viewHeight=withHealth?2390:2048;
   return '<svg viewBox="0 0 1536 '+viewHeight+'" class="original-card" aria-hidden="true"><image width="1536" height="2048" href="assets/characters-v047/Original-Base'+file+'.png"/>'+digits(hp,c.hp,true)+digits(attack,c.atk,false)+(withHealth?healthRibbon(c):'')+'</svg>'+(withHealth?'':'<span class="slot-gem"><b>'+(c.slot+1)+'</b></span>');
  }
- return Object.freeze({card,ribbon:c=>'assets/turn-order-v050/'+pieces[c.art][1]+'.png'});
+ return Object.freeze({card,emblem,printedAttack:c=>printedAttacks[c.art],ribbon:c=>'assets/turn-order-v050/'+pieces[c.art][1]+'.png'});
 })();

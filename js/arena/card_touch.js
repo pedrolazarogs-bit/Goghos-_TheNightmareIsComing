@@ -68,7 +68,7 @@
     const p = html(
       '<div class="tc-pop" role="dialog" aria-label="' + esc(c.name) + '" style="--tcw:' + w + 'px">' +
         '<div class="tc-box"><button class="tc-close" type="button" aria-label="Fechar detalhes">×</button>' +
-          '<img class="tc-star" src="' + esc(a.icon || O.assets + 'star.png') + '" alt="">' +
+          '<div class="tc-star">'+ArenaArt.emblem(c)+'</div>' +
           '<h3 style="--i:1">' + esc(a.name) + '</h3>' +
           '<p style="--i:2">' + esc(a.text) + '</p>' +
           (list ? '<ul>' + list + '</ul>' : '') +
