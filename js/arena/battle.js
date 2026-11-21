@@ -26,10 +26,14 @@ function start(s,now,choice){
  for(const team of ['blue','red'])if(!Array.isArray(lineups[team])||lineups[team].length!==4||new Set(lineups[team]).size!==4||lineups[team].some(n=>!Number.isInteger(n)||n<0||n>=roster.length))return false;
  s.lineups={blue:[...lineups.blue],red:[...lineups.red]};s.startedAt=now;setupRound(s);record(s,'início','Série iniciada: vence quem alcançar 3 pontos.',now);return true;
 }
-function attack(s,actorId,targetId,now,controller='player'){
+function attackTarget(s,actorId,targetId,controller){
  const actor=current(s),target=s.cards.find(c=>c.id===targetId);
- if(s.phase!=='active'||s.paused||!actor||actor.id!==actorId||actor.hp<=0||!target||target.hp<=0||target.team===actor.team||!Number.isFinite(now))return null;
- if(s.singlePlayer&&actor.controller!==controller)return null;
+ if(s.phase!=='active'||s.paused||!actor||actor.id!==actorId||actor.hp<=0||!target||target.hp<=0||target.team===actor.team)return null;
+ return s.singlePlayer&&actor.controller!==controller?null:target;
+}
+function attack(s,actorId,targetId,now,controller='player'){
+ const actor=current(s),target=attackTarget(s,actorId,targetId,controller);
+ if(!target||!Number.isFinite(now))return null;
  const damage=Math.min(actor.atk,target.hp);target.hp-=damage;s.last=actor.id;s.revision++;
  const result={actor:actor.id,target:target.id,damage,defeated:target.hp===0,roundWinner:null,winner:null};
  record(s,'ataque',actor.name+' ('+actor.team+') → '+target.name+': −'+damage+' PV'+(result.defeated?' · eliminado':''),now);
@@ -42,6 +46,6 @@ function attack(s,actorId,targetId,now,controller='player'){
 }
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({roster,SUPPORT_LIMIT,create,start,current,next,attack,continueRound,pause,elapsed,opposite});
+const api=Object.freeze({roster,SUPPORT_LIMIT,create,start,current,next,attackTarget,attack,continueRound,pause,elapsed,opposite});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);

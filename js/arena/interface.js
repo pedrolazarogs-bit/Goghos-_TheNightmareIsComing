@@ -5,6 +5,7 @@ if(new URLSearchParams(location.search).get('from')==='menu'){
  const back=document.querySelector('.lab-back');back.href='index.html';back.textContent='← Menu';
 }
 let state=M.create(),selected=null,busy=false,aiTimer=null,finishTimer=null,generation=0,dialogKind='',manualPause=false,hiddenPause=false;
+let activeKatana=null;
 const compact=matchMedia('(pointer:fine) and (min-width:900px)').matches;
 document.body.classList.toggle('compact-arena',compact);
 const tip=$('arena-tip');
@@ -29,7 +30,7 @@ const alive=t=>state.cards.filter(c=>c.team===t&&c.hp>0),isAutomatic=()=>M.curre
 const format=ms=>{const seconds=Math.floor(ms/1000);return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');};
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fit(){hideTip();stage.style.setProperty('--battle-scale',String(Math.min(innerWidth/1600,innerHeight/900)));CardTouch.close();}
-function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;}
+function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;activeKatana?.abort();activeKatana=null;}
 function say(text){$('battle-message').textContent=text;}
 function closeDialog(){
  dialog.close();dialogKind='';
@@ -54,6 +55,7 @@ function showSetup(){
   const options=M.roster.map((name,i)=>'<option value="'+i+'">'+escape(name)+'</option>').join('');
   openDialog('setup','Escolha seu personagem','<label class="character-pick">Seu personagem<select id="owned-character">'+options+'</select></label><p>Você joga pela equipe azul. Três aliados e quatro adversários agem por conta própria.</p>',[{label:'Iniciar batalha',primary:true,run:()=>{
    if(!M.start(state,now(),Number($('owned-character').value)))return;
+   window.Efeitos?.prepararSom();
    selected=state.playerId;closeDialog();render();schedule();
   }}]);
 }
@@ -188,12 +190,45 @@ function inspect(id){
 }
 function perform(targetId,controller='player'){
  if(busy||state.paused||dialog.open||state.phase!=='active')return false;
- const actor=M.current(state),result=M.attack(state,actor.id,targetId,now(),controller);if(!result)return false;
- CardTouch.close();clearTimeout(aiTimer);busy=true;const ticket=++generation;render();
- const target=document.querySelector('[data-battle-card="'+result.target+'"]'),source=document.querySelector('[data-battle-card="'+result.actor+'"]');
- if(!reduced){source?.animate([{transform:'translateY(0)'},{transform:'translateY(-20px) scale(1.06)'},{transform:'translateY(0)'}],{duration:420,easing:'ease-out'});target?.animate([{filter:'brightness(2)'},{filter:'brightness(1)'}],{duration:450});const n=document.createElement('span');n.className='damage-number';n.textContent='−'+result.damage;target?.append(n);setTimeout(()=>n.remove(),850);}
- say((result.defeated?'Eliminado! ':'')+'−'+result.damage+' PV em '+state.cards.find(c=>c.id===targetId).name);
- finishTimer=setTimeout(()=>{if(ticket!==generation)return;busy=false;selected=state.playerId||M.current(state)?.id||selected;render();if(state.phase==='round-end'||state.phase==='finished')showResult();else schedule();},reduced?200:650);
+ const actor=M.current(state),victim=M.attackTarget(state,actor?.id,targetId,controller);
+ if(!victim)return false;
+ const target=document.querySelector('[data-battle-card="'+targetId+'"]');
+ const source=document.querySelector('[data-battle-card="'+actor.id+'"]');
+ CardTouch.close();clearTimeout(aiTimer);busy=true;
+ const ticket=++generation;
+ let result=null;
+ const useKatana=actor.name==='Nully'&&!reduced&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&target&&window.Efeitos?.katana;
+ function impact(){
+  if(result||generation!==ticket)return;
+  result=M.attack(state,actor.id,targetId,now(),controller);
+  if(!result)return;
+  render();
+  if(!reduced){
+   if(!useKatana){
+    source?.animate([{transform:'translateY(0)'},{transform:'translateY(-20px) scale(1.06)'},{transform:'translateY(0)'}],{duration:420,easing:'ease-out'});
+    target?.animate([{filter:'brightness(2)'},{filter:'brightness(1)'}],{duration:450});
+   }
+   const number=document.createElement('span');number.className='damage-number';number.textContent='−'+result.damage;target?.append(number);setTimeout(()=>number.remove(),850);
+  }
+  say((result.defeated?'Eliminado! ':'')+'−'+result.damage+' PV em '+victim.name);
+ }
+ function finish(){
+  if(generation!==ticket)return;
+  activeKatana=null;busy=false;selected=state.playerId||M.current(state)?.id||selected;render();
+  if(state.phase==='round-end'||state.phase==='finished')showResult();else schedule();
+ }
+ if(useKatana){
+  activeKatana=new AbortController();
+  target.classList.remove('tc-hit');
+  say('Katana · '+actor.name+' → '+victim.name);
+  window.Efeitos.katana(target,{
+   tipo:victim.hp<=actor.atk?'brutal':'normal',inverter:actor.team==='red',
+   signal:activeKatana.signal,pausado:()=>state.paused||dialog.open||document.hidden,onImpacto:impact
+  }).catch(()=>impact()).then(finish);
+ }else{
+  impact();
+  finishTimer=setTimeout(finish,reduced?200:650);
+ }
  return true;
 }
 function schedule(){clearTimeout(aiTimer);aiTimer=null;if(state.phase!=='active'||state.paused||busy||dialog.open||document.hidden||!isAutomatic())return;

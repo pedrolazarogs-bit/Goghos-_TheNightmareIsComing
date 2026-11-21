@@ -95,3 +95,6 @@
 .queue-card{animation:none}
 .queue-card .queue-face{position:absolute;inset:0;pointer-events:none}
 .queue-face>*{position:absolute}
+
+/* Keep the live damage trail and number visible below the katana slices. */
+.katana-split .card-health,.katana-split .damage-number{visibility:visible}
