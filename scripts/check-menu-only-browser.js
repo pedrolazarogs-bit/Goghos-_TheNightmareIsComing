@@ -151,13 +151,13 @@ async function checkCharacter(page){
           const play=menu.locator('button.cosmos-play');
           if(input==='keyboard'){await play.focus();await page.keyboard.press('Enter');}else await play.click();
           await page.waitForURL(/batalha\.html\?from=menu$/);
-          assert.equal(await page.locator('[data-lineup]').count(),8);
+          assert.equal(await page.locator('#owned-character').count(),1);
           assert.equal(await page.locator('.lab-back').innerText(),'← Menu');
           assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),storage);
           assert.equal(await page.evaluate(()=>typeof globalThis.GOGHOS),'undefined','A página da batalha não mantém tocadores do menu.');
           await page.getByRole('button',{name:'Iniciar batalha',exact:true}).click();
           assert.equal(await page.locator('[data-battle-card]').count(),8);
-          assert.equal(await page.locator('#control option').count(),3);
+          assert.equal(await page.locator('[data-controller=bot]').count(),7);
           await page.locator('[data-battle-card="red-1"]').click();await page.locator('.tc-atk').click();
           assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().cards.find(c=>c.id==='red-1').hp),75);
           await page.locator('.lab-back').click();await page.locator('[data-act="shell-start"]:enabled').waitFor();

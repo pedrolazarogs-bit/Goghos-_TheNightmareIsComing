@@ -40,3 +40,9 @@
 .compact-arena .result-score{font-size:38px;margin:5px 0}
 .compact-arena .match-emblem{float:right;width:54px}
 .compact-arena :is(button,select,a):focus-visible{outline:3px solid #ffe09b;outline-offset:3px}
+.character-pick{display:grid;gap:5px;font:600 13px/1.4 system-ui}
+.character-pick select{width:100%;padding:8px 10px;border:1px solid #a58c70;border-radius:6px;background:#30273e;color:white;font:16px system-ui}
+.card-health{pointer-events:none}
+.control strong{color:#422543}
+.single-player-arena .team.blue{top:398px}
+.single-player-arena .team.red .combat-card.is-current:after{top:-9px}

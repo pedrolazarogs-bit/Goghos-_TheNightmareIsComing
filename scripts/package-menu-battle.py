@@ -20,7 +20,7 @@ files['arena-batalha.html'] = (root/'arena-batalha.html').read_bytes()
 files['LEIA-ME.txt'] = (f'GOGHOS — Menu e batalha v{version}\n'
     'Extraia TODO este ZIP e abra index.html. Não precisa instalar nada.\n'
     'No computador: conclua o carregamento e a apresentação, pressione uma tecla e clique em Play.\n'
-    'Monte as equipes e clique em Iniciar batalha.\n'
+    'Escolha seu personagem e clique em Iniciar batalha.\n'
     'Use ← Menu para voltar à abertura obrigatória. Play também aceita Tab + Enter ou Espaço.\n'
     'Somente Play foi conectado. Os demais ícones e a versão de celular mantêm o comportamento anterior.\n'
     'O jogo não salva progresso desta batalha.\n').encode()

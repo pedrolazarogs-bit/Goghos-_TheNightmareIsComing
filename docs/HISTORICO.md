@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v0.58.0 — Um jogador e sete bots
+
+Na arena de computador, o personagem escolhido continua pertencendo ao jogador entre rodadas. Os demais têm turnos automáticos, inclusive após a eliminação do jogador. A vida de cada carta também aparece em uma faixa angular sob sua ponta, com valor atual e coração original.
+
 ## v0.57.0 — Consultas dentro do campo
 
 No computador, cartas e fila atualizam o inspetor existente. Apoios, item e habilidade usam notas curtas. Ajuda e registro ficam na lateral, com acesso por teclado. A montagem das equipes e o resultado ocupam uma faixa compacta com o cenário visível.

@@ -18,5 +18,5 @@ out.parent.mkdir(exist_ok=True)
 with ZipFile(out,'w',ZIP_DEFLATED) as z:
     z.writestr('batalha.html',(root/'arena-batalha.html').read_text().replace('href="arena-batalha.html"','href="batalha.html"'))
     for name in files:z.write(root/name,name)
-    z.writestr('LEIA-ME.txt','GOGHOS v'+version+'\nExtraia a pasta inteira e abra batalha.html no computador. Monte duas equipes com quatro personagens diferentes e clique em Iniciar batalha.\n')
+    z.writestr('LEIA-ME.txt','GOGHOS v'+version+'\nExtraia a pasta inteira e abra batalha.html no computador. Escolha o seu personagem e clique em Iniciar batalha.\n')
 print(out)
