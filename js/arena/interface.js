@@ -74,7 +74,20 @@ function showSetup(){
  }}]);
 }
 function cardHTML(c){const active=M.current(state)?.id===c.id&&state.phase==='active';return '<button type="button" class="combat-card a'+c.art+' '+(active?'is-current ':'')+(selected===c.id?'is-selected ':'')+(c.hp===0?'dead':'')+'" data-controller="'+(c.controller||'')+'" data-battle-card="'+c.id+'" aria-label="'+escape(c.name)+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(singlePlayer?(c.id===state.playerId?', seu personagem':', bot'):'')+(active?', vez atual':'')+'">'+ArenaArt.card(c,singlePlayer)+'</button>';}
+function renderHand(){
+ const hand=state.supports.blue.slice(0,M.SUPPORT_LIMIT).filter(Boolean);
+ const slots=$('support-hand');
+ $('empty-hand').hidden=hand.length>0;
+ slots.hidden=hand.length===0;
+ slots.replaceChildren(...hand.map(card=>{
+  const icon=document.createElement('img');
+  icon.src=card.icon;
+  icon.alt=card.name;
+  return icon;
+ }));
+}
 function render(){hideTip();
+ renderHand();
  for(const team of ['blue','red']){$('team-'+team).innerHTML=state.cards.filter(c=>c.team===team).map(cardHTML).join('');$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');$(team+'-alive').textContent=alive(team).length+'/4';}
  $('round').textContent='RODADA '+state.round;$('pause').disabled=state.phase!=='active';$('pause').textContent=state.paused?'Retomar':'Pausar';document.body.classList.toggle('paused',state.paused);
  const current=M.current(state),last=state.cards.find(c=>c.id===state.last);
@@ -82,7 +95,6 @@ function render(){hideTip();
  const owner=singlePlayer?player():current;
  if(singlePlayer)$('owned-name').textContent=owner?.name||'—';
  $('action-owner').textContent=owner?owner.name.toUpperCase():'PERSONAGEM ATIVO';$('action-team').textContent=owner?'EQUIPE '+teamName(owner.team).toUpperCase():'';
- const canAct=state.phase==='active'&&!state.paused&&!busy&&!isAutomatic();$('basic').disabled=!canAct;
  $('action-hint').textContent=state.phase==='finished'?'Série encerrada.':state.paused?'Ações pausadas. O relógio continua.':busy?'Resolvendo ataque…':isAutomatic()?'O computador está escolhendo o alvo.':'Clique no oponente para escolher o alvo.';
  updateInspector();CardTouch.refresh();
  if(state.phase==='active')say(state.paused?'Ações pausadas.':busy?'Ataque em andamento…':(singlePlayer?(current.controller==='bot'?current.name+' · bot da equipe '+teamName(current.team):'Sua vez · '+current.name):current.name+' · vez da equipe '+teamName(current.team)));
@@ -105,7 +117,6 @@ function inspect(id){const c=state.cards.find(c=>c.id===id);if(!c)return;
   return;
  }
  openDialog('info',c.name+' · equipe '+teamName(c.team),'<p><b>Vida:</b> '+c.hp+' / '+c.maxHp+' PV<br><b>Dano básico:</b> '+c.atk+'<br><b>Estado:</b> '+(c.hp?'em campo':'eliminado')+'</p><p><b>Habilidade:</b> não definida nesta estrutura.<br><b>Atributos e efeitos:</b> nenhum efeito adicional configurado.</p><p>Os valores de vida e dano são provisórios para testar a arena. Não representam o balanceamento oficial do personagem.</p>',[{label:'Voltar ao campo',run:closeDialog}]);}
-function targetHint(){if($('basic').disabled)return;CardTouch.close();const actor=M.current(state);document.querySelectorAll('[data-battle-card]').forEach(el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);el.classList.toggle('target-ready',c.team!==actor.team&&c.hp>0);});say('Escolha uma carta da equipe '+teamName(M.opposite(actor.team))+' e clique em ATACAR.');document.querySelector('[data-battle-card="'+alive(M.opposite(actor.team))[0].id+'"]').focus({preventScroll:true});}
 function perform(targetId,controller='player'){
  if(busy||state.paused||dialog.open||state.phase!=='active')return false;
  const actor=M.current(state),result=M.attack(state,actor.id,targetId,now(),controller);if(!result)return false;
@@ -127,13 +138,18 @@ function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='acti
 CardTouch.init({inlineDetails:compact?inform:null,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Sem habilidade definida',text:'Somente ataque básico nesta arena de testes. Nenhuma habilidade especial ou atributo de classe foi criado.'}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&c.hp>0&&c.team!==M.current(state)?.team,onAttack:c=>perform(c.id)});
 $('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){selected=el.dataset.battleCard;updateInspector();}});
 $('queue').addEventListener('click',e=>{const el=e.target.closest('[data-inspect]');if(el)inspect(el.dataset.inspect);});
-$('basic').addEventListener('click',targetHint);
-document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click',()=>{const type=el.dataset.slot;
- if(compact){
-  const text=type==='support'?'Apoio '+el.dataset.index+' de 3 · vazio':type==='ability'?'Habilidade ainda não definida':'Nenhum item equipado';
-  note(el,text);return;
- }
- openDialog('info',type==='support'?'Apoio '+el.dataset.index+' de 3':type==='ability'?'Habilidade do personagem':'Espaço de item',type==='support'?'<p>Espaço vazio. Cada equipe poderá equipar no máximo <b>três apoios</b>.</p><p>Nenhum efeito de apoio foi criado. Este botão inspeciona a estrutura reservada para as próximas implementações.</p>':type==='ability'?'<p>Habilidade ainda não definida. Nenhuma habilidade de personagem foi inventada ou aplicada nesta arena.</p><p>O ataque básico já pode ser usado pelo botão ATACAR ou clicando em um oponente.</p>':'<p>Nenhum item equipado. Este espaço ficará reservado para itens que forem definidos e testados no laboratório.</p>',[{label:'Voltar ao campo',run:closeDialog}]);}));
+$('empty-hand').addEventListener('click',()=>{
+ const text='Mão vazia. Você pode ter até '+M.SUPPORT_LIMIT+' cartas de apoio.';
+ if(compact){note($('empty-hand'),text);return;}
+ openDialog('info','Mão de apoios','<p>'+text+'</p>',[{label:'Voltar ao campo',run:closeDialog}]);
+});
+document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click',()=>{
+ const ability=el.dataset.slot==='ability';
+ if(compact){note(el,ability?'Habilidade ainda não definida':'Nenhum item equipado');return;}
+ openDialog('info',ability?'Habilidade do personagem':'Espaço de item',
+  ability?'<p>Habilidade ainda não definida. Para o ataque básico, selecione um oponente e toque em ATACAR.</p>':'<p>Nenhum item equipado. Este espaço ficará reservado para itens que forem definidos e testados no laboratório.</p>',
+  [{label:'Voltar ao campo',run:closeDialog}]);
+}));
 $('pause').addEventListener('click',()=>{manualPause=!manualPause;setPaused();});
 $('restart').addEventListener('click',()=>{openDialog('confirm','Reiniciar a série?','<p>O placar, as equipes e o cronômetro desta sessão serão restaurados.</p>',[{label:'Continuar jogando',run:closeDialog},{label:'Reiniciar',primary:true,run:restart}]);});
 $('control')?.addEventListener('change',()=>{control=$('control').value;CardTouch.close();render();schedule();});

@@ -6,7 +6,7 @@ import json,re
 root=Path(__file__).resolve().parents[1]
 version=json.loads((root/'package.json').read_text())['version']
 out=root/'downloads'/f'arena-original-v{version}.zip'
-files=['css/arena.css','css/arena-original.css','css/card_touch.css']
+files=['assets/arena/mao-vazia.png','css/arena.css','css/arena-original.css','css/card_touch.css']
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/arena').glob('*.js'))]
 files += ['assets/menu-v036/'+name for name in ['bg.jpg','trophy.webp','star.webp','german_beauty.ttf']+[f'character-{i}.webp' for i in range(5)]]
 files += ['assets/card-touch-v044/'+n+'.png' for n in ['heart','sword','star']]
