@@ -44,7 +44,9 @@ const assert=require('node:assert/strict');
   await page.clock.runFor(4000);
   assert.equal((await snapshot()).order[(await snapshot()).cursor],'blue-1');
   assert.equal(await page.locator('#basic').count(),0);
-  assert(await page.locator('#empty-hand').isVisible());
+  assert.equal(await page.locator('#support-hand button:visible').count(),3);
+  assert.equal(await page.locator('#support-hand img[src="assets/arena/mao-vazia.png"]').count(),3);
+  assert.equal(await page.locator('#support-free').textContent(),'3/3');
   assert.equal((await snapshot()).supports.blue.length,3);
   await page.locator('[data-battle-card=red-2]').click();
   assert.equal(await page.locator('.tc-atk').count(),0);
@@ -57,7 +59,7 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#owned-name').textContent(),'Sam');
   const legible=await page.locator('[data-controller=player] .card-health').evaluate(el=>{
    const a=el.getBoundingClientRect();
-   return [...document.querySelectorAll('#empty-hand')].every(slot=>{
+   return [...document.querySelectorAll('#support-hand button')].every(slot=>{
     const b=slot.getBoundingClientRect();return a.bottom<=b.top||b.right<=a.left||b.left>=a.right;
    });
   });

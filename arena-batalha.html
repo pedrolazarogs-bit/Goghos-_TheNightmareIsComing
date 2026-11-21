@@ -3,13 +3,13 @@
 <div class="sky" aria-hidden="true"></div><div class="sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="floor-wrap" aria-hidden="true"><div class="floor"></div></div><div class="horizon" aria-hidden="true"></div><div class="hud-bar left" aria-hidden="true"></div>
 <header class="arena-header"><a href="arena-batalha.html" class="lab-back">← Nova sessão</a><label class="control">CONTROLE <select id="control"><option value="player">Azul × computador</option><option value="manual">Manual · dois lados</option><option value="auto">Automático · observar</option></select></label><div class="top-controls"><button id="help" aria-label="Como jogar">?</button><button id="motion" aria-pressed="false">Efeitos</button><button id="pause">Pausar</button><button id="restart">Reiniciar</button><button id="history">Registro</button><button id="export-battle">Exportar</button></div></header>
 <section class="championship" aria-label="Placar da série"><div class="score-ribbon blue"><span>AZUL</span><strong id="score-blue">0</strong></div><div class="score-ribbon red"><strong id="score-red">0</strong><span>VERMELHO</span></div><div id="pips-blue" class="pips blue"></div><div id="pips-red" class="pips red"></div><img class="champion-emblem" src="assets/menu-v036/trophy.webp" alt=""><div class="championship-title">GOGHOS<small>CHAMPIONSHIP</small></div><div class="clock"><span id="round">RODADA 1</span><time id="clock">00:00</time><small>PRIMEIRO A 3 VITÓRIAS</small></div></section>
-<div class="formation-label enemies"><b>EQUIPE VERMELHA</b><span id="red-alive">4/4</span></div><div class="formation-label allies"><b>EQUIPE AZUL</b><span id="blue-alive">4/4</span></div>
+<div class="formation-label enemies"><b>EQUIPE VERMELHA</b><span id="red-alive">4/4</span></div>
 <section id="battle-field" aria-label="Campo de batalha"><div id="team-red" class="team red"></div><div id="team-blue" class="team blue"></div></section>
 <aside class="turn-order" aria-label="Ordem dos turnos"><h2>Ordem de ação</h2><div id="queue"></div></aside>
 <div class="battle-message" id="battle-message" role="status" aria-live="polite">Prepare suas equipes para começar.</div>
 <section class="support-dock" aria-label="Mão de apoios">
-  <button id="empty-hand" type="button" aria-label="Mão vazia. Zero de três apoios."><img src="assets/arena/mao-vazia.png" alt=""></button>
-  <div id="support-hand" class="support-slots" hidden></div>
+  <div id="support-hand" class="support-slots"></div>
+  <div class="formation-label support-count"><b>VAGAS DE APOIO</b><span id="support-free">3/3</span></div>
 </section>
 <section class="action-dock" aria-label="Ações do personagem"><div class="dock-label"><span id="action-owner">PERSONAGEM ATIVO</span><small id="action-team">EQUIPE AZUL</small></div><div class="action-slots"><button data-slot="item"><i>+</i><span>ITEM</span><small>Não equipado</small></button><button data-slot="ability"><img src="assets/card-touch-v044/star.png" alt=""><span>HABILIDADE</span><small>Não definida</small></button></div><p id="action-hint">Clique no oponente para escolher o alvo.</p></section>
 <aside class="character-inspector" aria-label="Estatísticas do personagem selecionado"><div id="portrait"></div><div class="inspector-sheet" id="inspector"></div></aside>

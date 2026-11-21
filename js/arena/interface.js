@@ -74,21 +74,36 @@ function showSetup(){
  }}]);
 }
 function cardHTML(c){const active=M.current(state)?.id===c.id&&state.phase==='active';return '<button type="button" class="combat-card a'+c.art+' '+(active?'is-current ':'')+(selected===c.id?'is-selected ':'')+(c.hp===0?'dead':'')+'" data-controller="'+(c.controller||'')+'" data-battle-card="'+c.id+'" aria-label="'+escape(c.name)+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(singlePlayer?(c.id===state.playerId?', seu personagem':', bot'):'')+(active?', vez atual':'')+'">'+ArenaArt.card(c,singlePlayer)+'</button>';}
+const supportSlots=Array.from({length:M.SUPPORT_LIMIT},(_,index)=>{
+ const button=document.createElement('button');
+ button.type='button';
+ const icon=document.createElement('img');
+ icon.alt='';
+ button.append(icon);
+ button.addEventListener('click',()=>{
+  const card=state.supports.blue[index];
+  const text='Espaço '+(index+1)+' de '+M.SUPPORT_LIMIT+' · '+(card?.name||'vazio');
+  if(compact){note(button,text);return;}
+  openDialog('info','Mão de apoios','<p>'+escape(text)+'</p>',[{label:'Voltar ao campo',run:closeDialog}]);
+ });
+ $('support-hand').append(button);
+ return button;
+});
 function renderHand(){
- const hand=state.supports.blue.slice(0,M.SUPPORT_LIMIT).filter(Boolean);
- const slots=$('support-hand');
- $('empty-hand').hidden=hand.length>0;
- slots.hidden=hand.length===0;
- slots.replaceChildren(...hand.map(card=>{
-  const icon=document.createElement('img');
-  icon.src=card.icon;
-  icon.alt=card.name;
-  return icon;
- }));
+ const hand=state.supports.blue;
+ $('support-free').textContent=hand.filter(card=>!card).length+'/'+M.SUPPORT_LIMIT;
+ supportSlots.forEach((button,index)=>{
+  const card=hand[index];
+  const src=card?.icon||'assets/arena/mao-vazia.png';
+  const icon=button.firstElementChild;
+  if(icon.getAttribute('src')!==src)icon.setAttribute('src',src);
+  button.setAttribute('aria-label','Apoio '+(index+1)+' de '+M.SUPPORT_LIMIT+' · '+(card?.name||'vazio'));
+ });
 }
 function render(){hideTip();
  renderHand();
- for(const team of ['blue','red']){$('team-'+team).innerHTML=state.cards.filter(c=>c.team===team).map(cardHTML).join('');$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');$(team+'-alive').textContent=alive(team).length+'/4';}
+ for(const team of ['blue','red']){$('team-'+team).innerHTML=state.cards.filter(c=>c.team===team).map(cardHTML).join('');$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');}
+ $('red-alive').textContent=alive('red').length+'/4';
  $('round').textContent='RODADA '+state.round;$('pause').disabled=state.phase!=='active';$('pause').textContent=state.paused?'Retomar':'Pausar';document.body.classList.toggle('paused',state.paused);
  const current=M.current(state),last=state.cards.find(c=>c.id===state.last);
  $('queue').innerHTML=[[M.next(state),'PRÓXIMO','next'],[current,'VEZ ATUAL','current'],[last,'ÚLTIMO ATAQUE','last']].map(([c,label,role])=>'<button class="queue-card '+(c?.team||'')+' '+role+'" '+(c?'data-inspect="'+c.id+'"':'disabled')+'><img class="q-star" src="assets/card-touch-v044/star.png" alt=""><span><small>'+label+'</small>'+(c?c.name:'—')+'</span>'+(c?'<img class="q-art" src="'+ArenaArt.ribbon(c)+'" alt="">':'')+'</button>').join('');
@@ -138,11 +153,6 @@ function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='acti
 CardTouch.init({inlineDetails:compact?inform:null,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Sem habilidade definida',text:'Somente ataque básico nesta arena de testes. Nenhuma habilidade especial ou atributo de classe foi criado.'}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&c.hp>0&&c.team!==M.current(state)?.team,onAttack:c=>perform(c.id)});
 $('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){selected=el.dataset.battleCard;updateInspector();}});
 $('queue').addEventListener('click',e=>{const el=e.target.closest('[data-inspect]');if(el)inspect(el.dataset.inspect);});
-$('empty-hand').addEventListener('click',()=>{
- const text='Mão vazia. Você pode ter até '+M.SUPPORT_LIMIT+' cartas de apoio.';
- if(compact){note($('empty-hand'),text);return;}
- openDialog('info','Mão de apoios','<p>'+text+'</p>',[{label:'Voltar ao campo',run:closeDialog}]);
-});
 document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click',()=>{
  const ability=el.dataset.slot==='ability';
  if(compact){note(el,ability?'Habilidade ainda não definida':'Nenhum item equipado');return;}

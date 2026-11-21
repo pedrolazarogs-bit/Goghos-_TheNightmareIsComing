@@ -54,9 +54,6 @@
 .team.red .combat-card.tc-sel{transform:scale(1.04)}
 .team.red .combat-card.is-selected.tc-sel{transform:scale(1.14)}
 .team.red .slot-gem{top:0}
-#empty-hand,#support-hand{position:absolute;left:32px;bottom:12px;height:112px}
-#empty-hand{width:112px}
-#empty-hand img,#support-hand img{display:block;width:100%;height:100%;object-fit:contain}
-#support-hand:not([hidden]){display:flex;align-items:center;gap:4px}
-#support-hand img{width:64px}
-#support-hand[hidden],#empty-hand[hidden]{display:none}
+#support-hand{position:absolute;left:10px;bottom:12px;display:flex;align-items:center;gap:0}
+#support-hand button{position:relative;width:72px;height:84px}
+#support-hand img{display:block;width:100%;height:100%;object-fit:contain}
