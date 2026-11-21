@@ -20,22 +20,24 @@ const ArenaArt=(()=>{
    '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#19131a" font-size="'+h+'" textLength="'+Math.min(w-5,String(value).length*h*.5)+'" lengthAdjust="spacingAndGlyphs">'+value+'</text></svg>';
  }
  function healthRibbon(c){
-  // The card tip sits over the upper edge, just as in the supplied reference.
-  const ratio=Math.max(0,Math.min(1,c.hp/c.maxHp));
-  const shape='M245 2020 L364 1895 L770 2005 L1000 1910 L1190 1910 L1280 2024 L1050 2290 L492 2290 Z';
-  return '<g class="card-health" data-health="'+c.hp+'" transform="translate(0 100)" aria-hidden="true">'+
-   '<path d="'+shape+'" fill="#15121d"/>'+
-   '<path d="M1020 1935 L1185 1928 L1252 2026 L1180 2122 L1020 2110 Z" fill="#514ab6"/>'+
-   '<svg x="251" y="1900" width="'+(770*ratio)+'" height="385" overflow="hidden">'+
-   '<path d="M0 119 L110 0 L505 112 L735 12 L770 13 L764 377 L230 377 Z" fill="#98134c"/>'+
-   '<path d="M120 107 L770 151 L765 234 L170 205 Z" fill="#ff0064"/></svg>'+
-   '<text x="950" y="265" transform="translate(0 1900)" text-anchor="end" fill="white" font-size="167">'+c.hp+'</text>'+
-   '<image href="assets/player-panel-v048/heart.png" x="965" y="2014" width="160" height="154"/></g>';
+  const fraction=Math.max(0,Math.min(1,c.hp/c.maxHp));
+  // Coordinates are relative to the card tip. Both faces share the same live fill.
+  const clip='hp-fill-'+c.id;
+  const face='M0 0 L654 58 L654 144 L94 150 Z';
+  return '<g class="card-health" data-health="'+c.hp+'" transform="translate(410 2048)" aria-hidden="true">'+
+   '<path d="'+face+'" fill="#422436"/>'+
+   '<defs><clipPath id="'+clip+'"><rect width="'+(654*fraction)+'" height="150"/></clipPath></defs>'+
+   '<g clip-path="url(#'+clip+')">'+
+    '<path d="'+face+'" fill="#a0145f"/>'+
+    '<path d="M0 0 L654 58 L654 125 L55 89 Z" fill="#ff0055"/>'+
+   '</g>'+
+   '<text x="537" y="145" text-anchor="end" fill="white" font-size="160">'+c.hp+'</text>'+
+   '<image href="assets/player-panel-v048/heart.png" x="562" y="27" width="162" height="154"/></g>';
  }
  function card(c,withHealth=false){
   const [file,,hp,attack]=pieces[c.art];
-  const viewHeight=withHealth?2390:2048;
-  return '<svg viewBox="0 0 1536 '+viewHeight+'" class="original-card" aria-hidden="true"><image width="1536" height="2048" href="assets/characters-v047/Original-Base'+file+'.png"/>'+digits(hp,c.hp,true)+digits(attack,c.atk,false)+(withHealth?healthRibbon(c):'')+'</svg>'+(withHealth?'':'<span class="slot-gem"><b>'+(c.slot+1)+'</b></span>');
+  const viewHeight=withHealth?2230:2048;
+  return '<svg viewBox="0 0 1536 '+viewHeight+'" class="original-card" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><image width="1536" height="2048" href="assets/characters-v047/Original-Base'+file+'.png"/>'+digits(hp,c.hp,true)+digits(attack,c.atk,false)+(withHealth?healthRibbon(c):'')+'</svg>'+(withHealth?'':'<span class="slot-gem"><b>'+(c.slot+1)+'</b></span>');
  }
  return Object.freeze({card,emblem,printedAttack:c=>printedAttacks[c.art],ribbon:c=>'assets/turn-order-v050/'+pieces[c.art][1]+'.png'});
 })();
