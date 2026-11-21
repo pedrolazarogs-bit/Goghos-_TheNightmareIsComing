@@ -71,7 +71,12 @@
  .took-damage .damage-trail{visibility:hidden}
 }
 .control strong{color:#422543}
-.single-player-arena .team.blue{top:398px}
+/* Both rows grow from the floor so the cards and their shadows stay together. */
+.single-player-arena .team{transform-origin:left bottom}
+.single-player-arena .team.blue{left:38px;top:432px;transform:scale(1.11)}
+.single-player-arena .team.blue .combat-card+.combat-card{margin-left:-25px}
+.single-player-arena .team.red{left:688px;transform:scale(1.06)}
+.single-player-arena .formation-label.enemies{left:688px;top:304px}
 .single-player-arena .team.red .combat-card.is-current:after{top:-9px}
 
 /* Keep the tip and its contact shadow together when an opponent is inspected. */
