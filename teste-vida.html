@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GOGHOS · Teste da barra de vida</title>
+  <link rel="stylesheet" href="css/arena-original.css">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100dvh;display:grid;place-items:center;background:#171321;color:#faf7fe;font:16px/1.4 system-ui,sans-serif}
+    main{display:grid;justify-items:center;gap:12px;padding:15px;text-align:center}
+    h1{font-size:1.2rem;margin:0}
+    #card{position:relative;height:min(54dvh,385px);aspect-ratio:1536/2230}
+    fieldset{border:0;margin:0;padding:0}
+    legend{margin:0 auto 8px}
+    button{min-height:44px;padding:4px 10px;margin:2px;border:1px solid #9d89b8;border-radius:8px;background:#33283e;color:white;font:inherit}
+    button[aria-pressed=true]{background:#f3d6ff;color:#261632}
+    a{color:#e4c3fb}
+    @media(orientation:landscape) and (max-height:500px){main{grid-template-columns:auto auto;column-gap:24px}#card{grid-column:1;grid-row:1/4;height:84dvh}h1,fieldset,a{grid-column:2}}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Teste da barra de vida</h1>
+    <div id="card"></div>
+    <fieldset>
+      <legend>Vida da carta</legend>
+      <button type="button" value="100">100%</button>
+      <button type="button" value="75">75%</button>
+      <button type="button" value="15">15%</button>
+      <button type="button" value="14">14%</button>
+      <button type="button" value="0">0%</button>
+    </fieldset>
+    <a href="arena-batalha.html">Abrir a arena</a>
+  </main>
+  <script src="js/arena/art.js"></script>
+  <script>
+    const character={id:'preview',art:0,hp:14,maxHp:100,atk:25};
+    const card=document.getElementById('card');
+    const buttons=document.querySelectorAll('fieldset button');
+    card.innerHTML=ArenaArt.card(character,true);
+    function showHealth(hp){
+      character.hp=hp;
+      ArenaArt.updateHealth(card,character);
+      for(const button of buttons)button.setAttribute('aria-pressed',Number(button.value)===hp);
+    }
+    for(const button of buttons)button.addEventListener('click',()=>showHealth(Number(button.value)));
+    showHealth(character.hp);
+  </script>
+</body>
+</html>

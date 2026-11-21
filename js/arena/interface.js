@@ -57,7 +57,30 @@ function showSetup(){
    selected=state.playerId;closeDialog();render();schedule();
   }}]);
 }
-function cardHTML(c){const active=M.current(state)?.id===c.id&&state.phase==='active';return '<button type="button" class="combat-card a'+c.art+' '+(active?'is-current ':'')+(selected===c.id?'is-selected ':'')+(c.hp===0?'dead':'')+'" data-controller="'+(c.controller||'')+'" data-battle-card="'+c.id+'" aria-label="'+escape(c.name)+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(c.id===state.playerId?', seu personagem':', bot')+(active?', vez atual':'')+'">'+ArenaArt.card(c,true)+'</button>';}
+function renderTeam(team){
+ const row=$('team-'+team);
+ const cards=state.cards.filter(c=>c.team===team);
+ // Stable elements let a damage transition finish and a critical pulse continue across turns.
+ if(row.children.length!==cards.length){
+  row.replaceChildren(...cards.map(c=>{
+   const button=document.createElement('button');
+   button.type='button';
+   button.className='combat-card a'+c.art;
+   button.dataset.battleCard=c.id;
+   button.dataset.controller=c.controller;
+   button.innerHTML=ArenaArt.card(c,true);
+   return button;
+  }));
+ }
+ cards.forEach((c,i)=>{
+  const button=row.children[i],active=state.phase==='active'&&M.current(state)?.id===c.id;
+  button.classList.toggle('is-current',active);
+  button.classList.toggle('is-selected',selected===c.id);
+  button.classList.toggle('dead',c.hp===0);
+  button.setAttribute('aria-label',c.name+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(c.id===state.playerId?', seu personagem':', bot')+(active?', vez atual':''));
+  ArenaArt.updateHealth(button,c);
+ });
+}
 const supportSlots=Array.from({length:M.SUPPORT_LIMIT},(_,index)=>{
  const button=document.createElement('button');
  button.type='button';
@@ -121,7 +144,7 @@ function renderQueue(){
 }
 function render(){hideTip();
  renderHand();
- for(const team of ['blue','red']){$('team-'+team).innerHTML=state.cards.filter(c=>c.team===team).map(cardHTML).join('');$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');}
+ for(const team of ['blue','red']){renderTeam(team);$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');}
  $('red-alive').textContent=alive('red').length+'/4';
  $('round').textContent='RODADA '+state.round;$('pause').disabled=state.phase!=='active';$('pause').textContent=state.paused?'Retomar':'Pausar';document.body.classList.toggle('paused',state.paused);
  const current=M.current(state);
@@ -151,7 +174,9 @@ function updateInspector(){
   ability.innerHTML=ArenaArt.emblem(c)+'<span>HABILIDADE</span>';
   ability.setAttribute('aria-label','Habilidade de '+c.name);
  }
- panel.querySelector('.stat-life').style.setProperty('--f',String(c.hp/c.maxHp));
+ const life=panel.querySelector('.stat-life');
+ life.style.setProperty('--missing-hp',(100*ArenaArt.missingFraction(c))+'%');
+ life.classList.toggle('life-critical',ArenaArt.isCritical(c));
  panel.querySelector('.stat-life strong').textContent=c.hp;
  panel.querySelector('.stat-detail b').textContent=c.atk;
  for(const el of document.querySelectorAll('[data-battle-card]'))el.classList.toggle('is-selected',el.dataset.battleCard===selected);

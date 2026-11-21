@@ -17,7 +17,8 @@
 .stat-life{background:transparent;clip-path:none;--ribbon:polygon(0 0,100% 32%,95% 98%,14% 100%)}
 .stat-life:before,.stat-life i{display:block;inset:0;clip-path:var(--ribbon)}
 .stat-life:before{background:#422436}
-.stat-life i{background:linear-gradient(3deg,#a0145f 0 35%,#ff0055 36%);transform:none;mask-image:linear-gradient(to right,#000 calc(var(--f)*100%),transparent calc(var(--f)*100%))}
+.stat-life i{background:none;transform:none;clip-path:inset(0 0 0 var(--missing-hp,0%));transition:clip-path .42s ease-out}
+.stat-life i::before{content:'';position:absolute;inset:0;clip-path:var(--ribbon);background:linear-gradient(3deg,#a0145f 0 35%,#ff0055 36%)}
 .stat-life:after{display:none}
 .stat-detail img{filter:none}
 
@@ -45,6 +46,17 @@
 .character-pick{display:grid;gap:5px;font:600 13px/1.4 system-ui}
 .character-pick select{width:100%;padding:8px 10px;border:1px solid #a58c70;border-radius:6px;background:#30273e;color:white;font:16px system-ui}
 .card-health{pointer-events:none}
+.card-health clipPath rect{transition:x .42s ease-out}
+.life-critical{color:#ff384c;animation:critical-life-pulse .85s ease-in-out infinite alternate}
+@keyframes critical-life-pulse{from{color:#ff384c}to{color:#48ec78}}
+.card-health.life-critical .life-track{fill:color-mix(in srgb,currentColor 45%,#241a26)}
+.card-health.life-critical .life-fill path{fill:currentColor}
+.card-health.life-critical .life-fill path:first-child{fill:color-mix(in srgb,currentColor 65%,#241a26)}
+.stat-life.life-critical::before{background:color-mix(in srgb,currentColor 45%,#241a26)}
+.stat-life.life-critical i::before,.tc-hp.life-critical i{background:linear-gradient(3deg,color-mix(in srgb,currentColor 65%,#241a26) 0 35%,currentColor 36%)}
+.reduced .life-critical{animation:none}
+@media(prefers-reduced-motion:reduce){.life-critical{animation:none}.card-health clipPath rect,.stat-life i{transition:none}}
+
 .control strong{color:#422543}
 .single-player-arena .team.blue{top:398px}
 .single-player-arena .team.red .combat-card.is-current:after{top:-9px}

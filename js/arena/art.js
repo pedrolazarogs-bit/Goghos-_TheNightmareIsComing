@@ -17,17 +17,30 @@ const ArenaArt=(()=>{
   const edge=1212.92+.37794*x-y;
   const background=life?'<path fill="#cabbb5" d="M0 '+edge+' L'+w+' '+(edge+.37794*w)+' V'+h+' H0 Z"/>':'';
   return '<svg x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"><rect width="100%" height="100%" fill="#fefbeb"/>'+background+
-   '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#19131a" font-size="'+h+'" textLength="'+Math.min(w-5,String(value).length*h*.5)+'" lengthAdjust="spacingAndGlyphs">'+value+'</text></svg>';
+   '<text'+(life?' class="printed-life"':'')+' x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#19131a" font-size="'+h+'" textLength="'+Math.min(w-5,String(value).length*h*.5)+'" lengthAdjust="spacingAndGlyphs">'+value+'</text></svg>';
+ }
+ function isCritical(c){return c.hp>0 && c.hp*100<c.maxHp*15;}
+ function missingFraction(c){return 1-Math.max(0,Math.min(1,c.hp/c.maxHp));}
+ function updateHealth(element,c){
+  const ribbon=element.querySelector('.card-health');
+  if(ribbon.dataset.health===String(c.hp)&&ribbon.dataset.max===String(c.maxHp))return;
+  ribbon.dataset.health=c.hp;
+  ribbon.dataset.max=c.maxHp;
+  ribbon.classList.toggle('life-critical',isCritical(c));
+  ribbon.querySelector('clipPath rect').setAttribute('x',654*missingFraction(c));
+  ribbon.querySelector('text').textContent=String(c.hp);
+  const printed=element.querySelector('.printed-life');
+  printed.textContent=String(c.hp);
+  printed.setAttribute('textLength',Math.min(pieces[c.art][2][2]-5,String(c.hp).length*pieces[c.art][2][3]*.5));
  }
  function healthRibbon(c){
-  const fraction=Math.max(0,Math.min(1,c.hp/c.maxHp));
   // Coordinates are relative to the card tip. Both faces share the same live fill.
   const clip='hp-fill-'+c.id;
   const face='M0 0 L654 58 L654 144 L94 150 Z';
-  return '<g class="card-health" data-health="'+c.hp+'" transform="translate(410 2048)" aria-hidden="true">'+
-   '<path d="'+face+'" fill="#422436"/>'+
-   '<defs><clipPath id="'+clip+'"><rect width="'+(654*fraction)+'" height="150"/></clipPath></defs>'+
-   '<g clip-path="url(#'+clip+')">'+
+  return '<g class="card-health'+(isCritical(c)?' life-critical':'')+'" data-health="'+c.hp+'" data-max="'+c.maxHp+'" transform="translate(410 2048)" aria-hidden="true">'+
+   '<path class="life-track" d="'+face+'" fill="#422436"/>'+
+   '<defs><clipPath id="'+clip+'"><rect x="'+(654*missingFraction(c))+'" width="654" height="150"/></clipPath></defs>'+
+   '<g class="life-fill" clip-path="url(#'+clip+')">'+
     '<path d="'+face+'" fill="#a0145f"/>'+
     '<path d="M0 0 L654 58 L654 125 L55 89 Z" fill="#ff0055"/>'+
    '</g>'+
@@ -39,5 +52,5 @@ const ArenaArt=(()=>{
   const viewHeight=withHealth?2230:2048;
   return '<svg viewBox="0 0 1536 '+viewHeight+'" class="original-card" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><image width="1536" height="2048" href="assets/characters-v047/Original-Base'+file+'.png"/>'+digits(hp,c.hp,true)+digits(attack,c.atk,false)+(withHealth?healthRibbon(c):'')+'</svg>'+(withHealth?'':'<span class="slot-gem"><b>'+(c.slot+1)+'</b></span>');
  }
- return Object.freeze({card,emblem,printedAttack:c=>printedAttacks[c.art],ribbon:c=>'assets/turn-order-v050/'+pieces[c.art][1]+'.png'});
+ return Object.freeze({card,emblem,updateHealth,isCritical,missingFraction,printedAttack:c=>printedAttacks[c.art],ribbon:c=>'assets/turn-order-v050/'+pieces[c.art][1]+'.png'});
 })();

@@ -76,6 +76,14 @@ const assert=require('node:assert/strict');
   assert(await turnSlot.evaluate(el=>el===document.querySelector('#queue .current')));
   await phone.locator('[data-slot=ability]').tap();
   assert.match(await phone.locator('#dialog-body').innerText(),/AK-47/);
+  await phone.goto(new URL('teste-vida.html',page.url()).href);
+  const ribbon=phone.locator('.card-health');
+  for(const hp of [100,75,15,14,0,100]){
+   await phone.getByRole('button',{name:hp+'%',exact:true}).tap();
+   assert.equal(await ribbon.locator('text').textContent(),String(hp));
+   assert.equal(await ribbon.evaluate(el=>el.classList.contains('life-critical')),hp>0&&hp<15);
+   assert(Math.abs(Number(await ribbon.locator('clipPath rect').getAttribute('x'))-654*(1-hp/100))<.001);
+  }
   await phone.close();
   await page.screenshot({path:'/tmp/arena-original-058.png'});
   assert.deepEqual(failures,[]);

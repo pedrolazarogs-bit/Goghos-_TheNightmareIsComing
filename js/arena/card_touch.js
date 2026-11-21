@@ -74,7 +74,7 @@
           (list ? '<ul>' + list + '</ul>' : '') +
         '</div>' +
         '<div class="tc-stats">' +
-          '<div class="tc-hp" style="--f:' + f + '"><i></i><b data-n="' + hp + '">' + hp + '</b><img src="' + O.assets + 'heart.png" alt=""></div>' +
+          '<div class="tc-hp' + (ArenaArt.isCritical(c) ? ' life-critical' : '') + '" style="--f:' + f + '"><i></i><b data-n="' + hp + '">' + hp + '</b><img src="' + O.assets + 'heart.png" alt=""></div>' +
           '<div class="tc-dmg"><b data-n="' + (c.atk || 0) + '">' + (c.atk || 0) + '</b><img src="' + O.assets + 'sword.png" alt=""></div>' +
         '</div>' +
       '</div>');
