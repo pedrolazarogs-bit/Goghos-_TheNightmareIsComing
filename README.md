@@ -2,6 +2,8 @@
 
 **v0.60.1 — Animações do Penxy**
 
+[Jogar a arena no navegador](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/a51f623b938f32c5bc50e11b8e4f347cddab3e68/arena-batalha.html) · [Abrir o jogo pelo menu](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/a51f623b938f32c5bc50e11b8e4f347cddab3e68/index.html)
+
 No computador, abra **arena-batalha.html** ou entre pelo **Play**. Escolha seu personagem da equipe azul e clique em **Iniciar batalha**. Na sua vez, clique em um inimigo e use **Atacar**. Três aliados e quatro adversários jogam automaticamente. Se você for eliminado, os aliados continuam até o final da rodada. A faixa sob cada carta mostra a vida restante.
 
 Cada turno dura **25 segundos**. Quando todos os personagens vivos terminam a vez, a fila retorna ao mais rápido e você ganha um apoio. Clique no ícone para usar a carta e depois ataque. Se os três espaços estiverem ocupados, escolha qual carta trocar ou descarte a nova. Clique em qualquer personagem para consultar a ficha. Pausa, efeitos e registro ficam em **Menu**.
