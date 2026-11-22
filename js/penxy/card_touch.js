@@ -46,17 +46,23 @@
     st = { el, c, atk: !!O.isAttackTurn(c, el), rect: el.getBoundingClientRect(), scrollX, scrollY };
     el.classList.add('tc-sel'); el.setAttribute('aria-expanded','true');
     st.atk ? showButton() : showPanel();
-    if(keyboard && st.btn && O.inlineDetails)st.btn.focus({preventScroll:true});
+    if(keyboard && st.btn && O.inlineDetails)st.btn.firstElementChild.focus({preventScroll:true});
   }
 
   function showButton() {
-    const b = html('<button class="tc-atk" type="button">' + esc(O.labels.attack) + '</button>');
+    const b = html('<div class="tc-actions"><button class="tc-atk" type="button">'+esc(O.labels.attack)+'</button></div>');
+    b.firstElementChild.addEventListener('click', e => { e.stopPropagation(); attack(); });
+    if(O.canUseAbility?.(st.c)){
+      const ability=document.createElement('button');
+      ability.type='button';ability.className='tc-ability';ability.textContent=O.abilityLabel();
+      ability.onclick=e=>{e.stopPropagation();const c=O.getCard(st.el);close(true);if(O.isAttackTurn(c))O.onAbility(c);};
+      b.append(ability);
+    }
     document.body.appendChild(b); st.btn = b;
     const r = st.rect, w = b.offsetWidth, h = b.offsetHeight;
     const top = sideOf(r) === 'b' && r.top > h + 20 ? r.top - h - 12 : Math.min(r.bottom + 12, innerHeight - h - 8);
     b.style.left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8) + 'px';
     b.style.top = top + 'px';
-    b.addEventListener('click', e => { e.stopPropagation(); attack(); });
   }
 
   function showPanel() {
@@ -120,7 +126,7 @@
     document.addEventListener('pointercancel', () => { down=null; }, options);
     document.addEventListener('click', e => {
       const dragged=e.detail>0 && down?.moved; down=null; if(dragged || e.button!==0)return;
-      const t=e.target; if(t.closest('.tc-atk,.tc-pop'))return;
+      const t=e.target; if(t.closest('.tc-actions,.tc-pop'))return;
       const el=t.closest(O.selector); el ? tap(el,e.detail===0) : close(true);
     }, options);
     document.addEventListener('keydown', e => { if(e.key==='Escape')close(true); }, options);

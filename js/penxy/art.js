@@ -18,7 +18,7 @@ const ArenaArt=(()=>{
   const edge=1212.92+.37794*x-y;
   const background=life?'<path fill="#cabbb5" d="M0 '+edge+' L'+w+' '+(edge+.37794*w)+' V'+h+' H0 Z"/>':'';
   return '<svg x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"><rect width="100%" height="100%" fill="#fefbeb"/>'+background+
-   '<text'+(life?' class="printed-life"':'')+' x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#19131a" font-size="'+h+'" textLength="'+Math.min(w-5,String(value).length*h*.5)+'" lengthAdjust="spacingAndGlyphs">'+value+'</text></svg>';
+   '<text'+(life?' class="printed-life"':' class="printed-attack"')+' x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#19131a" font-size="'+h+'" textLength="'+Math.min(w-5,String(value).length*h*.5)+'" lengthAdjust="spacingAndGlyphs">'+value+'</text></svg>';
  }
  function isCritical(c){return c.hp>0 && c.hp*100<c.maxHp*15;}
  function missingFraction(c){return 1-Math.max(0,Math.min(1,c.hp/c.maxHp));}

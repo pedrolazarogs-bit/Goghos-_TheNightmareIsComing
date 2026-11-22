@@ -15,14 +15,23 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#support-hand button').count(),3);
   assert.equal(await page.locator('[data-controller=player] .card-health text').textContent(),'500');
   async function enter(){await ability.click();await page.locator('#dialog-actions button').first().click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt.target),'red-0');}
-  await enter();await ability.click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt),null);
+  await page.locator('[data-battle-card=red-0]').click();
+  assert.match(await page.locator('#card-info').innerText(),/Unicorn/);
+  await page.locator('.tc-ability').click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt.target),'red-0');
+  await ability.click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt),null);
   await enter();await page.locator('[data-battle-card=red-1]').click();assert.equal(await page.locator('.tc-atk').count(),0);
   await page.locator('[data-battle-card=red-0]').click();await page.locator('.tc-atk').click();await ready();
   const s=await page.evaluate(()=>GoghosBattle.snapshot());assert.equal(s.haunt,null);assert.equal(s.cards.find(c=>c.id==='red-0').hp,0);assert.equal(s.last,s.playerId);
-  await page.screenshot({path:'/tmp/059-penxy.png'});
-  await page.locator('#pause').click();
+  assert(!await page.locator('[data-battle-card=red-0]').isVisible());
+  const offset=await page.locator('#team-red').evaluate(row=>{
+   const boxes=[...row.querySelectorAll('button:not(.dead)')].map(el=>el.getBoundingClientRect());
+   const r=row.getBoundingClientRect();return Math.abs((boxes[0].left+boxes.at(-1).right-r.left-r.right)/2);
+  });
+  assert(offset<2,'Equipe recentralizada: '+offset);
+  await page.screenshot({path:'/tmp/060-penxy.png'});
+  await page.locator('summary').click();await page.locator('#pause').click();
   assert.equal(await page.locator('#inspector h2').textContent(),'Penxy');
-  await page.locator('#restart').click();await page.getByRole('button',{name:'Reiniciar',exact:true}).last().click();
+  await page.locator('summary').click();await page.locator('#restart').click();await page.getByRole('button',{name:'Reiniciar',exact:true}).last().click();
   await page.locator('#owned-character').selectOption({label:'Nully'});await page.getByRole('button',{name:'Iniciar batalha'}).click();
   await page.locator('[data-battle-card=red-0]').click();await page.locator('.tc-atk').click();await ready();
   assert.equal(await page.locator('[data-battle-card=red-0] .card-health text').textContent(),'75');

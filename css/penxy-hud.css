@@ -74,7 +74,6 @@
 /* Both rows grow from the floor so the cards and their shadows stay together. */
 .single-player-arena .team{transform-origin:left bottom}
 .single-player-arena .team.blue{left:38px;top:432px;transform:scale(1.11)}
-.single-player-arena .team.blue .combat-card+.combat-card{margin-left:-25px}
 .single-player-arena .team.red{left:688px;transform:scale(1.06)}
 .single-player-arena .formation-label.enemies{left:688px;top:304px}
 .single-player-arena .team.red .combat-card.is-current:after{top:-9px}
@@ -108,3 +107,34 @@
 /* Frame the portrait above the HUD; the supplied card also has a printed life total. */
 #portrait.penxy-portrait{width:278px;height:216px;bottom:92px;right:0;overflow:hidden}
 #portrait.penxy-portrait img{position:absolute;top:-68px;right:-7px;width:100%;height:auto}
+
+#arena-menu{position:relative;margin-left:auto;color:var(--ink)}
+#arena-menu summary{list-style:none;cursor:pointer;border:2px solid var(--ink);border-radius:20px;padding:6px 16px;background:#fff6d6}
+#arena-menu summary::-webkit-details-marker{display:none}
+#arena-menu .top-controls{position:absolute;right:0;top:calc(100% + 5px);width:134px;padding:8px;display:grid;gap:4px;border:1px solid #ab9674;border-radius:10px;background:#231d30}
+#arena-menu .top-controls button{text-align:left;border:0;border-radius:4px}
+#turn-time{color:#fff;font-size:23px;padding:1px 12px;background:#282136;border-radius:6px;font-variant-numeric:tabular-nums}
+#turn-time.urgent{color:#ffbd90}
+#card-info,#support-offer{position:absolute;z-index:18;color:#fff;background:#231c35f5;border-left:3px solid #ffdb85;border-radius:2px 8px 8px 2px;padding:10px 14px;font:16px/1.36 system-ui}
+#card-info{top:78px;left:24px;width:278px}
+#card-info p{margin:5px 0;color:#ffe4ac}
+#card-info strong{display:block;margin-right:25px}
+#close-info{position:absolute;right:5px;top:2px;color:#fff;font:24px system-ui}
+#support-offer{left:14px;bottom:109px;max-width:320px;pointer-events:auto}
+#support-offer button{position:static;display:block;margin-top:5px;color:#ffdc91;text-decoration:underline}
+#support-offer button[hidden]{display:none}
+#support-hand [data-status=spent] img{filter:grayscale(1);opacity:.55}
+#support-hand [data-status=armed] img{filter:drop-shadow(0 0 4px #fde793)}
+.support-preview{float:left;width:74px;height:92px;object-fit:contain;margin-right:12px}
+#dialog-actions{clear:both}
+.single-player-arena .team{justify-content:center}
+.single-player-arena .team.blue{width:525px;--card-overlap:-12.5px}
+.single-player-arena .team.red{width:462px;--card-overlap:-11px}
+.single-player-arena .team .combat-card,.single-player-arena .team .combat-card+.combat-card{margin-inline:var(--card-overlap)}
+.single-player-arena .team .combat-card.dead:not(.falling){display:none}
+.action-slots [data-slot=ability]{left:1105px;top:756px;width:138px;height:119px}
+.tc-actions{position:fixed;display:flex;z-index:9001;gap:4px}
+.tc-actions button{position:static;min-height:32px;font:600 14px/1 system-ui;letter-spacing:.01em;padding:5px 11px;border:1px solid #362739;border-radius:16px;box-shadow:0 2px 4px #22142555;cursor:pointer;animation:none}
+.tc-actions .tc-ability{color:white;background:#583c79}
+.combat-card.penxy-aura .original-card>image{filter:drop-shadow(0 0 16px #906bff)}
+.combat-card.haunt-opponent .original-card>image{filter:drop-shadow(0 0 22px #b3f4ff)}

@@ -40,7 +40,17 @@ function note(owner,text){
  tip.style.left=Math.max(8,Math.min(innerWidth-box.width-8,r.left+(r.width-box.width)/2))+'px';
  tip.style.top=(r.top>=box.height+16?r.top-box.height-8:Math.min(innerHeight-box.height-8,r.bottom+8))+'px';
 }
-function inform(c){say(c.name+' · '+c.hp+'/'+c.maxHp+' PV · '+c.atk+' de dano'+(c.hp?'':' · eliminado'));}
+let inspectedId=null;
+function inform(c){inspectedId=c.id;drawInfo();}
+function drawInfo(){
+ const c=state.cards.find(c=>c.id===inspectedId),box=$('card-info');
+ box.hidden=!c||state.phase!=='active';if(box.hidden)return;
+ box.querySelector('strong').textContent=c.name+' · '+teamName(c.team);
+ box.querySelector('p').textContent=c.hp+'/'+c.maxHp+' PV · '+M.attackPower(state,c)+' ATQ · '+(c.speed+(c.status.find(x=>x.type==='slow')?.speedDelta||0))+' VEL';
+ box.querySelector('small').textContent=(c.hp?'':'Eliminado · ')+abilityText(c);
+}
+function closeInfo(){inspectedId=null;drawInfo();}
+$('close-info').onclick=closeInfo;
 let reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const now=()=>performance.now(),art=c=>(c.name==='Penxy'?'assets/arena/penxy.webp':'assets/menu-v036/character-'+c.art+'.webp'),teamName=t=>t==='blue'?'Azul':'Vermelho';
 const player=()=>state.cards.find(c=>c.id===state.playerId);
@@ -52,7 +62,7 @@ function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=
 function say(text){$('battle-message').textContent=text;}
 function closeDialog(){
  dialog.close();dialogKind='';
- if(compact&&dialogOwner?.isConnected)dialogOwner.focus({preventScroll:true});
+ if(compact&&dialogOwner?.isConnected)(dialogOwner.closest('#arena-menu')?.querySelector('summary')||dialogOwner).focus({preventScroll:true});
  dialogOwner=null;schedule();
 }
 function openDialog(kind,title,body,actions=[]){
@@ -70,7 +80,7 @@ function openDialog(kind,title,body,actions=[]){
  if(compact && kind==='info')$('dialog-close').focus({preventScroll:true});
 }
 function showSetup(){
-  const options=M.roster.map((name,i)=>'<option value="'+i+'">'+escape(name)+'</option>').join('');
+  const options=M.roster.map((name,i)=>'<option value="'+i+'"'+(M.speed[i]===null?' disabled':'')+'>'+escape(name)+(M.speed[i]===null?' · velocidade pendente':'')+'</option>').join('');
   openDialog('setup','Escolha seu personagem','<label class="character-pick">Seu personagem<select id="owned-character">'+options+'</select></label><p>Você joga pela equipe azul. Três aliados e quatro adversários agem por conta própria.</p>',[{label:'Iniciar batalha',primary:true,run:()=>{
    if(!M.start(state,now(),Number($('owned-character').value)))return;
    window.Efeitos?.prepararSom();FX.unlock();
@@ -101,34 +111,63 @@ function renderTeam(team){
   button.classList.toggle('haunt-opponent',state.haunt?.target===c.id);
   if(c.hp>0)button.classList.remove('falling');
   button.setAttribute('aria-label',c.name+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(c.id===state.playerId?', seu personagem':', bot')+(active?', vez atual':''));
+  button.disabled=!c.hp;
   ArenaArt.updateHealth(button,c);
+  button.querySelector('.printed-attack').textContent=M.attackPower(state,c);
  });
 }
+const supportById=id=>M.supportCards.find(card=>card.id===id);
+let receiptUid=0,receiptTimer;
+function finishOffer(){
+ render();schedule();
+}
+function openSupport(index){
+ const pending=M.pendingSupportReward(state);
+ if(pending){if(M.claimSupportReward(state,pending.uid,now(),index))finishOffer();return;}
+ const slot=state.supports.blue[index],card=slot&&supportById(slot.id);
+ if(!card){note(supportSlots[index],'Espaço livre · você recebe um apoio ao completar a volta da fila.');return;}
+ if(busy)return;
+ const targets=M.supportTargets(state,index).filter(c=>!state.haunt||[state.haunt.owner,state.haunt.target].includes(c.id));
+ const actions=targets.filter(c=>!M.supportReason(state,index,c.id)).map(c=>({
+  label:'Usar em '+c.name,run:()=>{
+   if(!checkTime())return;
+   const result=M.activateSupport(state,index,c.id,now());if(!result)return;
+   if(result.defeated&&state.haunt?.target===c.id){M.leaveHaunt(state,now());FX.haunt.exit(true);}
+   closeDialog();render();say(result.text);
+   if(result.roundWinner)showResult();else schedule();
+  }
+ }));
+ const reason=actions.length?'':M.supportReason(state,index,targets[0]?.id)||'Nenhum alvo disponível.';
+ openDialog('support',card.name,'<img class="support-preview" alt="" src="'+card.card+'"><p>'+escape(card.description)+'</p><p>'+escape(reason)+'</p>',actions);
+}
 const supportSlots=Array.from({length:M.SUPPORT_LIMIT},(_,index)=>{
- const button=document.createElement('button');
- button.type='button';
- const icon=document.createElement('img');
- icon.alt='';
- button.append(icon);
- button.addEventListener('click',()=>{
-  const card=state.supports.blue[index];
-  const text='Espaço '+(index+1)+' de '+M.SUPPORT_LIMIT+' · '+(card?.name||'vazio');
-  if(compact){note(button,text);return;}
-  openDialog('info','Mão de apoios','<p>'+escape(text)+'</p>',[{label:'Voltar ao campo',run:closeDialog}]);
- });
- $('support-hand').append(button);
- return button;
+ const button=document.createElement('button'),icon=document.createElement('img');
+ icon.alt='';button.append(icon);button.type='button';button.onclick=()=>openSupport(index);
+ $('support-hand').append(button);return button;
 });
+$('discard-support').onclick=()=>{
+ const reward=M.pendingSupportReward(state);
+ if(reward&&M.discardSupportReward(state,reward.uid,now()))finishOffer();
+};
 function renderHand(){
- const hand=state.supports.blue;
- $('support-free').textContent=hand.filter(card=>!card).length+'/'+M.SUPPORT_LIMIT;
+ const hand=state.supports.blue,offer=$('support-offer'),pending=M.pendingSupportReward(state);
+ $('support-free').textContent=hand.filter(slot=>!slot||slot.status==='spent').length+'/'+M.SUPPORT_LIMIT;
  supportSlots.forEach((button,index)=>{
-  const card=hand[index];
-  const src=(card?.icon||'assets/arena/mao-vazia.png');
-  const icon=button.firstElementChild;
-  if(icon.getAttribute('src')!==src)icon.setAttribute('src',src);
-  button.setAttribute('aria-label','Apoio '+(index+1)+' de '+M.SUPPORT_LIMIT+' · '+(card?.name||'vazio'));
+  const slot=hand[index],card=slot&&supportById(slot.id),src=card?.icon||'assets/arena/mao-vazia.png';
+  if(button.firstChild.getAttribute('src')!==src)button.firstChild.src=src;
+  button.dataset.status=slot?.status||'empty';
+  button.setAttribute('aria-label',(pending?'Trocar ':'Apoio ')+(index+1)+' · '+(card?.name||'vazio'));
  });
+ $('discard-support').hidden=!pending;
+ const latest=state.supportRewards.at(-1);
+ if(!latest){offer.hidden=true;receiptUid=0;clearTimeout(receiptTimer);return;}
+ if(pending){
+  offer.hidden=false;offer.firstElementChild.textContent=supportById(pending.id).name+' · Mão cheia. Clique no apoio que deseja trocar.';
+ }else if(latest.claimed&&receiptUid!==latest.uid){
+  receiptUid=latest.uid;clearTimeout(receiptTimer);offer.hidden=false;
+  offer.firstElementChild.textContent='+ '+supportById(latest.id).name;
+  receiptTimer=setTimeout(()=>{if(!M.pendingSupportReward(state))offer.hidden=true;},5000);
+ }else if(latest.discarded)offer.hidden=true;
 }
 const queueSlots=['next','current','last'].map(role=>{
  const button=document.createElement('button');
@@ -165,7 +204,7 @@ function renderQueue(){
   face.animate([{opacity:0,transform:'translateY(-7px)'},{opacity:1,transform:'none'}],timing);
  });
 }
-function render(){hideTip();
+function render(){hideTip();drawInfo();syncTurnClock();
  renderHand();
  for(const team of ['blue','red']){renderTeam(team);$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');}
  $('red-alive').textContent=alive('red').length+'/4';
@@ -207,17 +246,16 @@ function updateInspector(){
  const life=panel.querySelector('.stat-life');
  if(ArenaArt.setMeterState(life,c))life.style.setProperty('--missing-hp',(100*ArenaArt.missingFraction(c))+'%');
  panel.querySelector('.stat-life strong').textContent=c.hp;
- panel.querySelector('.stat-detail b').textContent=c.atk;
+ panel.querySelector('.stat-detail b').textContent=M.attackPower(state,c);
  for(const el of document.querySelectorAll('[data-battle-card]'))el.classList.toggle('is-selected',el.dataset.battleCard===selected);
 }
 function inspect(id){
  const c=state.cards.find(c=>c.id===id);if(!c)return;
  selected=id;updateInspector();
- if(compact&&document.activeElement?.id!=='inspect-selected'){inform(c);return;}
- openDialog('info',c.name+' · equipe '+teamName(c.team),'<p>Vida: '+c.hp+' / '+c.maxHp+' PV<br>Dano básico: '+c.atk+'<br>Estado: '+(c.hp?['em campo',...c.status.map(x=>x.name+' '+x.value)].join(' · '):'eliminado')+'</p><p>'+escape(abilityText(c))+'</p>',[{label:'Voltar ao campo',run:closeDialog}]);
+ inform(c);
 }
 function lockAction(){
- CardTouch.close();clearTimeout(aiTimer);busy=true;
+ CardTouch.close();clearTimeout(aiTimer);busy=true;syncTurnClock();
  activeAction=new AbortController();
  return activeAction.signal;
 }
@@ -231,7 +269,7 @@ async function whenPlaying(signal){
  return !signal.aborted;
 }
 async function changeHaunt(actor,target,controller){
- if(busy||state.paused||dialog.open||state.phase!=='active'||actor!==M.current(state)||actor.controller!==controller)return;
+ if(!checkTime()||busy||state.paused||dialog.open||state.phase!=='active'||actor!==M.current(state)||actor.controller!==controller)return;
  const entering=!state.haunt;
  if(entering){
   if(!M.enterHaunt(state,actor.id,target?.id,controller,now()))return;
@@ -248,7 +286,7 @@ async function changeHaunt(actor,target,controller){
  }finally{finishAction(signal);}
 }
 function perform(targetId,controller='player'){
- if(busy||state.paused||dialog.open||state.phase!=='active')return false;
+ if(!checkTime()||busy||state.paused||dialog.open||state.phase!=='active')return false;
  const actor=M.current(state),victim=M.attackTarget(state,actor?.id,targetId,controller);
  if(!victim)return false;
  const target=cardElement(targetId),source=cardElement(actor.id),signal=lockAction();
@@ -298,7 +336,7 @@ function perform(targetId,controller='player'){
  resolveAttack().catch(error=>console.warn('Efeito de combate',error));
  return true;
 }
-function schedule(){clearTimeout(aiTimer);aiTimer=null;if(state.phase!=='active'||state.paused||busy||dialog.open||document.hidden||!isAutomatic())return;
+function schedule(){clearTimeout(aiTimer);aiTimer=null;if(state.phase!=='active'||state.paused||busy||dialog.open||document.hidden||M.pendingSupportReward(state)||!isAutomatic())return;
  const revision=state.revision,ticket=generation;
  aiTimer=setTimeout(()=>{if(ticket!==generation||revision!==state.revision||busy||state.paused||dialog.open||document.hidden)return;const actor=M.current(state),targets=alive(M.opposite(actor.team)).filter(c=>M.attackTarget(state,actor.id,c.id,'bot')).sort((a,b)=>a.hp-b.hp||a.slot-b.slot);if(!targets[0])return;
  // A bot uses the mind for one exchange, then returns to the normal turn queue.
@@ -311,11 +349,11 @@ function schedule(){clearTimeout(aiTimer);aiTimer=null;if(state.phase!=='active'
  perform(targets[0].id,'bot');},3200);
 }
 function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.59.0',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.59.0.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function restart(){cancelTimers();CardTouch.close();dialog.close();state=M.create();manualPause=hiddenPause=false;selected=null;render();showSetup();}
+function exportState(){const data={version:'0.60.0',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.60.0.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function restart(){cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
-CardTouch.init({inlineDetails:compact?inform:null,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),onAttack:c=>perform(c.id)});
-$('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){selected=el.dataset.battleCard;updateInspector();}});
+CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:()=>player()?.name==='Penxy'&&(!state.haunt||state.haunt.owner===state.playerId),abilityLabel:()=>state.haunt?'Sair da mente':'Habilidade',onAbility:c=>changeHaunt(player(),c,'player'),onAttack:c=>perform(c.id)});
+$('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){inspect(el.dataset.battleCard);}});
 $('queue').addEventListener('click',e=>{const el=e.target.closest('[data-inspect]');if(el)inspect(el.dataset.inspect);});
 document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click',()=>{
  const ability=el.dataset.slot==='ability',c=player();
@@ -360,7 +398,28 @@ if(compact){
 }
 $('dialog-close').addEventListener('click',closeDialog);dialog.addEventListener('cancel',e=>{if(dialogKind==='setup'||dialogKind==='result')e.preventDefault();});dialog.addEventListener('close',schedule);
 document.addEventListener('visibilitychange',()=>{hiddenPause=document.hidden;setPaused();});window.addEventListener('resize',fit);
-setInterval(()=>$('clock').textContent=format(M.elapsed(state,now())),200);
+let clockTurn=-1,remaining=25000,lastTick=0,ticking=false;
+function syncTurnClock(){
+ const t=now();
+ if(clockTurn!==state.turnNumber){clockTurn=state.turnNumber;remaining=25000;}
+ else if(ticking)remaining=Math.max(0,remaining-(t-lastTick));
+ lastTick=t;ticking=state.phase==='active'&&!state.paused&&!busy&&!document.hidden&&!M.pendingSupportReward(state);
+ $('turn-time').textContent=Math.ceil(remaining/1000)+' s';
+ $('turn-time').classList.toggle('urgent',remaining<=5000&&state.phase==='active');
+}
+function checkTime(){
+ syncTurnClock();
+ if(!ticking||remaining>0)return true;
+ if(M.pass(state,now())){
+  CardTouch.close();if(dialog.open)closeDialog();render();schedule();
+ }
+ return false;
+}
+setInterval(()=>{$('clock').textContent=format(M.elapsed(state,now()));checkTime();},150);
+const menu=$('arena-menu');
+document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))menu.open=false;});
+menu.addEventListener('click',e=>{if(e.target.closest('button'))menu.open=false;});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(menu.open)menu.querySelector('summary').focus();menu.open=false;closeInfo();}});
 window.GoghosBattle=Object.freeze({snapshot:()=>JSON.parse(JSON.stringify({...state,elapsedMs:M.elapsed(state,now()),control:'single-player',busy})),destroy(){cancelTimers();CardTouch.destroy();}});
 fit();document.body.classList.toggle('reduced',reduced);$('motion').setAttribute('aria-pressed',String(reduced));render();showSetup();
 })();

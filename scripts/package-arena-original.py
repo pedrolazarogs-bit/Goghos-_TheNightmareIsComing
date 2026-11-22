@@ -19,6 +19,8 @@ files += ['arena-toque.html','assets/arena/penxy.webp','assets/arena/mao-vazia.p
           'assets/characters-v047/Original-Base68_20261023181416.png','assets/turn-order-v050/penxy.png']
 files += [p.relative_to(root).as_posix() for p in sorted((root/'css').glob('penxy-*.css'))]
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/penxy').glob('*.js'))]
+files += ['js/lab/'+name+'.js' for name in ['characters','supports','battle']]
+files += [p.relative_to(root).as_posix() for p in sorted((root/'assets/supports-v051').glob('*.png'))]
 out.parent.mkdir(exist_ok=True)
 with ZipFile(out,'w',ZIP_DEFLATED) as z:
     z.writestr('batalha.html',(root/'arena-batalha.html').read_text().replace('href="arena-batalha.html"','href="batalha.html"'))

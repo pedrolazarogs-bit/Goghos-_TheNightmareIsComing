@@ -57,14 +57,18 @@ function settle(s,team,target,now,result,advanceTurn){
 function armedSupport(s,effect,targetId){return [...Object.values(s.supports).flat(),...s.supportEffects].find(slot=>slot?.status==='armed'&&slot.targetId===targetId&&supportCards.find(c=>c.id===slot.id)?.effect===effect);}
 // Shared by combat and live card values; the bonus applies once to the total attack.
 function attackPower(s,c){return c.atk===null?null:c.atk+(armedSupport(s,'boost',c.id)?50:0);}
+function resolveDamage(s,actor,target){
+ const boost=armedSupport(s,'boost',actor.id),guard=armedSupport(s,'guard',target.id),total=attackPower(s,actor),blocked=guard?Math.min(80,total):0;
+ const damage=Math.min(Math.max(0,total-blocked),target.hp);
+ if(boost)boost.status='spent';if(guard)guard.status='spent';s.supportEffects=s.supportEffects.filter(effect=>effect.status==='armed');
+ return {damage,bonus:boost?50:0,blocked};
+}
 function attack(s,actorId,targetId,now){
  const actor=current(s),target=s.cards.find(c=>c.id===targetId);
  if(s.phase!=='active'||s.paused||pendingSupportReward(s)||!actor||actor.id!==actorId||actor.hp<=0||actor.atk===null||!target||target.hp<=0||target.team===actor.team||!Number.isFinite(now))return null;
- const boost=armedSupport(s,'boost',actor.id),guard=armedSupport(s,'guard',target.id),total=attackPower(s,actor),blocked=guard?Math.min(80,total):0;
- const damage=Math.min(Math.max(0,total-blocked),target.hp);target.hp-=damage;s.last=actor.id;s.revision++;
- if(boost)boost.status='spent';if(guard)guard.status='spent';s.supportEffects=s.supportEffects.filter(effect=>effect.status==='armed');
- const result={actor:actor.id,target:target.id,damage,bonus:boost?50:0,blocked,defeated:target.hp===0,roundWinner:null,winner:null};
- record(s,'ataque',actor.name+' ('+actor.team+') → '+target.name+': −'+damage+' PV'+(boost?' · +50 de apoio':'')+(blocked?' · '+blocked+' bloqueados':'')+(result.defeated?' · eliminado':''),now);
+ const {damage,bonus,blocked}=resolveDamage(s,actor,target);target.hp-=damage;s.last=actor.id;s.revision++;
+ const result={actor:actor.id,target:target.id,damage,bonus,blocked,defeated:target.hp===0,roundWinner:null,winner:null};
+ record(s,'ataque',actor.name+' ('+actor.team+') → '+target.name+': −'+damage+' PV'+(bonus?' · +50 de apoio':'')+(blocked?' · '+blocked+' bloqueados':'')+(result.defeated?' · eliminado':''),now);
  settle(s,actor.team,target,now,result,true);
  return result;
 }
@@ -139,6 +143,6 @@ function playerPass(s,now){return isPlayerTurn(s)&&pass(s,s.playerId,now);}
 function botPass(s,actorId,now){return current(s)?.controller==='bot'&&pass(s,actorId,now);}
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({characters,roster,supportCards,create,start,current,next,player,isPlayerTurn,canPlayerAct,playerAttack,botAttack,playerPass,botPass,continueRound,pause,elapsed,opposite,equipSupport,removeSupport,supportTargets,supportReason,activateSupport,supportRewardReason,claimSupportReward,discardSupportReward,pendingSupportReward,seeSupportReward,attackPower});
+const api=Object.freeze({characters,roster,supportCards,create,start,current,next,player,isPlayerTurn,canPlayerAct,playerAttack,botAttack,playerPass,botPass,continueRound,pause,elapsed,opposite,equipSupport,removeSupport,supportTargets,supportReason,activateSupport,supportRewardReason,claimSupportReward,discardSupportReward,pendingSupportReward,seeSupportReward,attackPower,advance,resolveDamage});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);

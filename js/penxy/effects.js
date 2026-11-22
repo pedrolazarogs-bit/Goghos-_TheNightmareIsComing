@@ -890,141 +890,6 @@
 
   // ---------------------------------------------------------------------------
   // PODER — "Assombração"
-  // PENXY puxa o oponente para a própria mente: um turbilhão engole a carta, a
-  // tela escurece e só as duas cartas ficam visíveis, ligadas por um fio de luz
-  // (apenas os dois se veem e se atacam). O oponente recebe -1 VEL enquanto
-  // estiver lá dentro. Ao sair, a mente se estilhaça.
-  // ---------------------------------------------------------------------------
-  let mindCanvas = null;
-
-  /** Estrela sombria com rostinho (o símbolo da passiva), usada de fundo. */
-  function starFace(g, cx, cy, R, t, alpha) {
-    g.save();
-    g.globalAlpha = alpha;
-    g.translate(cx, cy);
-    g.rotate(Math.sin(t * 0.6) * 0.05);
-    starPath(g, 0, 0, R, 0, 0.5);
-    g.fillStyle = '#2a1f45'; g.fill();
-    g.lineWidth = R * 0.06; g.strokeStyle = '#c99a78'; g.lineJoin = 'round'; g.stroke();
-    const blink = (t % 4.2) > 4.05 ? 0.1 : 1;
-    g.fillStyle = '#ffe58a';
-    [-1, 1].forEach((d) => { g.beginPath(); g.ellipse(d * R * 0.2, -R * 0.06, R * 0.075, R * 0.13 * blink, 0, 0, 6.2832); g.fill(); });
-    g.strokeStyle = '#ffe58a'; g.lineWidth = R * 0.045; g.lineCap = 'round'; g.lineJoin = 'round';
-    g.beginPath();
-    const mw = R * 0.34, my = R * 0.26;
-    for (let i = 0; i <= 6; i++) { const x = -mw + (i * 2 * mw) / 6, y = my + (i % 2 ? -R * 0.07 : R * 0.03); i ? g.lineTo(x, y) : g.moveTo(x, y); }
-    g.stroke();
-    g.restore();
-  }
-
-  function roundRectPath(g, x, y, w, h, r) {
-    g.beginPath();
-    if (w <= 0 || h <= 0) return;
-    r = Math.max(0, Math.min(r, w / 2, h / 2));
-    g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
-    g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
-  }
-
-  function makeMind(penxy, opp, withSlowTag) {
-    const motes = [];
-    for (let i = 0; i < 38; i++) {
-      motes.push({ x: Math.random(), y: Math.random(), vy: rand(0.012, 0.04), vx: rand(-0.01, 0.01), s: rand(2.5, 7), ph: rand(0, 6.28),
-        shape: pick(['star', 'spark', 'dot', 'dot']), col: pick([C.violet, C.cyan, C.cream, C.blue]) });
-    }
-    return {
-      dur: Infinity,
-      closing: false,
-      closeStart: 0,
-      update(dt) {
-        for (const m of motes) {
-          m.y -= m.vy * dt; m.x += m.vx * dt; m.ph += dt * 2;
-          if (m.y < -0.05) { m.y = 1.05; m.x = Math.random(); }
-        }
-      },
-      draw(g) {
-        const W = state.w, H = state.h, dpr = state.dpr;
-        const closeK = this.closing ? clamp((this.t - this.closeStart) / 0.5, 0, 1) : 0;
-        const alpha = easeInOut(clamp(this.t / 1.25, 0, 1)) * (1 - closeK);
-        if (closeK >= 1) { this.dead = true; return; }
-        const A = rectOf(penxy), B = rectOf(opp);
-
-        // --- camada escura (fora da tela principal, para poder "furar" sem apagar outros efeitos)
-        if (!mindCanvas) mindCanvas = document.createElement('canvas');
-        if (mindCanvas.width !== state.canvas.width || mindCanvas.height !== state.canvas.height) {
-          mindCanvas.width = state.canvas.width; mindCanvas.height = state.canvas.height;
-        }
-        const m = mindCanvas.getContext('2d');
-        m.setTransform(dpr, 0, 0, dpr, 0, 0);
-        m.globalCompositeOperation = 'source-over';
-        m.clearRect(0, 0, W, H);
-        const bg = m.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.1, W / 2, H / 2, Math.max(W, H) * 0.8);
-        bg.addColorStop(0, 'rgba(24,14,48,.88)'); bg.addColorStop(1, 'rgba(6,3,14,.96)');
-        m.fillStyle = bg; m.fillRect(0, 0, W, H);
-        starFace(m, W / 2, H * 0.3, Math.min(W, H) * 0.36, this.t, 0.28);
-        m.globalCompositeOperation = 'destination-out';
-        [A, B].forEach((r) => {
-          const R = Math.max(r.w, r.h) * 0.95;
-          const hole = m.createRadialGradient(r.cx, r.cy, 0, r.cx, r.cy, R);
-          hole.addColorStop(0, 'rgba(0,0,0,1)'); hole.addColorStop(0.62, 'rgba(0,0,0,.95)'); hole.addColorStop(1, 'rgba(0,0,0,0)');
-          m.fillStyle = hole; m.fillRect(r.cx - R, r.cy - R, R * 2, R * 2);
-        });
-        g.globalAlpha = alpha;
-        g.drawImage(mindCanvas, 0, 0, W, H);
-
-        // --- elementos luminosos
-        g.globalCompositeOperation = 'lighter';
-        for (const p of motes) {
-          g.globalAlpha = alpha * (0.35 + 0.35 * Math.sin(p.ph));
-          g.fillStyle = p.col;
-          const x = p.x * W, y = p.y * H;
-          if (p.shape === 'star') { starPath(g, x, y, p.s * 1.4, p.ph * 0.3); g.fill(); }
-          else if (p.shape === 'spark') { sparkPath(g, x, y, p.s * 1.8, 0); g.fill(); }
-          else { g.beginPath(); g.arc(x, y, p.s * 0.6, 0, 6.2832); g.fill(); }
-        }
-        // fio de luz entre as duas cartas
-        g.globalAlpha = alpha * (0.6 + 0.25 * Math.sin(this.t * 4));
-        g.strokeStyle = C.violet; g.lineWidth = 3; g.shadowColor = C.violet; g.shadowBlur = 16;
-        g.setLineDash([14, 12]); g.lineDashOffset = -this.t * 40;
-        g.beginPath(); g.moveTo(A.cx, A.cy); g.lineTo(B.cx, B.cy); g.stroke();
-        g.setLineDash([]);
-        // contorno pulsante das duas cartas
-        [[A, C.gold], [B, C.violet]].forEach(([r, col]) => {
-          g.globalAlpha = alpha * (0.5 + 0.3 * Math.sin(this.t * 3 + r.x));
-          g.strokeStyle = col; g.lineWidth = 3; g.shadowColor = col; g.shadowBlur = 20;
-          roundRectPath(g, r.x - 4, r.y - 4, r.w + 8, r.h + 8, 14); g.stroke();
-        });
-        g.shadowBlur = 0;
-        // marcador -1 VEL sobre o oponente
-        if (withSlowTag && this.t > 1.5) {
-          g.globalCompositeOperation = 'source-over';
-          g.globalAlpha = alpha;
-          g.font = '900 15px "Trebuchet MS",Arial,sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
-          g.lineWidth = 4; g.strokeStyle = '#1a0f3a'; g.fillStyle = C.cyan;
-          g.strokeText('▼ -1 VEL', B.cx, B.y - 16); g.fillText('▼ -1 VEL', B.cx, B.y - 16);
-        }
-
-        // --- turbilhão de entrada ao redor do oponente
-        if (this.t < 1.25) {
-          const k = this.t / 1.25;
-          const R0 = Math.max(B.w, B.h) * 1.3 * (1 - easeInOut(k) * 0.8);
-          g.globalCompositeOperation = 'lighter';
-          g.globalAlpha = Math.sin(Math.PI * k);
-          g.lineCap = 'round';
-          for (let a = 0; a < 3; a++) {
-            g.beginPath();
-            for (let j = 0; j <= 34; j++) {
-              const s = j / 34, rad = R0 * (1 - s * 0.92), ang = this.t * 8 + a * 2.094 + s * 5.6;
-              const x = B.cx + Math.cos(ang) * rad, y = B.cy + Math.sin(ang) * rad * 0.85;
-              j ? g.lineTo(x, y) : g.moveTo(x, y);
-            }
-            g.strokeStyle = a === 1 ? C.cyan : C.violet; g.lineWidth = 7; g.shadowColor = C.violet; g.shadowBlur = 22;
-            g.stroke();
-          }
-        }
-      }
-    };
-  }
-
   const haunt = {
     current: null,
 
@@ -1039,7 +904,7 @@
       o = o || {};
       if (haunt.current) await haunt.current.exit();
       const A = rectOf(penxy), B = rectOf(opp);
-      const withSlow = o.slow !== false;
+
       SFX.hauntEnter();
       flash(A.el, C.gold, 600);
 
@@ -1056,17 +921,15 @@
         ], { duration: 1700, easing: 'cubic-bezier(.5,0,.3,1)' });
       }
 
-      const mind = makeMind(penxy, opp, withSlow);
-      addItem(mind);
       await wait(1250);
-      if (o.signal?.aborted) { mind.stop(); return; }
+      if (o.signal?.aborted) { return; }
       const ambience = SFX.hauntAmbience();
-      if (B.el) B.el.style.filter = (prevFilter ? prevFilter + ' ' : '') + 'saturate(.7) drop-shadow(0 0 12px ' + C.violet + ')';
-      if (withSlow) slow(opp, { sound: false });
+      if (B.el) B.el.style.filter = (prevFilter ? prevFilter + ' ' : '') + 'saturate(.7) drop-shadow(0 0 2px ' + C.violet + ')';
+
       await wait(450);
 
       if (o.signal?.aborted) {
-        ambience.stop(); mind.stop(); if (B.el) B.el.style.filter = prevFilter;
+        ambience.stop(); if (B.el) B.el.style.filter = prevFilter;
         return;
       }
       let closed = false;
@@ -1078,18 +941,15 @@
           if (haunt.current === handle) haunt.current = null;
           ambience.stop();
           if (silent) {
-            mind.stop(); if (B.el) B.el.style.filter = prevFilter;
+            if (B.el) B.el.style.filter = prevFilter;
             return;
           }
           SFX.hauntExit();
-          mind.closing = true; mind.closeStart = mind.t;
-          const W = state.w, H = state.h;
-          addItem(particleSystem(burst(W / 2, H / 2, 46, {
-            min: 220, max: 780, gravity: 700, drag: 0.95, lifeMin: 0.5, lifeMax: 1.1, sizeMin: 8, sizeMax: 18, jitter: 90,
-            colors: [C.indigo, C.violet, C.cyan, C.cream], shapes: ['shard']
-          }), { dur: 1.3 }));
-          screenFlash('rgba(255,247,220,.55)', 0.6, 320);
           const nowB = rectOf(opp);
+          addItem(particleSystem(burst(nowB.cx, nowB.cy, 12, {
+            min: nowB.w*.12, max: nowB.w*.45, drag: .94, lifeMin: .25, lifeMax: .65, sizeMin: 2, sizeMax: 5,
+            colors: [C.indigo, C.violet, C.cyan, C.cream], shapes: ['shard']
+          }), {dur:.7}));
           if (nowB.el) {
             nowB.el.style.filter = prevFilter;
             animate(nowB.el, [{ scale: '0.92' }, { scale: '1.06', offset: 0.5 }, { scale: '1' }], { duration: 450, easing: 'ease-out' });
@@ -1097,7 +957,7 @@
           await wait(550);
           // "PENXY pode usar sua habilidade logo após sair de uma": pulso de pronto
           if (o.ready !== false) { SFX.shimmer(); flash(A.el, C.gold, 700); addItem(particleSystem(burst(A.cx, A.cy, 14, {
-            min: 60, max: 220, drag: 0.94, lifeMin: 0.5, lifeMax: 1, sizeMin: 4, sizeMax: 9,
+            min: A.w*.1, max: A.w*.4, drag: 0.94, lifeMin: 0.3, lifeMax: .7, sizeMin: 2, sizeMax: 5,
             colors: [C.gold, C.cream, C.violet], shapes: ['star', 'spark']
           }), { dur: 1.2 })); }
         }
@@ -1115,91 +975,17 @@
   // ---------------------------------------------------------------------------
   // PASSIVA — estrela "Assombração" (brilho/aura)
   // ---------------------------------------------------------------------------
-  /** Pulso único: a passiva disparou (anel que se expande + estrela + fagulhas). */
   function passive(target) {
-    const r = rectOf(target);
     SFX.shimmer();
-    addItem({
-      dur: 1.2,
-      draw(g) {
-        const k = this.t / this.dur;
-        g.globalCompositeOperation = 'lighter';
-        for (let i = 0; i < 2; i++) {
-          const kk = clamp(k * 1.3 - i * 0.18, 0, 1);
-          if (kk <= 0) continue;
-          g.globalAlpha = (1 - kk) * 0.9;
-          g.lineWidth = 6 * (1 - kk) + 1;
-          g.strokeStyle = i ? C.cyan : C.violet; g.shadowColor = C.violet; g.shadowBlur = 20;
-          roundRectPath(g, r.x - kk * 26, r.y - kk * 26, r.w + kk * 52, r.h + kk * 52, 14 + kk * 20); g.stroke();
-        }
-        g.shadowBlur = 0;
-        const pop = easeOut(clamp(k * 3, 0, 1)) * (1 - clamp((k - 0.6) / 0.4, 0, 1));
-        g.globalCompositeOperation = 'source-over';
-        starFace(g, r.cx, r.cy, Math.min(r.w, r.h) * (0.18 + 0.1 * pop), this.t * 3, pop);
-      }
-    });
-    addItem(particleSystem(burst(r.cx, r.cy, 22, {
-      min: 60, max: 260, drag: 0.94, lifeMin: 0.5, lifeMax: 1.1, sizeMin: 4, sizeMax: 10,
-      colors: [C.gold, C.cream, C.violet, C.cyan], shapes: ['star', 'spark', 'dot']
-    }), { dur: 1.3 }));
-    return wait(1100);
+    const art=target.querySelector('.original-card>image');
+    if(art)return animate(art,[{opacity:.82},{opacity:1}],{duration:380});
+  }
+  function aura(target, options={}) {
+    if(options.sound!==false)SFX.shimmer();
+    target.classList.add('penxy-aura');
+    return {stop(){target.classList.remove('penxy-aura');}};
   }
 
-  /**
-   * Aura contínua enquanto o PENXY está em campo: brilho pulsante, partículas subindo
-   * e o selo da estrela no canto da carta.  Retorna { stop() }.
-   * @param o { sound = true }  toca um brilho curto ao ligar
-   */
-  function aura(target, o) {
-    o = o || {};
-    if (o.sound !== false) SFX.shimmer();
-    const motes = [];
-    let acc = 0;
-    const item = {
-      dur: Infinity,
-      stopAt: null,
-      update(dt) {
-        const r = rectOf(target);
-        if (r.el && !r.el.isConnected) { this.dead = true; return; }
-        acc += dt * 16;
-        while (acc >= 1 && this.stopAt == null) {
-          acc -= 1;
-          motes.push({ x: r.x + Math.random() * r.w, y: r.y + r.h * rand(0.5, 1), vx: rand(-8, 8), vy: -rand(22, 60),
-            life: rand(0.9, 1.7), age: 0, s: rand(2, 5), col: pick([C.violet, C.cyan, C.cream]), star: Math.random() < 0.35, rot: rand(0, 6.28) });
-        }
-        for (const m of motes) { m.age += dt; m.x += m.vx * dt; m.y += m.vy * dt; m.rot += dt * 2; }
-        for (let i = motes.length - 1; i >= 0; i--) if (motes[i].age > motes[i].life) motes.splice(i, 1);
-      },
-      draw(g) {
-        const out = this.stopAt == null ? 1 : 1 - clamp((this.t - this.stopAt) / 0.4, 0, 1);
-        if (out <= 0) { this.dead = true; return; }
-        const intro = clamp(this.t / 0.4, 0, 1);
-        const a = out * intro;
-        const r = rectOf(target);
-        g.globalCompositeOperation = 'lighter';
-        g.globalAlpha = a * (0.35 + 0.2 * Math.sin(this.t * 2.4));
-        g.strokeStyle = C.violet; g.lineWidth = 4; g.shadowColor = C.violet; g.shadowBlur = 22;
-        roundRectPath(g, r.x - 3, r.y - 3, r.w + 6, r.h + 6, 14); g.stroke();
-        g.globalAlpha = a * (0.25 + 0.15 * Math.sin(this.t * 2.4 + 1.6));
-        g.strokeStyle = C.cyan; g.lineWidth = 2; g.shadowColor = C.cyan; g.shadowBlur = 12;
-        roundRectPath(g, r.x + 3, r.y + 3, r.w - 6, r.h - 6, 12); g.stroke();
-        g.shadowBlur = 0;
-        for (const m of motes) {
-          g.globalAlpha = a * Math.sin((m.age / m.life) * Math.PI) * 0.8;
-          g.fillStyle = m.col;
-          if (m.star) { starPath(g, m.x, m.y, m.s * 1.5, m.rot); g.fill(); }
-          else { g.beginPath(); g.arc(m.x, m.y, m.s * 0.6, 0, 6.2832); g.fill(); }
-        }
-        g.globalCompositeOperation = 'source-over';
-        const R = Math.min(r.w, r.h) * 0.11;
-        starFace(g, r.x + r.w - R * 1.1, r.y + R * 1.1, R * (1 + 0.06 * Math.sin(this.t * 3)), this.t, a * 0.95);
-      }
-    };
-    addItem(item);
-    return { stop() { if (item.stopAt == null) item.stopAt = item.t; } };
-  }
-
-  // ---------------------------------------------------------------------------
   // API pública
   // ---------------------------------------------------------------------------
   if (global.matchMedia) {
