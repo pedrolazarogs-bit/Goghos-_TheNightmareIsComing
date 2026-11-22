@@ -415,6 +415,30 @@
     return { x: state.w / 2 - w / 2, y: state.h / 2 - h / 2, w, h, cx: (state.w || global.innerWidth) / 2, cy: (state.h || global.innerHeight) / 2, el: null };
   }
 
+  function cardBounds(target) {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    const matrix = element?.querySelector?.('.original-card > image')?.getScreenCTM();
+    if (!matrix) return rectOf(element);
+    // The painted frame in the 1536 × 2048 PNG spans x=159…1377, y=14…2048.
+    const center = new DOMPoint(768, 1031).matrixTransform(matrix);
+    const w = 1218 * Math.hypot(matrix.a, matrix.b), h = 2034 * Math.hypot(matrix.c, matrix.d);
+    return { x: center.x-w/2, y: center.y-h/2, w, h, cx: center.x, cy: center.y, el: element };
+  }
+
+  // Draw the original choreography in card coordinates, including after a resize or formation change.
+  const localCard = { x: 0, y: 0, w: 120, h: 200, cx: 60, cy: 100 };
+  function addCardItem(target, item) {
+    const draw = item.draw;
+    item.draw = function (g) {
+      const r = cardBounds(target);
+      if (!r.w || !r.h || r.el?.isConnected === false) { this.dead = true; return; }
+      g.translate(r.x, r.y);
+      g.scale(r.w/localCard.w, r.h/localCard.h);
+      draw.call(this, g);
+    };
+    return addItem(item);
+  }
+
   function animate(el, frames, opts) {
     if (!el || !el.animate) return Promise.resolve();
     const a = el.animate(frames, Object.assign({ fill: 'none' }, opts));
@@ -741,13 +765,13 @@
         if (t < 0) return;
         const appear = easeOut(clamp(t / 0.35, 0, 1));
         const out = clamp((t - 0.75) / 0.4, 0, 1);
-        const y = lerp(r.y - r.h * 0.25, r.y + r.h * (0.22 + 0.28 * k), appear) + out * r.h * 0.2;
-        const rx = lerp(r.w * 1.0, r.w * 0.58, appear);
+        const y = lerp(r.y + r.h * 0.04, r.y + r.h * (0.22 + 0.28 * k), appear) + out * r.h * 0.2;
+        const rx = lerp(r.w * .49, r.w * .38, appear);
         const ry = rx * 0.26;
         g.globalCompositeOperation = 'lighter';
         g.globalAlpha = (1 - out) * appear;
-        g.lineWidth = 7;
-        g.strokeStyle = C.indigo; g.shadowColor = C.violet; g.shadowBlur = 20;
+        g.lineWidth = 3;
+        g.strokeStyle = C.indigo; g.shadowColor = C.violet; g.shadowBlur = 6;
         g.beginPath(); g.ellipse(r.cx, y, rx, ry, 0, 0, 6.2832); g.stroke();
         g.lineWidth = 2.5; g.strokeStyle = C.cyan; g.shadowBlur = 8; g.shadowColor = C.cyan;
         g.beginPath(); g.ellipse(r.cx, y - 1, rx, ry, 0, 0, 6.2832); g.stroke();
@@ -758,8 +782,8 @@
   function slowChevrons(r) {
     const list = [];
     for (let i = 0; i < 9; i++) {
-      list.push({ x: r.x + r.w * rand(0.12, 0.88), y: r.y + r.h * rand(0.0, 0.3), vx: 0, vy: rand(50, 110), g: 120,
-        life: rand(0.7, 1.1), size: rand(8, 14), color: pick([C.cyan, C.violet]), delay: i * 0.05, drag: 1, shape: 'chev' });
+      list.push({ x: r.x + r.w * rand(0.12, 0.88), y: r.y + r.h * rand(0.0, 0.3), vx: 0, vy: rand(34, 66), g: 65,
+        life: rand(0.7, 1.1), size: rand(4, 7), color: pick([C.cyan, C.violet]), delay: i * 0.05, drag: 1, shape: 'chev' });
     }
     const ps = particleSystem(list, { dur: 1.7 });
     ps.draw = function (g) {
@@ -783,10 +807,10 @@
    */
   function slow(target, o) {
     o = o || {};
-    const r = rectOf(target);
+    const r = cardBounds(target);
     if (o.sound !== false) SFX.slow();
-    [0, 1, 2].forEach((k) => addItem(slowRing(r, k)));
-    addItem(slowChevrons(r));
+    [0, 1, 2].forEach((k) => addCardItem(target, slowRing(localCard, k)));
+    addCardItem(target, slowChevrons(localCard));
     // a carta "pesa": escurece e perde saturação por um instante
     if (r.el) {
       animate(r.el, [
@@ -796,7 +820,7 @@
         { filter: 'saturate(1) brightness(1)' }
       ], { duration: 1300, easing: 'ease-in-out' });
     }
-    return floatText(r, o.text || '-1 VEL', { color: C.cyan, glow: C.violet, stroke: '#1a0f3a', size: 38, rise: 60, dy: -r.h * 0.18, dur: 1400 });
+    return floatText(r, o.text || '-1 VEL', { color: C.cyan, glow: C.violet, stroke: '#1a0f3a', size: r.w * .15, rise: r.h * .14, dy: -r.h * 0.18, dur: 1400 });
   }
 
   // ---------------------------------------------------------------------------
@@ -890,6 +914,151 @@
 
   // ---------------------------------------------------------------------------
   // PODER — "Assombração"
+  // PENXY puxa o oponente para a própria mente: um turbilhão engole a carta, a
+  // tela escurece e só as duas cartas ficam visíveis, ligadas por um fio de luz
+  // (apenas os dois se veem e se atacam). O oponente recebe -1 VEL enquanto
+  // estiver lá dentro. Ao sair, a mente se estilhaça.
+  // ---------------------------------------------------------------------------
+  let mindCanvas = null;
+
+  /** Estrela sombria com rostinho (o símbolo da passiva), usada de fundo. */
+  function starFace(g, cx, cy, R, t, alpha) {
+    g.save();
+    g.globalAlpha = alpha;
+    g.translate(cx, cy);
+    g.rotate(Math.sin(t * 0.6) * 0.05);
+    starPath(g, 0, 0, R, 0, 0.5);
+    g.fillStyle = '#2a1f45'; g.fill();
+    g.lineWidth = R * 0.06; g.strokeStyle = '#c99a78'; g.lineJoin = 'round'; g.stroke();
+    const blink = (t % 4.2) > 4.05 ? 0.1 : 1;
+    g.fillStyle = '#ffe58a';
+    [-1, 1].forEach((d) => { g.beginPath(); g.ellipse(d * R * 0.2, -R * 0.06, R * 0.075, R * 0.13 * blink, 0, 0, 6.2832); g.fill(); });
+    g.strokeStyle = '#ffe58a'; g.lineWidth = R * 0.045; g.lineCap = 'round'; g.lineJoin = 'round';
+    g.beginPath();
+    const mw = R * 0.34, my = R * 0.26;
+    for (let i = 0; i <= 6; i++) { const x = -mw + (i * 2 * mw) / 6, y = my + (i % 2 ? -R * 0.07 : R * 0.03); i ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.stroke();
+    g.restore();
+  }
+
+  function roundRectPath(g, x, y, w, h, r) {
+    g.beginPath();
+    if (w <= 0 || h <= 0) return;
+    r = Math.max(0, Math.min(r, w / 2, h / 2));
+    g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+    g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
+  }
+
+  function makeMind(penxy, opp, withSlowTag) {
+    const motes = [];
+    for (let i = 0; i < 38; i++) {
+      motes.push({ x: Math.random(), y: Math.random(), vy: rand(0.012, 0.04), vx: rand(-0.01, 0.01), s: rand(2.5, 7), ph: rand(0, 6.28),
+        shape: pick(['star', 'spark', 'dot', 'dot']), col: pick([C.violet, C.cyan, C.cream, C.blue]) });
+    }
+    return {
+      dur: Infinity,
+      closing: false,
+      closeStart: 0,
+      update(dt) {
+        for (const m of motes) {
+          m.y -= m.vy * dt; m.x += m.vx * dt; m.ph += dt * 2;
+          if (m.y < -0.05) { m.y = 1.05; m.x = Math.random(); }
+        }
+      },
+      draw(g) {
+        const W = state.w, H = state.h, dpr = state.dpr;
+        const closeK = this.closing ? clamp((this.t - this.closeStart) / 0.5, 0, 1) : 0;
+        const alpha = easeInOut(clamp(this.t / 1.25, 0, 1)) * (1 - closeK);
+        if (closeK >= 1) { this.dead = true; return; }
+        const A = cardBounds(penxy), B = cardBounds(opp);
+
+        // --- camada escura (fora da tela principal, para poder "furar" sem apagar outros efeitos)
+        if (!mindCanvas) mindCanvas = document.createElement('canvas');
+        if (mindCanvas.width !== state.canvas.width || mindCanvas.height !== state.canvas.height) {
+          mindCanvas.width = state.canvas.width; mindCanvas.height = state.canvas.height;
+        }
+        const m = mindCanvas.getContext('2d');
+        m.setTransform(dpr, 0, 0, dpr, 0, 0);
+        m.globalCompositeOperation = 'source-over';
+        m.clearRect(0, 0, W, H);
+        const midX = (A.cx + B.cx) / 2, midY = (A.cy + B.cy) / 2;
+        const radiusX = Math.abs(A.cx-B.cx)/2 + Math.max(A.w,B.w);
+        const radiusY = Math.abs(A.cy-B.cy)/2 + Math.max(A.h,B.h)*.77;
+        if (!radiusX || !radiusY) return;
+        m.save();
+        m.translate(midX, midY); m.scale(radiusX, radiusY);
+        const bg = m.createRadialGradient(0, 0, 0, 0, 0, 1.05);
+        bg.addColorStop(0, 'rgba(24,14,48,.88)'); bg.addColorStop(.75, 'rgba(6,3,14,.90)');
+        bg.addColorStop(1, 'rgba(6,3,14,0)');
+        m.fillStyle = bg; m.fillRect(-1.05, -1.05, 2.1, 2.1);
+        m.restore();
+        starFace(m, midX, midY - Math.min(A.h, B.h)*.28, Math.min(A.w,B.w)*.42, this.t, .60);
+        m.globalCompositeOperation = 'destination-out';
+        [A, B].forEach((r) => {
+          const R = r.h * .65;
+          const hole = m.createRadialGradient(r.cx, r.cy, 0, r.cx, r.cy, R);
+          hole.addColorStop(0, 'rgba(0,0,0,1)'); hole.addColorStop(0.62, 'rgba(0,0,0,.95)'); hole.addColorStop(1, 'rgba(0,0,0,0)');
+          m.fillStyle = hole; m.fillRect(r.cx - R, r.cy - R, R * 2, R * 2);
+        });
+        g.globalAlpha = alpha;
+        g.drawImage(mindCanvas, 0, 0, W, H);
+
+        // --- elementos luminosos
+        g.globalCompositeOperation = 'lighter';
+        for (const [index, p] of motes.entries()) {
+          const r = index % 2 ? A : B;
+          g.globalAlpha = alpha * (0.35 + 0.35 * Math.sin(p.ph));
+          g.fillStyle = p.col;
+          const x = r.x + p.x*r.w, y = r.y + p.y*r.h;
+          const size = p.s*r.w/240;
+          if (p.shape === 'star') { starPath(g, x, y, size * 1.4, p.ph * 0.3); g.fill(); }
+          else if (p.shape === 'spark') { sparkPath(g, x, y, size * 1.8, 0); g.fill(); }
+          else { g.beginPath(); g.arc(x, y, size * 0.6, 0, 6.2832); g.fill(); }
+        }
+        // fio de luz entre as duas cartas
+        g.globalAlpha = alpha * (0.6 + 0.25 * Math.sin(this.t * 4));
+        g.strokeStyle = C.violet; g.lineWidth = 1.6; g.shadowColor = C.violet; g.shadowBlur = 6;
+        g.setLineDash([14, 12]); g.lineDashOffset = -this.t * 40;
+        g.beginPath(); g.moveTo(A.cx, A.cy); g.lineTo(B.cx, B.cy); g.stroke();
+        g.setLineDash([]);
+        // contorno pulsante das duas cartas
+        [[A, C.gold], [B, C.violet]].forEach(([r, col]) => {
+          g.globalAlpha = alpha * (0.5 + 0.3 * Math.sin(this.t * 3 + r.x));
+          g.strokeStyle = col; g.lineWidth = r.w*.015; g.shadowColor = col; g.shadowBlur = r.w*.04;
+          roundRectPath(g, r.x, r.y, r.w, r.h, r.w*.1); g.stroke();
+        });
+        g.shadowBlur = 0;
+        // marcador -1 VEL sobre o oponente
+        if (withSlowTag && this.t > 1.5) {
+          g.globalCompositeOperation = 'source-over';
+          g.globalAlpha = alpha;
+          g.font = '900 15px "Trebuchet MS",Arial,sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.lineWidth = 4; g.strokeStyle = '#1a0f3a'; g.fillStyle = C.cyan;
+          g.strokeText('▼ -1 VEL', B.cx, B.y - 16); g.fillText('▼ -1 VEL', B.cx, B.y - 16);
+        }
+
+        // --- turbilhão de entrada ao redor do oponente
+        if (this.t < 1.25) {
+          const k = this.t / 1.25;
+          const R0 = B.w * .50 * (1 - easeInOut(k) * 0.8);
+          g.globalCompositeOperation = 'lighter';
+          g.globalAlpha = Math.sin(Math.PI * k);
+          g.lineCap = 'round';
+          for (let a = 0; a < 3; a++) {
+            g.beginPath();
+            for (let j = 0; j <= 34; j++) {
+              const s = j / 34, rad = R0 * (1 - s * 0.92), ang = this.t * 8 + a * 2.094 + s * 5.6;
+              const x = B.cx + Math.cos(ang) * rad, y = B.cy + Math.sin(ang) * rad * 0.85;
+              j ? g.lineTo(x, y) : g.moveTo(x, y);
+            }
+            g.strokeStyle = a === 1 ? C.cyan : C.violet; g.lineWidth = B.w*.03; g.shadowColor = C.violet; g.shadowBlur = B.w*.05;
+            g.stroke();
+          }
+        }
+      }
+    };
+  }
+
   const haunt = {
     current: null,
 
@@ -903,8 +1072,8 @@
     async enter(penxy, opp, o) {
       o = o || {};
       if (haunt.current) await haunt.current.exit();
-      const A = rectOf(penxy), B = rectOf(opp);
-
+      const A = cardBounds(penxy), B = cardBounds(opp);
+      const withSlow = o.slow !== false;
       SFX.hauntEnter();
       flash(A.el, C.gold, 600);
 
@@ -921,15 +1090,17 @@
         ], { duration: 1700, easing: 'cubic-bezier(.5,0,.3,1)' });
       }
 
+      const mind = makeMind(penxy, opp, withSlow);
+      addItem(mind);
       await wait(1250);
-      if (o.signal?.aborted) { return; }
+      if (o.signal?.aborted || state.reduceMotion) { mind.stop(); return; }
       const ambience = SFX.hauntAmbience();
-      if (B.el) B.el.style.filter = (prevFilter ? prevFilter + ' ' : '') + 'saturate(.7) drop-shadow(0 0 2px ' + C.violet + ')';
-
+      if (B.el) B.el.style.filter = (prevFilter ? prevFilter + ' ' : '') + 'saturate(.7) drop-shadow(0 0 3px ' + C.violet + ')';
+      if (withSlow) slow(opp, { sound: false });
       await wait(450);
 
-      if (o.signal?.aborted) {
-        ambience.stop(); if (B.el) B.el.style.filter = prevFilter;
+      if (o.signal?.aborted || state.reduceMotion) {
+        ambience.stop(); mind.stop(); if (B.el) B.el.style.filter = prevFilter;
         return;
       }
       let closed = false;
@@ -941,23 +1112,25 @@
           if (haunt.current === handle) haunt.current = null;
           ambience.stop();
           if (silent) {
-            if (B.el) B.el.style.filter = prevFilter;
+            mind.stop(); if (B.el) B.el.style.filter = prevFilter;
             return;
           }
           SFX.hauntExit();
-          const nowB = rectOf(opp);
-          addItem(particleSystem(burst(nowB.cx, nowB.cy, 12, {
-            min: nowB.w*.12, max: nowB.w*.45, drag: .94, lifeMin: .25, lifeMax: .65, sizeMin: 2, sizeMax: 5,
+          mind.closing = true; mind.closeStart = mind.t;
+          const nowB = cardBounds(opp);
+          addCardItem(opp, particleSystem(burst(localCard.cx, localCard.cy, 46, {
+            min: 45, max: 150, gravity: 120, drag: .95, lifeMin: .5, lifeMax: 1.1, sizeMin: 2, sizeMax: 5, jitter: 12,
             colors: [C.indigo, C.violet, C.cyan, C.cream], shapes: ['shard']
-          }), {dur:.7}));
+          }), { dur: 1.3 }));
+          flash(nowB.el, C.cream, 320);
           if (nowB.el) {
             nowB.el.style.filter = prevFilter;
             animate(nowB.el, [{ scale: '0.92' }, { scale: '1.06', offset: 0.5 }, { scale: '1' }], { duration: 450, easing: 'ease-out' });
           }
           await wait(550);
           // "PENXY pode usar sua habilidade logo após sair de uma": pulso de pronto
-          if (o.ready !== false) { SFX.shimmer(); flash(A.el, C.gold, 700); addItem(particleSystem(burst(A.cx, A.cy, 14, {
-            min: A.w*.1, max: A.w*.4, drag: 0.94, lifeMin: 0.3, lifeMax: .7, sizeMin: 2, sizeMax: 5,
+          if (o.ready !== false) { SFX.shimmer(); flash(A.el, C.gold, 700); addCardItem(penxy, particleSystem(burst(localCard.cx, localCard.cy, 14, {
+            min: 30, max: 100, drag: 0.94, lifeMin: 0.5, lifeMax: 1, sizeMin: 2, sizeMax: 4,
             colors: [C.gold, C.cream, C.violet], shapes: ['star', 'spark']
           }), { dur: 1.2 })); }
         }
@@ -975,17 +1148,90 @@
   // ---------------------------------------------------------------------------
   // PASSIVA — estrela "Assombração" (brilho/aura)
   // ---------------------------------------------------------------------------
+  /** Pulso único: a passiva disparou (anel que se expande + estrela + fagulhas). */
   function passive(target) {
+    const r = localCard;
     SFX.shimmer();
-    const art=target.querySelector('.original-card>image');
-    if(art)return animate(art,[{opacity:.82},{opacity:1}],{duration:380});
-  }
-  function aura(target, options={}) {
-    if(options.sound!==false)SFX.shimmer();
-    target.classList.add('penxy-aura');
-    return {stop(){target.classList.remove('penxy-aura');}};
+    addCardItem(target, {
+      dur: 1.2,
+      draw(g) {
+        const k = this.t / this.dur;
+        g.globalCompositeOperation = 'lighter';
+        for (let i = 0; i < 2; i++) {
+          const kk = clamp(k * 1.3 - i * 0.18, 0, 1);
+          if (kk <= 0) continue;
+          g.globalAlpha = (1 - kk) * 0.9;
+          g.lineWidth = 6 * (1 - kk) + 1;
+          g.strokeStyle = i ? C.cyan : C.violet; g.shadowColor = C.violet; g.shadowBlur = 6;
+          roundRectPath(g, r.x - kk * 3, r.y - kk * 3, r.w + kk * 6, r.h + kk * 6, 10 + kk * 2); g.stroke();
+        }
+        g.shadowBlur = 0;
+        const pop = easeOut(clamp(k * 3, 0, 1)) * (1 - clamp((k - 0.6) / 0.4, 0, 1));
+        g.globalCompositeOperation = 'source-over';
+        starFace(g, r.cx, r.cy, Math.min(r.w, r.h) * (0.18 + 0.1 * pop), this.t * 3, pop);
+      }
+    });
+    addCardItem(target, particleSystem(burst(r.cx, r.cy, 22, {
+      min: 32, max: 105, drag: 0.94, lifeMin: 0.5, lifeMax: 1.1, sizeMin: 2, sizeMax: 5,
+      colors: [C.gold, C.cream, C.violet, C.cyan], shapes: ['star', 'spark', 'dot']
+    }), { dur: 1.3 }));
+    return wait(1100);
   }
 
+  /**
+   * Aura contínua enquanto o PENXY está em campo: brilho pulsante, partículas subindo
+   * e o selo da estrela no canto da carta.  Retorna { stop() }.
+   * @param o { sound = true }  toca um brilho curto ao ligar
+   */
+  function aura(target, o) {
+    o = o || {};
+    if (o.sound !== false) SFX.shimmer();
+    const motes = [];
+    let acc = 0;
+    const item = {
+      dur: Infinity,
+      stopAt: null,
+      update(dt) {
+        const r = localCard;
+        acc += dt * 16;
+        while (acc >= 1 && this.stopAt == null) {
+          acc -= 1;
+          motes.push({ x: r.x + Math.random() * r.w, y: r.y + r.h * rand(0.5, 1), vx: rand(-3, 3), vy: -rand(14, 34),
+            life: rand(0.9, 1.7), age: 0, s: rand(1.4, 3.2), col: pick([C.violet, C.cyan, C.cream]), star: Math.random() < 0.35, rot: rand(0, 6.28) });
+        }
+        for (const m of motes) { m.age += dt; m.x += m.vx * dt; m.y += m.vy * dt; m.rot += dt * 2; }
+        for (let i = motes.length - 1; i >= 0; i--) if (motes[i].age > motes[i].life) motes.splice(i, 1);
+      },
+      draw(g) {
+        const out = this.stopAt == null ? 1 : 1 - clamp((this.t - this.stopAt) / 0.4, 0, 1);
+        if (out <= 0) { this.dead = true; return; }
+        const intro = clamp(this.t / 0.4, 0, 1);
+        const a = out * intro;
+        const r = localCard;
+        g.globalCompositeOperation = 'lighter';
+        g.globalAlpha = a * (0.35 + 0.2 * Math.sin(this.t * 2.4));
+        g.strokeStyle = C.violet; g.lineWidth = 2; g.shadowColor = C.violet; g.shadowBlur = 6;
+        roundRectPath(g, r.x, r.y, r.w, r.h, 12); g.stroke();
+        g.globalAlpha = a * (0.25 + 0.15 * Math.sin(this.t * 2.4 + 1.6));
+        g.strokeStyle = C.cyan; g.lineWidth = 2; g.shadowColor = C.cyan; g.shadowBlur = 3;
+        roundRectPath(g, r.x + 3, r.y + 3, r.w - 6, r.h - 6, 12); g.stroke();
+        g.shadowBlur = 0;
+        for (const m of motes) {
+          g.globalAlpha = a * Math.sin((m.age / m.life) * Math.PI) * 0.8;
+          g.fillStyle = m.col;
+          if (m.star) { starPath(g, m.x, m.y, m.s * 1.5, m.rot); g.fill(); }
+          else { g.beginPath(); g.arc(m.x, m.y, m.s * 0.6, 0, 6.2832); g.fill(); }
+        }
+        g.globalCompositeOperation = 'source-over';
+        const R = Math.min(r.w, r.h) * 0.11;
+        starFace(g, r.x + r.w - R * 1.1, r.y + R * 1.1, R * (1 + 0.06 * Math.sin(this.t * 3)), this.t, a * 0.95);
+      }
+    };
+    addCardItem(target, item);
+    return { stop() { if (item.stopAt == null) item.stopAt = item.t; } };
+  }
+
+  // ---------------------------------------------------------------------------
   // API pública
   // ---------------------------------------------------------------------------
   if (global.matchMedia) {

@@ -1,14 +1,14 @@
 # GOGHOS — The Nightmare Is Coming
 
-**v0.60.0 — Turnos e apoios na arena**
+**v0.60.1 — Animações do Penxy**
 
 No computador, abra **arena-batalha.html** ou entre pelo **Play**. Escolha seu personagem da equipe azul e clique em **Iniciar batalha**. Na sua vez, clique em um inimigo e use **Atacar**. Três aliados e quatro adversários jogam automaticamente. Se você for eliminado, os aliados continuam até o final da rodada. A faixa sob cada carta mostra a vida restante.
 
 Cada turno dura **25 segundos**. Quando todos os personagens vivos terminam a vez, a fila retorna ao mais rápido e você ganha um apoio. Clique no ícone para usar a carta e depois ataque. Se os três espaços estiverem ocupados, escolha qual carta trocar ou descarte a nova. Clique em qualquer personagem para consultar a ficha. Pausa, efeitos e registro ficam em **Menu**.
 
-Escolha **Penxy** para jogar com 500 PV e 140 de ataque. Na sua vez, clique na estrela **Assombração** e escolha um rival. Os dois alternam ataques dentro da mente até a eliminação de um deles ou até Penxy usar **Sair da mente**. A faixa de vida acompanha o dano e sinaliza vida crítica abaixo de 15%.
+Escolha **Penxy** para jogar com 500 PV e 140 de ataque. A aura pulsante, o turbilhão de entrada e os estilhaços da saída acompanham o tamanho da carta. Na sua vez, clique na estrela **Assombração** e escolha um rival. Os dois alternam ataques dentro da mente até a eliminação de um deles ou até Penxy usar **Sair da mente**. A faixa de vida acompanha o dano e sinaliza vida crítica abaixo de 15%.
 
-[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.60.0/downloads/arena-original-v0.60.0.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.60.0.zip)
+[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.60.1/downloads/arena-original-v0.60.1.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.60.1.zip)
 
 ## Laboratório das versões anteriores
 

@@ -136,5 +136,4 @@
 .tc-actions{position:fixed;display:flex;z-index:9001;gap:4px}
 .tc-actions button{position:static;min-height:32px;font:600 14px/1 system-ui;letter-spacing:.01em;padding:5px 11px;border:1px solid #362739;border-radius:16px;box-shadow:0 2px 4px #22142555;cursor:pointer;animation:none}
 .tc-actions .tc-ability{color:white;background:#583c79}
-.combat-card.penxy-aura .original-card>image{filter:drop-shadow(0 0 16px #906bff)}
 .combat-card.haunt-opponent .original-card>image{filter:drop-shadow(0 0 22px #b3f4ff)}
