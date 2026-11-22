@@ -1,3 +1,9 @@
+# Arena Penxy v0.59.0
+
+O pacote extraído foi aberto em Chromium, com efeitos ativos e com movimento reduzido. O fluxo conferido inclui escolher Penxy, entrar e sair da mente, bloquear o ataque a um terceiro personagem, eliminar o rival e reiniciar como Nully para testar a katana. O teste do modelo também cobre um duelo em que o alvo sobrevive, a alternância de turnos e a remoção de −1 VEL ao sair. A entrada pelo Play e o retorno ao menu foram exercitados por mouse e teclado.
+
+[Imagem da partida](previews/arena-penxy-v0.59.0.png)
+
 # Validação da arena v0.56.0
 
 O modelo da série é idêntico ao arquivo js/lab/battle.js do ZIP enviado. O teste de navegador do pacote extraído cobre seleção duplicada, oito cartas, três modos, ataque de 25, consulta pela fila e pausa. As cartas mostram a vida do modelo da partida.

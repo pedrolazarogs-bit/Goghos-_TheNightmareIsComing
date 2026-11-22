@@ -1,0 +1,110 @@
+/* Artwork occupies the supplied arena's existing controls and hit areas. */
+.original-card{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.combat-card .slot-gem{width:22%;top:calc(50% - 100px);background:transparent;clip-path:none}
+.team.red .slot-gem{top:calc(50% - 88px)}
+.slot-gem:before{inset:0;clip-path:none;background:url("../assets/menu-v036/star.webp") center/contain no-repeat}
+.combat-card.target-ready{filter:drop-shadow(0 0 5px var(--gold))}
+.championship:before{content:'';position:absolute;left:0;top:0;width:320px;height:121px;background:url("../assets/scoreboard-v049/scoreboard.png") -36px -250px/392px 392px no-repeat}
+.champion-emblem,.championship-title,.score-ribbon:before,.score-ribbon span{display:none}
+.championship .score-ribbon{top:63px;width:60px;height:40px;padding:0;justify-content:center;background:none;clip-path:none}
+.championship .score-ribbon.blue{left:40px}.championship .score-ribbon.red{right:40px}
+.score-ribbon strong{font-size:35px}
+.queue-card:has(.q-art){background:none;clip-path:none;overflow:hidden}
+.queue-card:has(.q-art):before,.queue-card:has(.q-art) .q-star{display:none}
+.queue-card .q-art{right:0;bottom:auto;top:-9%;width:100%;height:auto;pointer-events:none}
+.queue-card span{z-index:1;left:5%;top:auto;bottom:2px}
+.inspector-sheet{background:transparent url("../assets/player-panel-v048/panel-base.png") center/100% 100% no-repeat;clip-path:none}
+.stat-life{background:transparent;clip-path:none;--ribbon:polygon(0 0,100% 32%,95% 98%,14% 100%)}
+.stat-life:before{display:block;inset:0 52px 0 0;clip-path:var(--ribbon);background:#422436}
+.stat-life i,.stat-life .damage-trail{position:absolute;inset:0 52px 0 0;display:block;background:none;transform:none;clip-path:inset(0 0 0 var(--missing-hp,0%))}
+.stat-life i{transition:clip-path .18s ease-out}
+.stat-life i::before,.stat-life .damage-trail::before{content:'';position:absolute;inset:0;clip-path:var(--ribbon)}
+.stat-life i::before{background:linear-gradient(3deg,#a0145f 0 35%,#ff0055 36%)}
+.stat-life .damage-trail::before{background:#ff9a39}
+.stat-life:after{display:none}
+.stat-detail img{filter:none}
+
+/* Desktop information stays in the field, with small sheets only for decisions and history. */
+#arena-tip{position:fixed;z-index:9020;max-width:min(255px,80vw);padding:6px 11px;border-inline-start:3px solid #ffd77b;background:#211b32;color:#fff;border-radius:3px 9px 9px 3px;font:600 14px/1.35 system-ui;pointer-events:none}
+.compact-arena #battle-dialog{box-sizing:border-box;position:fixed;inset:clamp(64px,10vh,100px) 16px auto auto;z-index:9030;margin:0;width:min(300px,90vw);max-height:48dvh;padding:14px 16px;color:#fff;background:#201b30fa;border:1px solid #a58c70;border-top:3px solid #ffd77b;border-radius:5px 5px 13px 13px;box-shadow:0 4px 16px #170d2938}
+.compact-arena #battle-dialog::backdrop{background:transparent;backdrop-filter:none}
+.compact-arena #battle-dialog[data-kind=setup],.compact-arena #battle-dialog[data-kind=result]{inset:clamp(66px,11vh,115px) auto auto max(16px,3vw);width:min(340px,90vw);max-height:72dvh}
+.compact-arena #dialog-kicker{display:none}
+.compact-arena #battle-dialog h1{font-size:24px;margin:1px 32px 10px 0}
+.compact-arena #dialog-close{position:absolute;right:6px;top:5px;width:34px;height:34px}
+.compact-arena #dialog-body{font:14px/1.45 system-ui}
+.compact-arena #dialog-body p{margin:7px 0}
+.compact-arena #dialog-actions{gap:7px;margin-top:10px;flex-wrap:wrap}
+.compact-arena #dialog-actions:empty,.compact-arena #setup-error:empty{display:none}
+.compact-arena #dialog-actions button{font-size:17px;padding:5px 12px;box-shadow:none}
+.compact-arena .lineups{margin:9px 0;gap:12px}
+.compact-arena .lineups h3{font:700 12px system-ui;letter-spacing:.04em;margin:0}
+.compact-arena .lineups select{padding:5px 3px}
+.compact-arena .lineups label{gap:4px;margin:4px 0}
+.compact-arena .dialog-log{max-height:27dvh;overflow:auto}
+.compact-arena .result-score{font-size:38px;margin:5px 0}
+.compact-arena .match-emblem{float:right;width:54px}
+.compact-arena :is(button,select,a):focus-visible{outline:3px solid #ffe09b;outline-offset:3px}
+.character-pick{display:grid;gap:5px;font:600 13px/1.4 system-ui}
+.character-pick select{width:100%;padding:8px 10px;border:1px solid #a58c70;border-radius:6px;background:#30273e;color:white;font:16px system-ui}
+.card-health{pointer-events:none}
+.card-health clipPath rect{transition:x .18s ease-out}
+.damage-trail{visibility:hidden}
+.took-damage .damage-trail{visibility:visible}
+.card-health .trail-mask rect{transition:none}
+.card-health.took-damage .trail-mask rect{transition:x .72s cubic-bezier(.45,0,.3,1) .25s}
+.stat-life.took-damage .damage-trail{transition:clip-path .72s cubic-bezier(.45,0,.3,1) .25s}
+/* Only the coloured remainder pulses. The track, damage trail, number and heart stay independent. */
+.card-health.life-critical .life-fill,.stat-life.life-critical i,.tc-hp.life-critical i{
+ color:#ff384c;animation:critical-life-pulse .85s ease-in-out infinite alternate
+}
+@keyframes critical-life-pulse{from{color:#ff384c}to{color:#48ec78}}
+.card-health.life-critical .life-fill path{fill:currentColor}
+.card-health.life-critical .life-fill path:first-child{fill:color-mix(in srgb,currentColor 65%,#241a26)}
+.stat-life.life-critical i::before,.tc-hp.life-critical i{background:linear-gradient(3deg,color-mix(in srgb,currentColor 65%,#241a26) 0 35%,currentColor 36%)}
+.combat-card.dead{filter:none}
+.combat-card.dead .original-card>image,.combat-card.dead .original-card>svg{filter:grayscale(1)}
+.reduced .took-damage .damage-trail{visibility:hidden}
+@media(prefers-reduced-motion:reduce){
+ .life-critical .life-fill,.life-critical i{animation:none!important}
+ .card-health clipPath rect,.stat-life i,.stat-life .damage-trail{transition:none!important}
+ .took-damage .damage-trail{visibility:hidden}
+}
+.control strong{color:#422543}
+/* Both rows grow from the floor so the cards and their shadows stay together. */
+.single-player-arena .team{transform-origin:left bottom}
+.single-player-arena .team.blue{left:38px;top:432px;transform:scale(1.11)}
+.single-player-arena .team.blue .combat-card+.combat-card{margin-left:-25px}
+.single-player-arena .team.red{left:688px;transform:scale(1.06)}
+.single-player-arena .formation-label.enemies{left:688px;top:304px}
+.single-player-arena .team.red .combat-card.is-current:after{top:-9px}
+
+/* Keep the tip and its contact shadow together when an opponent is inspected. */
+.team.red .combat-card{height:176px;transform-origin:50% 100%}
+.single-player-arena .team.red .combat-card{height:205.4px}
+.team.red .combat-card::before{bottom:-3px;left:18%;right:18%;height:8px;filter:blur(2px)}
+.team.red .combat-card.tc-sel{transform:scale(1.04)}
+.team.red .combat-card.is-selected.tc-sel{transform:scale(1.14)}
+.team.red .slot-gem{top:0}
+#support-hand{position:absolute;left:10px;bottom:12px;display:flex;align-items:center;gap:0}
+#support-hand button{position:relative;width:72px;height:84px}
+#support-hand img{display:block;width:100%;height:100%;object-fit:contain}
+
+.ability-emblem{display:block;width:100%;height:100%;pointer-events:none}
+#dialog-body>.ability-emblem{width:104px;height:90px}
+.queue-card{animation:none}
+.queue-card .queue-face{position:absolute;inset:0;pointer-events:none}
+.queue-face>*{position:absolute}
+
+/* Keep the live damage trail and number visible below the katana slices. */
+.katana-split .card-health,.katana-split .damage-number{visibility:visible}
+
+/* Keep the original card visible until the ash sweep has finished. */
+.combat-card.dead.falling{opacity:1}
+.combat-card.dead.falling::after{display:none}
+.combat-card.dead.falling .original-card>image,.combat-card.dead.falling .original-card>svg{filter:none}
+.combat-card.haunt-opponent::before{content:'−1 VEL';color:#99ffff;filter:none;position:absolute;bottom:0;background:#261441;font-size:16px;height:auto;z-index:5}
+
+/* Frame the portrait above the HUD; the supplied card also has a printed life total. */
+#portrait.penxy-portrait{width:278px;height:216px;bottom:92px;right:0;overflow:hidden}
+#portrait.penxy-portrait img{position:absolute;top:-68px;right:-7px;width:100%;height:auto}

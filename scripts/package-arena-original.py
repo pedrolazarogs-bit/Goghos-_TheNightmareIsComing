@@ -14,6 +14,11 @@ files += ['assets/scoreboard-v049/scoreboard.png']
 files += ['assets/player-panel-v048/'+n+'.png' for n in ['damage','heart','health-bar','panel-base']]
 for code,slug in re.findall(r"\['([0-9_]+)','([a-z]+)'",(root/'js/arena/art.js').read_text()):
     files += [f'assets/characters-v047/Original-Base{code}.png',f'assets/turn-order-v050/{slug}.png']
+# Preserve the previous touch arena alongside the updated desktop implementation.
+files += ['arena-toque.html','assets/arena/penxy.webp','assets/arena/mao-vazia.png',
+          'assets/characters-v047/Original-Base68_20261023181416.png','assets/turn-order-v050/penxy.png']
+files += [p.relative_to(root).as_posix() for p in sorted((root/'css').glob('penxy-*.css'))]
+files += [p.relative_to(root).as_posix() for p in sorted((root/'js/penxy').glob('*.js'))]
 out.parent.mkdir(exist_ok=True)
 with ZipFile(out,'w',ZIP_DEFLATED) as z:
     z.writestr('batalha.html',(root/'arena-batalha.html').read_text().replace('href="arena-batalha.html"','href="batalha.html"'))

@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v0.59.0 — Arena Penxy
+
+Integração de GOGHOS-Arena-Penxy.html no Play do computador. Penxy chega com Garra Fantasma, Assombração, retrato, faixa da fila e efeitos sonoros e visuais. A arena usa a katana enviada para Nully, a mão com três indicadores de vaga, o painel fixo do jogador e a indicação de dano e vida crítica do arquivo.
+
 ## v0.58.0 — Um jogador e sete bots
 
 Na arena de computador, o personagem escolhido continua pertencendo ao jogador entre rodadas. Os demais têm turnos automáticos, inclusive após a eliminação do jogador. A vida de cada carta também aparece em uma faixa angular sob sua ponta, com valor atual e coração original.

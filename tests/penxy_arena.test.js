@@ -1,0 +1,24 @@
+const assert=require('node:assert/strict'),M=require('../js/penxy/battle');
+const s=M.create();assert(M.start(s,0,M.roster.indexOf('Penxy')));
+const p=M.current(s),target=s.cards.find(c=>c.id==='red-0'),other=s.cards.find(c=>c.id==='red-1');
+assert.equal(p.hp,500);assert.equal(p.atk,140);
+assert(!M.enterHaunt(s,p.id,target.id,'bot',1));
+assert(M.enterHaunt(s,p.id,target.id,'player',1));
+assert.equal(M.next(s),target);assert.equal(target.status[0].speedDelta,-1);
+assert.equal(M.attack(s,p.id,other.id,2),null);
+assert(M.leaveHaunt(s,2));assert.equal(target.status.length,0);
+assert(M.enterHaunt(s,p.id,target.id,'player',3));
+assert(M.attack(s,p.id,target.id,4).defeated);
+assert(!s.haunt);assert.equal(target.status.length,0);
+assert(M.current(s).hp>0);
+// Matchup with two Penxys in opposing lineups exercises a surviving duel target.
+const duel=M.create();M.start(duel,0,4);const owner=duel.cards.find(c=>c.team==='red'&&c.name==='Penxy'),rival=duel.cards.find(c=>c.team==='blue'&&c.name==='Penxy');
+duel.cursor=duel.order.indexOf(owner.id);
+assert(M.enterHaunt(duel,owner.id,rival.id,'bot',1));
+assert.equal(M.attack(duel,owner.id,rival.id,2,'bot').damage,140);
+assert.equal(M.current(duel),rival);
+assert.equal(M.next(duel),owner);
+assert.equal(M.attack(duel,rival.id,owner.id,3,'bot').damage,140);
+assert.equal(M.current(duel),owner);
+assert(M.leaveHaunt(duel,4));assert.equal(rival.status.length,0);
+console.log('PASS Penxy: atributos, controle, alvos, duelo, saída, eliminação e retorno à fila.');

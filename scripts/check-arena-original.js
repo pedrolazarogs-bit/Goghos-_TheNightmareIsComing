@@ -43,7 +43,7 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('[data-battle-card=red-0] .card-health text').textContent(),'75');
   await page.clock.runFor(4000);
   assert.equal((await snapshot()).order[(await snapshot()).cursor],'blue-1');
-  assert(await page.locator('#basic').isDisabled());
+  assert.equal((await snapshot()).cards.find(c=>c.id==='blue-1').controller,'bot');
   await page.locator('[data-battle-card=red-2]').click();
   assert.equal(await page.locator('.tc-atk').count(),0);
   await page.clock.runFor(4000);
@@ -55,12 +55,12 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#owned-name').textContent(),'Sam');
   const legible=await page.locator('[data-controller=player] .card-health').evaluate(el=>{
    const a=el.getBoundingClientRect();
-   return [...document.querySelectorAll('[data-slot=support]')].every(slot=>{
+   return [...document.querySelectorAll('#support-hand button')].every(slot=>{
     const b=slot.getBoundingClientRect();return a.bottom<=b.top||b.right<=a.left||b.left>=a.right;
    });
   });
   assert(legible,'Apoios não devem cobrir a vida do jogador');
-  await page.screenshot({path:'/tmp/arena-original-058.png'});
+  await page.screenshot({path:'/tmp/arena-original-059.png'});
   assert.deepEqual(failures,[]);
   console.log('PASS seleção, dois times, um jogador e sete bots, dano na arte, bot, fila, pausa e arquivos offline.');
  }finally{await browser.close();}

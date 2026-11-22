@@ -1,10 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**v0.58.0 — Seu personagem e sete bots**
+**v0.59.0 — Penxy e Assombração**
 
 No computador, abra **arena-batalha.html** ou entre pelo **Play**. Escolha seu personagem da equipe azul e clique em **Iniciar batalha**. Na sua vez, clique em um inimigo e use **Atacar**. Três aliados e quatro adversários jogam automaticamente. Se você for eliminado, os aliados continuam até o final da rodada. A faixa sob cada carta mostra a vida restante.
 
-[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.58.0/downloads/arena-original-v0.58.0.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.58.0.zip)
+Escolha **Penxy** para jogar com 500 PV e 140 de ataque. Na sua vez, clique na estrela **Assombração** e escolha um rival. Os dois alternam ataques dentro da mente até a eliminação de um deles ou até Penxy usar **Sair da mente**. A faixa de vida acompanha o dano e sinaliza vida crítica abaixo de 15%.
+
+[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.59.0/downloads/arena-original-v0.59.0.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.59.0.zip)
 
 ## Laboratório das versões anteriores
 
