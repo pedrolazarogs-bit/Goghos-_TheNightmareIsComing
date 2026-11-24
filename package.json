@@ -1,6 +1,6 @@
 {
   "name": "goghos-tcg",
-  "version": "0.61.2",
+  "version": "0.61.3",
   "private": true,
   "description": "GOGHOS — abertura, menu e batalha 4×4",
   "scripts": {
@@ -18,7 +18,7 @@
     "test:scoreboard": "node scripts/check-scoreboard-browser.js",
     "test:supports": "node scripts/check-supports-browser.js",
     "package:supports": "python3 scripts/package-supports.py",
-    "test:arena": "node scripts/check-arena-original.js && node scripts/check-penxy-browser.js && node scripts/check-zzus-browser.js",
+    "test:arena": "node scripts/check-arena-original.js && node scripts/check-penxy-browser.js && node scripts/check-zzus-browser.js && node scripts/check-arena-music.js",
     "package:arena": "python3 scripts/package-arena-original.py"
   },
   "engines": {

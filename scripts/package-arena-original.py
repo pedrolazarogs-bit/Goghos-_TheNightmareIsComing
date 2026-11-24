@@ -21,7 +21,8 @@ files += [p.relative_to(root).as_posix() for p in sorted((root/'css').glob('penx
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/penxy').glob('*.js'))]
 files += ['js/lab/'+name+'.js' for name in ['characters','supports','battle']]
 files += [p.relative_to(root).as_posix() for p in sorted((root/'assets/supports-v051').glob('*.png'))]
-files += ['js/ui/card_values.js']
+files += ['js/ui/card_values.js','js/config.js','js/ui/presentation_fx.js','js/ui/soundtrack.js']
+files += ['assets/arena/music/The_Last_Gambit.mp3','assets/arena/music/Final_Gambit.mp3']
 for folder in ['characters-v047','turn-order-v050']:
     files += [p.relative_to(root).as_posix() for p in sorted((root/'assets'/folder).glob('*.png'))]
 files = list(dict.fromkeys(files))

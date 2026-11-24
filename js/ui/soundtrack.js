@@ -1,7 +1,9 @@
 // Trilha instrumental local: apresentação independente do estado e das regras da partida.
 (function(G){
 'use strict';
-const TRACKS=Object.freeze({menu:{src:'assets/menu-v036/menu.mp3',loop:true},combat:{src:'assets/music-v0361/combat.mp3',loop:true},victory:{src:'assets/music-v0361/victory.mp3',loop:false},defeat:{src:'assets/music-v0361/defeat.mp3',loop:false}});
+const ARENA_TRACKS=['The_Last_Gambit','Final_Gambit'];
+const arenaTracks=Object.fromEntries(ARENA_TRACKS.map(name=>[name,{src:'assets/arena/music/'+name+'.mp3',loop:true}]));
+const TRACKS=Object.freeze({...arenaTracks,menu:{src:'assets/menu-v036/menu.mp3',loop:true},combat:{src:'assets/music-v0361/combat.mp3',loop:true},victory:{src:'assets/music-v0361/victory.mp3',loop:false},defeat:{src:'assets/music-v0361/defeat.mp3',loop:false}});
 const DEFAULTS=Object.freeze({muted:false,volume:.38,musicMuted:false,musicVolume:.55});
 const clamp=(value,fallback)=>{const n=Number(value);return Number.isFinite(n)?Math.min(1,Math.max(0,n)):fallback;};
 const normalize=(value={})=>({muted:typeof value.muted==='boolean'?value.muted:DEFAULTS.muted,volume:clamp(value.volume,DEFAULTS.volume),musicMuted:typeof value.musicMuted==='boolean'?value.musicMuted:DEFAULTS.musicMuted,musicVolume:clamp(value.musicVolume,DEFAULTS.musicVolume)});
@@ -82,6 +84,10 @@ function setContext(value,options={}){
  if(next!=='silent')sync(true,next==='victory'||next==='defeat'?600:1200);
  return getDebugState();
 }
+function startArenaSeries(){
+ const track=ARENA_TRACKS[Math.floor(Math.random()*ARENA_TRACKS.length)];
+ setContext(track,{immediate:true});
+}
 function setPreferences(value={}){
  const next=normalize({...prefs,...value}),changed=Object.keys(next).some(key=>next[key]!==prefs[key]);prefs=next;
  if(changed)sync(true,250);return{...prefs};
@@ -103,5 +109,5 @@ function destroy(){
  initialized=false;unlocked=false;context='silent';battlePaused=false;lastError=null;playCount=0;
 }
 function getDebugState(){return{initialized,unlocked,context,paused:battlePaused,hidden:hidden(),targetVolume:level(),activeTrack:current?.track||null,playing:!!current?.playing,ended:!!current?.ended,pending:!!current?.pending,tracks:[...records].map(r=>({track:r.track,playing:r.playing,pending:r.pending,volume:r.volume,loop:r.audio.loop,currentTime:r.audio.currentTime||0})),queuedFade:timer!==null,playCount,lastError,preferences:{...prefs}};}
-G.Soundtrack=Object.freeze({init,setContext,setPreferences,destroy,getDebugState});
+G.Soundtrack=Object.freeze({init,setContext,startArenaSeries,setPreferences,destroy,getDebugState});
 })(globalThis.GOGHOS);

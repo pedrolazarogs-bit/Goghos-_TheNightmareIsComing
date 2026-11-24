@@ -1,8 +1,8 @@
 # GOGHOS — The Nightmare Is Coming
 
-**v0.61.2 — Contagem regressiva sobre a carta da vez**
+**v0.61.3 — Trilha sonora da batalha**
 
-[Jogar a arena no navegador](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.2/arena-batalha.html?personagem=Nully) · [Abrir o jogo pelo menu](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.2/index.html)
+[Jogar a arena no navegador](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.3/arena-batalha.html?personagem=Nully) · [Abrir o jogo pelo menu](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.3/index.html)
 
 No computador, abra **arena-batalha.html** ou entre pelo **Play**. Escolha seu personagem da equipe azul e clique em **Iniciar batalha**. Na sua vez, clique em um inimigo e use **Atacar**. Três aliados e quatro adversários jogam automaticamente. Se você for eliminado, os aliados continuam até o final da rodada. A faixa sob cada carta mostra a vida restante.
 
@@ -10,11 +10,13 @@ Escolha **Z-Zus** para arremessar a **Pedrinha**. Na sua vez, abra **Meu Herói*
 
 As fichas definem ataques, reações e habilidades. Nesta prévia, Sarck reage ao dano fora da fila de velocidade. Draktar ganha prioridade sobre o alvo marcado. Em Corte Preciso, as faces 1–5 distribuem o dano entre 45 e 220, e 6 executa. As formas de Dashow começam com a mesma vida na primeira troca; a forma em reserva recupera 15 PV por turno. Cardume usa o dano impresso de DD-X (45 × 2). Clique em uma carta para ler o efeito. Na sua vez, a estrela oferece as ações disponíveis, inclusive libertar um aliado petrificado. As cartas de Zédia, Dashow Only e Petra aparecem com **?** até a chegada das artes avulsas.
 
+Ao iniciar uma série no computador, a arena sorteia **The Last Gambit** ou **Final Gambit**. A faixa toca em loop durante todas as rodadas até o resultado final. Cada nova série tem seu próprio sorteio.
+
 Cada turno dura **25 segundos**. O indicador acima da carta da vez acompanha o jogador ou bot que deve agir e destaca os últimos cinco segundos. Quando todos os personagens vivos terminam a vez, a fila retorna ao mais rápido e você ganha um apoio. Clique no ícone para usar a carta e depois ataque. Se os três espaços estiverem ocupados, escolha qual carta trocar ou descarte a nova. Clique em qualquer personagem para consultar a ficha. Pausa, efeitos e registro ficam em **Menu**.
 
 Escolha **Penxy** para jogar com 500 PV e 140 de ataque. A aura pulsante, o turbilhão de entrada e os estilhaços da saída acompanham o tamanho da carta. Na sua vez, clique na estrela **Assombração** e escolha um rival. Os dois alternam ataques dentro da mente até a eliminação de um deles ou até Penxy usar **Sair da mente**. A faixa de vida acompanha o dano e sinaliza vida crítica abaixo de 15%.
 
-[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.61.2/downloads/arena-original-v0.61.2.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.61.2.zip)
+[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.61.3/downloads/arena-original-v0.61.3.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.61.3.zip)
 
 ## Laboratório das versões anteriores
 

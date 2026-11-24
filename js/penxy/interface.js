@@ -6,6 +6,8 @@ if(new URLSearchParams(location.search).get('from')==='menu'){
 }
 let state=M.create(),selected=null,busy=false,aiTimer=null,finishTimer=null,generation=0,dialogKind='',manualPause=false,hiddenPause=false;
 let activeAction=null;
+const music=GOGHOS.Soundtrack;
+music.init();
 const FX=window.PenxyFX, ZFX=window.ZzusFX;
 const canvasReady=!!document.createElement('canvas').getContext('2d');
 const auras=new Map();
@@ -121,6 +123,7 @@ function showSetup(){
   const options=M.roster.map((name,i)=>'<option value="'+i+'">'+escape(name)+(M.speed[i]===null?' · reação ao dano':'')+'</option>').join('');
   openDialog('setup','Escolha seu personagem','<label class="character-pick">Seu personagem<select id="owned-character">'+options+'</select></label><p>Você joga pela equipe azul. Três aliados e quatro adversários agem por conta própria.</p>',[{label:'Iniciar batalha',primary:true,run:()=>{
    if(!M.start(state,now(),Number($('owned-character').value)))return;
+   music.startArenaSeries();
    window.Efeitos?.prepararSom();FX.unlock();if(state.cards.some(c=>c.skill==='protect'))ZFX.unlock();
    selected=state.playerId;closeDialog();render();schedule();
   }}]);
@@ -436,9 +439,11 @@ function schedule(){
  }
  perform(targets[0].id,'bot');},3200);
 }
-function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.61.2',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.2.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function restart(){cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
+function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;
+ if(finished)music.setContext('silent',{immediate:true});
+ openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
+function exportState(){const data={version:'0.61.3',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function restart(){music.setContext('silent',{immediate:true});cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
 CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>player()?.name==='Penxy'?c.skill!=='immune'&&c.speed!==null&&(!state.haunt||state.haunt.owner===state.playerId):M.options(state,player(),'player').some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{if(player().name==='Penxy')changeHaunt(player(),c,'player');else {const chosen=M.options(state,player(),'player').filter(o=>o.target===c.id);if(chosen.length===1)cast(player(),chosen[0]);else skillMenu(player());}},onAttack:c=>perform(c.id)});
 $('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){inspect(el.dataset.battleCard);}});
@@ -527,6 +532,6 @@ const menu=$('arena-menu');
 document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))menu.open=false;});
 menu.addEventListener('click',e=>{if(e.target.closest('button'))menu.open=false;});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(menu.open)menu.querySelector('summary').focus();menu.open=false;closeInfo();}});
-window.GoghosBattle=Object.freeze({snapshot:()=>JSON.parse(JSON.stringify({...state,elapsedMs:M.elapsed(state,now()),control:'single-player',busy})),destroy(){cancelTimers();CardTouch.destroy();}});
+window.GoghosBattle=Object.freeze({snapshot:()=>JSON.parse(JSON.stringify({...state,elapsedMs:M.elapsed(state,now()),control:'single-player',busy})),destroy(){music.destroy();cancelTimers();CardTouch.destroy();}});
 fit();document.body.classList.toggle('reduced',reduced);$('motion').setAttribute('aria-pressed',String(reduced));render();showSetup();
 })();
