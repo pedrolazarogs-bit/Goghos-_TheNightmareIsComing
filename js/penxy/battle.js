@@ -63,9 +63,12 @@ function start(s,now,choice){
  let lineups=choice||s.lineups;
  if(s.singlePlayer){
   if(!Number.isInteger(choice)||choice<0||choice>=roster.length)return false;
-  const eligible=roster.map((_,i)=>(choice+i)%roster.length);
-  const teamFrom=offset=>Array.from({length:4},(_,i)=>eligible[(offset+i)%eligible.length]);
-  lineups={blue:teamFrom(0),red:teamFrom(4)};
+  const pool=roster.map((_,index)=>index).filter(index=>index!==choice);
+  const bots=Array.from({length:7},()=>{
+   const index=Math.floor(Math.random()*pool.length);
+   return pool.splice(index,1)[0];
+  });
+  lineups={blue:[choice,...bots.slice(0,3)],red:bots.slice(3)};
   s.playerId='blue-0';
  }
  for(const team of ['blue','red'])if(!Array.isArray(lineups[team])||lineups[team].length!==4||new Set(lineups[team]).size!==4||lineups[team].some(n=>!Number.isInteger(n)||n<0||n>=roster.length))return false;

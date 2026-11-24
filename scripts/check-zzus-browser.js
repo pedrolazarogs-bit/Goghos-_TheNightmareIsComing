@@ -1,3 +1,4 @@
+const fixedMatchups=require('../tests/fixed-arena-matchups');
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 
@@ -11,7 +12,7 @@ const assert=require('node:assert/strict');
   await page.route('**/js/penxy/battle.js',async route=>{
    const file=await route.fetch();
    await route.fulfill({response:file,body:(await file.text())+`
-    const original=window.GoghosBattleLab;
+    const original=(${fixedMatchups})(window.GoghosBattleLab);
     window.GoghosBattleLab={...original,start(s,...args){
      if(!original.start(s,...args))return false;
      const hero=s.cards.find(c=>c.skill==='protect'),foe=s.cards.find(c=>c.id==='red-0');

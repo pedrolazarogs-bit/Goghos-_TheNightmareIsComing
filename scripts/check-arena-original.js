@@ -1,3 +1,4 @@
+const fixedMatchups=require('../tests/fixed-arena-matchups');
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 (async()=>{
@@ -11,8 +12,32 @@ const assert=require('node:assert/strict');
    if(r.resourceType()==='media'&&r.failure()?.errorText==='net::ERR_ABORTED')return;
    failures.push(r.url()+' '+r.failure()?.errorText);
   });
+  // Exercise the real draw through both the setup screen and the restart button.
+  const arena=process.env.ARENA_URL||'http://127.0.0.1:8000/arena-batalha.html';
+  await page.goto(arena);
+  const allies=new Set(),opponents=new Set();
+  for(let series=0;series<4;series++){
+   if(series){
+    await page.locator('summary').click();await page.locator('#restart').click();
+    await page.locator('#dialog-actions').getByRole('button',{name:'Reiniciar',exact:true}).click();
+   }
+   await page.locator('#owned-character').selectOption({label:'Petra'});
+   await page.getByRole('button',{name:'Iniciar batalha'}).click();
+   const cards=await page.evaluate(()=>GoghosBattle.snapshot().cards);
+   assert.equal(cards.find(c=>c.controller==='player').name,'Petra');
+   assert.equal(new Set(cards.map(c=>c.name)).size,8);
+   allies.add(cards.filter(c=>c.team==='blue'&&c.controller==='bot').map(c=>c.name).sort().join(','));
+   opponents.add(cards.filter(c=>c.team==='red').map(c=>c.name).sort().join(','));
+  }
+  assert(allies.size>1&&opponents.size>1);
+  console.log('PASS reiniciar quatro séries com Petra sorteia novos aliados e adversários.');
   await page.clock.install();
   await page.addInitScript(()=>{Math.random=()=>.01;});
+  await page.route('**/js/penxy/battle.js',async route=>{
+   const response=await route.fetch();
+   await route.fulfill({response,body:(await response.text())+`
+window.GoghosBattleLab=(${fixedMatchups})(window.GoghosBattleLab);`});
+  });
   await page.goto(process.env.ARENA_URL || 'http://127.0.0.1:8000/arena-batalha.html');
   await page.clock.pauseAt(new Date(Date.now()+1000));
   assert.equal(await page.locator('#turn-time').count(),0);

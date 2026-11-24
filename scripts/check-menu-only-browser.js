@@ -154,13 +154,17 @@ async function checkCharacter(page){
           assert.equal(await page.locator('#owned-character').count(),1);
           assert.equal(await page.locator('.lab-back').innerText(),'← Menu');
           assert.equal(await page.evaluate(()=>JSON.stringify(localStorage)),storage);
-          assert.equal(await page.evaluate(()=>typeof globalThis.GOGHOS),'undefined','A página da batalha não mantém tocadores do menu.');
+          assert.equal(await page.evaluate(()=>GOGHOS.Soundtrack.getDebugState().tracks.length),0,'A seleção de personagem inicia em silêncio.');
           await page.locator('#owned-character').selectOption({label:'Nully'});
           await page.getByRole('button',{name:'Iniciar batalha',exact:true}).click();
           assert.equal(await page.locator('[data-battle-card]').count(),8);
           assert.equal(await page.locator('[data-controller=bot]').count(),7);
-          await page.locator('[data-battle-card="red-2"]').click();await page.locator('.tc-atk').click();
-          await page.waitForFunction(()=>GoghosBattle.snapshot().cards.find(c=>c.id==='red-2').hp<660);
+          const target=await page.evaluate(()=>{
+            const s=GoghosBattle.snapshot();
+            return s.cards.find(c=>GoghosBattleLab.attackTarget(s,s.playerId,c.id,'player')).id;
+          });
+          await page.locator('[data-battle-card="'+target+'"]').click();await page.locator('.tc-atk').click();
+          await page.waitForFunction(()=>GoghosBattle.snapshot().last===GoghosBattle.snapshot().playerId);
           await page.locator('.lab-back').click();await page.locator('[data-act="shell-start"]:enabled').waitFor();
           assert(await page.evaluate(()=>GOGHOS.IntroPresenter.isActive()&&document.getElementById('app').inert));
           assert.equal(await menu.locator('button.cosmos-play').count(),0,'Play só é habilitado após a abertura.');

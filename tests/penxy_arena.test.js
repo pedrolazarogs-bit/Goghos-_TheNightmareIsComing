@@ -1,4 +1,23 @@
-const assert=require('node:assert/strict'),M=require('../js/penxy/battle');
+const assert=require('node:assert/strict'),model=require('../js/penxy/battle');
+const M=require('./fixed-arena-matchups')(model);
+// A new series draws both teams. Continuing a round must retain those exact players.
+for(let choice=0;choice<model.roster.length;choice++){
+ const allies=new Set(),rivals=new Set();
+ for(let series=0;series<10;series++){
+  const match=model.create();assert(model.start(match,0,choice));
+  const {blue,red}=match.lineups;
+  assert.equal(blue.length,4);assert.equal(red.length,4);assert.equal(blue[0],choice);
+  assert.equal(new Set([...blue,...red]).size,8);
+  allies.add(blue.slice(1).sort((a,b)=>a-b).join(','));rivals.add([...red].sort((a,b)=>a-b).join(','));
+  const before=match.cards.map(c=>[c.id,c.art,c.controller]);
+  assert.equal(before.filter(c=>c[2]==='bot').length,7);
+  assert.equal(match.cards.find(c=>c.controller==='player').art,choice);
+  match.phase='round-end';assert(model.continueRound(match,1));
+  assert.deepEqual(match.cards.map(c=>[c.id,c.art,c.controller]),before);
+ }
+ assert(allies.size>1&&rivals.size>1,'As duas equipes devem variar para '+model.roster[choice]);
+}
+console.log('PASS sorteio de aliados e adversários para todo o elenco, cartas únicas e equipes preservadas entre rodadas.');
 const s=M.create();assert(M.start(s,0,M.roster.indexOf('Penxy')));
 const p=M.current(s),target=s.cards.find(c=>c.id==='red-3'),other=s.cards.find(c=>c.id==='red-1');
 assert.equal(p.hp,500);assert.equal(p.atk,140);

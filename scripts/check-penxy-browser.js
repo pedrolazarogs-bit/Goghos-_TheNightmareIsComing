@@ -1,3 +1,4 @@
+const fixedMatchups=require('../tests/fixed-arena-matchups');
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 (async()=>{
@@ -9,6 +10,11 @@ const assert=require('node:assert/strict');
    if(r.resourceType()==='media'&&r.failure()?.errorText==='net::ERR_ABORTED')return;
    errors.push(r.url()+' '+r.failure()?.errorText);
   });page.on('response',r=>{if(r.status()>=400)errors.push(r.url());});
+  await page.route('**/js/penxy/battle.js',async route=>{
+   const response=await route.fetch();
+   await route.fulfill({response,body:(await response.text())+`
+window.GoghosBattleLab=(${fixedMatchups})(window.GoghosBattleLab);`});
+  });
   await page.goto(process.env.ARENA_URL||'http://127.0.0.1:8000/arena-batalha.html');
   await page.locator('#owned-character').selectOption({label:'Penxy'});
   await page.getByRole('button',{name:'Iniciar batalha'}).click();

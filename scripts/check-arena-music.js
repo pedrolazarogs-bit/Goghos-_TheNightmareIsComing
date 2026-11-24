@@ -1,3 +1,4 @@
+const fixedMatchups=require('../tests/fixed-arena-matchups');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 
@@ -19,7 +20,7 @@ const {chromium}=require('playwright');
   await page.route('**/js/penxy/battle.js',async route=>{
    const response=await route.fetch();
    await route.fulfill({response,body:(await response.text())+`
-    const model=window.GoghosBattleLab;
+    const model=(${fixedMatchups})(window.GoghosBattleLab);
     function oneHit(begin){
      return (state,...args)=>{
       const started=begin(state,...args);
