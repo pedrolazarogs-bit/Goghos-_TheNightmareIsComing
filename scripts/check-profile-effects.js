@@ -22,12 +22,14 @@ const {chromium}=require('playwright');
      s.singlePlayer=true;s.playerId='blue-0';
      s.cards.forEach(c=>{c.controller=c.id===s.playerId?'player':'bot';if(c.slot!==0){c.speed=1;c.hp=c.maxHp=1200;}});
      s.order=[s.playerId,...s.cards.slice(4,5).filter(c=>c.speed!==null).map(c=>c.id),...s.order.filter(id=>id!==s.playerId&&id!=='red-0')];
+     const hp=new URLSearchParams(location.search).get('pv');if(hp)s.cards[4].hp=Number(hp);
      s.cursor=0;return ok;
     }};
    `});
   });
-  async function start(name,rival){
+  async function start(name,rival,hp){
    const url=new URL(base);url.searchParams.set('personagem',name);url.searchParams.set('rival',rival);
+   if(hp)url.searchParams.set('pv',hp);
    await page.goto(url.href);
    await page.evaluate(()=>{
     window.moves=[];window.fireCues=[];window.contact=[];
@@ -97,6 +99,27 @@ const {chromium}=require('playwright');
   await attack('red-1');
   const after=(await snapshot()).cards.slice(4).map(c=>c.hp);
   assert.deepEqual(before.map((hp,i)=>hp-after[i]),[50,300,50,0]);
+  // Check the animation actually selected in Chromium, including a normal lethal cut.
+  for(const [face,hp,style,remaining] of [[1,45,'normal',0],[5,300,'normal',80],[6,300,'brutal',0]]){
+   await start('Nully','Mike',hp);
+   await page.evaluate(face=>{
+    Math.random=()=>(face-.5)/6;
+    const original=Efeitos.katana;
+    Efeitos.katana=(el,options)=>{moves.push(['katana',el.dataset.battleCard,options.tipo]);return original(el,options);};
+   },face);
+   await attack();
+   assert.deepEqual(await page.evaluate(()=>moves.find(m=>m[0]==='katana')),['katana','red-0',style]);
+   assert.equal((await snapshot()).cards[4].hp,remaining);
+  }
+  for(const [name,target,action] of [['Vaglar','red-0','book'],['Z-Zus','blue-1','protect']]){
+   await start(name,'Mike');
+   await page.locator('[data-battle-card="'+target+'"]').click();
+   assert.equal(await page.locator('.tc-atk').count(),0);
+   await page.locator('.tc-ability').click();
+   const s=await snapshot();
+   if(action==='book')assert(s.cards[4].status.some(e=>e.type==='book'));
+   else assert.equal(s.cards[0].link,target);
+  }
   assert.deepEqual(errors,[]);
   console.log('PASS efeitos reais de Petra, Chama e Sarck, desgaste, revide, queimadura e sobrevivência.');
  }finally{await browser.close();}

@@ -98,3 +98,101 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
  const fish=fixture(['DD-X'],['Z-Zus']);use(fish.s,fish.a,'fish',fish.t);assert.equal(fish.t.maxHp-fish.t.hp,90);
 }
 console.log('PASS 25 perfis: alvos, área, reações, marcas, cura, imunidade, controle, prioridades e dados.');
+
+// A single die controls both the katana animation and damage at impact.
+for(const controller of ['bot','player']){
+ for(let face=1;face<=6;face++){
+  const {s,a,t}=fixture(['Nully'],['Mike']);
+  turn(s,a);s.singlePlayer=true;a.controller=controller;
+  t.hp=face===2?10:300;
+  let plan;
+  dice(face,()=>{plan=M.prepareKatana(s,a,t);});
+  assert.equal(plan.brutal,face===6);
+  const before=t.hp;
+  dice(face===6?1:6,()=>assert(M.attack(s,a.id,t.id,3,controller,plan)));
+  assert.equal(s.events.filter(e=>e.type==='dado').length,1);
+  assert.equal(before-t.hp,face===6?before:Math.min(before,Math.round(45+(face-1)*175/4)));
+ }
+}
+for(const guard of ['Zédia','Daztirry','Z-Zus']){
+ const {s,a,t}=fixture(['Nully'],['Mike',guard]);
+ const protector=s.cards[5];if(guard==='Z-Zus')use(s,protector,'protect',t);
+ turn(s,a);
+ dice(6,()=>{
+  const plan=M.prepareKatana(s,a,t);
+  assert.equal(plan.brutal,guard==='Z-Zus');
+  assert.equal(plan.recipient,guard==='Z-Zus'?protector.id:t.id);
+  M.attack(s,a.id,t.id,3,'player',plan);
+  if(guard==='Z-Zus'){assert.equal(t.hp,t.maxHp);assert.equal(protector.hp,0);}
+  else assert.equal(t.hp,1);
+ });
+}
+{
+ const {s,a,t}=fixture(['Nully'],['Zeneerian']);
+ assert.equal(M.prepareKatana(s,a,t),null);
+ dice(6,()=>assert.equal(attack(s,a,t).damage,a.baseAtk));
+ assert(!s.events.some(e=>e.type==='dado'));
+}
+{
+ const {s,a,t}=fixture(['Rawlin'],['Striker']);turn(s,a);
+ assert(!M.options(s,a).some(o=>o.target===t.id));
+ assert(!M.useSkill(s,a.id,'stone',t.id,1));
+ a.speed=t.speed;assert(M.options(s,a).some(o=>o.target===t.id));
+}
+{
+ const {s,a,t}=fixture(['Stally','DD-X'],['Vaglar','Z-Zus']);
+ t.hp=t.maxHp=600;
+ dice(6,()=>use(s,a,'kick',t));use(s,s.cards[1],'fish',t);assert.equal(t.hp,0);
+ const guard=fixture(['Mike'],['Vaglar','Z-Zus']);
+ use(guard.s,guard.s.cards[5],'protect',guard.t);
+ attack(guard.s,guard.a,guard.t);attack(guard.s,guard.a,guard.t);
+ assert.equal(guard.t.hp,guard.t.maxHp);
+ const missed=fixture(['Mike','Sam'],['Vaglar']);
+ attack(missed.s,missed.a,missed.t);
+ dice(1,()=>attack(missed.s,missed.s.cards[1],missed.t));
+ assert(missed.t.hp>0);
+}
+{
+ const {s,a,t}=fixture(['Jonh','Mike'],['Z-Zus']);use(s,a,'guitar',t);
+ assert.equal(attack(s,s.cards[1],t).damage,s.cards[1].atk);
+ assert.equal(t.maxHp-t.hp,80+s.cards[1].atk);
+}
+{
+ const {s,a,t}=fixture(['Barn'],['Mike','Sam']);use(s,a,'hypnosis',t);
+ use(s,a,'hypnosis',s.cards[5]);
+ assert(!t.status.some(e=>e.type==='hypnosis'));assert(s.cards[5].status.some(e=>e.type==='hypnosis'));
+}
+{
+ const {s,a}=fixture(['Fomor','Mike','Elish','DD-X'],['Unicorn','Rayyb','Sam','Linx']);
+ const base=a.maxHp;
+ for(const victim of s.cards.filter(c=>c!==a&&c.art!==id('Mike'))){
+  const hitter=s.cards.find(c=>c.hp&&c!==a&&c.speed!==null&&c.team!==victim.team&&c.atk>0)||a;
+  victim.hp=1;attack(s,hitter,victim);
+ }
+ assert.equal(a.souls,5);assert.equal(a.maxHp,base+150);
+}
+console.log('PASS revisão: seis faces da katana para jogador e bot, proteções, alvo imune, mira, Cardume, Voadora, livro, Hipnose, guitarra e limite de almas.');
+
+// Exercise each active choice through the same authorization and turn path for both sides.
+const activeCases=[
+ ['Vaglar','book'],['Draktar','hunt'],['Elish','heal'],['Rawlin','stone'],['Rayyb','sleep'],
+ ['Dashow Only','switch'],['Z-Zus','protect'],['Jonh','guitar'],['Barn','hypnosis'],
+ ['Stally','kick'],['DD-X','fish']
+];
+for(const [name,action] of activeCases){
+ for(const controller of ['player','bot']){
+  const {s,a,t}=fixture([name],['Mike']);
+  s.singlePlayer=true;s.playerId=controller==='player'?a.id:s.cards[1].id;
+  for(const c of s.cards)c.controller=c.id===s.playerId?'player':'bot';
+  const target=action==='switch'?a:action==='protect'?s.cards[1]:t;
+  if(action==='heal')target.hp-=100;
+  turn(s,a);
+  const wrong=controller==='bot'?'player':'bot',before=s.turnNumber;
+  assert.deepEqual(M.options(s,a,wrong),[]);
+  assert.equal(M.useSkill(s,a.id,action,target.id,1,wrong),false);
+  assert(M.options(s,a,controller).some(o=>o.action===action&&o.target===target.id));
+  dice(2,()=>assert(M.useSkill(s,a.id,action,target.id,1,controller)));
+  assert.equal(s.turnNumber,before+1,name+' · '+controller);
+ }
+}
+console.log('PASS 11 ações das fichas em ambos os controles, autorização e consumo de um turno por uso.');

@@ -54,7 +54,7 @@ function setupRound(s){
    baseAtk,hits:c.hits,atk:baseAtk===null?null:baseAtk*c.hits,status:[],souls:0,
    controller:s.singlePlayer?(id===s.playerId?'player':'bot'):null};
  }));
- sortQueue(s);s.lastHit=null;s.blockedTurn='';s.draw=false;
+ sortQueue(s);s.lastStrike=[];s.blockedTurn='';s.draw=false;
  s.speedActed=[];s.speedCycle=1;s.turnNumber++;s.cursor=0;s.last=null;s.roundWinner=null;s.phase='active';s.paused=false;s.revision++;
 }
 function create(singlePlayer=true){return {...rules.create({seed:Math.floor(Math.random()*4294967296)}),singlePlayer,turnNumber:0,haunt:null};}
@@ -76,10 +76,11 @@ function start(s,now,choice){
 }
 function participant(s,c){return !!c&&(!s.haunt||[s.haunt.owner,s.haunt.target].includes(c.id));}
 function canAct(s,actor,id,controller){
- return s.phase==='active'&&!s.paused&&!rules.pendingSupportReward(s)&&actor?.id===id&&actor.hp>0&&
+ return s.phase==='active'&&!s.paused&&!rules.pendingSupportReward(s)&&actor&&actor.id===id&&actor.hp>0&&
   !s.blockedTurn&&(!s.singlePlayer||actor.controller===controller);
 }
-function visibleTo(actor,target){return target.skill!=='aim'||actor.skill==='immune'||actor.speed<=target.speed;}
+function effectiveSpeed(c){return c.speed===null?null:c.speed+(c.status.find(e=>e.type==='slow')?.speedDelta||0);}
+function visibleTo(actor,target){return target.skill!=='aim'||actor.skill==='immune'||effectiveSpeed(actor)<=effectiveSpeed(target);}
 function attackTarget(s,actorId,targetId,controller){
  const actor=current(s),target=byId(s,targetId);
  if(!canAct(s,actor,actorId,controller)||!target?.hp||target.team===actor.team||!participant(s,target))return null;
@@ -87,9 +88,13 @@ function attackTarget(s,actorId,targetId,controller){
  if(actor.atk===null)return null;
  return visibleTo(actor,target)?target:null;
 }
+function hauntTarget(s,actorId,targetId,controller){
+ const target=attackTarget(s,actorId,targetId,controller);
+ return !s.haunt&&current(s)?.name==='Penxy'&&target&&target.skill!=='immune'&&target.speed!==null?target:null;
+}
 function enterHaunt(s,actorId,targetId,controller,now){
- const actor=current(s),target=attackTarget(s,actorId,targetId,controller);
- if(s.haunt||!target||target.skill==='immune'||target.speed===null||actor.name!=='Penxy')return false;
+ const actor=current(s),target=hauntTarget(s,actorId,targetId,controller);
+ if(!target)return false;
  s.haunt={owner:actor.id,target:target.id};
  target.status.push({type:'slow',name:'Assombração',value:'−1 VEL',speedDelta:-1});s.revision++;
  record(s,'habilidade',actor.name+' levou '+target.name+' à mente (−1 VEL).',now);
@@ -105,7 +110,7 @@ function leaveHaunt(s,now){
 const byId=(s,id)=>s.cards.find(c=>c.id===id);
 const living=s=>s.cards.filter(c=>c.hp>0);
 const die=()=>1+Math.floor(Math.random()*6);
-function roll(s,c,now){const n=die();record(s,'dado',c.name+' tirou '+n+' no d6.',now);return n;}
+function roll(s,c,now,n=die()){record(s,'dado',c.name+' tirou '+n+' no d6.',now);return n;}
 function setStatus(c,type,source,name,turns,value){
  c.status=c.status.filter(e=>e.type!==type||e.source!==source);
  c.status.push({type,source,name,turns,value});
@@ -132,12 +137,14 @@ function settleRound(s,now){
  if(s.score[team]===3){s.winner=team;s.endedAt=now;s.phase='finished';record(s,'fim','Série encerrada.',now);}
  return true;
 }
+function survivesFatal(s,c){
+ return c.skill!=='immune'&&(c.lease||allyWith(s,c,'immortal')||allyWith(s,c,'oni'));
+}
 function eliminate(s,victim,source,now,expiry=false){
  if(!victim.hp)return;
- if(!expiry&&victim.skill!=='immune'){
-  if(allyWith(s,victim,'immortal')){victim.hp=1;return;}
-  if(allyWith(s,victim,'oni')&&!victim.lease){victim.lease=s.turnNumber+2;victim.hp=1;return;}
-  if(victim.lease){victim.hp=1;return;}
+ if(!expiry&&survivesFatal(s,victim)){
+  if(!victim.lease&&!allyWith(s,victim,'immortal'))victim.lease=s.turnNumber+2;
+  victim.hp=1;return;
  }
  victim.hp=0;victim.link=null;
  if(s.haunt&&participant(s,victim))leaveHaunt(s,now);
@@ -156,10 +163,25 @@ function resolveHits(s,action){
  const hits=[];hitCollectors.set(s,hits);
  try{return {result:action(),hits};}finally{hitCollectors.delete(s);}
 }
-function hit(s,source,target,amount,now,{basic=false,execution=false,react=true,burn=false}={}){
+function recipient(s,target){
+ return (target.skill!=='immune'&&living(s).find(c=>c.skill==='protect'&&c.link===target.id&&participant(s,c)))||target;
+}
+// Roll before playback so the katana animation and the impact share one result.
+function prepareKatana(s,actor,target){
+ if(actor.skill!=='katana'||target.skill==='immune')return null;
+ const face=die(),victim=recipient(s,target);
+ return {face,recipient:victim.id,brutal:face===6&&!survivesFatal(s,victim)};
+}
+function finishStrike(s,recipients,now){
+ for(const id of recipients){
+  const c=byId(s,id);
+  if(c.skill==='book'&&c.hp&&s.lastStrike.includes(id))eliminate(s,c,c,now);
+ }
+ s.lastStrike=[...recipients];
+}
+function hit(s,source,target,amount,now,{basic=false,execution=false,react=true,burn=false,strike}={}){
  if(!target.hp)return 0;
- const guardian=living(s).find(c=>c.skill==='protect'&&c.link===target.id&&participant(s,c));
- const victim=(target.skill!=='immune'&&guardian)||target;
+ const victim=recipient(s,target);
  const before=victim.hp;
  let damage=execution?before:Math.max(0,amount);
  if(basic){
@@ -169,6 +191,7 @@ function hit(s,source,target,amount,now,{basic=false,execution=false,react=true,
  if(damage>=before)eliminate(s,victim,source,now);
  else victim.hp-=damage;
  const lost=before-victim.hp;
+ if(damage>0)strike?.add(victim.id);
  const event={target:target.id,recipient:victim.id,damage:lost,source:source?.id,burn};
  hitCollectors.get(s)?.push(event);
  updateWear(victim);
@@ -187,7 +210,9 @@ function tickEffects(s,now){
   for(const e of [...c.status]){
    if(!c.hp)break;
    if(e.start!==s.turnNumber&&(e.type==='guitar'||e.type==='burn')){
-    hit(s,byId(s,e.source),c,e.value,now,{burn:e.type==='burn',basic:!!e.firstAttack});
+    const strike=e.firstAttack?new Set():null;
+    hit(s,byId(s,e.source),c,e.value,now,{burn:e.type==='burn',basic:!!e.firstAttack,strike});
+    if(strike)finishStrike(s,strike,now);
     e.firstAttack=false;
    }
    if(Number.isInteger(e.turns)&&e.start!==s.turnNumber&&--e.turns===0)c.status=c.status.filter(x=>x!==e);
@@ -209,10 +234,10 @@ function beginTurn(s,now){
  if(blocked){s.blockedTurn=blocked.name;record(s,'controle',c.name+' · '+blocked.name,now);}
 }
 const bonusVs={Assassin:40,Fighter:120,Suporte:140,Tank:170,Destroyer:0};
-function attack(s,actorId,targetId,now,controller='player'){
+function attack(s,actorId,targetId,now,controller='player',katana){
  const actor=current(s),target=attackTarget(s,actorId,targetId,controller);
  if(!target||!Number.isFinite(now))return null;
- const before=target.hp;
+ const before=target.hp,strike=new Set();
  let total=actor.atk;
  const immune=target.skill==='immune';
  if(actor.skill==='combo'&&!immune){
@@ -221,7 +246,7 @@ function attack(s,actorId,targetId,now,controller='player'){
  }
  let execute=false;
  if(!immune&&actor.skill==='katana'){
-  const n=roll(s,actor,now);execute=n===6;total=execute?target.hp:Math.round(45+(n-1)*175/4);
+  const n=roll(s,actor,now,katana?.face);execute=n===6;total=execute?target.hp:Math.round(45+(n-1)*175/4);
  }
  if(!immune&&actor.skill==='sharpen')total+=bonusVs[target.role]||0;
  if(!immune&&actor.skill==='hunt'&&actor.link===target.id)total=220;
@@ -229,23 +254,25 @@ function attack(s,actorId,targetId,now,controller='player'){
   setStatus(target,'burn',actor.id,'Queimadura',6,actor.baseAtk);
   Object.assign(target.status.at(-1),{start:s.turnNumber,firstAttack:true});
  }
- else if(total>0)hit(s,actor,target,total,now,{basic:!execute,execution:execute});
+ else if(total>0)hit(s,actor,target,total,now,{basic:!execute,execution:execute,strike});
  if(actor.skill==='electric'||actor.skill==='air'){
   const line=living(s).filter(c=>c.team===target.team&&participant(s,c)).sort((a,b)=>a.slot-b.slot);
   const neighbors=[line.filter(c=>c.slot<target.slot).at(-1),line.find(c=>c.slot>target.slot)];
   const others=actor.skill==='air'?neighbors:line;
-  for(const other of others)if(other&&other!==target&&other.skill!=='immune'&&visibleTo(actor,other))hit(s,actor,other,actor.skill==='air'?50:actor.atk,now,{basic:true});
+  for(const other of others)if(other&&other!==target&&other.skill!=='immune'&&visibleTo(actor,other))hit(s,actor,other,actor.skill==='air'?50:actor.atk,now,{basic:true,strike});
  }
- if(target.skill==='book'&&target.hp&&s.lastHit===target.id)eliminate(s,target,target,now);
- s.lastHit=target.id;s.last=actor.id;s.revision++;
- const outcome=actor.skill==='fire'&&!immune?'Queimadura: 6 pulsos de '+actor.baseAtk+'.':(before-target.hp)+' PV.';
+ const fireball=actor.skill==='fire'&&!immune;
+ if(!fireball)finishStrike(s,strike,now);
+ s.last=actor.id;s.revision++;
+ const damage=Math.max(0,before-target.hp);
+ const outcome=fireball?'Queimadura: 6 pulsos de '+actor.baseAtk+'.':damage+' PV.';
  record(s,'ataque',actor.name+' → '+target.name+' · '+outcome,now);
  if(!settleRound(s,now))advance(s,now);
- return {actor:actor.id,target:target.id,damage:Math.max(0,before-target.hp),defeated:!target.hp,roundWinner:s.roundWinner,winner:s.winner};
+ return {actor:actor.id,target:target.id,damage,defeated:!target.hp,roundWinner:s.roundWinner,winner:s.winner};
 }
 function options(s,c,controller){
  if(!canAct(s,current(s),c?.id,controller))return [];
- const out=[],available=living(s).filter(t=>participant(s,t)),foes=available.filter(t=>t.team!==c.team&&t.skill!=='immune');
+ const out=[],available=living(s).filter(t=>participant(s,t)),foes=available.filter(t=>t.team!==c.team&&t.skill!=='immune'&&visibleTo(c,t));
  const add=(action,t,label)=>out.push({action,target:t.id,label});
  for(const t of available.filter(t=>!(c.skill==='hypnosis'&&c.link)&&t.id!==c.id&&t.status.some(e=>e.type==='stone'&&(t.team===c.team||byId(s,e.source)?.team===c.team&&e.source!==c.id))))add('rescue',t,'Libertar '+t.name);
  const self=(action,label)=>add(action,c,label);
@@ -281,8 +308,15 @@ function useSkill(s,id,action,targetId,now,controller='player'){
  case 'sleep': setStatus(t,'sleep',id,'Dormindo');break;
  case 'hypnosis': unlink(s,c);c.link=t.id;setStatus(t,'hypnosis',id,'Hipnotizado');break;
  case 'guitar': c.link=t.id;setStatus(t,'guitar',id,'Guitarra',null,40);break;
- case 'kick': hit(s,c,t,c.atk+40,now,{basic:true});if(t.hp&&roll(s,c,now)<=2){setStatus(t,'stun',id,'Atordoado',2);t.status.at(-1).start=s.turnNumber;}break;
- case 'fish': hit(s,c,t,c.atk,now,{basic:true});break;
+ case 'kick': case 'fish': {
+  const strike=new Set();
+  hit(s,c,t,c.atk+(action==='kick'?40:0),now,{basic:true,strike});
+  finishStrike(s,strike,now);
+  if(action==='kick'&&t.hp&&roll(s,c,now)<=2){
+   setStatus(t,'stun',id,'Atordoado',2);t.status.at(-1).start=s.turnNumber;
+  }
+  break;
+ }
  default:return false;
  }
  s.revision++;record(s,'habilidade',c.name+' · '+(action==='rescue'?'Libertar aliado':deck[c.art].title)+' · '+t.name,now);
@@ -303,6 +337,6 @@ function activateSupport(s,i,id,now){
 }
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);beginTurn(s,now);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({...rules,deck,roster,speed,wearLevel,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
+const api=Object.freeze({...rules,deck,roster,speed,effectiveSpeed,hauntTarget,prepareKatana,wearLevel,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);

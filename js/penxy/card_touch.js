@@ -38,24 +38,28 @@
 
   function tap(el,keyboard) {
     if (st && st.el === el) {                       // segundo toque na mesma carta
-      if (st.atk && !st.pan && !st.inline) showPanel(); else close();
+      if (st.btn && !st.pan && !st.inline) showPanel(); else close();
       return;
     }
     close(true);
     const c = O.getCard(el); if (!c) return;
     st = { el, c, atk: !!O.isAttackTurn(c, el), rect: el.getBoundingClientRect(), scrollX, scrollY };
     el.classList.add('tc-sel'); el.setAttribute('aria-expanded','true');
-    st.atk ? showButton() : showPanel();
+    (st.atk || O.canUseAbility?.(c)) ? showButton() : showPanel();
     if(keyboard && st.btn && O.inlineDetails)st.btn.firstElementChild.focus({preventScroll:true});
   }
 
   function showButton() {
-    const b = html('<div class="tc-actions"><button class="tc-atk" type="button">'+esc(O.labels.attack)+'</button></div>');
-    b.firstElementChild.addEventListener('click', e => { e.stopPropagation(); attack(); });
+    const b = html('<div class="tc-actions"></div>');
+    if(st.atk){
+      const attackButton=html('<button class="tc-atk" type="button">'+esc(O.labels.attack)+'</button>');
+      attackButton.addEventListener('click',e=>{e.stopPropagation();attack();});
+      b.append(attackButton);
+    }
     if(O.canUseAbility?.(st.c)){
       const ability=document.createElement('button');
       ability.type='button';ability.className='tc-ability';ability.textContent=O.abilityLabel();
-      ability.onclick=e=>{e.stopPropagation();const c=O.getCard(st.el);close(true);if(O.isAttackTurn(c))O.onAbility(c);};
+      ability.onclick=e=>{e.stopPropagation();const c=O.getCard(st.el);close(true);if(c&&O.canUseAbility(c))O.onAbility(c);};
       b.append(ability);
     }
     document.body.appendChild(b); st.btn = b;

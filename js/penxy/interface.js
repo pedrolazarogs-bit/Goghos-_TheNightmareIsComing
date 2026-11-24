@@ -123,7 +123,7 @@ function drawInfo(){
  const c=state.cards.find(c=>c.id===inspectedId),box=$('card-info');
  box.hidden=!c||state.phase!=='active';if(box.hidden)return;
  box.querySelector('strong').textContent=c.name+' · '+teamName(c.team);
- box.querySelector('p').textContent=c.hp+'/'+c.maxHp+' PV · '+(M.attackPower(state,c)??'—')+' ATQ · '+(c.speed===null?'—':c.speed+(c.status.find(x=>x.type==='slow')?.speedDelta||0))+' VEL';
+ box.querySelector('p').textContent=c.hp+'/'+c.maxHp+' PV · '+(M.attackPower(state,c)??'—')+' ATQ · '+(c.speed===null?'—':M.effectiveSpeed(c))+' VEL';
  box.querySelector('small').textContent=[c.hp?'':'Eliminado',...c.status.map(e=>e.name),c.secondForm?'Player 2 ativo':'',c.reserveHp!==undefined?'Forma em reserva: '+c.reserveHp+' PV':'',abilityText(c)].filter(Boolean).join(' · ');
 }
 function closeInfo(){inspectedId=null;drawInfo();}
@@ -194,8 +194,8 @@ function renderTeam(team){
   button.disabled=!c.hp;
   ArenaArt.updateHealth(button,c);
   ArenaCardEffects.sync(c,button,fullEffects()&&state.phase==='active',busy);
-  const wearSpeed=button.querySelector('.printed-speed');if(wearSpeed)wearSpeed.textContent=c.speed+(c.status.find(e=>e.type==='slow')?.speedDelta||0);
-  const speedLabel=button.querySelector('.placeholder-speed');if(speedLabel)speedLabel.textContent=c.speed+' VEL';
+  const wearSpeed=button.querySelector('.printed-speed');if(wearSpeed)wearSpeed.textContent=M.effectiveSpeed(c);
+  const speedLabel=button.querySelector('.placeholder-speed');if(speedLabel)speedLabel.textContent=M.effectiveSpeed(c)+' VEL';
   const power=M.attackPower(state,c);
   button.querySelector('.printed-attack').textContent=power===null?'—':c.hits>1&&power===c.atk?c.baseAtk+'×'+c.hits:power;
  });
@@ -377,11 +377,12 @@ function perform(targetId,controller='player'){
  if(!victim)return false;
  const target=cardElement(targetId),source=cardElement(actor.id),signal=lockAction();
  const visuals=fullEffects(),wasHaunted=!!state.haunt;
+ const katana=M.prepareKatana(state,actor,victim);
  let result=null,damageFx=Promise.resolve();
  target.classList.remove('tc-hit');
  function impact(){
   if(result||signal.aborted)return;
-  const move=resolveMove(()=>M.attack(state,actor.id,targetId,now(),controller));
+  const move=resolveMove(()=>M.attack(state,actor.id,targetId,now(),controller,katana));
   result=move.result;
   if(!result)return;
   if(state.haunt&&state.haunt.owner===actor.id)state.haunt.exchanged=true;
@@ -412,7 +413,7 @@ function perform(targetId,controller='player'){
     await FX.attack(source,target,{signal,beforeImpact:()=>whenPlaying(signal),onImpact:impact});
    }else if(visuals&&actor.name==='Nully'&&window.Efeitos?.katana){
     say('Katana · '+actor.name+' → '+victim.name);
-    await window.Efeitos.katana(target,{tipo:victim.hp<=actor.atk?'brutal':'normal',inverter:actor.team==='red',
+    await window.Efeitos.katana(katana?cardElement(katana.recipient):target,{tipo:katana?.brutal?'brutal':'normal',inverter:actor.team==='red',
      signal,pausado:()=>state.paused||dialog.open||document.hidden,onImpacto:impact});
    }else{
     if(visuals&&victim.skill==='fire'){
@@ -463,10 +464,28 @@ function cast(actor,choice){
  if(!state.haunt&&FX.haunt.active)FX.haunt.exit(true);
  finishMove(choice.label,move);
 }
-function skillMenu(c){
+function playerChoices(c){
+ if(!c||busy||dialog.open||M.current(state)!==c)return [];
  const choices=M.options(state,c,'player');
+ if(c.name!=='Penxy'||state.paused||state.blockedTurn||M.pendingSupportReward(state)||state.phase!=='active')return choices;
+ if(state.haunt?.owner===c.id)choices.unshift({action:'leave',target:state.haunt.target,label:'Sair da mente'});
+ else{
+  const targets=alive(M.opposite(c.team)).filter(t=>M.hauntTarget(state,c.id,t.id,'player'));
+  return targets.map(t=>({action:'enter',target:t.id,label:t.name+' · '+t.hp+' PV'})).concat(choices);
+ }
+ return choices;
+}
+function playChoice(c,choice){
+ if(choice.action==='enter'||choice.action==='leave'){
+  changeHaunt(c,state.cards.find(t=>t.id===choice.target),'player');return;
+ }
+ cast(c,choice);
+}
+function skillMenu(c,choices=playerChoices(c)){
  if(!choices.length){inform(c);return;}
- openDialog('ability',M.deck[c.art].title||'Ações', '<p>'+escape(abilityText(c))+'</p>',choices.map(o=>({label:o.label,run:()=>{closeDialog();cast(c,o);}})));
+ if(choices.length===1&&choices[0].action==='leave'){playChoice(c,choices[0]);return;}
+ openDialog('ability',M.deck[c.art].title||(c.name==='Penxy'?'Assombração':'Ações'),'<p>'+escape(abilityText(c))+'</p>',
+  choices.map(o=>({label:o.label,run:()=>{closeDialog();playChoice(c,o);}})));
 }
 function schedule(){
  clearTimeout(aiTimer);aiTimer=null;
@@ -476,17 +495,22 @@ function schedule(){
  if(ticket!==generation||revision!==state.revision||busy||state.paused||dialog.open||document.hidden)return;
  const actor=M.current(state),targets=alive(M.opposite(actor.team)).filter(c=>M.attackTarget(state,actor.id,c.id,'bot')).sort((a,b)=>a.hp-b.hp||a.slot-b.slot);
  const choices=M.options(state,actor,'bot');
- const choice=choices.find(o=>o.action==='rescue'&&state.cards.find(t=>t.id===o.target).team===actor.team)||choices.find(o=>o.action==='protect')
-
-  ||choices.find(o=>o.action!=='heal'&&o.action!=='release'&&o.action!=='rescue'&&(!actor.link)&&(!actor.secondForm)&&(actor.skill!=='kick'||state.turnNumber%2))
+ const choice=choices.find(o=>o.action==='rescue'&&state.cards.find(t=>t.id===o.target).team===actor.team)
+  ||choices.find(o=>{
+   if(o.action==='switch')return actor.reserveHp===undefined||actor.reserveHp>actor.hp;
+   if(o.action==='sleep')return !state.cards.find(t=>t.id===o.target).status.some(e=>e.type==='sleep');
+   if(o.action==='hypnosis'&&actor.releasedLastTurn)return false;
+   return !['heal','release','rescue'].includes(o.action)&&!actor.link;
+  })
   ||(!targets.length&&choices.find(o=>o.action==='release'));
+ actor.releasedLastTurn=choice?.action==='release';
  if(choice){cast(actor,choice);return;}
  if(!targets.length){const move=resolveMove(()=>M.pass(state,now()));if(move.result)finishMove(null,move);return;}
  // A bot uses the mind for one exchange, then returns to the normal turn queue.
  if(actor.name==='Penxy'&&state.haunt?.owner===actor.id&&state.last!==null&&state.haunt.exchanged){
   changeHaunt(actor,null,'bot');return;
  }
- const hauntTarget=targets.find(c=>c.skill!=='immune'&&c.speed!==null);
+ const hauntTarget=targets.find(c=>M.hauntTarget(state,actor.id,c.id,'bot'));
  if(actor.name==='Penxy'&&!state.haunt&&hauntTarget&&actor.hauntUsedOnTurn!==state.sequence){
   changeHaunt(actor,hauntTarget,'bot');return;
  }
@@ -495,25 +519,20 @@ function schedule(){
 function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;
  if(finished)music.setContext('silent',{immediate:true});
  openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.61.6',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.6.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportState(){const data={version:'0.61.7',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.7.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function restart(){music.setContext('silent',{immediate:true});cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
-CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>player()?.name==='Penxy'?c.skill!=='immune'&&c.speed!==null&&(!state.haunt||state.haunt.owner===state.playerId):M.options(state,player(),'player').some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{if(player().name==='Penxy')changeHaunt(player(),c,'player');else {const chosen=M.options(state,player(),'player').filter(o=>o.target===c.id);if(chosen.length===1)cast(player(),chosen[0]);else skillMenu(player());}},onAttack:c=>perform(c.id)});
+CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>playerChoices(player()).some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{
+ const choices=playerChoices(player()).filter(o=>o.target===c.id);
+ if(choices.length===1)playChoice(player(),choices[0]);else if(choices.length)skillMenu(player(),choices);
+},onAttack:c=>perform(c.id)});
 $('battle-field').addEventListener('click',e=>{const el=e.target.closest('[data-battle-card]');if(el){inspect(el.dataset.battleCard);}});
 $('queue').addEventListener('click',e=>{const el=e.target.closest('[data-inspect]');if(el)inspect(el.dataset.inspect);});
 document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click',()=>{
  const ability=el.dataset.slot==='ability',c=player();
  if(ability&&!c)return;
- if(ability&&c.name==='Penxy'&&M.current(state)===c&&!state.paused&&!busy&&state.phase==='active'){
-  if(state.haunt?.owner===c.id){changeHaunt(c,null,'player');return;}
-  if(!state.haunt){
-   openDialog('ability','Assombração','<p>Escolha quem Penxy vai levar à mente. Para voltar à arena, toque em Sair da mente na sua vez.</p>',
-    alive(M.opposite(c.team)).filter(t=>t.skill!=='immune'&&t.speed!==null&&M.attackTarget(state,c.id,t.id,'player')).map(target=>({label:target.name+' · '+target.hp+' PV',run:()=>{
-     closeDialog();changeHaunt(c,target,'player');
-    }})));return;
-  }
- }
- if(ability&&M.options(state,c,'player').length){skillMenu(c);return;}
+ if(ability&&busy)return;
+ if(ability&&playerChoices(c).length){skillMenu(c);return;}
  const title=ability?'Habilidade de '+c.name:'Espaço de item';
  const text=ability?abilityText(c):'Nenhum item equipado.';
  if(compact){note(el,title+' · '+text);return;}
