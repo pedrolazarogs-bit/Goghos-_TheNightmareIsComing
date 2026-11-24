@@ -159,8 +159,8 @@ async function checkCharacter(page){
           await page.getByRole('button',{name:'Iniciar batalha',exact:true}).click();
           assert.equal(await page.locator('[data-battle-card]').count(),8);
           assert.equal(await page.locator('[data-controller=bot]').count(),7);
-          await page.locator('[data-battle-card="red-0"]').click();await page.locator('.tc-atk').click();
-          await page.waitForFunction(()=>GoghosBattle.snapshot().cards.find(c=>c.id==='red-0').hp===75);
+          await page.locator('[data-battle-card="red-2"]').click();await page.locator('.tc-atk').click();
+          await page.waitForFunction(()=>GoghosBattle.snapshot().cards.find(c=>c.id==='red-2').hp<660);
           await page.locator('.lab-back').click();await page.locator('[data-act="shell-start"]:enabled').waitFor();
           assert(await page.evaluate(()=>GOGHOS.IntroPresenter.isActive()&&document.getElementById('app').inert));
           assert.equal(await menu.locator('button.cosmos-play').count(),0,'Play só é habilitado após a abertura.');

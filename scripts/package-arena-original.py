@@ -21,6 +21,10 @@ files += [p.relative_to(root).as_posix() for p in sorted((root/'css').glob('penx
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/penxy').glob('*.js'))]
 files += ['js/lab/'+name+'.js' for name in ['characters','supports','battle']]
 files += [p.relative_to(root).as_posix() for p in sorted((root/'assets/supports-v051').glob('*.png'))]
+files += ['js/ui/card_values.js']
+for folder in ['characters-v047','turn-order-v050']:
+    files += [p.relative_to(root).as_posix() for p in sorted((root/'assets'/folder).glob('*.png'))]
+files = list(dict.fromkeys(files))
 out.parent.mkdir(exist_ok=True)
 with ZipFile(out,'w',ZIP_DEFLATED) as z:
     z.writestr('batalha.html',(root/'arena-batalha.html').read_text().replace('href="arena-batalha.html"','href="batalha.html"'))

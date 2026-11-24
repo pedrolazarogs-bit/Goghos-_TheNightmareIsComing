@@ -1,11 +1,11 @@
 {
   "name": "goghos-tcg",
-  "version": "0.60.1",
+  "version": "0.61.0",
   "private": true,
   "description": "GOGHOS — abertura, menu e batalha 4×4",
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "test": "node tests/menu_only.test.js && node tests/loading_screen.test.js && node tests/intro_presenter.test.js && node tests/soundtrack.test.js && node tests/laboratorio.test.js && node tests/battle_lab.test.js && node tests/supports.test.js && node tests/speed_cycles.test.js && node tests/support_hand.test.js && node tests/live_card_values.test.js && node tests/arena_ownership.test.js && node tests/penxy_arena.test.js",
+    "test": "node tests/menu_only.test.js && node tests/loading_screen.test.js && node tests/intro_presenter.test.js && node tests/soundtrack.test.js && node tests/laboratorio.test.js && node tests/battle_lab.test.js && node tests/supports.test.js && node tests/speed_cycles.test.js && node tests/support_hand.test.js && node tests/live_card_values.test.js && node tests/arena_ownership.test.js && node tests/penxy_arena.test.js && node tests/profile_skills.test.js",
     "test:browser": "node scripts/check-menu-only-browser.js",
     "test:lab": "node scripts/check-laboratorio-browser.js && node scripts/check-opponent-browser.js",
     "package:menu": "python3 scripts/package-menu-battle.py",

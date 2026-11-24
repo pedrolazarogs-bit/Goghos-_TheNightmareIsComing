@@ -1,16 +1,9 @@
 // Positions are measured on the original transparent 1536 × 2048 character cards.
 const ArenaArt=(()=>{
- const pieces=[
-  ['77_20261023223319','unicorn',[447,1341,343,182],[456,1183,144,120]],
-  ['68_20261023101502','sam',[476,1355,358,192],[471,1193,176,110]],
-  ['63_20261021225220','sarck',[467,1312,358,191],[487,1223,82,85]],
-  ['77_20261023224039','nully',[464,1337,336,186],[473,1189,144,115]],
-  ['68_20261023194147','mike',[477,1339,304,193],[441,1190,192,124]],
-  ['68_20261023181416','penxy',[474,1342,354,192],[453,1189,192,126]]
- ];
- const printedAttacks=['Stardust','Steel Jaw','Steal Jaw','Katana','AK-47','Garra Fantasma'];
+ const entry=c=>GoghosBattleLab.deck[c.art];
  function emblem(c){
-  const source=('assets/characters-v047/Original-Base'+pieces[c.art][0]+'.png');
+  const source=entry(c).image;
+  if(!source)return '<b aria-hidden="true">?</b>';
   return '<svg viewBox="15 30 218 192" aria-hidden="true" class="ability-emblem"><g clip-path="url(#ability-emblem)"><image href="'+source+'" x="-390" y="-505" width="768" height="1024"/></g></svg>';
  }
  function digits(box,value,life){
@@ -41,7 +34,7 @@ const ArenaArt=(()=>{
   ribbon.querySelector('text').textContent=String(c.hp);
   const printed=element.querySelector('.printed-life');
   printed.textContent=String(c.hp);
-  printed.setAttribute('textLength',Math.min(pieces[c.art][2][2]-5,String(c.hp).length*pieces[c.art][2][3]*.5));
+  printed.setAttribute('textLength',Math.min((GoghosCardValues.layoutFor(entry(c).index)?.hp[2]||336)-5,String(c.hp).length*(GoghosCardValues.layoutFor(entry(c).index)?.hp[3]||180)*.5));
  }
  function healthRibbon(c){
   // Coordinates are relative to the card tip. Both faces share the same live fill.
@@ -60,9 +53,13 @@ const ArenaArt=(()=>{
    '<image href="'+('assets/player-panel-v048/heart.png')+'" x="562" y="27" width="162" height="154"/></g>';
  }
  function card(c,withHealth=false){
-  const [file,,hp,attack]=pieces[c.art];
-  const viewHeight=withHealth?2230:2048;
-  return '<svg viewBox="0 0 1536 '+viewHeight+'" class="original-card" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><image width="1536" height="2048" href="'+('assets/characters-v047/Original-Base'+file+'.png')+'"/>'+digits(hp,c.hp,true)+digits(attack,c.atk,false)+(withHealth?healthRibbon(c):'')+'</svg>'+(withHealth?'':'<span class="slot-gem"><b>'+(c.slot+1)+'</b></span>');
+  const profile=entry(c),layout=GoghosCardValues.layoutFor(profile.index);
+  const hp=layout?.hp||[447,1341,343,182],attack=layout?.attack||[456,1183,180,120];
+  const artwork=profile.image?'<image width="1536" height="2048" href="'+profile.image+'"/>':
+   '<path d="M768 60 L1290 365 V1570 L768 1980 L246 1570 V365Z" fill="#241e32" stroke="#a992ae" stroke-width="20"/><text x="768" y="900" text-anchor="middle" fill="#dacddd" font-size="370">?</text><text x="768" y="1090" text-anchor="middle" fill="white" font-size="105">'+c.name+'</text><g fill="#e8d6ae" font-size="85"><text x="768" y="356" text-anchor="middle" class="placeholder-speed">'+c.speed+' VEL</text><text x="690" y="1300">ATQ</text><text x="840" y="1490">PV</text></g>';
+  const correctedName=['Striker','Stally'].includes(profile.name)?
+   '<path fill="#fffbe9" d="M270 1036H783L678 1145H270Z"/><path fill="#cbbdb7" d="M270 1110L737 1066L661 1145H270Z"/><text x="290" y="1130" font-size="103" textLength="376" lengthAdjust="spacingAndGlyphs" fill="#17131a">'+profile.name+'</text>':'';
+  return '<svg viewBox="0 0 1536 '+(withHealth?2230:2048)+'" class="original-card" preserveAspectRatio="xMidYMax meet" aria-hidden="true">'+artwork+correctedName+digits(hp,c.hp,true)+digits(attack,c.atk??'—',false)+(withHealth?healthRibbon(c):'')+'</svg>';
  }
- return Object.freeze({card,emblem,setMeterState,updateHealth,isCritical,missingFraction,printedAttack:c=>printedAttacks[c.art],ribbon:c=>('assets/turn-order-v050/'+pieces[c.art][1]+'.png')});
+ return Object.freeze({card,emblem,setMeterState,updateHealth,isCritical,missingFraction,printedAttack:c=>entry(c).attackName,ribbon:c=>entry(c).queueArt||entry(c).image});
 })();

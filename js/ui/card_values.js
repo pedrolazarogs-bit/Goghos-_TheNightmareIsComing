@@ -52,5 +52,5 @@ function overlay(state,c,alignment='xMidYMid'){
  if(!l)return '';
  return '<svg class="card-values" viewBox="0 0 1536 2048" preserveAspectRatio="'+alignment+' meet" aria-hidden="true" focusable="false">'+field(l.hp,v.hp,'hp',l.edge,c.hp<c.maxHp?'#8c2036':'#000')+(v.total===null?'':field(l.attack,v.attack,'attack',l.edge,v.boosted?'#155241':'#000'))+'</svg>';
 }
-root.GoghosCardValues=Object.freeze({values,overlay});
+root.GoghosCardValues=Object.freeze({values,overlay,layoutFor:index=>layouts[index]});
 })(globalThis);

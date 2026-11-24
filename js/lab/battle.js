@@ -122,7 +122,7 @@ function supportReason(s,index,targetId){
  if(!supportTargets(s,index).some(c=>c.id===targetId))return definition.effect==='execute'?'Escolha um oponente vivo com menos de 40 PV.':definition.effect==='heal'?'Escolha um aliado vivo com vida abaixo do máximo.':'Este apoio precisa do seu personagem vivo e de um ataque definido quando houver bônus de dano.';
  return '';
 }
-function activateSupport(s,index,targetId,now){
+function activateSupport(s,index,targetId,now,resolveExecution){
  if(!Number.isFinite(now)||supportReason(s,index,targetId))return null;
  const slot=s.supports.blue[index],definition=supportCards.find(c=>c.id===slot.id),target=s.cards.find(c=>c.id===targetId),owned=player(s);
  const result={supportId:slot.id,actor:owned.id,target:target.id,damage:0,healed:0,defeated:false,roundWinner:null,winner:null};
@@ -131,9 +131,13 @@ function activateSupport(s,index,targetId,now){
  if(definition.effect==='heal'){result.healed=Math.min(70,target.maxHp-target.hp);target.hp+=result.healed;detail='+'+result.healed+' PV em '+target.name;}
  if(definition.effect==='boost')detail=target.name+': +50 de dano no próximo ataque, uma vez no total';
  if(definition.effect==='guard')detail=target.name+': bloqueio de até 80 no próximo ataque recebido';
- if(definition.effect==='execute'){result.damage=target.hp;target.hp=0;result.defeated=true;detail=target.name+' eliminado com menos de 40 PV';}
+ if(definition.effect==='execute'){
+  if(resolveExecution)resolveExecution(target,owned,result);
+  else{result.damage=target.hp;target.hp=0;result.defeated=true;}
+  detail=target.name+(result.defeated?' eliminado com menos de 40 PV':' sobreviveu');
+ }
  result.text=definition.name+' · '+detail;record(s,'apoio',result.text,now);
- if(result.defeated)settle(s,owned.team,target,now,result,false);
+ if(result.defeated&&!resolveExecution)settle(s,owned.team,target,now,result,false);
  return result;
 }
 function playerAttack(s,targetId,now){if(!canPlayerAct(s))return null;return attack(s,s.playerId,targetId,now);}
