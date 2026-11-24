@@ -30,10 +30,24 @@ const {chromium}=require('playwright');
    const url=new URL(base);url.searchParams.set('personagem',name);url.searchParams.set('rival',rival);
    await page.goto(url.href);
    await page.evaluate(()=>{
-    window.moves=[];
+    window.moves=[];window.fireCues=[];window.contact=[];
+    const animate=Element.prototype.animate;
+    Element.prototype.animate=function(frames,timing){
+     if(this.dataset.battleCard&&Array.isArray(frames)){
+      if(timing.duration===420&&frames[1]?.offset===0.3&&frames[2]?.offset===0.5)contact.push(['approach',this.dataset.battleCard,performance.now()]);
+      if(frames[0]?.filter==='brightness(1.9)')contact.push(['flinch',this.dataset.battleCard,performance.now()]);
+     }
+     return animate.call(this,frames,timing);
+    };
+    const ignite=Efeitos.queimar;
+    Efeitos.queimar=Object.assign((el,opts)=>{
+     fireCues.push({event:'ignite',time:performance.now(),turns:opts.turnos,card:el.closest('button')?.dataset.battleCard});
+     return ignite(el,opts);
+    },ignite);
     for(const key of ['laser','bolaDeFogo','jumpscare']){
      const effect=Efeitos[key];
      Efeitos[key]=(actor,target,opts)=>{
+      if(key==='bolaDeFogo')fireCues.push({event:'launch',time:performance.now(),turns:opts.queimar,point:opts.ponto,aim:opts.mira});
       moves.push([key,actor.dataset.battleCard,target.dataset.battleCard,opts.nivel||opts.tipo||null]);
       return effect(actor,target,opts);
      };
@@ -61,6 +75,18 @@ const {chromium}=require('playwright');
   await page.waitForFunction(()=>moves.some(m=>m[0]==='laser'&&m[1]==='red-0'));
   await page.waitForFunction(()=>!GoghosBattle.snapshot().busy);
   assert((await page.evaluate(()=>moves)).some(m=>m[0]==='bolaDeFogo'&&m[3]==='revide'));
+  const cues=await page.evaluate(()=>fireCues);
+  assert.deepEqual(cues.map(c=>[c.event,c.turns]),[['launch',6],['ignite',6],['launch',3],['ignite',3]]);
+  for(const [start,end,travel] of [[cues[0],cues[1],720],[cues[2],cues[3],300]]){
+   assert.deepEqual(start.point,{x:0.72,y:0.42});assert.deepEqual(start.aim,{x:0.5,y:0.42});
+   assert(end.time-start.time>=travel-2,'A chama deve acender no impacto.');
+   assert.equal(end.card,'red-0');
+  }
+  await start('Mike','Chama');await attack();
+  const [approach,flinch]=await page.evaluate(()=>contact);
+  assert.equal(approach[1],'blue-0');assert.equal(flinch[1],'red-0');
+  assert(flinch[2]-approach[2]>=125);
+  assert(await page.evaluate(()=>fireCues[0].time-contact[1][2]>=95));
   await start('Unicorn','Petra');await attack();
   assert.equal(await page.locator('[data-battle-card="red-0"] .printed-speed').textContent(),'4');
   assert.equal(await page.locator('[data-battle-card="red-0"] .printed-attack').textContent(),'190');

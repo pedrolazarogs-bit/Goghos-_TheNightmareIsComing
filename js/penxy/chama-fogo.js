@@ -70,7 +70,7 @@
     const acender = op.queimar != null ? op.queimar : (rev ? 3 : 6);
 
     return new Promise(function (resolve) {
-      const ro = origem.getBoundingClientRect(), rt = alvo.getBoundingClientRect(), W = global.innerWidth, H = global.innerHeight;
+      const ro = (op.arteOrigem || origem).getBoundingClientRect(), rt = (op.arteAlvo || alvo).getBoundingClientRect(), W = global.innerWidth, H = global.innerHeight;
       const O = { x: ro.left + ro.width * op.ponto.x, y: ro.top + ro.height * op.ponto.y };
       const T = { x: rt.left + rt.width * op.mira.x, y: rt.top + rt.height * op.mira.y };
       const dx = T.x - O.x, dy = T.y - O.y, L = Math.hypot(dx, dy) || 1, ang = Math.atan2(dy, dx), esc = Math.max(0.5, Math.min(1.6, Math.sqrt(ro.width * ro.height) / 260));
@@ -99,7 +99,7 @@
           const d = rev ? -6 : -10;
           origem.animate([{ translate: '0px 0px' }, { translate: Math.cos(ang) * d + 'px ' + Math.sin(ang) * d + 'px', offset: 0.25 }, { translate: '0px 0px' }], { duration: 260, easing: 'ease-out' });
         } catch (e) { /* sem suporte: segue sem o coice */ }
-        if (acender > 0) Efeitos.queimar(alvo, { turnos: acender, som: op.som, volume: op.volume * 0.7 });
+        if (acender > 0) Efeitos.queimar(op.alvoQueima ? op.alvoQueima(acender) : alvo, { turnos: acender, som: op.som, volume: op.volume * 0.7 });
         if (op.onImpacto) { try { op.onImpacto(); } catch (e) { console.error(e); } }
       }
 

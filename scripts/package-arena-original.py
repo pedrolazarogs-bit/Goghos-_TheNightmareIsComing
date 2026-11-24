@@ -6,7 +6,7 @@ import json,re
 root=Path(__file__).resolve().parents[1]
 version=json.loads((root/'package.json').read_text())['version']
 out=root/'downloads'/f'arena-original-v{version}.zip'
-files=['css/arena.css','css/arena-original.css','css/card_touch.css']
+files=['laboratorio-chama.html','css/arena.css','css/arena-original.css','css/card_touch.css']
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/arena').glob('*.js'))]
 files += ['assets/menu-v036/'+name for name in ['bg.jpg','trophy.webp','star.webp','german_beauty.ttf']+[f'character-{i}.webp' for i in range(5)]]
 files += ['assets/card-touch-v044/'+n+'.png' for n in ['heart','sword','star']]
@@ -33,3 +33,8 @@ with ZipFile(out,'w',ZIP_DEFLATED) as z:
     for name in files:z.write(root/name,name)
     z.writestr('LEIA-ME.txt','GOGHOS v'+version+'\nExtraia a pasta inteira e abra batalha.html no computador. Escolha o seu personagem e clique em Iniciar batalha.\n')
 print(out)
+
+# Standalone download for testing Chama's original controls without the full arena.
+with ZipFile(root/'downloads'/f'chama-v{version}.zip','w',ZIP_DEFLATED) as z:
+    for name in ('laboratorio-chama.html','js/penxy/chama-fogo.js'):
+        z.write(root/name,name)

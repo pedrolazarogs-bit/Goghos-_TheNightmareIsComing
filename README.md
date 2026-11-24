@@ -1,10 +1,12 @@
 # GOGHOS — The Nightmare Is Coming
 
-**v0.61.5 — Sorteio das equipes**
+**v0.61.6 — Fire Ball e Esquentadinho**
 
-[Jogar a arena no navegador](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.5/arena-batalha.html?personagem=Petra) · [Abrir o jogo pelo menu](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.5/index.html)
+[Jogar a arena no navegador](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.6/arena-batalha.html?personagem=Chama) · [Abrir o jogo pelo menu](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.6/index.html)
 
 No computador, abra **arena-batalha.html** ou entre pelo **Play**. Escolha seu personagem da equipe azul e clique em **Iniciar batalha**. Na sua vez, clique em um inimigo e use **Atacar**. Três aliados e quatro adversários jogam automaticamente. Se você for eliminado, os aliados continuam até o final da rodada. A faixa sob cada carta mostra a vida restante.
+
+[Experimentar o ataque, o revide e cada pulso do Chama no laboratório](https://raw.githack.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/v0.61.6/laboratorio-chama.html)
 
 Petra dispara um laser que se enfraquece conforme a carta se desgasta. Chama incendeia o alvo por seis pulsos de 50 e revida com três pulsos de 35. Sarck elimina o agressor com Jumpscare quando sobrevive ao golpe.
 
@@ -20,7 +22,7 @@ Cada turno dura **25 segundos**. O indicador acima da carta da vez acompanha o j
 
 Escolha **Penxy** para jogar com 500 PV e 140 de ataque. A aura pulsante, o turbilhão de entrada e os estilhaços da saída acompanham o tamanho da carta. Na sua vez, clique na estrela **Assombração** e escolha um rival. Os dois alternam ataques dentro da mente até a eliminação de um deles ou até Penxy usar **Sair da mente**. A faixa de vida acompanha o dano e sinaliza vida crítica abaixo de 15%.
 
-[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.61.5/downloads/arena-original-v0.61.5.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.61.5.zip)
+[Baixar a batalha isolada](https://raw.githubusercontent.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/refs/tags/v0.61.6/downloads/arena-original-v0.61.6.zip) · [Projeto completo](https://github.com/pedrolazarogs-bit/Goghos-_TheNightmareIsComing/archive/refs/tags/v0.61.6.zip)
 
 ## Laboratório das versões anteriores
 
