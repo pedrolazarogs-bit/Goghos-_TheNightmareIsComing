@@ -142,3 +142,9 @@
 .tc-actions button{position:static;min-height:32px;font:600 14px/1 system-ui;letter-spacing:.01em;padding:5px 11px;border:1px solid #362739;border-radius:16px;box-shadow:0 2px 4px #22142555;cursor:pointer;animation:none}
 .tc-actions .tc-ability{color:white;background:#583c79}
 .combat-card.haunt-opponent .original-card>image{filter:drop-shadow(0 0 22px #b3f4ff)}
+
+/* Match the SVG viewport so the supplied transparent effects stay on the card art. */
+.card-fx-frame{position:absolute;bottom:0;left:0;width:100%;aspect-ratio:1536/2230;pointer-events:none}
+.card-fx-art{position:absolute;inset:0 0 auto;height:91.84%;pointer-events:none}
+.card-fx-frame.cropped .card-fx-art{left:10.22%;right:10.22%}
+.card-fx-art>img{display:block;width:100%;height:100%;opacity:0}

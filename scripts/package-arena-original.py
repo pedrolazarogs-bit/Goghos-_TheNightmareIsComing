@@ -19,6 +19,7 @@ files += ['arena-toque.html','assets/arena/penxy.webp','assets/arena/mao-vazia.p
           'assets/characters-v047/Original-Base68_20261023181416.png','assets/turn-order-v050/penxy.png']
 files += [p.relative_to(root).as_posix() for p in sorted((root/'css').glob('penxy-*.css'))]
 files += [p.relative_to(root).as_posix() for p in sorted((root/'js/penxy').glob('*.js'))]
+files += ['assets/arena/'+name+'.webp' for name in ('petra','chama','sarck')]
 files += ['js/lab/'+name+'.js' for name in ['characters','supports','battle']]
 files += [p.relative_to(root).as_posix() for p in sorted((root/'assets/supports-v051').glob('*.png'))]
 files += ['js/ui/card_values.js','js/config.js','js/ui/presentation_fx.js','js/ui/soundtrack.js']

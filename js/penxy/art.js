@@ -3,6 +3,7 @@ const ArenaArt=(()=>{
  const entry=c=>GoghosBattleLab.deck[c.art];
  function emblem(c){
   const source=entry(c).image;
+  if(['wear','fire','scare'].includes(c.skill))return '<svg viewBox="260 454 184 132" aria-hidden="true" class="ability-emblem"><image width="480" height="804" href="'+source+'"/></svg>';
   if(!source)return '<b aria-hidden="true">?</b>';
   return '<svg viewBox="15 30 218 192" aria-hidden="true" class="ability-emblem"><g clip-path="url(#ability-emblem)"><image href="'+source+'" x="-390" y="-505" width="768" height="1024"/></g></svg>';
  }
@@ -34,7 +35,7 @@ const ArenaArt=(()=>{
   ribbon.querySelector('text').textContent=String(c.hp);
   const printed=element.querySelector('.printed-life');
   printed.textContent=String(c.hp);
-  printed.setAttribute('textLength',Math.min((GoghosCardValues.layoutFor(entry(c).index)?.hp[2]||336)-5,String(c.hp).length*(GoghosCardValues.layoutFor(entry(c).index)?.hp[3]||180)*.5));
+  if(!printed.closest('.revised-face'))printed.setAttribute('textLength',Math.min((GoghosCardValues.layoutFor(entry(c).index)?.hp[2]||336)-5,String(c.hp).length*(GoghosCardValues.layoutFor(entry(c).index)?.hp[3]||180)*.5));
  }
  function healthRibbon(c){
   // Coordinates are relative to the card tip. Both faces share the same live fill.
@@ -54,6 +55,14 @@ const ArenaArt=(()=>{
  }
  function card(c,withHealth=false){
   const profile=entry(c),layout=GoghosCardValues.layoutFor(profile.index);
+  if(['wear','fire','scare'].includes(c.skill)){
+   const petra=c.skill==='wear';
+   const erase=petra?'':'<rect x="107" y="463" width="89" height="53" fill="#fefcea"/><path fill="#fefcea" d="M100 517H265V601H100Z"/><path fill="#cabbb5" d="M100 534L265 597V601H100Z"/>';
+   const speed=petra?'<text x="242" y="76" text-anchor="middle" font-size="66" class="printed-speed">'+c.speed+'</text>':'';
+   const face='<svg class="revised-face" x="157" width="1222" height="2048" viewBox="0 0 480 804"><image width="480" height="804" href="'+profile.image+'"/>'+erase+
+    '<g fill="#151119">'+speed+'<text x="108" y="507" class="printed-attack" font-size="50">'+(c.atk??'—')+'</text><text x="110" y="590" class="printed-life" font-size="87">'+c.hp+'</text></g></svg>';
+   return '<svg viewBox="0 0 1536 '+(withHealth?2230:2048)+'" preserveAspectRatio="xMidYMax meet" class="original-card" aria-hidden="true">'+face+(withHealth?healthRibbon(c):'')+'</svg>';
+  }
   const hp=layout?.hp||[447,1341,343,182],attack=layout?.attack||[456,1183,180,120];
   const artwork=profile.image?'<image width="1536" height="2048" href="'+profile.image+'"/>':
    '<path d="M768 60 L1290 365 V1570 L768 1980 L246 1570 V365Z" fill="#241e32" stroke="#a992ae" stroke-width="20"/><text x="768" y="900" text-anchor="middle" fill="#dacddd" font-size="370">?</text><text x="768" y="1090" text-anchor="middle" fill="white" font-size="105">'+c.name+'</text><g fill="#e8d6ae" font-size="85"><text x="768" y="356" text-anchor="middle" class="placeholder-speed">'+c.speed+' VEL</text><text x="690" y="1300">ATQ</text><text x="840" y="1490">PV</text></g>';

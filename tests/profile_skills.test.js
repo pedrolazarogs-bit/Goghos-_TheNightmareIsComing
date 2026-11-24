@@ -3,7 +3,7 @@ const M=require('../js/penxy/battle');
 const id=name=>M.roster.indexOf(name);
 const defs=M.deck.filter(p=>p.skill);
 assert.equal(defs.length,25);
-assert.deepEqual(defs.filter(p=>!p.image).map(p=>p.name).sort(),['Dashow Only','Petra','Zédia']);
+assert.deepEqual(defs.filter(p=>!p.image).map(p=>p.name).sort(),['Dashow Only','Zédia']);
 function fixture(blue,red){
  const team=names=>[...new Set([...names,'Unicorn','Mike','DD-X','Elish'])].slice(0,4).map(id);
  const s=M.create(false);assert(M.start(s,0,{blue:team(blue),red:team(red)}));
@@ -49,7 +49,8 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
  dice(3,()=>use(s,a,'stone',t));waitUntil(s,()=>!t.hp);
 }
 {
- const {s,a,t}=fixture(['Mike'],['Sarck']);attack(s,a,t);assert.equal(a.hp,0);
+ const {s,a,t}=fixture(['Unicorn'],['Sarck']);assert.equal(t.hp,260);attack(s,a,t);assert.equal(a.hp,0);
+ const lethal=fixture(['Petra'],['Sarck']);attack(lethal.s,lethal.a,lethal.t);assert.equal(lethal.t.hp,0);assert.equal(lethal.a.hp,220);
  const immortal=fixture(['Mike'],['Unicorn','Zédia']);immortal.t.hp=20;
  attack(immortal.s,immortal.a,immortal.t);assert.equal(immortal.t.hp,1);
 }
@@ -84,14 +85,16 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
 }
 {
  const {s,a,t}=fixture(['Nully'],['Z-Zus']);dice(1,()=>assert.equal(attack(s,a,t).damage,45));dice(6,()=>assert(attack(s,a,t).defeated));
- const fire=fixture(['Chama'],['Z-Zus']);attack(fire.s,fire.a,fire.t);assert.equal(fire.t.maxHp-fire.t.hp,35);
- for(let i=0;i<5;i++)M.pass(fire.s,i);assert.equal(fire.t.maxHp-fire.t.hp,210);
+ const fire=fixture(['Chama'],['Z-Zus']);attack(fire.s,fire.a,fire.t);assert.equal(fire.t.maxHp-fire.t.hp,0);
+ for(let i=0;i<6;i++)M.pass(fire.s,i);assert.equal(fire.t.maxHp-fire.t.hp,300);assert(!fire.t.status.some(e=>e.type==='burn'));
+ const counter=fixture(['Unicorn'],['Chama']);attack(counter.s,counter.a,counter.t);
+ for(let i=0;i<3;i++)M.pass(counter.s,i);assert.equal(counter.a.maxHp-counter.a.hp,105);
  const kick=fixture(['Stally'],['Z-Zus']);dice(1,()=>use(kick.s,kick.a,'kick',kick.t));
  assert(kick.t.status.some(e=>e.type==='stun'));assert.equal(kick.t.maxHp-kick.t.hp,kick.a.atk+40);
 }
 {
- const {s,a,t}=fixture(['Unicorn'],['Petra']);t.hp=155;attack(s,a,t);assert.equal(t.atk,190);assert.equal(t.speed,3);
- attack(s,a,t);assert.equal(t.atk,50);assert.equal(t.speed,1);
+ const {s,a,t}=fixture(['Unicorn'],['Petra']);assert.equal(t.speed,7);attack(s,a,t);assert.equal(t.atk,190);assert.equal(t.speed,4);
+ assert.equal(M.wearLevel(100),2);t.hp=150;attack(s,a,t);assert.equal(t.atk,70);assert.equal(t.speed,2);
  const fish=fixture(['DD-X'],['Z-Zus']);use(fish.s,fish.a,'fish',fish.t);assert.equal(fish.t.maxHp-fish.t.hp,90);
 }
 console.log('PASS 25 perfis: alvos, área, reações, marcas, cura, imunidade, controle, prioridades e dados.');

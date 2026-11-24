@@ -14,10 +14,21 @@ const auras=new Map();
 const cardElement=id=>stage.querySelector('[data-battle-card="'+id+'"]');
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fullEffects(){return !reduced&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvasReady;}
-function zzusMove(action){
+function resolveMove(action){
  const hero=state.cards.find(c=>c.skill==='protect'&&c.hp>0);
  const oldLink=hero?.link;
  const move=M.resolveHits(state,action);
+ move.reactions=move.hits.filter(hit=>hit.reaction);
+ if(fullEffects()){
+  for(const hit of move.hits){
+   ArenaCardEffects.pulse(hit,cardElement(hit.burn?hit.target:hit.recipient));
+   if(hit.reaction){
+    for(const id of [hit.recipient,hit.source]){
+     if(!state.cards.find(c=>c.id===id).hp)cardElement(id).classList.add('falling');
+    }
+   }
+  }
+ }
  if(!hero)return move;
  move.hero=hero;
  move.received=move.hits.filter(h=>h.recipient===hero.id);
@@ -26,6 +37,26 @@ function zzusMove(action){
  move.changed=move.fallen||hero.link!==oldLink||move.received.length>0;
  if(move.fallen&&fullEffects())cardElement(hero.id).classList.add('falling');
  return move;
+}
+function effectOptions(signal){
+ return {...ArenaCardEffects.sound(),signal,encerrar:()=>!fullEffects(),pausado:()=>state.paused||dialog.open||document.hidden};
+}
+async function presentMove(move,signal){
+ const zzus=presentZzus(move,signal);
+ try{
+  for(const hit of move.reactions){
+   if(signal.aborted||!fullEffects())break;
+   const source=cardElement(hit.recipient),target=cardElement(hit.source),options=effectOptions(signal);
+   if(hit.reaction==='jumpscare')await Efeitos.jumpscare(source,target,{...options,matar:hit.shattered,restaurar:true});
+   else await Efeitos.bolaDeFogo(source,target,{...options,tipo:'revide',queimar:0});
+  }
+ }finally{
+  if(!signal.aborted)for(const hit of move.reactions){
+   cardElement(hit.source).classList.remove('falling');
+   cardElement(hit.recipient).classList.remove('falling');
+  }
+  await zzus;
+ }
 }
 function syncBond(){
  const hero=state.phase==='active'&&state.cards.find(c=>c.skill==='protect'&&c.hp&&c.link);
@@ -98,7 +129,7 @@ const alive=t=>state.cards.filter(c=>c.team===t&&c.hp>0),isAutomatic=()=>M.curre
 const format=ms=>{const seconds=Math.floor(ms/1000);return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');};
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fit(){hideTip();stage.style.setProperty('--battle-scale',String(Math.min(innerWidth/1600,innerHeight/900)));CardTouch.close();}
-function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;activeAction?.abort();activeAction=null;FX.haunt.exit(true);FX.clear();ZFX.clear();for(const aura of auras.values())aura.stop();auras.clear();}
+function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;activeAction?.abort();activeAction=null;FX.haunt.exit(true);FX.clear();ZFX.clear();ArenaCardEffects.clear();for(const aura of auras.values())aura.stop();auras.clear();}
 function say(text){$('battle-message').textContent=text;}
 function closeDialog(){
  dialog.close();dialogKind='';
@@ -156,6 +187,8 @@ function renderTeam(team){
   button.setAttribute('aria-label',c.name+', equipe '+teamName(c.team)+', '+c.hp+' de '+c.maxHp+' PV'+(c.id===state.playerId?', seu personagem':', bot')+(active?', vez atual':''));
   button.disabled=!c.hp;
   ArenaArt.updateHealth(button,c);
+  ArenaCardEffects.sync(c,button,fullEffects()&&state.phase==='active');
+  const wearSpeed=button.querySelector('.printed-speed');if(wearSpeed)wearSpeed.textContent=c.speed+(c.status.find(e=>e.type==='slow')?.speedDelta||0);
   const speedLabel=button.querySelector('.placeholder-speed');if(speedLabel)speedLabel.textContent=c.speed+' VEL';
   const power=M.attackPower(state,c);
   button.querySelector('.printed-attack').textContent=power===null?'—':c.hits>1&&power===c.atk?c.baseAtk+'×'+c.hits:power;
@@ -176,7 +209,7 @@ function openSupport(index){
  const actions=targets.filter(c=>!M.supportReason(state,index,c.id)).map(c=>({
   label:'Usar em '+c.name,run:()=>{
    if(!checkTime())return;
-   const move=zzusMove(()=>M.activateSupport(state,index,c.id,now())),result=move.result;if(!result)return;
+   const move=resolveMove(()=>M.activateSupport(state,index,c.id,now())),result=move.result;if(!result)return;
    if(result.defeated&&state.haunt?.target===c.id){M.leaveHaunt(state,now());FX.haunt.exit(true);}
    closeDialog();finishMove(result.text,move);
   }
@@ -342,7 +375,7 @@ function perform(targetId,controller='player'){
  target.classList.remove('tc-hit');
  function impact(){
   if(result||signal.aborted)return;
-  const move=zzusMove(()=>M.attack(state,actor.id,targetId,now(),controller));
+  const move=resolveMove(()=>M.attack(state,actor.id,targetId,now(),controller));
   result=move.result;
   if(!result)return;
   if(state.haunt&&state.haunt.owner===actor.id)state.haunt.exchanged=true;
@@ -350,16 +383,22 @@ function perform(targetId,controller='player'){
   render();
   const transferred=move.received?.find(h=>h.target===targetId&&h.recipient!==targetId);
   const special=transferred||victim.skill==='protect';
-  const effects=[presentZzus(move,signal)];
-  if(visuals&&!special&&actor.skill!=='protect')effects.push(FX.damage(target,result.damage,{sound:actor.name!=='Penxy'}));
+  const effects=[presentMove(move,signal)];
+  if(visuals&&!special&&result.damage>0&&actor.skill!=='protect')effects.push(FX.damage(target,result.damage,{sound:actor.name!=='Penxy'}));
   damageFx=Promise.all(effects);
   say(transferred?'Meu Herói · Z-Zus recebeu '+transferred.damage+' de dano por '+victim.name:
-      (result.defeated?'Eliminado! ':'')+'−'+result.damage+' PV em '+victim.name);
+      actor.skill==='fire'&&victim.skill!=='immune'?'Fire Ball · '+victim.name+' em chamas':(result.defeated?'Eliminado! ':'')+'−'+result.damage+' PV em '+victim.name);
   return special?undefined:result.damage;
  }
  async function resolveAttack(){
   try{
-   if(visuals&&actor.skill==='protect'){
+   if(visuals&&actor.skill==='wear'){
+    say('Lazer Descharge · Petra → '+victim.name);
+    await Efeitos.laser(source,target,{...effectOptions(signal),nivel:M.wearLevel(actor.hp),onImpacto:impact});
+   }else if(visuals&&actor.skill==='fire'){
+    say('Fire Ball · Chama → '+victim.name);
+    await Efeitos.bolaDeFogo(source,target,{...effectOptions(signal),queimar:0,onImpacto:impact});
+   }else if(visuals&&actor.skill==='protect'){
     say('Pedrinha · Z-Zus → '+victim.name);
     await ZFX.pebble(source,target,{signal,beforeImpact:()=>whenPlaying(signal),onImpact:impact});
    }else if(visuals&&actor.name==='Penxy'){
@@ -394,10 +433,10 @@ function perform(targetId,controller='player'){
  return true;
 }
 function finishMove(text,move){
- if(move?.changed&&fullEffects()){
+ if((move?.changed||move?.reactions.length)&&fullEffects()){
   const signal=lockAction();
   render();if(text)say(text);
-  presentZzus(move,signal).catch(error=>console.warn('Efeito do Z-Zus',error)).finally(()=>finishAction(signal));
+  presentMove(move,signal).catch(error=>console.warn('Efeito de combate',error)).finally(()=>finishAction(signal));
   return;
  }
  syncBond();
@@ -406,7 +445,7 @@ function finishMove(text,move){
 }
 function cast(actor,choice){
  if(!checkTime()||busy)return;
- const move=zzusMove(()=>M.useSkill(state,actor.id,choice.action,choice.target,now(),actor.controller));if(!move.result)return;
+ const move=resolveMove(()=>M.useSkill(state,actor.id,choice.action,choice.target,now(),actor.controller));if(!move.result)return;
  if(!state.haunt&&FX.haunt.active)FX.haunt.exit(true);
  finishMove(choice.label,move);
 }
@@ -428,7 +467,7 @@ function schedule(){
   ||choices.find(o=>o.action!=='heal'&&o.action!=='release'&&o.action!=='rescue'&&(!actor.link)&&(!actor.secondForm)&&(actor.skill!=='kick'||state.turnNumber%2))
   ||(!targets.length&&choices.find(o=>o.action==='release'));
  if(choice){cast(actor,choice);return;}
- if(!targets.length){const move=zzusMove(()=>M.pass(state,now()));if(move.result)finishMove(null,move);return;}
+ if(!targets.length){const move=resolveMove(()=>M.pass(state,now()));if(move.result)finishMove(null,move);return;}
  // A bot uses the mind for one exchange, then returns to the normal turn queue.
  if(actor.name==='Penxy'&&state.haunt?.owner===actor.id&&state.last!==null&&state.haunt.exchanged){
   changeHaunt(actor,null,'bot');return;
@@ -442,7 +481,7 @@ function schedule(){
 function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;
  if(finished)music.setContext('silent',{immediate:true});
  openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.61.3',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportState(){const data={version:'0.61.4',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.4.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function restart(){music.setContext('silent',{immediate:true});cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
 CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>player()?.name==='Penxy'?c.skill!=='immune'&&c.speed!==null&&(!state.haunt||state.haunt.owner===state.playerId):M.options(state,player(),'player').some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{if(player().name==='Penxy')changeHaunt(player(),c,'player');else {const chosen=M.options(state,player(),'player').filter(o=>o.target===c.id);if(chosen.length===1)cast(player(),chosen[0]);else skillMenu(player());}},onAttack:c=>perform(c.id)});
@@ -469,7 +508,7 @@ document.querySelectorAll('[data-slot]').forEach(el=>el.addEventListener('click'
 }));
 $('pause').addEventListener('click',()=>{manualPause=!manualPause;setPaused();});
 $('restart').addEventListener('click',()=>{openDialog('confirm','Reiniciar a série?','<p>O placar, as equipes e o cronômetro desta sessão serão restaurados.</p>',[{label:'Continuar jogando',run:closeDialog},{label:'Reiniciar',primary:true,run:restart}]);});
-$('motion').addEventListener('click',()=>{reduced=!reduced;FX.setReducedMotion(reduced);ZFX.setReducedMotion(reduced);if(reduced)ZFX.clear();syncBond();syncAuras();if(reduced)FX.haunt.exit(true);document.body.classList.toggle('reduced',reduced);$('motion').setAttribute('aria-pressed',String(reduced));$('motion').textContent=reduced?'Efeitos reduzidos':'Efeitos';});
+$('motion').addEventListener('click',()=>{reduced=!reduced;FX.setReducedMotion(reduced);ZFX.setReducedMotion(reduced);if(reduced)ZFX.clear();syncBond();render();if(reduced)FX.haunt.exit(true);document.body.classList.toggle('reduced',reduced);$('motion').setAttribute('aria-pressed',String(reduced));$('motion').textContent=reduced?'Efeitos reduzidos':'Efeitos';});
 $('history').addEventListener('click',()=>openDialog('info','Registro da série','<ul class="dialog-log">'+state.events.map(e=>'<li><small>'+format(e.ms)+' · '+escape(e.type)+'</small>'+escape(e.text)+'</li>').join('')+'</ul>',[{label:'Voltar ao campo',run:closeDialog}]));
 $('export-battle').addEventListener('click',exportState);
 $('help').addEventListener('click',()=>openDialog('info','Como jogar','<p>Na sua vez, selecione um inimigo e use <b>Atacar</b>. Os outros sete personagens são bots. Se o seu personagem for eliminado, seus aliados continuam até o fim da rodada.</p><p>A primeira equipe com três pontos vence.</p>',[{label:'Entendi',run:closeDialog}]));
@@ -521,7 +560,7 @@ function syncTurnClock(){
 function checkTime(){
  syncTurnClock();
  if(!ticking||remaining>0)return true;
- const move=zzusMove(()=>M.pass(state,now()));
+ const move=resolveMove(()=>M.pass(state,now()));
  if(move.result){
   CardTouch.close();if(dialog.open)closeDialog();finishMove(null,move);
  }

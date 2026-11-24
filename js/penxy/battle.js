@@ -112,8 +112,9 @@ function attackPower(s,c){
  const base=rules.attackPower(s,c);
  return base===null?null:base+(allyWith(s,c,'oni')&&c.skill!=='immune'?20:0);
 }
+function wearLevel(hp){return hp>=180?1:hp>=100?2:3;}
 function updateWear(c){
- if(c.skill==='wear'){c.speed=c.hp>=150?5:c.hp>=90?3:1;c.atk=c.hp>=150?300:c.hp>=90?190:50;}
+ if(c.skill==='wear'){const level=wearLevel(c.hp);c.speed=[7,4,2][level-1];c.atk=[300,190,70][level-1];}
 }
 function heal(c,n){if(c.hp){c.hp=Math.min(c.maxHp,c.hp+n);updateWear(c);}}
 function settleRound(s,now){
@@ -152,7 +153,7 @@ function resolveHits(s,action){
  const hits=[];hitCollectors.set(s,hits);
  try{return {result:action(),hits};}finally{hitCollectors.delete(s);}
 }
-function hit(s,source,target,amount,now,{basic=false,execution=false,react=true}={}){
+function hit(s,source,target,amount,now,{basic=false,execution=false,react=true,burn=false}={}){
  if(!target.hp)return 0;
  const guardian=living(s).find(c=>c.skill==='protect'&&c.link===target.id&&participant(s,c));
  const victim=(target.skill!=='immune'&&guardian)||target;
@@ -165,11 +166,15 @@ function hit(s,source,target,amount,now,{basic=false,execution=false,react=true}
  if(damage>=before)eliminate(s,victim,source,now);
  else victim.hp-=damage;
  const lost=before-victim.hp;
- hitCollectors.get(s)?.push({target:target.id,recipient:victim.id,damage:lost});
+ const event={target:target.id,recipient:victim.id,damage:lost,source:source?.id,burn};
+ hitCollectors.get(s)?.push(event);
  updateWear(victim);
  if(react&&damage>0&&source?.team!==victim.team&&source?.hp&&source.skill!=='immune'){
-  if(victim.skill==='scare')eliminate(s,source,victim,now);
-  if(victim.skill==='fire'&&basic)setStatus(source,'burn',victim.id,'Queimadura',3,20);
+  if(victim.skill==='scare'&&victim.hp){event.reaction='jumpscare';eliminate(s,source,victim,now);event.shattered=!source.hp;}
+  if(victim.skill==='fire'&&basic&&!burn){
+   event.reaction='revide';setStatus(source,'burn',victim.id,'Queimadura',3,35);
+   source.status.at(-1).start=s.turnNumber;
+  }
  }
  return before-victim.hp;
 }
@@ -178,7 +183,10 @@ function tickEffects(s,now){
   if(c.reserveHp!==undefined)c.reserveHp=Math.min(c.maxHp,c.reserveHp+15);
   for(const e of [...c.status]){
    if(!c.hp)break;
-   if(e.start!==s.turnNumber&&(e.type==='guitar'||e.type==='burn'))hit(s,byId(s,e.source),c,e.value,now);
+   if(e.start!==s.turnNumber&&(e.type==='guitar'||e.type==='burn')){
+    hit(s,byId(s,e.source),c,e.value,now,{burn:e.type==='burn',basic:!!e.firstAttack});
+    e.firstAttack=false;
+   }
    if(Number.isInteger(e.turns)&&e.start!==s.turnNumber&&--e.turns===0)c.status=c.status.filter(x=>x!==e);
   }
   if(c.hp&&c.lease&&s.turnNumber>=c.lease){delete c.lease;if(!allyWith(s,c,'immortal'))eliminate(s,c,null,now,true);}
@@ -215,8 +223,8 @@ function attack(s,actorId,targetId,now,controller='player'){
  if(!immune&&actor.skill==='sharpen')total+=bonusVs[target.role]||0;
  if(!immune&&actor.skill==='hunt'&&actor.link===target.id)total=220;
  if(actor.skill==='fire'&&!immune){
-  hit(s,actor,target,35,now,{basic:true});
-  if(target.hp){setStatus(target,'burn',actor.id,'Queimadura',5,35);target.status.at(-1).start=s.turnNumber;}
+  setStatus(target,'burn',actor.id,'Queimadura',6,actor.baseAtk);
+  Object.assign(target.status.at(-1),{start:s.turnNumber,firstAttack:true});
  }
  else if(total>0)hit(s,actor,target,total,now,{basic:!execute,execution:execute});
  if(actor.skill==='electric'||actor.skill==='air'){
@@ -227,7 +235,8 @@ function attack(s,actorId,targetId,now,controller='player'){
  }
  if(target.skill==='book'&&target.hp&&s.lastHit===target.id)eliminate(s,target,target,now);
  s.lastHit=target.id;s.last=actor.id;s.revision++;
- record(s,'ataque',actor.name+' → '+target.name+' · '+(before-target.hp)+' PV.',now);
+ const outcome=actor.skill==='fire'&&!immune?'Queimadura: 6 pulsos de '+actor.baseAtk+'.':(before-target.hp)+' PV.';
+ record(s,'ataque',actor.name+' → '+target.name+' · '+outcome,now);
  if(!settleRound(s,now))advance(s,now);
  return {actor:actor.id,target:target.id,damage:Math.max(0,before-target.hp),defeated:!target.hp,roundWinner:s.roundWinner,winner:s.winner};
 }
@@ -291,6 +300,6 @@ function activateSupport(s,i,id,now){
 }
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);beginTurn(s,now);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({...rules,deck,roster,speed,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
+const api=Object.freeze({...rules,deck,roster,speed,wearLevel,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);
