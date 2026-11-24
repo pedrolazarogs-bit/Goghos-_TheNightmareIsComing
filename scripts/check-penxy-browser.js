@@ -4,7 +4,11 @@ const assert=require('node:assert/strict');
  const browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});
  try{
   const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
-  page.on('pageerror',e=>errors.push(String(e)));page.on('requestfailed',r=>errors.push(r.url()));page.on('response',r=>{if(r.status()>=400)errors.push(r.url());});
+  page.on('pageerror',e=>errors.push(String(e)));page.on('requestfailed',r=>{
+   // Restarting the series or navigating away cancels the current music stream.
+   if(r.resourceType()==='media'&&r.failure()?.errorText==='net::ERR_ABORTED')return;
+   errors.push(r.url()+' '+r.failure()?.errorText);
+  });page.on('response',r=>{if(r.status()>=400)errors.push(r.url());});
   await page.goto(process.env.ARENA_URL||'http://127.0.0.1:8000/arena-batalha.html');
   await page.locator('#owned-character').selectOption({label:'Penxy'});
   await page.getByRole('button',{name:'Iniciar batalha'}).click();

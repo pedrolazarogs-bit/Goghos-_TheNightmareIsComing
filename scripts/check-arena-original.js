@@ -6,7 +6,11 @@ const assert=require('node:assert/strict');
   const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
   const failures=[];
   page.on('pageerror',e=>failures.push(String(e)));
-  page.on('requestfailed',r=>failures.push(r.url()));
+  page.on('requestfailed',r=>{
+   // Restarting the series or navigating away cancels the current music stream.
+   if(r.resourceType()==='media'&&r.failure()?.errorText==='net::ERR_ABORTED')return;
+   failures.push(r.url()+' '+r.failure()?.errorText);
+  });
   await page.clock.install();
   await page.addInitScript(()=>{Math.random=()=>.01;});
   await page.goto(process.env.ARENA_URL || 'http://127.0.0.1:8000/arena-batalha.html');
