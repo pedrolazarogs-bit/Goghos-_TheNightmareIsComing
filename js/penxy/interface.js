@@ -245,9 +245,10 @@ function renderQueue(){
   face.animate([{opacity:0,transform:'translateY(-7px)'},{opacity:1,transform:'none'}],timing);
  });
 }
-function render(){hideTip();drawInfo();syncTurnClock();
+function render(){hideTip();drawInfo();
  renderHand();
  for(const team of ['blue','red']){renderTeam(team);$('score-'+team).textContent=state.score[team];$('pips-'+team).innerHTML=Array.from({length:3},(_,i)=>'<i class="'+(i<state.score[team]?'filled':'')+'"></i>').join('');}
+ syncTurnClock();
  $('red-alive').textContent=alive('red').length+'/4';
  $('round').textContent='RODADA '+state.round;$('pause').disabled=state.phase!=='active';$('pause').textContent=state.paused?'Retomar':'Pausar';document.body.classList.toggle('paused',state.paused);
  const current=M.current(state);
@@ -436,7 +437,7 @@ function schedule(){
  perform(targets[0].id,'bot');},3200);
 }
 function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.61.1',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.1.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportState(){const data={version:'0.61.2',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.2.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function restart(){cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
 CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>player()?.name==='Penxy'?c.skill!=='immune'&&c.speed!==null&&(!state.haunt||state.haunt.owner===state.playerId):M.options(state,player(),'player').some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{if(player().name==='Penxy')changeHaunt(player(),c,'player');else {const chosen=M.options(state,player(),'player').filter(o=>o.target===c.id);if(chosen.length===1)cast(player(),chosen[0]);else skillMenu(player());}},onAttack:c=>perform(c.id)});
@@ -486,14 +487,31 @@ if(compact){
 }
 $('dialog-close').addEventListener('click',closeDialog);dialog.addEventListener('cancel',e=>{if(dialogKind==='setup'||dialogKind==='result')e.preventDefault();});dialog.addEventListener('close',schedule);
 document.addEventListener('visibilitychange',()=>{hiddenPause=document.hidden;setPaused();});window.addEventListener('resize',fit);
+const turnTimer=document.createElement('span');
+turnTimer.id='turn-time';
+turnTimer.setAttribute('role','timer');
 let clockTurn=-1,remaining=25000,lastTick=0,ticking=false;
 function syncTurnClock(){
  const t=now();
  if(clockTurn!==state.turnNumber){clockTurn=state.turnNumber;remaining=25000;}
  else if(ticking)remaining=Math.max(0,remaining-(t-lastTick));
  lastTick=t;ticking=state.phase==='active'&&!state.paused&&!busy&&!document.hidden&&!M.pendingSupportReward(state);
- $('turn-time').textContent=Math.ceil(remaining/1000)+' s';
- $('turn-time').classList.toggle('urgent',remaining<=5000&&state.phase==='active');
+ const actor=state.phase==='active'&&!busy&&M.current(state);
+ const card=actor?.hp?cardElement(actor.id):null;
+ if(turnTimer.parentElement!==card){
+  turnTimer.parentElement?.removeAttribute('aria-describedby');
+  if(card){
+   card.append(turnTimer);
+   card.setAttribute('aria-describedby',turnTimer.id);
+  }else turnTimer.remove();
+ }
+ if(card){
+  const label=Math.ceil(remaining/1000)+' s';
+  if(turnTimer.textContent!==label)turnTimer.textContent=label;
+  const description='Tempo para '+actor.name+' agir: '+label;
+  if(turnTimer.getAttribute('aria-label')!==description)turnTimer.setAttribute('aria-label',description);
+  turnTimer.classList.toggle('urgent',remaining<=5000);
+ }
 }
 function checkTime(){
  syncTurnClock();

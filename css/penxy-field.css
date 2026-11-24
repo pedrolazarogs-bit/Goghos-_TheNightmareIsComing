@@ -64,7 +64,6 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(
 .card-star{position:absolute;right:-3%;bottom:7%;width:34%;z-index:3;filter:drop-shadow(0 2px 2px #0008);pointer-events:none}
 .combat-card:hover:not(.dead){filter:drop-shadow(0 6px 5px #0007) brightness(1.1)}
 .combat-card.is-current{animation:turn-glow 1.3s ease-in-out infinite alternate}@keyframes turn-glow{from{filter:drop-shadow(0 6px 5px #0007) drop-shadow(0 0 5px #ffe09b66)}to{filter:drop-shadow(0 6px 5px #0007) drop-shadow(0 0 20px #ffe09b)}}
-.combat-card.is-current:after{content:'VEZ';position:absolute;left:50%;top:-34px;transform:translateX(-50%);padding:3px 16px 0;border:2px solid var(--ink);border-radius:20px;background:var(--gold);color:#2b1a3b;font-size:16px;z-index:5}
 .team.blue .combat-card.is-selected{transform:scale(1.28);z-index:4}.team.red .combat-card.is-selected{transform:scale(1.1);z-index:4}
 .combat-card.tc-sel{transform:translateY(-8px) scale(1.04)}.team.blue .combat-card.is-selected.tc-sel{transform:translateY(-8px) scale(1.32)}.team.red .combat-card.is-selected.tc-sel{transform:translateY(-8px) scale(1.14)}
 .combat-card.target-ready .card-rim:before{animation:target-glow .8s ease-in-out infinite alternate}@keyframes target-glow{to{filter:brightness(1.7) saturate(1.4)}}

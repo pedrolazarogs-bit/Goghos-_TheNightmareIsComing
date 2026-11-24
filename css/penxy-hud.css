@@ -75,8 +75,7 @@
 .single-player-arena .team{transform-origin:left bottom}
 .single-player-arena .team.blue{left:38px;top:432px;transform:scale(1.11)}
 .single-player-arena .team.red{left:688px;transform:scale(1.06)}
-.single-player-arena .formation-label.enemies{left:688px;top:304px}
-.single-player-arena .team.red .combat-card.is-current:after{top:-9px}
+.single-player-arena .formation-label.enemies{left:688px;top:256px}
 
 /* Keep the tip and its contact shadow together when an opponent is inspected. */
 .team.red .combat-card{height:176px;transform-origin:50% 100%}
@@ -113,7 +112,13 @@
 #arena-menu summary::-webkit-details-marker{display:none}
 #arena-menu .top-controls{position:absolute;right:0;top:calc(100% + 5px);width:134px;padding:8px;display:grid;gap:4px;border:1px solid #ab9674;border-radius:10px;background:#231d30}
 #arena-menu .top-controls button{text-align:left;border:0;border-radius:4px}
-#turn-time{color:#fff;font-size:23px;padding:1px 12px;background:#282136;border-radius:6px;font-variant-numeric:tabular-nums}
+#turn-time{
+ position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);
+ min-width:3em;padding:2px 8px;color:#ffe09b;background:#282136;
+ border:2px solid currentColor;border-radius:999px;
+ font-size:18px;line-height:1.1;font-variant-numeric:tabular-nums;text-align:center;
+ white-space:nowrap;pointer-events:none;
+}
 #turn-time.urgent{color:#ffbd90}
 #card-info,#support-offer{position:absolute;z-index:18;color:#fff;background:#231c35f5;border-left:3px solid #ffdb85;border-radius:2px 8px 8px 2px;padding:10px 14px;font:16px/1.36 system-ui}
 #card-info{top:78px;left:24px;width:278px}
