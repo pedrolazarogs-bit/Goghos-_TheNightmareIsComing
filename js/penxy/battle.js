@@ -146,6 +146,12 @@ function eliminate(s,victim,source,now,expiry=false){
  if(victim.skill==='shark'&&source?.hp&&source.team!==victim.team&&source.skill!=='immune'&&roll(s,victim,now)<=2)
   eliminate(s,source,victim,now);
 }
+// Capture resolved recipients only for the action being presented, including area and end-of-turn damage.
+const hitCollectors=new WeakMap();
+function resolveHits(s,action){
+ const hits=[];hitCollectors.set(s,hits);
+ try{return {result:action(),hits};}finally{hitCollectors.delete(s);}
+}
 function hit(s,source,target,amount,now,{basic=false,execution=false,react=true}={}){
  if(!target.hp)return 0;
  const guardian=living(s).find(c=>c.skill==='protect'&&c.link===target.id&&participant(s,c));
@@ -158,6 +164,8 @@ function hit(s,source,target,amount,now,{basic=false,execution=false,react=true}
  }
  if(damage>=before)eliminate(s,victim,source,now);
  else victim.hp-=damage;
+ const lost=before-victim.hp;
+ hitCollectors.get(s)?.push({target:target.id,recipient:victim.id,damage:lost});
  updateWear(victim);
  if(react&&damage>0&&source?.team!==victim.team&&source?.hp&&source.skill!=='immune'){
   if(victim.skill==='scare')eliminate(s,source,victim,now);
@@ -283,6 +291,6 @@ function activateSupport(s,i,id,now){
 }
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);beginTurn(s,now);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({...rules,deck,roster,speed,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
+const api=Object.freeze({...rules,deck,roster,speed,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);
