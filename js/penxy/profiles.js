@@ -2,10 +2,11 @@
 (function(root){
 'use strict';
 const rows=[
+ ['Unicorn','Estrela Celeste','Suporte','celestial','Fortalece outro aliado por esta rodada: +90 PV atuais e máximos, +35 de dano e +1 VEL, até 9.'],
  ['Zeneerian',"I'm God",'Assassin','immune','Ignora os efeitos das habilidades de outros personagens.'],
  ['Sheriff · roxo','Na Mira','Destroyer','aim','Só personagens com velocidade igual ou menor podem atacá-lo.','Striker'],
  ['Vaglar · preto','Escrita Mortal','Fighter','book','Marca um rival para executá-lo na próxima vez de Vaglar. Se receber dois ataques consecutivos, o livro elimina Vaglar.','Vaglar'],
- ['Linx','Afiação 5','Fighter','sharpen','Bônus contra Assassin +40, Fighter +120, Suporte +140, Tank +170 e Destroyer +0.'],
+ ['Linx','Afiação 5','Fighter','sharpen','As garras causam 45% da vida máxima do alvo.','Linix'],
  ['Draktar','Caça-clisma','Assassin','hunt','Escolha um rival. O ataque contra ele causa 220 de dano enquanto a marca durar. Na fila, Draktar ganha prioridade sobre o alvo marcado.'],
  ['Elish','Def ou Atk?','Suporte','heal','Pode atacar ou gastar a ação para curar um oponente pelo valor do ataque básico.'],
  ['Daztirry','Adrenalina Oni','Fighter','oni','Aliados recebem +20 ATQ e sobrevivem por mais dois turnos corridos ao sofrer dano fatal.'],
@@ -18,7 +19,7 @@ const rows=[
  ['Z-Zus','Meu Herói','Tank','protect','Escolhe um aliado e recebe o dano dele até ser derrotado.'],
  ['P.ULLYS','Ataque Aéreo','Destroyer','air','O míssil atinge o alvo e causa 50 de dano aos vizinhos da mesma equipe.'],
  ['Eletric','3000 W','Tank','electric','Um único golpe atinge toda a equipe adversária.'],
- ['Sam','Mega Combo','Fighter','combo','Até seis golpes com o dano básico da carta. O primeiro 1 no d6 encerra o combo.'],
+ ['Sam','Mega Combo','Fighter','combo','Cada face diferente vale 50 de dano. A primeira repetição encerra o combo. Seis acertos ativam o golpe brutal.'],
  ['Endrik','Devorador','Fighter','shark','Ao cair, o tubarão elimina quem derrotou Endrik se o dado mostrar 1 ou 2.'],
  ['Jonh','Rebelde','Fighter','guitar','Crava a guitarra no alvo. Ela causa 40 de dano por turno corrido e impede novos ataques até ser recuperada.'],
  ['Barn','Hipnose','Suporte','hypnosis','Barn e seu alvo ficam impedidos de agir. Barn pode trocar o alvo ou desfazer a hipnose na própria vez.'],
@@ -34,6 +35,7 @@ const absent={
  'Petra':{maxHp:220,baseAtk:300,hits:1,speed:7,breath:2,attackName:'Lazer Descharge'}
 };
 const revised={
+ 'Sam':{baseAtk:50,attackName:'Punch'},
  'Petra':{image:'assets/arena/petra.webp'},
  'Chama':{image:'assets/arena/chama.webp',maxHp:190,baseAtk:50,breath:1},
  'Sarck':{image:'assets/arena/sarck.webp',maxHp:260,breath:0,attackName:'Steel Jaw'}

@@ -2,7 +2,7 @@ const assert=require('node:assert/strict');
 const M=require('../js/penxy/battle');
 const id=name=>M.roster.indexOf(name);
 const defs=M.deck.filter(p=>p.skill);
-assert.equal(defs.length,25);
+assert.equal(defs.length,26);
 assert.deepEqual(defs.filter(p=>!p.image).map(p=>p.name).sort(),['Dashow Only','Zédia']);
 function fixture(blue,red){
  const team=names=>[...new Set([...names,'Unicorn','Mike','DD-X','Elish'])].slice(0,4).map(id);
@@ -30,7 +30,7 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
  const cursed=fixture(['Mike'],['Vaglar']);attack(cursed.s,cursed.a,cursed.t);attack(cursed.s,cursed.a,cursed.t);assert.equal(cursed.t.hp,0);
 }
 {
- const {s,a,t}=fixture(['Linx'],['Z-Zus']);assert.equal(attack(s,a,t).damage,290);
+ const {s,a,t}=fixture(['Linix'],['Z-Zus']);assert.equal(attack(s,a,t).damage,Math.round(t.maxHp*.45));
  const hunt=fixture(['Draktar'],['Nully']);use(hunt.s,hunt.a,'hunt',hunt.t);
  assert(hunt.s.order.indexOf(hunt.a.id)<hunt.s.order.indexOf(hunt.t.id));
  assert.equal(attack(hunt.s,hunt.a,hunt.t).damage,220);
@@ -75,7 +75,14 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
 }
 {
  const {s,a,t}=fixture(['Sam'],['Z-Zus']);
- dice(1,()=>assert.equal(attack(s,a,t).damage,0));dice(3,()=>assert.equal(attack(s,a,t).damage,420));
+ dice(1,()=>assert.equal(attack(s,a,t).damage,50));
+ const faces=[1,2,3,4,5,6,1],original=Math.random;
+ try{
+  let i=0;Math.random=()=>(faces[i++]-.5)/6;
+  const plan=M.prepareCombo(a,t);assert.deepEqual(plan,faces);turn(s,a);
+  assert.equal(M.attack(s,a.id,t.id,1,'player',null,plan).damage,300);
+  assert.equal(i,7);
+ }finally{Math.random=original;}
  const shark=fixture(['Mike'],['Endrik']);shark.t.hp=20;dice(2,()=>attack(shark.s,shark.a,shark.t));assert.equal(shark.a.hp,0);
 }
 {
@@ -97,7 +104,7 @@ function dice(n,run){const rand=Math.random;try{Math.random=()=>((n-.5)/6);run()
  assert.equal(M.wearLevel(100),2);t.hp=150;attack(s,a,t);assert.equal(t.atk,70);assert.equal(t.speed,2);
  const fish=fixture(['DD-X'],['Z-Zus']);use(fish.s,fish.a,'fish',fish.t);assert.equal(fish.t.maxHp-fish.t.hp,90);
 }
-console.log('PASS 25 perfis: alvos, área, reações, marcas, cura, imunidade, controle, prioridades e dados.');
+console.log('PASS 26 perfis: alvos, área, reações, marcas, cura, imunidade, controle, prioridades e dados.');
 
 // A single die controls both the katana animation and damage at impact.
 for(const controller of ['bot','player']){
@@ -150,7 +157,7 @@ for(const guard of ['Zédia','Daztirry','Z-Zus']){
  const missed=fixture(['Mike','Sam'],['Vaglar']);
  attack(missed.s,missed.a,missed.t);
  dice(1,()=>attack(missed.s,missed.s.cards[1],missed.t));
- assert(missed.t.hp>0);
+ assert.equal(missed.t.hp,0);
 }
 {
  const {s,a,t}=fixture(['Jonh','Mike'],['Z-Zus']);use(s,a,'guitar',t);
@@ -163,7 +170,7 @@ for(const guard of ['Zédia','Daztirry','Z-Zus']){
  assert(!t.status.some(e=>e.type==='hypnosis'));assert(s.cards[5].status.some(e=>e.type==='hypnosis'));
 }
 {
- const {s,a}=fixture(['Fomor','Mike','Elish','DD-X'],['Unicorn','Rayyb','Sam','Linx']);
+ const {s,a}=fixture(['Fomor','Mike','Elish','DD-X'],['Unicorn','Rayyb','Sam','Linix']);
  const base=a.maxHp;
  for(const victim of s.cards.filter(c=>c!==a&&c.art!==id('Mike'))){
   const hitter=s.cards.find(c=>c.hp&&c!==a&&c.speed!==null&&c.team!==victim.team&&c.atk>0)||a;
@@ -196,3 +203,19 @@ for(const [name,action] of activeCases){
  }
 }
 console.log('PASS 11 ações das fichas em ambos os controles, autorização e consumo de um turno por uso.');
+
+{
+ const {s,a,t}=fixture(['Unicorn','Sam','Zeneerian','Sarck'],['Mike']);
+ const ally=s.cards[1],hp=ally.maxHp;turn(s,a);
+ assert(!M.options(s,a).some(o=>o.target===s.cards[2].id||o.target===a.id));
+ use(s,a,'celestial',ally);assert.equal(ally.hp,hp+90);assert.equal(ally.maxHp,hp+90);
+ assert.equal(M.effectiveSpeed(ally),8);assert.equal(M.attackPower(s,ally),335);
+ dice(2,()=>assert.equal(attack(s,ally,t).damage,85));
+ use(s,a,'celestial',ally);use(s,a,'celestial',ally);assert.equal(M.effectiveSpeed(ally),9);
+ use(s,a,'celestial',s.cards[3]);assert.equal(M.effectiveSpeed(s.cards[3]),null);
+ s.phase='round-end';M.continueRound(s,4);assert.equal(s.cards[1].maxHp,hp);assert.equal(M.effectiveSpeed(s.cards[1]),7);
+ const immune=fixture(['Sam'],['Zeneerian']);assert.equal(attack(immune.s,immune.a,immune.t).damage,50);
+ const claws=fixture(['Linix'],['Mike']);claws.t.maxHp=501;claws.t.hp=320;
+ assert.equal(attack(claws.s,claws.a,claws.t).damage,Math.round(claws.t.maxHp*.45));
+}
+console.log('PASS Mega Combo, Punch, Afiação 5 e Estrela Celeste com bônus, imunidade e reinício de rodada.');

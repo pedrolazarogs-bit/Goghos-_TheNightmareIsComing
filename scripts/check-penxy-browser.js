@@ -53,7 +53,7 @@ window.GoghosBattleLab=(${fixedMatchups})(window.GoghosBattleLab);`});
   }
   async function enter(){await ability.click();await page.locator('#dialog-actions button').first().click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt.target),'red-0');}
   await page.locator('[data-battle-card=red-0]').click();
-  assert.match(await page.locator('#card-info').innerText(),/Linx/);
+  assert.match(await page.locator('#card-info').innerText(),/Linix/);
   await page.locator('.tc-ability').click();await ready();assert.equal(await page.evaluate(()=>GoghosBattle.snapshot().haunt.target),'red-0');
   assert(await page.evaluate(()=>PenxyFX.haunt.active));
   await page.screenshot({path:'/tmp/0601-penxy-mente.png'});

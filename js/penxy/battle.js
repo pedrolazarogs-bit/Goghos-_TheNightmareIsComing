@@ -36,7 +36,7 @@ function pass(s,now){
 }
 function sortQueue(s,keep){
  const first=s.round%2?'blue':'red';
- const sorted=s.cards.filter(c=>c.speed!==null).sort((a,b)=>b.speed-a.speed||
+ const sorted=s.cards.filter(c=>c.speed!==null).sort((a,b)=>effectiveSpeed(b)-effectiveSpeed(a)||
    Number(a.team!==first)-Number(b.team!==first)||a.slot-b.slot);
  for(const hunter of sorted.filter(c=>c.hp&&c.skill==='hunt'&&c.link)){
   const target=sorted.findIndex(c=>c.id===hunter.link&&c.hp);
@@ -79,7 +79,7 @@ function canAct(s,actor,id,controller){
  return s.phase==='active'&&!s.paused&&!rules.pendingSupportReward(s)&&actor&&actor.id===id&&actor.hp>0&&
   !s.blockedTurn&&(!s.singlePlayer||actor.controller===controller);
 }
-function effectiveSpeed(c){return c.speed===null?null:c.speed+(c.status.find(e=>e.type==='slow')?.speedDelta||0);}
+function effectiveSpeed(c){return c.speed===null?null:Math.min(9,c.speed+(c.starSpeed||0))+(c.status.find(e=>e.type==='slow')?.speedDelta||0);}
 function visibleTo(actor,target){return target.skill!=='aim'||actor.skill==='immune'||effectiveSpeed(actor)<=effectiveSpeed(target);}
 function attackTarget(s,actorId,targetId,controller){
  const actor=current(s),target=byId(s,targetId);
@@ -118,7 +118,7 @@ function setStatus(c,type,source,name,turns,value){
 function allyWith(s,c,skill){return living(s).find(a=>a!==c&&a.team===c.team&&a.skill===skill);}
 function attackPower(s,c){
  const base=rules.attackPower(s,c);
- return base===null?null:base+(allyWith(s,c,'oni')&&c.skill!=='immune'?20:0);
+ return base===null?null:base+(c.starDamage||0)+(allyWith(s,c,'oni')&&c.skill!=='immune'?20:0);
 }
 function wearLevel(hp){return hp>=180?1:hp>=100?2:3;}
 function updateWear(c){
@@ -185,7 +185,7 @@ function hit(s,source,target,amount,now,{basic=false,execution=false,react=true,
  const before=victim.hp;
  let damage=execution?before:Math.max(0,amount);
  if(basic){
-  const strike={...source,atk:amount+(allyWith(s,source,'oni')&&source.skill!=='immune'?20:0)};
+  const strike={...source,atk:amount+(source.starDamage||0)+(allyWith(s,source,'oni')&&source.skill!=='immune'?20:0)};
   damage=rules.resolveDamage(s,strike,victim).damage;
  }
  if(damage>=before)eliminate(s,victim,source,now);
@@ -233,22 +233,36 @@ function beginTurn(s,now){
  const blocked=c.status.find(e=>['stone','hypnosis','sleep','stun'].includes(e.type));
  if(blocked){s.blockedTurn=blocked.name;record(s,'controle',c.name+' · '+blocked.name,now);}
 }
-const bonusVs={Assassin:40,Fighter:120,Suporte:140,Tank:170,Destroyer:0};
-function attack(s,actorId,targetId,now,controller='player',katana){
+const sharpenFraction=0.45;
+function prepareCombo(actor,target){
+ if(actor.skill!=='combo'||target.skill==='immune')return null;
+ const faces=[],seen=new Set();
+ while(true){
+  const face=die();faces.push(face);
+  if(seen.has(face))return faces;
+  seen.add(face);
+ }
+}
+function attack(s,actorId,targetId,now,controller='player',katana,combo){
  const actor=current(s),target=attackTarget(s,actorId,targetId,controller);
  if(!target||!Number.isFinite(now))return null;
  const before=target.hp,strike=new Set();
  let total=actor.atk;
  const immune=target.skill==='immune';
- if(actor.skill==='combo'&&!immune){
-  let hits=0;while(hits<6&&roll(s,actor,now)!==1)hits++;
-  total=actor.baseAtk*hits;record(s,'combo',hits+' de 6 golpes.',now);
+ if(actor.skill==='combo'){
+  total=actor.baseAtk;
+  if(!immune){
+   const faces=combo||prepareCombo(actor,target);
+   for(const face of faces)roll(s,actor,now,face);
+   const hits=faces.length-1;
+   total*=hits;record(s,'combo',hits+' de 6 golpes.',now);
+  }
  }
  let execute=false;
  if(!immune&&actor.skill==='katana'){
   const n=roll(s,actor,now,katana?.face);execute=n===6;total=execute?target.hp:Math.round(45+(n-1)*175/4);
  }
- if(!immune&&actor.skill==='sharpen')total+=bonusVs[target.role]||0;
+ if(!immune&&actor.skill==='sharpen')total=Math.round(target.maxHp*sharpenFraction);
  if(!immune&&actor.skill==='hunt'&&actor.link===target.id)total=220;
  if(actor.skill==='fire'&&!immune){
   setStatus(target,'burn',actor.id,'Queimadura',6,actor.baseAtk);
@@ -276,6 +290,7 @@ function options(s,c,controller){
  const add=(action,t,label)=>out.push({action,target:t.id,label});
  for(const t of available.filter(t=>!(c.skill==='hypnosis'&&c.link)&&t.id!==c.id&&t.status.some(e=>e.type==='stone'&&(t.team===c.team||byId(s,e.source)?.team===c.team&&e.source!==c.id))))add('rescue',t,'Libertar '+t.name);
  const self=(action,label)=>add(action,c,label);
+ if(c.skill==='celestial')for(const t of available.filter(t=>t.team===c.team&&t!==c&&t.skill!=='immune'))add('celestial',t,'Estrela Celeste em '+t.name);
  if(c.skill==='protect'&&!c.link)for(const t of available.filter(t=>t.team===c.team&&t!==c&&t.skill!=='immune'))add('protect',t,'Proteger '+t.name);
  if(c.skill==='switch')self('switch',c.secondForm?'Voltar à primeira forma':'Ativar Player 2');
  if(c.link&&['hypnosis','guitar','hunt'].includes(c.skill))self('release',c.skill==='guitar'?'Recuperar guitarra':'Encerrar '+deck[c.art].title);
@@ -294,6 +309,11 @@ function useSkill(s,id,action,targetId,now,controller='player'){
  const t=byId(s,targetId);
  switch(action){
  case 'rescue': if(roll(s,c,now)<=3)t.status=t.status.filter(e=>e.type!=='stone');break;
+ case 'celestial':
+  t.maxHp+=90;heal(t,90);
+  if(t.atk!==null)t.starDamage=(t.starDamage||0)+35;
+  if(t.speed!==null&&effectiveSpeed(t)<9)t.starSpeed=(t.starSpeed||0)+1;
+  setStatus(t,'celestial',id,'Estrela Celeste');break;
  case 'heal': heal(t,c.baseAtk);break;
  case 'switch': {
   const outgoing=c.hp;
@@ -337,6 +357,6 @@ function activateSupport(s,i,id,now){
 }
 function continueRound(s,now){if(s.phase!=='round-end')return false;s.round++;setupRound(s);beginTurn(s,now);record(s,'rodada','Rodada '+s.round+' iniciada. Equipes restauradas.',now);return true;}
 function pause(s,value,now){if(s.phase!=='active')return false;s.paused=!!value;s.revision++;record(s,'pausa',value?'Ações pausadas; cronômetro continua.':'Ações retomadas.',now);return true;}
-const api=Object.freeze({...rules,deck,roster,speed,effectiveSpeed,hauntTarget,prepareKatana,wearLevel,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
+const api=Object.freeze({...rules,deck,roster,speed,effectiveSpeed,hauntTarget,prepareKatana,prepareCombo,sharpenFraction,wearLevel,resolveHits,attackPower,activateSupport,supportReason,options,useSkill,pass,SUPPORT_LIMIT,create,start,current,next,attackTarget,enterHaunt,leaveHaunt,attack,continueRound,pause,elapsed,opposite});
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.GoghosBattleLab=api;
 })(globalThis);

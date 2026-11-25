@@ -16,8 +16,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fullEffects(){return !reduced&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvasReady;}
 function resolveMove(action){
  const hero=state.cards.find(c=>c.skill==='protect'&&c.hp>0);
+ const unicorn=state.cards.find(c=>c.skill==='celestial'&&c.hp>0);
  const oldLink=hero?.link;
  const move=M.resolveHits(state,action);
+ if(unicorn){
+  move.unicorn=unicorn;move.starHits=move.hits.filter(h=>h.recipient===unicorn.id&&h.damage>0);
+  move.starFallen=unicorn.hp===0;
+  if(move.starFallen&&fullEffects())cardElement(unicorn.id).classList.add('falling');
+ }
  move.reactions=move.hits.filter(hit=>hit.reaction);
  if(fullEffects()){
   for(const hit of move.hits){
@@ -41,8 +47,23 @@ function resolveMove(action){
 function effectOptions(signal){
  return {...ArenaCardEffects.sound(),signal,encerrar:()=>!fullEffects(),pausado:()=>state.paused||dialog.open||document.hidden};
 }
+function unicornAudio(){
+ const {som,volume}=ArenaCardEffects.sound();UnicornFX.setVolume(volume);UnicornFX.mute(!som);
+}
+async function presentUnicorn(move,signal){
+ if(!move.unicorn||!fullEffects()||signal.aborted)return;
+ const card=cardElement(move.unicorn.id);
+ unicornAudio();
+ try{
+  for(const hit of move.starHits){
+   if(!await whenPlaying(signal))return;
+   await UnicornFX.damage(card,hit.damage);
+  }
+  if(move.starFallen&&await whenPlaying(signal))await UnicornFX.death(card,{hide:false});
+ }finally{if(!signal.aborted&&move.starFallen)card.classList.remove('falling');}
+}
 async function presentMove(move,signal){
- const zzus=presentZzus(move,signal);
+ const characterEffects=Promise.all([presentZzus(move,signal),presentUnicorn(move,signal)]);
  try{
   for(const hit of move.reactions){
    if(signal.aborted||!fullEffects())break;
@@ -57,11 +78,11 @@ async function presentMove(move,signal){
    }
   }
  }finally{
+  await characterEffects;
   if(!signal.aborted)for(const hit of move.reactions){
    cardElement(hit.source).classList.remove('falling');
    cardElement(hit.recipient).classList.remove('falling');
   }
-  await zzus;
  }
 }
 function syncBond(){
@@ -123,7 +144,7 @@ function drawInfo(){
  const c=state.cards.find(c=>c.id===inspectedId),box=$('card-info');
  box.hidden=!c||state.phase!=='active';if(box.hidden)return;
  box.querySelector('strong').textContent=c.name+' · '+teamName(c.team);
- box.querySelector('p').textContent=c.hp+'/'+c.maxHp+' PV · '+(M.attackPower(state,c)??'—')+' ATQ · '+(c.speed===null?'—':M.effectiveSpeed(c))+' VEL';
+ box.querySelector('p').textContent=c.hp+'/'+c.maxHp+' PV · '+(c.skill==='sharpen'?'45%':M.attackPower(state,c)??'—')+' ATQ · '+(c.speed===null?'—':M.effectiveSpeed(c))+' VEL';
  box.querySelector('small').textContent=[c.hp?'':'Eliminado',...c.status.map(e=>e.name),c.secondForm?'Player 2 ativo':'',c.reserveHp!==undefined?'Forma em reserva: '+c.reserveHp+' PV':'',abilityText(c)].filter(Boolean).join(' · ');
 }
 function closeInfo(){inspectedId=null;drawInfo();}
@@ -135,7 +156,7 @@ const alive=t=>state.cards.filter(c=>c.team===t&&c.hp>0),isAutomatic=()=>M.curre
 const format=ms=>{const seconds=Math.floor(ms/1000);return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');};
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fit(){hideTip();stage.style.setProperty('--battle-scale',String(Math.min(innerWidth/1600,innerHeight/900)));CardTouch.close();}
-function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;activeAction?.abort();activeAction=null;FX.haunt.exit(true);FX.clear();ZFX.clear();ArenaCardEffects.clear();for(const aura of auras.values())aura.stop();auras.clear();}
+function cancelTimers(){clearTimeout(aiTimer);clearTimeout(finishTimer);aiTimer=finishTimer=null;generation++;busy=false;activeAction?.abort();activeAction=null;FX.haunt.exit(true);FX.clear();ZFX.clear();UnicornFX.clear();ArenaCardEffects.clear();for(const aura of auras.values())aura.stop();auras.clear();}
 function say(text){$('battle-message').textContent=text;}
 function closeDialog(){
  dialog.close();dialogKind='';
@@ -161,10 +182,11 @@ function showSetup(){
   openDialog('setup','Escolha seu personagem','<label class="character-pick">Seu personagem<select id="owned-character">'+options+'</select></label><p>Você joga pela equipe azul. A cada nova série, três aliados e quatro adversários são sorteados e jogam como bots.</p>',[{label:'Iniciar batalha',primary:true,run:()=>{
    if(!M.start(state,now(),Number($('owned-character').value)))return;
    music.startArenaSeries();
-   window.Efeitos?.prepararSom();FX.unlock();if(state.cards.some(c=>c.skill==='protect'))ZFX.unlock();
+   window.Efeitos?.prepararSom();FX.unlock();if(state.cards.some(c=>c.skill==='celestial')){unicornAudio();UnicornFX.unlock();}if(state.cards.some(c=>c.skill==='protect'))ZFX.unlock();
    selected=state.playerId;closeDialog();render();schedule();
   }}]);
-  const requested=M.roster.indexOf(new URLSearchParams(location.search).get('personagem'));
+  const name=new URLSearchParams(location.search).get('personagem');
+  const requested=M.roster.indexOf(name==='Linx'?'Linix':name);
   if(requested>=0)$('owned-character').value=String(requested);
 }
 function renderTeam(team){
@@ -197,7 +219,7 @@ function renderTeam(team){
   const wearSpeed=button.querySelector('.printed-speed');if(wearSpeed)wearSpeed.textContent=M.effectiveSpeed(c);
   const speedLabel=button.querySelector('.placeholder-speed');if(speedLabel)speedLabel.textContent=M.effectiveSpeed(c)+' VEL';
   const power=M.attackPower(state,c);
-  button.querySelector('.printed-attack').textContent=power===null?'—':c.hits>1&&power===c.atk?c.baseAtk+'×'+c.hits:power;
+  button.querySelector('.printed-attack').textContent=c.skill==='sharpen'?'45%':power===null?'—':c.hits>1&&power===c.atk?c.baseAtk+'×'+c.hits:power;
  });
 }
 const supportById=id=>M.supportCards.find(card=>card.id===id);
@@ -332,7 +354,7 @@ function updateInspector(){
  const life=panel.querySelector('.stat-life');
  if(ArenaArt.setMeterState(life,c))life.style.setProperty('--missing-hp',(100*ArenaArt.missingFraction(c))+'%');
  panel.querySelector('.stat-life strong').textContent=c.hp;
- panel.querySelector('.stat-detail b').textContent=M.attackPower(state,c)??'—';
+ panel.querySelector('.stat-detail b').textContent=c.skill==='sharpen'?'45%':M.attackPower(state,c)??'—';
  for(const el of document.querySelectorAll('[data-battle-card]'))el.classList.toggle('is-selected',el.dataset.battleCard===selected);
 }
 function inspect(id){
@@ -377,12 +399,13 @@ function perform(targetId,controller='player'){
  if(!victim)return false;
  const target=cardElement(targetId),source=cardElement(actor.id),signal=lockAction();
  const visuals=fullEffects(),wasHaunted=!!state.haunt;
- const katana=M.prepareKatana(state,actor,victim);
+ const katana=M.prepareKatana(state,actor,victim),combo=M.prepareCombo(actor,victim);
+ const ownNumber=['combo','celestial'].includes(actor.skill)||(actor.skill==='sharpen'&&victim.skill!=='immune');
  let result=null,damageFx=Promise.resolve();
  target.classList.remove('tc-hit');
  function impact(){
   if(result||signal.aborted)return;
-  const move=resolveMove(()=>M.attack(state,actor.id,targetId,now(),controller,katana));
+  const move=resolveMove(()=>M.attack(state,actor.id,targetId,now(),controller,katana,combo));
   result=move.result;
   if(!result)return;
   if(state.haunt&&state.haunt.owner===actor.id)state.haunt.exchanged=true;
@@ -391,15 +414,23 @@ function perform(targetId,controller='player'){
   const transferred=move.received?.find(h=>h.target===targetId&&h.recipient!==targetId);
   const special=transferred||victim.skill==='protect';
   const effects=[presentMove(move,signal)];
-  if(visuals&&!special&&result.damage>0&&actor.skill!=='protect'&&!move.reactions.some(hit=>hit.reaction==='revide'&&hit.recipient===targetId))effects.push(FX.damage(target,result.damage,{sound:actor.name!=='Penxy'}));
+  if(visuals&&!special&&!ownNumber&&victim.skill!=='celestial'&&result.damage>0&&actor.skill!=='protect'&&!move.reactions.some(hit=>hit.reaction==='revide'&&hit.recipient===targetId))effects.push(FX.damage(target,result.damage,{sound:actor.name!=='Penxy'}));
   damageFx=Promise.all(effects);
   say(transferred?'Meu Herói · Z-Zus recebeu '+transferred.damage+' de dano por '+victim.name:
       actor.skill==='fire'&&victim.skill!=='immune'?'Fire Ball · '+victim.name+' em chamas':(result.defeated?'Eliminado! ':'')+'−'+result.damage+' PV em '+victim.name);
-  return special?undefined:result.damage;
+  return special||victim.skill==='celestial'?undefined:result.damage;
  }
  async function resolveAttack(){
   try{
-   if(visuals&&actor.skill==='wear'){
+   if(visuals&&actor.skill==='combo'){
+    const effect=combo?Efeitos.megaCombo:Efeitos.soco;
+    await effect(source,target,{...effectOptions(signal),dano:actor.baseAtk,dados:combo,onImpacto:impact});
+   }else if(visuals&&actor.skill==='sharpen'&&victim.skill!=='immune'){
+    await Efeitos.afiacao(source,target,{...effectOptions(signal),vidaTotal:victim.maxHp,pct:M.sharpenFraction,onImpacto:impact});
+   }else if(visuals&&actor.skill==='celestial'){
+    unicornAudio();
+    await UnicornFX.stardust(source,target,{signal,beforeImpact:()=>whenPlaying(signal),onImpact:impact});
+   }else if(visuals&&actor.skill==='wear'){
     say('Lazer Descharge · Petra → '+victim.name);
     await Efeitos.laser(source,target,{...effectOptions(signal),nivel:M.wearLevel(actor.hp),onImpacto:impact});
    }else if(visuals&&actor.skill==='fire'){
@@ -436,7 +467,7 @@ function perform(targetId,controller='player'){
    if(wasHaunted&&!state.haunt)await FX.haunt.exit();
    if(signal.aborted)return;
    if(result.defeated){
-    if(visuals&&victim.skill!=='protect')await FX.death(target);
+    if(visuals&&!['protect','celestial'].includes(victim.skill))await FX.death(target);
     target.style.visibility='hidden';target.classList.remove('falling');
    }else if(!visuals)await wait(200);
   }finally{
@@ -448,7 +479,7 @@ function perform(targetId,controller='player'){
  return true;
 }
 function finishMove(text,move){
- if((move?.changed||move?.reactions.length)&&fullEffects()){
+ if((move?.changed||move?.reactions.length||move?.starFallen||move?.starHits?.length)&&fullEffects()){
   const signal=lockAction();
   render();if(text)say(text);
   presentMove(move,signal).catch(error=>console.warn('Efeito de combate',error)).finally(()=>finishAction(signal));
@@ -458,9 +489,27 @@ function finishMove(text,move){
  CardTouch.close();render();if(text)say(text);
  if(state.phase==='active')schedule();else showResult();
 }
-function cast(actor,choice){
+async function cast(actor,choice){
  if(!checkTime()||busy)return;
- const move=resolveMove(()=>M.useSkill(state,actor.id,choice.action,choice.target,now(),actor.controller));if(!move.result)return;
+ const apply=()=>resolveMove(()=>M.useSkill(state,actor.id,choice.action,choice.target,now(),actor.controller));
+ if(choice.action==='celestial'&&fullEffects()){
+  const ally=state.cards.find(c=>c.id===choice.target),signal=lockAction();
+  let move;
+  function impact(){if(!move&&!signal.aborted){move=apply();render();}}
+  try{
+   unicornAudio();
+   await UnicornFX.celestialStar(cardElement(actor.id),cardElement(ally.id),{
+    signal,beforeImpact:()=>whenPlaying(signal),onImpact:impact,speedMax:M.effectiveSpeed(ally)===9,
+    speed:ally.speed===null?0:1,damage:ally.atk===null?0:35
+   });
+  }catch(error){console.warn('Animação de Estrela Celeste',error);}
+  try{
+   if(!move&&await whenPlaying(signal))impact();
+   if(move?.result&&!signal.aborted)await presentMove(move,signal);
+  }finally{finishAction(signal);}
+  return;
+ }
+ const move=apply();if(!move.result)return;
  if(!state.haunt&&FX.haunt.active)FX.haunt.exit(true);
  finishMove(choice.label,move);
 }
@@ -497,6 +546,7 @@ function schedule(){
  const choices=M.options(state,actor,'bot');
  const choice=choices.find(o=>o.action==='rescue'&&state.cards.find(t=>t.id===o.target).team===actor.team)
   ||choices.find(o=>{
+   if(o.action==='celestial')return !state.cards.find(t=>t.id===o.target).status.some(e=>e.type==='celestial');
    if(o.action==='switch')return actor.reserveHp===undefined||actor.reserveHp>actor.hp;
    if(o.action==='sleep')return !state.cards.find(t=>t.id===o.target).status.some(e=>e.type==='sleep');
    if(o.action==='hypnosis'&&actor.releasedLastTurn)return false;
@@ -519,7 +569,7 @@ function schedule(){
 function showResult(){const finished=state.phase==='finished',winner=state.roundWinner;
  if(finished)music.setContext('silent',{immediate:true});
  openDialog('result',finished?'Equipe '+teamName(winner)+' vence a série!':state.draw?'Rodada empatada':'Ponto para a equipe '+teamName(winner),'<img class="match-emblem" src="'+('assets/menu-v036/trophy.webp')+'" alt=""><div class="result-score"><b>'+state.score.blue+'</b><span>×</span><b>'+state.score.red+'</b></div><p>'+ (finished?'Três vitórias conquistadas. Tempo final: <b>'+format(M.elapsed(state,now()))+'</b>.':state.draw?'As equipes voltam para a próxima rodada.':'Os quatro adversários foram eliminados. As duas equipes voltam com vida cheia na próxima rodada; o cronômetro continua.')+'</p>',[{label:finished?'Nova série':'Próxima rodada',primary:true,run:()=>{if(finished){restart();return;}dialog.close();dialogKind='';ZFX.clear();M.continueRound(state,now());manualPause=hiddenPause=false;selected=state.playerId||M.current(state).id;render();schedule();}},{label:'Exportar registro',run:exportState}]);say(finished?'Vitória final da equipe '+teamName(winner):'Rodada encerrada.');}
-function exportState(){const data={version:'0.61.7',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.61.7.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportState(){const data={version:'0.62.0',mode:'single-player',elapsedMs:M.elapsed(state,now()),...state};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='goghos-batalha-0.62.0.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function restart(){music.setContext('silent',{immediate:true});cancelTimers();CardTouch.close();dialog.close();state=M.create();inspectedId=null;manualPause=hiddenPause=false;selected=null;render();showSetup();}
 function setPaused(){const value=manualPause||hiddenPause;if(state.phase==='active'){M.pause(state,value,now());CardTouch.close();clearTimeout(aiTimer);render();schedule();}}
 CardTouch.init({inlineDetails:inform,selector:'[data-battle-card]',assets:'assets/card-touch-v044/',labels:{attack:'ATACAR'},getCard:el=>{const c=state.cards.find(c=>c.id===el.dataset.battleCard);return c&&{...c,ability:{name:'Habilidade de '+c.name,text:abilityText(c)}};},isAttackTurn:c=>state.phase==='active'&&!state.paused&&!busy&&!dialog.open&&!isAutomatic()&&!!M.attackTarget(state,M.current(state)?.id,c.id,'player'),canUseAbility:c=>playerChoices(player()).some(o=>o.target===c.id),abilityLabel:()=>state.haunt?.owner===state.playerId?'Sair da mente':'Habilidade',onAbility:c=>{

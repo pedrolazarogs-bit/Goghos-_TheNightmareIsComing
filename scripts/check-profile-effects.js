@@ -14,9 +14,14 @@ const {chromium}=require('playwright');
    const file=await route.fetch();
    await route.fulfill({response:file,body:(await file.text())+`
     const model=window.GoghosBattleLab;
-    window.GoghosBattleLab={...model,start(s,now,choice){
+    window.GoghosBattleLab={...model,prepareCombo(actor,target){
+     if(!window.fixtureFaces)return model.prepareCombo(actor,target);
+     const random=Math.random,faces=[...window.fixtureFaces];
+     try{Math.random=()=>(faces.shift()-.5)/6;return model.prepareCombo(actor,target);}
+     finally{Math.random=random;}
+    },start(s,now,choice){
      const opp=model.roster.indexOf(new URLSearchParams(location.search).get('rival'));
-     const fillers=['DD-X','Elish','Mike','Sam','John','Stally','Rayyb','Barn'].map(n=>model.roster.indexOf(n)).filter(i=>i>=0&&i!==choice&&i!==opp);
+     const fillers=['DD-X','Elish','Mike','Sam','Stally','Rayyb','Barn','Jonh','Unicorn','P.ULLYS'].map(n=>model.roster.indexOf(n)).filter(i=>i>=0&&i!==choice&&i!==opp);
      s.singlePlayer=false;
      const ok=model.start(s,now,{blue:[choice,...fillers.slice(0,3)],red:[opp,...fillers.slice(3,6)]});
      s.singlePlayer=true;s.playerId='blue-0';
@@ -33,6 +38,9 @@ const {chromium}=require('playwright');
    await page.goto(url.href);
    await page.evaluate(()=>{
     window.moves=[];window.fireCues=[];window.contact=[];
+    for(const [api,key] of [[Efeitos,'megaCombo'],[Efeitos,'soco'],[Efeitos,'afiacao'],...[ 'stardust','celestialStar','death','damage'].map(k=>[UnicornFX,k])]){
+     const effect=api[key];api[key]=(...args)=>{moves.push([key,args[0].dataset.battleCard,args[1]?.dataset?.battleCard,args[2]?.dados]);return effect(...args);};
+    }
     const animate=Element.prototype.animate;
     Element.prototype.animate=function(frames,timing){
      if(this.dataset.battleCard&&Array.isArray(frames)){
@@ -56,6 +64,7 @@ const {chromium}=require('playwright');
     }
    });
    await page.getByRole('button',{name:'Iniciar batalha'}).click();
+   assert.equal((await page.evaluate(()=>GoghosBattle.snapshot())).phase,'active',name+' × '+rival);
   }
   const attack=async(target='red-0')=>{
    await page.locator('[data-battle-card="'+target+'"]').click();await page.locator('.tc-atk').click();
@@ -70,7 +79,7 @@ const {chromium}=require('playwright');
   assert.equal((await snapshot()).cards[4].hp,0);
   await start('Unicorn','Sarck');await attack();
   assert((await page.evaluate(()=>moves)).some(m=>m[0]==='jumpscare'&&m[1]==='red-0'));
-  assert.equal((await snapshot()).cards[0].hp,0);
+  assert.equal((await snapshot()).cards[0].hp,0);assert(await page.evaluate(()=>moves.some(m=>m[0]==='stardust')));
   await start('Chama','Petra');await attack();
   assert.equal((await snapshot()).cards[4].status.find(e=>e.type==='burn').turns,6);
   assert.equal(await page.locator('[data-battle-card="red-0"] .card-fx-art svg text').textContent(),'6');
@@ -120,7 +129,32 @@ const {chromium}=require('playwright');
    if(action==='book')assert(s.cards[4].status.some(e=>e.type==='book'));
    else assert.equal(s.cards[0].link,target);
   }
+  await start('Sam','Mike');await page.evaluate(()=>{Math.random=()=>0.45;});await attack();
+  assert.deepEqual(await page.evaluate(()=>moves.find(m=>m[0]==='megaCombo')[3]),[3,3]);
+  let model=await snapshot();assert.equal(model.cards[4].maxHp-model.cards[4].hp,50);
+  await start('Sam','Z-Zus');
+  await page.evaluate(()=>{
+   window.fixtureFaces=[4,5,1,2,3,6,5];
+   const draw=CanvasRenderingContext2D.prototype.fillText;
+   CanvasRenderingContext2D.prototype.fillText=function(text,...args){
+    if(text==='BRUTAL!!')window.sawBrutal=true;
+    return draw.call(this,text,...args);
+   };
+  });
+  await attack();model=await snapshot();
+  assert.equal(model.cards[4].maxHp-model.cards[4].hp,300);
+  assert(await page.evaluate(()=>window.sawBrutal));
+  await start('Sam','Zeneerian');await attack();assert(await page.evaluate(()=>moves.some(m=>m[0]==='soco')));
+  await start('Linix','Mike');await attack();model=await snapshot();
+  assert.equal(model.cards[4].maxHp-model.cards[4].hp,Math.round(model.cards[4].maxHp*.45));
+  assert(await page.evaluate(()=>moves.some(m=>m[0]==='afiacao')));
+  await start('Unicorn','Mike');await page.locator('[data-battle-card="blue-1"]').click();await page.locator('.tc-ability').click();
+  await page.waitForFunction(()=>!GoghosBattle.snapshot().busy);
+  assert.equal((await snapshot()).cards[1].maxHp,1290);
+  assert(await page.evaluate(()=>moves.some(m=>m[0]==='celestialStar')));
+  await start('Mike','Unicorn',50);await attack();
+  assert(await page.evaluate(()=>moves.some(m=>m[0]==='damage')&&moves.some(m=>m[0]==='death')));
   assert.deepEqual(errors,[]);
-  console.log('PASS efeitos reais de Petra, Chama e Sarck, desgaste, revide, queimadura e sobrevivência.');
+  console.log('PASS efeitos de Petra, Chama, Sarck, Nully, Sam (seis acertos), Linix e Unicorn na arena.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
